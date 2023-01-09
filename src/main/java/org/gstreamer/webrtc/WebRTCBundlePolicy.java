@@ -11,18 +11,22 @@ import org.jetbrains.annotations.*;
  * @version 1.16
  */
 public enum WebRTCBundlePolicy implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * none
      */
     NONE(0),
+    
     /**
      * balanced
      */
     BALANCED(1),
+    
     /**
      * max-compat
      */
     MAX_COMPAT(2),
+    
     /**
      * max-bundle
      */
@@ -31,15 +35,29 @@ public enum WebRTCBundlePolicy implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstWebRTCBundlePolicy";
     
     private final int value;
+    
+    /**
+     * Create a new WebRTCBundlePolicy for the provided value
+     * @param numeric value the enum value
+     */
     WebRTCBundlePolicy(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new WebRTCBundlePolicy for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static WebRTCBundlePolicy of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -29,8 +29,8 @@ public class PasswordEntryClass extends Struct {
      * @return A new, uninitialized @{link PasswordEntryClass}
      */
     public static PasswordEntryClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PasswordEntryClass newInstance = new PasswordEntryClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PasswordEntryClass newInstance = new PasswordEntryClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PasswordEntryClass extends Struct {
     /**
      * Create a PasswordEntryClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PasswordEntryClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PasswordEntryClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PasswordEntryClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntryClass(input, ownership);
+    public static final Marshal<Addressable, PasswordEntryClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntryClass(input);
 }

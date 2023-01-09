@@ -46,6 +46,9 @@ public class FileMonitorFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileMonitorFlags WATCH_MOVES = new FileMonitorFlags(8);
     
+    /**
+     * Create a new FileMonitorFlags with the provided value
+     */
     public FileMonitorFlags(int value) {
         super(value);
     }

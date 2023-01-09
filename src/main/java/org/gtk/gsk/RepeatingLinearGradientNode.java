@@ -28,28 +28,32 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a RepeatingLinearGradientNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RepeatingLinearGradientNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RepeatingLinearGradientNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RepeatingLinearGradientNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RepeatingLinearGradientNode(input, ownership);
+    public static final Marshal<Addressable, RepeatingLinearGradientNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RepeatingLinearGradientNode(input);
     
     private static MemoryAddress constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(
-                    bounds.handle(),
-                    start.handle(),
-                    end.handle(),
-                    Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
-                    nColorStops);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_repeating_linear_gradient_node_new.invokeExact(
+                        bounds.handle(),
+                        start.handle(),
+                        end.handle(),
+                        Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false, SCOPE),
+                        nColorStops);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -66,7 +70,8 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
      * @param nColorStops the number of elements in {@code color_stops}
      */
     public RepeatingLinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, start, end, colorStops, nColorStops), Ownership.FULL);
+        super(constructNew(bounds, start, end, colorStops, nColorStops));
+        this.takeOwnership();
     }
     
     /**
@@ -86,15 +91,23 @@ public class RepeatingLinearGradientNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_repeating_linear_gradient_node_new = Interop.downcallHandle(
-            "gsk_repeating_linear_gradient_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_repeating_linear_gradient_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_repeating_linear_gradient_node_get_type = Interop.downcallHandle(
-            "gsk_repeating_linear_gradient_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_repeating_linear_gradient_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_repeating_linear_gradient_node_get_type != null;
     }
 }

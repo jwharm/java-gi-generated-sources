@@ -39,8 +39,8 @@ public class ExtendedEventDescriptor extends Struct {
      * @return A new, uninitialized @{link ExtendedEventDescriptor}
      */
     public static ExtendedEventDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExtendedEventDescriptor newInstance = new ExtendedEventDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExtendedEventDescriptor newInstance = new ExtendedEventDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class ExtendedEventDescriptor extends Struct {
      * @return The value of the field {@code descriptor_number}
      */
     public byte getDescriptorNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class ExtendedEventDescriptor extends Struct {
      * @param descriptorNumber The new value of the field {@code descriptor_number}
      */
     public void setDescriptorNumber(byte descriptorNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), descriptorNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), descriptorNumber);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class ExtendedEventDescriptor extends Struct {
      * @return The value of the field {@code last_descriptor_number}
      */
     public byte getLastDescriptorNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class ExtendedEventDescriptor extends Struct {
      * @param lastDescriptorNumber The new value of the field {@code last_descriptor_number}
      */
     public void setLastDescriptorNumber(byte lastDescriptorNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastDescriptorNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), lastDescriptorNumber);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class ExtendedEventDescriptor extends Struct {
      * @return The value of the field {@code language_code}
      */
     public java.lang.String getLanguageCode() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class ExtendedEventDescriptor extends Struct {
      * @param languageCode The new value of the field {@code language_code}
      */
     public void setLanguageCode(java.lang.String languageCode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, SCOPE)));
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class ExtendedEventDescriptor extends Struct {
      * @return The value of the field {@code items}
      */
     public PointerProxy<org.gstreamer.mpegts.ExtendedEventItem> getItems() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("items"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.ExtendedEventItem>(RESULT, org.gstreamer.mpegts.ExtendedEventItem.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("items"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.ExtendedEventItem>(RESULT, org.gstreamer.mpegts.ExtendedEventItem.fromAddress);
+        }
     }
     
     /**
@@ -124,9 +138,11 @@ public class ExtendedEventDescriptor extends Struct {
      * @param items The new value of the field {@code items}
      */
     public void setItems(org.gstreamer.mpegts.ExtendedEventItem[] items) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("items"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (items == null ? MemoryAddress.NULL : Interop.allocateNativeArray(items, org.gstreamer.mpegts.ExtendedEventItem.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("items"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (items == null ? MemoryAddress.NULL : Interop.allocateNativeArray(items, org.gstreamer.mpegts.ExtendedEventItem.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -134,10 +150,12 @@ public class ExtendedEventDescriptor extends Struct {
      * @return The value of the field {@code text}
      */
     public java.lang.String getText() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -145,27 +163,30 @@ public class ExtendedEventDescriptor extends Struct {
      * @param text The new value of the field {@code text}
      */
     public void setText(java.lang.String text) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+        }
     }
     
     /**
      * Create a ExtendedEventDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExtendedEventDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExtendedEventDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExtendedEventDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExtendedEventDescriptor(input, ownership);
+    public static final Marshal<Addressable, ExtendedEventDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExtendedEventDescriptor(input);
     
     public void free() {
         try {
-            DowncallHandles.gst_mpegts_extended_event_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_extended_event_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,9 +195,9 @@ public class ExtendedEventDescriptor extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_extended_event_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_extended_event_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_extended_event_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -202,7 +223,7 @@ public class ExtendedEventDescriptor extends Struct {
             struct = ExtendedEventDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ExtendedEventDescriptor} struct.
          * @return A new instance of {@code ExtendedEventDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -212,17 +233,21 @@ public class ExtendedEventDescriptor extends Struct {
         }
         
         public Builder setDescriptorNumber(byte descriptorNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), descriptorNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptor_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), descriptorNumber);
+                return this;
+            }
         }
         
         public Builder setLastDescriptorNumber(byte lastDescriptorNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastDescriptorNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("last_descriptor_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), lastDescriptorNumber);
+                return this;
+            }
         }
         
         /**
@@ -231,10 +256,12 @@ public class ExtendedEventDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLanguageCode(java.lang.String languageCode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -243,17 +270,21 @@ public class ExtendedEventDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setItems(org.gstreamer.mpegts.ExtendedEventItem[] items) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("items"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (items == null ? MemoryAddress.NULL : Interop.allocateNativeArray(items, org.gstreamer.mpegts.ExtendedEventItem.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("items"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (items == null ? MemoryAddress.NULL : Interop.allocateNativeArray(items, org.gstreamer.mpegts.ExtendedEventItem.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setText(java.lang.String text) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+                return this;
+            }
         }
     }
 }

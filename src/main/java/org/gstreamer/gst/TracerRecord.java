@@ -29,38 +29,31 @@ public class TracerRecord extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a TracerRecord proxy instance for the provided memory address.
-     * <p>
-     * Because TracerRecord is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TracerRecord(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected TracerRecord(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TracerRecord> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TracerRecord(input);
+    
+    private static MemoryAddress constructNew(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_tracer_record_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(firstfield, SCOPE),
+                        varargs);
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, TracerRecord> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerRecord(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tracer_record_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(firstfield, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -90,7 +83,8 @@ public class TracerRecord extends org.gstreamer.gst.GstObject {
      * @param varargs additional arguments
      */
     public TracerRecord(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
-        super(constructNew(name, firstfield, varargs), Ownership.FULL);
+        super(constructNew(name, firstfield, varargs));
+        this.takeOwnership();
     }
     
     /**
@@ -144,6 +138,9 @@ public class TracerRecord extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -168,21 +165,29 @@ public class TracerRecord extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_tracer_record_new = Interop.downcallHandle(
-            "gst_tracer_record_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tracer_record_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_tracer_record_log = Interop.downcallHandle(
-            "gst_tracer_record_log",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            true
+                "gst_tracer_record_log",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_tracer_record_get_type = Interop.downcallHandle(
-            "gst_tracer_record_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_tracer_record_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_tracer_record_get_type != null;
     }
 }

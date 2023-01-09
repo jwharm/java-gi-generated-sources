@@ -28,10 +28,12 @@ import org.jetbrains.annotations.*;
  * would be {@code [A, B]}, maintaining the first caps priority on the intersection.
  */
 public enum CapsIntersectMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Zig-zags over both caps.
      */
     ZIG_ZAG(0),
+    
     /**
      * Keeps the first caps order.
      */
@@ -40,15 +42,29 @@ public enum CapsIntersectMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstCapsIntersectMode";
     
     private final int value;
+    
+    /**
+     * Create a new CapsIntersectMode for the provided value
+     * @param numeric value the enum value
+     */
     CapsIntersectMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new CapsIntersectMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static CapsIntersectMode of(int value) {
         return switch (value) {
             case 0 -> ZIG_ZAG;

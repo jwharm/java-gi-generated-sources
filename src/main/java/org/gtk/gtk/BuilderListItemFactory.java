@@ -50,14 +50,16 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
     /**
      * Create a BuilderListItemFactory proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BuilderListItemFactory(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BuilderListItemFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuilderListItemFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderListItemFactory(input, ownership);
+    public static final Marshal<Addressable, BuilderListItemFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuilderListItemFactory(input);
     
     private static MemoryAddress constructNewFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, org.gtk.glib.Bytes bytes) {
         MemoryAddress RESULT;
@@ -70,7 +72,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
      * using {@code bytes} as the data to pass to {@code GtkBuilder}.
@@ -80,21 +82,25 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      */
     public static BuilderListItemFactory newFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, org.gtk.glib.Bytes bytes) {
         var RESULT = constructNewFromBytes(scope, bytes);
-        return (org.gtk.gtk.BuilderListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.BuilderListItemFactory) Interop.register(RESULT, org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromResource(@Nullable org.gtk.gtk.BuilderScope scope, java.lang.String resourcePath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_new_from_resource.invokeExact(
-                    (Addressable) (scope == null ? MemoryAddress.NULL : scope.handle()),
-                    Marshal.stringToAddress.marshal(resourcePath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_new_from_resource.invokeExact(
+                        (Addressable) (scope == null ? MemoryAddress.NULL : scope.handle()),
+                        Marshal.stringToAddress.marshal(resourcePath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
      * using data read from the given {@code resource_path} to pass to {@code GtkBuilder}.
@@ -104,7 +110,9 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      */
     public static BuilderListItemFactory newFromResource(@Nullable org.gtk.gtk.BuilderScope scope, java.lang.String resourcePath) {
         var RESULT = constructNewFromResource(scope, resourcePath);
-        return (org.gtk.gtk.BuilderListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.BuilderListItemFactory) Interop.register(RESULT, org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -115,12 +123,11 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
     public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -130,8 +137,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
     public @Nullable java.lang.String getResource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_resource.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_resource.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,12 +151,11 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
     public @Nullable org.gtk.gtk.BuilderScope getScope() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_scope.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderScope.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.BuilderScope) Interop.register(RESULT, org.gtk.gtk.BuilderScope.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -183,6 +188,9 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      */
     public static class Builder extends org.gtk.gtk.ListItemFactory.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -240,39 +248,47 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_builder_list_item_factory_new_from_bytes = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_new_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_list_item_factory_new_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_new_from_resource = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_new_from_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_list_item_factory_new_from_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_bytes = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_get_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_list_item_factory_get_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_resource = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_get_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_list_item_factory_get_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_scope = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_get_scope",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_list_item_factory_get_scope",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_list_item_factory_get_type = Interop.downcallHandle(
-            "gtk_builder_list_item_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_builder_list_item_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_builder_list_item_factory_get_type != null;
     }
 }

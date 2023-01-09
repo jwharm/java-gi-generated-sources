@@ -44,6 +44,9 @@ public class AskPasswordFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AskPasswordFlags TCRYPT = new AskPasswordFlags(32);
     
+    /**
+     * Create a new AskPasswordFlags with the provided value
+     */
     public AskPasswordFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class ValidationFeatureDisableEXT extends Struct {
      * @return A new, uninitialized @{link ValidationFeatureDisableEXT}
      */
     public static ValidationFeatureDisableEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ValidationFeatureDisableEXT newInstance = new ValidationFeatureDisableEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ValidationFeatureDisableEXT newInstance = new ValidationFeatureDisableEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ValidationFeatureDisableEXT extends Struct {
     /**
      * Create a ValidationFeatureDisableEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ValidationFeatureDisableEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ValidationFeatureDisableEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ValidationFeatureDisableEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValidationFeatureDisableEXT(input, ownership);
+    public static final Marshal<Addressable, ValidationFeatureDisableEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ValidationFeatureDisableEXT(input);
 }

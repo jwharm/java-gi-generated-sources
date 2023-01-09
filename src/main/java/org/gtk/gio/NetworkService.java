@@ -39,26 +39,30 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     /**
      * Create a NetworkService proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetworkService(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NetworkService(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetworkService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkService(input, ownership);
+    public static final Marshal<Addressable, NetworkService> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetworkService(input);
     
     private static MemoryAddress constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
-                    Marshal.stringToAddress.marshal(service, null),
-                    Marshal.stringToAddress.marshal(protocol, null),
-                    Marshal.stringToAddress.marshal(domain, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
+                        Marshal.stringToAddress.marshal(service, SCOPE),
+                        Marshal.stringToAddress.marshal(protocol, SCOPE),
+                        Marshal.stringToAddress.marshal(domain, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -70,7 +74,8 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
      * @param domain the DNS domain to look up the service in
      */
     public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        super(constructNew(service, protocol, domain), Ownership.FULL);
+        super(constructNew(service, protocol, domain));
+        this.takeOwnership();
     }
     
     /**
@@ -81,8 +86,7 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     public java.lang.String getDomain() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_domain.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_domain.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,8 +100,7 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     public java.lang.String getProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_protocol.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,8 +115,7 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     public java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_scheme.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,8 +129,7 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     public java.lang.String getService() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_service.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_service.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,12 +142,14 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
      * @param scheme a URI scheme
      */
     public void setScheme(java.lang.String scheme) {
-        try {
-            DowncallHandles.g_network_service_set_scheme.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(scheme, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_network_service_set_scheme.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(scheme, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -180,6 +183,9 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -228,45 +234,53 @@ public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle g_network_service_new = Interop.downcallHandle(
-            "g_network_service_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_get_domain = Interop.downcallHandle(
-            "g_network_service_get_domain",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_get_domain",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_get_protocol = Interop.downcallHandle(
-            "g_network_service_get_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_get_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_get_scheme = Interop.downcallHandle(
-            "g_network_service_get_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_get_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_get_service = Interop.downcallHandle(
-            "g_network_service_get_service",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_get_service",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_set_scheme = Interop.downcallHandle(
-            "g_network_service_set_scheme",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_service_set_scheme",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_service_get_type = Interop.downcallHandle(
-            "g_network_service_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_network_service_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_network_service_get_type != null;
     }
 }

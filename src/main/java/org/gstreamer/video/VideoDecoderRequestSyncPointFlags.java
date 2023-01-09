@@ -26,6 +26,9 @@ public class VideoDecoderRequestSyncPointFlags extends io.github.jwharm.javagi.B
      */
     public static final VideoDecoderRequestSyncPointFlags CORRUPT_OUTPUT = new VideoDecoderRequestSyncPointFlags(2);
     
+    /**
+     * Create a new VideoDecoderRequestSyncPointFlags with the provided value
+     */
     public VideoDecoderRequestSyncPointFlags(int value) {
         super(value);
     }

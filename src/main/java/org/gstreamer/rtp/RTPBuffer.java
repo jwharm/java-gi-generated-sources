@@ -41,8 +41,8 @@ public class RTPBuffer extends Struct {
      * @return A new, uninitialized @{link RTPBuffer}
      */
     public static RTPBuffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTPBuffer newInstance = new RTPBuffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTPBuffer newInstance = new RTPBuffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class RTPBuffer extends Struct {
      * @return The value of the field {@code buffer}
      */
     public org.gstreamer.gst.Buffer getBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class RTPBuffer extends Struct {
      * @param buffer The new value of the field {@code buffer}
      */
     public void setBuffer(org.gstreamer.gst.Buffer buffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class RTPBuffer extends Struct {
      * @return The value of the field {@code state}
      */
     public int getState() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("state"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("state"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class RTPBuffer extends Struct {
      * @param state The new value of the field {@code state}
      */
     public void setState(int state) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("state"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), state);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("state"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), state);
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class RTPBuffer extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.foreign.MemoryAddress[] getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getAddressArrayFrom(RESULT, 4);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getAddressArrayFrom(RESULT, 4);
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class RTPBuffer extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.foreign.MemoryAddress[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class RTPBuffer extends Struct {
      * @return The value of the field {@code size}
      */
     public long[] getSize() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_LONG);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_LONG);
+        }
     }
     
     /**
@@ -126,9 +140,11 @@ public class RTPBuffer extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long[] size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false, SCOPE)));
+        }
     }
     
     /**
@@ -136,10 +152,12 @@ public class RTPBuffer extends Struct {
      * @return The value of the field {@code map}
      */
     public org.gstreamer.gst.MapInfo[] getMap() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("map"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.gst.MapInfo>(RESULT, org.gstreamer.gst.MapInfo.fromAddress).toArray((int) 4, org.gstreamer.gst.MapInfo.class);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.gst.MapInfo>(RESULT, org.gstreamer.gst.MapInfo.fromAddress).toArray((int) 4, org.gstreamer.gst.MapInfo.class);
+        }
     }
     
     /**
@@ -147,22 +165,26 @@ public class RTPBuffer extends Struct {
      * @param map The new value of the field {@code map}
      */
     public void setMap(org.gstreamer.gst.MapInfo[] map) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("map"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a RTPBuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPBuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTPBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBuffer(input, ownership);
+    public static final Marshal<Addressable, RTPBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPBuffer(input);
     
     /**
      * Adds a RFC 5285 header extension with a one byte header to the end of the
@@ -178,17 +200,19 @@ public class RTPBuffer extends Struct {
      * @return {@code true} if header extension could be added
      */
     public boolean addExtensionOnebyteHeader(byte id, byte[] data, int size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_onebyte_header.invokeExact(
-                    handle(),
-                    id,
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_onebyte_header.invokeExact(
+                        handle(),
+                        id,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,18 +230,20 @@ public class RTPBuffer extends Struct {
      * @return {@code true} if header extension could be added
      */
     public boolean addExtensionTwobytesHeader(byte appbits, byte id, byte[] data, int size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_twobytes_header.invokeExact(
-                    handle(),
-                    appbits,
-                    id,
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_twobytes_header.invokeExact(
+                        handle(),
+                        appbits,
+                        id,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -244,8 +270,7 @@ public class RTPBuffer extends Struct {
     public byte getCsrcCount() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_csrc_count.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_csrc_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,8 +284,7 @@ public class RTPBuffer extends Struct {
     public boolean getExtension() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,17 +305,21 @@ public class RTPBuffer extends Struct {
      * and {@code null} otherwise.
      */
     public org.gtk.glib.Bytes getExtensionData(Out<Short> bits) {
-        MemorySegment bitsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_extension_bytes.invokeExact(
-                    handle(),
-                    (Addressable) bitsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bitsPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_extension_bytes.invokeExact(
+                        handle(),
+                        (Addressable) bitsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    bits.set(bitsPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        bits.set(bitsPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -304,22 +332,24 @@ public class RTPBuffer extends Struct {
      * @return TRUE if {@code buffer} had the requested header extension
      */
     public boolean getExtensionOnebyteHeader(byte id, int nth, Out<byte[]> data, Out<Integer> size) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_onebyte_header.invokeExact(
-                    handle(),
-                    id,
-                    nth,
-                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
-                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_onebyte_header.invokeExact(
+                        handle(),
+                        id,
+                        nth,
+                        (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
+                        (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -333,25 +363,27 @@ public class RTPBuffer extends Struct {
      * @return TRUE if {@code buffer} had the requested header extension
      */
     public boolean getExtensionTwobytesHeader(Out<Byte> appbits, byte id, int nth, Out<byte[]> data, Out<Integer> size) {
-        MemorySegment appbitsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_twobytes_header.invokeExact(
-                    handle(),
-                    (Addressable) (appbits == null ? MemoryAddress.NULL : (Addressable) appbitsPOINTER.address()),
-                    id,
-                    nth,
-                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
-                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment appbitsPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_twobytes_header.invokeExact(
+                        handle(),
+                        (Addressable) (appbits == null ? MemoryAddress.NULL : (Addressable) appbitsPOINTER.address()),
+                        id,
+                        nth,
+                        (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
+                        (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (appbits != null) appbits.set(appbitsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+                    if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (appbits != null) appbits.set(appbitsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -362,8 +394,7 @@ public class RTPBuffer extends Struct {
     public int getHeaderLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_header_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_header_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,8 +408,7 @@ public class RTPBuffer extends Struct {
     public boolean getMarker() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_marker.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_marker.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,8 +422,7 @@ public class RTPBuffer extends Struct {
     public int getPacketLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_packet_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_packet_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,8 +436,7 @@ public class RTPBuffer extends Struct {
     public boolean getPadding() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_padding.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_padding.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,12 +452,13 @@ public class RTPBuffer extends Struct {
     public org.gstreamer.gst.Buffer getPayloadBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -441,12 +470,13 @@ public class RTPBuffer extends Struct {
     public org.gtk.glib.Bytes getPayload() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -456,8 +486,7 @@ public class RTPBuffer extends Struct {
     public int getPayloadLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_payload_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_payload_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +511,9 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -492,8 +523,7 @@ public class RTPBuffer extends Struct {
     public byte getPayloadType() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_payload_type.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_payload_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,8 +537,7 @@ public class RTPBuffer extends Struct {
     public short getSeq() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtp_buffer_get_seq.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtp_buffer_get_seq.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,8 +551,7 @@ public class RTPBuffer extends Struct {
     public int getSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,8 +565,7 @@ public class RTPBuffer extends Struct {
     public int getTimestamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_timestamp.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,8 +579,7 @@ public class RTPBuffer extends Struct {
     public byte getVersion() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_version.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtp_buffer_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -587,8 +613,7 @@ public class RTPBuffer extends Struct {
      */
     public void removeExtensionData() {
         try {
-            DowncallHandles.gst_rtp_buffer_remove_extension_data.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtp_buffer_remove_extension_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -766,8 +791,7 @@ public class RTPBuffer extends Struct {
      */
     public void unmap() {
         try {
-            DowncallHandles.gst_rtp_buffer_unmap.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtp_buffer_unmap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -805,8 +829,7 @@ public class RTPBuffer extends Struct {
     public static int calcHeaderLen(byte csrcCount) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_calc_header_len.invokeExact(
-                    csrcCount);
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_calc_header_len.invokeExact(csrcCount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,8 +907,7 @@ public class RTPBuffer extends Struct {
     public static int defaultClockRate(byte payloadType) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_default_clock_rate.invokeExact(
-                    payloadType);
+            RESULT = (int) DowncallHandles.gst_rtp_buffer_default_clock_rate.invokeExact(payloadType);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -908,17 +930,19 @@ public class RTPBuffer extends Struct {
      * @return The extended timestamp of {@code timestamp} or 0 if the result can't go anywhere backwards.
      */
     public static long extTimestamp(Out<Long> exttimestamp, int timestamp) {
-        MemorySegment exttimestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_rtp_buffer_ext_timestamp.invokeExact(
-                    (Addressable) exttimestampPOINTER.address(),
-                    timestamp);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment exttimestampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_rtp_buffer_ext_timestamp.invokeExact(
+                        (Addressable) exttimestampPOINTER.address(),
+                        timestamp);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    exttimestamp.set(exttimestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        exttimestamp.set(exttimestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -935,23 +959,25 @@ public class RTPBuffer extends Struct {
      * @return TRUE if {@code bytes} had the requested header extension
      */
     public static boolean getExtensionOnebyteHeaderFromBytes(org.gtk.glib.Bytes bytes, short bitPattern, byte id, int nth, Out<byte[]> data, Out<Integer> size) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_onebyte_header_from_bytes.invokeExact(
-                    bytes.handle(),
-                    bitPattern,
-                    id,
-                    nth,
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_onebyte_header_from_bytes.invokeExact(
+                        bytes.handle(),
+                        bitPattern,
+                        id,
+                        nth,
+                        (Addressable) dataPOINTER.address(),
+                        (Addressable) sizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -994,7 +1020,9 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1017,7 +1045,9 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1030,15 +1060,19 @@ public class RTPBuffer extends Struct {
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
     public static org.gstreamer.gst.Buffer newCopyData(byte[] data, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_copy_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_copy_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1050,305 +1084,309 @@ public class RTPBuffer extends Struct {
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
     public static org.gstreamer.gst.Buffer newTakeData(byte[] data, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_take_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_take_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_buffer_add_extension_onebyte_header = Interop.downcallHandle(
-            "gst_rtp_buffer_add_extension_onebyte_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_add_extension_onebyte_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_add_extension_twobytes_header = Interop.downcallHandle(
-            "gst_rtp_buffer_add_extension_twobytes_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_add_extension_twobytes_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_csrc = Interop.downcallHandle(
-            "gst_rtp_buffer_get_csrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_get_csrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_csrc_count = Interop.downcallHandle(
-            "gst_rtp_buffer_get_csrc_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_csrc_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_extension = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_extension",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_extension_bytes = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_extension_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_extension_onebyte_header = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension_onebyte_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_extension_onebyte_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_extension_twobytes_header = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension_twobytes_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_extension_twobytes_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_header_len = Interop.downcallHandle(
-            "gst_rtp_buffer_get_header_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_header_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_marker = Interop.downcallHandle(
-            "gst_rtp_buffer_get_marker",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_marker",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_packet_len = Interop.downcallHandle(
-            "gst_rtp_buffer_get_packet_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_packet_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_padding = Interop.downcallHandle(
-            "gst_rtp_buffer_get_padding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_padding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_payload_buffer = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_payload_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_payload_bytes = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_payload_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_payload_len = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_payload_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_payload_subbuffer = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload_subbuffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_get_payload_subbuffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_payload_type = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_payload_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_seq = Interop.downcallHandle(
-            "gst_rtp_buffer_get_seq",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_seq",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_ssrc = Interop.downcallHandle(
-            "gst_rtp_buffer_get_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_timestamp = Interop.downcallHandle(
-            "gst_rtp_buffer_get_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_version = Interop.downcallHandle(
-            "gst_rtp_buffer_get_version",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_version",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_pad_to = Interop.downcallHandle(
-            "gst_rtp_buffer_pad_to",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_pad_to",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_remove_extension_data = Interop.downcallHandle(
-            "gst_rtp_buffer_remove_extension_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_remove_extension_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_csrc = Interop.downcallHandle(
-            "gst_rtp_buffer_set_csrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_csrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_extension = Interop.downcallHandle(
-            "gst_rtp_buffer_set_extension",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_extension",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_extension_data = Interop.downcallHandle(
-            "gst_rtp_buffer_set_extension_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtp_buffer_set_extension_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_marker = Interop.downcallHandle(
-            "gst_rtp_buffer_set_marker",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_marker",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_packet_len = Interop.downcallHandle(
-            "gst_rtp_buffer_set_packet_len",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_packet_len",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_padding = Interop.downcallHandle(
-            "gst_rtp_buffer_set_padding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_padding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_payload_type = Interop.downcallHandle(
-            "gst_rtp_buffer_set_payload_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_set_payload_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_seq = Interop.downcallHandle(
-            "gst_rtp_buffer_set_seq",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtp_buffer_set_seq",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_ssrc = Interop.downcallHandle(
-            "gst_rtp_buffer_set_ssrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_ssrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_timestamp = Interop.downcallHandle(
-            "gst_rtp_buffer_set_timestamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_set_timestamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_set_version = Interop.downcallHandle(
-            "gst_rtp_buffer_set_version",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_set_version",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_unmap = Interop.downcallHandle(
-            "gst_rtp_buffer_unmap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_unmap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_allocate_data = Interop.downcallHandle(
-            "gst_rtp_buffer_allocate_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_allocate_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_calc_header_len = Interop.downcallHandle(
-            "gst_rtp_buffer_calc_header_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_calc_header_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_calc_packet_len = Interop.downcallHandle(
-            "gst_rtp_buffer_calc_packet_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_calc_packet_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_calc_payload_len = Interop.downcallHandle(
-            "gst_rtp_buffer_calc_payload_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_calc_payload_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_compare_seqnum = Interop.downcallHandle(
-            "gst_rtp_buffer_compare_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtp_buffer_compare_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_default_clock_rate = Interop.downcallHandle(
-            "gst_rtp_buffer_default_clock_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_default_clock_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_ext_timestamp = Interop.downcallHandle(
-            "gst_rtp_buffer_ext_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_buffer_ext_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_get_extension_onebyte_header_from_bytes = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension_onebyte_header_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_get_extension_onebyte_header_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_map = Interop.downcallHandle(
-            "gst_rtp_buffer_map",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_buffer_map",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_new_allocate = Interop.downcallHandle(
-            "gst_rtp_buffer_new_allocate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_new_allocate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_new_allocate_len = Interop.downcallHandle(
-            "gst_rtp_buffer_new_allocate_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_buffer_new_allocate_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_new_copy_data = Interop.downcallHandle(
-            "gst_rtp_buffer_new_copy_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_buffer_new_copy_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtp_buffer_new_take_data = Interop.downcallHandle(
-            "gst_rtp_buffer_new_take_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_buffer_new_take_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -1374,7 +1412,7 @@ public class RTPBuffer extends Struct {
             struct = RTPBuffer.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTPBuffer} struct.
          * @return A new instance of {@code RTPBuffer} with the fields 
          *         that were set in the Builder object.
@@ -1389,10 +1427,12 @@ public class RTPBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1401,10 +1441,12 @@ public class RTPBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setState(int state) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), state);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("state"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), state);
+                return this;
+            }
         }
         
         /**
@@ -1413,10 +1455,12 @@ public class RTPBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(java.lang.foreign.MemoryAddress[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1425,10 +1469,12 @@ public class RTPBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(long[] size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1437,10 +1483,12 @@ public class RTPBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMap(org.gstreamer.gst.MapInfo[] map) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

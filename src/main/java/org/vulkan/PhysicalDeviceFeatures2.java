@@ -29,8 +29,8 @@ public class PhysicalDeviceFeatures2 extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceFeatures2}
      */
     public static PhysicalDeviceFeatures2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceFeatures2 newInstance = new PhysicalDeviceFeatures2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceFeatures2 newInstance = new PhysicalDeviceFeatures2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceFeatures2 extends Struct {
     /**
      * Create a PhysicalDeviceFeatures2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceFeatures2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceFeatures2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceFeatures2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceFeatures2(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceFeatures2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceFeatures2(input);
 }

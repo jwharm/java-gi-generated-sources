@@ -33,32 +33,22 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
     
     /**
      * Create a GLDisplayEGLDevice proxy instance for the provided memory address.
-     * <p>
-     * Because GLDisplayEGLDevice is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLDisplayEGLDevice(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLDisplayEGLDevice(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLDisplayEGLDevice> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayEGLDevice(input, ownership);
+    public static final Marshal<Addressable, GLDisplayEGLDevice> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayEGLDevice(input);
     
     private static MemoryAddress constructNew(int deviceIndex) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new.invokeExact(
-                    deviceIndex);
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new.invokeExact(deviceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,20 +60,20 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
      * @param deviceIndex the index of device to use
      */
     public GLDisplayEGLDevice(int deviceIndex) {
-        super(constructNew(deviceIndex), Ownership.FULL);
+        super(constructNew(deviceIndex));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithEglDevice(@Nullable java.lang.foreign.MemoryAddress device) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new_with_egl_device.invokeExact(
-                    (Addressable) (device == null ? MemoryAddress.NULL : (Addressable) device));
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new_with_egl_device.invokeExact((Addressable) (device == null ? MemoryAddress.NULL : (Addressable) device));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link GLDisplayEGLDevice} with EGLDeviceEXT .
      * The {@code device} must be created using EGLDevice enumeration.
@@ -92,7 +82,9 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
      */
     public static GLDisplayEGLDevice newWithEglDevice(@Nullable java.lang.foreign.MemoryAddress device) {
         var RESULT = constructNewWithEglDevice(device);
-        return (org.gstreamer.gl.egl.GLDisplayEGLDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.egl.GLDisplayEGLDevice.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gl.egl.GLDisplayEGLDevice) Interop.register(RESULT, org.gstreamer.gl.egl.GLDisplayEGLDevice.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -125,6 +117,9 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
      */
     public static class Builder extends org.gstreamer.gl.GLDisplay.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -149,21 +144,29 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_display_egl_device_new = Interop.downcallHandle(
-            "gst_gl_display_egl_device_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_display_egl_device_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_device_new_with_egl_device = Interop.downcallHandle(
-            "gst_gl_display_egl_device_new_with_egl_device",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_egl_device_new_with_egl_device",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_device_get_type = Interop.downcallHandle(
-            "gst_gl_display_egl_device_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_display_egl_device_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_display_egl_device_get_type != null;
     }
 }

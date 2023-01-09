@@ -44,8 +44,8 @@ public class DatagramBasedInterface extends Struct {
      * @return A new, uninitialized @{link DatagramBasedInterface}
      */
     public static DatagramBasedInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DatagramBasedInterface newInstance = new DatagramBasedInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DatagramBasedInterface newInstance = new DatagramBasedInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,7 +56,7 @@ public class DatagramBasedInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -64,25 +64,44 @@ public class DatagramBasedInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReceiveMessagesCallback} callback.
+     */
     @FunctionalInterface
     public interface ReceiveMessagesCallback {
+    
         int run(org.gtk.gio.DatagramBased datagramBased, org.gtk.gio.InputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress datagramBased, MemoryAddress messages, int numMessages, int flags, long timeout, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DatagramBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(datagramBased)), org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, Ownership.NONE), new PointerProxy<org.gtk.gio.InputMessage>(messages, org.gtk.gio.InputMessage.fromAddress).toArray((int) numMessages, org.gtk.gio.InputMessage.class), numMessages, flags, timeout, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.DatagramBased) Interop.register(datagramBased, org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, null), new PointerProxy<org.gtk.gio.InputMessage>(messages, org.gtk.gio.InputMessage.fromAddress).toArray((int) numMessages, org.gtk.gio.InputMessage.class), numMessages, flags, timeout, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                return RESULT;
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReceiveMessagesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReceiveMessagesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -91,25 +110,44 @@ public class DatagramBasedInterface extends Struct {
      * @param receiveMessages The new value of the field {@code receive_messages}
      */
     public void setReceiveMessages(ReceiveMessagesCallback receiveMessages) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("receive_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (receiveMessages == null ? MemoryAddress.NULL : receiveMessages.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("receive_messages"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (receiveMessages == null ? MemoryAddress.NULL : receiveMessages.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SendMessagesCallback} callback.
+     */
     @FunctionalInterface
     public interface SendMessagesCallback {
+    
         int run(org.gtk.gio.DatagramBased datagramBased, org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress datagramBased, MemoryAddress messages, int numMessages, int flags, long timeout, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DatagramBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(datagramBased)), org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, Ownership.NONE), new PointerProxy<org.gtk.gio.OutputMessage>(messages, org.gtk.gio.OutputMessage.fromAddress).toArray((int) numMessages, org.gtk.gio.OutputMessage.class), numMessages, flags, timeout, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.DatagramBased) Interop.register(datagramBased, org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, null), new PointerProxy<org.gtk.gio.OutputMessage>(messages, org.gtk.gio.OutputMessage.fromAddress).toArray((int) numMessages, org.gtk.gio.OutputMessage.class), numMessages, flags, timeout, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                return RESULT;
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SendMessagesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SendMessagesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -118,25 +156,43 @@ public class DatagramBasedInterface extends Struct {
      * @param sendMessages The new value of the field {@code send_messages}
      */
     public void setSendMessages(SendMessagesCallback sendMessages) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("send_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendMessages == null ? MemoryAddress.NULL : sendMessages.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("send_messages"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendMessages == null ? MemoryAddress.NULL : sendMessages.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateSourceCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateSourceCallback {
+    
         org.gtk.glib.Source run(org.gtk.gio.DatagramBased datagramBased, org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress datagramBased, int condition, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DatagramBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(datagramBased)), org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, Ownership.NONE), new org.gtk.glib.IOCondition(condition), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DatagramBased) Interop.register(datagramBased, org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, null), new org.gtk.glib.IOCondition(condition), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateSourceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateSourceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -145,25 +201,42 @@ public class DatagramBasedInterface extends Struct {
      * @param createSource The new value of the field {@code create_source}
      */
     public void setCreateSource(CreateSourceCallback createSource) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConditionCheckCallback} callback.
+     */
     @FunctionalInterface
     public interface ConditionCheckCallback {
+    
         org.gtk.glib.IOCondition run(org.gtk.gio.DatagramBased datagramBased, org.gtk.glib.IOCondition condition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress datagramBased, int condition) {
-            var RESULT = run((org.gtk.gio.DatagramBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(datagramBased)), org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
+            var RESULT = run((org.gtk.gio.DatagramBased) Interop.register(datagramBased, org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, null), new org.gtk.glib.IOCondition(condition));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConditionCheckCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConditionCheckCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -172,25 +245,42 @@ public class DatagramBasedInterface extends Struct {
      * @param conditionCheck The new value of the field {@code condition_check}
      */
     public void setConditionCheck(ConditionCheckCallback conditionCheck) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("condition_check"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionCheck == null ? MemoryAddress.NULL : conditionCheck.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("condition_check"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (conditionCheck == null ? MemoryAddress.NULL : conditionCheck.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConditionWaitCallback} callback.
+     */
     @FunctionalInterface
     public interface ConditionWaitCallback {
+    
         boolean run(org.gtk.gio.DatagramBased datagramBased, org.gtk.glib.IOCondition condition, long timeout, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress datagramBased, int condition, long timeout, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DatagramBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(datagramBased)), org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, Ownership.NONE), new org.gtk.glib.IOCondition(condition), timeout, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DatagramBased) Interop.register(datagramBased, org.gtk.gio.DatagramBased.fromAddress).marshal(datagramBased, null), new org.gtk.glib.IOCondition(condition), timeout, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConditionWaitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConditionWaitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -199,22 +289,26 @@ public class DatagramBasedInterface extends Struct {
      * @param conditionWait The new value of the field {@code condition_wait}
      */
     public void setConditionWait(ConditionWaitCallback conditionWait) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("condition_wait"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionWait == null ? MemoryAddress.NULL : conditionWait.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("condition_wait"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (conditionWait == null ? MemoryAddress.NULL : conditionWait.toCallback()));
+        }
     }
     
     /**
      * Create a DatagramBasedInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DatagramBasedInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DatagramBasedInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DatagramBasedInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DatagramBasedInterface(input, ownership);
+    public static final Marshal<Addressable, DatagramBasedInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DatagramBasedInterface(input);
     
     /**
      * A {@link DatagramBasedInterface.Builder} object constructs a {@link DatagramBasedInterface} 
@@ -238,7 +332,7 @@ public class DatagramBasedInterface extends Struct {
             struct = DatagramBasedInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DatagramBasedInterface} struct.
          * @return A new instance of {@code DatagramBasedInterface} with the fields 
          *         that were set in the Builder object.
@@ -253,45 +347,57 @@ public class DatagramBasedInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setReceiveMessages(ReceiveMessagesCallback receiveMessages) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("receive_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (receiveMessages == null ? MemoryAddress.NULL : receiveMessages.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("receive_messages"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (receiveMessages == null ? MemoryAddress.NULL : receiveMessages.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSendMessages(SendMessagesCallback sendMessages) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("send_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendMessages == null ? MemoryAddress.NULL : sendMessages.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("send_messages"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendMessages == null ? MemoryAddress.NULL : sendMessages.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateSource(CreateSourceCallback createSource) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+                return this;
+            }
         }
         
         public Builder setConditionCheck(ConditionCheckCallback conditionCheck) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("condition_check"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionCheck == null ? MemoryAddress.NULL : conditionCheck.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("condition_check"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (conditionCheck == null ? MemoryAddress.NULL : conditionCheck.toCallback()));
+                return this;
+            }
         }
         
         public Builder setConditionWait(ConditionWaitCallback conditionWait) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("condition_wait"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (conditionWait == null ? MemoryAddress.NULL : conditionWait.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("condition_wait"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (conditionWait == null ? MemoryAddress.NULL : conditionWait.toCallback()));
+                return this;
+            }
         }
     }
 }

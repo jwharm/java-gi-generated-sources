@@ -44,6 +44,9 @@ public class IOCondition extends io.github.jwharm.javagi.Bitfield {
      */
     public static final IOCondition NVAL = new IOCondition(32);
     
+    /**
+     * Create a new IOCondition with the provided value
+     */
     public IOCondition(int value) {
         super(value);
     }

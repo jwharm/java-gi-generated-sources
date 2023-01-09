@@ -39,8 +39,8 @@ public class Vp8Picture extends Struct {
      * @return A new, uninitialized @{link Vp8Picture}
      */
     public static Vp8Picture allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp8Picture newInstance = new Vp8Picture(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp8Picture newInstance = new Vp8Picture(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class Vp8Picture extends Struct {
      */
     public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,9 +59,11 @@ public class Vp8Picture extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.gst.MiniObject parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -69,10 +71,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code pts}
      */
     public org.gstreamer.gst.ClockTime getPts() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -80,9 +84,11 @@ public class Vp8Picture extends Struct {
      * @param pts The new value of the field {@code pts}
      */
     public void setPts(org.gstreamer.gst.ClockTime pts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        }
     }
     
     /**
@@ -90,10 +96,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code system_frame_number}
      */
     public int getSystemFrameNumber() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,9 +109,11 @@ public class Vp8Picture extends Struct {
      * @param systemFrameNumber The new value of the field {@code system_frame_number}
      */
     public void setSystemFrameNumber(int systemFrameNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+        }
     }
     
     /**
@@ -111,10 +121,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code frame_hdr}
      */
     public java.lang.foreign.MemoryAddress getFrameHdr() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -122,9 +134,11 @@ public class Vp8Picture extends Struct {
      * @param frameHdr The new value of the field {@code frame_hdr}
      */
     public void setFrameHdr(java.lang.foreign.MemoryAddress frameHdr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (frameHdr == null ? MemoryAddress.NULL : (Addressable) frameHdr));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (frameHdr == null ? MemoryAddress.NULL : (Addressable) frameHdr));
+        }
     }
     
     /**
@@ -132,10 +146,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -143,9 +159,11 @@ public class Vp8Picture extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(PointerByte data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        }
     }
     
     /**
@@ -153,10 +171,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code size}
      */
     public long getSize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -164,9 +184,11 @@ public class Vp8Picture extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -174,10 +196,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code user_data}
      */
     public java.lang.foreign.MemoryAddress getUserData_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -185,9 +209,11 @@ public class Vp8Picture extends Struct {
      * @param userData The new value of the field {@code user_data}
      */
     public void setUserData_(java.lang.foreign.MemoryAddress userData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        }
     }
     
     /**
@@ -195,10 +221,12 @@ public class Vp8Picture extends Struct {
      * @return The value of the field {@code notify}
      */
     public org.gtk.glib.DestroyNotify getNotify() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -206,22 +234,26 @@ public class Vp8Picture extends Struct {
      * @param notify The new value of the field {@code notify}
      */
     public void setNotify(org.gtk.glib.DestroyNotify notify) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+        }
     }
     
     /**
      * Create a Vp8Picture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp8Picture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp8Picture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp8Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp8Picture(input, ownership);
+    public static final Marshal<Addressable, Vp8Picture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp8Picture(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -237,7 +269,8 @@ public class Vp8Picture extends Struct {
      * Create new {@link Vp8Picture}
      */
     public Vp8Picture() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -248,8 +281,7 @@ public class Vp8Picture extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vp8_picture_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vp8_picture_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,21 +310,21 @@ public class Vp8Picture extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vp8_picture_new = Interop.downcallHandle(
-            "gst_vp8_picture_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp8_picture_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vp8_picture_get_user_data = Interop.downcallHandle(
-            "gst_vp8_picture_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp8_picture_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vp8_picture_set_user_data = Interop.downcallHandle(
-            "gst_vp8_picture_set_user_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp8_picture_set_user_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -318,7 +350,7 @@ public class Vp8Picture extends Struct {
             struct = Vp8Picture.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp8Picture} struct.
          * @return A new instance of {@code Vp8Picture} with the fields 
          *         that were set in the Builder object.
@@ -328,59 +360,75 @@ public class Vp8Picture extends Struct {
         }
         
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setPts(org.gstreamer.gst.ClockTime pts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+                return this;
+            }
         }
         
         public Builder setSystemFrameNumber(int systemFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+                return this;
+            }
         }
         
         public Builder setFrameHdr(java.lang.foreign.MemoryAddress frameHdr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (frameHdr == null ? MemoryAddress.NULL : (Addressable) frameHdr));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (frameHdr == null ? MemoryAddress.NULL : (Addressable) frameHdr));
+                return this;
+            }
         }
         
         public Builder setData(PointerByte data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+                return this;
+            }
         }
         
         public Builder setSize(long size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
     }
 }

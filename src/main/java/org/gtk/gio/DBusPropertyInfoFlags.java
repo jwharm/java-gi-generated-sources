@@ -28,6 +28,9 @@ public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusPropertyInfoFlags WRITABLE = new DBusPropertyInfoFlags(2);
     
+    /**
+     * Create a new DBusPropertyInfoFlags with the provided value
+     */
     public DBusPropertyInfoFlags(int value) {
         super(value);
     }

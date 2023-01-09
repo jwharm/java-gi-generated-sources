@@ -17,6 +17,9 @@ public class PadTemplateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PadTemplateFlags LAST = new PadTemplateFlags(256);
     
+    /**
+     * Create a new PadTemplateFlags with the provided value
+     */
     public PadTemplateFlags(int value) {
         super(value);
     }

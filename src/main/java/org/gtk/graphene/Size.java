@@ -36,8 +36,8 @@ public class Size extends Struct {
      * @return A new, uninitialized @{link Size}
      */
     public static Size allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Size newInstance = new Size(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Size newInstance = new Size(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class Size extends Struct {
      * @return The value of the field {@code width}
      */
     public float getWidth() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class Size extends Struct {
      * @param width The new value of the field {@code width}
      */
     public void setWidth(float width) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), width);
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class Size extends Struct {
      * @return The value of the field {@code height}
      */
     public float getHeight() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class Size extends Struct {
      * @param height The new value of the field {@code height}
      */
     public void setHeight(float height) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), height);
+        }
     }
     
     /**
      * Create a Size proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Size(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Size(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Size> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Size(input, ownership);
+    public static final Marshal<Addressable, Size> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Size(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -105,7 +115,7 @@ public class Size extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Size}.
      * <p>
@@ -114,7 +124,9 @@ public class Size extends Struct {
      */
     public static Size alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Size.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -139,8 +151,7 @@ public class Size extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_size_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_size_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +173,7 @@ public class Size extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -180,7 +191,7 @@ public class Size extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -230,57 +241,57 @@ public class Size extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_size_alloc = Interop.downcallHandle(
-            "graphene_size_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_equal = Interop.downcallHandle(
-            "graphene_size_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_free = Interop.downcallHandle(
-            "graphene_size_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_init = Interop.downcallHandle(
-            "graphene_size_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_size_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_size_init_from_size = Interop.downcallHandle(
-            "graphene_size_init_from_size",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_init_from_size",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_interpolate = Interop.downcallHandle(
-            "graphene_size_interpolate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_interpolate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_scale = Interop.downcallHandle(
-            "graphene_size_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_size_zero = Interop.downcallHandle(
-            "graphene_size_zero",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_size_zero",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -306,7 +317,7 @@ public class Size extends Struct {
             struct = Size.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Size} struct.
          * @return A new instance of {@code Size} with the fields 
          *         that were set in the Builder object.
@@ -321,10 +332,12 @@ public class Size extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWidth(float width) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), width);
+                return this;
+            }
         }
         
         /**
@@ -333,10 +346,12 @@ public class Size extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHeight(float height) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), height);
+                return this;
+            }
         }
     }
 }

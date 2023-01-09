@@ -18,28 +18,45 @@ import org.jetbrains.annotations.*;
  * @version 1.18
  */
 public enum VideoAFDSpec implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * AFD value is from DVB/ETSI standard
      */
     DVB_ETSI(0),
+    
     /**
      * AFD value is from ATSC A/53 standard
      */
     ATSC_A53(1),
+    
     SMPTE_ST2016_1(2);
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAFDSpec";
     
     private final int value;
+    
+    /**
+     * Create a new VideoAFDSpec for the provided value
+     * @param numeric value the enum value
+     */
     VideoAFDSpec(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoAFDSpec for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoAFDSpec of(int value) {
         return switch (value) {
             case 0 -> DVB_ETSI;

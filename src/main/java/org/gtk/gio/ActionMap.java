@@ -19,8 +19,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ActionMapImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActionMapImpl(input, ownership);
+    public static final Marshal<Addressable, ActionMapImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ActionMapImpl(input);
     
     /**
      * Adds an action to the {@code action_map}.
@@ -83,14 +86,16 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @param nEntries the length of {@code entries}, or -1 if {@code entries} is {@code null}-terminated
      */
     default void addActionEntries(org.gtk.gio.ActionEntry[] entries, int nEntries) {
-        try {
-            DowncallHandles.g_action_map_add_action_entries.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false),
-                    nEntries,
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_action_map_add_action_entries.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false, SCOPE),
+                        nEntries,
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -102,15 +107,17 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @return a {@link Action}, or {@code null}
      */
     default @Nullable org.gtk.gio.Action lookupAction(java.lang.String actionName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_action_map_lookup_action.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_action_map_lookup_action.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gio.Action) Interop.register(RESULT, org.gtk.gio.Action.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,12 +127,14 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @param actionName the name of the action
      */
     default void removeAction(java.lang.String actionName) {
-        try {
-            DowncallHandles.g_action_map_remove_action.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_action_map_remove_action.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -148,48 +157,63 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_add_action = Interop.downcallHandle(
-            "g_action_map_add_action",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_action_map_add_action",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_add_action_entries = Interop.downcallHandle(
-            "g_action_map_add_action_entries",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_action_map_add_action_entries",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_lookup_action = Interop.downcallHandle(
-            "g_action_map_lookup_action",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_action_map_lookup_action",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_remove_action = Interop.downcallHandle(
-            "g_action_map_remove_action",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_action_map_remove_action",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_action_map_get_type = Interop.downcallHandle(
-            "g_action_map_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_action_map_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ActionMapImpl type represents a native instance of the ActionMap interface.
+     */
     class ActionMapImpl extends org.gtk.gobject.GObject implements ActionMap {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public ActionMapImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ActionMap for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ActionMapImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_action_map_get_type != null;
     }
 }

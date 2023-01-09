@@ -313,24 +313,27 @@ public class Settings extends org.gtk.gobject.GObject {
     /**
      * Create a Settings proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Settings(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Settings(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Settings> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Settings(input, ownership);
+    public static final Marshal<Addressable, Settings> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Settings(input);
     
     private static MemoryAddress constructNew(java.lang.String schemaId) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_new.invokeExact(
-                    Marshal.stringToAddress.marshal(schemaId, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_new.invokeExact(Marshal.stringToAddress.marshal(schemaId, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -350,22 +353,25 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param schemaId the id of the schema
      */
     public Settings(java.lang.String schemaId) {
-        super(constructNew(schemaId), Ownership.FULL);
+        super(constructNew(schemaId));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFull(org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
-                    schema.handle(),
-                    (Addressable) (backend == null ? MemoryAddress.NULL : backend.handle()),
-                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
+                        schema.handle(),
+                        (Addressable) (backend == null ? MemoryAddress.NULL : backend.handle()),
+                        (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Settings} object with a given schema, backend and
      * path.
@@ -397,21 +403,25 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public static Settings newFull(org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
         var RESULT = constructNewFull(schema, backend, path);
-        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Settings) Interop.register(RESULT, org.gtk.gio.Settings.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithBackend(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
-                    Marshal.stringToAddress.marshal(schemaId, null),
-                    backend.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
+                        Marshal.stringToAddress.marshal(schemaId, SCOPE),
+                        backend.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Settings} object with the schema specified by
      * {@code schema_id} and a given {@link SettingsBackend}.
@@ -427,22 +437,26 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public static Settings newWithBackend(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend) {
         var RESULT = constructNewWithBackend(schemaId, backend);
-        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Settings) Interop.register(RESULT, org.gtk.gio.Settings.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithBackendAndPath(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend, java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
-                    Marshal.stringToAddress.marshal(schemaId, null),
-                    backend.handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
+                        Marshal.stringToAddress.marshal(schemaId, SCOPE),
+                        backend.handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Settings} object with the schema specified by
      * {@code schema_id} and a given {@link SettingsBackend} and path.
@@ -456,21 +470,25 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public static Settings newWithBackendAndPath(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend, java.lang.String path) {
         var RESULT = constructNewWithBackendAndPath(schemaId, backend, path);
-        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Settings) Interop.register(RESULT, org.gtk.gio.Settings.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
-                    Marshal.stringToAddress.marshal(schemaId, null),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
+                        Marshal.stringToAddress.marshal(schemaId, SCOPE),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Settings} object with the relocatable schema specified
      * by {@code schema_id} and a given path.
@@ -491,7 +509,9 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public static Settings newWithPath(java.lang.String schemaId, java.lang.String path) {
         var RESULT = constructNewWithPath(schemaId, path);
-        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Settings) Interop.register(RESULT, org.gtk.gio.Settings.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -502,8 +522,7 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public void apply() {
         try {
-            DowncallHandles.g_settings_apply.invokeExact(
-                    handle());
+            DowncallHandles.g_settings_apply.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -536,15 +555,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param flags flags for the binding
      */
     public void bind(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, org.gtk.gio.SettingsBindFlags flags) {
-        try {
-            DowncallHandles.g_settings_bind.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(property, null),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_bind.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(property, SCOPE),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -570,19 +591,21 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param destroy {@link org.gtk.glib.DestroyNotify} function for {@code user_data}
      */
     public void bindWithMapping(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, org.gtk.gio.SettingsBindFlags flags, org.gtk.gio.SettingsBindGetMapping getMapping, org.gtk.gio.SettingsBindSetMapping setMapping, org.gtk.glib.DestroyNotify destroy) {
-        try {
-            DowncallHandles.g_settings_bind_with_mapping.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(property, null),
-                    flags.getValue(),
-                    (Addressable) getMapping.toCallback(),
-                    (Addressable) setMapping.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) destroy.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_bind_with_mapping.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(property, SCOPE),
+                        flags.getValue(),
+                        (Addressable) getMapping.toCallback(),
+                        (Addressable) setMapping.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) destroy.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -610,15 +633,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param inverted whether to 'invert' the value
      */
     public void bindWritable(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, boolean inverted) {
-        try {
-            DowncallHandles.g_settings_bind_writable.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(property, null),
-                    Marshal.booleanToInteger.marshal(inverted, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_bind_writable.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(property, SCOPE),
+                        Marshal.booleanToInteger.marshal(inverted, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -641,15 +666,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a new {@link Action}
      */
     public org.gtk.gio.Action createAction(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_create_action.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_create_action.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.Action) Interop.register(RESULT, org.gtk.gio.Action.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -659,8 +688,7 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public void delay() {
         try {
-            DowncallHandles.g_settings_delay.invokeExact(
-                    handle());
+            DowncallHandles.g_settings_delay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -680,14 +708,16 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param varargs arguments as per {@code format}
      */
     public void get(java.lang.String key, java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_settings_get.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_get.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -702,15 +732,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a boolean
      */
     public boolean getBoolean(java.lang.String key) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_get_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_get_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -727,15 +759,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a 'child' settings object
      */
     public org.gtk.gio.Settings getChild(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_child.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_child.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.Settings) Interop.register(RESULT, org.gtk.gio.Settings.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -764,15 +800,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return the default value
      */
     public @Nullable org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_default_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_default_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -786,15 +826,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a double
      */
     public double getDouble(java.lang.String key) {
-        double RESULT;
-        try {
-            RESULT = (double) DowncallHandles.g_settings_get_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            double RESULT;
+            try {
+                RESULT = (double) DowncallHandles.g_settings_get_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -814,15 +856,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return the enum value
      */
     public int getEnum(java.lang.String key) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_get_enum.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_get_enum.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -842,15 +886,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return the flags value
      */
     public int getFlags(java.lang.String key) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_get_flags.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_get_flags.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -861,8 +907,7 @@ public class Settings extends org.gtk.gobject.GObject {
     public boolean getHasUnapplied() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_settings_get_has_unapplied.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_settings_get_has_unapplied.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -880,15 +925,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return an integer
      */
     public int getInt(java.lang.String key) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_get_int.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_get_int.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -902,15 +949,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a 64-bit integer
      */
     public long getInt64(java.lang.String key) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_settings_get_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_settings_get_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -947,17 +996,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return the result, which may be {@code null}
      */
     public @Nullable java.lang.foreign.MemoryAddress getMapped(java.lang.String key, org.gtk.gio.SettingsGetMapping mapping) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_mapped.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) mapping.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_mapped.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) mapping.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -967,15 +1018,19 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public org.gtk.glib.Variant getRange(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_range.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_range.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -989,15 +1044,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a newly-allocated string
      */
     public java.lang.String getString(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1011,15 +1068,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * is stored at {@code key} in {@code settings}.
      */
     public PointerString getStrv(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_strv.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_strv.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -1034,15 +1093,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return an unsigned integer
      */
     public int getUint(java.lang.String key) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_get_uint.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_get_uint.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -1057,15 +1118,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a 64-bit unsigned integer
      */
     public long getUint64(java.lang.String key) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_settings_get_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_settings_get_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -1091,15 +1154,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return the user's value, if set
      */
     public @Nullable org.gtk.glib.Variant getUserValue(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_user_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_user_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1111,15 +1178,19 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return a new {@link org.gtk.glib.Variant}
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_get_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_get_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1128,15 +1199,17 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return {@code true} if the key {@code name} is writable
      */
     public boolean isWritable(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_is_writable.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_is_writable.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1155,14 +1228,15 @@ public class Settings extends org.gtk.gobject.GObject {
      *    on {@code settings}, in no defined order
      */
     public PointerString listChildren() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_children.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_list_children.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -1180,14 +1254,15 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public PointerString listKeys() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_keys.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_list_keys.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -1200,16 +1275,18 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public boolean rangeCheck(java.lang.String key, org.gtk.glib.Variant value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_range_check.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_range_check.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1221,12 +1298,14 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param key the name of a key
      */
     public void reset(java.lang.String key) {
-        try {
-            DowncallHandles.g_settings_reset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_reset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1240,8 +1319,7 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public void revert() {
         try {
-            DowncallHandles.g_settings_revert.invokeExact(
-                    handle());
+            DowncallHandles.g_settings_revert.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1263,17 +1341,19 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean set(java.lang.String key, java.lang.String format, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1289,16 +1369,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setBoolean(java.lang.String key, boolean value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.booleanToInteger.marshal(value, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.booleanToInteger.marshal(value, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1314,16 +1396,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setDouble(java.lang.String key, double value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1342,16 +1426,18 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return {@code true}, if the set succeeds
      */
     public boolean setEnum(java.lang.String key, int value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_enum.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_enum.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1371,16 +1457,18 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return {@code true}, if the set succeeds
      */
     public boolean setFlags(java.lang.String key, int value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_flags.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_flags.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1396,16 +1484,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setInt(java.lang.String key, int value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_int.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_int.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1421,16 +1511,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setInt64(java.lang.String key, long value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1446,16 +1538,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setString(java.lang.String key, java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1472,16 +1566,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setStrv(java.lang.String key, @Nullable java.lang.String[] value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_strv.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeArray(value, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_strv.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeArray(value, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1498,16 +1594,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setUint(java.lang.String key, int value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_uint.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_uint.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1524,16 +1622,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setUint64(java.lang.String key, long value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1550,16 +1650,18 @@ public class Settings extends org.gtk.gobject.GObject {
      *     {@code false} if the key was not writable
      */
     public boolean setValue(java.lang.String key, org.gtk.glib.Variant value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_set_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_set_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1585,13 +1687,15 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public static PointerString listRelocatableSchemas() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_relocatable_schemas.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_list_relocatable_schemas.invokeExact();
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -1606,13 +1710,15 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public static PointerString listSchemas() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_list_schemas.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_list_schemas.invokeExact();
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -1645,29 +1751,65 @@ public class Settings extends org.gtk.gobject.GObject {
      * @param property the property whose binding is removed
      */
     public static void unbind(org.gtk.gobject.GObject object, java.lang.String property) {
-        try {
-            DowncallHandles.g_settings_unbind.invokeExact(
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(property, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_unbind.invokeExact(
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(property, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangeEvent} callback.
+     */
     @FunctionalInterface
     public interface ChangeEvent {
+    
+        /**
+         * The "change-event" signal is emitted once per change event that
+         * affects this settings object.  You should connect to this signal
+         * only if you are interested in viewing groups of changes before they
+         * are split out into multiple emissions of the "changed" signal.
+         * For most use cases it is more appropriate to use the "changed" signal.
+         * <p>
+         * In the event that the change event applies to one or more specified
+         * keys, {@code keys} will be an array of {@link org.gtk.glib.Quark} of length {@code n_keys}.  In the
+         * event that the change event applies to the {@link Settings} object as a
+         * whole (ie: potentially every key has been changed) then {@code keys} will
+         * be {@code null} and {@code n_keys} will be 0.
+         * <p>
+         * The default handler for this signal invokes the "changed" signal
+         * for each affected key.  If any other connected handler returns
+         * {@code true} then this default functionality will be suppressed.
+         */
         boolean run(@Nullable org.gtk.glib.Quark[] keys, int nKeys);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSettings, MemoryAddress keys, int nKeys) {
-            var RESULT = run(org.gtk.glib.Quark.fromNativeArray(keys, nKeys), nKeys);
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(org.gtk.glib.Quark.fromNativeArray(keys, nKeys), nKeys);
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangeEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1691,28 +1833,58 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.ChangeEvent> onChangeEvent(Settings.ChangeEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("change-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("change-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * The "changed" signal is emitted when a key has potentially changed.
+         * You should call one of the g_settings_get() calls to check the new
+         * value.
+         * <p>
+         * This signal supports detailed connections.  You can connect to the
+         * detailed signal "changed::x" in order to only receive callbacks
+         * when key "x" changes.
+         * <p>
+         * Note that {@code settings} only emits this signal if you have read {@code key} at
+         * least once while a signal handler was already connected for {@code key}.
+         */
         void run(java.lang.String key);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSettings, MemoryAddress key) {
-            run(Marshal.addressToString.marshal(key, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(key, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1732,29 +1904,65 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.Changed> onChanged(@Nullable String detail, Settings.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code WritableChangeEvent} callback.
+     */
     @FunctionalInterface
     public interface WritableChangeEvent {
+    
+        /**
+         * The "writable-change-event" signal is emitted once per writability
+         * change event that affects this settings object.  You should connect
+         * to this signal if you are interested in viewing groups of changes
+         * before they are split out into multiple emissions of the
+         * "writable-changed" signal.  For most use cases it is more
+         * appropriate to use the "writable-changed" signal.
+         * <p>
+         * In the event that the writability change applies only to a single
+         * key, {@code key} will be set to the {@link org.gtk.glib.Quark} for that key.  In the event
+         * that the writability change affects the entire settings object,
+         * {@code key} will be 0.
+         * <p>
+         * The default handler for this signal invokes the "writable-changed"
+         * and "changed" signals for each affected key.  This is done because
+         * changes in writability might also imply changes in value (if for
+         * example, a new mandatory setting is introduced).  If any other
+         * connected handler returns {@code true} then this default functionality
+         * will be suppressed.
+         */
         boolean run(int key);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSettings, int key) {
             var RESULT = run(key);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WritableChangeEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), WritableChangeEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1781,28 +1989,55 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.WritableChangeEvent> onWritableChangeEvent(Settings.WritableChangeEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("writable-change-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("writable-change-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code WritableChanged} callback.
+     */
     @FunctionalInterface
     public interface WritableChanged {
+    
+        /**
+         * The "writable-changed" signal is emitted when the writability of a
+         * key has potentially changed.  You should call
+         * g_settings_is_writable() in order to determine the new status.
+         * <p>
+         * This signal supports detailed connections.  You can connect to the
+         * detailed signal "writable-changed::x" in order to only receive
+         * callbacks when the writability of "x" changes.
+         */
         void run(java.lang.String key);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSettings, MemoryAddress key) {
-            run(Marshal.addressToString.marshal(key, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(key, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WritableChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), WritableChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1819,9 +2054,10 @@ public class Settings extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.WritableChanged> onWritableChanged(@Nullable String detail, Settings.WritableChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("writable-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("writable-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1844,6 +2080,9 @@ public class Settings extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1962,315 +2201,323 @@ public class Settings extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_new = Interop.downcallHandle(
-            "g_settings_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_new_full = Interop.downcallHandle(
-            "g_settings_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_new_with_backend = Interop.downcallHandle(
-            "g_settings_new_with_backend",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_new_with_backend",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_new_with_backend_and_path = Interop.downcallHandle(
-            "g_settings_new_with_backend_and_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_new_with_backend_and_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_new_with_path = Interop.downcallHandle(
-            "g_settings_new_with_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_new_with_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_apply = Interop.downcallHandle(
-            "g_settings_apply",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_apply",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_bind = Interop.downcallHandle(
-            "g_settings_bind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_bind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_bind_with_mapping = Interop.downcallHandle(
-            "g_settings_bind_with_mapping",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_bind_with_mapping",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_bind_writable = Interop.downcallHandle(
-            "g_settings_bind_writable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_bind_writable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_create_action = Interop.downcallHandle(
-            "g_settings_create_action",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_create_action",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_delay = Interop.downcallHandle(
-            "g_settings_delay",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_delay",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get = Interop.downcallHandle(
-            "g_settings_get",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_settings_get",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_settings_get_boolean = Interop.downcallHandle(
-            "g_settings_get_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_child = Interop.downcallHandle(
-            "g_settings_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_default_value = Interop.downcallHandle(
-            "g_settings_get_default_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_default_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_double = Interop.downcallHandle(
-            "g_settings_get_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_enum = Interop.downcallHandle(
-            "g_settings_get_enum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_enum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_flags = Interop.downcallHandle(
-            "g_settings_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_has_unapplied = Interop.downcallHandle(
-            "g_settings_get_has_unapplied",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_has_unapplied",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_int = Interop.downcallHandle(
-            "g_settings_get_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_int64 = Interop.downcallHandle(
-            "g_settings_get_int64",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_int64",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_mapped = Interop.downcallHandle(
-            "g_settings_get_mapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_mapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_range = Interop.downcallHandle(
-            "g_settings_get_range",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_range",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_string = Interop.downcallHandle(
-            "g_settings_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_strv = Interop.downcallHandle(
-            "g_settings_get_strv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_strv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_uint = Interop.downcallHandle(
-            "g_settings_get_uint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_uint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_uint64 = Interop.downcallHandle(
-            "g_settings_get_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_user_value = Interop.downcallHandle(
-            "g_settings_get_user_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_user_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_value = Interop.downcallHandle(
-            "g_settings_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_is_writable = Interop.downcallHandle(
-            "g_settings_is_writable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_is_writable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_list_children = Interop.downcallHandle(
-            "g_settings_list_children",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_list_children",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_list_keys = Interop.downcallHandle(
-            "g_settings_list_keys",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_list_keys",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_range_check = Interop.downcallHandle(
-            "g_settings_range_check",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_range_check",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_reset = Interop.downcallHandle(
-            "g_settings_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_revert = Interop.downcallHandle(
-            "g_settings_revert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_revert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_set = Interop.downcallHandle(
-            "g_settings_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_settings_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_settings_set_boolean = Interop.downcallHandle(
-            "g_settings_set_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_set_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_set_double = Interop.downcallHandle(
-            "g_settings_set_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "g_settings_set_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle g_settings_set_enum = Interop.downcallHandle(
-            "g_settings_set_enum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_set_enum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_set_flags = Interop.downcallHandle(
-            "g_settings_set_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_set_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_set_int = Interop.downcallHandle(
-            "g_settings_set_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_set_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_set_int64 = Interop.downcallHandle(
-            "g_settings_set_int64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_settings_set_int64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_settings_set_string = Interop.downcallHandle(
-            "g_settings_set_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_set_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_set_strv = Interop.downcallHandle(
-            "g_settings_set_strv",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_set_strv",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_set_uint = Interop.downcallHandle(
-            "g_settings_set_uint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_set_uint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_set_uint64 = Interop.downcallHandle(
-            "g_settings_set_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_settings_set_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_settings_set_value = Interop.downcallHandle(
-            "g_settings_set_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_set_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_get_type = Interop.downcallHandle(
-            "g_settings_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_settings_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_settings_list_relocatable_schemas = Interop.downcallHandle(
-            "g_settings_list_relocatable_schemas",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_settings_list_relocatable_schemas",
+                FunctionDescriptor.ofVoid(),
+                false
         );
         
         private static final MethodHandle g_settings_list_schemas = Interop.downcallHandle(
-            "g_settings_list_schemas",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_settings_list_schemas",
+                FunctionDescriptor.ofVoid(),
+                false
         );
         
         private static final MethodHandle g_settings_sync = Interop.downcallHandle(
-            "g_settings_sync",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_settings_sync",
+                FunctionDescriptor.ofVoid(),
+                false
         );
         
         private static final MethodHandle g_settings_unbind = Interop.downcallHandle(
-            "g_settings_unbind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_unbind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_settings_get_type != null;
     }
 }

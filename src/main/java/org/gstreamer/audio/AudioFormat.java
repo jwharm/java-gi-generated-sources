@@ -9,161 +9,263 @@ import org.jetbrains.annotations.*;
  * Enum value describing the most common audio formats.
  */
 public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown or unset audio format
      */
     UNKNOWN(0),
+    
     /**
      * encoded audio format
      */
     ENCODED(1),
+    
     /**
      * 8 bits in 8 bits, signed
      */
     S8(2),
+    
     /**
      * 8 bits in 8 bits, unsigned
      */
     U8(3),
+    
     /**
      * 16 bits in 16 bits, signed, little endian
      */
     S16LE(4),
+    
     /**
      * 16 bits in 16 bits, signed, big endian
      */
     S16BE(5),
+    
     /**
      * 16 bits in 16 bits, unsigned, little endian
      */
     U16LE(6),
+    
     /**
      * 16 bits in 16 bits, unsigned, big endian
      */
     U16BE(7),
+    
     /**
      * 24 bits in 32 bits, signed, little endian
      */
     S24_32LE(8),
+    
     /**
      * 24 bits in 32 bits, signed, big endian
      */
     S24_32BE(9),
+    
     /**
      * 24 bits in 32 bits, unsigned, little endian
      */
     U24_32LE(10),
+    
     /**
      * 24 bits in 32 bits, unsigned, big endian
      */
     U24_32BE(11),
+    
     /**
      * 32 bits in 32 bits, signed, little endian
      */
     S32LE(12),
+    
     /**
      * 32 bits in 32 bits, signed, big endian
      */
     S32BE(13),
+    
     /**
      * 32 bits in 32 bits, unsigned, little endian
      */
     U32LE(14),
+    
     /**
      * 32 bits in 32 bits, unsigned, big endian
      */
     U32BE(15),
+    
     /**
      * 24 bits in 24 bits, signed, little endian
      */
     S24LE(16),
+    
     /**
      * 24 bits in 24 bits, signed, big endian
      */
     S24BE(17),
+    
     /**
      * 24 bits in 24 bits, unsigned, little endian
      */
     U24LE(18),
+    
     /**
      * 24 bits in 24 bits, unsigned, big endian
      */
     U24BE(19),
+    
     /**
      * 20 bits in 24 bits, signed, little endian
      */
     S20LE(20),
+    
     /**
      * 20 bits in 24 bits, signed, big endian
      */
     S20BE(21),
+    
     /**
      * 20 bits in 24 bits, unsigned, little endian
      */
     U20LE(22),
+    
     /**
      * 20 bits in 24 bits, unsigned, big endian
      */
     U20BE(23),
+    
     /**
      * 18 bits in 24 bits, signed, little endian
      */
     S18LE(24),
+    
     /**
      * 18 bits in 24 bits, signed, big endian
      */
     S18BE(25),
+    
     /**
      * 18 bits in 24 bits, unsigned, little endian
      */
     U18LE(26),
+    
     /**
      * 18 bits in 24 bits, unsigned, big endian
      */
     U18BE(27),
+    
     /**
      * 32-bit floating point samples, little endian
      */
     F32LE(28),
+    
     /**
      * 32-bit floating point samples, big endian
      */
     F32BE(29),
+    
     /**
      * 64-bit floating point samples, little endian
      */
     F64LE(30),
+    
     /**
      * 64-bit floating point samples, big endian
      */
     F64BE(31);
+    
+    /**
+     * 16 bits in 16 bits, signed, native endianness
+     */
     public static final AudioFormat S16 = S16LE;
+    
+    /**
+     * 16 bits in 16 bits, unsigned, native endianness
+     */
     public static final AudioFormat U16 = U16LE;
+    
+    /**
+     * 24 bits in 32 bits, signed, native endianness
+     */
     public static final AudioFormat S24_32 = S24_32LE;
+    
+    /**
+     * 24 bits in 32 bits, unsigned, native endianness
+     */
     public static final AudioFormat U24_32 = U24_32LE;
+    
+    /**
+     * 32 bits in 32 bits, signed, native endianness
+     */
     public static final AudioFormat S32 = S32LE;
+    
+    /**
+     * 32 bits in 32 bits, unsigned, native endianness
+     */
     public static final AudioFormat U32 = U32LE;
+    
+    /**
+     * 24 bits in 24 bits, signed, native endianness
+     */
     public static final AudioFormat S24 = S24LE;
+    
+    /**
+     * 24 bits in 24 bits, unsigned, native endianness
+     */
     public static final AudioFormat U24 = U24LE;
+    
+    /**
+     * 20 bits in 24 bits, signed, native endianness
+     */
     public static final AudioFormat S20 = S20LE;
+    
+    /**
+     * 20 bits in 24 bits, unsigned, native endianness
+     */
     public static final AudioFormat U20 = U20LE;
+    
+    /**
+     * 18 bits in 24 bits, signed, native endianness
+     */
     public static final AudioFormat S18 = S18LE;
+    
+    /**
+     * 18 bits in 24 bits, unsigned, native endianness
+     */
     public static final AudioFormat U18 = U18LE;
+    
+    /**
+     * 32-bit floating point samples, native endianness
+     */
     public static final AudioFormat F32 = F32LE;
+    
+    /**
+     * 64-bit floating point samples, native endianness
+     */
     public static final AudioFormat F64 = F64LE;
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioFormat";
     
     private final int value;
+    
+    /**
+     * Create a new AudioFormat for the provided value
+     * @param numeric value the enum value
+     */
     AudioFormat(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AudioFormat for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AudioFormat of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -235,13 +337,15 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      */
     @Deprecated
     public static void fillSilence(org.gstreamer.audio.AudioFormatInfo info, byte[] dest, long length) {
-        try {
-            DowncallHandles.gst_audio_format_fill_silence.invokeExact(
-                    info.handle(),
-                    Interop.allocateNativeArray(dest, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_audio_format_fill_silence.invokeExact(
+                        info.handle(),
+                        Interop.allocateNativeArray(dest, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -252,14 +356,15 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      * string is not a known format.
      */
     public static org.gstreamer.audio.AudioFormat fromString(java.lang.String format) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_format_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(format, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_format_from_string.invokeExact(Marshal.stringToAddress.marshal(format, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.audio.AudioFormat.of(RESULT);
         }
-        return org.gstreamer.audio.AudioFormat.of(RESULT);
     }
     
     /**
@@ -270,19 +375,17 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.audio.AudioFormatInfo getInfo(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_get_info.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_get_info.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioFormatInfo.fromAddress.marshal(RESULT, null);
     }
     
     public static java.lang.String toString(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_to_string.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_to_string.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,33 +395,33 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_format_build_integer = Interop.downcallHandle(
-            "gst_audio_format_build_integer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_format_build_integer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_format_fill_silence = Interop.downcallHandle(
-            "gst_audio_format_fill_silence",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_format_fill_silence",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_format_from_string = Interop.downcallHandle(
-            "gst_audio_format_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_format_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_format_get_info = Interop.downcallHandle(
-            "gst_audio_format_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_format_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_format_to_string = Interop.downcallHandle(
-            "gst_audio_format_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_format_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -8,19 +8,37 @@ import org.jetbrains.annotations.*;
 /**
  * Function signature to handle a new link on the pad.
  */
+/**
+ * Functional interface declaration of the {@code PadLinkFunction} callback.
+ */
 @FunctionalInterface
 public interface PadLinkFunction {
-    org.gstreamer.gst.PadLinkReturn run(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.Pad peer);
 
+    /**
+     * Function signature to handle a new link on the pad.
+     */
+    org.gstreamer.gst.PadLinkReturn run(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.Pad peer);
+    
     @ApiStatus.Internal default int upcall(MemoryAddress pad, MemoryAddress parent, MemoryAddress peer) {
-        var RESULT = run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE), (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.GstObject.fromAddress).marshal(parent, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(peer)), org.gstreamer.gst.Pad.fromAddress).marshal(peer, Ownership.NONE));
+        var RESULT = run((org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null), (org.gstreamer.gst.GstObject) Interop.register(parent, org.gstreamer.gst.GstObject.fromAddress).marshal(parent, null), (org.gstreamer.gst.Pad) Interop.register(peer, org.gstreamer.gst.Pad.fromAddress).marshal(peer, null));
         return RESULT.getValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadLinkFunction.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadLinkFunction.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

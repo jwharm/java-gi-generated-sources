@@ -16,14 +16,17 @@ import org.jetbrains.annotations.*;
  * the interpretation of {@code PangoAlignment} values.
  */
 public enum Alignment implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Put all available space on the right
      */
     LEFT(0),
+    
     /**
      * Center the line within the available space
      */
     CENTER(1),
+    
     /**
      * Put all available space on the left
      */
@@ -32,15 +35,29 @@ public enum Alignment implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoAlignment";
     
     private final int value;
+    
+    /**
+     * Create a new Alignment for the provided value
+     * @param numeric value the enum value
+     */
     Alignment(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Alignment for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Alignment of(int value) {
         return switch (value) {
             case 0 -> LEFT;

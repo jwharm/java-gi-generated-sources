@@ -39,8 +39,8 @@ public class AllocationParams extends Struct {
      * @return A new, uninitialized @{link AllocationParams}
      */
     public static AllocationParams allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AllocationParams newInstance = new AllocationParams(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AllocationParams newInstance = new AllocationParams(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class AllocationParams extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.gst.MemoryFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.MemoryFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.MemoryFlags(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class AllocationParams extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.gst.MemoryFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class AllocationParams extends Struct {
      * @return The value of the field {@code align}
      */
     public long getAlign() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("align"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("align"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class AllocationParams extends Struct {
      * @param align The new value of the field {@code align}
      */
     public void setAlign(long align) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("align"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("align"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), align);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class AllocationParams extends Struct {
      * @return The value of the field {@code prefix}
      */
     public long getPrefix() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,22 +113,26 @@ public class AllocationParams extends Struct {
      * @param prefix The new value of the field {@code prefix}
      */
     public void setPrefix(long prefix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prefix);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), prefix);
+        }
     }
     
     /**
      * Create a AllocationParams proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AllocationParams(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AllocationParams(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AllocationParams(input, ownership);
+    public static final Marshal<Addressable, AllocationParams> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AllocationParams(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -140,7 +154,8 @@ public class AllocationParams extends Struct {
      * returned by this function.
      */
     public AllocationParams() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -150,12 +165,13 @@ public class AllocationParams extends Struct {
     public @Nullable org.gstreamer.gst.AllocationParams copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_allocation_params_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_allocation_params_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.AllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.AllocationParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -163,8 +179,7 @@ public class AllocationParams extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_allocation_params_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_allocation_params_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,8 +191,7 @@ public class AllocationParams extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.gst_allocation_params_init.invokeExact(
-                    handle());
+            DowncallHandles.gst_allocation_params_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,27 +200,27 @@ public class AllocationParams extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_allocation_params_new = Interop.downcallHandle(
-            "gst_allocation_params_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocation_params_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocation_params_copy = Interop.downcallHandle(
-            "gst_allocation_params_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocation_params_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocation_params_free = Interop.downcallHandle(
-            "gst_allocation_params_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocation_params_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocation_params_init = Interop.downcallHandle(
-            "gst_allocation_params_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocation_params_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -232,7 +246,7 @@ public class AllocationParams extends Struct {
             struct = AllocationParams.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AllocationParams} struct.
          * @return A new instance of {@code AllocationParams} with the fields 
          *         that were set in the Builder object.
@@ -247,10 +261,12 @@ public class AllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.gst.MemoryFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -259,10 +275,12 @@ public class AllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAlign(long align) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("align"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("align"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), align);
+                return this;
+            }
         }
         
         /**
@@ -271,10 +289,12 @@ public class AllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrefix(long prefix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), prefix);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), prefix);
+                return this;
+            }
         }
         
         /**
@@ -283,17 +303,21 @@ public class AllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPadding(long padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), padding);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), padding);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

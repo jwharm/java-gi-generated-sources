@@ -77,8 +77,8 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @return A new, uninitialized @{link NonstreamAudioDecoderClass}
      */
     public static NonstreamAudioDecoderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NonstreamAudioDecoderClass newInstance = new NonstreamAudioDecoderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NonstreamAudioDecoderClass newInstance = new NonstreamAudioDecoderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -89,7 +89,7 @@ public class NonstreamAudioDecoderClass extends Struct {
      */
     public org.gstreamer.gst.ElementClass getElementClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("element_class"));
-        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -97,9 +97,11 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param elementClass The new value of the field {@code element_class}
      */
     public void setElementClass(org.gstreamer.gst.ElementClass elementClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementClass == null ? MemoryAddress.NULL : elementClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("element_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementClass == null ? MemoryAddress.NULL : elementClass.handle()));
+        }
     }
     
     /**
@@ -107,10 +109,12 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @return The value of the field {@code loads_from_sinkpad}
      */
     public boolean getLoadsFromSinkpad() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -118,27 +122,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param loadsFromSinkpad The new value of the field {@code loads_from_sinkpad}
      */
     public void setLoadsFromSinkpad(boolean loadsFromSinkpad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(loadsFromSinkpad, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(loadsFromSinkpad, null).intValue());
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SeekCallback} callback.
+     */
     @FunctionalInterface
     public interface SeekCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.gst.ClockTime newPosition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, MemoryAddress newPosition) {
-            org.gstreamer.gst.ClockTime newPositionALIAS = new org.gstreamer.gst.ClockTime(newPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), newPositionALIAS);
-            newPosition.set(Interop.valueLayout.C_LONG, 0, newPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime newPositionALIAS = new org.gstreamer.gst.ClockTime(newPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), newPositionALIAS);
+                newPosition.set(Interop.valueLayout.C_LONG, 0, newPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SeekCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SeekCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -147,25 +170,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param seek The new value of the field {@code seek}
      */
     public void setSeek(SeekCallback seek) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seek"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seek"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TellCallback} callback.
+     */
     @FunctionalInterface
     public interface TellCallback {
+    
         org.gstreamer.gst.ClockTime run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return RESULT.getValue().longValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TellCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TellCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -174,27 +214,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param tell The new value of the field {@code tell}
      */
     public void setTell(TellCallback tell) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tell"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tell"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadFromBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadFromBufferCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.gst.Buffer sourceData, int initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode initialSubsongMode, org.gstreamer.gst.ClockTime initialPosition, PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode> initialOutputMode, PointerInteger initialNumLoops);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, MemoryAddress sourceData, int initialSubsong, int initialSubsongMode, MemoryAddress initialPosition, MemoryAddress initialOutputMode, MemoryAddress initialNumLoops) {
-            org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(sourceData, Ownership.NONE), initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(initialSubsongMode), initialPositionALIAS, new PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode>(initialOutputMode, org.gstreamer.badaudio.NonstreamAudioOutputMode::of), new PointerInteger(initialNumLoops));
-            initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), org.gstreamer.gst.Buffer.fromAddress.marshal(sourceData, null), initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(initialSubsongMode), initialPositionALIAS, new PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode>(initialOutputMode, org.gstreamer.badaudio.NonstreamAudioOutputMode::of), new PointerInteger(initialNumLoops));
+                initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadFromBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadFromBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -203,27 +262,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param loadFromBuffer The new value of the field {@code load_from_buffer}
      */
     public void setLoadFromBuffer(LoadFromBufferCallback loadFromBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_from_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFromBuffer == null ? MemoryAddress.NULL : loadFromBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_from_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFromBuffer == null ? MemoryAddress.NULL : loadFromBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadFromCustomCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadFromCustomCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, int initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode initialSubsongMode, org.gstreamer.gst.ClockTime initialPosition, PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode> initialOutputMode, PointerInteger initialNumLoops);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, int initialSubsong, int initialSubsongMode, MemoryAddress initialPosition, MemoryAddress initialOutputMode, MemoryAddress initialNumLoops) {
-            org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(initialSubsongMode), initialPositionALIAS, new PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode>(initialOutputMode, org.gstreamer.badaudio.NonstreamAudioOutputMode::of), new PointerInteger(initialNumLoops));
-            initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), initialSubsong, org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(initialSubsongMode), initialPositionALIAS, new PointerEnumeration<org.gstreamer.badaudio.NonstreamAudioOutputMode>(initialOutputMode, org.gstreamer.badaudio.NonstreamAudioOutputMode::of), new PointerInteger(initialNumLoops));
+                initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadFromCustomCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadFromCustomCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -232,25 +310,43 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param loadFromCustom The new value of the field {@code load_from_custom}
      */
     public void setLoadFromCustom(LoadFromCustomCallback loadFromCustom) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_from_custom"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFromCustom == null ? MemoryAddress.NULL : loadFromCustom.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_from_custom"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFromCustom == null ? MemoryAddress.NULL : loadFromCustom.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMainTagsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMainTagsCallback {
+    
         org.gstreamer.gst.TagList run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMainTagsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMainTagsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -259,27 +355,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getMainTags The new value of the field {@code get_main_tags}
      */
     public void setGetMainTags(GetMainTagsCallback getMainTags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_main_tags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMainTags == null ? MemoryAddress.NULL : getMainTags.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_main_tags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMainTags == null ? MemoryAddress.NULL : getMainTags.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetCurrentSubsongCallback} callback.
+     */
     @FunctionalInterface
     public interface SetCurrentSubsongCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, int subsong, org.gstreamer.gst.ClockTime initialPosition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, int subsong, MemoryAddress initialPosition) {
-            org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), subsong, initialPositionALIAS);
-            initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), subsong, initialPositionALIAS);
+                initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetCurrentSubsongCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetCurrentSubsongCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -288,25 +403,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param setCurrentSubsong The new value of the field {@code set_current_subsong}
      */
     public void setSetCurrentSubsong(SetCurrentSubsongCallback setCurrentSubsong) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_current_subsong"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCurrentSubsong == null ? MemoryAddress.NULL : setCurrentSubsong.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_current_subsong"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCurrentSubsong == null ? MemoryAddress.NULL : setCurrentSubsong.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCurrentSubsongCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCurrentSubsongCallback {
+    
         int run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCurrentSubsongCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCurrentSubsongCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -315,25 +447,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getCurrentSubsong The new value of the field {@code get_current_subsong}
      */
     public void setGetCurrentSubsong(GetCurrentSubsongCallback getCurrentSubsong) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_current_subsong"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentSubsong == null ? MemoryAddress.NULL : getCurrentSubsong.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_current_subsong"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentSubsong == null ? MemoryAddress.NULL : getCurrentSubsong.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNumSubsongsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNumSubsongsCallback {
+    
         int run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNumSubsongsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNumSubsongsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -342,25 +491,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getNumSubsongs The new value of the field {@code get_num_subsongs}
      */
     public void setGetNumSubsongs(GetNumSubsongsCallback getNumSubsongs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_num_subsongs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNumSubsongs == null ? MemoryAddress.NULL : getNumSubsongs.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_num_subsongs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNumSubsongs == null ? MemoryAddress.NULL : getNumSubsongs.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSubsongDurationCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSubsongDurationCallback {
+    
         org.gstreamer.gst.ClockTime run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, int subsong);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress dec, int subsong) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), subsong);
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), subsong);
             return RESULT.getValue().longValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSubsongDurationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSubsongDurationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -369,25 +535,43 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getSubsongDuration The new value of the field {@code get_subsong_duration}
      */
     public void setGetSubsongDuration(GetSubsongDurationCallback getSubsongDuration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSubsongDuration == null ? MemoryAddress.NULL : getSubsongDuration.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSubsongDuration == null ? MemoryAddress.NULL : getSubsongDuration.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSubsongTagsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSubsongTagsCallback {
+    
         org.gstreamer.gst.TagList run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, int subsong);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress dec, int subsong) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), subsong);
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), subsong);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSubsongTagsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSubsongTagsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -396,27 +580,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getSubsongTags The new value of the field {@code get_subsong_tags}
      */
     public void setGetSubsongTags(GetSubsongTagsCallback getSubsongTags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_tags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSubsongTags == null ? MemoryAddress.NULL : getSubsongTags.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_tags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSubsongTags == null ? MemoryAddress.NULL : getSubsongTags.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetSubsongModeCallback} callback.
+     */
     @FunctionalInterface
     public interface SetSubsongModeCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.badaudio.NonstreamAudioSubsongMode mode, org.gstreamer.gst.ClockTime initialPosition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, int mode, MemoryAddress initialPosition) {
-            org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(mode), initialPositionALIAS);
-            initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime initialPositionALIAS = new org.gstreamer.gst.ClockTime(initialPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), org.gstreamer.badaudio.NonstreamAudioSubsongMode.of(mode), initialPositionALIAS);
+                initialPosition.set(Interop.valueLayout.C_LONG, 0, initialPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetSubsongModeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetSubsongModeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -425,25 +628,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param setSubsongMode The new value of the field {@code set_subsong_mode}
      */
     public void setSetSubsongMode(SetSubsongModeCallback setSubsongMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_subsong_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSubsongMode == null ? MemoryAddress.NULL : setSubsongMode.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_subsong_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setSubsongMode == null ? MemoryAddress.NULL : setSubsongMode.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetNumLoopsCallback} callback.
+     */
     @FunctionalInterface
     public interface SetNumLoopsCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, int numLoops);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, int numLoops) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), numLoops);
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), numLoops);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetNumLoopsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetNumLoopsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -452,25 +672,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param setNumLoops The new value of the field {@code set_num_loops}
      */
     public void setSetNumLoops(SetNumLoopsCallback setNumLoops) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_num_loops"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setNumLoops == null ? MemoryAddress.NULL : setNumLoops.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_num_loops"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setNumLoops == null ? MemoryAddress.NULL : setNumLoops.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNumLoopsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNumLoopsCallback {
+    
         int run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNumLoopsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNumLoopsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -479,25 +716,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getNumLoops The new value of the field {@code get_num_loops}
      */
     public void setGetNumLoops(GetNumLoopsCallback getNumLoops) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_num_loops"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNumLoops == null ? MemoryAddress.NULL : getNumLoops.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_num_loops"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNumLoops == null ? MemoryAddress.NULL : getNumLoops.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSupportedOutputModesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSupportedOutputModesCallback {
+    
         int run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSupportedOutputModesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSupportedOutputModesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -506,27 +760,46 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param getSupportedOutputModes The new value of the field {@code get_supported_output_modes}
      */
     public void setGetSupportedOutputModes(GetSupportedOutputModesCallback getSupportedOutputModes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_supported_output_modes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSupportedOutputModes == null ? MemoryAddress.NULL : getSupportedOutputModes.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_supported_output_modes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSupportedOutputModes == null ? MemoryAddress.NULL : getSupportedOutputModes.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetOutputModeCallback} callback.
+     */
     @FunctionalInterface
     public interface SetOutputModeCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.badaudio.NonstreamAudioOutputMode mode, org.gstreamer.gst.ClockTime currentPosition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, int mode, MemoryAddress currentPosition) {
-            org.gstreamer.gst.ClockTime currentPositionALIAS = new org.gstreamer.gst.ClockTime(currentPosition.get(Interop.valueLayout.C_LONG, 0));
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), org.gstreamer.badaudio.NonstreamAudioOutputMode.of(mode), currentPositionALIAS);
-            currentPosition.set(Interop.valueLayout.C_LONG, 0, currentPositionALIAS.getValue());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                org.gstreamer.gst.ClockTime currentPositionALIAS = new org.gstreamer.gst.ClockTime(currentPosition.get(Interop.valueLayout.C_LONG, 0));
+                var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), org.gstreamer.badaudio.NonstreamAudioOutputMode.of(mode), currentPositionALIAS);
+                currentPosition.set(Interop.valueLayout.C_LONG, 0, currentPositionALIAS.getValue());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetOutputModeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetOutputModeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -535,25 +808,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param setOutputMode The new value of the field {@code set_output_mode}
      */
     public void setSetOutputMode(SetOutputModeCallback setOutputMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_output_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setOutputMode == null ? MemoryAddress.NULL : setOutputMode.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_output_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setOutputMode == null ? MemoryAddress.NULL : setOutputMode.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DecodeCallback} callback.
+     */
     @FunctionalInterface
     public interface DecodeCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, PointerProxy<org.gstreamer.gst.Buffer> buffer, PointerInteger numSamples);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, MemoryAddress buffer, MemoryAddress numSamples) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), new PointerProxy<org.gstreamer.gst.Buffer>(buffer, org.gstreamer.gst.Buffer.fromAddress), new PointerInteger(numSamples));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), new PointerProxy<org.gstreamer.gst.Buffer>(buffer, org.gstreamer.gst.Buffer.fromAddress), new PointerInteger(numSamples));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DecodeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DecodeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -562,25 +852,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param decode The new value of the field {@code decode}
      */
     public void setDecode(DecodeCallback decode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("decode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decode == null ? MemoryAddress.NULL : decode.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("decode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decode == null ? MemoryAddress.NULL : decode.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NegotiateCallback} callback.
+     */
     @FunctionalInterface
     public interface NegotiateCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NegotiateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NegotiateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -589,25 +896,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param negotiate The new value of the field {@code negotiate}
      */
     public void setNegotiate(NegotiateCallback negotiate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DecideAllocationCallback} callback.
+     */
     @FunctionalInterface
     public interface DecideAllocationCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DecideAllocationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DecideAllocationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -616,25 +940,42 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param decideAllocation The new value of the field {@code decide_allocation}
      */
     public void setDecideAllocation(DecideAllocationCallback decideAllocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ProposeAllocationCallback} callback.
+     */
     @FunctionalInterface
     public interface ProposeAllocationCallback {
+    
         boolean run(org.gstreamer.badaudio.NonstreamAudioDecoder dec, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress dec, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(dec)), org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.badaudio.NonstreamAudioDecoder) Interop.register(dec, org.gstreamer.badaudio.NonstreamAudioDecoder.fromAddress).marshal(dec, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProposeAllocationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ProposeAllocationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -643,22 +984,26 @@ public class NonstreamAudioDecoderClass extends Struct {
      * @param proposeAllocation The new value of the field {@code propose_allocation}
      */
     public void setProposeAllocation(ProposeAllocationCallback proposeAllocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+        }
     }
     
     /**
      * Create a NonstreamAudioDecoderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NonstreamAudioDecoderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NonstreamAudioDecoderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NonstreamAudioDecoderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NonstreamAudioDecoderClass(input, ownership);
+    public static final Marshal<Addressable, NonstreamAudioDecoderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NonstreamAudioDecoderClass(input);
     
     /**
      * A {@link NonstreamAudioDecoderClass.Builder} object constructs a {@link NonstreamAudioDecoderClass} 
@@ -682,7 +1027,7 @@ public class NonstreamAudioDecoderClass extends Struct {
             struct = NonstreamAudioDecoderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link NonstreamAudioDecoderClass} struct.
          * @return A new instance of {@code NonstreamAudioDecoderClass} with the fields 
          *         that were set in the Builder object.
@@ -697,157 +1042,201 @@ public class NonstreamAudioDecoderClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setElementClass(org.gstreamer.gst.ElementClass elementClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("element_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementClass == null ? MemoryAddress.NULL : elementClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("element_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementClass == null ? MemoryAddress.NULL : elementClass.handle()));
+                return this;
+            }
         }
         
         public Builder setLoadsFromSinkpad(boolean loadsFromSinkpad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(loadsFromSinkpad, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("loads_from_sinkpad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(loadsFromSinkpad, null).intValue());
+                return this;
+            }
         }
         
         public Builder setSeek(SeekCallback seek) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seek"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTell(TellCallback tell) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tell"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tell"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLoadFromBuffer(LoadFromBufferCallback loadFromBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_from_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFromBuffer == null ? MemoryAddress.NULL : loadFromBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_from_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFromBuffer == null ? MemoryAddress.NULL : loadFromBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLoadFromCustom(LoadFromCustomCallback loadFromCustom) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_from_custom"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFromCustom == null ? MemoryAddress.NULL : loadFromCustom.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_from_custom"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFromCustom == null ? MemoryAddress.NULL : loadFromCustom.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetMainTags(GetMainTagsCallback getMainTags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_main_tags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMainTags == null ? MemoryAddress.NULL : getMainTags.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_main_tags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMainTags == null ? MemoryAddress.NULL : getMainTags.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetCurrentSubsong(SetCurrentSubsongCallback setCurrentSubsong) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_current_subsong"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCurrentSubsong == null ? MemoryAddress.NULL : setCurrentSubsong.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_current_subsong"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCurrentSubsong == null ? MemoryAddress.NULL : setCurrentSubsong.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetCurrentSubsong(GetCurrentSubsongCallback getCurrentSubsong) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_current_subsong"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentSubsong == null ? MemoryAddress.NULL : getCurrentSubsong.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_current_subsong"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentSubsong == null ? MemoryAddress.NULL : getCurrentSubsong.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetNumSubsongs(GetNumSubsongsCallback getNumSubsongs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_num_subsongs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNumSubsongs == null ? MemoryAddress.NULL : getNumSubsongs.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_num_subsongs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNumSubsongs == null ? MemoryAddress.NULL : getNumSubsongs.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSubsongDuration(GetSubsongDurationCallback getSubsongDuration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSubsongDuration == null ? MemoryAddress.NULL : getSubsongDuration.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSubsongDuration == null ? MemoryAddress.NULL : getSubsongDuration.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSubsongTags(GetSubsongTagsCallback getSubsongTags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_tags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSubsongTags == null ? MemoryAddress.NULL : getSubsongTags.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_subsong_tags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSubsongTags == null ? MemoryAddress.NULL : getSubsongTags.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetSubsongMode(SetSubsongModeCallback setSubsongMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_subsong_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSubsongMode == null ? MemoryAddress.NULL : setSubsongMode.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_subsong_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setSubsongMode == null ? MemoryAddress.NULL : setSubsongMode.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetNumLoops(SetNumLoopsCallback setNumLoops) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_num_loops"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setNumLoops == null ? MemoryAddress.NULL : setNumLoops.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_num_loops"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setNumLoops == null ? MemoryAddress.NULL : setNumLoops.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetNumLoops(GetNumLoopsCallback getNumLoops) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_num_loops"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNumLoops == null ? MemoryAddress.NULL : getNumLoops.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_num_loops"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNumLoops == null ? MemoryAddress.NULL : getNumLoops.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSupportedOutputModes(GetSupportedOutputModesCallback getSupportedOutputModes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_supported_output_modes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSupportedOutputModes == null ? MemoryAddress.NULL : getSupportedOutputModes.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_supported_output_modes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSupportedOutputModes == null ? MemoryAddress.NULL : getSupportedOutputModes.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetOutputMode(SetOutputModeCallback setOutputMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_output_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setOutputMode == null ? MemoryAddress.NULL : setOutputMode.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_output_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setOutputMode == null ? MemoryAddress.NULL : setOutputMode.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDecode(DecodeCallback decode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decode == null ? MemoryAddress.NULL : decode.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decode == null ? MemoryAddress.NULL : decode.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNegotiate(NegotiateCallback negotiate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDecideAllocation(DecideAllocationCallback decideAllocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+                return this;
+            }
         }
         
         public Builder setProposeAllocation(ProposeAllocationCallback proposeAllocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

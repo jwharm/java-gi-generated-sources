@@ -71,6 +71,9 @@ public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AnchorHints RESIZE = new AnchorHints(48);
     
+    /**
+     * Create a new AnchorHints with the provided value
+     */
     public AnchorHints(int value) {
         super(value);
     }

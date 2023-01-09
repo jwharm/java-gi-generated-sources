@@ -29,8 +29,8 @@ public class FontOptions extends Struct {
      * @return A new, uninitialized @{link FontOptions}
      */
     public static FontOptions allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontOptions newInstance = new FontOptions(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontOptions newInstance = new FontOptions(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FontOptions extends Struct {
     /**
      * Create a FontOptions proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontOptions(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontOptions(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontOptions> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontOptions(input, ownership);
+    public static final Marshal<Addressable, FontOptions> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontOptions(input);
 }

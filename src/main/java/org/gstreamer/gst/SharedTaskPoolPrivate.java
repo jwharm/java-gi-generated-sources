@@ -29,8 +29,8 @@ public class SharedTaskPoolPrivate extends Struct {
      * @return A new, uninitialized @{link SharedTaskPoolPrivate}
      */
     public static SharedTaskPoolPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SharedTaskPoolPrivate newInstance = new SharedTaskPoolPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SharedTaskPoolPrivate newInstance = new SharedTaskPoolPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SharedTaskPoolPrivate extends Struct {
     /**
      * Create a SharedTaskPoolPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SharedTaskPoolPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SharedTaskPoolPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SharedTaskPoolPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SharedTaskPoolPrivate(input, ownership);
+    public static final Marshal<Addressable, SharedTaskPoolPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SharedTaskPoolPrivate(input);
 }

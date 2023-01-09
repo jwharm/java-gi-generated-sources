@@ -35,8 +35,8 @@ public class CustomMeta extends Struct {
      * @return A new, uninitialized @{link CustomMeta}
      */
     public static CustomMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CustomMeta newInstance = new CustomMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CustomMeta newInstance = new CustomMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class CustomMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,22 +55,26 @@ public class CustomMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
      * Create a CustomMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CustomMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CustomMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CustomMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CustomMeta(input, ownership);
+    public static final Marshal<Addressable, CustomMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CustomMeta(input);
     
     /**
      * Retrieve the {@link Structure} backing a custom meta, the structure's mutability
@@ -80,12 +84,11 @@ public class CustomMeta extends Struct {
     public org.gstreamer.gst.Structure getStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_custom_meta_get_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_custom_meta_get_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -93,29 +96,31 @@ public class CustomMeta extends Struct {
      * @return Whether {@code name} is the name of the custom meta
      */
     public boolean hasName(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_custom_meta_has_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_custom_meta_has_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_custom_meta_get_structure = Interop.downcallHandle(
-            "gst_custom_meta_get_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_custom_meta_get_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_custom_meta_has_name = Interop.downcallHandle(
-            "gst_custom_meta_has_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_custom_meta_has_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -141,7 +146,7 @@ public class CustomMeta extends Struct {
             struct = CustomMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CustomMeta} struct.
          * @return A new instance of {@code CustomMeta} with the fields 
          *         that were set in the Builder object.
@@ -151,10 +156,12 @@ public class CustomMeta extends Struct {
         }
         
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
     }
 }

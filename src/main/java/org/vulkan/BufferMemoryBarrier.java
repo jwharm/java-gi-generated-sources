@@ -29,8 +29,8 @@ public class BufferMemoryBarrier extends Struct {
      * @return A new, uninitialized @{link BufferMemoryBarrier}
      */
     public static BufferMemoryBarrier allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferMemoryBarrier newInstance = new BufferMemoryBarrier(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferMemoryBarrier newInstance = new BufferMemoryBarrier(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BufferMemoryBarrier extends Struct {
     /**
      * Create a BufferMemoryBarrier proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferMemoryBarrier(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferMemoryBarrier(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferMemoryBarrier> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferMemoryBarrier(input, ownership);
+    public static final Marshal<Addressable, BufferMemoryBarrier> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferMemoryBarrier(input);
 }

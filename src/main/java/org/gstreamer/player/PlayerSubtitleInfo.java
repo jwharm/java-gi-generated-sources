@@ -28,20 +28,21 @@ public class PlayerSubtitleInfo extends org.gstreamer.player.PlayerStreamInfo {
     /**
      * Create a PlayerSubtitleInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerSubtitleInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerSubtitleInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerSubtitleInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSubtitleInfo(input, ownership);
+    public static final Marshal<Addressable, PlayerSubtitleInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSubtitleInfo(input);
     
     public @Nullable java.lang.String getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_subtitle_info_get_language.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_subtitle_info_get_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,6 +79,9 @@ public class PlayerSubtitleInfo extends org.gstreamer.player.PlayerStreamInfo {
      */
     public static class Builder extends org.gstreamer.player.PlayerStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -102,15 +106,23 @@ public class PlayerSubtitleInfo extends org.gstreamer.player.PlayerStreamInfo {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_player_subtitle_info_get_language = Interop.downcallHandle(
-            "gst_player_subtitle_info_get_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_subtitle_info_get_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_subtitle_info_get_type = Interop.downcallHandle(
-            "gst_player_subtitle_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_player_subtitle_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_player_subtitle_info_get_type != null;
     }
 }

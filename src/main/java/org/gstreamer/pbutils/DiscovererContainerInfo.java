@@ -28,35 +28,37 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
     /**
      * Create a DiscovererContainerInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererContainerInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererContainerInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererContainerInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererContainerInfo(input, ownership);
+    public static final Marshal<Addressable, DiscovererContainerInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererContainerInfo(input);
     
     public org.gtk.glib.List getStreams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_streams.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_streams.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_tags.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -89,6 +91,9 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
      */
     public static class Builder extends org.gstreamer.pbutils.DiscovererStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -113,21 +118,29 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
     private static class DowncallHandles {
         
         private static final MethodHandle gst_discoverer_container_info_get_streams = Interop.downcallHandle(
-            "gst_discoverer_container_info_get_streams",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_container_info_get_streams",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_container_info_get_tags = Interop.downcallHandle(
-            "gst_discoverer_container_info_get_tags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_container_info_get_tags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_container_info_get_type = Interop.downcallHandle(
-            "gst_discoverer_container_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_discoverer_container_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_discoverer_container_info_get_type != null;
     }
 }

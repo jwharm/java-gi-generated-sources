@@ -41,6 +41,9 @@ public class EventTypeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final EventTypeFlags STICKY_MULTI = new EventTypeFlags(16);
     
+    /**
+     * Create a new EventTypeFlags with the provided value
+     */
     public EventTypeFlags(int value) {
         super(value);
     }

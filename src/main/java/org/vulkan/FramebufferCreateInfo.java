@@ -29,8 +29,8 @@ public class FramebufferCreateInfo extends Struct {
      * @return A new, uninitialized @{link FramebufferCreateInfo}
      */
     public static FramebufferCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FramebufferCreateInfo newInstance = new FramebufferCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FramebufferCreateInfo newInstance = new FramebufferCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FramebufferCreateInfo extends Struct {
     /**
      * Create a FramebufferCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FramebufferCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FramebufferCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FramebufferCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FramebufferCreateInfo(input, ownership);
+    public static final Marshal<Addressable, FramebufferCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FramebufferCreateInfo(input);
 }

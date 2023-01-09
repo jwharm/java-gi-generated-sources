@@ -42,8 +42,8 @@ public class MapInfo extends Struct {
      * @return A new, uninitialized @{link MapInfo}
      */
     public static MapInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MapInfo newInstance = new MapInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MapInfo newInstance = new MapInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code memory}
      */
     public org.gstreamer.gst.Memory getMemory() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("memory"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("memory"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class MapInfo extends Struct {
      * @param memory The new value of the field {@code memory}
      */
     public void setMemory(org.gstreamer.gst.Memory memory) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("memory"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (memory == null ? MemoryAddress.NULL : memory.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("memory"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (memory == null ? MemoryAddress.NULL : memory.handle()));
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.gst.MapFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.MapFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.MapFlags(RESULT);
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class MapInfo extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.gst.MapFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class MapInfo extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(byte[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code size}
      */
     public long getSize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -127,9 +141,11 @@ public class MapInfo extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -137,10 +153,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code maxsize}
      */
     public long getMaxsize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -148,9 +166,11 @@ public class MapInfo extends Struct {
      * @param maxsize The new value of the field {@code maxsize}
      */
     public void setMaxsize(long maxsize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxsize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxsize);
+        }
     }
     
     /**
@@ -158,10 +178,12 @@ public class MapInfo extends Struct {
      * @return The value of the field {@code user_data}
      */
     public java.lang.foreign.MemoryAddress[] getUserData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getAddressArrayFrom(RESULT, 4);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getAddressArrayFrom(RESULT, 4);
+        }
     }
     
     /**
@@ -169,22 +191,26 @@ public class MapInfo extends Struct {
      * @param userData The new value of the field {@code user_data}
      */
     public void setUserData(java.lang.foreign.MemoryAddress[] userData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(userData, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(userData, false, SCOPE)));
+        }
     }
     
     /**
      * Create a MapInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MapInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MapInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MapInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MapInfo(input, ownership);
+    public static final Marshal<Addressable, MapInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MapInfo(input);
     
     /**
      * A {@link MapInfo.Builder} object constructs a {@link MapInfo} 
@@ -208,7 +234,7 @@ public class MapInfo extends Struct {
             struct = MapInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MapInfo} struct.
          * @return A new instance of {@code MapInfo} with the fields 
          *         that were set in the Builder object.
@@ -223,10 +249,12 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMemory(org.gstreamer.gst.Memory memory) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("memory"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (memory == null ? MemoryAddress.NULL : memory.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("memory"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (memory == null ? MemoryAddress.NULL : memory.handle()));
+                return this;
+            }
         }
         
         /**
@@ -235,10 +263,12 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.gst.MapFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -247,10 +277,12 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(byte[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -259,10 +291,12 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(long size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         /**
@@ -271,10 +305,12 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxsize(long maxsize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxsize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxsize);
+                return this;
+            }
         }
         
         /**
@@ -284,17 +320,21 @@ public class MapInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData(java.lang.foreign.MemoryAddress[] userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(userData, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(userData, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

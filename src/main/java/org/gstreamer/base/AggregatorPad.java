@@ -35,26 +35,17 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     /**
      * Create a AggregatorPad proxy instance for the provided memory address.
-     * <p>
-     * Because AggregatorPad is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AggregatorPad(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AggregatorPad(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AggregatorPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AggregatorPad(input, ownership);
+    public static final Marshal<Addressable, AggregatorPad> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AggregatorPad(input);
     
     /**
      * Drop the buffer currently queued in {@code pad}.
@@ -63,8 +54,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public boolean dropBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_pad_drop_buffer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_pad_drop_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,8 +70,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public boolean hasBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_pad_has_buffer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_pad_has_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,8 +80,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public boolean isEos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_pad_is_eos.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_pad_is_eos.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,8 +95,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public boolean isInactive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_pad_is_inactive.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_pad_is_inactive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,12 +105,13 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public @Nullable org.gstreamer.gst.Buffer peekBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_pad_peek_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_pad_peek_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -134,12 +122,13 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     public @Nullable org.gstreamer.gst.Buffer popBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_pad_pop_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_pad_pop_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -156,26 +145,42 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code BufferConsumed} callback.
+     */
     @FunctionalInterface
     public interface BufferConsumed {
+    
         void run(org.gstreamer.gst.Buffer object);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAggregatorPad, MemoryAddress object) {
-            run(org.gstreamer.gst.Buffer.fromAddress.marshal(object, Ownership.NONE));
+            run(org.gstreamer.gst.Buffer.fromAddress.marshal(object, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BufferConsumed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), BufferConsumed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<AggregatorPad.BufferConsumed> onBufferConsumed(AggregatorPad.BufferConsumed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("buffer-consumed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("buffer-consumed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -198,6 +203,9 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
      */
     public static class Builder extends org.gstreamer.gst.Pad.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -233,45 +241,53 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_aggregator_pad_drop_buffer = Interop.downcallHandle(
-            "gst_aggregator_pad_drop_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_drop_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_has_buffer = Interop.downcallHandle(
-            "gst_aggregator_pad_has_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_has_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_is_eos = Interop.downcallHandle(
-            "gst_aggregator_pad_is_eos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_is_eos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_is_inactive = Interop.downcallHandle(
-            "gst_aggregator_pad_is_inactive",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_is_inactive",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_peek_buffer = Interop.downcallHandle(
-            "gst_aggregator_pad_peek_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_peek_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_pop_buffer = Interop.downcallHandle(
-            "gst_aggregator_pad_pop_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_pad_pop_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_pad_get_type = Interop.downcallHandle(
-            "gst_aggregator_pad_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_aggregator_pad_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_aggregator_pad_get_type != null;
     }
 }

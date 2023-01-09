@@ -36,14 +36,16 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     /**
      * Create a EventControllerFocus proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EventControllerFocus(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EventControllerFocus(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EventControllerFocus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerFocus(input, ownership);
+    public static final Marshal<Addressable, EventControllerFocus> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerFocus(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -59,7 +61,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * Creates a new event controller that will handle focus events.
      */
     public EventControllerFocus() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -69,8 +72,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public boolean containsFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_focus_contains_focus.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_focus_contains_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +86,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public boolean isFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_event_controller_focus_is_focus.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_focus_is_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,19 +107,46 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Enter} callback.
+     */
     @FunctionalInterface
     public interface Enter {
+    
+        /**
+         * Emitted whenever the focus enters into the widget or one
+         * of its descendents.
+         * <p>
+         * Note that this means you may not get an ::enter signal
+         * even though the widget becomes the focus location, in
+         * certain cases (such as when the focus moves from a descendent
+         * of the widget to the widget itself). If you are interested
+         * in these cases, you can monitor the
+         * {@code Gtk.EventControllerFocus:is-focus}
+         * property for changes.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerFocus) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Enter.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Enter.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -137,28 +165,55 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerFocus.Enter> onEnter(EventControllerFocus.Enter handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("enter"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("enter", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Leave} callback.
+     */
     @FunctionalInterface
     public interface Leave {
+    
+        /**
+         * Emitted whenever the focus leaves the widget hierarchy
+         * that is rooted at the widget that the controller is attached to.
+         * <p>
+         * Note that this means you may not get a ::leave signal
+         * even though the focus moves away from the widget, in
+         * certain cases (such as when the focus moves from the widget
+         * to a descendent). If you are interested in these cases, you
+         * can monitor the {@code Gtk.EventControllerFocus:is-focus}
+         * property for changes.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerFocus) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Leave.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Leave.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -176,9 +231,10 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerFocus.Leave> onLeave(EventControllerFocus.Leave handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("leave"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("leave", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -201,6 +257,9 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      */
     public static class Builder extends org.gtk.gtk.EventController.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -261,27 +320,35 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_focus_new = Interop.downcallHandle(
-            "gtk_event_controller_focus_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_event_controller_focus_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_event_controller_focus_contains_focus = Interop.downcallHandle(
-            "gtk_event_controller_focus_contains_focus",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_event_controller_focus_contains_focus",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_event_controller_focus_is_focus = Interop.downcallHandle(
-            "gtk_event_controller_focus_is_focus",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_event_controller_focus_is_focus",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_event_controller_focus_get_type = Interop.downcallHandle(
-            "gtk_event_controller_focus_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_event_controller_focus_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_event_controller_focus_get_type != null;
     }
 }

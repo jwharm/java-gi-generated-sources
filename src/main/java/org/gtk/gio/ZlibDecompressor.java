@@ -29,20 +29,21 @@ public class ZlibDecompressor extends org.gtk.gobject.GObject implements org.gtk
     /**
      * Create a ZlibDecompressor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ZlibDecompressor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ZlibDecompressor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ZlibDecompressor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ZlibDecompressor(input, ownership);
+    public static final Marshal<Addressable, ZlibDecompressor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ZlibDecompressor(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.ZlibCompressorFormat format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_zlib_decompressor_new.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_decompressor_new.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +55,8 @@ public class ZlibDecompressor extends org.gtk.gobject.GObject implements org.gtk
      * @param format The format to use for the compressed data
      */
     public ZlibDecompressor(org.gtk.gio.ZlibCompressorFormat format) {
-        super(constructNew(format), Ownership.FULL);
+        super(constructNew(format));
+        this.takeOwnership();
     }
     
     /**
@@ -68,12 +70,11 @@ public class ZlibDecompressor extends org.gtk.gobject.GObject implements org.gtk
     public @Nullable org.gtk.gio.FileInfo getFileInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_zlib_decompressor_get_file_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_decompressor_get_file_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.FileInfo) Interop.register(RESULT, org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -106,6 +107,9 @@ public class ZlibDecompressor extends org.gtk.gobject.GObject implements org.gtk
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -150,21 +154,29 @@ public class ZlibDecompressor extends org.gtk.gobject.GObject implements org.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle g_zlib_decompressor_new = Interop.downcallHandle(
-            "g_zlib_decompressor_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_zlib_decompressor_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_zlib_decompressor_get_file_info = Interop.downcallHandle(
-            "g_zlib_decompressor_get_file_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_zlib_decompressor_get_file_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_zlib_decompressor_get_type = Interop.downcallHandle(
-            "g_zlib_decompressor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_zlib_decompressor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_zlib_decompressor_get_type != null;
     }
 }

@@ -185,26 +185,17 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
     
     /**
      * Create a NonstreamAudioDecoder proxy instance for the provided memory address.
-     * <p>
-     * Because NonstreamAudioDecoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NonstreamAudioDecoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected NonstreamAudioDecoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NonstreamAudioDecoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NonstreamAudioDecoder(input, ownership);
+    public static final Marshal<Addressable, NonstreamAudioDecoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NonstreamAudioDecoder(input);
     
     /**
      * Allocates an output buffer with the internally configured buffer pool.
@@ -223,7 +214,9 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -380,6 +373,9 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -428,39 +424,47 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_nonstream_audio_decoder_allocate_output_buffer = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_allocate_output_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_nonstream_audio_decoder_allocate_output_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_nonstream_audio_decoder_get_downstream_info = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_get_downstream_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_nonstream_audio_decoder_get_downstream_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_nonstream_audio_decoder_handle_loop = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_handle_loop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_nonstream_audio_decoder_handle_loop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_nonstream_audio_decoder_set_output_format = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_set_output_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_nonstream_audio_decoder_set_output_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_nonstream_audio_decoder_set_output_format_simple = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_set_output_format_simple",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_nonstream_audio_decoder_set_output_format_simple",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_nonstream_audio_decoder_get_type = Interop.downcallHandle(
-            "gst_nonstream_audio_decoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_nonstream_audio_decoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_nonstream_audio_decoder_get_type != null;
     }
 }

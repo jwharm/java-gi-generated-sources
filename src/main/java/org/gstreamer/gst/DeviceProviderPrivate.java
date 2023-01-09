@@ -29,8 +29,8 @@ public class DeviceProviderPrivate extends Struct {
      * @return A new, uninitialized @{link DeviceProviderPrivate}
      */
     public static DeviceProviderPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceProviderPrivate newInstance = new DeviceProviderPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceProviderPrivate newInstance = new DeviceProviderPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceProviderPrivate extends Struct {
     /**
      * Create a DeviceProviderPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceProviderPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceProviderPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceProviderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderPrivate(input, ownership);
+    public static final Marshal<Addressable, DeviceProviderPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderPrivate(input);
 }

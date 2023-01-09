@@ -29,8 +29,8 @@ public class SparseMemoryBindFlagBits extends Struct {
      * @return A new, uninitialized @{link SparseMemoryBindFlagBits}
      */
     public static SparseMemoryBindFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SparseMemoryBindFlagBits newInstance = new SparseMemoryBindFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SparseMemoryBindFlagBits newInstance = new SparseMemoryBindFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SparseMemoryBindFlagBits extends Struct {
     /**
      * Create a SparseMemoryBindFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SparseMemoryBindFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SparseMemoryBindFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SparseMemoryBindFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseMemoryBindFlagBits(input, ownership);
+    public static final Marshal<Addressable, SparseMemoryBindFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SparseMemoryBindFlagBits(input);
 }

@@ -28,14 +28,16 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
     /**
      * Create a NeverTrigger proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NeverTrigger(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NeverTrigger(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NeverTrigger> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NeverTrigger(input, ownership);
+    public static final Marshal<Addressable, NeverTrigger> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NeverTrigger(input);
     
     /**
      * Get the gtype
@@ -66,7 +68,7 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.NeverTrigger) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.NeverTrigger.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.NeverTrigger) Interop.register(RESULT, org.gtk.gtk.NeverTrigger.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -85,6 +87,9 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static class Builder extends org.gtk.gtk.ShortcutTrigger.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -109,15 +114,23 @@ public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_never_trigger_get_type = Interop.downcallHandle(
-            "gtk_never_trigger_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_never_trigger_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
-            "gtk_never_trigger_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_never_trigger_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_never_trigger_get_type != null;
     }
 }

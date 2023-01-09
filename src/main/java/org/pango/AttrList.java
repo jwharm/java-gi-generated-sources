@@ -42,8 +42,8 @@ public class AttrList extends Struct {
      * @return A new, uninitialized @{link AttrList}
      */
     public static AttrList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrList newInstance = new AttrList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrList newInstance = new AttrList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,14 +51,16 @@ public class AttrList extends Struct {
     /**
      * Create a AttrList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrList(input, ownership);
+    public static final Marshal<Addressable, AttrList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrList(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -75,7 +77,8 @@ public class AttrList extends Struct {
      * count of one.
      */
     public AttrList() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -114,12 +117,13 @@ public class AttrList extends Struct {
     public @Nullable org.pango.AttrList copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -165,7 +169,9 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -177,12 +183,13 @@ public class AttrList extends Struct {
     public org.gtk.glib.SList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -196,12 +203,13 @@ public class AttrList extends Struct {
     public org.pango.AttrIterator getIterator() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_iterator.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_iterator.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrIterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrIterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -248,12 +256,13 @@ public class AttrList extends Struct {
     public org.pango.AttrList ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -332,8 +341,7 @@ public class AttrList extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,8 +357,7 @@ public class AttrList extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.pango_attr_list_unref.invokeExact(
-                    handle());
+            DowncallHandles.pango_attr_list_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,106 +403,109 @@ public class AttrList extends Struct {
      * @return a new {@code PangoAttrList}
      */
     public static @Nullable org.pango.AttrList fromString(java.lang.String text) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(text, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(Marshal.stringToAddress.marshal(text, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.pango.AttrList.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_list_new = Interop.downcallHandle(
-            "pango_attr_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_change = Interop.downcallHandle(
-            "pango_attr_list_change",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_change",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_copy = Interop.downcallHandle(
-            "pango_attr_list_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_equal = Interop.downcallHandle(
-            "pango_attr_list_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_filter = Interop.downcallHandle(
-            "pango_attr_list_filter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_filter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_get_attributes = Interop.downcallHandle(
-            "pango_attr_list_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_get_iterator = Interop.downcallHandle(
-            "pango_attr_list_get_iterator",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_get_iterator",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_insert = Interop.downcallHandle(
-            "pango_attr_list_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_insert_before = Interop.downcallHandle(
-            "pango_attr_list_insert_before",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_insert_before",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_ref = Interop.downcallHandle(
-            "pango_attr_list_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_splice = Interop.downcallHandle(
-            "pango_attr_list_splice",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_list_splice",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_attr_list_to_string = Interop.downcallHandle(
-            "pango_attr_list_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_unref = Interop.downcallHandle(
-            "pango_attr_list_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_list_update = Interop.downcallHandle(
-            "pango_attr_list_update",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_list_update",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
-            "pango_attr_list_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_list_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

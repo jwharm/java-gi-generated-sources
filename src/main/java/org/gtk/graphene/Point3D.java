@@ -37,8 +37,8 @@ public class Point3D extends Struct {
      * @return A new, uninitialized @{link Point3D}
      */
     public static Point3D allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Point3D newInstance = new Point3D(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Point3D newInstance = new Point3D(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class Point3D extends Struct {
      * @return The value of the field {@code x}
      */
     public float getX() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class Point3D extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(float x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class Point3D extends Struct {
      * @return The value of the field {@code y}
      */
     public float getY() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class Point3D extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(float y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class Point3D extends Struct {
      * @return The value of the field {@code z}
      */
     public float getZ() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("z"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class Point3D extends Struct {
      * @param z The new value of the field {@code z}
      */
     public void setZ(float z) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("z"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), z);
+        }
     }
     
     /**
      * Create a Point3D proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Point3D(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Point3D(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Point3D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Point3D(input, ownership);
+    public static final Marshal<Addressable, Point3D> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Point3D(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -127,7 +141,7 @@ public class Point3D extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a {@link Point3D} structure.
      * @return the newly allocated structure.
@@ -136,7 +150,9 @@ public class Point3D extends Struct {
      */
     public static Point3D alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -215,8 +231,7 @@ public class Point3D extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_point3d_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_point3d_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +255,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -258,7 +273,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -276,7 +291,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -307,8 +322,7 @@ public class Point3D extends Struct {
     public float length() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_point3d_length.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_point3d_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -421,111 +435,111 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_point3d_alloc = Interop.downcallHandle(
-            "graphene_point3d_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_cross = Interop.downcallHandle(
-            "graphene_point3d_cross",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_cross",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_distance = Interop.downcallHandle(
-            "graphene_point3d_distance",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_distance",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_dot = Interop.downcallHandle(
-            "graphene_point3d_dot",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_dot",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_equal = Interop.downcallHandle(
-            "graphene_point3d_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_free = Interop.downcallHandle(
-            "graphene_point3d_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_init = Interop.downcallHandle(
-            "graphene_point3d_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_point3d_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_point3d_init_from_point = Interop.downcallHandle(
-            "graphene_point3d_init_from_point",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_init_from_point",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_init_from_vec3 = Interop.downcallHandle(
-            "graphene_point3d_init_from_vec3",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_init_from_vec3",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_interpolate = Interop.downcallHandle(
-            "graphene_point3d_interpolate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_interpolate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_length = Interop.downcallHandle(
-            "graphene_point3d_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_near = Interop.downcallHandle(
-            "graphene_point3d_near",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_point3d_near",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_point3d_normalize = Interop.downcallHandle(
-            "graphene_point3d_normalize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_normalize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_normalize_viewport = Interop.downcallHandle(
-            "graphene_point3d_normalize_viewport",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_normalize_viewport",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_scale = Interop.downcallHandle(
-            "graphene_point3d_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_to_vec3 = Interop.downcallHandle(
-            "graphene_point3d_to_vec3",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_to_vec3",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point3d_zero = Interop.downcallHandle(
-            "graphene_point3d_zero",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point3d_zero",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -551,7 +565,7 @@ public class Point3D extends Struct {
             struct = Point3D.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Point3D} struct.
          * @return A new instance of {@code Point3D} with the fields 
          *         that were set in the Builder object.
@@ -566,10 +580,12 @@ public class Point3D extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(float x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -578,10 +594,12 @@ public class Point3D extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(float y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
         
         /**
@@ -590,10 +608,12 @@ public class Point3D extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setZ(float z) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("z"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), z);
+                return this;
+            }
         }
     }
 }

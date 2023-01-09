@@ -68,26 +68,17 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Fixed proxy instance for the provided memory address.
-     * <p>
-     * Because Fixed is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Fixed(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Fixed(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Fixed> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Fixed(input, ownership);
+    public static final Marshal<Addressable, Fixed> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Fixed(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -103,7 +94,9 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Creates a new {@code GtkFixed}.
      */
     public Fixed() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -116,19 +109,21 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param y the vertical position of the {@code widget}
      */
     public void getChildPosition(org.gtk.gtk.Widget widget, Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.gtk_fixed_get_child_position.invokeExact(
-                    handle(),
-                    widget.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.gtk_fixed_get_child_position.invokeExact(
+                        handle(),
+                        widget.handle(),
+                        (Addressable) xPOINTER.address(),
+                        (Addressable) yPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -146,7 +141,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -251,6 +246,9 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -275,51 +273,59 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_fixed_new = Interop.downcallHandle(
-            "gtk_fixed_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_get_child_position = Interop.downcallHandle(
-            "gtk_fixed_get_child_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_get_child_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_get_child_transform = Interop.downcallHandle(
-            "gtk_fixed_get_child_transform",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_get_child_transform",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_move = Interop.downcallHandle(
-            "gtk_fixed_move",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_fixed_move",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_fixed_put = Interop.downcallHandle(
-            "gtk_fixed_put",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_fixed_put",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_fixed_remove = Interop.downcallHandle(
-            "gtk_fixed_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_set_child_transform = Interop.downcallHandle(
-            "gtk_fixed_set_child_transform",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_set_child_transform",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_get_type = Interop.downcallHandle(
-            "gtk_fixed_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_fixed_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_fixed_get_type != null;
     }
 }

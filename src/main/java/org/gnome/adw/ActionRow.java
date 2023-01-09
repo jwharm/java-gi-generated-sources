@@ -61,26 +61,17 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     
     /**
      * Create a ActionRow proxy instance for the provided memory address.
-     * <p>
-     * Because ActionRow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ActionRow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ActionRow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ActionRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActionRow(input, ownership);
+    public static final Marshal<Addressable, ActionRow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ActionRow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -96,7 +87,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * Creates a new {@code AdwActionRow}.
      */
     public ActionRow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -104,8 +97,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      */
     public void activateRow() {
         try {
-            DowncallHandles.adw_action_row_activate.invokeExact(
-                    handle());
+            DowncallHandles.adw_action_row_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,12 +138,11 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable org.gtk.gtk.Widget getActivatableWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_activatable_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_activatable_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -161,8 +152,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,8 +166,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public @Nullable java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_subtitle.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_action_row_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,8 +182,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public int getSubtitleLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_action_row_get_subtitle_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_action_row_get_subtitle_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,8 +198,7 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     public int getTitleLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_action_row_get_title_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_action_row_get_title_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,12 +245,14 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_action_row_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_action_row_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -275,12 +264,14 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * @param subtitle the subtitle
      */
     public void setSubtitle(java.lang.String subtitle) {
-        try {
-            DowncallHandles.adw_action_row_set_subtitle.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(subtitle, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_action_row_set_subtitle.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(subtitle, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -332,19 +323,37 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activated} callback.
+     */
     @FunctionalInterface
     public interface Activated {
+    
+        /**
+         * This signal is emitted after the row has been activated.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceActionRow) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -354,9 +363,10 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ActionRow.Activated> onActivated(ActionRow.Activated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -379,6 +389,9 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
      */
     public static class Builder extends org.gnome.adw.PreferencesRow.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -474,99 +487,107 @@ public class ActionRow extends org.gnome.adw.PreferencesRow implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle adw_action_row_new = Interop.downcallHandle(
-            "adw_action_row_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_activate = Interop.downcallHandle(
-            "adw_action_row_activate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_activate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_add_prefix = Interop.downcallHandle(
-            "adw_action_row_add_prefix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_add_prefix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_add_suffix = Interop.downcallHandle(
-            "adw_action_row_add_suffix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_add_suffix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_activatable_widget = Interop.downcallHandle(
-            "adw_action_row_get_activatable_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_get_activatable_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_icon_name = Interop.downcallHandle(
-            "adw_action_row_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_subtitle = Interop.downcallHandle(
-            "adw_action_row_get_subtitle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_get_subtitle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_subtitle_lines = Interop.downcallHandle(
-            "adw_action_row_get_subtitle_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_get_subtitle_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_title_lines = Interop.downcallHandle(
-            "adw_action_row_get_title_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_get_title_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_remove = Interop.downcallHandle(
-            "adw_action_row_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_set_activatable_widget = Interop.downcallHandle(
-            "adw_action_row_set_activatable_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_set_activatable_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_set_icon_name = Interop.downcallHandle(
-            "adw_action_row_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_set_subtitle = Interop.downcallHandle(
-            "adw_action_row_set_subtitle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_action_row_set_subtitle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_action_row_set_subtitle_lines = Interop.downcallHandle(
-            "adw_action_row_set_subtitle_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_action_row_set_subtitle_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_action_row_set_title_lines = Interop.downcallHandle(
-            "adw_action_row_set_title_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_action_row_set_title_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_action_row_get_type = Interop.downcallHandle(
-            "adw_action_row_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_action_row_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_action_row_get_type != null;
     }
 }

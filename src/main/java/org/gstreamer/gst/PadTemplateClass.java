@@ -33,8 +33,8 @@ public class PadTemplateClass extends Struct {
      * @return A new, uninitialized @{link PadTemplateClass}
      */
     public static PadTemplateClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PadTemplateClass newInstance = new PadTemplateClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PadTemplateClass newInstance = new PadTemplateClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class PadTemplateClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,24 +53,41 @@ public class PadTemplateClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PadCreatedCallback} callback.
+     */
     @FunctionalInterface
     public interface PadCreatedCallback {
+    
         void run(org.gstreamer.gst.PadTemplate templ, org.gstreamer.gst.Pad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress templ, MemoryAddress pad) {
-            run((org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(templ)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.gst.PadTemplate) Interop.register(templ, org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadCreatedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadCreatedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +96,26 @@ public class PadTemplateClass extends Struct {
      * @param padCreated The new value of the field {@code pad_created}
      */
     public void setPadCreated(PadCreatedCallback padCreated) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad_created"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padCreated == null ? MemoryAddress.NULL : padCreated.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad_created"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padCreated == null ? MemoryAddress.NULL : padCreated.toCallback()));
+        }
     }
     
     /**
      * Create a PadTemplateClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PadTemplateClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PadTemplateClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PadTemplateClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadTemplateClass(input, ownership);
+    public static final Marshal<Addressable, PadTemplateClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PadTemplateClass(input);
     
     /**
      * A {@link PadTemplateClass.Builder} object constructs a {@link PadTemplateClass} 
@@ -118,7 +139,7 @@ public class PadTemplateClass extends Struct {
             struct = PadTemplateClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PadTemplateClass} struct.
          * @return A new instance of {@code PadTemplateClass} with the fields 
          *         that were set in the Builder object.
@@ -128,24 +149,30 @@ public class PadTemplateClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadCreated(PadCreatedCallback padCreated) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pad_created"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padCreated == null ? MemoryAddress.NULL : padCreated.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pad_created"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padCreated == null ? MemoryAddress.NULL : padCreated.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

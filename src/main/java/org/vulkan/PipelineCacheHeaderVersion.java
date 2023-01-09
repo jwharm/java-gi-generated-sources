@@ -29,8 +29,8 @@ public class PipelineCacheHeaderVersion extends Struct {
      * @return A new, uninitialized @{link PipelineCacheHeaderVersion}
      */
     public static PipelineCacheHeaderVersion allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineCacheHeaderVersion newInstance = new PipelineCacheHeaderVersion(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineCacheHeaderVersion newInstance = new PipelineCacheHeaderVersion(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineCacheHeaderVersion extends Struct {
     /**
      * Create a PipelineCacheHeaderVersion proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineCacheHeaderVersion(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineCacheHeaderVersion(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineCacheHeaderVersion> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCacheHeaderVersion(input, ownership);
+    public static final Marshal<Addressable, PipelineCacheHeaderVersion> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCacheHeaderVersion(input);
 }

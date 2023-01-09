@@ -63,8 +63,8 @@ public class ContentFormats extends Struct {
      * @return A new, uninitialized @{link ContentFormats}
      */
     public static ContentFormats allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ContentFormats newInstance = new ContentFormats(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ContentFormats newInstance = new ContentFormats(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -72,25 +72,29 @@ public class ContentFormats extends Struct {
     /**
      * Create a ContentFormats proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ContentFormats(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ContentFormats(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ContentFormats> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormats(input, ownership);
+    public static final Marshal<Addressable, ContentFormats> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormats(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String[] mimeTypes, int nMimeTypes) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new.invokeExact(
-                    (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)),
-                    nMimeTypes);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new.invokeExact(
+                        (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false, SCOPE)),
+                        nMimeTypes);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -104,20 +108,20 @@ public class ContentFormats extends Struct {
      * @param nMimeTypes number of entries in {@code mime_types}.
      */
     public ContentFormats(@Nullable java.lang.String[] mimeTypes, int nMimeTypes) {
-        super(constructNew(mimeTypes, nMimeTypes), Ownership.FULL);
+        super(constructNew(mimeTypes, nMimeTypes));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewForGtype(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new_for_gtype.invokeExact(
-                    type.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new_for_gtype.invokeExact(type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GdkContentFormats} for a given {@code GType}.
      * @param type a {@code GType}
@@ -125,7 +129,9 @@ public class ContentFormats extends Struct {
      */
     public static ContentFormats newForGtype(org.gtk.glib.Type type) {
         var RESULT = constructNewForGtype(type);
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -151,15 +157,17 @@ public class ContentFormats extends Struct {
      * @return {@code true} if the mime_type was found
      */
     public boolean containMimeType(java.lang.String mimeType) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_content_formats_contain_mime_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(mimeType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_content_formats_contain_mime_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(mimeType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,23 +180,25 @@ public class ContentFormats extends Struct {
      * @return {@code G_TYPE_INVALID}-terminated array of types included in {@code formats}
      */
     public @Nullable org.gtk.glib.Type[] getGtypes(Out<Long> nGtypes) {
-        MemorySegment nGtypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(
-                    handle(),
-                    (Addressable) (nGtypes == null ? MemoryAddress.NULL : (Addressable) nGtypesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nGtypesPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(
+                        handle(),
+                        (Addressable) (nGtypes == null ? MemoryAddress.NULL : (Addressable) nGtypesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nGtypes != null) nGtypes.set(nGtypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nGtypes.get().intValue()];
+            for (int I = 0; I < nGtypes.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
+                resultARRAY[I] = new org.gtk.glib.Type(OBJ);
+            }
+            return resultARRAY;
         }
-        if (nGtypes != null) nGtypes.set(nGtypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nGtypes.get().intValue()];
-        for (int I = 0; I < nGtypes.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
-            resultARRAY[I] = new org.gtk.glib.Type(OBJ);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -202,23 +212,25 @@ public class ContentFormats extends Struct {
      *   in {@code formats}
      */
     public @Nullable java.lang.String[] getMimeTypes(Out<Long> nMimeTypes) {
-        MemorySegment nMimeTypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(
-                    handle(),
-                    (Addressable) (nMimeTypes == null ? MemoryAddress.NULL : (Addressable) nMimeTypesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nMimeTypesPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(
+                        handle(),
+                        (Addressable) (nMimeTypes == null ? MemoryAddress.NULL : (Addressable) nMimeTypesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nMimeTypes != null) nMimeTypes.set(nMimeTypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            java.lang.String[] resultARRAY = new java.lang.String[nMimeTypes.get().intValue()];
+            for (int I = 0; I < nMimeTypes.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (nMimeTypes != null) nMimeTypes.set(nMimeTypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        java.lang.String[] resultARRAY = new java.lang.String[nMimeTypes.get().intValue()];
-        for (int I = 0; I < nMimeTypes.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -302,12 +314,13 @@ public class ContentFormats extends Struct {
     public org.gtk.gdk.ContentFormats ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -322,8 +335,7 @@ public class ContentFormats extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,7 +358,9 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -357,13 +371,14 @@ public class ContentFormats extends Struct {
     public org.gtk.gdk.ContentFormats unionDeserializeGtypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_gtypes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_gtypes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -374,13 +389,14 @@ public class ContentFormats extends Struct {
     public org.gtk.gdk.ContentFormats unionDeserializeMimeTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_mime_types.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_mime_types.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -391,13 +407,14 @@ public class ContentFormats extends Struct {
     public org.gtk.gdk.ContentFormats unionSerializeGtypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_gtypes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_gtypes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -408,13 +425,14 @@ public class ContentFormats extends Struct {
     public org.gtk.gdk.ContentFormats unionSerializeMimeTypes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_mime_types.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_mime_types.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -424,8 +442,7 @@ public class ContentFormats extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_content_formats_unref.invokeExact(
-                    handle());
+            DowncallHandles.gdk_content_formats_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -444,130 +461,133 @@ public class ContentFormats extends Struct {
      * @return the content formats if {@code string} is valid
      */
     public static @Nullable org.gtk.gdk.ContentFormats parse(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_content_formats_new = Interop.downcallHandle(
-            "gdk_content_formats_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_content_formats_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_new_for_gtype = Interop.downcallHandle(
-            "gdk_content_formats_new_for_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_content_formats_new_for_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_contain_gtype = Interop.downcallHandle(
-            "gdk_content_formats_contain_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_content_formats_contain_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_contain_mime_type = Interop.downcallHandle(
-            "gdk_content_formats_contain_mime_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_contain_mime_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_get_gtypes = Interop.downcallHandle(
-            "gdk_content_formats_get_gtypes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_get_gtypes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_get_mime_types = Interop.downcallHandle(
-            "gdk_content_formats_get_mime_types",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_get_mime_types",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_match = Interop.downcallHandle(
-            "gdk_content_formats_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_match_gtype = Interop.downcallHandle(
-            "gdk_content_formats_match_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_match_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_match_mime_type = Interop.downcallHandle(
-            "gdk_content_formats_match_mime_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_match_mime_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_print = Interop.downcallHandle(
-            "gdk_content_formats_print",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_print",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_ref = Interop.downcallHandle(
-            "gdk_content_formats_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_to_string = Interop.downcallHandle(
-            "gdk_content_formats_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_union = Interop.downcallHandle(
-            "gdk_content_formats_union",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_union",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_union_deserialize_gtypes = Interop.downcallHandle(
-            "gdk_content_formats_union_deserialize_gtypes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_union_deserialize_gtypes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_union_deserialize_mime_types = Interop.downcallHandle(
-            "gdk_content_formats_union_deserialize_mime_types",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_union_deserialize_mime_types",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_union_serialize_gtypes = Interop.downcallHandle(
-            "gdk_content_formats_union_serialize_gtypes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_union_serialize_gtypes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_union_serialize_mime_types = Interop.downcallHandle(
-            "gdk_content_formats_union_serialize_mime_types",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_union_serialize_mime_types",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_unref = Interop.downcallHandle(
-            "gdk_content_formats_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
-            "gdk_content_formats_parse",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_parse",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

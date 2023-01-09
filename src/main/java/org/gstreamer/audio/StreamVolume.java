@@ -25,14 +25,16 @@ import org.jetbrains.annotations.*;
  */
 public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StreamVolumeImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamVolumeImpl(input, ownership);
+    public static final Marshal<Addressable, StreamVolumeImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StreamVolumeImpl(input);
     
     default boolean getMute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_stream_volume_get_mute.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_stream_volume_get_mute.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,55 +106,70 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_get_mute = Interop.downcallHandle(
-            "gst_stream_volume_get_mute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_volume_get_mute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_get_volume = Interop.downcallHandle(
-            "gst_stream_volume_get_volume",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_volume_get_volume",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_set_mute = Interop.downcallHandle(
-            "gst_stream_volume_set_mute",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_volume_set_mute",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_set_volume = Interop.downcallHandle(
-            "gst_stream_volume_set_volume",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_stream_volume_set_volume",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_get_type = Interop.downcallHandle(
-            "gst_stream_volume_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_stream_volume_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_stream_volume_convert_volume = Interop.downcallHandle(
-            "gst_stream_volume_convert_volume",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_stream_volume_convert_volume",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
+                false
         );
     }
     
+    /**
+     * The StreamVolumeImpl type represents a native instance of the StreamVolume interface.
+     */
     class StreamVolumeImpl extends org.gtk.gobject.GObject implements StreamVolume {
         
         static {
             GstAudio.javagi$ensureInitialized();
         }
         
-        public StreamVolumeImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of StreamVolume for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public StreamVolumeImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_stream_volume_get_type != null;
     }
 }

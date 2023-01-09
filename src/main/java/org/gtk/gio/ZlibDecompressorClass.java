@@ -31,8 +31,8 @@ public class ZlibDecompressorClass extends Struct {
      * @return A new, uninitialized @{link ZlibDecompressorClass}
      */
     public static ZlibDecompressorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ZlibDecompressorClass newInstance = new ZlibDecompressorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ZlibDecompressorClass newInstance = new ZlibDecompressorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class ZlibDecompressorClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class ZlibDecompressorClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a ZlibDecompressorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ZlibDecompressorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ZlibDecompressorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ZlibDecompressorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ZlibDecompressorClass(input, ownership);
+    public static final Marshal<Addressable, ZlibDecompressorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ZlibDecompressorClass(input);
     
     /**
      * A {@link ZlibDecompressorClass.Builder} object constructs a {@link ZlibDecompressorClass} 
@@ -90,7 +94,7 @@ public class ZlibDecompressorClass extends Struct {
             struct = ZlibDecompressorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ZlibDecompressorClass} struct.
          * @return A new instance of {@code ZlibDecompressorClass} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class ZlibDecompressorClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

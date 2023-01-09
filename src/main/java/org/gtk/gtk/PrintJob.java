@@ -37,27 +37,31 @@ public class PrintJob extends org.gtk.gobject.GObject {
     /**
      * Create a PrintJob proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PrintJob(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PrintJob(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PrintJob> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintJob(input, ownership);
+    public static final Marshal<Addressable, PrintJob> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PrintJob(input);
     
     private static MemoryAddress constructNew(java.lang.String title, org.gtk.gtk.Printer printer, org.gtk.gtk.PrintSettings settings, org.gtk.gtk.PageSetup pageSetup) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_new.invokeExact(
-                    Marshal.stringToAddress.marshal(title, null),
-                    printer.handle(),
-                    settings.handle(),
-                    pageSetup.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_new.invokeExact(
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        printer.handle(),
+                        settings.handle(),
+                        pageSetup.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -68,7 +72,8 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @param pageSetup a {@code GtkPageSetup}
      */
     public PrintJob(java.lang.String title, org.gtk.gtk.Printer printer, org.gtk.gtk.PrintSettings settings, org.gtk.gtk.PageSetup pageSetup) {
-        super(constructNew(title, printer, settings, pageSetup), Ownership.FULL);
+        super(constructNew(title, printer, settings, pageSetup));
+        this.takeOwnership();
     }
     
     /**
@@ -78,8 +83,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public boolean getCollate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_collate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_collate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,8 +97,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public int getNUp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_n_up.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_n_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,8 +111,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.NumberUpLayout getNUpLayout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_n_up_layout.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_n_up_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,8 +125,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public int getNumCopies() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_num_copies.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_num_copies.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,22 +139,24 @@ public class PrintJob extends org.gtk.gobject.GObject {
      *   array of {@code GtkPageRange} structs
      */
     public org.gtk.gtk.PageRange[] getPageRanges(Out<Integer> nRanges) {
-        MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_page_ranges.invokeExact(
-                    handle(),
-                    (Addressable) nRangesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nRangesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_page_ranges.invokeExact(
+                        handle(),
+                        (Addressable) nRangesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nRanges.set(nRangesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.gtk.PageRange[] resultARRAY = new org.gtk.gtk.PageRange[nRanges.get().intValue()];
+            for (int I = 0; I < nRanges.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = org.gtk.gtk.PageRange.fromAddress.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        nRanges.set(nRangesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.gtk.PageRange[] resultARRAY = new org.gtk.gtk.PageRange[nRanges.get().intValue()];
-        for (int I = 0; I < nRanges.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = org.gtk.gtk.PageRange.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -163,8 +166,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.PageSet getPageSet() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_page_set.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_page_set.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,8 +180,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.PrintPages getPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_pages.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,12 +194,11 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Printer getPrinter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_printer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_printer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Printer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Printer.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Printer) Interop.register(RESULT, org.gtk.gtk.Printer.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -208,8 +208,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public boolean getReverse() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_reverse.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_reverse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,8 +222,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public boolean getRotate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_rotate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_rotate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,8 +236,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public double getScale() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_job_get_scale.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_print_job_get_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,12 +250,11 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.PrintSettings getSettings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_settings.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_settings.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PrintSettings) Interop.register(RESULT, org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -268,8 +264,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public org.gtk.gtk.PrintStatus getStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_status.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_status.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,19 +278,19 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_surface.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_surface.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.cairographics.Surface.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.cairographics.Surface.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -305,8 +300,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,8 +316,7 @@ public class PrintJob extends org.gtk.gobject.GObject {
     public boolean getTrackPrintStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_print_job_get_track_print_status.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_print_job_get_track_print_status.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,13 +403,15 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @param nRanges the length of the {@code ranges} array
      */
     public void setPageRanges(org.gtk.gtk.PageRange[] ranges, int nRanges) {
-        try {
-            DowncallHandles.gtk_print_job_set_page_ranges.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(ranges, org.gtk.gtk.PageRange.getMemoryLayout(), false),
-                    nRanges);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_print_job_set_page_ranges.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(ranges, org.gtk.gtk.PageRange.getMemoryLayout(), false, SCOPE),
+                        nRanges);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -509,20 +504,22 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setSourceFd(int fd) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_print_job_set_source_fd.invokeExact(
-                    handle(),
-                    fd,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_print_job_set_source_fd.invokeExact(
+                        handle(),
+                        fd,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -538,20 +535,22 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_print_job_set_source_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_print_job_set_source_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -589,19 +588,40 @@ public class PrintJob extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code StatusChanged} callback.
+     */
     @FunctionalInterface
     public interface StatusChanged {
+    
+        /**
+         * Emitted when the status of a job changes.
+         * <p>
+         * The signal handler can use {@link PrintJob#getStatus}
+         * to obtain the new status.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintJob) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StatusChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StatusChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -614,9 +634,10 @@ public class PrintJob extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<PrintJob.StatusChanged> onStatusChanged(PrintJob.StatusChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("status-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("status-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -639,6 +660,9 @@ public class PrintJob extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -719,195 +743,203 @@ public class PrintJob extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_job_new = Interop.downcallHandle(
-            "gtk_print_job_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_collate = Interop.downcallHandle(
-            "gtk_print_job_get_collate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_collate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_n_up = Interop.downcallHandle(
-            "gtk_print_job_get_n_up",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_n_up",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_n_up_layout = Interop.downcallHandle(
-            "gtk_print_job_get_n_up_layout",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_n_up_layout",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_num_copies = Interop.downcallHandle(
-            "gtk_print_job_get_num_copies",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_num_copies",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_page_ranges = Interop.downcallHandle(
-            "gtk_print_job_get_page_ranges",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_page_ranges",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_page_set = Interop.downcallHandle(
-            "gtk_print_job_get_page_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_page_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_pages = Interop.downcallHandle(
-            "gtk_print_job_get_pages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_pages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_printer = Interop.downcallHandle(
-            "gtk_print_job_get_printer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_printer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_reverse = Interop.downcallHandle(
-            "gtk_print_job_get_reverse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_reverse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_rotate = Interop.downcallHandle(
-            "gtk_print_job_get_rotate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_rotate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_scale = Interop.downcallHandle(
-            "gtk_print_job_get_scale",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_scale",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_settings = Interop.downcallHandle(
-            "gtk_print_job_get_settings",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_settings",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_status = Interop.downcallHandle(
-            "gtk_print_job_get_status",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_status",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_surface = Interop.downcallHandle(
-            "gtk_print_job_get_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_title = Interop.downcallHandle(
-            "gtk_print_job_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_track_print_status = Interop.downcallHandle(
-            "gtk_print_job_get_track_print_status",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_get_track_print_status",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_send = Interop.downcallHandle(
-            "gtk_print_job_send",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_send",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_collate = Interop.downcallHandle(
-            "gtk_print_job_set_collate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_collate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_n_up = Interop.downcallHandle(
-            "gtk_print_job_set_n_up",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_n_up",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_n_up_layout = Interop.downcallHandle(
-            "gtk_print_job_set_n_up_layout",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_n_up_layout",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_num_copies = Interop.downcallHandle(
-            "gtk_print_job_set_num_copies",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_num_copies",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_page_ranges = Interop.downcallHandle(
-            "gtk_print_job_set_page_ranges",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_page_ranges",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_page_set = Interop.downcallHandle(
-            "gtk_print_job_set_page_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_page_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_pages = Interop.downcallHandle(
-            "gtk_print_job_set_pages",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_pages",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_reverse = Interop.downcallHandle(
-            "gtk_print_job_set_reverse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_reverse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_rotate = Interop.downcallHandle(
-            "gtk_print_job_set_rotate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_rotate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_scale = Interop.downcallHandle(
-            "gtk_print_job_set_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_print_job_set_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_source_fd = Interop.downcallHandle(
-            "gtk_print_job_set_source_fd",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_set_source_fd",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_source_file = Interop.downcallHandle(
-            "gtk_print_job_set_source_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_job_set_source_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_job_set_track_print_status = Interop.downcallHandle(
-            "gtk_print_job_set_track_print_status",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_print_job_set_track_print_status",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_print_job_get_type = Interop.downcallHandle(
-            "gtk_print_job_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_print_job_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_print_job_get_type != null;
     }
 }

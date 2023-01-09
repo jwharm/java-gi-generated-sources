@@ -36,14 +36,16 @@ public class Menu extends org.gtk.gio.MenuModel {
     /**
      * Create a Menu proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Menu(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Menu(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Menu> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Menu(input, ownership);
+    public static final Marshal<Addressable, Menu> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Menu(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -61,7 +63,8 @@ public class Menu extends org.gtk.gio.MenuModel {
      * The new menu has no items.
      */
     public Menu() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -72,13 +75,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void append(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        try {
-            DowncallHandles.g_menu_append.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_append.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -106,13 +111,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void appendSection(@Nullable java.lang.String label, org.gtk.gio.MenuModel section) {
-        try {
-            DowncallHandles.g_menu_append_section.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    section.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_append_section.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        section.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -124,13 +131,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void appendSubmenu(@Nullable java.lang.String label, org.gtk.gio.MenuModel submenu) {
-        try {
-            DowncallHandles.g_menu_append_submenu.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    submenu.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_append_submenu.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        submenu.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -146,8 +155,7 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public void freeze() {
         try {
-            DowncallHandles.g_menu_freeze.invokeExact(
-                    handle());
+            DowncallHandles.g_menu_freeze.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,14 +170,16 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void insert(int position, @Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        try {
-            DowncallHandles.g_menu_insert.invokeExact(
-                    handle(),
-                    position,
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_insert.invokeExact(
+                        handle(),
+                        position,
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -214,14 +224,16 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void insertSection(int position, @Nullable java.lang.String label, org.gtk.gio.MenuModel section) {
-        try {
-            DowncallHandles.g_menu_insert_section.invokeExact(
-                    handle(),
-                    position,
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    section.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_insert_section.invokeExact(
+                        handle(),
+                        position,
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        section.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -234,14 +246,16 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void insertSubmenu(int position, @Nullable java.lang.String label, org.gtk.gio.MenuModel submenu) {
-        try {
-            DowncallHandles.g_menu_insert_submenu.invokeExact(
-                    handle(),
-                    position,
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    submenu.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_insert_submenu.invokeExact(
+                        handle(),
+                        position,
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        submenu.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -253,13 +267,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param detailedAction the detailed action string, or {@code null}
      */
     public void prepend(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        try {
-            DowncallHandles.g_menu_prepend.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_prepend.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -287,13 +303,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param section a {@link MenuModel} with the items of the section
      */
     public void prependSection(@Nullable java.lang.String label, org.gtk.gio.MenuModel section) {
-        try {
-            DowncallHandles.g_menu_prepend_section.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    section.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_prepend_section.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        section.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -305,13 +323,15 @@ public class Menu extends org.gtk.gio.MenuModel {
      * @param submenu a {@link MenuModel} with the items of the submenu
      */
     public void prependSubmenu(@Nullable java.lang.String label, org.gtk.gio.MenuModel submenu) {
-        try {
-            DowncallHandles.g_menu_prepend_submenu.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
-                    submenu.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_menu_prepend_submenu.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)),
+                        submenu.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -343,8 +363,7 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public void removeAll() {
         try {
-            DowncallHandles.g_menu_remove_all.invokeExact(
-                    handle());
+            DowncallHandles.g_menu_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,6 +399,9 @@ public class Menu extends org.gtk.gio.MenuModel {
      */
     public static class Builder extends org.gtk.gio.MenuModel.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -404,105 +426,113 @@ public class Menu extends org.gtk.gio.MenuModel {
     private static class DowncallHandles {
         
         private static final MethodHandle g_menu_new = Interop.downcallHandle(
-            "g_menu_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_append = Interop.downcallHandle(
-            "g_menu_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_append_item = Interop.downcallHandle(
-            "g_menu_append_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_append_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_append_section = Interop.downcallHandle(
-            "g_menu_append_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_append_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
-            "g_menu_append_submenu",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_append_submenu",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_freeze = Interop.downcallHandle(
-            "g_menu_freeze",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_freeze",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_insert = Interop.downcallHandle(
-            "g_menu_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
-            "g_menu_insert_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_insert_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
-            "g_menu_insert_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_insert_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
-            "g_menu_insert_submenu",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_insert_submenu",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_prepend = Interop.downcallHandle(
-            "g_menu_prepend",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_prepend",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
-            "g_menu_prepend_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_prepend_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
-            "g_menu_prepend_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_prepend_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
-            "g_menu_prepend_submenu",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_prepend_submenu",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_remove = Interop.downcallHandle(
-            "g_menu_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_menu_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
-            "g_menu_remove_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_remove_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_get_type = Interop.downcallHandle(
-            "g_menu_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_menu_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_menu_get_type != null;
     }
 }

@@ -18,26 +18,32 @@ import org.jetbrains.annotations.*;
  * </blockquote>
  */
 public enum ButtonsType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no buttons at all
      */
     NONE(0),
+    
     /**
      * an OK button
      */
     OK(1),
+    
     /**
      * a Close button
      */
     CLOSE(2),
+    
     /**
      * a Cancel button
      */
     CANCEL(3),
+    
     /**
      * Yes and No buttons
      */
     YES_NO(4),
+    
     /**
      * OK and Cancel buttons
      */
@@ -46,15 +52,29 @@ public enum ButtonsType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkButtonsType";
     
     private final int value;
+    
+    /**
+     * Create a new ButtonsType for the provided value
+     * @param numeric value the enum value
+     */
     ButtonsType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ButtonsType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ButtonsType of(int value) {
         return switch (value) {
             case 0 -> NONE;

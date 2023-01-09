@@ -29,8 +29,8 @@ public class WebRTCRTPSenderClass extends Struct {
      * @return A new, uninitialized @{link WebRTCRTPSenderClass}
      */
     public static WebRTCRTPSenderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WebRTCRTPSenderClass newInstance = new WebRTCRTPSenderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WebRTCRTPSenderClass newInstance = new WebRTCRTPSenderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class WebRTCRTPSenderClass extends Struct {
     /**
      * Create a WebRTCRTPSenderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WebRTCRTPSenderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WebRTCRTPSenderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WebRTCRTPSenderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCRTPSenderClass(input, ownership);
+    public static final Marshal<Addressable, WebRTCRTPSenderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCRTPSenderClass(input);
 }

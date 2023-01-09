@@ -37,6 +37,9 @@ public class ParseFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ParseFlags PLACE_IN_BIN = new ParseFlags(4);
     
+    /**
+     * Create a new ParseFlags with the provided value
+     */
     public ParseFlags(int value) {
         super(value);
     }

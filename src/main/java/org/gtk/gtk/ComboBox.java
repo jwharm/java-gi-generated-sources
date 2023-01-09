@@ -85,26 +85,17 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a ComboBox proxy instance for the provided memory address.
-     * <p>
-     * Because ComboBox is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ComboBox(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ComboBox(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ComboBox> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ComboBox(input, ownership);
+    public static final Marshal<Addressable, ComboBox> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ComboBox(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -120,7 +111,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new empty {@code GtkComboBox}.
      */
     public ComboBox() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithEntry() {
@@ -132,7 +125,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new empty {@code GtkComboBox} with an entry.
      * <p>
@@ -143,20 +136,22 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static ComboBox newWithEntry() {
         var RESULT = constructNewWithEntry();
-        return (org.gtk.gtk.ComboBox) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.ComboBox) Interop.register(RESULT, org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithModel(org.gtk.gtk.TreeModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model.invokeExact(
-                    model.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model.invokeExact(model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkComboBox} with a model.
      * @param model a {@code GtkTreeModel}
@@ -164,20 +159,22 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static ComboBox newWithModel(org.gtk.gtk.TreeModel model) {
         var RESULT = constructNewWithModel(model);
-        return (org.gtk.gtk.ComboBox) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.ComboBox) Interop.register(RESULT, org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithModelAndEntry(org.gtk.gtk.TreeModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model_and_entry.invokeExact(
-                    model.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_new_with_model_and_entry.invokeExact(model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new empty {@code GtkComboBox} with an entry and a model.
      * <p>
@@ -187,7 +184,10 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static ComboBox newWithModelAndEntry(org.gtk.gtk.TreeModel model) {
         var RESULT = constructNewWithModelAndEntry(model);
-        return (org.gtk.gtk.ComboBox) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.ComboBox) Interop.register(RESULT, org.gtk.gtk.ComboBox.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -203,8 +203,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,8 +229,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable java.lang.String getActiveId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_active_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_active_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,8 +267,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.SensitivityType getButtonSensitivity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_button_sensitivity.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_button_sensitivity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,12 +281,11 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -300,8 +296,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getEntryTextColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_entry_text_column.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_entry_text_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,8 +310,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHasEntry() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_has_entry.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_has_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,8 +325,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getIdColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_id_column.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_id_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,12 +340,11 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -362,8 +354,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getPopupFixedWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_get_popup_fixed_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_combo_box_get_popup_fixed_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,8 +368,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeViewRowSeparatorFunc getRowSeparatorFunc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_row_separator_func.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_combo_box_get_row_separator_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,8 +383,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popdown() {
         try {
-            DowncallHandles.gtk_combo_box_popdown.invokeExact(
-                    handle());
+            DowncallHandles.gtk_combo_box_popdown.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,8 +399,7 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void popup() {
         try {
-            DowncallHandles.gtk_combo_box_popup.invokeExact(
-                    handle());
+            DowncallHandles.gtk_combo_box_popup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -467,15 +455,17 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   always returns {@code true}.
      */
     public boolean setActiveId(@Nullable java.lang.String activeId) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_combo_box_set_active_id.invokeExact(
-                    handle(),
-                    (Addressable) (activeId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(activeId, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_combo_box_set_active_id.invokeExact(
+                        handle(),
+                        (Addressable) (activeId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(activeId, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -639,19 +629,40 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted to when the combo box is activated.
+         * <p>
+         * The {@code ::activate} signal on {@code GtkComboBox} is an action signal and
+         * emitting it causes the combo box to pop up its dropdown.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceComboBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -664,28 +675,51 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.Activate> onActivate(ComboBox.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted when the active item is changed.
+         * <p>
+         * The can be due to the user selecting a different item from the list,
+         * or due to a call to {@link ComboBox#setActiveIter}. It will
+         * also be emitted while typing into the entry of a combo box with an entry.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceComboBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -699,29 +733,80 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.Changed> onChanged(ComboBox.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code FormatEntryText} callback.
+     */
     @FunctionalInterface
     public interface FormatEntryText {
+    
+        /**
+         * Emitted to allow changing how the text in a combo box's entry is displayed.
+         * <p>
+         * See {@code Gtk.ComboBox:has-entry}.
+         * <p>
+         * Connect a signal handler which returns an allocated string representing
+         * {@code path}. That string will then be used to set the text in the combo box's
+         * entry. The default signal handler uses the text from the
+         * {@code Gtk.ComboBox:entry-text-column} model column.
+         * <p>
+         * Here's an example signal handler which fetches data from the model and
+         * displays it in the entry.
+         * <pre>{@code c
+         * static char *
+         * format_entry_text_callback (GtkComboBox *combo,
+         *                             const char *path,
+         *                             gpointer     user_data)
+         * {
+         *   GtkTreeIter iter;
+         *   GtkTreeModel model;
+         *   double       value;
+         * 
+         *   model = gtk_combo_box_get_model (combo);
+         * 
+         *   gtk_tree_model_get_iter_from_string (model, &iter, path);
+         *   gtk_tree_model_get (model, &iter,
+         *                       THE_DOUBLE_VALUE_COLUMN, &value,
+         *                       -1);
+         * 
+         *   return g_strdup_printf ("%g", value);
+         * }
+         * }</pre>
+         */
         java.lang.String run(java.lang.String path);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceComboBox, MemoryAddress path) {
-            var RESULT = run(Marshal.addressToString.marshal(path, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(Marshal.addressToString.marshal(path, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FormatEntryText.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FormatEntryText.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -761,28 +846,49 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.FormatEntryText> onFormatEntryText(ComboBox.FormatEntryText handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("format-entry-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("format-entry-text", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MoveActive} callback.
+     */
     @FunctionalInterface
     public interface MoveActive {
+    
+        /**
+         * Emitted to move the active selection.
+         * <p>
+         * This is an <a href="class.SignalAction.html">keybinding signal</a>.
+         */
         void run(org.gtk.gtk.ScrollType scrollType);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceComboBox, int scrollType) {
             run(org.gtk.gtk.ScrollType.of(scrollType));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveActive.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MoveActive.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -794,29 +900,52 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.MoveActive> onMoveActive(ComboBox.MoveActive handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("move-active"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("move-active", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Popdown} callback.
+     */
     @FunctionalInterface
     public interface Popdown {
+    
+        /**
+         * Emitted to popdown the combo box list.
+         * <p>
+         * This is an <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default bindings for this signal are Alt+Up and Escape.
+         */
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceComboBox) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Popdown.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Popdown.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -830,28 +959,51 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.Popdown> onPopdown(ComboBox.Popdown handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("popdown"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("popdown", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Popup} callback.
+     */
     @FunctionalInterface
     public interface Popup {
+    
+        /**
+         * Emitted to popup the combo box list.
+         * <p>
+         * This is an <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default binding for this signal is Alt+Down.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceComboBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Popup.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Popup.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -865,9 +1017,10 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ComboBox.Popup> onPopup(ComboBox.Popup handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("popup"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("popup", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -890,6 +1043,9 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1049,177 +1205,185 @@ public class ComboBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_combo_box_new = Interop.downcallHandle(
-            "gtk_combo_box_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_entry = Interop.downcallHandle(
-            "gtk_combo_box_new_with_entry",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_new_with_entry",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_model = Interop.downcallHandle(
-            "gtk_combo_box_new_with_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_new_with_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_new_with_model_and_entry = Interop.downcallHandle(
-            "gtk_combo_box_new_with_model_and_entry",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_new_with_model_and_entry",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_active = Interop.downcallHandle(
-            "gtk_combo_box_get_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_active_id = Interop.downcallHandle(
-            "gtk_combo_box_get_active_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_active_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_active_iter = Interop.downcallHandle(
-            "gtk_combo_box_get_active_iter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_active_iter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_button_sensitivity = Interop.downcallHandle(
-            "gtk_combo_box_get_button_sensitivity",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_button_sensitivity",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_child = Interop.downcallHandle(
-            "gtk_combo_box_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_entry_text_column = Interop.downcallHandle(
-            "gtk_combo_box_get_entry_text_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_entry_text_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_has_entry = Interop.downcallHandle(
-            "gtk_combo_box_get_has_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_has_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_id_column = Interop.downcallHandle(
-            "gtk_combo_box_get_id_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_id_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_model = Interop.downcallHandle(
-            "gtk_combo_box_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_popup_fixed_width = Interop.downcallHandle(
-            "gtk_combo_box_get_popup_fixed_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_popup_fixed_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_row_separator_func = Interop.downcallHandle(
-            "gtk_combo_box_get_row_separator_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_get_row_separator_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_popdown = Interop.downcallHandle(
-            "gtk_combo_box_popdown",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_popdown",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_popup = Interop.downcallHandle(
-            "gtk_combo_box_popup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_popup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_popup_for_device = Interop.downcallHandle(
-            "gtk_combo_box_popup_for_device",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_popup_for_device",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_active = Interop.downcallHandle(
-            "gtk_combo_box_set_active",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_combo_box_set_active",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_active_id = Interop.downcallHandle(
-            "gtk_combo_box_set_active_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_set_active_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_active_iter = Interop.downcallHandle(
-            "gtk_combo_box_set_active_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_set_active_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_button_sensitivity = Interop.downcallHandle(
-            "gtk_combo_box_set_button_sensitivity",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_combo_box_set_button_sensitivity",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_child = Interop.downcallHandle(
-            "gtk_combo_box_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_entry_text_column = Interop.downcallHandle(
-            "gtk_combo_box_set_entry_text_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_combo_box_set_entry_text_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_id_column = Interop.downcallHandle(
-            "gtk_combo_box_set_id_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_combo_box_set_id_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_model = Interop.downcallHandle(
-            "gtk_combo_box_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_popup_fixed_width = Interop.downcallHandle(
-            "gtk_combo_box_set_popup_fixed_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_combo_box_set_popup_fixed_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_set_row_separator_func = Interop.downcallHandle(
-            "gtk_combo_box_set_row_separator_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_combo_box_set_row_separator_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_combo_box_get_type = Interop.downcallHandle(
-            "gtk_combo_box_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_combo_box_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_combo_box_get_type != null;
     }
 }

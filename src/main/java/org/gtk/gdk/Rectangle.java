@@ -51,8 +51,8 @@ public class Rectangle extends Struct {
      * @return A new, uninitialized @{link Rectangle}
      */
     public static Rectangle allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Rectangle newInstance = new Rectangle(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Rectangle newInstance = new Rectangle(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -62,10 +62,12 @@ public class Rectangle extends Struct {
      * @return The value of the field {@code x}
      */
     public int getX() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -73,9 +75,11 @@ public class Rectangle extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(int x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -83,10 +87,12 @@ public class Rectangle extends Struct {
      * @return The value of the field {@code y}
      */
     public int getY() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -94,9 +100,11 @@ public class Rectangle extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(int y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
@@ -104,10 +112,12 @@ public class Rectangle extends Struct {
      * @return The value of the field {@code width}
      */
     public int getWidth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -115,9 +125,11 @@ public class Rectangle extends Struct {
      * @param width The new value of the field {@code width}
      */
     public void setWidth(int width) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), width);
+        }
     }
     
     /**
@@ -125,10 +137,12 @@ public class Rectangle extends Struct {
      * @return The value of the field {@code height}
      */
     public int getHeight() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -136,22 +150,26 @@ public class Rectangle extends Struct {
      * @param height The new value of the field {@code height}
      */
     public void setHeight(int height) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), height);
+        }
     }
     
     /**
      * Create a Rectangle proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Rectangle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Rectangle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Rectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rectangle(input, ownership);
+    public static final Marshal<Addressable, Rectangle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Rectangle(input);
     
     /**
      * Returns {@code true} if {@code rect} contains the point described by {@code x} and {@code y}.
@@ -241,27 +259,27 @@ public class Rectangle extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_rectangle_contains_point = Interop.downcallHandle(
-            "gdk_rectangle_contains_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_rectangle_contains_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_rectangle_equal = Interop.downcallHandle(
-            "gdk_rectangle_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rectangle_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rectangle_intersect = Interop.downcallHandle(
-            "gdk_rectangle_intersect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rectangle_intersect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rectangle_union = Interop.downcallHandle(
-            "gdk_rectangle_union",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rectangle_union",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -287,7 +305,7 @@ public class Rectangle extends Struct {
             struct = Rectangle.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Rectangle} struct.
          * @return A new instance of {@code Rectangle} with the fields 
          *         that were set in the Builder object.
@@ -302,10 +320,12 @@ public class Rectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(int x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -314,10 +334,12 @@ public class Rectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(int y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
         
         /**
@@ -326,10 +348,12 @@ public class Rectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWidth(int width) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), width);
+                return this;
+            }
         }
         
         /**
@@ -338,10 +362,12 @@ public class Rectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHeight(int height) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), height);
+                return this;
+            }
         }
     }
 }

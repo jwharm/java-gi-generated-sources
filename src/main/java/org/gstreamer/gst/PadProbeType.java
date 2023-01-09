@@ -127,6 +127,9 @@ public class PadProbeType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PadProbeType SCHEDULING = new PadProbeType(12288);
     
+    /**
+     * Create a new PadProbeType with the provided value
+     */
     public PadProbeType(int value) {
         super(value);
     }

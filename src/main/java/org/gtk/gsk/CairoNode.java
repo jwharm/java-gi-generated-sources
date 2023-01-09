@@ -28,20 +28,21 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a CairoNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CairoNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CairoNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CairoNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CairoNode(input, ownership);
+    public static final Marshal<Addressable, CairoNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CairoNode(input);
     
     private static MemoryAddress constructNew(org.gtk.graphene.Rect bounds) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(
-                    bounds.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_new.invokeExact(bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +57,8 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
      * @param bounds the rectangle to render to
      */
     public CairoNode(org.gtk.graphene.Rect bounds) {
-        super(constructNew(bounds), Ownership.FULL);
+        super(constructNew(bounds));
+        this.takeOwnership();
     }
     
     /**
@@ -71,12 +73,13 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     public org.cairographics.Context getDrawContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_draw_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_draw_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Context.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.cairographics.Context.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -86,12 +89,11 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     public org.cairographics.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_surface.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_cairo_node_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Surface.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.cairographics.Surface.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -111,27 +113,35 @@ public class CairoNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_cairo_node_new = Interop.downcallHandle(
-            "gsk_cairo_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_cairo_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_cairo_node_get_draw_context = Interop.downcallHandle(
-            "gsk_cairo_node_get_draw_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_cairo_node_get_draw_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_cairo_node_get_surface = Interop.downcallHandle(
-            "gsk_cairo_node_get_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_cairo_node_get_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_cairo_node_get_type = Interop.downcallHandle(
-            "gsk_cairo_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_cairo_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_cairo_node_get_type != null;
     }
 }

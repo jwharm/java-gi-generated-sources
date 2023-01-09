@@ -29,8 +29,8 @@ public class DeviceGroupPresentCapabilitiesKHR extends Struct {
      * @return A new, uninitialized @{link DeviceGroupPresentCapabilitiesKHR}
      */
     public static DeviceGroupPresentCapabilitiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceGroupPresentCapabilitiesKHR newInstance = new DeviceGroupPresentCapabilitiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceGroupPresentCapabilitiesKHR newInstance = new DeviceGroupPresentCapabilitiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceGroupPresentCapabilitiesKHR extends Struct {
     /**
      * Create a DeviceGroupPresentCapabilitiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceGroupPresentCapabilitiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceGroupPresentCapabilitiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceGroupPresentCapabilitiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupPresentCapabilitiesKHR(input, ownership);
+    public static final Marshal<Addressable, DeviceGroupPresentCapabilitiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupPresentCapabilitiesKHR(input);
 }

@@ -33,6 +33,9 @@ public class TypeFundamentalFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TypeFundamentalFlags DEEP_DERIVABLE = new TypeFundamentalFlags(8);
     
+    /**
+     * Create a new TypeFundamentalFlags with the provided value
+     */
     public TypeFundamentalFlags(int value) {
         super(value);
     }

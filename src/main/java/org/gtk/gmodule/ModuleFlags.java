@@ -33,6 +33,9 @@ public class ModuleFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ModuleFlags MASK = new ModuleFlags(3);
     
+    /**
+     * Create a new ModuleFlags with the provided value
+     */
     public ModuleFlags(int value) {
         super(value);
     }

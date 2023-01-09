@@ -37,6 +37,9 @@ public class AudioChannelMixerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioChannelMixerFlags UNPOSITIONED_OUT = new AudioChannelMixerFlags(8);
     
+    /**
+     * Create a new AudioChannelMixerFlags with the provided value
+     */
     public AudioChannelMixerFlags(int value) {
         super(value);
     }

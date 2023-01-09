@@ -36,14 +36,16 @@ public class ColorBalanceChannel extends org.gtk.gobject.GObject {
     /**
      * Create a ColorBalanceChannel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorBalanceChannel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColorBalanceChannel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorBalanceChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceChannel(input, ownership);
+    public static final Marshal<Addressable, ColorBalanceChannel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceChannel(input);
     
     /**
      * Get the gtype
@@ -59,19 +61,37 @@ public class ColorBalanceChannel extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueChanged} callback.
+     */
     @FunctionalInterface
     public interface ValueChanged {
+    
+        /**
+         * Fired when the value of the indicated channel has changed.
+         */
         void run(int value);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceColorBalanceChannel, int value) {
             run(value);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,9 +101,10 @@ public class ColorBalanceChannel extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ColorBalanceChannel.ValueChanged> onValueChanged(ColorBalanceChannel.ValueChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -106,6 +127,9 @@ public class ColorBalanceChannel extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -130,9 +154,17 @@ public class ColorBalanceChannel extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_color_balance_channel_get_type = Interop.downcallHandle(
-            "gst_color_balance_channel_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_color_balance_channel_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_color_balance_channel_get_type != null;
     }
 }

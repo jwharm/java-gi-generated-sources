@@ -32,8 +32,8 @@ public class LFOControlSourceClass extends Struct {
      * @return A new, uninitialized @{link LFOControlSourceClass}
      */
     public static LFOControlSourceClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LFOControlSourceClass newInstance = new LFOControlSourceClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LFOControlSourceClass newInstance = new LFOControlSourceClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class LFOControlSourceClass extends Struct {
      */
     public org.gstreamer.gst.ControlSourceClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ControlSourceClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ControlSourceClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,22 +52,26 @@ public class LFOControlSourceClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ControlSourceClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a LFOControlSourceClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LFOControlSourceClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LFOControlSourceClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LFOControlSourceClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LFOControlSourceClass(input, ownership);
+    public static final Marshal<Addressable, LFOControlSourceClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LFOControlSourceClass(input);
     
     /**
      * A {@link LFOControlSourceClass.Builder} object constructs a {@link LFOControlSourceClass} 
@@ -91,7 +95,7 @@ public class LFOControlSourceClass extends Struct {
             struct = LFOControlSourceClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LFOControlSourceClass} struct.
          * @return A new instance of {@code LFOControlSourceClass} with the fields 
          *         that were set in the Builder object.
@@ -101,17 +105,21 @@ public class LFOControlSourceClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ControlSourceClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

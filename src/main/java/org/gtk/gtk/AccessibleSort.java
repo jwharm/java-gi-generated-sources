@@ -10,18 +10,22 @@ import org.jetbrains.annotations.*;
  * accessible property.
  */
 public enum AccessibleSort implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * There is no defined sort applied to the column.
      */
     NONE(0),
+    
     /**
      * Items are sorted in ascending order by this column.
      */
     ASCENDING(1),
+    
     /**
      * Items are sorted in descending order by this column.
      */
     DESCENDING(2),
+    
     /**
      * A sort algorithm other than ascending or
      *    descending has been applied.
@@ -31,15 +35,29 @@ public enum AccessibleSort implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkAccessibleSort";
     
     private final int value;
+    
+    /**
+     * Create a new AccessibleSort for the provided value
+     * @param numeric value the enum value
+     */
     AccessibleSort(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AccessibleSort for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AccessibleSort of(int value) {
         return switch (value) {
             case 0 -> NONE;

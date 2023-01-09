@@ -13,22 +13,27 @@ import org.jetbrains.annotations.*;
  * HB_DIRECTION_IS_HORIZONTAL() or HB_DIRECTION_IS_VERTICAL().
  */
 public enum DirectionT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Initial, unset direction.
      */
     INVALID(0),
+    
     /**
      * Text is set horizontally from left to right.
      */
     LTR(4),
+    
     /**
      * Text is set horizontally from right to left.
      */
     RTL(5),
+    
     /**
      * Text is set vertically from top to bottom.
      */
     TTB(6),
+    
     /**
      * Text is set vertically from bottom to top.
      */
@@ -37,15 +42,29 @@ public enum DirectionT implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "hb_direction_t";
     
     private final int value;
+    
+    /**
+     * Create a new DirectionT for the provided value
+     * @param numeric value the enum value
+     */
     DirectionT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DirectionT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DirectionT of(int value) {
         return switch (value) {
             case 0 -> INVALID;

@@ -33,8 +33,8 @@ public class InetAddressClass extends Struct {
      * @return A new, uninitialized @{link InetAddressClass}
      */
     public static InetAddressClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InetAddressClass newInstance = new InetAddressClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InetAddressClass newInstance = new InetAddressClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class InetAddressClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,25 +53,44 @@ public class InetAddressClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToStringCallback} callback.
+     */
     @FunctionalInterface
     public interface ToStringCallback {
+    
         java.lang.String run(org.gtk.gio.InetAddress address);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress address) {
-            var RESULT = run((org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(address)), org.gtk.gio.InetAddress.fromAddress).marshal(address, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.InetAddress) Interop.register(address, org.gtk.gio.InetAddress.fromAddress).marshal(address, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToStringCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToStringCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -80,25 +99,42 @@ public class InetAddressClass extends Struct {
      * @param toString The new value of the field {@code to_string}
      */
     public void setToString(ToStringCallback toString) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToBytesCallback} callback.
+     */
     @FunctionalInterface
     public interface ToBytesCallback {
+    
         PointerByte run(org.gtk.gio.InetAddress address);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress address) {
-            var RESULT = run((org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(address)), org.gtk.gio.InetAddress.fromAddress).marshal(address, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.InetAddress) Interop.register(address, org.gtk.gio.InetAddress.fromAddress).marshal(address, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToBytesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToBytesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -107,22 +143,26 @@ public class InetAddressClass extends Struct {
      * @param toBytes The new value of the field {@code to_bytes}
      */
     public void setToBytes(ToBytesCallback toBytes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toBytes == null ? MemoryAddress.NULL : toBytes.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toBytes == null ? MemoryAddress.NULL : toBytes.toCallback()));
+        }
     }
     
     /**
      * Create a InetAddressClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InetAddressClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InetAddressClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InetAddressClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetAddressClass(input, ownership);
+    public static final Marshal<Addressable, InetAddressClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InetAddressClass(input);
     
     /**
      * A {@link InetAddressClass.Builder} object constructs a {@link InetAddressClass} 
@@ -146,7 +186,7 @@ public class InetAddressClass extends Struct {
             struct = InetAddressClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link InetAddressClass} struct.
          * @return A new instance of {@code InetAddressClass} with the fields 
          *         that were set in the Builder object.
@@ -156,24 +196,30 @@ public class InetAddressClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setToString(ToStringCallback toString) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+                return this;
+            }
         }
         
         public Builder setToBytes(ToBytesCallback toBytes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toBytes == null ? MemoryAddress.NULL : toBytes.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_bytes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toBytes == null ? MemoryAddress.NULL : toBytes.toCallback()));
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class DebugMessage extends Struct {
      * @return A new, uninitialized @{link DebugMessage}
      */
     public static DebugMessage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugMessage newInstance = new DebugMessage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugMessage newInstance = new DebugMessage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,14 +38,16 @@ public class DebugMessage extends Struct {
     /**
      * Create a DebugMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugMessage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugMessage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugMessage(input, ownership);
+    public static final Marshal<Addressable, DebugMessage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugMessage(input);
     
     /**
      * Gets the string representation of a {@link DebugMessage}. This function is used
@@ -55,8 +57,7 @@ public class DebugMessage extends Struct {
     public @Nullable java.lang.String get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_debug_message_get.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_debug_message_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,9 +67,9 @@ public class DebugMessage extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_debug_message_get = Interop.downcallHandle(
-            "gst_debug_message_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_message_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

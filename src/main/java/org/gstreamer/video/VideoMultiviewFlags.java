@@ -70,6 +70,9 @@ public class VideoMultiviewFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoMultiviewFlags MIXED_MONO = new VideoMultiviewFlags(32768);
     
+    /**
+     * Create a new VideoMultiviewFlags with the provided value
+     */
     public VideoMultiviewFlags(int value) {
         super(value);
     }

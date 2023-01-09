@@ -29,8 +29,8 @@ public class ImageStencilUsageCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link ImageStencilUsageCreateInfoEXT}
      */
     public static ImageStencilUsageCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageStencilUsageCreateInfoEXT newInstance = new ImageStencilUsageCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageStencilUsageCreateInfoEXT newInstance = new ImageStencilUsageCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageStencilUsageCreateInfoEXT extends Struct {
     /**
      * Create a ImageStencilUsageCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageStencilUsageCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageStencilUsageCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageStencilUsageCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageStencilUsageCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, ImageStencilUsageCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageStencilUsageCreateInfoEXT(input);
 }

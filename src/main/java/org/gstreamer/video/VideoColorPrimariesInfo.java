@@ -46,8 +46,8 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return A new, uninitialized @{link VideoColorPrimariesInfo}
      */
     public static VideoColorPrimariesInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoColorPrimariesInfo newInstance = new VideoColorPrimariesInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoColorPrimariesInfo newInstance = new VideoColorPrimariesInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,10 +57,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code primaries}
      */
     public org.gstreamer.video.VideoColorPrimaries getPrimaries() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoColorPrimaries.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoColorPrimaries.of(RESULT);
+        }
     }
     
     /**
@@ -68,9 +70,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param primaries The new value of the field {@code primaries}
      */
     public void setPrimaries(org.gstreamer.video.VideoColorPrimaries primaries) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+        }
     }
     
     /**
@@ -78,10 +82,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Wx}
      */
     public double getWx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -89,9 +95,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Wx The new value of the field {@code Wx}
      */
     public void setWx(double Wx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Wx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Wx);
+        }
     }
     
     /**
@@ -99,10 +107,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Wy}
      */
     public double getWy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -110,9 +120,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Wy The new value of the field {@code Wy}
      */
     public void setWy(double Wy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Wy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Wy);
+        }
     }
     
     /**
@@ -120,10 +132,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Rx}
      */
     public double getRx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -131,9 +145,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Rx The new value of the field {@code Rx}
      */
     public void setRx(double Rx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Rx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Rx);
+        }
     }
     
     /**
@@ -141,10 +157,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Ry}
      */
     public double getRy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -152,9 +170,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Ry The new value of the field {@code Ry}
      */
     public void setRy(double Ry) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Ry);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Ry);
+        }
     }
     
     /**
@@ -162,10 +182,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Gx}
      */
     public double getGx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -173,9 +195,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Gx The new value of the field {@code Gx}
      */
     public void setGx(double Gx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Gx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Gx);
+        }
     }
     
     /**
@@ -183,10 +207,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Gy}
      */
     public double getGy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -194,9 +220,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Gy The new value of the field {@code Gy}
      */
     public void setGy(double Gy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Gy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Gy);
+        }
     }
     
     /**
@@ -204,10 +232,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code Bx}
      */
     public double getBx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -215,9 +245,11 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param Bx The new value of the field {@code Bx}
      */
     public void setBx(double Bx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Bx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Bx);
+        }
     }
     
     /**
@@ -225,10 +257,12 @@ public class VideoColorPrimariesInfo extends Struct {
      * @return The value of the field {@code By}
      */
     public double getBy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("By"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("By"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -236,22 +270,26 @@ public class VideoColorPrimariesInfo extends Struct {
      * @param By The new value of the field {@code By}
      */
     public void setBy(double By) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("By"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), By);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("By"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), By);
+        }
     }
     
     /**
      * Create a VideoColorPrimariesInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoColorPrimariesInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoColorPrimariesInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoColorPrimariesInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoColorPrimariesInfo(input, ownership);
+    public static final Marshal<Addressable, VideoColorPrimariesInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoColorPrimariesInfo(input);
     
     /**
      * A {@link VideoColorPrimariesInfo.Builder} object constructs a {@link VideoColorPrimariesInfo} 
@@ -275,7 +313,7 @@ public class VideoColorPrimariesInfo extends Struct {
             struct = VideoColorPrimariesInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoColorPrimariesInfo} struct.
          * @return A new instance of {@code VideoColorPrimariesInfo} with the fields 
          *         that were set in the Builder object.
@@ -290,10 +328,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrimaries(org.gstreamer.video.VideoColorPrimaries primaries) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -302,10 +342,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWx(double Wx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Wx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Wx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Wx);
+                return this;
+            }
         }
         
         /**
@@ -314,10 +356,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWy(double Wy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Wy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Wy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Wy);
+                return this;
+            }
         }
         
         /**
@@ -326,10 +370,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRx(double Rx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Rx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Rx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Rx);
+                return this;
+            }
         }
         
         /**
@@ -338,10 +384,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRy(double Ry) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Ry);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Ry"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Ry);
+                return this;
+            }
         }
         
         /**
@@ -350,10 +398,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGx(double Gx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Gx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Gx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Gx);
+                return this;
+            }
         }
         
         /**
@@ -362,10 +412,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGy(double Gy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Gy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Gy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Gy);
+                return this;
+            }
         }
         
         /**
@@ -374,10 +426,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBx(double Bx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Bx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("Bx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Bx);
+                return this;
+            }
         }
         
         /**
@@ -386,10 +440,12 @@ public class VideoColorPrimariesInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBy(double By) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("By"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), By);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("By"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), By);
+                return this;
+            }
         }
     }
 }

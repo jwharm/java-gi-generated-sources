@@ -39,8 +39,8 @@ public class DBusAnnotationInfo extends Struct {
      * @return A new, uninitialized @{link DBusAnnotationInfo}
      */
     public static DBusAnnotationInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusAnnotationInfo newInstance = new DBusAnnotationInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusAnnotationInfo newInstance = new DBusAnnotationInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class DBusAnnotationInfo extends Struct {
      * @return The value of the field {@code ref_count}
      */
     public int getRefCount() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class DBusAnnotationInfo extends Struct {
      * @param refCount The new value of the field {@code ref_count}
      */
     public void setRefCount(int refCount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class DBusAnnotationInfo extends Struct {
      * @return The value of the field {@code key}
      */
     public java.lang.String getKey() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class DBusAnnotationInfo extends Struct {
      * @param key The new value of the field {@code key}
      */
     public void setKey(java.lang.String key) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class DBusAnnotationInfo extends Struct {
      * @return The value of the field {@code value}
      */
     public java.lang.String getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class DBusAnnotationInfo extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(java.lang.String value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class DBusAnnotationInfo extends Struct {
      * @return The value of the field {@code annotations}
      */
     public PointerProxy<org.gtk.gio.DBusAnnotationInfo> getAnnotations() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.DBusAnnotationInfo>(RESULT, org.gtk.gio.DBusAnnotationInfo.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.DBusAnnotationInfo>(RESULT, org.gtk.gio.DBusAnnotationInfo.fromAddress);
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class DBusAnnotationInfo extends Struct {
      * @param annotations The new value of the field {@code annotations}
      */
     public void setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a DBusAnnotationInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusAnnotationInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusAnnotationInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusAnnotationInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusAnnotationInfo(input, ownership);
+    public static final Marshal<Addressable, DBusAnnotationInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusAnnotationInfo(input);
     
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
@@ -149,12 +167,13 @@ public class DBusAnnotationInfo extends Struct {
     public org.gtk.gio.DBusAnnotationInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.DBusAnnotationInfo.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.DBusAnnotationInfo.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -164,8 +183,7 @@ public class DBusAnnotationInfo extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_dbus_annotation_info_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_annotation_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,35 +198,37 @@ public class DBusAnnotationInfo extends Struct {
      * @return The value or {@code null} if not found. Do not free, it is owned by {@code annotations}.
      */
     public static @Nullable java.lang.String lookup(@Nullable org.gtk.gio.DBusAnnotationInfo[] annotations, java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_lookup.invokeExact(
-                    (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false)),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_annotation_info_lookup.invokeExact(
+                        (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false, SCOPE)),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_annotation_info_ref = Interop.downcallHandle(
-            "g_dbus_annotation_info_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_annotation_info_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_annotation_info_unref = Interop.downcallHandle(
-            "g_dbus_annotation_info_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_annotation_info_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_annotation_info_lookup = Interop.downcallHandle(
-            "g_dbus_annotation_info_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_annotation_info_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -234,7 +254,7 @@ public class DBusAnnotationInfo extends Struct {
             struct = DBusAnnotationInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusAnnotationInfo} struct.
          * @return A new instance of {@code DBusAnnotationInfo} with the fields 
          *         that were set in the Builder object.
@@ -249,10 +269,12 @@ public class DBusAnnotationInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefCount(int refCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+                return this;
+            }
         }
         
         /**
@@ -261,10 +283,12 @@ public class DBusAnnotationInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKey(java.lang.String key) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -273,10 +297,12 @@ public class DBusAnnotationInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(java.lang.String value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -285,10 +311,12 @@ public class DBusAnnotationInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

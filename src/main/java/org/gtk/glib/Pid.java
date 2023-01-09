@@ -16,6 +16,9 @@ import org.jetbrains.annotations.*;
  */
 public class Pid extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new Pid with the provided value
+     */
     public Pid(int value) {
         super(value);
     }

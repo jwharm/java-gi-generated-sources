@@ -39,8 +39,8 @@ public class RTSPTimeRange extends Struct {
      * @return A new, uninitialized @{link RTSPTimeRange}
      */
     public static RTSPTimeRange allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPTimeRange newInstance = new RTSPTimeRange(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPTimeRange newInstance = new RTSPTimeRange(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class RTSPTimeRange extends Struct {
      * @return The value of the field {@code unit}
      */
     public org.gstreamer.rtsp.RTSPRangeUnit getUnit() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unit"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.rtsp.RTSPRangeUnit.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unit"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.rtsp.RTSPRangeUnit.of(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class RTSPTimeRange extends Struct {
      * @param unit The new value of the field {@code unit}
      */
     public void setUnit(org.gstreamer.rtsp.RTSPRangeUnit unit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unit"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unit == null ? MemoryAddress.NULL : unit.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unit"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unit == null ? MemoryAddress.NULL : unit.getValue()));
+        }
     }
     
     /**
@@ -72,7 +76,7 @@ public class RTSPTimeRange extends Struct {
      */
     public org.gstreamer.rtsp.RTSPTime getMin() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("min"));
-        return org.gstreamer.rtsp.RTSPTime.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPTime.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -80,9 +84,11 @@ public class RTSPTimeRange extends Struct {
      * @param min The new value of the field {@code min}
      */
     public void setMin(org.gstreamer.rtsp.RTSPTime min) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (min == null ? MemoryAddress.NULL : min.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (min == null ? MemoryAddress.NULL : min.handle()));
+        }
     }
     
     /**
@@ -91,7 +97,7 @@ public class RTSPTimeRange extends Struct {
      */
     public org.gstreamer.rtsp.RTSPTime getMax() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("max"));
-        return org.gstreamer.rtsp.RTSPTime.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPTime.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -99,9 +105,11 @@ public class RTSPTimeRange extends Struct {
      * @param max The new value of the field {@code max}
      */
     public void setMax(org.gstreamer.rtsp.RTSPTime max) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max == null ? MemoryAddress.NULL : max.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (max == null ? MemoryAddress.NULL : max.handle()));
+        }
     }
     
     /**
@@ -110,7 +118,7 @@ public class RTSPTimeRange extends Struct {
      */
     public org.gstreamer.rtsp.RTSPTime2 getMin2() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("min2"));
-        return org.gstreamer.rtsp.RTSPTime2.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPTime2.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -118,9 +126,11 @@ public class RTSPTimeRange extends Struct {
      * @param min2 The new value of the field {@code min2}
      */
     public void setMin2(org.gstreamer.rtsp.RTSPTime2 min2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (min2 == null ? MemoryAddress.NULL : min2.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (min2 == null ? MemoryAddress.NULL : min2.handle()));
+        }
     }
     
     /**
@@ -129,7 +139,7 @@ public class RTSPTimeRange extends Struct {
      */
     public org.gstreamer.rtsp.RTSPTime2 getMax2() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("max2"));
-        return org.gstreamer.rtsp.RTSPTime2.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPTime2.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -137,22 +147,26 @@ public class RTSPTimeRange extends Struct {
      * @param max2 The new value of the field {@code max2}
      */
     public void setMax2(org.gstreamer.rtsp.RTSPTime2 max2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max2 == null ? MemoryAddress.NULL : max2.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (max2 == null ? MemoryAddress.NULL : max2.handle()));
+        }
     }
     
     /**
      * Create a RTSPTimeRange proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPTimeRange(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPTimeRange(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPTimeRange> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTimeRange(input, ownership);
+    public static final Marshal<Addressable, RTSPTimeRange> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTimeRange(input);
     
     /**
      * A {@link RTSPTimeRange.Builder} object constructs a {@link RTSPTimeRange} 
@@ -176,7 +190,7 @@ public class RTSPTimeRange extends Struct {
             struct = RTSPTimeRange.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPTimeRange} struct.
          * @return A new instance of {@code RTSPTimeRange} with the fields 
          *         that were set in the Builder object.
@@ -191,10 +205,12 @@ public class RTSPTimeRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUnit(org.gstreamer.rtsp.RTSPRangeUnit unit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unit == null ? MemoryAddress.NULL : unit.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unit"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unit == null ? MemoryAddress.NULL : unit.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -203,10 +219,12 @@ public class RTSPTimeRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMin(org.gstreamer.rtsp.RTSPTime min) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (min == null ? MemoryAddress.NULL : min.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (min == null ? MemoryAddress.NULL : min.handle()));
+                return this;
+            }
         }
         
         /**
@@ -215,10 +233,12 @@ public class RTSPTimeRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMax(org.gstreamer.rtsp.RTSPTime max) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max == null ? MemoryAddress.NULL : max.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (max == null ? MemoryAddress.NULL : max.handle()));
+                return this;
+            }
         }
         
         /**
@@ -227,10 +247,12 @@ public class RTSPTimeRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMin2(org.gstreamer.rtsp.RTSPTime2 min2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (min2 == null ? MemoryAddress.NULL : min2.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (min2 == null ? MemoryAddress.NULL : min2.handle()));
+                return this;
+            }
         }
         
         /**
@@ -239,10 +261,12 @@ public class RTSPTimeRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMax2(org.gstreamer.rtsp.RTSPTime2 max2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max2 == null ? MemoryAddress.NULL : max2.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (max2 == null ? MemoryAddress.NULL : max2.handle()));
+                return this;
+            }
         }
     }
 }

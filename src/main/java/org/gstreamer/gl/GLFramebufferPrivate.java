@@ -29,8 +29,8 @@ public class GLFramebufferPrivate extends Struct {
      * @return A new, uninitialized @{link GLFramebufferPrivate}
      */
     public static GLFramebufferPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLFramebufferPrivate newInstance = new GLFramebufferPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLFramebufferPrivate newInstance = new GLFramebufferPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLFramebufferPrivate extends Struct {
     /**
      * Create a GLFramebufferPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLFramebufferPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLFramebufferPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLFramebufferPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebufferPrivate(input, ownership);
+    public static final Marshal<Addressable, GLFramebufferPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebufferPrivate(input);
 }

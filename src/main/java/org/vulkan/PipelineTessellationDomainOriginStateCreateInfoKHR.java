@@ -29,8 +29,8 @@ public class PipelineTessellationDomainOriginStateCreateInfoKHR extends Struct {
      * @return A new, uninitialized @{link PipelineTessellationDomainOriginStateCreateInfoKHR}
      */
     public static PipelineTessellationDomainOriginStateCreateInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineTessellationDomainOriginStateCreateInfoKHR newInstance = new PipelineTessellationDomainOriginStateCreateInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineTessellationDomainOriginStateCreateInfoKHR newInstance = new PipelineTessellationDomainOriginStateCreateInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineTessellationDomainOriginStateCreateInfoKHR extends Struct {
     /**
      * Create a PipelineTessellationDomainOriginStateCreateInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineTessellationDomainOriginStateCreateInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineTessellationDomainOriginStateCreateInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineTessellationDomainOriginStateCreateInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineTessellationDomainOriginStateCreateInfoKHR(input, ownership);
+    public static final Marshal<Addressable, PipelineTessellationDomainOriginStateCreateInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineTessellationDomainOriginStateCreateInfoKHR(input);
 }

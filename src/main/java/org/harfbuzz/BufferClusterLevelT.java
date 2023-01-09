@@ -25,33 +25,55 @@ import org.jetbrains.annotations.*;
  * @version 0.9.42
  */
 public enum BufferClusterLevelT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Return cluster values grouped by graphemes into
      *   monotone order.
      */
     MONOTONE_GRAPHEMES(0),
+    
     /**
      * Return cluster values grouped into monotone order.
      */
     MONOTONE_CHARACTERS(1),
+    
     /**
      * Don't group cluster values.
      */
     CHARACTERS(2);
+    
+    /**
+     * Default cluster level,
+     *   equal to {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_GRAPHEMES}.
+     */
     public static final BufferClusterLevelT DEFAULT = MONOTONE_GRAPHEMES;
     
     private static final java.lang.String C_TYPE_NAME = "hb_buffer_cluster_level_t";
     
     private final int value;
+    
+    /**
+     * Create a new BufferClusterLevelT for the provided value
+     * @param numeric value the enum value
+     */
     BufferClusterLevelT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new BufferClusterLevelT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static BufferClusterLevelT of(int value) {
         return switch (value) {
             case 0 -> MONOTONE_GRAPHEMES;

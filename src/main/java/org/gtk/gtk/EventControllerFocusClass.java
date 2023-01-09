@@ -29,8 +29,8 @@ public class EventControllerFocusClass extends Struct {
      * @return A new, uninitialized @{link EventControllerFocusClass}
      */
     public static EventControllerFocusClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EventControllerFocusClass newInstance = new EventControllerFocusClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EventControllerFocusClass newInstance = new EventControllerFocusClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class EventControllerFocusClass extends Struct {
     /**
      * Create a EventControllerFocusClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EventControllerFocusClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EventControllerFocusClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EventControllerFocusClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerFocusClass(input, ownership);
+    public static final Marshal<Addressable, EventControllerFocusClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerFocusClass(input);
 }

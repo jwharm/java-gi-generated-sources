@@ -38,8 +38,8 @@ public class OptionGroup extends Struct {
      * @return A new, uninitialized @{link OptionGroup}
      */
     public static OptionGroup allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionGroup newInstance = new OptionGroup(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OptionGroup newInstance = new OptionGroup(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,28 +47,32 @@ public class OptionGroup extends Struct {
     /**
      * Create a OptionGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OptionGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OptionGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OptionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OptionGroup(input, ownership);
+    public static final Marshal<Addressable, OptionGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OptionGroup(input);
     
     private static MemoryAddress constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(description, null),
-                    Marshal.stringToAddress.marshal(helpDescription, null),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE),
+                        Marshal.stringToAddress.marshal(helpDescription, SCOPE),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -84,7 +88,8 @@ public class OptionGroup extends Struct {
      * @param destroy a function that will be called to free {@code user_data}, or {@code null}
      */
     public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(name, description, helpDescription, destroy), Ownership.FULL);
+        super(constructNew(name, description, helpDescription, destroy));
+        this.takeOwnership();
     }
     
     /**
@@ -92,12 +97,14 @@ public class OptionGroup extends Struct {
      * @param entries a {@code null}-terminated array of {@code GOptionEntrys}
      */
     public void addEntries(org.gtk.glib.OptionEntry[] entries) {
-        try {
-            DowncallHandles.g_option_group_add_entries.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_group_add_entries.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -109,8 +116,7 @@ public class OptionGroup extends Struct {
     @Deprecated
     public void free() {
         try {
-            DowncallHandles.g_option_group_free.invokeExact(
-                    handle());
+            DowncallHandles.g_option_group_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,12 +129,13 @@ public class OptionGroup extends Struct {
     public org.gtk.glib.OptionGroup ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_group_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_group_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -199,12 +206,14 @@ public class OptionGroup extends Struct {
      * @param domain the domain to use
      */
     public void setTranslationDomain(java.lang.String domain) {
-        try {
-            DowncallHandles.g_option_group_set_translation_domain.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(domain, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_group_set_translation_domain.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(domain, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -215,8 +224,7 @@ public class OptionGroup extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_option_group_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_option_group_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,57 +233,57 @@ public class OptionGroup extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_option_group_new = Interop.downcallHandle(
-            "g_option_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
-            "g_option_group_add_entries",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_add_entries",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_free = Interop.downcallHandle(
-            "g_option_group_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_ref = Interop.downcallHandle(
-            "g_option_group_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_set_error_hook = Interop.downcallHandle(
-            "g_option_group_set_error_hook",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_set_error_hook",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_set_parse_hooks = Interop.downcallHandle(
-            "g_option_group_set_parse_hooks",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_set_parse_hooks",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
-            "g_option_group_set_translate_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_set_translate_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
-            "g_option_group_set_translation_domain",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_set_translation_domain",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_group_unref = Interop.downcallHandle(
-            "g_option_group_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_option_group_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

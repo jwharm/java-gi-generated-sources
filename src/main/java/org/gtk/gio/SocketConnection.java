@@ -47,14 +47,16 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     /**
      * Create a SocketConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketConnection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketConnection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnection(input, ownership);
+    public static final Marshal<Addressable, SocketConnection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnection(input);
     
     /**
      * Connect {@code connection} to the specified remote address.
@@ -64,21 +66,23 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean connect(org.gtk.gio.SocketAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_socket_connection_connect.invokeExact(
-                    handle(),
-                    address.handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_socket_connection_connect.invokeExact(
+                        handle(),
+                        address.handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -112,20 +116,22 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean connectFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_socket_connection_connect_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_socket_connection_connect_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -135,19 +141,21 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_local_address.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_local_address.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -164,19 +172,21 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_remote_address.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_remote_address.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -188,12 +198,11 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     public org.gtk.gio.Socket getSocket() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_socket.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_get_socket.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Socket) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Socket.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Socket) Interop.register(RESULT, org.gtk.gio.Socket.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -204,8 +213,7 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     public boolean isConnected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_connection_is_connected.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_socket_connection_is_connected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,6 +295,9 @@ public class SocketConnection extends org.gtk.gio.IOStream {
      */
     public static class Builder extends org.gtk.gio.IOStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -317,63 +328,71 @@ public class SocketConnection extends org.gtk.gio.IOStream {
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_connection_connect = Interop.downcallHandle(
-            "g_socket_connection_connect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_connect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_connect_async = Interop.downcallHandle(
-            "g_socket_connection_connect_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_connect_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_connect_finish = Interop.downcallHandle(
-            "g_socket_connection_connect_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_connect_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_get_local_address = Interop.downcallHandle(
-            "g_socket_connection_get_local_address",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_get_local_address",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_get_remote_address = Interop.downcallHandle(
-            "g_socket_connection_get_remote_address",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_get_remote_address",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_get_socket = Interop.downcallHandle(
-            "g_socket_connection_get_socket",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_get_socket",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_is_connected = Interop.downcallHandle(
-            "g_socket_connection_is_connected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connection_is_connected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_connection_get_type = Interop.downcallHandle(
-            "g_socket_connection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_connection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_socket_connection_factory_lookup_type = Interop.downcallHandle(
-            "g_socket_connection_factory_lookup_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_socket_connection_factory_lookup_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_socket_connection_factory_register_type = Interop.downcallHandle(
-            "g_socket_connection_factory_register_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_socket_connection_factory_register_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_connection_get_type != null;
     }
 }

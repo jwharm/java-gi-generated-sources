@@ -48,8 +48,8 @@ public class SDPMessage extends Struct {
      * @return A new, uninitialized @{link SDPMessage}
      */
     public static SDPMessage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDPMessage newInstance = new SDPMessage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDPMessage newInstance = new SDPMessage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,10 +59,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code version}
      */
     public java.lang.String getVersion_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -70,9 +72,11 @@ public class SDPMessage extends Struct {
      * @param version The new value of the field {@code version}
      */
     public void setVersion_(java.lang.String version) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, SCOPE)));
+        }
     }
     
     /**
@@ -81,7 +85,7 @@ public class SDPMessage extends Struct {
      */
     public org.gstreamer.sdp.SDPOrigin getOrigin_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("origin"));
-        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -89,9 +93,11 @@ public class SDPMessage extends Struct {
      * @param origin The new value of the field {@code origin}
      */
     public void setOrigin_(org.gstreamer.sdp.SDPOrigin origin) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+        }
     }
     
     /**
@@ -99,10 +105,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code session_name}
      */
     public java.lang.String getSessionName_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -110,9 +118,11 @@ public class SDPMessage extends Struct {
      * @param sessionName The new value of the field {@code session_name}
      */
     public void setSessionName_(java.lang.String sessionName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, SCOPE)));
+        }
     }
     
     /**
@@ -120,10 +130,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code information}
      */
     public java.lang.String getInformation_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -131,9 +143,11 @@ public class SDPMessage extends Struct {
      * @param information The new value of the field {@code information}
      */
     public void setInformation_(java.lang.String information) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, SCOPE)));
+        }
     }
     
     /**
@@ -141,10 +155,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code uri}
      */
     public java.lang.String getUri_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("uri"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("uri"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -152,9 +168,11 @@ public class SDPMessage extends Struct {
      * @param uri The new value of the field {@code uri}
      */
     public void setUri_(java.lang.String uri) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("uri"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("uri"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)));
+        }
     }
     
     /**
@@ -162,10 +180,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code emails}
      */
     public PointerAddress getEmails() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("emails"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("emails"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -173,9 +193,11 @@ public class SDPMessage extends Struct {
      * @param emails The new value of the field {@code emails}
      */
     public void setEmails(java.lang.foreign.MemoryAddress[] emails) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("emails"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("emails"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false, SCOPE)));
+        }
     }
     
     /**
@@ -183,10 +205,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code phones}
      */
     public PointerAddress getPhones() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("phones"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("phones"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -194,9 +218,11 @@ public class SDPMessage extends Struct {
      * @param phones The new value of the field {@code phones}
      */
     public void setPhones(java.lang.foreign.MemoryAddress[] phones) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("phones"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("phones"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false, SCOPE)));
+        }
     }
     
     /**
@@ -205,7 +231,7 @@ public class SDPMessage extends Struct {
      */
     public org.gstreamer.sdp.SDPConnection getConnection_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("connection"));
-        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -213,9 +239,11 @@ public class SDPMessage extends Struct {
      * @param connection The new value of the field {@code connection}
      */
     public void setConnection_(org.gstreamer.sdp.SDPConnection connection) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connection"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connection"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
+        }
     }
     
     /**
@@ -223,10 +251,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code bandwidths}
      */
     public PointerAddress getBandwidths() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -234,9 +264,11 @@ public class SDPMessage extends Struct {
      * @param bandwidths The new value of the field {@code bandwidths}
      */
     public void setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false, SCOPE)));
+        }
     }
     
     /**
@@ -244,10 +276,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code times}
      */
     public PointerAddress getTimes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("times"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("times"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -255,9 +289,11 @@ public class SDPMessage extends Struct {
      * @param times The new value of the field {@code times}
      */
     public void setTimes(java.lang.foreign.MemoryAddress[] times) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("times"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("times"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false, SCOPE)));
+        }
     }
     
     /**
@@ -265,10 +301,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code zones}
      */
     public PointerAddress getZones() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("zones"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("zones"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -276,9 +314,11 @@ public class SDPMessage extends Struct {
      * @param zones The new value of the field {@code zones}
      */
     public void setZones(java.lang.foreign.MemoryAddress[] zones) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("zones"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("zones"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false, SCOPE)));
+        }
     }
     
     /**
@@ -287,7 +327,7 @@ public class SDPMessage extends Struct {
      */
     public org.gstreamer.sdp.SDPKey getKey_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("key"));
-        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -295,9 +335,11 @@ public class SDPMessage extends Struct {
      * @param key The new value of the field {@code key}
      */
     public void setKey_(org.gstreamer.sdp.SDPKey key) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+        }
     }
     
     /**
@@ -305,10 +347,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code attributes}
      */
     public PointerAddress getAttributes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -316,9 +360,11 @@ public class SDPMessage extends Struct {
      * @param attributes The new value of the field {@code attributes}
      */
     public void setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false, SCOPE)));
+        }
     }
     
     /**
@@ -326,10 +372,12 @@ public class SDPMessage extends Struct {
      * @return The value of the field {@code medias}
      */
     public PointerAddress getMedias() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("medias"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("medias"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -337,22 +385,26 @@ public class SDPMessage extends Struct {
      * @param medias The new value of the field {@code medias}
      */
     public void setMedias(java.lang.foreign.MemoryAddress[] medias) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("medias"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("medias"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false, SCOPE)));
+        }
     }
     
     /**
      * Create a SDPMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDPMessage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDPMessage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDPMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPMessage(input, ownership);
+    public static final Marshal<Addressable, SDPMessage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDPMessage(input);
     
     /**
      * Add the attribute with {@code key} and {@code value} to {@code msg}.
@@ -361,16 +413,18 @@ public class SDPMessage extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult addAttribute(java.lang.String key, @Nullable java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_attribute.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_attribute.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -380,16 +434,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addBandwidth(java.lang.String bwtype, int bandwidth) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_bandwidth.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(bwtype, null),
-                    bandwidth);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_bandwidth.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(bwtype, SCOPE),
+                        bandwidth);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -398,15 +454,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addEmail(java.lang.String email) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_email.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(email, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_email.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(email, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -434,15 +492,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addPhone(java.lang.String phone) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_phone.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(phone, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_phone.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(phone, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -453,17 +513,19 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addTime(java.lang.String start, java.lang.String stop, java.lang.String[] repeat) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(start, null),
-                    Marshal.stringToAddress.marshal(stop, null),
-                    Interop.allocateNativeArray(repeat, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(start, SCOPE),
+                        Marshal.stringToAddress.marshal(stop, SCOPE),
+                        Interop.allocateNativeArray(repeat, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -473,16 +535,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addZone(java.lang.String adjTime, java.lang.String typedTime) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_add_zone.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(adjTime, null),
-                    Marshal.stringToAddress.marshal(typedTime, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_add_zone.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(adjTime, SCOPE),
+                        Marshal.stringToAddress.marshal(typedTime, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -492,8 +556,7 @@ public class SDPMessage extends Struct {
     public java.lang.String asText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,8 +570,7 @@ public class SDPMessage extends Struct {
     public int attributesLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_attributes_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_attributes_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -539,8 +601,7 @@ public class SDPMessage extends Struct {
     public int bandwidthsLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_bandwidths_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_bandwidths_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -554,17 +615,19 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}
      */
     public org.gstreamer.sdp.SDPResult copy(Out<org.gstreamer.sdp.SDPMessage> copy) {
-        MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_copy.invokeExact(
-                    handle(),
-                    (Addressable) copyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment copyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_copy.invokeExact(
+                        handle(),
+                        (Addressable) copyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    copy.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        copy.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -574,8 +637,7 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPResult dump() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_dump.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_dump.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,8 +651,7 @@ public class SDPMessage extends Struct {
     public int emailsLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_emails_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_emails_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -606,8 +667,7 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPResult free() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_free.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -628,7 +688,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -637,15 +697,17 @@ public class SDPMessage extends Struct {
      * @return the attribute value of the first attribute with {@code key}.
      */
     public java.lang.String getAttributeVal(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -655,16 +717,18 @@ public class SDPMessage extends Struct {
      * @return the attribute value of the {@code nth} attribute with {@code key}.
      */
     public java.lang.String getAttributeValN(java.lang.String key, int nth) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val_n.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    nth);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val_n.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        nth);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -681,7 +745,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -691,12 +755,11 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_connection.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -723,8 +786,7 @@ public class SDPMessage extends Struct {
     public java.lang.String getInformation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_information.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_information.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -738,12 +800,11 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPKey getKey() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_key.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -760,7 +821,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPMedia.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPMedia.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -770,12 +831,11 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPOrigin getOrigin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_origin.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_origin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -802,8 +862,7 @@ public class SDPMessage extends Struct {
     public java.lang.String getSessionName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_session_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_session_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -824,7 +883,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPTime.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPTime.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -834,8 +893,7 @@ public class SDPMessage extends Struct {
     public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -849,8 +907,7 @@ public class SDPMessage extends Struct {
     public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_version.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -871,7 +928,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPZone.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPZone.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -886,8 +943,7 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPResult init() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_init.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -944,16 +1000,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult insertEmail(int idx, java.lang.String email) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_insert_email.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(email, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_insert_email.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(email, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -964,16 +1022,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult insertPhone(int idx, java.lang.String phone) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_insert_phone.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(phone, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_insert_phone.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(phone, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1025,8 +1085,7 @@ public class SDPMessage extends Struct {
     public int mediasLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_medias_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_medias_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1040,17 +1099,19 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult parseKeymgmt(Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
-        MemorySegment mikeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_parse_keymgmt.invokeExact(
-                    handle(),
-                    (Addressable) mikeyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment mikeyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_parse_keymgmt.invokeExact(
+                        handle(),
+                        (Addressable) mikeyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1060,8 +1121,7 @@ public class SDPMessage extends Struct {
     public int phonesLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_phones_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_phones_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1215,16 +1275,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult replaceEmail(int idx, java.lang.String email) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_replace_email.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(email, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_replace_email.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(email, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1234,16 +1296,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult replacePhone(int idx, java.lang.String phone) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_replace_phone.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(phone, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_replace_phone.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(phone, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1295,19 +1359,21 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setConnection(java.lang.String nettype, java.lang.String addrtype, java.lang.String address, int ttl, int addrNumber) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_connection.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(nettype, null),
-                    Marshal.stringToAddress.marshal(addrtype, null),
-                    Marshal.stringToAddress.marshal(address, null),
-                    ttl,
-                    addrNumber);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_connection.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(nettype, SCOPE),
+                        Marshal.stringToAddress.marshal(addrtype, SCOPE),
+                        Marshal.stringToAddress.marshal(address, SCOPE),
+                        ttl,
+                        addrNumber);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1316,15 +1382,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setInformation(java.lang.String information) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_information.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(information, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_information.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(information, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1334,16 +1402,18 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setKey(java.lang.String type, java.lang.String data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(type, null),
-                    Marshal.stringToAddress.marshal(data, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(type, SCOPE),
+                        Marshal.stringToAddress.marshal(data, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1357,20 +1427,22 @@ public class SDPMessage extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult setOrigin(java.lang.String username, java.lang.String sessId, java.lang.String sessVersion, java.lang.String nettype, java.lang.String addrtype, java.lang.String addr) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_origin.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(username, null),
-                    Marshal.stringToAddress.marshal(sessId, null),
-                    Marshal.stringToAddress.marshal(sessVersion, null),
-                    Marshal.stringToAddress.marshal(nettype, null),
-                    Marshal.stringToAddress.marshal(addrtype, null),
-                    Marshal.stringToAddress.marshal(addr, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_origin.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(username, SCOPE),
+                        Marshal.stringToAddress.marshal(sessId, SCOPE),
+                        Marshal.stringToAddress.marshal(sessVersion, SCOPE),
+                        Marshal.stringToAddress.marshal(nettype, SCOPE),
+                        Marshal.stringToAddress.marshal(addrtype, SCOPE),
+                        Marshal.stringToAddress.marshal(addr, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1379,15 +1451,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setSessionName(java.lang.String sessionName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_session_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(sessionName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_session_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(sessionName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1396,15 +1470,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setUri(java.lang.String uri) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_uri.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_uri.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1413,15 +1489,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setVersion(java.lang.String version) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_set_version.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(version, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_set_version.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(version, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1431,8 +1509,7 @@ public class SDPMessage extends Struct {
     public int timesLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_times_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_times_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1448,8 +1525,7 @@ public class SDPMessage extends Struct {
     public org.gstreamer.sdp.SDPResult uninit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_uninit.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_uninit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1463,8 +1539,7 @@ public class SDPMessage extends Struct {
     public int zonesLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_zones_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_message_zones_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1482,15 +1557,17 @@ public class SDPMessage extends Struct {
      * @return a uri for {@code msg}.
      */
     public static java.lang.String asUri(java.lang.String scheme, org.gstreamer.sdp.SDPMessage msg) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_uri.invokeExact(
-                    Marshal.stringToAddress.marshal(scheme, null),
-                    msg.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_uri.invokeExact(
+                        Marshal.stringToAddress.marshal(scheme, SCOPE),
+                        msg.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1499,16 +1576,17 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public static org.gstreamer.sdp.SDPResult new_(Out<org.gstreamer.sdp.SDPMessage> msg) {
-        MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_new.invokeExact(
-                    (Addressable) msgPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment msgPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_new.invokeExact((Addressable) msgPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1518,17 +1596,19 @@ public class SDPMessage extends Struct {
      * @return a {@link SDPResult}.
      */
     public static org.gstreamer.sdp.SDPResult newFromText(java.lang.String text, Out<org.gstreamer.sdp.SDPMessage> msg) {
-        MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_new_from_text.invokeExact(
-                    Marshal.stringToAddress.marshal(text, null),
-                    (Addressable) msgPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment msgPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_new_from_text.invokeExact(
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        (Addressable) msgPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1540,16 +1620,18 @@ public class SDPMessage extends Struct {
      * @return {@code GST_SDP_OK} on success.
      */
     public static org.gstreamer.sdp.SDPResult parseBuffer(byte[] data, int size, org.gstreamer.sdp.SDPMessage msg) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_parse_buffer.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    size,
-                    msg.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_parse_buffer.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size,
+                        msg.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1567,425 +1649,427 @@ public class SDPMessage extends Struct {
      * @return {@code GST_SDP_OK} on success.
      */
     public static org.gstreamer.sdp.SDPResult parseUri(java.lang.String uri, org.gstreamer.sdp.SDPMessage msg) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_message_parse_uri.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null),
-                    msg.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_message_parse_uri.invokeExact(
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        msg.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_sdp_message_add_attribute = Interop.downcallHandle(
-            "gst_sdp_message_add_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_bandwidth = Interop.downcallHandle(
-            "gst_sdp_message_add_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_add_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_email = Interop.downcallHandle(
-            "gst_sdp_message_add_email",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_email",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_media = Interop.downcallHandle(
-            "gst_sdp_message_add_media",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_media",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_phone = Interop.downcallHandle(
-            "gst_sdp_message_add_phone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_phone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_time = Interop.downcallHandle(
-            "gst_sdp_message_add_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_add_zone = Interop.downcallHandle(
-            "gst_sdp_message_add_zone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_add_zone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_as_text = Interop.downcallHandle(
-            "gst_sdp_message_as_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_as_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_attributes_len = Interop.downcallHandle(
-            "gst_sdp_message_attributes_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_attributes_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_attributes_to_caps = Interop.downcallHandle(
-            "gst_sdp_message_attributes_to_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_attributes_to_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_bandwidths_len = Interop.downcallHandle(
-            "gst_sdp_message_bandwidths_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_bandwidths_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_copy = Interop.downcallHandle(
-            "gst_sdp_message_copy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_copy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_dump = Interop.downcallHandle(
-            "gst_sdp_message_dump",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_dump",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_emails_len = Interop.downcallHandle(
-            "gst_sdp_message_emails_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_emails_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_free = Interop.downcallHandle(
-            "gst_sdp_message_free",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_free",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_attribute = Interop.downcallHandle(
-            "gst_sdp_message_get_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_attribute_val = Interop.downcallHandle(
-            "gst_sdp_message_get_attribute_val",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_attribute_val",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_attribute_val_n = Interop.downcallHandle(
-            "gst_sdp_message_get_attribute_val_n",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_attribute_val_n",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_bandwidth = Interop.downcallHandle(
-            "gst_sdp_message_get_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_connection = Interop.downcallHandle(
-            "gst_sdp_message_get_connection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_connection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_email = Interop.downcallHandle(
-            "gst_sdp_message_get_email",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_email",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_information = Interop.downcallHandle(
-            "gst_sdp_message_get_information",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_information",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_key = Interop.downcallHandle(
-            "gst_sdp_message_get_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_media = Interop.downcallHandle(
-            "gst_sdp_message_get_media",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_media",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_origin = Interop.downcallHandle(
-            "gst_sdp_message_get_origin",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_origin",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_phone = Interop.downcallHandle(
-            "gst_sdp_message_get_phone",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_phone",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_session_name = Interop.downcallHandle(
-            "gst_sdp_message_get_session_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_session_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_time = Interop.downcallHandle(
-            "gst_sdp_message_get_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_uri = Interop.downcallHandle(
-            "gst_sdp_message_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_version = Interop.downcallHandle(
-            "gst_sdp_message_get_version",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_get_version",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_get_zone = Interop.downcallHandle(
-            "gst_sdp_message_get_zone",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_get_zone",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_init = Interop.downcallHandle(
-            "gst_sdp_message_init",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_init",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_attribute = Interop.downcallHandle(
-            "gst_sdp_message_insert_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_bandwidth = Interop.downcallHandle(
-            "gst_sdp_message_insert_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_email = Interop.downcallHandle(
-            "gst_sdp_message_insert_email",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_email",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_phone = Interop.downcallHandle(
-            "gst_sdp_message_insert_phone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_phone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_time = Interop.downcallHandle(
-            "gst_sdp_message_insert_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_insert_zone = Interop.downcallHandle(
-            "gst_sdp_message_insert_zone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_insert_zone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_medias_len = Interop.downcallHandle(
-            "gst_sdp_message_medias_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_medias_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_parse_keymgmt = Interop.downcallHandle(
-            "gst_sdp_message_parse_keymgmt",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_parse_keymgmt",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_phones_len = Interop.downcallHandle(
-            "gst_sdp_message_phones_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_phones_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_attribute = Interop.downcallHandle(
-            "gst_sdp_message_remove_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_bandwidth = Interop.downcallHandle(
-            "gst_sdp_message_remove_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_email = Interop.downcallHandle(
-            "gst_sdp_message_remove_email",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_email",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_phone = Interop.downcallHandle(
-            "gst_sdp_message_remove_phone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_phone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_time = Interop.downcallHandle(
-            "gst_sdp_message_remove_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_remove_zone = Interop.downcallHandle(
-            "gst_sdp_message_remove_zone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_remove_zone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_attribute = Interop.downcallHandle(
-            "gst_sdp_message_replace_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_bandwidth = Interop.downcallHandle(
-            "gst_sdp_message_replace_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_email = Interop.downcallHandle(
-            "gst_sdp_message_replace_email",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_email",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_phone = Interop.downcallHandle(
-            "gst_sdp_message_replace_phone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_phone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_time = Interop.downcallHandle(
-            "gst_sdp_message_replace_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_replace_zone = Interop.downcallHandle(
-            "gst_sdp_message_replace_zone",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_replace_zone",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_connection = Interop.downcallHandle(
-            "gst_sdp_message_set_connection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_message_set_connection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_information = Interop.downcallHandle(
-            "gst_sdp_message_set_information",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_information",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_key = Interop.downcallHandle(
-            "gst_sdp_message_set_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_origin = Interop.downcallHandle(
-            "gst_sdp_message_set_origin",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_origin",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_session_name = Interop.downcallHandle(
-            "gst_sdp_message_set_session_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_session_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_uri = Interop.downcallHandle(
-            "gst_sdp_message_set_uri",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_uri",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_set_version = Interop.downcallHandle(
-            "gst_sdp_message_set_version",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_set_version",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_times_len = Interop.downcallHandle(
-            "gst_sdp_message_times_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_times_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_uninit = Interop.downcallHandle(
-            "gst_sdp_message_uninit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_uninit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_zones_len = Interop.downcallHandle(
-            "gst_sdp_message_zones_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_zones_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_as_uri = Interop.downcallHandle(
-            "gst_sdp_message_as_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_as_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_new = Interop.downcallHandle(
-            "gst_sdp_message_new",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_new",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_new_from_text = Interop.downcallHandle(
-            "gst_sdp_message_new_from_text",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_new_from_text",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_parse_buffer = Interop.downcallHandle(
-            "gst_sdp_message_parse_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_parse_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_message_parse_uri = Interop.downcallHandle(
-            "gst_sdp_message_parse_uri",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_message_parse_uri",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -2011,7 +2095,7 @@ public class SDPMessage extends Struct {
             struct = SDPMessage.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDPMessage} struct.
          * @return A new instance of {@code SDPMessage} with the fields 
          *         that were set in the Builder object.
@@ -2026,10 +2110,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVersion(java.lang.String version) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2038,10 +2124,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOrigin(org.gstreamer.sdp.SDPOrigin origin) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2050,10 +2138,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSessionName(java.lang.String sessionName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2062,10 +2152,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInformation(java.lang.String information) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("information"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2074,10 +2166,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUri(java.lang.String uri) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("uri"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("uri"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2086,10 +2180,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEmails(java.lang.foreign.MemoryAddress[] emails) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("emails"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("emails"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2098,10 +2194,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPhones(java.lang.foreign.MemoryAddress[] phones) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("phones"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("phones"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2110,10 +2208,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setConnection(org.gstreamer.sdp.SDPConnection connection) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("connection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("connection"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2122,10 +2222,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2134,10 +2236,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTimes(java.lang.foreign.MemoryAddress[] times) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("times"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("times"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2146,10 +2250,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setZones(java.lang.foreign.MemoryAddress[] zones) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("zones"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("zones"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2158,10 +2264,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKey(org.gstreamer.sdp.SDPKey key) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2170,10 +2278,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2182,10 +2292,12 @@ public class SDPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMedias(java.lang.foreign.MemoryAddress[] medias) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("medias"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("medias"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

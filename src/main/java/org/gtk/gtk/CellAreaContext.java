@@ -41,14 +41,16 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
     /**
      * Create a CellAreaContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellAreaContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CellAreaContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellAreaContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContext(input, ownership);
+    public static final Marshal<Addressable, CellAreaContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContext(input);
     
     /**
      * Allocates a width and/or a height for all rows which are to be
@@ -87,18 +89,20 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      * @param height location to store the allocated height
      */
     public void getAllocation(Out<Integer> width, Out<Integer> height) {
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_cell_area_context_get_allocation.invokeExact(
-                    handle(),
-                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_cell_area_context_get_allocation.invokeExact(
+                        handle(),
+                        (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -117,12 +121,11 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
     public org.gtk.gtk.CellArea getArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_context_get_area.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_context_get_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellArea.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.CellArea) Interop.register(RESULT, org.gtk.gtk.CellArea.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -135,18 +138,20 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      * @param naturalHeight location to store the natural height
      */
     public void getPreferredHeight(Out<Integer> minimumHeight, Out<Integer> naturalHeight) {
-        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_height.invokeExact(
-                    handle(),
-                    (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
-                    (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minimumHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_cell_area_context_get_preferred_height.invokeExact(
+                        handle(),
+                        (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
+                        (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -160,19 +165,21 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      * @param naturalHeight location to store the natural height
      */
     public void getPreferredHeightForWidth(int width, Out<Integer> minimumHeight, Out<Integer> naturalHeight) {
-        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_height_for_width.invokeExact(
-                    handle(),
-                    width,
-                    (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
-                    (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minimumHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_cell_area_context_get_preferred_height_for_width.invokeExact(
+                        handle(),
+                        width,
+                        (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
+                        (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -185,18 +192,20 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      * @param naturalWidth location to store the natural width
      */
     public void getPreferredWidth(Out<Integer> minimumWidth, Out<Integer> naturalWidth) {
-        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_width.invokeExact(
-                    handle(),
-                    (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
-                    (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minimumWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_cell_area_context_get_preferred_width.invokeExact(
+                        handle(),
+                        (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
+                        (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -210,19 +219,21 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      * @param naturalWidth location to store the natural width
      */
     public void getPreferredWidthForHeight(int height, Out<Integer> minimumWidth, Out<Integer> naturalWidth) {
-        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_cell_area_context_get_preferred_width_for_height.invokeExact(
-                    handle(),
-                    height,
-                    (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
-                    (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minimumWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_cell_area_context_get_preferred_width_for_height.invokeExact(
+                        handle(),
+                        height,
+                        (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
+                        (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -295,8 +306,7 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      */
     public void reset() {
         try {
-            DowncallHandles.gtk_cell_area_context_reset.invokeExact(
-                    handle());
+            DowncallHandles.gtk_cell_area_context_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,6 +342,9 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -419,69 +432,77 @@ public class CellAreaContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_area_context_allocate = Interop.downcallHandle(
-            "gtk_cell_area_context_allocate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_context_allocate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_allocation = Interop.downcallHandle(
-            "gtk_cell_area_context_get_allocation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_allocation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_area = Interop.downcallHandle(
-            "gtk_cell_area_context_get_area",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_area",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_height = Interop.downcallHandle(
-            "gtk_cell_area_context_get_preferred_height",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_preferred_height",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_height_for_width = Interop.downcallHandle(
-            "gtk_cell_area_context_get_preferred_height_for_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_preferred_height_for_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_width = Interop.downcallHandle(
-            "gtk_cell_area_context_get_preferred_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_preferred_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_preferred_width_for_height = Interop.downcallHandle(
-            "gtk_cell_area_context_get_preferred_width_for_height",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_get_preferred_width_for_height",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_push_preferred_height = Interop.downcallHandle(
-            "gtk_cell_area_context_push_preferred_height",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_context_push_preferred_height",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_push_preferred_width = Interop.downcallHandle(
-            "gtk_cell_area_context_push_preferred_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_context_push_preferred_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_reset = Interop.downcallHandle(
-            "gtk_cell_area_context_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_context_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_context_get_type = Interop.downcallHandle(
-            "gtk_cell_area_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_area_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_area_context_get_type != null;
     }
 }

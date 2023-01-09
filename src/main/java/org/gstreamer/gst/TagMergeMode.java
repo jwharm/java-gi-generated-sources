@@ -24,34 +24,42 @@ import org.jetbrains.annotations.*;
  * | KEEP_ALL    | A     | A      | ø      | ø       |
  */
 public enum TagMergeMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * undefined merge mode
      */
     UNDEFINED(0),
+    
     /**
      * replace all tags (clear list and append)
      */
     REPLACE_ALL(1),
+    
     /**
      * replace tags
      */
     REPLACE(2),
+    
     /**
      * append tags
      */
     APPEND(3),
+    
     /**
      * prepend tags
      */
     PREPEND(4),
+    
     /**
      * keep existing tags
      */
     KEEP(5),
+    
     /**
      * keep all existing tags
      */
     KEEP_ALL(6),
+    
     /**
      * the number of merge modes
      */
@@ -60,15 +68,29 @@ public enum TagMergeMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstTagMergeMode";
     
     private final int value;
+    
+    /**
+     * Create a new TagMergeMode for the provided value
+     * @param numeric value the enum value
+     */
     TagMergeMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TagMergeMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TagMergeMode of(int value) {
         return switch (value) {
             case 0 -> UNDEFINED;

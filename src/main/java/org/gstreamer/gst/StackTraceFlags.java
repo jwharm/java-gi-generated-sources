@@ -23,6 +23,9 @@ public class StackTraceFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final StackTraceFlags FULL = new StackTraceFlags(1);
     
+    /**
+     * Create a new StackTraceFlags with the provided value
+     */
     public StackTraceFlags(int value) {
         super(value);
     }

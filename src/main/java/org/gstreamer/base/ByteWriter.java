@@ -44,8 +44,8 @@ public class ByteWriter extends Struct {
      * @return A new, uninitialized @{link ByteWriter}
      */
     public static ByteWriter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ByteWriter newInstance = new ByteWriter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ByteWriter newInstance = new ByteWriter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,7 +56,7 @@ public class ByteWriter extends Struct {
      */
     public org.gstreamer.base.ByteReader getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.base.ByteReader.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.ByteReader.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -64,9 +64,11 @@ public class ByteWriter extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.base.ByteReader parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -74,10 +76,12 @@ public class ByteWriter extends Struct {
      * @return The value of the field {@code alloc_size}
      */
     public int getAllocSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +89,11 @@ public class ByteWriter extends Struct {
      * @param allocSize The new value of the field {@code alloc_size}
      */
     public void setAllocSize(int allocSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), allocSize);
+        }
     }
     
     /**
@@ -95,10 +101,12 @@ public class ByteWriter extends Struct {
      * @return The value of the field {@code fixed}
      */
     public boolean getFixed() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -106,9 +114,11 @@ public class ByteWriter extends Struct {
      * @param fixed The new value of the field {@code fixed}
      */
     public void setFixed(boolean fixed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(fixed, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(fixed, null).intValue());
+        }
     }
     
     /**
@@ -116,10 +126,12 @@ public class ByteWriter extends Struct {
      * @return The value of the field {@code owned}
      */
     public boolean getOwned() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("owned"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -127,22 +139,26 @@ public class ByteWriter extends Struct {
      * @param owned The new value of the field {@code owned}
      */
     public void setOwned(boolean owned) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(owned, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("owned"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(owned, null).intValue());
+        }
     }
     
     /**
      * Create a ByteWriter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ByteWriter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ByteWriter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ByteWriter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteWriter(input, ownership);
+    public static final Marshal<Addressable, ByteWriter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ByteWriter(input);
     
     /**
      * Checks if enough free space from the current write cursor is
@@ -186,8 +202,7 @@ public class ByteWriter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_byte_writer_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_byte_writer_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,13 +220,14 @@ public class ByteWriter extends Struct {
     public org.gstreamer.gst.Buffer freeAndGetBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_free_and_get_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_free_and_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -224,8 +240,7 @@ public class ByteWriter extends Struct {
     public PointerByte freeAndGetData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_free_and_get_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_free_and_get_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,8 +256,7 @@ public class ByteWriter extends Struct {
     public int getRemaining() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_writer_get_remaining.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_writer_get_remaining.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,8 +268,7 @@ public class ByteWriter extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.gst_byte_writer_init.invokeExact(
-                    handle());
+            DowncallHandles.gst_byte_writer_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,14 +283,16 @@ public class ByteWriter extends Struct {
      * @param initialized If {@code true} the complete data can be read from the beginning
      */
     public void initWithData(byte[] data, int size, boolean initialized) {
-        try {
-            DowncallHandles.gst_byte_writer_init_with_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size,
-                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_byte_writer_init_with_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size,
+                        Marshal.booleanToInteger.marshal(initialized, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -325,16 +340,18 @@ public class ByteWriter extends Struct {
      * @return {@code true} if the value could be written
      */
     public boolean putData(byte[] data, int size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_writer_put_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_writer_put_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -564,15 +581,17 @@ public class ByteWriter extends Struct {
      * @return {@code true} if the value could be written
      */
     public boolean putStringUtf16(short[] data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf16.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf16.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -581,15 +600,17 @@ public class ByteWriter extends Struct {
      * @return {@code true} if the value could be written
      */
     public boolean putStringUtf32(int[] data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf32.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf32.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -598,15 +619,17 @@ public class ByteWriter extends Struct {
      * @return {@code true} if the value could be written
      */
     public boolean putStringUtf8(java.lang.String data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf8.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(data, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf8.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(data, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -768,8 +791,7 @@ public class ByteWriter extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_byte_writer_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_byte_writer_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -785,12 +807,13 @@ public class ByteWriter extends Struct {
     public org.gstreamer.gst.Buffer resetAndGetBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -801,14 +824,15 @@ public class ByteWriter extends Struct {
      * usage.
      */
     public PointerByte resetAndGetData() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_data.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_data.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -824,7 +848,9 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -848,7 +874,9 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -869,261 +897,263 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_byte_writer_ensure_free_space = Interop.downcallHandle(
-            "gst_byte_writer_ensure_free_space",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_ensure_free_space",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_fill = Interop.downcallHandle(
-            "gst_byte_writer_fill",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_fill",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_free = Interop.downcallHandle(
-            "gst_byte_writer_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_free_and_get_buffer = Interop.downcallHandle(
-            "gst_byte_writer_free_and_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_free_and_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_free_and_get_data = Interop.downcallHandle(
-            "gst_byte_writer_free_and_get_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_free_and_get_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_get_remaining = Interop.downcallHandle(
-            "gst_byte_writer_get_remaining",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_get_remaining",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_init = Interop.downcallHandle(
-            "gst_byte_writer_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_init_with_data = Interop.downcallHandle(
-            "gst_byte_writer_init_with_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_init_with_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_init_with_size = Interop.downcallHandle(
-            "gst_byte_writer_init_with_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_init_with_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_buffer = Interop.downcallHandle(
-            "gst_byte_writer_put_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_byte_writer_put_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_data = Interop.downcallHandle(
-            "gst_byte_writer_put_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_float32_be = Interop.downcallHandle(
-            "gst_byte_writer_put_float32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gst_byte_writer_put_float32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_float32_le = Interop.downcallHandle(
-            "gst_byte_writer_put_float32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gst_byte_writer_put_float32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_float64_be = Interop.downcallHandle(
-            "gst_byte_writer_put_float64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_byte_writer_put_float64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_float64_le = Interop.downcallHandle(
-            "gst_byte_writer_put_float64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_byte_writer_put_float64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int16_be = Interop.downcallHandle(
-            "gst_byte_writer_put_int16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_byte_writer_put_int16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int16_le = Interop.downcallHandle(
-            "gst_byte_writer_put_int16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_byte_writer_put_int16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int24_be = Interop.downcallHandle(
-            "gst_byte_writer_put_int24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_int24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int24_le = Interop.downcallHandle(
-            "gst_byte_writer_put_int24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_int24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int32_be = Interop.downcallHandle(
-            "gst_byte_writer_put_int32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_int32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int32_le = Interop.downcallHandle(
-            "gst_byte_writer_put_int32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_int32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int64_be = Interop.downcallHandle(
-            "gst_byte_writer_put_int64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_byte_writer_put_int64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int64_le = Interop.downcallHandle(
-            "gst_byte_writer_put_int64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_byte_writer_put_int64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_int8 = Interop.downcallHandle(
-            "gst_byte_writer_put_int8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_byte_writer_put_int8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_string_utf16 = Interop.downcallHandle(
-            "gst_byte_writer_put_string_utf16",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_put_string_utf16",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_string_utf32 = Interop.downcallHandle(
-            "gst_byte_writer_put_string_utf32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_put_string_utf32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_string_utf8 = Interop.downcallHandle(
-            "gst_byte_writer_put_string_utf8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_put_string_utf8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint16_be = Interop.downcallHandle(
-            "gst_byte_writer_put_uint16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_byte_writer_put_uint16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint16_le = Interop.downcallHandle(
-            "gst_byte_writer_put_uint16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_byte_writer_put_uint16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint24_be = Interop.downcallHandle(
-            "gst_byte_writer_put_uint24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_uint24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint24_le = Interop.downcallHandle(
-            "gst_byte_writer_put_uint24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_uint24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint32_be = Interop.downcallHandle(
-            "gst_byte_writer_put_uint32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_uint32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint32_le = Interop.downcallHandle(
-            "gst_byte_writer_put_uint32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_put_uint32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint64_be = Interop.downcallHandle(
-            "gst_byte_writer_put_uint64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_byte_writer_put_uint64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint64_le = Interop.downcallHandle(
-            "gst_byte_writer_put_uint64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_byte_writer_put_uint64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_put_uint8 = Interop.downcallHandle(
-            "gst_byte_writer_put_uint8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_byte_writer_put_uint8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_reset = Interop.downcallHandle(
-            "gst_byte_writer_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_reset_and_get_buffer = Interop.downcallHandle(
-            "gst_byte_writer_reset_and_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_reset_and_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_reset_and_get_data = Interop.downcallHandle(
-            "gst_byte_writer_reset_and_get_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_reset_and_get_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_new = Interop.downcallHandle(
-            "gst_byte_writer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_writer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_new_with_data = Interop.downcallHandle(
-            "gst_byte_writer_new_with_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_new_with_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_writer_new_with_size = Interop.downcallHandle(
-            "gst_byte_writer_new_with_size",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_writer_new_with_size",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -1149,7 +1179,7 @@ public class ByteWriter extends Struct {
             struct = ByteWriter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ByteWriter} struct.
          * @return A new instance of {@code ByteWriter} with the fields 
          *         that were set in the Builder object.
@@ -1164,10 +1194,12 @@ public class ByteWriter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.base.ByteReader parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1176,10 +1208,12 @@ public class ByteWriter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAllocSize(int allocSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), allocSize);
+                return this;
+            }
         }
         
         /**
@@ -1188,10 +1222,12 @@ public class ByteWriter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFixed(boolean fixed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(fixed, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(fixed, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -1200,17 +1236,21 @@ public class ByteWriter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOwned(boolean owned) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(owned, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("owned"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(owned, null).intValue());
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

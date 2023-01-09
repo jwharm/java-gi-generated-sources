@@ -28,14 +28,16 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a TextureNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextureNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextureNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextureNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextureNode(input, ownership);
+    public static final Marshal<Addressable, TextureNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextureNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
      * @param bounds the rectangle to render the texture into
      */
     public TextureNode(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        super(constructNew(texture, bounds), Ownership.FULL);
+        super(constructNew(texture, bounds));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +69,11 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gdk.Texture getTexture() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_texture_node_get_texture.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_texture_node_get_texture.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -91,21 +93,29 @@ public class TextureNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_texture_node_new = Interop.downcallHandle(
-            "gsk_texture_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_texture_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_texture_node_get_texture = Interop.downcallHandle(
-            "gsk_texture_node_get_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_texture_node_get_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_texture_node_get_type = Interop.downcallHandle(
-            "gsk_texture_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_texture_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_texture_node_get_type != null;
     }
 }

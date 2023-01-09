@@ -29,8 +29,8 @@ public class ImportMemoryFdInfoKHR extends Struct {
      * @return A new, uninitialized @{link ImportMemoryFdInfoKHR}
      */
     public static ImportMemoryFdInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImportMemoryFdInfoKHR newInstance = new ImportMemoryFdInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImportMemoryFdInfoKHR newInstance = new ImportMemoryFdInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImportMemoryFdInfoKHR extends Struct {
     /**
      * Create a ImportMemoryFdInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImportMemoryFdInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImportMemoryFdInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImportMemoryFdInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImportMemoryFdInfoKHR(input, ownership);
+    public static final Marshal<Addressable, ImportMemoryFdInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImportMemoryFdInfoKHR(input);
 }

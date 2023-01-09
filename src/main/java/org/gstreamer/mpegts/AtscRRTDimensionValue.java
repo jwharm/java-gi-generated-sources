@@ -32,8 +32,8 @@ public class AtscRRTDimensionValue extends Struct {
      * @return A new, uninitialized @{link AtscRRTDimensionValue}
      */
     public static AtscRRTDimensionValue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscRRTDimensionValue newInstance = new AtscRRTDimensionValue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscRRTDimensionValue newInstance = new AtscRRTDimensionValue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,10 +43,12 @@ public class AtscRRTDimensionValue extends Struct {
      * @return The value of the field {@code abbrev_ratings}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscMultString> getAbbrevRatings() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        }
     }
     
     /**
@@ -54,9 +56,11 @@ public class AtscRRTDimensionValue extends Struct {
      * @param abbrevRatings The new value of the field {@code abbrev_ratings}
      */
     public void setAbbrevRatings(org.gstreamer.mpegts.AtscMultString[] abbrevRatings) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (abbrevRatings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(abbrevRatings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (abbrevRatings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(abbrevRatings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -64,10 +68,12 @@ public class AtscRRTDimensionValue extends Struct {
      * @return The value of the field {@code ratings}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscMultString> getRatings() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        }
     }
     
     /**
@@ -75,22 +81,26 @@ public class AtscRRTDimensionValue extends Struct {
      * @param ratings The new value of the field {@code ratings}
      */
     public void setRatings(org.gstreamer.mpegts.AtscMultString[] ratings) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ratings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ratings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ratings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ratings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscRRTDimensionValue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscRRTDimensionValue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscRRTDimensionValue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscRRTDimensionValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscRRTDimensionValue(input, ownership);
+    public static final Marshal<Addressable, AtscRRTDimensionValue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscRRTDimensionValue(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -103,15 +113,16 @@ public class AtscRRTDimensionValue extends Struct {
     }
     
     public AtscRRTDimensionValue() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_atsc_rrt_dimension_value_new = Interop.downcallHandle(
-            "gst_mpegts_atsc_rrt_dimension_value_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_atsc_rrt_dimension_value_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -137,7 +148,7 @@ public class AtscRRTDimensionValue extends Struct {
             struct = AtscRRTDimensionValue.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscRRTDimensionValue} struct.
          * @return A new instance of {@code AtscRRTDimensionValue} with the fields 
          *         that were set in the Builder object.
@@ -152,10 +163,12 @@ public class AtscRRTDimensionValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAbbrevRatings(org.gstreamer.mpegts.AtscMultString[] abbrevRatings) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (abbrevRatings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(abbrevRatings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("abbrev_ratings"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (abbrevRatings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(abbrevRatings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -164,10 +177,12 @@ public class AtscRRTDimensionValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRatings(org.gstreamer.mpegts.AtscMultString[] ratings) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ratings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ratings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ratings"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ratings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ratings, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

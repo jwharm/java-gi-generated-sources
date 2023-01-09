@@ -37,8 +37,8 @@ public class FontDescription extends Struct {
      * @return A new, uninitialized @{link FontDescription}
      */
     public static FontDescription allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontDescription newInstance = new FontDescription(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontDescription newInstance = new FontDescription(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class FontDescription extends Struct {
     /**
      * Create a FontDescription proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontDescription(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontDescription(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontDescription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontDescription(input, ownership);
+    public static final Marshal<Addressable, FontDescription> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontDescription(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -69,7 +71,8 @@ public class FontDescription extends Struct {
      * Creates a new font description structure with all fields unset.
      */
     public FontDescription() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -110,12 +113,13 @@ public class FontDescription extends Struct {
     public @Nullable org.pango.FontDescription copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.FontDescription.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -133,12 +137,13 @@ public class FontDescription extends Struct {
     public @Nullable org.pango.FontDescription copyStatic() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy_static.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_copy_static.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.FontDescription.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -169,8 +174,7 @@ public class FontDescription extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_font_description_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_font_description_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,8 +191,7 @@ public class FontDescription extends Struct {
     public @Nullable java.lang.String getFamily() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_family.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_family.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,8 +209,7 @@ public class FontDescription extends Struct {
     public org.pango.Gravity getGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_gravity.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_gravity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,8 +224,7 @@ public class FontDescription extends Struct {
     public org.pango.FontMask getSetFields() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_set_fields.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_set_fields.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,8 +246,7 @@ public class FontDescription extends Struct {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,8 +267,7 @@ public class FontDescription extends Struct {
     public boolean getSizeIsAbsolute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_size_is_absolute.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_size_is_absolute.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,8 +285,7 @@ public class FontDescription extends Struct {
     public org.pango.Stretch getStretch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_stretch.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_stretch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,8 +303,7 @@ public class FontDescription extends Struct {
     public org.pango.Style getStyle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_style.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_style.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,8 +321,7 @@ public class FontDescription extends Struct {
     public org.pango.Variant getVariant() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_variant.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_variant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,8 +339,7 @@ public class FontDescription extends Struct {
     public @Nullable java.lang.String getVariations() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_variations.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_get_variations.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,8 +357,7 @@ public class FontDescription extends Struct {
     public org.pango.Weight getWeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_get_weight.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_get_weight.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,8 +374,7 @@ public class FontDescription extends Struct {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_description_hash.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_description_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,12 +461,14 @@ public class FontDescription extends Struct {
      * @param family a string representing the family name.
      */
     public void setFamily(java.lang.String family) {
-        try {
-            DowncallHandles.pango_font_description_set_family.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(family, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_font_description_set_family.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(family, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -488,12 +483,14 @@ public class FontDescription extends Struct {
      * @param family a string representing the family name
      */
     public void setFamilyStatic(java.lang.String family) {
-        try {
-            DowncallHandles.pango_font_description_set_family_static.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(family, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_font_description_set_family_static.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(family, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -620,12 +617,14 @@ public class FontDescription extends Struct {
      * @param variations a string representing the variations
      */
     public void setVariations(@Nullable java.lang.String variations) {
-        try {
-            DowncallHandles.pango_font_description_set_variations.invokeExact(
-                    handle(),
-                    (Addressable) (variations == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variations, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_font_description_set_variations.invokeExact(
+                        handle(),
+                        (Addressable) (variations == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variations, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -641,12 +640,14 @@ public class FontDescription extends Struct {
      * @param variations a string representing the variations
      */
     public void setVariationsStatic(java.lang.String variations) {
-        try {
-            DowncallHandles.pango_font_description_set_variations_static.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(variations, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_font_description_set_variations_static.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(variations, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -681,8 +682,7 @@ public class FontDescription extends Struct {
     public @Nullable java.lang.String toFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_filename.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,8 +701,7 @@ public class FontDescription extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -774,220 +773,223 @@ public class FontDescription extends Struct {
      * @return a new {@code PangoFontDescription}.
      */
     public static org.pango.FontDescription fromString(java.lang.String str) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.pango.FontDescription.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_description_new = Interop.downcallHandle(
-            "pango_font_description_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_better_match = Interop.downcallHandle(
-            "pango_font_description_better_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_better_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_copy = Interop.downcallHandle(
-            "pango_font_description_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_copy_static = Interop.downcallHandle(
-            "pango_font_description_copy_static",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_copy_static",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_equal = Interop.downcallHandle(
-            "pango_font_description_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_free = Interop.downcallHandle(
-            "pango_font_description_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_family = Interop.downcallHandle(
-            "pango_font_description_get_family",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_family",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_gravity = Interop.downcallHandle(
-            "pango_font_description_get_gravity",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_gravity",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_set_fields = Interop.downcallHandle(
-            "pango_font_description_get_set_fields",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_set_fields",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_size = Interop.downcallHandle(
-            "pango_font_description_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_size_is_absolute = Interop.downcallHandle(
-            "pango_font_description_get_size_is_absolute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_size_is_absolute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_stretch = Interop.downcallHandle(
-            "pango_font_description_get_stretch",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_stretch",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_style = Interop.downcallHandle(
-            "pango_font_description_get_style",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_style",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_variant = Interop.downcallHandle(
-            "pango_font_description_get_variant",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_variant",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_variations = Interop.downcallHandle(
-            "pango_font_description_get_variations",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_variations",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_get_weight = Interop.downcallHandle(
-            "pango_font_description_get_weight",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_get_weight",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_hash = Interop.downcallHandle(
-            "pango_font_description_hash",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_hash",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_merge = Interop.downcallHandle(
-            "pango_font_description_merge",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_merge",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_merge_static = Interop.downcallHandle(
-            "pango_font_description_merge_static",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_merge_static",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_absolute_size = Interop.downcallHandle(
-            "pango_font_description_set_absolute_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_font_description_set_absolute_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_family = Interop.downcallHandle(
-            "pango_font_description_set_family",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_set_family",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_family_static = Interop.downcallHandle(
-            "pango_font_description_set_family_static",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_set_family_static",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_gravity = Interop.downcallHandle(
-            "pango_font_description_set_gravity",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_gravity",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_size = Interop.downcallHandle(
-            "pango_font_description_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_stretch = Interop.downcallHandle(
-            "pango_font_description_set_stretch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_stretch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_style = Interop.downcallHandle(
-            "pango_font_description_set_style",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_style",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_variant = Interop.downcallHandle(
-            "pango_font_description_set_variant",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_variant",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_variations = Interop.downcallHandle(
-            "pango_font_description_set_variations",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_set_variations",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_variations_static = Interop.downcallHandle(
-            "pango_font_description_set_variations_static",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_set_variations_static",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_set_weight = Interop.downcallHandle(
-            "pango_font_description_set_weight",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_set_weight",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_to_filename = Interop.downcallHandle(
-            "pango_font_description_to_filename",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_to_filename",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_to_string = Interop.downcallHandle(
-            "pango_font_description_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_description_unset_fields = Interop.downcallHandle(
-            "pango_font_description_unset_fields",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_font_description_unset_fields",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
-            "pango_font_description_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_description_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class ImageViewUsageCreateInfoKHR extends Struct {
      * @return A new, uninitialized @{link ImageViewUsageCreateInfoKHR}
      */
     public static ImageViewUsageCreateInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageViewUsageCreateInfoKHR newInstance = new ImageViewUsageCreateInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageViewUsageCreateInfoKHR newInstance = new ImageViewUsageCreateInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageViewUsageCreateInfoKHR extends Struct {
     /**
      * Create a ImageViewUsageCreateInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageViewUsageCreateInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageViewUsageCreateInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageViewUsageCreateInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageViewUsageCreateInfoKHR(input, ownership);
+    public static final Marshal<Addressable, ImageViewUsageCreateInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageViewUsageCreateInfoKHR(input);
 }

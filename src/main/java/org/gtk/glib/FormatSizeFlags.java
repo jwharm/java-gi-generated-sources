@@ -51,6 +51,9 @@ public class FormatSizeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FormatSizeFlags ONLY_UNIT = new FormatSizeFlags(16);
     
+    /**
+     * Create a new FormatSizeFlags with the provided value
+     */
     public FormatSizeFlags(int value) {
         super(value);
     }

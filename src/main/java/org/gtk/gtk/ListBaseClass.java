@@ -29,8 +29,8 @@ public class ListBaseClass extends Struct {
      * @return A new, uninitialized @{link ListBaseClass}
      */
     public static ListBaseClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ListBaseClass newInstance = new ListBaseClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ListBaseClass newInstance = new ListBaseClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ListBaseClass extends Struct {
     /**
      * Create a ListBaseClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListBaseClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ListBaseClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListBaseClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListBaseClass(input, ownership);
+    public static final Marshal<Addressable, ListBaseClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListBaseClass(input);
 }

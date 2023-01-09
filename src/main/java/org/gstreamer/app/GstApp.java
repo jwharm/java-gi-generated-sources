@@ -11,16 +11,14 @@ import org.jetbrains.annotations.*;
 public final class GstApp {
     
     static {
-        System.loadLibrary("gstapp-1.0");
+        LibLoad.loadLibrary("gstapp-1.0");
+        registerTypes();
     }
     
-    private static boolean javagi$initialized = false;
+    @ApiStatus.Internal public static void javagi$ensureInitialized() {}
     
-    @ApiStatus.Internal
-    public static void javagi$ensureInitialized() {
-        if (!javagi$initialized) {
-            javagi$initialized = true;
-            JavaGITypeRegister.register();
-        }
+    private static void registerTypes() {
+        if (AppSink.isAvailable()) Interop.register(AppSink.getType(), AppSink.fromAddress);
+        if (AppSrc.isAvailable()) Interop.register(AppSrc.getType(), AppSrc.fromAddress);
     }
 }

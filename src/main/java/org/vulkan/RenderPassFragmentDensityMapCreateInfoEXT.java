@@ -29,8 +29,8 @@ public class RenderPassFragmentDensityMapCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link RenderPassFragmentDensityMapCreateInfoEXT}
      */
     public static RenderPassFragmentDensityMapCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RenderPassFragmentDensityMapCreateInfoEXT newInstance = new RenderPassFragmentDensityMapCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RenderPassFragmentDensityMapCreateInfoEXT newInstance = new RenderPassFragmentDensityMapCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RenderPassFragmentDensityMapCreateInfoEXT extends Struct {
     /**
      * Create a RenderPassFragmentDensityMapCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderPassFragmentDensityMapCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderPassFragmentDensityMapCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderPassFragmentDensityMapCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassFragmentDensityMapCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, RenderPassFragmentDensityMapCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassFragmentDensityMapCreateInfoEXT(input);
 }

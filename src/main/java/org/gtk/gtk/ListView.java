@@ -121,26 +121,17 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     
     /**
      * Create a ListView proxy instance for the provided memory address.
-     * <p>
-     * Because ListView is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListView(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ListView(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListView(input, ownership);
+    public static final Marshal<Addressable, ListView> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListView(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
         MemoryAddress RESULT;
@@ -170,7 +161,9 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @param factory The factory to populate items with
      */
     public ListView(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        super(constructNew(model, factory), Ownership.NONE);
+        super(constructNew(model, factory));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -180,8 +173,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getEnableRubberband() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_enable_rubberband.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_enable_rubberband.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,12 +187,11 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_factory.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) Interop.register(RESULT, org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -210,12 +201,11 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.SelectionModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -226,8 +216,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getShowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_show_separators.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_show_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,8 +231,7 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public boolean getSingleClickActivate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_view_get_single_click_activate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_view_get_single_click_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,19 +326,42 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted when a row has been activated by the user,
+         * usually via activating the GtkListView|list.activate-item action.
+         * <p>
+         * This allows for a convenient way to handle activation in a listview.
+         * See {@link ListItem#setActivatable} for details on how to use
+         * this signal.
+         */
         void run(int position);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListView, int position) {
             run(position);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -365,9 +376,10 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListView.Activate> onActivate(ListView.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -390,6 +402,9 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      */
     public static class Builder extends org.gtk.gtk.ListBase.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -469,75 +484,83 @@ public class ListView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_view_new = Interop.downcallHandle(
-            "gtk_list_view_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_enable_rubberband = Interop.downcallHandle(
-            "gtk_list_view_get_enable_rubberband",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_get_enable_rubberband",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_factory = Interop.downcallHandle(
-            "gtk_list_view_get_factory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_get_factory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_model = Interop.downcallHandle(
-            "gtk_list_view_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_show_separators = Interop.downcallHandle(
-            "gtk_list_view_get_show_separators",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_get_show_separators",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_single_click_activate = Interop.downcallHandle(
-            "gtk_list_view_get_single_click_activate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_get_single_click_activate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_set_enable_rubberband = Interop.downcallHandle(
-            "gtk_list_view_set_enable_rubberband",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_view_set_enable_rubberband",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_view_set_factory = Interop.downcallHandle(
-            "gtk_list_view_set_factory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_set_factory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_set_model = Interop.downcallHandle(
-            "gtk_list_view_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_view_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_view_set_show_separators = Interop.downcallHandle(
-            "gtk_list_view_set_show_separators",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_view_set_show_separators",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_view_set_single_click_activate = Interop.downcallHandle(
-            "gtk_list_view_set_single_click_activate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_view_set_single_click_activate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_view_get_type = Interop.downcallHandle(
-            "gtk_list_view_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_list_view_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_list_view_get_type != null;
     }
 }

@@ -48,8 +48,8 @@ public class PollableInputStreamInterface extends Struct {
      * @return A new, uninitialized @{link PollableInputStreamInterface}
      */
     public static PollableInputStreamInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PollableInputStreamInterface newInstance = new PollableInputStreamInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PollableInputStreamInterface newInstance = new PollableInputStreamInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -60,7 +60,7 @@ public class PollableInputStreamInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -68,25 +68,42 @@ public class PollableInputStreamInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanPollCallback} callback.
+     */
     @FunctionalInterface
     public interface CanPollCallback {
+    
         boolean run(org.gtk.gio.PollableInputStream stream);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress stream) {
-            var RESULT = run((org.gtk.gio.PollableInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.PollableInputStream) Interop.register(stream, org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanPollCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanPollCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -95,25 +112,42 @@ public class PollableInputStreamInterface extends Struct {
      * @param canPoll The new value of the field {@code can_poll}
      */
     public void setCanPoll(CanPollCallback canPoll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canPoll == null ? MemoryAddress.NULL : canPoll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canPoll == null ? MemoryAddress.NULL : canPoll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IsReadableCallback} callback.
+     */
     @FunctionalInterface
     public interface IsReadableCallback {
+    
         boolean run(org.gtk.gio.PollableInputStream stream);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress stream) {
-            var RESULT = run((org.gtk.gio.PollableInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.PollableInputStream) Interop.register(stream, org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsReadableCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IsReadableCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -122,25 +156,43 @@ public class PollableInputStreamInterface extends Struct {
      * @param isReadable The new value of the field {@code is_readable}
      */
     public void setIsReadable(IsReadableCallback isReadable) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isReadable == null ? MemoryAddress.NULL : isReadable.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isReadable == null ? MemoryAddress.NULL : isReadable.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateSourceCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateSourceCallback {
+    
         org.gtk.glib.Source run(org.gtk.gio.PollableInputStream stream, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress stream, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.PollableInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.PollableInputStream) Interop.register(stream, org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateSourceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateSourceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -149,26 +201,45 @@ public class PollableInputStreamInterface extends Struct {
      * @param createSource The new value of the field {@code create_source}
      */
     public void setCreateSource(CreateSourceCallback createSource) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReadNonblockingCallback} callback.
+     */
     @FunctionalInterface
     public interface ReadNonblockingCallback {
+    
         long run(org.gtk.gio.PollableInputStream stream, Out<byte[]> buffer, long count);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress stream, MemoryAddress buffer, long count) {
-            Out<byte[]> bufferOUT = new Out<>(MemorySegment.ofAddress(buffer, count, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-            var RESULT = run((org.gtk.gio.PollableInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, Ownership.NONE), bufferOUT, count);
-            return RESULT;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<byte[]> bufferOUT = new Out<>(MemorySegment.ofAddress(buffer, count, SCOPE).toArray(Interop.valueLayout.C_BYTE));
+                var RESULT = run((org.gtk.gio.PollableInputStream) Interop.register(stream, org.gtk.gio.PollableInputStream.fromAddress).marshal(stream, null), bufferOUT, count);
+                return RESULT;
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadNonblockingCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReadNonblockingCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -177,22 +248,26 @@ public class PollableInputStreamInterface extends Struct {
      * @param readNonblocking The new value of the field {@code read_nonblocking}
      */
     public void setReadNonblocking(ReadNonblockingCallback readNonblocking) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("read_nonblocking"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readNonblocking == null ? MemoryAddress.NULL : readNonblocking.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("read_nonblocking"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (readNonblocking == null ? MemoryAddress.NULL : readNonblocking.toCallback()));
+        }
     }
     
     /**
      * Create a PollableInputStreamInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PollableInputStreamInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PollableInputStreamInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PollableInputStreamInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PollableInputStreamInterface(input, ownership);
+    public static final Marshal<Addressable, PollableInputStreamInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PollableInputStreamInterface(input);
     
     /**
      * A {@link PollableInputStreamInterface.Builder} object constructs a {@link PollableInputStreamInterface} 
@@ -216,7 +291,7 @@ public class PollableInputStreamInterface extends Struct {
             struct = PollableInputStreamInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PollableInputStreamInterface} struct.
          * @return A new instance of {@code PollableInputStreamInterface} with the fields 
          *         that were set in the Builder object.
@@ -231,38 +306,48 @@ public class PollableInputStreamInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setCanPoll(CanPollCallback canPoll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canPoll == null ? MemoryAddress.NULL : canPoll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_poll"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canPoll == null ? MemoryAddress.NULL : canPoll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIsReadable(IsReadableCallback isReadable) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isReadable == null ? MemoryAddress.NULL : isReadable.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isReadable == null ? MemoryAddress.NULL : isReadable.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateSource(CreateSourceCallback createSource) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_source"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createSource == null ? MemoryAddress.NULL : createSource.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReadNonblocking(ReadNonblockingCallback readNonblocking) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("read_nonblocking"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readNonblocking == null ? MemoryAddress.NULL : readNonblocking.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("read_nonblocking"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (readNonblocking == null ? MemoryAddress.NULL : readNonblocking.toCallback()));
+                return this;
+            }
         }
     }
 }

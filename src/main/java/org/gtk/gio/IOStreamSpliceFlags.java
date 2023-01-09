@@ -36,6 +36,9 @@ public class IOStreamSpliceFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final IOStreamSpliceFlags WAIT_FOR_BOTH = new IOStreamSpliceFlags(4);
     
+    /**
+     * Create a new IOStreamSpliceFlags with the provided value
+     */
     public IOStreamSpliceFlags(int value) {
         super(value);
     }

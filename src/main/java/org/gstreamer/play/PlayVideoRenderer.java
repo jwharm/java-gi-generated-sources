@@ -7,8 +7,11 @@ import org.jetbrains.annotations.*;
 
 public interface PlayVideoRenderer extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayVideoRendererImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayVideoRendererImpl(input, ownership);
+    public static final Marshal<Addressable, PlayVideoRendererImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayVideoRendererImpl(input);
     
     /**
      * Get the gtype
@@ -29,20 +32,35 @@ public interface PlayVideoRenderer extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_play_video_renderer_get_type = Interop.downcallHandle(
-            "gst_play_video_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_play_video_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The PlayVideoRendererImpl type represents a native instance of the PlayVideoRenderer interface.
+     */
     class PlayVideoRendererImpl extends org.gtk.gobject.GObject implements PlayVideoRenderer {
         
         static {
             GstPlay.javagi$ensureInitialized();
         }
         
-        public PlayVideoRendererImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of PlayVideoRenderer for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PlayVideoRendererImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_play_video_renderer_get_type != null;
     }
 }

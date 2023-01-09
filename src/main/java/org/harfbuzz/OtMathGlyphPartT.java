@@ -41,8 +41,8 @@ public class OtMathGlyphPartT extends Struct {
      * @return A new, uninitialized @{link OtMathGlyphPartT}
      */
     public static OtMathGlyphPartT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtMathGlyphPartT newInstance = new OtMathGlyphPartT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OtMathGlyphPartT newInstance = new OtMathGlyphPartT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class OtMathGlyphPartT extends Struct {
      * @return The value of the field {@code glyph}
      */
     public org.harfbuzz.CodepointT getGlyph() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.CodepointT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.CodepointT(RESULT);
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class OtMathGlyphPartT extends Struct {
      * @param glyph The new value of the field {@code glyph}
      */
     public void setGlyph(org.harfbuzz.CodepointT glyph) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class OtMathGlyphPartT extends Struct {
      * @return The value of the field {@code start_connector_length}
      */
     public org.harfbuzz.PositionT getStartConnectorLength() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class OtMathGlyphPartT extends Struct {
      * @param startConnectorLength The new value of the field {@code start_connector_length}
      */
     public void setStartConnectorLength(org.harfbuzz.PositionT startConnectorLength) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startConnectorLength == null ? MemoryAddress.NULL : startConnectorLength.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startConnectorLength == null ? MemoryAddress.NULL : startConnectorLength.getValue().intValue()));
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class OtMathGlyphPartT extends Struct {
      * @return The value of the field {@code end_connector_length}
      */
     public org.harfbuzz.PositionT getEndConnectorLength() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class OtMathGlyphPartT extends Struct {
      * @param endConnectorLength The new value of the field {@code end_connector_length}
      */
     public void setEndConnectorLength(org.harfbuzz.PositionT endConnectorLength) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endConnectorLength == null ? MemoryAddress.NULL : endConnectorLength.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endConnectorLength == null ? MemoryAddress.NULL : endConnectorLength.getValue().intValue()));
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class OtMathGlyphPartT extends Struct {
      * @return The value of the field {@code full_advance}
      */
     public org.harfbuzz.PositionT getFullAdvance() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -126,9 +140,11 @@ public class OtMathGlyphPartT extends Struct {
      * @param fullAdvance The new value of the field {@code full_advance}
      */
     public void setFullAdvance(org.harfbuzz.PositionT fullAdvance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fullAdvance == null ? MemoryAddress.NULL : fullAdvance.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fullAdvance == null ? MemoryAddress.NULL : fullAdvance.getValue().intValue()));
+        }
     }
     
     /**
@@ -136,10 +152,12 @@ public class OtMathGlyphPartT extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.harfbuzz.OtMathGlyphPartFlagsT getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.OtMathGlyphPartFlagsT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.OtMathGlyphPartFlagsT(RESULT);
+        }
     }
     
     /**
@@ -147,22 +165,26 @@ public class OtMathGlyphPartT extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.harfbuzz.OtMathGlyphPartFlagsT flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
      * Create a OtMathGlyphPartT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OtMathGlyphPartT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OtMathGlyphPartT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OtMathGlyphPartT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtMathGlyphPartT(input, ownership);
+    public static final Marshal<Addressable, OtMathGlyphPartT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OtMathGlyphPartT(input);
     
     /**
      * A {@link OtMathGlyphPartT.Builder} object constructs a {@link OtMathGlyphPartT} 
@@ -186,7 +208,7 @@ public class OtMathGlyphPartT extends Struct {
             struct = OtMathGlyphPartT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OtMathGlyphPartT} struct.
          * @return A new instance of {@code OtMathGlyphPartT} with the fields 
          *         that were set in the Builder object.
@@ -201,10 +223,12 @@ public class OtMathGlyphPartT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlyph(org.harfbuzz.CodepointT glyph) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -213,10 +237,12 @@ public class OtMathGlyphPartT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStartConnectorLength(org.harfbuzz.PositionT startConnectorLength) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startConnectorLength == null ? MemoryAddress.NULL : startConnectorLength.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_connector_length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startConnectorLength == null ? MemoryAddress.NULL : startConnectorLength.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -225,10 +251,12 @@ public class OtMathGlyphPartT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEndConnectorLength(org.harfbuzz.PositionT endConnectorLength) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endConnectorLength == null ? MemoryAddress.NULL : endConnectorLength.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_connector_length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endConnectorLength == null ? MemoryAddress.NULL : endConnectorLength.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -237,10 +265,12 @@ public class OtMathGlyphPartT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFullAdvance(org.harfbuzz.PositionT fullAdvance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fullAdvance == null ? MemoryAddress.NULL : fullAdvance.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("full_advance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fullAdvance == null ? MemoryAddress.NULL : fullAdvance.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -249,10 +279,12 @@ public class OtMathGlyphPartT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.harfbuzz.OtMathGlyphPartFlagsT flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
     }
 }

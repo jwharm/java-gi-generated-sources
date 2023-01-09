@@ -29,8 +29,8 @@ public class GLColorConvertPrivate extends Struct {
      * @return A new, uninitialized @{link GLColorConvertPrivate}
      */
     public static GLColorConvertPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLColorConvertPrivate newInstance = new GLColorConvertPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLColorConvertPrivate newInstance = new GLColorConvertPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLColorConvertPrivate extends Struct {
     /**
      * Create a GLColorConvertPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLColorConvertPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLColorConvertPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLColorConvertPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLColorConvertPrivate(input, ownership);
+    public static final Marshal<Addressable, GLColorConvertPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLColorConvertPrivate(input);
 }

@@ -10,22 +10,27 @@ import org.jetbrains.annotations.*;
  * @version 2.26
  */
 public enum DBusMessageType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Message is of invalid type.
      */
     INVALID(0),
+    
     /**
      * Method call.
      */
     METHOD_CALL(1),
+    
     /**
      * Method reply.
      */
     METHOD_RETURN(2),
+    
     /**
      * Error reply.
      */
     ERROR(3),
+    
     /**
      * Signal emission.
      */
@@ -34,15 +39,29 @@ public enum DBusMessageType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GDBusMessageType";
     
     private final int value;
+    
+    /**
+     * Create a new DBusMessageType for the provided value
+     * @param numeric value the enum value
+     */
     DBusMessageType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DBusMessageType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DBusMessageType of(int value) {
         return switch (value) {
             case 0 -> INVALID;

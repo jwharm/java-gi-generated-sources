@@ -34,8 +34,8 @@ public class VideoVBIEncoder extends Struct {
      * @return A new, uninitialized @{link VideoVBIEncoder}
      */
     public static VideoVBIEncoder allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoVBIEncoder newInstance = new VideoVBIEncoder(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoVBIEncoder newInstance = new VideoVBIEncoder(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class VideoVBIEncoder extends Struct {
     /**
      * Create a VideoVBIEncoder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoVBIEncoder(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoVBIEncoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoVBIEncoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoVBIEncoder(input, ownership);
+    public static final Marshal<Addressable, VideoVBIEncoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoVBIEncoder(input);
     
     private static MemoryAddress constructNew(org.gstreamer.video.VideoFormat format, int pixelWidth) {
         MemoryAddress RESULT;
@@ -70,7 +72,8 @@ public class VideoVBIEncoder extends Struct {
      * @param pixelWidth The width in pixel to use
      */
     public VideoVBIEncoder(org.gstreamer.video.VideoFormat format, int pixelWidth) {
-        super(constructNew(format, pixelWidth), Ownership.FULL);
+        super(constructNew(format, pixelWidth));
+        this.takeOwnership();
     }
     
     /**
@@ -89,30 +92,33 @@ public class VideoVBIEncoder extends Struct {
      *          otherwise.
      */
     public boolean addAncillary(boolean composite, byte DID, byte SDIDBlockNumber, byte[] data, int dataCount) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_vbi_encoder_add_ancillary.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(composite, null).intValue(),
-                    DID,
-                    SDIDBlockNumber,
-                    Interop.allocateNativeArray(data, false),
-                    dataCount);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_vbi_encoder_add_ancillary.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(composite, null).intValue(),
+                        DID,
+                        SDIDBlockNumber,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        dataCount);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public org.gstreamer.video.VideoVBIEncoder copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_encoder_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_encoder_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoVBIEncoder.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoVBIEncoder.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -120,8 +126,7 @@ public class VideoVBIEncoder extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_vbi_encoder_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_vbi_encoder_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,33 +145,33 @@ public class VideoVBIEncoder extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_vbi_encoder_new = Interop.downcallHandle(
-            "gst_video_vbi_encoder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_vbi_encoder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_vbi_encoder_add_ancillary = Interop.downcallHandle(
-            "gst_video_vbi_encoder_add_ancillary",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_vbi_encoder_add_ancillary",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_vbi_encoder_copy = Interop.downcallHandle(
-            "gst_video_vbi_encoder_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_vbi_encoder_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_vbi_encoder_free = Interop.downcallHandle(
-            "gst_video_vbi_encoder_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_vbi_encoder_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_vbi_encoder_write_line = Interop.downcallHandle(
-            "gst_video_vbi_encoder_write_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_vbi_encoder_write_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

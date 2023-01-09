@@ -29,8 +29,8 @@ public class AnyFilterClass extends Struct {
      * @return A new, uninitialized @{link AnyFilterClass}
      */
     public static AnyFilterClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AnyFilterClass newInstance = new AnyFilterClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AnyFilterClass newInstance = new AnyFilterClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AnyFilterClass extends Struct {
     /**
      * Create a AnyFilterClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AnyFilterClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AnyFilterClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AnyFilterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AnyFilterClass(input, ownership);
+    public static final Marshal<Addressable, AnyFilterClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AnyFilterClass(input);
 }

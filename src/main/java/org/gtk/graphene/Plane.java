@@ -39,8 +39,8 @@ public class Plane extends Struct {
      * @return A new, uninitialized @{link Plane}
      */
     public static Plane allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Plane newInstance = new Plane(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Plane newInstance = new Plane(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class Plane extends Struct {
     /**
      * Create a Plane proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Plane(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Plane(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Plane> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Plane(input, ownership);
+    public static final Marshal<Addressable, Plane> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Plane(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -66,7 +68,7 @@ public class Plane extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Plane} structure.
      * <p>
@@ -77,7 +79,9 @@ public class Plane extends Struct {
      */
     public static Plane alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -119,8 +123,7 @@ public class Plane extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_plane_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_plane_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,8 +137,7 @@ public class Plane extends Struct {
     public float getConstant() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_plane_get_constant.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_plane_get_constant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +179,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -195,7 +197,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -215,7 +217,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -240,7 +242,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -259,7 +261,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -320,87 +322,87 @@ public class Plane extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
-            "graphene_plane_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
-            "graphene_plane_distance",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_distance",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
-            "graphene_plane_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_free = Interop.downcallHandle(
-            "graphene_plane_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
-            "graphene_plane_get_constant",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_get_constant",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
-            "graphene_plane_get_normal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_get_normal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_init = Interop.downcallHandle(
-            "graphene_plane_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_plane_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
-            "graphene_plane_init_from_plane",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_init_from_plane",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
-            "graphene_plane_init_from_point",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_init_from_point",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
-            "graphene_plane_init_from_points",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_init_from_points",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
-            "graphene_plane_init_from_vec4",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_init_from_vec4",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
-            "graphene_plane_negate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_negate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
-            "graphene_plane_normalize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_normalize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
-            "graphene_plane_transform",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_plane_transform",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -426,7 +428,7 @@ public class Plane extends Struct {
             struct = Plane.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Plane} struct.
          * @return A new instance of {@code Plane} with the fields 
          *         that were set in the Builder object.
@@ -436,17 +438,21 @@ public class Plane extends Struct {
         }
         
         public Builder setNormal(org.gtk.graphene.Vec3 normal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("normal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (normal == null ? MemoryAddress.NULL : normal.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("normal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (normal == null ? MemoryAddress.NULL : normal.handle()));
+                return this;
+            }
         }
         
         public Builder setConstant(float constant) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("constant"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), constant);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("constant"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), constant);
+                return this;
+            }
         }
     }
 }

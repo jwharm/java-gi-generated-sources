@@ -36,8 +36,8 @@ public class RTSPAuthParam extends Struct {
      * @return A new, uninitialized @{link RTSPAuthParam}
      */
     public static RTSPAuthParam allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPAuthParam newInstance = new RTSPAuthParam(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPAuthParam newInstance = new RTSPAuthParam(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class RTSPAuthParam extends Struct {
      * @return The value of the field {@code name}
      */
     public java.lang.String getName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class RTSPAuthParam extends Struct {
      * @param name The new value of the field {@code name}
      */
     public void setName(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class RTSPAuthParam extends Struct {
      * @return The value of the field {@code value}
      */
     public java.lang.String getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -79,38 +85,42 @@ public class RTSPAuthParam extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(java.lang.String value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+        }
     }
     
     /**
      * Create a RTSPAuthParam proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPAuthParam(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPAuthParam(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPAuthParam> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPAuthParam(input, ownership);
+    public static final Marshal<Addressable, RTSPAuthParam> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPAuthParam(input);
     
     public org.gstreamer.rtsp.RTSPAuthParam copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_auth_param_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_auth_param_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.rtsp.RTSPAuthParam.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.rtsp.RTSPAuthParam.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public void free() {
         try {
-            DowncallHandles.gst_rtsp_auth_param_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtsp_auth_param_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,15 +129,15 @@ public class RTSPAuthParam extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_auth_param_copy = Interop.downcallHandle(
-            "gst_rtsp_auth_param_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_auth_param_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_auth_param_free = Interop.downcallHandle(
-            "gst_rtsp_auth_param_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_auth_param_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -153,7 +163,7 @@ public class RTSPAuthParam extends Struct {
             struct = RTSPAuthParam.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPAuthParam} struct.
          * @return A new instance of {@code RTSPAuthParam} with the fields 
          *         that were set in the Builder object.
@@ -168,10 +178,12 @@ public class RTSPAuthParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -180,10 +192,12 @@ public class RTSPAuthParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(java.lang.String value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+                return this;
+            }
         }
     }
 }

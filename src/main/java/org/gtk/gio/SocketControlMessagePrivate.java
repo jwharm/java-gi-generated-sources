@@ -29,8 +29,8 @@ public class SocketControlMessagePrivate extends Struct {
      * @return A new, uninitialized @{link SocketControlMessagePrivate}
      */
     public static SocketControlMessagePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SocketControlMessagePrivate newInstance = new SocketControlMessagePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SocketControlMessagePrivate newInstance = new SocketControlMessagePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SocketControlMessagePrivate extends Struct {
     /**
      * Create a SocketControlMessagePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketControlMessagePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketControlMessagePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketControlMessagePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketControlMessagePrivate(input, ownership);
+    public static final Marshal<Addressable, SocketControlMessagePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketControlMessagePrivate(input);
 }

@@ -39,8 +39,8 @@ public class ValueTable extends Struct {
      * @return A new, uninitialized @{link ValueTable}
      */
     public static ValueTable allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ValueTable newInstance = new ValueTable(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ValueTable newInstance = new ValueTable(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class ValueTable extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class ValueTable extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class ValueTable extends Struct {
      * @return The value of the field {@code compare}
      */
     public org.gstreamer.gst.ValueCompareFunc getCompare() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compare"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compare"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class ValueTable extends Struct {
      * @param compare The new value of the field {@code compare}
      */
     public void setCompare(org.gstreamer.gst.ValueCompareFunc compare) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compare"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compare == null ? MemoryAddress.NULL : (Addressable) compare.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compare"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compare == null ? MemoryAddress.NULL : (Addressable) compare.toCallback()));
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class ValueTable extends Struct {
      * @return The value of the field {@code serialize}
      */
     public org.gstreamer.gst.ValueSerializeFunc getSerialize() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class ValueTable extends Struct {
      * @param serialize The new value of the field {@code serialize}
      */
     public void setSerialize(org.gstreamer.gst.ValueSerializeFunc serialize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serialize == null ? MemoryAddress.NULL : (Addressable) serialize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (serialize == null ? MemoryAddress.NULL : (Addressable) serialize.toCallback()));
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class ValueTable extends Struct {
      * @return The value of the field {@code deserialize}
      */
     public org.gstreamer.gst.ValueDeserializeFunc getDeserialize() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -124,9 +138,11 @@ public class ValueTable extends Struct {
      * @param deserialize The new value of the field {@code deserialize}
      */
     public void setDeserialize(org.gstreamer.gst.ValueDeserializeFunc deserialize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deserialize == null ? MemoryAddress.NULL : (Addressable) deserialize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deserialize == null ? MemoryAddress.NULL : (Addressable) deserialize.toCallback()));
+        }
     }
     
     /**
@@ -134,10 +150,12 @@ public class ValueTable extends Struct {
      * @return The value of the field {@code deserialize_with_pspec}
      */
     public org.gstreamer.gst.ValueDeserializeWithPSpecFunc getDeserializeWithPspec() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -145,22 +163,26 @@ public class ValueTable extends Struct {
      * @param deserializeWithPspec The new value of the field {@code deserialize_with_pspec}
      */
     public void setDeserializeWithPspec(org.gstreamer.gst.ValueDeserializeWithPSpecFunc deserializeWithPspec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deserializeWithPspec == null ? MemoryAddress.NULL : (Addressable) deserializeWithPspec.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deserializeWithPspec == null ? MemoryAddress.NULL : (Addressable) deserializeWithPspec.toCallback()));
+        }
     }
     
     /**
      * Create a ValueTable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ValueTable(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ValueTable(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ValueTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValueTable(input, ownership);
+    public static final Marshal<Addressable, ValueTable> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ValueTable(input);
     
     /**
      * A {@link ValueTable.Builder} object constructs a {@link ValueTable} 
@@ -184,7 +206,7 @@ public class ValueTable extends Struct {
             struct = ValueTable.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ValueTable} struct.
          * @return A new instance of {@code ValueTable} with the fields 
          *         that were set in the Builder object.
@@ -199,10 +221,12 @@ public class ValueTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -211,10 +235,12 @@ public class ValueTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompare(org.gstreamer.gst.ValueCompareFunc compare) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("compare"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compare == null ? MemoryAddress.NULL : (Addressable) compare.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("compare"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compare == null ? MemoryAddress.NULL : (Addressable) compare.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -223,10 +249,12 @@ public class ValueTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSerialize(org.gstreamer.gst.ValueSerializeFunc serialize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serialize == null ? MemoryAddress.NULL : (Addressable) serialize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (serialize == null ? MemoryAddress.NULL : (Addressable) serialize.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -235,10 +263,12 @@ public class ValueTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeserialize(org.gstreamer.gst.ValueDeserializeFunc deserialize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deserialize == null ? MemoryAddress.NULL : (Addressable) deserialize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("deserialize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deserialize == null ? MemoryAddress.NULL : (Addressable) deserialize.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -247,17 +277,21 @@ public class ValueTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeserializeWithPspec(org.gstreamer.gst.ValueDeserializeWithPSpecFunc deserializeWithPspec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deserializeWithPspec == null ? MemoryAddress.NULL : (Addressable) deserializeWithPspec.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("deserialize_with_pspec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deserializeWithPspec == null ? MemoryAddress.NULL : (Addressable) deserializeWithPspec.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

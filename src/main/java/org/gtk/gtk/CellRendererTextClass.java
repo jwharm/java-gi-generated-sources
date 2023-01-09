@@ -33,8 +33,8 @@ public class CellRendererTextClass extends Struct {
      * @return A new, uninitialized @{link CellRendererTextClass}
      */
     public static CellRendererTextClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CellRendererTextClass newInstance = new CellRendererTextClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CellRendererTextClass newInstance = new CellRendererTextClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class CellRendererTextClass extends Struct {
      */
     public org.gtk.gtk.CellRendererClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.CellRendererClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.CellRendererClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,24 +53,43 @@ public class CellRendererTextClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EditedCallback} callback.
+     */
     @FunctionalInterface
     public interface EditedCallback {
+    
         void run(org.gtk.gtk.CellRendererText cellRendererText, java.lang.String path, java.lang.String newText);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress cellRendererText, MemoryAddress path, MemoryAddress newText) {
-            run((org.gtk.gtk.CellRendererText) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellRendererText)), org.gtk.gtk.CellRendererText.fromAddress).marshal(cellRendererText, Ownership.NONE), Marshal.addressToString.marshal(path, null), Marshal.addressToString.marshal(newText, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gtk.CellRendererText) Interop.register(cellRendererText, org.gtk.gtk.CellRendererText.fromAddress).marshal(cellRendererText, null), Marshal.addressToString.marshal(path, null), Marshal.addressToString.marshal(newText, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EditedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EditedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +98,26 @@ public class CellRendererTextClass extends Struct {
      * @param edited The new value of the field {@code edited}
      */
     public void setEdited(EditedCallback edited) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("edited"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("edited"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
+        }
     }
     
     /**
      * Create a CellRendererTextClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellRendererTextClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CellRendererTextClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellRendererTextClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererTextClass(input, ownership);
+    public static final Marshal<Addressable, CellRendererTextClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererTextClass(input);
     
     /**
      * A {@link CellRendererTextClass.Builder} object constructs a {@link CellRendererTextClass} 
@@ -118,7 +141,7 @@ public class CellRendererTextClass extends Struct {
             struct = CellRendererTextClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CellRendererTextClass} struct.
          * @return A new instance of {@code CellRendererTextClass} with the fields 
          *         that were set in the Builder object.
@@ -128,24 +151,30 @@ public class CellRendererTextClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setEdited(EditedCallback edited) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("edited"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("edited"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

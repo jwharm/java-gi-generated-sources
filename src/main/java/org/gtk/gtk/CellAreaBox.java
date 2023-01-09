@@ -45,26 +45,17 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     
     /**
      * Create a CellAreaBox proxy instance for the provided memory address.
-     * <p>
-     * Because CellAreaBox is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellAreaBox(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CellAreaBox(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellAreaBox> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaBox(input, ownership);
+    public static final Marshal<Addressable, CellAreaBox> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaBox(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -80,7 +71,9 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      * Creates a new {@code GtkCellAreaBox}.
      */
     public CellAreaBox() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -90,8 +83,7 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_area_box_get_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_cell_area_box_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,6 +182,9 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
      */
     public static class Builder extends org.gtk.gtk.CellArea.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -225,39 +220,47 @@ public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Bui
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
-            "gtk_cell_area_box_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_box_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
-            "gtk_cell_area_box_get_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_box_get_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
-            "gtk_cell_area_box_pack_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_box_pack_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
-            "gtk_cell_area_box_pack_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_box_pack_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
-            "gtk_cell_area_box_set_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_area_box_set_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_box_get_type = Interop.downcallHandle(
-            "gtk_cell_area_box_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_area_box_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_area_box_get_type != null;
     }
 }

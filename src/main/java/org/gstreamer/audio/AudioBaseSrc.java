@@ -38,26 +38,17 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     
     /**
      * Create a AudioBaseSrc proxy instance for the provided memory address.
-     * <p>
-     * Because AudioBaseSrc is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioBaseSrc(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AudioBaseSrc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioBaseSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSrc(input, ownership);
+    public static final Marshal<Addressable, AudioBaseSrc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSrc(input);
     
     /**
      * Create and return the {@link AudioRingBuffer} for {@code src}. This function will call
@@ -68,12 +59,11 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     public org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_src_create_ringbuffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_src_create_ringbuffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.audio.AudioRingBuffer) Interop.register(RESULT, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -84,8 +74,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     public boolean getProvideClock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_base_src_get_provide_clock.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_base_src_get_provide_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +88,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     public org.gstreamer.audio.AudioBaseSrcSlaveMethod getSlaveMethod() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_base_src_get_slave_method.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_base_src_get_slave_method.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,6 +155,9 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
      */
     public static class Builder extends org.gstreamer.base.PushSrc.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -237,39 +228,47 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_base_src_create_ringbuffer = Interop.downcallHandle(
-            "gst_audio_base_src_create_ringbuffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_src_create_ringbuffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_src_get_provide_clock = Interop.downcallHandle(
-            "gst_audio_base_src_get_provide_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_src_get_provide_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_src_get_slave_method = Interop.downcallHandle(
-            "gst_audio_base_src_get_slave_method",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_src_get_slave_method",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_src_set_provide_clock = Interop.downcallHandle(
-            "gst_audio_base_src_set_provide_clock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_base_src_set_provide_clock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_base_src_set_slave_method = Interop.downcallHandle(
-            "gst_audio_base_src_set_slave_method",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_base_src_set_slave_method",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_base_src_get_type = Interop.downcallHandle(
-            "gst_audio_base_src_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_base_src_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_audio_base_src_get_type != null;
     }
 }

@@ -29,52 +29,46 @@ public class VulkanCommandPool extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a VulkanCommandPool proxy instance for the provided memory address.
-     * <p>
-     * Because VulkanCommandPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanCommandPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected VulkanCommandPool(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanCommandPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanCommandPool(input);
+    
+    public org.gstreamer.vulkan.VulkanCommandBuffer create() throws io.github.jwharm.javagi.GErrorException {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_pool_create.invokeExact(handle(),(Addressable) GERROR);
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanCommandPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanCommandPool(input, ownership);
-    
-    public org.gstreamer.vulkan.VulkanCommandBuffer create() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_pool_create.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public org.gstreamer.vulkan.VulkanQueue getQueue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_pool_get_queue.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_pool_get_queue.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.vulkan.VulkanQueue) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanQueue) Interop.register(RESULT, org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -87,8 +81,7 @@ public class VulkanCommandPool extends org.gstreamer.gst.GstObject {
      */
     public void lock() {
         try {
-            DowncallHandles.gst_vulkan_command_pool_lock.invokeExact(
-                    handle());
+            DowncallHandles.gst_vulkan_command_pool_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +93,7 @@ public class VulkanCommandPool extends org.gstreamer.gst.GstObject {
      */
     public void unlock() {
         try {
-            DowncallHandles.gst_vulkan_command_pool_unlock.invokeExact(
-                    handle());
+            DowncallHandles.gst_vulkan_command_pool_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,6 +129,9 @@ public class VulkanCommandPool extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -161,33 +156,41 @@ public class VulkanCommandPool extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_command_pool_create = Interop.downcallHandle(
-            "gst_vulkan_command_pool_create",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_pool_create",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_pool_get_queue = Interop.downcallHandle(
-            "gst_vulkan_command_pool_get_queue",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_pool_get_queue",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_pool_lock = Interop.downcallHandle(
-            "gst_vulkan_command_pool_lock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_pool_lock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_pool_unlock = Interop.downcallHandle(
-            "gst_vulkan_command_pool_unlock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_pool_unlock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_pool_get_type = Interop.downcallHandle(
-            "gst_vulkan_command_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_command_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_vulkan_command_pool_get_type != null;
     }
 }

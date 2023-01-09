@@ -27,6 +27,9 @@ public class MainContextFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MainContextFlags OWNERLESS_POLLING = new MainContextFlags(1);
     
+    /**
+     * Create a new MainContextFlags with the provided value
+     */
     public MainContextFlags(int value) {
         super(value);
     }

@@ -36,8 +36,8 @@ public class ColorBalanceChannelClass extends Struct {
      * @return A new, uninitialized @{link ColorBalanceChannelClass}
      */
     public static ColorBalanceChannelClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ColorBalanceChannelClass newInstance = new ColorBalanceChannelClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ColorBalanceChannelClass newInstance = new ColorBalanceChannelClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class ColorBalanceChannelClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,24 +56,41 @@ public class ColorBalanceChannelClass extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.gobject.ObjectClass parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ValueChangedCallback {
+    
         void run(org.gstreamer.video.ColorBalanceChannel channel, int value);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress channel, int value) {
-            run((org.gstreamer.video.ColorBalanceChannel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(channel)), org.gstreamer.video.ColorBalanceChannel.fromAddress).marshal(channel, Ownership.NONE), value);
+            run((org.gstreamer.video.ColorBalanceChannel) Interop.register(channel, org.gstreamer.video.ColorBalanceChannel.fromAddress).marshal(channel, null), value);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -82,22 +99,26 @@ public class ColorBalanceChannelClass extends Struct {
      * @param valueChanged The new value of the field {@code value_changed}
      */
     public void setValueChanged(ValueChangedCallback valueChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
+        }
     }
     
     /**
      * Create a ColorBalanceChannelClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorBalanceChannelClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColorBalanceChannelClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorBalanceChannelClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceChannelClass(input, ownership);
+    public static final Marshal<Addressable, ColorBalanceChannelClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceChannelClass(input);
     
     /**
      * A {@link ColorBalanceChannelClass.Builder} object constructs a {@link ColorBalanceChannelClass} 
@@ -121,7 +142,7 @@ public class ColorBalanceChannelClass extends Struct {
             struct = ColorBalanceChannelClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ColorBalanceChannelClass} struct.
          * @return A new instance of {@code ColorBalanceChannelClass} with the fields 
          *         that were set in the Builder object.
@@ -136,24 +157,30 @@ public class ColorBalanceChannelClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gtk.gobject.ObjectClass parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setValueChanged(ValueChangedCallback valueChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

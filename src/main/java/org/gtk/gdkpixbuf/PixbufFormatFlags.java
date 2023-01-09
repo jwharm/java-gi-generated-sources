@@ -30,6 +30,9 @@ public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PixbufFormatFlags THREADSAFE = new PixbufFormatFlags(4);
     
+    /**
+     * Create a new PixbufFormatFlags with the provided value
+     */
     public PixbufFormatFlags(int value) {
         super(value);
     }

@@ -28,28 +28,32 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a ConicGradientNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConicGradientNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConicGradientNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConicGradientNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConicGradientNode(input, ownership);
+    public static final Marshal<Addressable, ConicGradientNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConicGradientNode(input);
     
     private static MemoryAddress constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_new.invokeExact(
-                    bounds.handle(),
-                    center.handle(),
-                    rotation,
-                    Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
-                    nColorStops);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_new.invokeExact(
+                        bounds.handle(),
+                        center.handle(),
+                        rotation,
+                        Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false, SCOPE),
+                        nColorStops);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -68,7 +72,8 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
      * @param nColorStops the number of elements in {@code color_stops}
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, center, rotation, colorStops, nColorStops), Ownership.FULL);
+        super(constructNew(bounds, center, rotation, colorStops, nColorStops));
+        this.takeOwnership();
     }
     
     /**
@@ -83,8 +88,7 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public float getAngle() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_angle.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_angle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,12 +102,11 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Point getCenter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_center.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_center.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -112,22 +115,24 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
      * @return the color stops in the gradient
      */
     public org.gtk.gsk.ColorStop[] getColorStops(Out<Long> nStops) {
-        MemorySegment nStopsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_color_stops.invokeExact(
-                    handle(),
-                    (Addressable) (nStops == null ? MemoryAddress.NULL : (Addressable) nStopsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nStopsPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_conic_gradient_node_get_color_stops.invokeExact(
+                        handle(),
+                        (Addressable) (nStops == null ? MemoryAddress.NULL : (Addressable) nStopsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nStops != null) nStops.set(nStopsPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
+            for (int I = 0; I < nStops.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = org.gtk.gsk.ColorStop.fromAddress.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (nStops != null) nStops.set(nStopsPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
-        for (int I = 0; I < nStops.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = org.gtk.gsk.ColorStop.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -137,8 +142,7 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public long getNColorStops() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_conic_gradient_node_get_n_color_stops.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gsk_conic_gradient_node_get_n_color_stops.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +156,7 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     public float getRotation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_rotation.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gsk_conic_gradient_node_get_rotation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,45 +180,53 @@ public class ConicGradientNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_conic_gradient_node_new = Interop.downcallHandle(
-            "gsk_conic_gradient_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_conic_gradient_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_angle = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_angle",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_conic_gradient_node_get_angle",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_center = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_center",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_conic_gradient_node_get_center",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_color_stops = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_color_stops",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_conic_gradient_node_get_color_stops",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_n_color_stops = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_n_color_stops",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_conic_gradient_node_get_n_color_stops",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_rotation = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_rotation",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_conic_gradient_node_get_rotation",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_conic_gradient_node_get_type = Interop.downcallHandle(
-            "gsk_conic_gradient_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_conic_gradient_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_conic_gradient_node_get_type != null;
     }
 }

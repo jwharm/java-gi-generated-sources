@@ -29,8 +29,8 @@ public class MemoryPropertyFlags extends Struct {
      * @return A new, uninitialized @{link MemoryPropertyFlags}
      */
     public static MemoryPropertyFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryPropertyFlags newInstance = new MemoryPropertyFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryPropertyFlags newInstance = new MemoryPropertyFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryPropertyFlags extends Struct {
     /**
      * Create a MemoryPropertyFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryPropertyFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryPropertyFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryPropertyFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryPropertyFlags(input, ownership);
+    public static final Marshal<Addressable, MemoryPropertyFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryPropertyFlags(input);
 }

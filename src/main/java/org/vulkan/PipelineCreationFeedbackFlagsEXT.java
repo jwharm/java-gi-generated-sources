@@ -29,8 +29,8 @@ public class PipelineCreationFeedbackFlagsEXT extends Struct {
      * @return A new, uninitialized @{link PipelineCreationFeedbackFlagsEXT}
      */
     public static PipelineCreationFeedbackFlagsEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineCreationFeedbackFlagsEXT newInstance = new PipelineCreationFeedbackFlagsEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineCreationFeedbackFlagsEXT newInstance = new PipelineCreationFeedbackFlagsEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineCreationFeedbackFlagsEXT extends Struct {
     /**
      * Create a PipelineCreationFeedbackFlagsEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineCreationFeedbackFlagsEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineCreationFeedbackFlagsEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineCreationFeedbackFlagsEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCreationFeedbackFlagsEXT(input, ownership);
+    public static final Marshal<Addressable, PipelineCreationFeedbackFlagsEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCreationFeedbackFlagsEXT(input);
 }

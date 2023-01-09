@@ -35,8 +35,8 @@ public class VulkanTrashListClass extends Struct {
      * @return A new, uninitialized @{link VulkanTrashListClass}
      */
     public static VulkanTrashListClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanTrashListClass newInstance = new VulkanTrashListClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanTrashListClass newInstance = new VulkanTrashListClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class VulkanTrashListClass extends Struct {
      */
     public org.gstreamer.vulkan.VulkanHandlePoolClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.vulkan.VulkanHandlePoolClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.vulkan.VulkanHandlePoolClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,9 +55,11 @@ public class VulkanTrashListClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.vulkan.VulkanHandlePoolClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
@@ -65,10 +67,12 @@ public class VulkanTrashListClass extends Struct {
      * @return The value of the field {@code add_func}
      */
     public org.gstreamer.vulkan.VulkanTrashListAdd getAddFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -76,9 +80,11 @@ public class VulkanTrashListClass extends Struct {
      * @param addFunc The new value of the field {@code add_func}
      */
     public void setAddFunc(org.gstreamer.vulkan.VulkanTrashListAdd addFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addFunc == null ? MemoryAddress.NULL : (Addressable) addFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addFunc == null ? MemoryAddress.NULL : (Addressable) addFunc.toCallback()));
+        }
     }
     
     /**
@@ -86,10 +92,12 @@ public class VulkanTrashListClass extends Struct {
      * @return The value of the field {@code gc_func}
      */
     public org.gstreamer.vulkan.VulkanTrashListGC getGcFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -97,9 +105,11 @@ public class VulkanTrashListClass extends Struct {
      * @param gcFunc The new value of the field {@code gc_func}
      */
     public void setGcFunc(org.gstreamer.vulkan.VulkanTrashListGC gcFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gcFunc == null ? MemoryAddress.NULL : (Addressable) gcFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gcFunc == null ? MemoryAddress.NULL : (Addressable) gcFunc.toCallback()));
+        }
     }
     
     /**
@@ -107,10 +117,12 @@ public class VulkanTrashListClass extends Struct {
      * @return The value of the field {@code wait_func}
      */
     public org.gstreamer.vulkan.VulkanTrashListWait getWaitFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -118,22 +130,26 @@ public class VulkanTrashListClass extends Struct {
      * @param waitFunc The new value of the field {@code wait_func}
      */
     public void setWaitFunc(org.gstreamer.vulkan.VulkanTrashListWait waitFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (waitFunc == null ? MemoryAddress.NULL : (Addressable) waitFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (waitFunc == null ? MemoryAddress.NULL : (Addressable) waitFunc.toCallback()));
+        }
     }
     
     /**
      * Create a VulkanTrashListClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanTrashListClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanTrashListClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanTrashListClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanTrashListClass(input, ownership);
+    public static final Marshal<Addressable, VulkanTrashListClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanTrashListClass(input);
     
     /**
      * A {@link VulkanTrashListClass.Builder} object constructs a {@link VulkanTrashListClass} 
@@ -157,7 +173,7 @@ public class VulkanTrashListClass extends Struct {
             struct = VulkanTrashListClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanTrashListClass} struct.
          * @return A new instance of {@code VulkanTrashListClass} with the fields 
          *         that were set in the Builder object.
@@ -172,10 +188,12 @@ public class VulkanTrashListClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.vulkan.VulkanHandlePoolClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -184,10 +202,12 @@ public class VulkanTrashListClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAddFunc(org.gstreamer.vulkan.VulkanTrashListAdd addFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addFunc == null ? MemoryAddress.NULL : (Addressable) addFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("add_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addFunc == null ? MemoryAddress.NULL : (Addressable) addFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -196,10 +216,12 @@ public class VulkanTrashListClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGcFunc(org.gstreamer.vulkan.VulkanTrashListGC gcFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gcFunc == null ? MemoryAddress.NULL : (Addressable) gcFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("gc_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gcFunc == null ? MemoryAddress.NULL : (Addressable) gcFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -208,17 +230,21 @@ public class VulkanTrashListClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWaitFunc(org.gstreamer.vulkan.VulkanTrashListWait waitFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (waitFunc == null ? MemoryAddress.NULL : (Addressable) waitFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("wait_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (waitFunc == null ? MemoryAddress.NULL : (Addressable) waitFunc.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

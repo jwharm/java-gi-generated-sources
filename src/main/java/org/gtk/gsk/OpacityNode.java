@@ -28,14 +28,16 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a OpacityNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OpacityNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OpacityNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OpacityNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OpacityNode(input, ownership);
+    public static final Marshal<Addressable, OpacityNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OpacityNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, float opacity) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
      * @param opacity The opacity to apply
      */
     public OpacityNode(org.gtk.gsk.RenderNode child, float opacity) {
-        super(constructNew(child, opacity), Ownership.FULL);
+        super(constructNew(child, opacity));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +69,11 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_opacity_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_opacity_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -81,8 +83,7 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
     public float getOpacity() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_opacity_node_get_opacity.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gsk_opacity_node_get_opacity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,27 +107,35 @@ public class OpacityNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_opacity_node_new = Interop.downcallHandle(
-            "gsk_opacity_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_opacity_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_opacity_node_get_child = Interop.downcallHandle(
-            "gsk_opacity_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_opacity_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_opacity_node_get_opacity = Interop.downcallHandle(
-            "gsk_opacity_node_get_opacity",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_opacity_node_get_opacity",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_opacity_node_get_type = Interop.downcallHandle(
-            "gsk_opacity_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_opacity_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_opacity_node_get_type != null;
     }
 }

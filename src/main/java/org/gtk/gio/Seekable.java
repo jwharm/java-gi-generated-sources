@@ -23,8 +23,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Seekable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SeekableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SeekableImpl(input, ownership);
+    public static final Marshal<Addressable, SeekableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SeekableImpl(input);
     
     /**
      * Tests if the stream supports the {@link SeekableIface}.
@@ -33,8 +36,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     default boolean canSeek() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_can_seek.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_seekable_can_seek.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -49,8 +51,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     default boolean canTruncate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_seekable_can_truncate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_seekable_can_truncate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,22 +82,24 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean seek(long offset, org.gtk.glib.SeekType type, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_seekable_seek.invokeExact(
-                    handle(),
-                    offset,
-                    type.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_seekable_seek.invokeExact(
+                        handle(),
+                        offset,
+                        type.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -107,8 +110,7 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
     default long tell() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_seekable_tell.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_seekable_tell.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,21 +135,23 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean truncate(long offset, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_seekable_truncate.invokeExact(
-                    handle(),
-                    offset,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_seekable_truncate.invokeExact(
+                        handle(),
+                        offset,
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -169,55 +173,70 @@ public interface Seekable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_can_seek = Interop.downcallHandle(
-            "g_seekable_can_seek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_seekable_can_seek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_can_truncate = Interop.downcallHandle(
-            "g_seekable_can_truncate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_seekable_can_truncate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_seek = Interop.downcallHandle(
-            "g_seekable_seek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_seekable_seek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_tell = Interop.downcallHandle(
-            "g_seekable_tell",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_seekable_tell",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_truncate = Interop.downcallHandle(
-            "g_seekable_truncate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_seekable_truncate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_seekable_get_type = Interop.downcallHandle(
-            "g_seekable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_seekable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The SeekableImpl type represents a native instance of the Seekable interface.
+     */
     class SeekableImpl extends org.gtk.gobject.GObject implements Seekable {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public SeekableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Seekable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public SeekableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_seekable_get_type != null;
     }
 }

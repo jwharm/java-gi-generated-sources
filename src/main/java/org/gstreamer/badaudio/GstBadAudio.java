@@ -11,26 +11,24 @@ import org.jetbrains.annotations.*;
 public final class GstBadAudio {
     
     static {
-        System.loadLibrary("gstbadaudio-1.0");
+        LibLoad.loadLibrary("gstbadaudio-1.0");
+        registerTypes();
     }
     
-    private static boolean javagi$initialized = false;
+    @ApiStatus.Internal public static void javagi$ensureInitialized() {}
     
-    @ApiStatus.Internal
-    public static void javagi$ensureInitialized() {
-        if (!javagi$initialized) {
-            javagi$initialized = true;
-            JavaGITypeRegister.register();
-        }
+/**
+ * The name of the template for the sink pad.
+ */
+public static final java.lang.String NONSTREAM_AUDIO_DECODER_SINK_NAME = "sink";
+    
+/**
+ * The name of the template for the source pad.
+ */
+public static final java.lang.String NONSTREAM_AUDIO_DECODER_SRC_NAME = "src";
+    
+    private static void registerTypes() {
+        if (NonstreamAudioDecoder.isAvailable()) Interop.register(NonstreamAudioDecoder.getType(), NonstreamAudioDecoder.fromAddress);
+        if (PlanarAudioAdapter.isAvailable()) Interop.register(PlanarAudioAdapter.getType(), PlanarAudioAdapter.fromAddress);
     }
-    
-    /**
-     * The name of the template for the sink pad.
-     */
-    public static final java.lang.String NONSTREAM_AUDIO_DECODER_SINK_NAME = "sink";
-    
-    /**
-     * The name of the template for the source pad.
-     */
-    public static final java.lang.String NONSTREAM_AUDIO_DECODER_SRC_NAME = "src";
 }

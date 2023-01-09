@@ -29,8 +29,8 @@ public class QueryResultFlags extends Struct {
      * @return A new, uninitialized @{link QueryResultFlags}
      */
     public static QueryResultFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        QueryResultFlags newInstance = new QueryResultFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        QueryResultFlags newInstance = new QueryResultFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class QueryResultFlags extends Struct {
     /**
      * Create a QueryResultFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected QueryResultFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected QueryResultFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, QueryResultFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueryResultFlags(input, ownership);
+    public static final Marshal<Addressable, QueryResultFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new QueryResultFlags(input);
 }

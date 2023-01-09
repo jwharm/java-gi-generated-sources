@@ -93,26 +93,17 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a HeaderBar proxy instance for the provided memory address.
-     * <p>
-     * Because HeaderBar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected HeaderBar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected HeaderBar(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, HeaderBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HeaderBar(input, ownership);
+    public static final Marshal<Addressable, HeaderBar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new HeaderBar(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -128,7 +119,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Creates a new {@code GtkHeaderBar} widget.
      */
     public HeaderBar() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -138,8 +131,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable java.lang.String getDecorationLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_decoration_layout.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_decoration_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +146,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getShowTitleButtons() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_header_bar_get_show_title_buttons.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_header_bar_get_show_title_buttons.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,12 +162,11 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getTitleWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_title_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_title_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -249,12 +239,14 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param layout a decoration layout, or {@code null} to unset the layout
      */
     public void setDecorationLayout(@Nullable java.lang.String layout) {
-        try {
-            DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(
-                    handle(),
-                    (Addressable) (layout == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(layout, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(
+                        handle(),
+                        (Addressable) (layout == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(layout, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -327,6 +319,9 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -387,69 +382,77 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
-            "gtk_header_bar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
-            "gtk_header_bar_get_decoration_layout",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_get_decoration_layout",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
-            "gtk_header_bar_get_show_title_buttons",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_get_show_title_buttons",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
-            "gtk_header_bar_get_title_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_get_title_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
-            "gtk_header_bar_pack_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_pack_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
-            "gtk_header_bar_pack_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_pack_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
-            "gtk_header_bar_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
-            "gtk_header_bar_set_decoration_layout",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_set_decoration_layout",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
-            "gtk_header_bar_set_show_title_buttons",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_header_bar_set_show_title_buttons",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
-            "gtk_header_bar_set_title_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_header_bar_set_title_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_header_bar_get_type = Interop.downcallHandle(
-            "gtk_header_bar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_header_bar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_header_bar_get_type != null;
     }
 }

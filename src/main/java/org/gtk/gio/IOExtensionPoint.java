@@ -33,8 +33,8 @@ public class IOExtensionPoint extends Struct {
      * @return A new, uninitialized @{link IOExtensionPoint}
      */
     public static IOExtensionPoint allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOExtensionPoint newInstance = new IOExtensionPoint(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IOExtensionPoint newInstance = new IOExtensionPoint(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class IOExtensionPoint extends Struct {
     /**
      * Create a IOExtensionPoint proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOExtensionPoint(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOExtensionPoint(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOExtensionPoint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOExtensionPoint(input, ownership);
+    public static final Marshal<Addressable, IOExtensionPoint> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOExtensionPoint(input);
     
     /**
      * Finds a {@link IOExtension} for an extension point by name.
@@ -58,15 +60,17 @@ public class IOExtensionPoint extends Struct {
      *    given name, or {@code null} if there is no extension with that name
      */
     public org.gtk.gio.IOExtension getExtensionByName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extension_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extension_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -79,12 +83,11 @@ public class IOExtensionPoint extends Struct {
     public org.gtk.glib.List getExtensions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extensions.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extensions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -95,8 +98,7 @@ public class IOExtensionPoint extends Struct {
     public org.gtk.glib.Type getRequiredType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_io_extension_point_get_required_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_io_extension_point_get_required_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,17 +133,19 @@ public class IOExtensionPoint extends Struct {
      * @return a {@link IOExtension} object for {@link org.gtk.glib.Type}
      */
     public static org.gtk.gio.IOExtension implement(java.lang.String extensionPointName, org.gtk.glib.Type type, java.lang.String extensionName, int priority) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(
-                    Marshal.stringToAddress.marshal(extensionPointName, null),
-                    type.getValue().longValue(),
-                    Marshal.stringToAddress.marshal(extensionName, null),
-                    priority);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(
+                        Marshal.stringToAddress.marshal(extensionPointName, SCOPE),
+                        type.getValue().longValue(),
+                        Marshal.stringToAddress.marshal(extensionName, SCOPE),
+                        priority);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,14 +155,15 @@ public class IOExtensionPoint extends Struct {
      *    is no registered extension point with the given name.
      */
     public static org.gtk.gio.IOExtensionPoint lookup(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -168,58 +173,59 @@ public class IOExtensionPoint extends Struct {
      *    owned by GIO and should not be freed.
      */
     public static org.gtk.gio.IOExtensionPoint register(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_extension_point_get_extension_by_name = Interop.downcallHandle(
-            "g_io_extension_point_get_extension_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_point_get_extension_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_get_extensions = Interop.downcallHandle(
-            "g_io_extension_point_get_extensions",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_point_get_extensions",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_get_required_type = Interop.downcallHandle(
-            "g_io_extension_point_get_required_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_point_get_required_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_set_required_type = Interop.downcallHandle(
-            "g_io_extension_point_set_required_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_io_extension_point_set_required_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
-            "g_io_extension_point_implement",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_io_extension_point_implement",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
-            "g_io_extension_point_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_point_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
-            "g_io_extension_point_register",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_point_register",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

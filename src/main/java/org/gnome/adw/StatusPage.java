@@ -43,26 +43,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a StatusPage proxy instance for the provided memory address.
-     * <p>
-     * Because StatusPage is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StatusPage(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected StatusPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StatusPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StatusPage(input, ownership);
+    public static final Marshal<Addressable, StatusPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StatusPage(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -78,7 +69,9 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Creates a new {@code AdwStatusPage}.
      */
     public StatusPage() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -88,12 +81,11 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -103,8 +95,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +109,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,12 +123,11 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gdk.Paintable getPaintable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_paintable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_paintable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -148,8 +137,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,12 +165,14 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param description the description
      */
     public void setDescription(@Nullable java.lang.String description) {
-        try {
-            DowncallHandles.adw_status_page_set_description.invokeExact(
-                    handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_status_page_set_description.invokeExact(
+                        handle(),
+                        (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -193,12 +183,14 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_status_page_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_status_page_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -225,12 +217,14 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param title the title
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.adw_status_page_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_status_page_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -264,6 +258,9 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -347,75 +344,83 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     private static class DowncallHandles {
         
         private static final MethodHandle adw_status_page_new = Interop.downcallHandle(
-            "adw_status_page_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_child = Interop.downcallHandle(
-            "adw_status_page_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_description = Interop.downcallHandle(
-            "adw_status_page_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_icon_name = Interop.downcallHandle(
-            "adw_status_page_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_paintable = Interop.downcallHandle(
-            "adw_status_page_get_paintable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_get_paintable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_title = Interop.downcallHandle(
-            "adw_status_page_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_set_child = Interop.downcallHandle(
-            "adw_status_page_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_set_description = Interop.downcallHandle(
-            "adw_status_page_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_set_icon_name = Interop.downcallHandle(
-            "adw_status_page_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_set_paintable = Interop.downcallHandle(
-            "adw_status_page_set_paintable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_set_paintable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_set_title = Interop.downcallHandle(
-            "adw_status_page_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_status_page_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_status_page_get_type = Interop.downcallHandle(
-            "adw_status_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_status_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_status_page_get_type != null;
     }
 }

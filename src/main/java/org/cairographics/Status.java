@@ -6,58 +6,111 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum Status implements io.github.jwharm.javagi.Enumeration {
+    
     SUCCESS(0),
+    
     NO_MEMORY(1),
+    
     INVALID_RESTORE(2),
+    
     INVALID_POP_GROUP(3),
+    
     NO_CURRENT_POINT(4),
+    
     INVALID_MATRIX(5),
+    
     INVALID_STATUS(6),
+    
     NULL_POINTER(7),
+    
     INVALID_STRING(8),
+    
     INVALID_PATH_DATA(9),
+    
     READ_ERROR(10),
+    
     WRITE_ERROR(11),
+    
     SURFACE_FINISHED(12),
+    
     SURFACE_TYPE_MISMATCH(13),
+    
     PATTERN_TYPE_MISMATCH(14),
+    
     INVALID_CONTENT(15),
+    
     INVALID_FORMAT(16),
+    
     INVALID_VISUAL(17),
+    
     FILE_NOT_FOUND(18),
+    
     INVALID_DASH(19),
+    
     INVALID_DSC_COMMENT(20),
+    
     INVALID_INDEX(21),
+    
     CLIP_NOT_REPRESENTABLE(22),
+    
     TEMP_FILE_ERROR(23),
+    
     INVALID_STRIDE(24),
+    
     FONT_TYPE_MISMATCH(25),
+    
     USER_FONT_IMMUTABLE(26),
+    
     USER_FONT_ERROR(27),
+    
     NEGATIVE_COUNT(28),
+    
     INVALID_CLUSTERS(29),
+    
     INVALID_SLANT(30),
+    
     INVALID_WEIGHT(31),
+    
     INVALID_SIZE(32),
+    
     USER_FONT_NOT_IMPLEMENTED(33),
+    
     DEVICE_TYPE_MISMATCH(34),
+    
     DEVICE_ERROR(35),
+    
     INVALID_MESH_CONSTRUCTION(36),
+    
     DEVICE_FINISHED(37),
+    
     JBIG2_GLOBAL_MISSING(38);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_status_t";
     
     private final int value;
+    
+    /**
+     * Create a new Status for the provided value
+     * @param numeric value the enum value
+     */
     Status(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Status for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Status of(int value) {
         return switch (value) {
             case 0 -> SUCCESS;

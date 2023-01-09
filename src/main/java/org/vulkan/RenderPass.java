@@ -29,8 +29,8 @@ public class RenderPass extends Struct {
      * @return A new, uninitialized @{link RenderPass}
      */
     public static RenderPass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RenderPass newInstance = new RenderPass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RenderPass newInstance = new RenderPass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RenderPass extends Struct {
     /**
      * Create a RenderPass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderPass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderPass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderPass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPass(input, ownership);
+    public static final Marshal<Addressable, RenderPass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderPass(input);
 }

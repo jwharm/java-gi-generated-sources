@@ -23,8 +23,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TocSetter extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TocSetterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TocSetterImpl(input, ownership);
+    public static final Marshal<Addressable, TocSetterImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TocSetterImpl(input);
     
     /**
      * Return current TOC the setter uses. The TOC should not be
@@ -35,12 +38,13 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gstreamer.gst.Toc getToc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_setter_get_toc.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_toc_setter_get_toc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -49,8 +53,7 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
      */
     default void reset() {
         try {
-            DowncallHandles.gst_toc_setter_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_toc_setter_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,41 +93,56 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_toc_setter_get_toc = Interop.downcallHandle(
-            "gst_toc_setter_get_toc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_setter_get_toc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_toc_setter_reset = Interop.downcallHandle(
-            "gst_toc_setter_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_setter_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_toc_setter_set_toc = Interop.downcallHandle(
-            "gst_toc_setter_set_toc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_setter_set_toc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_toc_setter_get_type = Interop.downcallHandle(
-            "gst_toc_setter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_toc_setter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TocSetterImpl type represents a native instance of the TocSetter interface.
+     */
     class TocSetterImpl extends org.gtk.gobject.GObject implements TocSetter {
         
         static {
             Gst.javagi$ensureInitialized();
         }
         
-        public TocSetterImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TocSetter for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TocSetterImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_toc_setter_get_type != null;
     }
 }

@@ -46,20 +46,21 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
     /**
      * Create a ThreadedSocketService proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ThreadedSocketService(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ThreadedSocketService(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ThreadedSocketService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ThreadedSocketService(input, ownership);
+    public static final Marshal<Addressable, ThreadedSocketService> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ThreadedSocketService(input);
     
     private static MemoryAddress constructNew(int maxThreads) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(
-                    maxThreads);
+            RESULT = (MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(maxThreads);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,7 +74,8 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      *   handling incoming clients, -1 means no limit
      */
     public ThreadedSocketService(int maxThreads) {
-        super(constructNew(maxThreads), Ownership.FULL);
+        super(constructNew(maxThreads));
+        this.takeOwnership();
     }
     
     /**
@@ -90,20 +92,41 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Run} callback.
+     */
     @FunctionalInterface
     public interface Run {
+    
+        /**
+         * The ::run signal is emitted in a worker thread in response to an
+         * incoming connection. This thread is dedicated to handling
+         * {@code connection} and may perform blocking IO. The signal handler need
+         * not return until the connection is closed.
+         */
         boolean run(org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.GObject sourceObject);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceThreadedSocketService, MemoryAddress connection, MemoryAddress sourceObject) {
-            var RESULT = run((org.gtk.gio.SocketConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.SocketConnection.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sourceObject)), org.gtk.gobject.GObject.fromAddress).marshal(sourceObject, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketConnection) Interop.register(connection, org.gtk.gio.SocketConnection.fromAddress).marshal(connection, null), (org.gtk.gobject.GObject) Interop.register(sourceObject, org.gtk.gobject.GObject.fromAddress).marshal(sourceObject, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Run.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Run.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -116,9 +139,10 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ThreadedSocketService.Run> onRun(ThreadedSocketService.Run handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("run"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("run", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -141,6 +165,9 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
      */
     public static class Builder extends org.gtk.gio.SocketService.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -171,15 +198,23 @@ public class ThreadedSocketService extends org.gtk.gio.SocketService {
     private static class DowncallHandles {
         
         private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
-            "g_threaded_socket_service_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_threaded_socket_service_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_threaded_socket_service_get_type = Interop.downcallHandle(
-            "g_threaded_socket_service_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_threaded_socket_service_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_threaded_socket_service_get_type != null;
     }
 }

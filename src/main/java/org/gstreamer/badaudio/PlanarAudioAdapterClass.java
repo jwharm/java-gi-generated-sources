@@ -29,8 +29,8 @@ public class PlanarAudioAdapterClass extends Struct {
      * @return A new, uninitialized @{link PlanarAudioAdapterClass}
      */
     public static PlanarAudioAdapterClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlanarAudioAdapterClass newInstance = new PlanarAudioAdapterClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlanarAudioAdapterClass newInstance = new PlanarAudioAdapterClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PlanarAudioAdapterClass extends Struct {
     /**
      * Create a PlanarAudioAdapterClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlanarAudioAdapterClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlanarAudioAdapterClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlanarAudioAdapterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlanarAudioAdapterClass(input, ownership);
+    public static final Marshal<Addressable, PlanarAudioAdapterClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlanarAudioAdapterClass(input);
 }

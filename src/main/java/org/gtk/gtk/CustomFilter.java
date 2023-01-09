@@ -28,14 +28,16 @@ public class CustomFilter extends org.gtk.gtk.Filter {
     /**
      * Create a CustomFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CustomFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CustomFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CustomFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CustomFilter(input, ownership);
+    public static final Marshal<Addressable, CustomFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CustomFilter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc, org.gtk.glib.DestroyNotify userDestroy) {
         MemoryAddress RESULT;
@@ -62,7 +64,8 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      * @param userDestroy destroy notify for {@code user_data}
      */
     public CustomFilter(@Nullable org.gtk.gtk.CustomFilterFunc matchFunc, org.gtk.glib.DestroyNotify userDestroy) {
-        super(constructNew(matchFunc, userDestroy), Ownership.FULL);
+        super(constructNew(matchFunc, userDestroy));
+        this.takeOwnership();
     }
     
     /**
@@ -120,6 +123,9 @@ public class CustomFilter extends org.gtk.gtk.Filter {
      */
     public static class Builder extends org.gtk.gtk.Filter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -144,21 +150,29 @@ public class CustomFilter extends org.gtk.gtk.Filter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_custom_filter_new = Interop.downcallHandle(
-            "gtk_custom_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_custom_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_custom_filter_set_filter_func = Interop.downcallHandle(
-            "gtk_custom_filter_set_filter_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_custom_filter_set_filter_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_custom_filter_get_type = Interop.downcallHandle(
-            "gtk_custom_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_custom_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_custom_filter_get_type != null;
     }
 }

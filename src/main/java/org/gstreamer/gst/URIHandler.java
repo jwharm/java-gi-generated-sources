@@ -17,8 +17,11 @@ import org.jetbrains.annotations.*;
  */
 public interface URIHandler extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, URIHandlerImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new URIHandlerImpl(input, ownership);
+    public static final Marshal<Addressable, URIHandlerImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new URIHandlerImpl(input);
     
     /**
      * Gets the list of protocols supported by {@code handler}. This list may not be
@@ -29,14 +32,15 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
      *     protocols.
      */
     default @Nullable PointerString getProtocols() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_handler_get_protocols.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_handler_get_protocols.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -49,8 +53,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_handler_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_handler_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,8 +68,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
     default org.gstreamer.gst.URIType getUriType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_uri_handler_get_uri_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_uri_handler_get_uri_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,20 +82,22 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean setUri(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_handler_set_uri.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_handler_set_uri.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -115,48 +119,63 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_uri_handler_get_protocols = Interop.downcallHandle(
-            "gst_uri_handler_get_protocols",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_handler_get_protocols",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_uri_handler_get_uri = Interop.downcallHandle(
-            "gst_uri_handler_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_handler_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_uri_handler_get_uri_type = Interop.downcallHandle(
-            "gst_uri_handler_get_uri_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_handler_get_uri_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_uri_handler_set_uri = Interop.downcallHandle(
-            "gst_uri_handler_set_uri",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_handler_set_uri",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_uri_handler_get_type = Interop.downcallHandle(
-            "gst_uri_handler_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_uri_handler_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The URIHandlerImpl type represents a native instance of the URIHandler interface.
+     */
     class URIHandlerImpl extends org.gtk.gobject.GObject implements URIHandler {
         
         static {
             Gst.javagi$ensureInitialized();
         }
         
-        public URIHandlerImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of URIHandler for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public URIHandlerImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_uri_handler_get_type != null;
     }
 }

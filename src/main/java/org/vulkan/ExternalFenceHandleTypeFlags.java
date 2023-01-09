@@ -29,8 +29,8 @@ public class ExternalFenceHandleTypeFlags extends Struct {
      * @return A new, uninitialized @{link ExternalFenceHandleTypeFlags}
      */
     public static ExternalFenceHandleTypeFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalFenceHandleTypeFlags newInstance = new ExternalFenceHandleTypeFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalFenceHandleTypeFlags newInstance = new ExternalFenceHandleTypeFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalFenceHandleTypeFlags extends Struct {
     /**
      * Create a ExternalFenceHandleTypeFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalFenceHandleTypeFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalFenceHandleTypeFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalFenceHandleTypeFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalFenceHandleTypeFlags(input, ownership);
+    public static final Marshal<Addressable, ExternalFenceHandleTypeFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalFenceHandleTypeFlags(input);
 }

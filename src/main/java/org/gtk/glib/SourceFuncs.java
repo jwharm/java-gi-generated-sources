@@ -58,26 +58,41 @@ public class SourceFuncs extends Struct {
      * @return A new, uninitialized @{link SourceFuncs}
      */
     public static SourceFuncs allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SourceFuncs newInstance = new SourceFuncs(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SourceFuncs newInstance = new SourceFuncs(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code PrepareCallback} callback.
+     */
     @FunctionalInterface
     public interface PrepareCallback {
+    
         boolean run(org.gtk.glib.Source source, PointerInteger timeout);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress source, MemoryAddress timeout) {
-            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, Ownership.NONE), new PointerInteger(timeout));
+            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, null), new PointerInteger(timeout));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PrepareCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PrepareCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +101,42 @@ public class SourceFuncs extends Struct {
      * @param prepare The new value of the field {@code prepare}
      */
     public void setPrepare(PrepareCallback prepare) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CheckCallback} callback.
+     */
     @FunctionalInterface
     public interface CheckCallback {
+    
         boolean run(org.gtk.glib.Source source);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress source) {
-            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, Ownership.NONE));
+            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CheckCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CheckCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,25 +145,42 @@ public class SourceFuncs extends Struct {
      * @param check The new value of the field {@code check}
      */
     public void setCheck(CheckCallback check) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("check"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (check == null ? MemoryAddress.NULL : check.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("check"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (check == null ? MemoryAddress.NULL : check.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DispatchCallback} callback.
+     */
     @FunctionalInterface
     public interface DispatchCallback {
+    
         boolean run(org.gtk.glib.Source source, org.gtk.glib.SourceFunc callback);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress source, MemoryAddress callback, MemoryAddress userData) {
-            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, Ownership.NONE), null /* Unsupported parameter type */);
+            var RESULT = run(org.gtk.glib.Source.fromAddress.marshal(source, null), null /* Unsupported parameter type */);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DispatchCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DispatchCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,24 +189,41 @@ public class SourceFuncs extends Struct {
      * @param dispatch The new value of the field {@code dispatch}
      */
     public void setDispatch(DispatchCallback dispatch) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FinalizeCallback} callback.
+     */
     @FunctionalInterface
     public interface FinalizeCallback {
+    
         void run(org.gtk.glib.Source source);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress source) {
-            run(org.gtk.glib.Source.fromAddress.marshal(source, Ownership.NONE));
+            run(org.gtk.glib.Source.fromAddress.marshal(source, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FinalizeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FinalizeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,22 +232,26 @@ public class SourceFuncs extends Struct {
      * @param finalize The new value of the field {@code finalize}
      */
     public void setFinalize(FinalizeCallback finalize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+        }
     }
     
     /**
      * Create a SourceFuncs proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SourceFuncs(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SourceFuncs(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SourceFuncs> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SourceFuncs(input, ownership);
+    public static final Marshal<Addressable, SourceFuncs> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SourceFuncs(input);
     
     /**
      * A {@link SourceFuncs.Builder} object constructs a {@link SourceFuncs} 
@@ -205,7 +275,7 @@ public class SourceFuncs extends Struct {
             struct = SourceFuncs.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SourceFuncs} struct.
          * @return A new instance of {@code SourceFuncs} with the fields 
          *         that were set in the Builder object.
@@ -215,45 +285,57 @@ public class SourceFuncs extends Struct {
         }
         
         public Builder setPrepare(PrepareCallback prepare) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCheck(CheckCallback check) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("check"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (check == null ? MemoryAddress.NULL : check.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("check"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (check == null ? MemoryAddress.NULL : check.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDispatch(DispatchCallback dispatch) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFinalize(FinalizeCallback finalize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClosureCallback(org.gtk.glib.SourceFunc closureCallback) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("closure_callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closureCallback == null ? MemoryAddress.NULL : (Addressable) closureCallback.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("closure_callback"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closureCallback == null ? MemoryAddress.NULL : (Addressable) closureCallback.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClosureMarshal(org.gtk.glib.SourceDummyMarshal closureMarshal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("closure_marshal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closureMarshal == null ? MemoryAddress.NULL : (Addressable) closureMarshal.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("closure_marshal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closureMarshal == null ? MemoryAddress.NULL : (Addressable) closureMarshal.toCallback()));
+                return this;
+            }
         }
     }
 }

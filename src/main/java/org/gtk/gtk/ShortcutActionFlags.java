@@ -21,6 +21,9 @@ public class ShortcutActionFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ShortcutActionFlags EXCLUSIVE = new ShortcutActionFlags(1);
     
+    /**
+     * Create a new ShortcutActionFlags with the provided value
+     */
     public ShortcutActionFlags(int value) {
         super(value);
     }

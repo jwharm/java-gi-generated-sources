@@ -41,8 +41,8 @@ public class EIT extends Struct {
      * @return A new, uninitialized @{link EIT}
      */
     public static EIT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EIT newInstance = new EIT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EIT newInstance = new EIT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code transport_stream_id}
      */
     public short getTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class EIT extends Struct {
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
     public void setTransportStreamId(short transportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code original_network_id}
      */
     public short getOriginalNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class EIT extends Struct {
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
     public void setOriginalNetworkId(short originalNetworkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code segment_last_section_number}
      */
     public byte getSegmentLastSectionNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class EIT extends Struct {
      * @param segmentLastSectionNumber The new value of the field {@code segment_last_section_number}
      */
     public void setSegmentLastSectionNumber(byte segmentLastSectionNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentLastSectionNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), segmentLastSectionNumber);
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code last_table_id}
      */
     public byte getLastTableId() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -126,9 +140,11 @@ public class EIT extends Struct {
      * @param lastTableId The new value of the field {@code last_table_id}
      */
     public void setLastTableId(byte lastTableId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastTableId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), lastTableId);
+        }
     }
     
     /**
@@ -136,10 +152,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code actual_stream}
      */
     public boolean getActualStream() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -147,9 +165,11 @@ public class EIT extends Struct {
      * @param actualStream The new value of the field {@code actual_stream}
      */
     public void setActualStream(boolean actualStream) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
+        }
     }
     
     /**
@@ -157,10 +177,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code present_following}
      */
     public boolean getPresentFollowing() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -168,9 +190,11 @@ public class EIT extends Struct {
      * @param presentFollowing The new value of the field {@code present_following}
      */
     public void setPresentFollowing(boolean presentFollowing) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
+        }
     }
     
     /**
@@ -178,10 +202,12 @@ public class EIT extends Struct {
      * @return The value of the field {@code events}
      */
     public PointerProxy<org.gstreamer.mpegts.EITEvent> getEvents() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.EITEvent>(RESULT, org.gstreamer.mpegts.EITEvent.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.EITEvent>(RESULT, org.gstreamer.mpegts.EITEvent.fromAddress);
+        }
     }
     
     /**
@@ -189,22 +215,26 @@ public class EIT extends Struct {
      * @param events The new value of the field {@code events}
      */
     public void setEvents(org.gstreamer.mpegts.EITEvent[] events) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a EIT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EIT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EIT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EIT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EIT(input, ownership);
+    public static final Marshal<Addressable, EIT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EIT(input);
     
     /**
      * A {@link EIT.Builder} object constructs a {@link EIT} 
@@ -228,7 +258,7 @@ public class EIT extends Struct {
             struct = EIT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link EIT} struct.
          * @return A new instance of {@code EIT} with the fields 
          *         that were set in the Builder object.
@@ -238,45 +268,57 @@ public class EIT extends Struct {
         }
         
         public Builder setTransportStreamId(short transportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+                return this;
+            }
         }
         
         public Builder setOriginalNetworkId(short originalNetworkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+                return this;
+            }
         }
         
         public Builder setSegmentLastSectionNumber(byte segmentLastSectionNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentLastSectionNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), segmentLastSectionNumber);
+                return this;
+            }
         }
         
         public Builder setLastTableId(byte lastTableId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastTableId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), lastTableId);
+                return this;
+            }
         }
         
         public Builder setActualStream(boolean actualStream) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
+                return this;
+            }
         }
         
         public Builder setPresentFollowing(boolean presentFollowing) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -285,10 +327,12 @@ public class EIT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEvents(org.gstreamer.mpegts.EITEvent[] events) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

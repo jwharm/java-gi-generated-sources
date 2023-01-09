@@ -29,8 +29,8 @@ public class PipelineCache extends Struct {
      * @return A new, uninitialized @{link PipelineCache}
      */
     public static PipelineCache allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineCache newInstance = new PipelineCache(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineCache newInstance = new PipelineCache(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineCache extends Struct {
     /**
      * Create a PipelineCache proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineCache(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineCache(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineCache> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCache(input, ownership);
+    public static final Marshal<Addressable, PipelineCache> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCache(input);
 }

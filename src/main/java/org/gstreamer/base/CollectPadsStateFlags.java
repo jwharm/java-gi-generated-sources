@@ -38,6 +38,9 @@ public class CollectPadsStateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final CollectPadsStateFlags LOCKED = new CollectPadsStateFlags(16);
     
+    /**
+     * Create a new CollectPadsStateFlags with the provided value
+     */
     public CollectPadsStateFlags(int value) {
         super(value);
     }

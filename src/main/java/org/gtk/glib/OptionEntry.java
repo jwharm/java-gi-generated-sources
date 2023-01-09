@@ -44,8 +44,8 @@ public class OptionEntry extends Struct {
      * @return A new, uninitialized @{link OptionEntry}
      */
     public static OptionEntry allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionEntry newInstance = new OptionEntry(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OptionEntry newInstance = new OptionEntry(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code long_name}
      */
     public java.lang.String getLongName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class OptionEntry extends Struct {
      * @param longName The new value of the field {@code long_name}
      */
     public void setLongName(java.lang.String longName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (longName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(longName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (longName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(longName, SCOPE)));
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code short_name}
      */
     public byte getShortName() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,9 +93,11 @@ public class OptionEntry extends Struct {
      * @param shortName The new value of the field {@code short_name}
      */
     public void setShortName(byte shortName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), shortName);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), shortName);
+        }
     }
     
     /**
@@ -97,10 +105,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code flags}
      */
     public int getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -108,9 +118,11 @@ public class OptionEntry extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(int flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+        }
     }
     
     /**
@@ -118,10 +130,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code arg}
      */
     public org.gtk.glib.OptionArg getArg() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.OptionArg.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.OptionArg.of(RESULT);
+        }
     }
     
     /**
@@ -129,9 +143,11 @@ public class OptionEntry extends Struct {
      * @param arg The new value of the field {@code arg}
      */
     public void setArg(org.gtk.glib.OptionArg arg) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (arg == null ? MemoryAddress.NULL : arg.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (arg == null ? MemoryAddress.NULL : arg.getValue()));
+        }
     }
     
     /**
@@ -139,10 +155,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code arg_data}
      */
     public java.lang.foreign.MemoryAddress getArgData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -150,9 +168,11 @@ public class OptionEntry extends Struct {
      * @param argData The new value of the field {@code arg_data}
      */
     public void setArgData(java.lang.foreign.MemoryAddress argData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argData == null ? MemoryAddress.NULL : (Addressable) argData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (argData == null ? MemoryAddress.NULL : (Addressable) argData));
+        }
     }
     
     /**
@@ -160,10 +180,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code description}
      */
     public java.lang.String getDescription() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -171,9 +193,11 @@ public class OptionEntry extends Struct {
      * @param description The new value of the field {@code description}
      */
     public void setDescription(java.lang.String description) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+        }
     }
     
     /**
@@ -181,10 +205,12 @@ public class OptionEntry extends Struct {
      * @return The value of the field {@code arg_description}
      */
     public java.lang.String getArgDescription() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -192,22 +218,26 @@ public class OptionEntry extends Struct {
      * @param argDescription The new value of the field {@code arg_description}
      */
     public void setArgDescription(java.lang.String argDescription) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(argDescription, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (argDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(argDescription, SCOPE)));
+        }
     }
     
     /**
      * Create a OptionEntry proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OptionEntry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OptionEntry(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OptionEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OptionEntry(input, ownership);
+    public static final Marshal<Addressable, OptionEntry> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OptionEntry(input);
     
     /**
      * A {@link OptionEntry.Builder} object constructs a {@link OptionEntry} 
@@ -231,7 +261,7 @@ public class OptionEntry extends Struct {
             struct = OptionEntry.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OptionEntry} struct.
          * @return A new instance of {@code OptionEntry} with the fields 
          *         that were set in the Builder object.
@@ -250,10 +280,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLongName(java.lang.String longName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (longName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(longName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("long_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (longName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(longName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -265,10 +297,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShortName(byte shortName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), shortName);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), shortName);
+                return this;
+            }
         }
         
         /**
@@ -277,10 +311,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         /**
@@ -289,10 +325,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setArg(org.gtk.glib.OptionArg arg) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("arg"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (arg == null ? MemoryAddress.NULL : arg.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("arg"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (arg == null ? MemoryAddress.NULL : arg.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -319,10 +357,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setArgData(java.lang.foreign.MemoryAddress argData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argData == null ? MemoryAddress.NULL : (Addressable) argData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("arg_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (argData == null ? MemoryAddress.NULL : (Addressable) argData));
+                return this;
+            }
         }
         
         /**
@@ -333,10 +373,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescription(java.lang.String description) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -348,10 +390,12 @@ public class OptionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setArgDescription(java.lang.String argDescription) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (argDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(argDescription, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("arg_description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (argDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(argDescription, SCOPE)));
+                return this;
+            }
         }
     }
 }

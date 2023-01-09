@@ -36,25 +36,40 @@ public class CellAreaContextClass extends Struct {
      * @return A new, uninitialized @{link CellAreaContextClass}
      */
     public static CellAreaContextClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CellAreaContextClass newInstance = new CellAreaContextClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CellAreaContextClass newInstance = new CellAreaContextClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code AllocateCallback} callback.
+     */
     @FunctionalInterface
     public interface AllocateCallback {
+    
         void run(org.gtk.gtk.CellAreaContext context, int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, int width, int height) {
-            run((org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), width, height);
+            run((org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AllocateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AllocateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -63,24 +78,41 @@ public class CellAreaContextClass extends Struct {
      * @param allocate The new value of the field {@code allocate}
      */
     public void setAllocate(AllocateCallback allocate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("allocate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocate == null ? MemoryAddress.NULL : allocate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allocate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (allocate == null ? MemoryAddress.NULL : allocate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ResetCallback} callback.
+     */
     @FunctionalInterface
     public interface ResetCallback {
+    
         void run(org.gtk.gtk.CellAreaContext context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context) {
-            run((org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE));
+            run((org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ResetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -89,28 +121,47 @@ public class CellAreaContextClass extends Struct {
      * @param reset The new value of the field {@code reset}
      */
     public void setReset(ResetCallback reset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredHeightForWidthCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredHeightForWidthCallback {
+    
         void run(org.gtk.gtk.CellAreaContext context, int width, Out<Integer> minimumHeight, Out<Integer> naturalHeight);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, int width, MemoryAddress minimumHeight, MemoryAddress naturalHeight) {
-            Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), width, minimumHeightOUT, naturalHeightOUT);
-            minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
-            naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), width, minimumHeightOUT, naturalHeightOUT);
+                minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
+                naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredHeightForWidthCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredHeightForWidthCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -119,28 +170,47 @@ public class CellAreaContextClass extends Struct {
      * @param getPreferredHeightForWidth The new value of the field {@code get_preferred_height_for_width}
      */
     public void setGetPreferredHeightForWidth(GetPreferredHeightForWidthCallback getPreferredHeightForWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredWidthForHeightCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredWidthForHeightCallback {
+    
         void run(org.gtk.gtk.CellAreaContext context, int height, Out<Integer> minimumWidth, Out<Integer> naturalWidth);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, int height, MemoryAddress minimumWidth, MemoryAddress naturalWidth) {
-            Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), height, minimumWidthOUT, naturalWidthOUT);
-            minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
-            naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), height, minimumWidthOUT, naturalWidthOUT);
+                minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
+                naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredWidthForHeightCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredWidthForHeightCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -149,22 +219,26 @@ public class CellAreaContextClass extends Struct {
      * @param getPreferredWidthForHeight The new value of the field {@code get_preferred_width_for_height}
      */
     public void setGetPreferredWidthForHeight(GetPreferredWidthForHeightCallback getPreferredWidthForHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+        }
     }
     
     /**
      * Create a CellAreaContextClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellAreaContextClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CellAreaContextClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellAreaContextClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContextClass(input, ownership);
+    public static final Marshal<Addressable, CellAreaContextClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContextClass(input);
     
     /**
      * A {@link CellAreaContextClass.Builder} object constructs a {@link CellAreaContextClass} 
@@ -188,7 +262,7 @@ public class CellAreaContextClass extends Struct {
             struct = CellAreaContextClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CellAreaContextClass} struct.
          * @return A new instance of {@code CellAreaContextClass} with the fields 
          *         that were set in the Builder object.
@@ -198,45 +272,57 @@ public class CellAreaContextClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setAllocate(AllocateCallback allocate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("allocate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocate == null ? MemoryAddress.NULL : allocate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("allocate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (allocate == null ? MemoryAddress.NULL : allocate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReset(ResetCallback reset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredHeightForWidth(GetPreferredHeightForWidthCallback getPreferredHeightForWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredWidthForHeight(GetPreferredWidthForHeightCallback getPreferredWidthForHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

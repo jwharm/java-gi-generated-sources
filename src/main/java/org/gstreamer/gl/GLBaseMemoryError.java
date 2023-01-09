@@ -6,15 +6,18 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum GLBaseMemoryError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * generic failure
      */
     FAILED(0),
+    
     /**
      * the implementation is too old and doesn't
      *                                     implement enough features
      */
     OLD_LIBS(1),
+    
     /**
      * a resource could not be found
      */
@@ -23,15 +26,29 @@ public enum GLBaseMemoryError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstGLBaseMemoryError";
     
     private final int value;
+    
+    /**
+     * Create a new GLBaseMemoryError for the provided value
+     * @param numeric value the enum value
+     */
     GLBaseMemoryError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new GLBaseMemoryError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static GLBaseMemoryError of(int value) {
         return switch (value) {
             case 0 -> FAILED;
@@ -54,9 +71,9 @@ public enum GLBaseMemoryError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_base_memory_error_quark = Interop.downcallHandle(
-            "gst_gl_base_memory_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_gl_base_memory_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

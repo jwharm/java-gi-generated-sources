@@ -29,8 +29,8 @@ public class AudioQuantize extends Struct {
      * @return A new, uninitialized @{link AudioQuantize}
      */
     public static AudioQuantize allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioQuantize newInstance = new AudioQuantize(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioQuantize newInstance = new AudioQuantize(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,22 +38,23 @@ public class AudioQuantize extends Struct {
     /**
      * Create a AudioQuantize proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioQuantize(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioQuantize(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioQuantize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioQuantize(input, ownership);
+    public static final Marshal<Addressable, AudioQuantize> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioQuantize(input);
     
     /**
      * Free a {@link AudioQuantize}.
      */
     public void free() {
         try {
-            DowncallHandles.gst_audio_quantize_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_quantize_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,8 +66,7 @@ public class AudioQuantize extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_audio_quantize_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_quantize_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,33 +128,33 @@ public class AudioQuantize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioQuantize.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioQuantize.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_quantize_free = Interop.downcallHandle(
-            "gst_audio_quantize_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_quantize_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_quantize_reset = Interop.downcallHandle(
-            "gst_audio_quantize_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_quantize_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_quantize_samples = Interop.downcallHandle(
-            "gst_audio_quantize_samples",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_quantize_samples",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_quantize_new = Interop.downcallHandle(
-            "gst_audio_quantize_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_quantize_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

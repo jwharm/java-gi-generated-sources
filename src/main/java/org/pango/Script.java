@@ -18,475 +18,593 @@ import org.jetbrains.annotations.*;
  * whose values are interchangeable with {@code PangoScript}.
  */
 public enum Script implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * a value never returned from pango_script_for_unichar()
      */
     INVALID_CODE(-1),
+    
     /**
      * a character used by multiple different scripts
      */
     COMMON(0),
+    
     /**
      * a mark glyph that takes its script from the
      * base glyph to which it is attached
      */
     INHERITED(1),
+    
     /**
      * Arabic
      */
     ARABIC(2),
+    
     /**
      * Armenian
      */
     ARMENIAN(3),
+    
     /**
      * Bengali
      */
     BENGALI(4),
+    
     /**
      * Bopomofo
      */
     BOPOMOFO(5),
+    
     /**
      * Cherokee
      */
     CHEROKEE(6),
+    
     /**
      * Coptic
      */
     COPTIC(7),
+    
     /**
      * Cyrillic
      */
     CYRILLIC(8),
+    
     /**
      * Deseret
      */
     DESERET(9),
+    
     /**
      * Devanagari
      */
     DEVANAGARI(10),
+    
     /**
      * Ethiopic
      */
     ETHIOPIC(11),
+    
     /**
      * Georgian
      */
     GEORGIAN(12),
+    
     /**
      * Gothic
      */
     GOTHIC(13),
+    
     /**
      * Greek
      */
     GREEK(14),
+    
     /**
      * Gujarati
      */
     GUJARATI(15),
+    
     /**
      * Gurmukhi
      */
     GURMUKHI(16),
+    
     /**
      * Han
      */
     HAN(17),
+    
     /**
      * Hangul
      */
     HANGUL(18),
+    
     /**
      * Hebrew
      */
     HEBREW(19),
+    
     /**
      * Hiragana
      */
     HIRAGANA(20),
+    
     /**
      * Kannada
      */
     KANNADA(21),
+    
     /**
      * Katakana
      */
     KATAKANA(22),
+    
     /**
      * Khmer
      */
     KHMER(23),
+    
     /**
      * Lao
      */
     LAO(24),
+    
     /**
      * Latin
      */
     LATIN(25),
+    
     /**
      * Malayalam
      */
     MALAYALAM(26),
+    
     /**
      * Mongolian
      */
     MONGOLIAN(27),
+    
     /**
      * Myanmar
      */
     MYANMAR(28),
+    
     /**
      * Ogham
      */
     OGHAM(29),
+    
     /**
      * Old Italic
      */
     OLD_ITALIC(30),
+    
     /**
      * Oriya
      */
     ORIYA(31),
+    
     /**
      * Runic
      */
     RUNIC(32),
+    
     /**
      * Sinhala
      */
     SINHALA(33),
+    
     /**
      * Syriac
      */
     SYRIAC(34),
+    
     /**
      * Tamil
      */
     TAMIL(35),
+    
     /**
      * Telugu
      */
     TELUGU(36),
+    
     /**
      * Thaana
      */
     THAANA(37),
+    
     /**
      * Thai
      */
     THAI(38),
+    
     /**
      * Tibetan
      */
     TIBETAN(39),
+    
     /**
      * Canadian Aboriginal
      */
     CANADIAN_ABORIGINAL(40),
+    
     /**
      * Yi
      */
     YI(41),
+    
     /**
      * Tagalog
      */
     TAGALOG(42),
+    
     /**
      * Hanunoo
      */
     HANUNOO(43),
+    
     /**
      * Buhid
      */
     BUHID(44),
+    
     /**
      * Tagbanwa
      */
     TAGBANWA(45),
+    
     /**
      * Braille
      */
     BRAILLE(46),
+    
     /**
      * Cypriot
      */
     CYPRIOT(47),
+    
     /**
      * Limbu
      */
     LIMBU(48),
+    
     /**
      * Osmanya
      */
     OSMANYA(49),
+    
     /**
      * Shavian
      */
     SHAVIAN(50),
+    
     /**
      * Linear B
      */
     LINEAR_B(51),
+    
     /**
      * Tai Le
      */
     TAI_LE(52),
+    
     /**
      * Ugaritic
      */
     UGARITIC(53),
+    
     /**
      * New Tai Lue. Since 1.10
      */
     NEW_TAI_LUE(54),
+    
     /**
      * Buginese. Since 1.10
      */
     BUGINESE(55),
+    
     /**
      * Glagolitic. Since 1.10
      */
     GLAGOLITIC(56),
+    
     /**
      * Tifinagh. Since 1.10
      */
     TIFINAGH(57),
+    
     /**
      * Syloti Nagri. Since 1.10
      */
     SYLOTI_NAGRI(58),
+    
     /**
      * Old Persian. Since 1.10
      */
     OLD_PERSIAN(59),
+    
     /**
      * Kharoshthi. Since 1.10
      */
     KHAROSHTHI(60),
+    
     /**
      * an unassigned code point. Since 1.14
      */
     UNKNOWN(61),
+    
     /**
      * Balinese. Since 1.14
      */
     BALINESE(62),
+    
     /**
      * Cuneiform. Since 1.14
      */
     CUNEIFORM(63),
+    
     /**
      * Phoenician. Since 1.14
      */
     PHOENICIAN(64),
+    
     /**
      * Phags-pa. Since 1.14
      */
     PHAGS_PA(65),
+    
     /**
      * N'Ko. Since 1.14
      */
     NKO(66),
+    
     /**
      * Kayah Li. Since 1.20.1
      */
     KAYAH_LI(67),
+    
     /**
      * Lepcha. Since 1.20.1
      */
     LEPCHA(68),
+    
     /**
      * Rejang. Since 1.20.1
      */
     REJANG(69),
+    
     /**
      * Sundanese. Since 1.20.1
      */
     SUNDANESE(70),
+    
     /**
      * Saurashtra. Since 1.20.1
      */
     SAURASHTRA(71),
+    
     /**
      * Cham. Since 1.20.1
      */
     CHAM(72),
+    
     /**
      * Ol Chiki. Since 1.20.1
      */
     OL_CHIKI(73),
+    
     /**
      * Vai. Since 1.20.1
      */
     VAI(74),
+    
     /**
      * Carian. Since 1.20.1
      */
     CARIAN(75),
+    
     /**
      * Lycian. Since 1.20.1
      */
     LYCIAN(76),
+    
     /**
      * Lydian. Since 1.20.1
      */
     LYDIAN(77),
+    
     /**
      * Batak. Since 1.32
      */
     BATAK(78),
+    
     /**
      * Brahmi. Since 1.32
      */
     BRAHMI(79),
+    
     /**
      * Mandaic. Since 1.32
      */
     MANDAIC(80),
+    
     /**
      * Chakma. Since: 1.32
      */
     CHAKMA(81),
+    
     /**
      * Meroitic Cursive. Since: 1.32
      */
     MEROITIC_CURSIVE(82),
+    
     /**
      * Meroitic Hieroglyphs. Since: 1.32
      */
     MEROITIC_HIEROGLYPHS(83),
+    
     /**
      * Miao. Since: 1.32
      */
     MIAO(84),
+    
     /**
      * Sharada. Since: 1.32
      */
     SHARADA(85),
+    
     /**
      * Sora Sompeng. Since: 1.32
      */
     SORA_SOMPENG(86),
+    
     /**
      * Takri. Since: 1.32
      */
     TAKRI(87),
+    
     /**
      * Bassa. Since: 1.40
      */
     BASSA_VAH(88),
+    
     /**
      * Caucasian Albanian. Since: 1.40
      */
     CAUCASIAN_ALBANIAN(89),
+    
     /**
      * Duployan. Since: 1.40
      */
     DUPLOYAN(90),
+    
     /**
      * Elbasan. Since: 1.40
      */
     ELBASAN(91),
+    
     /**
      * Grantha. Since: 1.40
      */
     GRANTHA(92),
+    
     /**
      * Kjohki. Since: 1.40
      */
     KHOJKI(93),
+    
     /**
      * Khudawadi, Sindhi. Since: 1.40
      */
     KHUDAWADI(94),
+    
     /**
      * Linear A. Since: 1.40
      */
     LINEAR_A(95),
+    
     /**
      * Mahajani. Since: 1.40
      */
     MAHAJANI(96),
+    
     /**
      * Manichaean. Since: 1.40
      */
     MANICHAEAN(97),
+    
     /**
      * Mende Kikakui. Since: 1.40
      */
     MENDE_KIKAKUI(98),
+    
     /**
      * Modi. Since: 1.40
      */
     MODI(99),
+    
     /**
      * Mro. Since: 1.40
      */
     MRO(100),
+    
     /**
      * Nabataean. Since: 1.40
      */
     NABATAEAN(101),
+    
     /**
      * Old North Arabian. Since: 1.40
      */
     OLD_NORTH_ARABIAN(102),
+    
     /**
      * Old Permic. Since: 1.40
      */
     OLD_PERMIC(103),
+    
     /**
      * Pahawh Hmong. Since: 1.40
      */
     PAHAWH_HMONG(104),
+    
     /**
      * Palmyrene. Since: 1.40
      */
     PALMYRENE(105),
+    
     /**
      * Pau Cin Hau. Since: 1.40
      */
     PAU_CIN_HAU(106),
+    
     /**
      * Psalter Pahlavi. Since: 1.40
      */
     PSALTER_PAHLAVI(107),
+    
     /**
      * Siddham. Since: 1.40
      */
     SIDDHAM(108),
+    
     /**
      * Tirhuta. Since: 1.40
      */
     TIRHUTA(109),
+    
     /**
      * Warang Citi. Since: 1.40
      */
     WARANG_CITI(110),
+    
     /**
      * Ahom. Since: 1.40
      */
     AHOM(111),
+    
     /**
      * Anatolian Hieroglyphs. Since: 1.40
      */
     ANATOLIAN_HIEROGLYPHS(112),
+    
     /**
      * Hatran. Since: 1.40
      */
     HATRAN(113),
+    
     /**
      * Multani. Since: 1.40
      */
     MULTANI(114),
+    
     /**
      * Old Hungarian. Since: 1.40
      */
     OLD_HUNGARIAN(115),
+    
     /**
      * Signwriting. Since: 1.40
      */
@@ -495,15 +613,29 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoScript";
     
     private final int value;
+    
+    /**
+     * Create a new Script for the provided value
+     * @param numeric value the enum value
+     */
     Script(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Script for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Script of(int value) {
         return switch (value) {
             case -1 -> INVALID_CODE;
@@ -649,8 +781,7 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
     public static org.pango.Script forUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(
-                    ch);
+            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -694,26 +825,27 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
     public static @Nullable org.pango.Language getSampleLanguage(org.pango.Script script) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(
-                    script.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Language.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
-            "pango_script_for_unichar",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_script_for_unichar",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
-            "pango_script_get_sample_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_script_get_sample_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

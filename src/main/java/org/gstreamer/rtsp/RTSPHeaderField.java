@@ -9,109 +9,213 @@ import org.jetbrains.annotations.*;
  * Enumeration of rtsp header fields
  */
 public enum RTSPHeaderField implements io.github.jwharm.javagi.Enumeration {
+    
     INVALID(0),
+    
     ACCEPT(1),
+    
     ACCEPT_ENCODING(2),
+    
     ACCEPT_LANGUAGE(3),
+    
     ALLOW(4),
+    
     AUTHORIZATION(5),
+    
     BANDWIDTH(6),
+    
     BLOCKSIZE(7),
+    
     CACHE_CONTROL(8),
+    
     CONFERENCE(9),
+    
     CONNECTION(10),
+    
     CONTENT_BASE(11),
+    
     CONTENT_ENCODING(12),
+    
     CONTENT_LANGUAGE(13),
+    
     CONTENT_LENGTH(14),
+    
     CONTENT_LOCATION(15),
+    
     CONTENT_TYPE(16),
+    
     CSEQ(17),
+    
     DATE(18),
+    
     EXPIRES(19),
+    
     FROM(20),
+    
     IF_MODIFIED_SINCE(21),
+    
     LAST_MODIFIED(22),
+    
     PROXY_AUTHENTICATE(23),
+    
     PROXY_REQUIRE(24),
+    
     PUBLIC(25),
+    
     RANGE(26),
+    
     REFERER(27),
+    
     REQUIRE(28),
+    
     RETRY_AFTER(29),
+    
     RTP_INFO(30),
+    
     SCALE(31),
+    
     SESSION(32),
+    
     SERVER(33),
+    
     SPEED(34),
+    
     TRANSPORT(35),
+    
     UNSUPPORTED(36),
+    
     USER_AGENT(37),
+    
     VIA(38),
+    
     WWW_AUTHENTICATE(39),
+    
     CLIENT_CHALLENGE(40),
+    
     REAL_CHALLENGE1(41),
+    
     REAL_CHALLENGE2(42),
+    
     REAL_CHALLENGE3(43),
+    
     SUBSCRIBE(44),
+    
     ALERT(45),
+    
     CLIENT_ID(46),
+    
     COMPANY_ID(47),
+    
     GUID(48),
+    
     REGION_DATA(49),
+    
     MAX_ASM_WIDTH(50),
+    
     LANGUAGE(51),
+    
     PLAYER_START_TIME(52),
+    
     LOCATION(53),
+    
     ETAG(54),
+    
     IF_MATCH(55),
+    
     ACCEPT_CHARSET(56),
+    
     SUPPORTED(57),
+    
     VARY(58),
+    
     X_ACCELERATE_STREAMING(59),
+    
     X_ACCEPT_AUTHENT(60),
+    
     X_ACCEPT_PROXY_AUTHENT(61),
+    
     X_BROADCAST_ID(62),
+    
     X_BURST_STREAMING(63),
+    
     X_NOTICE(64),
+    
     X_PLAYER_LAG_TIME(65),
+    
     X_PLAYLIST(66),
+    
     X_PLAYLIST_CHANGE_NOTICE(67),
+    
     X_PLAYLIST_GEN_ID(68),
+    
     X_PLAYLIST_SEEK_ID(69),
+    
     X_PROXY_CLIENT_AGENT(70),
+    
     X_PROXY_CLIENT_VERB(71),
+    
     X_RECEDING_PLAYLISTCHANGE(72),
+    
     X_RTP_INFO(73),
+    
     X_STARTUPPROFILE(74),
+    
     TIMESTAMP(75),
+    
     AUTHENTICATION_INFO(76),
+    
     HOST(77),
+    
     PRAGMA(78),
+    
     X_SERVER_IP_ADDRESS(79),
+    
     X_SESSIONCOOKIE(80),
+    
     RTCP_INTERVAL(81),
+    
     KEYMGMT(82),
+    
     PIPELINED_REQUESTS(83),
+    
     MEDIA_PROPERTIES(84),
+    
     SEEK_STYLE(85),
+    
     ACCEPT_RANGES(86),
+    
     FRAMES(87),
+    
     RATE_CONTROL(88),
+    
     LAST(89);
     
     private static final java.lang.String C_TYPE_NAME = "GstRTSPHeaderField";
     
     private final int value;
+    
+    /**
+     * Create a new RTSPHeaderField for the provided value
+     * @param numeric value the enum value
+     */
     RTSPHeaderField(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new RTSPHeaderField for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static RTSPHeaderField of(int value) {
         return switch (value) {
             case 0 -> INVALID;

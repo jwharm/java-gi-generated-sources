@@ -100,14 +100,16 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
     /**
      * Create a TreeModelFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeModelFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeModelFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeModelFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelFilter(input, ownership);
+    public static final Marshal<Addressable, TreeModelFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelFilter(input);
     
     /**
      * This function should almost never be called. It clears the {@code filter}
@@ -119,8 +121,7 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
      */
     public void clearCache() {
         try {
-            DowncallHandles.gtk_tree_model_filter_clear_cache.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_model_filter_clear_cache.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +167,9 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -202,7 +205,9 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -212,12 +217,11 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
     public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -226,8 +230,7 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
      */
     public void refilter() {
         try {
-            DowncallHandles.gtk_tree_model_filter_refilter.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_model_filter_refilter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,16 +253,18 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
      * @param destroy Destroy notifier of {@code data}
      */
     public void setModifyFunc(int nColumns, org.gtk.glib.Type[] types, org.gtk.gtk.TreeModelFilterModifyFunc func, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        try {
-            DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(
-                    handle(),
-                    nColumns,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false),
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(
+                        handle(),
+                        nColumns,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false, SCOPE),
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -364,6 +369,9 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -400,69 +408,77 @@ public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_model_filter_clear_cache = Interop.downcallHandle(
-            "gtk_tree_model_filter_clear_cache",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_clear_cache",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_convert_child_iter_to_iter = Interop.downcallHandle(
-            "gtk_tree_model_filter_convert_child_iter_to_iter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_convert_child_iter_to_iter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_convert_child_path_to_path = Interop.downcallHandle(
-            "gtk_tree_model_filter_convert_child_path_to_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_convert_child_path_to_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_convert_iter_to_child_iter = Interop.downcallHandle(
-            "gtk_tree_model_filter_convert_iter_to_child_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_convert_iter_to_child_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_convert_path_to_child_path = Interop.downcallHandle(
-            "gtk_tree_model_filter_convert_path_to_child_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_convert_path_to_child_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_get_model = Interop.downcallHandle(
-            "gtk_tree_model_filter_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_refilter = Interop.downcallHandle(
-            "gtk_tree_model_filter_refilter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_refilter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_set_modify_func = Interop.downcallHandle(
-            "gtk_tree_model_filter_set_modify_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_set_modify_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_set_visible_column = Interop.downcallHandle(
-            "gtk_tree_model_filter_set_visible_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_model_filter_set_visible_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_set_visible_func = Interop.downcallHandle(
-            "gtk_tree_model_filter_set_visible_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_set_visible_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_filter_get_type = Interop.downcallHandle(
-            "gtk_tree_model_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_model_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_model_filter_get_type != null;
     }
 }

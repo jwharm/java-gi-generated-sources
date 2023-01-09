@@ -28,14 +28,16 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
     /**
      * Create a MemoryTexture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryTexture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryTexture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryTexture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryTexture(input, ownership);
+    public static final Marshal<Addressable, MemoryTexture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryTexture(input);
     
     private static MemoryAddress constructNew(int width, int height, org.gtk.gdk.MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
         MemoryAddress RESULT;
@@ -64,7 +66,8 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
      * @param stride rowstride for the data
      */
     public MemoryTexture(int width, int height, org.gtk.gdk.MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
-        super(constructNew(width, height, format, bytes, stride), Ownership.FULL);
+        super(constructNew(width, height, format, bytes, stride));
+        this.takeOwnership();
     }
     
     /**
@@ -97,6 +100,9 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
      */
     public static class Builder extends org.gtk.gdk.Texture.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -121,15 +127,23 @@ public class MemoryTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Pa
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_memory_texture_new = Interop.downcallHandle(
-            "gdk_memory_texture_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_memory_texture_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_memory_texture_get_type = Interop.downcallHandle(
-            "gdk_memory_texture_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_memory_texture_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_memory_texture_get_type != null;
     }
 }

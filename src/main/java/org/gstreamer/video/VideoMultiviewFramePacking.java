@@ -17,28 +17,34 @@ import org.jetbrains.annotations.*;
  * equivalent to and have the same value as the matching {@link VideoMultiviewMode}.
  */
 public enum VideoMultiviewFramePacking implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * A special value indicating
      * no frame packing info.
      */
     NONE(-1),
+    
     /**
      * All frames are monoscopic.
      */
     MONO(0),
+    
     /**
      * All frames represent a left-eye view.
      */
     LEFT(1),
+    
     /**
      * All frames represent a right-eye view.
      */
     RIGHT(2),
+    
     /**
      * Left and right eye views are
      * provided in the left and right half of the frame respectively.
      */
     SIDE_BY_SIDE(3),
+    
     /**
      * Left and right eye
      * views are provided in the left and right half of the frame, but
@@ -46,21 +52,25 @@ public enum VideoMultiviewFramePacking implements io.github.jwharm.javagi.Enumer
      * between the 2 views.
      */
     SIDE_BY_SIDE_QUINCUNX(4),
+    
     /**
      * Alternating vertical
      * columns of pixels represent the left and right eye view respectively.
      */
     COLUMN_INTERLEAVED(5),
+    
     /**
      * Alternating horizontal
      * rows of pixels represent the left and right eye view respectively.
      */
     ROW_INTERLEAVED(6),
+    
     /**
      * The top half of the frame
      * contains the left eye, and the bottom half the right eye.
      */
     TOP_BOTTOM(7),
+    
     /**
      * Pixels are arranged with
      * alternating pixels representing left and right eye views in a
@@ -71,15 +81,29 @@ public enum VideoMultiviewFramePacking implements io.github.jwharm.javagi.Enumer
     private static final java.lang.String C_TYPE_NAME = "GstVideoMultiviewFramePacking";
     
     private final int value;
+    
+    /**
+     * Create a new VideoMultiviewFramePacking for the provided value
+     * @param numeric value the enum value
+     */
     VideoMultiviewFramePacking(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoMultiviewFramePacking for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoMultiviewFramePacking of(int value) {
         return switch (value) {
             case -1 -> NONE;

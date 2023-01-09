@@ -67,8 +67,8 @@ public class Caps extends Struct {
      * @return A new, uninitialized @{link Caps}
      */
     public static Caps allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Caps newInstance = new Caps(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Caps newInstance = new Caps(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -79,7 +79,7 @@ public class Caps extends Struct {
      */
     public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -87,22 +87,26 @@ public class Caps extends Struct {
      * @param miniObject The new value of the field {@code mini_object}
      */
     public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        }
     }
     
     /**
      * Create a Caps proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Caps(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Caps(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Caps> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Caps(input, ownership);
+    public static final Marshal<Addressable, Caps> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Caps(input);
     
     private static MemoryAddress constructNewAny() {
         MemoryAddress RESULT;
@@ -113,7 +117,7 @@ public class Caps extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} that indicates that it is compatible with
      * any media format.
@@ -121,7 +125,9 @@ public class Caps extends Struct {
      */
     public static Caps newAny() {
         var RESULT = constructNewAny();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewEmpty() {
@@ -133,7 +139,7 @@ public class Caps extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} that is empty.  That is, the returned
      * {@link Caps} contains no media formats.
@@ -142,20 +148,23 @@ public class Caps extends Struct {
      */
     public static Caps newEmpty() {
         var RESULT = constructNewEmpty();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewEmptySimple(java.lang.String mediaType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_empty_simple.invokeExact(
-                    Marshal.stringToAddress.marshal(mediaType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_empty_simple.invokeExact(Marshal.stringToAddress.marshal(mediaType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} that contains one {@link Structure} with name
      * {@code media_type}.
@@ -164,7 +173,9 @@ public class Caps extends Struct {
      */
     public static Caps newEmptySimple(java.lang.String mediaType) {
         var RESULT = constructNewEmptySimple(mediaType);
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFull(org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
@@ -178,7 +189,7 @@ public class Caps extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} and adds all the structures listed as
      * arguments.  The list must be {@code null}-terminated.  The structures
@@ -189,7 +200,9 @@ public class Caps extends Struct {
      */
     public static Caps newFull(org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
         var RESULT = constructNewFull(struct1, varargs);
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFullValist(org.gstreamer.gst.Structure structure, VaList varArgs) {
@@ -203,7 +216,7 @@ public class Caps extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} and adds all the structures listed as
      * arguments.  The list must be {@code null}-terminated.  The structures
@@ -214,22 +227,26 @@ public class Caps extends Struct {
      */
     public static Caps newFullValist(org.gstreamer.gst.Structure structure, VaList varArgs) {
         var RESULT = constructNewFullValist(structure, varArgs);
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSimple(java.lang.String mediaType, java.lang.String fieldname, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_simple.invokeExact(
-                    Marshal.stringToAddress.marshal(mediaType, null),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_simple.invokeExact(
+                        Marshal.stringToAddress.marshal(mediaType, SCOPE),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Caps} that contains one {@link Structure}.  The
      * structure is defined by the arguments, which have the same format
@@ -241,7 +258,9 @@ public class Caps extends Struct {
      */
     public static Caps newSimple(java.lang.String mediaType, java.lang.String fieldname, java.lang.Object... varargs) {
         var RESULT = constructNewSimple(mediaType, fieldname, varargs);
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -326,12 +345,13 @@ public class Caps extends Struct {
     public org.gstreamer.gst.Caps copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -349,7 +369,9 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -391,13 +413,14 @@ public class Caps extends Struct {
     public org.gstreamer.gst.Caps fixate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_fixate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_fixate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -445,7 +468,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -455,8 +478,7 @@ public class Caps extends Struct {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_caps_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_caps_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,7 +509,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -505,7 +527,9 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -526,7 +550,9 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -555,8 +581,7 @@ public class Caps extends Struct {
     public boolean isAny() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_caps_is_any.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_caps_is_any.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -570,8 +595,7 @@ public class Caps extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_caps_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_caps_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,8 +646,7 @@ public class Caps extends Struct {
     public boolean isFixed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_caps_is_fixed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_caps_is_fixed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -742,7 +765,9 @@ public class Caps extends Struct {
         }
         this.yieldOwnership();
         caps2.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -761,7 +786,9 @@ public class Caps extends Struct {
         }
         this.yieldOwnership();
         structure.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -783,7 +810,9 @@ public class Caps extends Struct {
         this.yieldOwnership();
         structure.yieldOwnership();
         features.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -799,13 +828,14 @@ public class Caps extends Struct {
     public org.gstreamer.gst.Caps normalize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_normalize.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_normalize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -887,13 +917,15 @@ public class Caps extends Struct {
      * @param varargs additional parameters
      */
     public void setSimple(java.lang.String field, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_caps_set_simple.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(field, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_caps_set_simple.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(field, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -904,13 +936,15 @@ public class Caps extends Struct {
      * @param varargs additional parameters
      */
     public void setSimpleValist(java.lang.String field, VaList varargs) {
-        try {
-            DowncallHandles.gst_caps_set_simple_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(field, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_caps_set_simple_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(field, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -922,13 +956,15 @@ public class Caps extends Struct {
      * @param value value to set the field to
      */
     public void setValue(java.lang.String field, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_caps_set_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(field, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_caps_set_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(field, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -948,13 +984,14 @@ public class Caps extends Struct {
     public org.gstreamer.gst.Caps simplify() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_simplify.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_simplify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -973,7 +1010,9 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -994,7 +1033,9 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1015,8 +1056,7 @@ public class Caps extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1039,13 +1079,14 @@ public class Caps extends Struct {
     public org.gstreamer.gst.Caps truncate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_truncate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_caps_truncate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1057,304 +1098,307 @@ public class Caps extends Struct {
      * @return a newly allocated {@link Caps}
      */
     public static @Nullable org.gstreamer.gst.Caps fromString(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_caps_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_caps_from_string.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_caps_new_any = Interop.downcallHandle(
-            "gst_caps_new_any",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_new_any",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_new_empty = Interop.downcallHandle(
-            "gst_caps_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_new_empty_simple = Interop.downcallHandle(
-            "gst_caps_new_empty_simple",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_new_empty_simple",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_new_full = Interop.downcallHandle(
-            "gst_caps_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_caps_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_caps_new_full_valist = Interop.downcallHandle(
-            "gst_caps_new_full_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_new_full_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_new_simple = Interop.downcallHandle(
-            "gst_caps_new_simple",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_caps_new_simple",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_caps_append = Interop.downcallHandle(
-            "gst_caps_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_append_structure = Interop.downcallHandle(
-            "gst_caps_append_structure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_append_structure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_append_structure_full = Interop.downcallHandle(
-            "gst_caps_append_structure_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_append_structure_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_can_intersect = Interop.downcallHandle(
-            "gst_caps_can_intersect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_can_intersect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_copy = Interop.downcallHandle(
-            "gst_caps_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_copy_nth = Interop.downcallHandle(
-            "gst_caps_copy_nth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_copy_nth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_filter_and_map_in_place = Interop.downcallHandle(
-            "gst_caps_filter_and_map_in_place",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_filter_and_map_in_place",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_fixate = Interop.downcallHandle(
-            "gst_caps_fixate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_fixate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_foreach = Interop.downcallHandle(
-            "gst_caps_foreach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_foreach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_get_features = Interop.downcallHandle(
-            "gst_caps_get_features",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_get_features",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_get_size = Interop.downcallHandle(
-            "gst_caps_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_get_structure = Interop.downcallHandle(
-            "gst_caps_get_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_get_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_intersect = Interop.downcallHandle(
-            "gst_caps_intersect",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_intersect",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_intersect_full = Interop.downcallHandle(
-            "gst_caps_intersect_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_intersect_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_is_always_compatible = Interop.downcallHandle(
-            "gst_caps_is_always_compatible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_always_compatible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_any = Interop.downcallHandle(
-            "gst_caps_is_any",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_any",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_empty = Interop.downcallHandle(
-            "gst_caps_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_equal = Interop.downcallHandle(
-            "gst_caps_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_equal_fixed = Interop.downcallHandle(
-            "gst_caps_is_equal_fixed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_equal_fixed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_fixed = Interop.downcallHandle(
-            "gst_caps_is_fixed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_fixed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_strictly_equal = Interop.downcallHandle(
-            "gst_caps_is_strictly_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_strictly_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_subset = Interop.downcallHandle(
-            "gst_caps_is_subset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_subset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_subset_structure = Interop.downcallHandle(
-            "gst_caps_is_subset_structure",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_subset_structure",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_is_subset_structure_full = Interop.downcallHandle(
-            "gst_caps_is_subset_structure_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_is_subset_structure_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_map_in_place = Interop.downcallHandle(
-            "gst_caps_map_in_place",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_map_in_place",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_merge = Interop.downcallHandle(
-            "gst_caps_merge",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_merge",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_merge_structure = Interop.downcallHandle(
-            "gst_caps_merge_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_merge_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_merge_structure_full = Interop.downcallHandle(
-            "gst_caps_merge_structure_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_merge_structure_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_normalize = Interop.downcallHandle(
-            "gst_caps_normalize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_normalize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_remove_structure = Interop.downcallHandle(
-            "gst_caps_remove_structure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_remove_structure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_serialize = Interop.downcallHandle(
-            "gst_caps_serialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_serialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_set_features = Interop.downcallHandle(
-            "gst_caps_set_features",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_set_features",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_set_features_simple = Interop.downcallHandle(
-            "gst_caps_set_features_simple",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_set_features_simple",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_set_simple = Interop.downcallHandle(
-            "gst_caps_set_simple",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_caps_set_simple",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_caps_set_simple_valist = Interop.downcallHandle(
-            "gst_caps_set_simple_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_set_simple_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_set_value = Interop.downcallHandle(
-            "gst_caps_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_simplify = Interop.downcallHandle(
-            "gst_caps_simplify",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_simplify",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_steal_structure = Interop.downcallHandle(
-            "gst_caps_steal_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_caps_steal_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_caps_subtract = Interop.downcallHandle(
-            "gst_caps_subtract",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_subtract",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_to_string = Interop.downcallHandle(
-            "gst_caps_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_truncate = Interop.downcallHandle(
-            "gst_caps_truncate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_truncate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_caps_from_string = Interop.downcallHandle(
-            "gst_caps_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_caps_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1380,7 +1424,7 @@ public class Caps extends Struct {
             struct = Caps.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Caps} struct.
          * @return A new instance of {@code Caps} with the fields 
          *         that were set in the Builder object.
@@ -1395,10 +1439,12 @@ public class Caps extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
     }
 }

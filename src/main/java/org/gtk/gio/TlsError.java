@@ -11,47 +11,56 @@ import org.jetbrains.annotations.*;
  * @version 2.28
  */
 public enum TlsError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No TLS provider is available
      */
     UNAVAILABLE(0),
+    
     /**
      * Miscellaneous TLS error
      */
     MISC(1),
+    
     /**
      * The certificate presented could not
      *   be parsed or failed validation.
      */
     BAD_CERTIFICATE(2),
+    
     /**
      * The TLS handshake failed because the
      *   peer does not seem to be a TLS server.
      */
     NOT_TLS(3),
+    
     /**
      * The TLS handshake failed because the
      *   peer's certificate was not acceptable.
      */
     HANDSHAKE(4),
+    
     /**
      * The TLS handshake failed because
      *   the server requested a client-side certificate, but none was
      *   provided. See g_tls_connection_set_certificate().
      */
     CERTIFICATE_REQUIRED(5),
+    
     /**
      * The TLS connection was closed without proper
      *   notice, which may indicate an attack. See
      *   g_tls_connection_set_require_close_notify().
      */
     EOF(6),
+    
     /**
      * The TLS handshake failed
      *   because the client sent the fallback SCSV, indicating a protocol
      *   downgrade attack. Since: 2.60
      */
     INAPPROPRIATE_FALLBACK(7),
+    
     /**
      * The certificate failed
      *   to load because a password was incorrect. Since: 2.72
@@ -61,15 +70,29 @@ public enum TlsError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTlsError";
     
     private final int value;
+    
+    /**
+     * Create a new TlsError for the provided value
+     * @param numeric value the enum value
+     */
     TlsError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsError of(int value) {
         return switch (value) {
             case 0 -> UNAVAILABLE;
@@ -102,9 +125,9 @@ public enum TlsError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_error_quark = Interop.downcallHandle(
-            "g_tls_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_tls_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

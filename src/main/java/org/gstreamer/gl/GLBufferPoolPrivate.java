@@ -29,8 +29,8 @@ public class GLBufferPoolPrivate extends Struct {
      * @return A new, uninitialized @{link GLBufferPoolPrivate}
      */
     public static GLBufferPoolPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLBufferPoolPrivate newInstance = new GLBufferPoolPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLBufferPoolPrivate newInstance = new GLBufferPoolPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLBufferPoolPrivate extends Struct {
     /**
      * Create a GLBufferPoolPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLBufferPoolPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLBufferPoolPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLBufferPoolPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferPoolPrivate(input, ownership);
+    public static final Marshal<Addressable, GLBufferPoolPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferPoolPrivate(input);
 }

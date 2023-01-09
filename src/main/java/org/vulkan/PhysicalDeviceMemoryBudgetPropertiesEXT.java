@@ -29,8 +29,8 @@ public class PhysicalDeviceMemoryBudgetPropertiesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceMemoryBudgetPropertiesEXT}
      */
     public static PhysicalDeviceMemoryBudgetPropertiesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceMemoryBudgetPropertiesEXT newInstance = new PhysicalDeviceMemoryBudgetPropertiesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceMemoryBudgetPropertiesEXT newInstance = new PhysicalDeviceMemoryBudgetPropertiesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceMemoryBudgetPropertiesEXT extends Struct {
     /**
      * Create a PhysicalDeviceMemoryBudgetPropertiesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceMemoryBudgetPropertiesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceMemoryBudgetPropertiesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceMemoryBudgetPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMemoryBudgetPropertiesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceMemoryBudgetPropertiesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMemoryBudgetPropertiesEXT(input);
 }

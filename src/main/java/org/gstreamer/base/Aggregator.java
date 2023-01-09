@@ -92,26 +92,17 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     /**
      * Create a Aggregator proxy instance for the provided memory address.
-     * <p>
-     * Because Aggregator is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Aggregator(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Aggregator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Aggregator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Aggregator(input, ownership);
+    public static final Marshal<Addressable, Aggregator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Aggregator(input);
     
     /**
      * This method will push the provided output buffer downstream. If needed,
@@ -162,34 +153,36 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_aggregator_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_aggregator_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     public @Nullable org.gstreamer.gst.BufferPool getBufferPool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_get_buffer_pool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_get_buffer_pool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.BufferPool) Interop.register(RESULT, org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public boolean getIgnoreInactivePads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_get_ignore_inactive_pads.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_get_ignore_inactive_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,8 +200,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_aggregator_get_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_aggregator_get_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,8 +216,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
     public boolean negotiate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_aggregator_negotiate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_aggregator_negotiate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,7 +242,9 @@ public class Aggregator extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -347,8 +340,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTime simpleGetNextTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_aggregator_simple_get_next_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_aggregator_simple_get_next_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,19 +379,39 @@ public class Aggregator extends org.gstreamer.gst.Element {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code SamplesSelected} callback.
+     */
     @FunctionalInterface
     public interface SamplesSelected {
+    
+        /**
+         * Signals that the {@link Aggregator} subclass has selected the next set
+         * of input samples it will aggregate. Handlers may call
+         * gst_aggregator_peek_next_sample() at that point.
+         */
         void run(org.gstreamer.gst.Segment segment, long pts, long dts, long duration, @Nullable org.gstreamer.gst.Structure info);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAggregator, MemoryAddress segment, long pts, long dts, long duration, MemoryAddress info) {
-            run(org.gstreamer.gst.Segment.fromAddress.marshal(segment, Ownership.NONE), pts, dts, duration, org.gstreamer.gst.Structure.fromAddress.marshal(info, Ownership.NONE));
+            run(org.gstreamer.gst.Segment.fromAddress.marshal(segment, null), pts, dts, duration, org.gstreamer.gst.Structure.fromAddress.marshal(info, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SamplesSelected.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SamplesSelected.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -411,9 +423,10 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Aggregator.SamplesSelected> onSamplesSelected(Aggregator.SamplesSelected handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("samples-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("samples-selected", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -436,6 +449,9 @@ public class Aggregator extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -504,93 +520,101 @@ public class Aggregator extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_aggregator_finish_buffer = Interop.downcallHandle(
-            "gst_aggregator_finish_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_finish_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_finish_buffer_list = Interop.downcallHandle(
-            "gst_aggregator_finish_buffer_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_finish_buffer_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_get_allocator = Interop.downcallHandle(
-            "gst_aggregator_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_get_buffer_pool = Interop.downcallHandle(
-            "gst_aggregator_get_buffer_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_get_buffer_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_get_ignore_inactive_pads = Interop.downcallHandle(
-            "gst_aggregator_get_ignore_inactive_pads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_get_ignore_inactive_pads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_get_latency = Interop.downcallHandle(
-            "gst_aggregator_get_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_get_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_negotiate = Interop.downcallHandle(
-            "gst_aggregator_negotiate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_negotiate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_peek_next_sample = Interop.downcallHandle(
-            "gst_aggregator_peek_next_sample",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_peek_next_sample",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_selected_samples = Interop.downcallHandle(
-            "gst_aggregator_selected_samples",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_selected_samples",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_set_ignore_inactive_pads = Interop.downcallHandle(
-            "gst_aggregator_set_ignore_inactive_pads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_aggregator_set_ignore_inactive_pads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_aggregator_set_latency = Interop.downcallHandle(
-            "gst_aggregator_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_aggregator_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_aggregator_set_src_caps = Interop.downcallHandle(
-            "gst_aggregator_set_src_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_set_src_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_simple_get_next_time = Interop.downcallHandle(
-            "gst_aggregator_simple_get_next_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_simple_get_next_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_update_segment = Interop.downcallHandle(
-            "gst_aggregator_update_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_aggregator_update_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_aggregator_get_type = Interop.downcallHandle(
-            "gst_aggregator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_aggregator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_aggregator_get_type != null;
     }
 }

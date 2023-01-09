@@ -29,20 +29,21 @@ public class SelectionFilterModel extends org.gtk.gobject.GObject implements org
     /**
      * Create a SelectionFilterModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SelectionFilterModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SelectionFilterModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SelectionFilterModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SelectionFilterModel(input, ownership);
+    public static final Marshal<Addressable, SelectionFilterModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SelectionFilterModel(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_filter_model_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_filter_model_new.invokeExact((Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,7 +56,8 @@ public class SelectionFilterModel extends org.gtk.gobject.GObject implements org
      * @param model the selection model to filter
      */
     public SelectionFilterModel(@Nullable org.gtk.gtk.SelectionModel model) {
-        super(constructNew(model), Ownership.FULL);
+        super(constructNew(model));
+        this.takeOwnership();
     }
     
     /**
@@ -65,12 +67,11 @@ public class SelectionFilterModel extends org.gtk.gobject.GObject implements org
     public @Nullable org.gtk.gtk.SelectionModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_filter_model_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_filter_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -122,6 +123,9 @@ public class SelectionFilterModel extends org.gtk.gobject.GObject implements org
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -179,27 +183,35 @@ public class SelectionFilterModel extends org.gtk.gobject.GObject implements org
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_selection_filter_model_new = Interop.downcallHandle(
-            "gtk_selection_filter_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_filter_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_selection_filter_model_get_model = Interop.downcallHandle(
-            "gtk_selection_filter_model_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_filter_model_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_selection_filter_model_set_model = Interop.downcallHandle(
-            "gtk_selection_filter_model_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_filter_model_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_selection_filter_model_get_type = Interop.downcallHandle(
-            "gtk_selection_filter_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_selection_filter_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_selection_filter_model_get_type != null;
     }
 }

@@ -25,20 +25,21 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     /**
      * Create a PixbufNonAnim proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufNonAnim(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufNonAnim(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufNonAnim> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufNonAnim(input, ownership);
+    public static final Marshal<Addressable, PixbufNonAnim> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufNonAnim(input);
     
     private static MemoryAddress constructNew(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_non_anim_new.invokeExact(
-                    pixbuf.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_non_anim_new.invokeExact(pixbuf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -46,7 +47,8 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     }
     
     public PixbufNonAnim(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(constructNew(pixbuf), Ownership.FULL);
+        super(constructNew(pixbuf));
+        this.takeOwnership();
     }
     
     /**
@@ -79,6 +81,9 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      */
     public static class Builder extends org.gtk.gdkpixbuf.PixbufAnimation.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -103,15 +108,23 @@ public class PixbufNonAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_non_anim_new = Interop.downcallHandle(
-            "gdk_pixbuf_non_anim_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_non_anim_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_non_anim_get_type = Interop.downcallHandle(
-            "gdk_pixbuf_non_anim_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_pixbuf_non_anim_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_pixbuf_non_anim_get_type != null;
     }
 }

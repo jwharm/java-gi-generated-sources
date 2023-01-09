@@ -29,6 +29,9 @@ import org.jetbrains.annotations.*;
  */
 public class Time extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new Time with the provided value
+     */
     public Time(int value) {
         super(value);
     }

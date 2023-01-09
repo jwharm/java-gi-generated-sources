@@ -29,8 +29,8 @@ public class DisplayPlaneCapabilitiesKHR extends Struct {
      * @return A new, uninitialized @{link DisplayPlaneCapabilitiesKHR}
      */
     public static DisplayPlaneCapabilitiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplayPlaneCapabilitiesKHR newInstance = new DisplayPlaneCapabilitiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplayPlaneCapabilitiesKHR newInstance = new DisplayPlaneCapabilitiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplayPlaneCapabilitiesKHR extends Struct {
     /**
      * Create a DisplayPlaneCapabilitiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplayPlaneCapabilitiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplayPlaneCapabilitiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplayPlaneCapabilitiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPlaneCapabilitiesKHR(input, ownership);
+    public static final Marshal<Addressable, DisplayPlaneCapabilitiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPlaneCapabilitiesKHR(input);
 }

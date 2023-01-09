@@ -28,6 +28,9 @@ public class DialogFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DialogFlags USE_HEADER_BAR = new DialogFlags(4);
     
+    /**
+     * Create a new DialogFlags with the provided value
+     */
     public DialogFlags(int value) {
         super(value);
     }

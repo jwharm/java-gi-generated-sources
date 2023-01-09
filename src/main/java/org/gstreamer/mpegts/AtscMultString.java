@@ -33,8 +33,8 @@ public class AtscMultString extends Struct {
      * @return A new, uninitialized @{link AtscMultString}
      */
     public static AtscMultString allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscMultString newInstance = new AtscMultString(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscMultString newInstance = new AtscMultString(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,10 +44,12 @@ public class AtscMultString extends Struct {
      * @return The value of the field {@code iso_639_langcode}
      */
     public byte[] getIso639Langcode() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -55,9 +57,11 @@ public class AtscMultString extends Struct {
      * @param iso639Langcode The new value of the field {@code iso_639_langcode}
      */
     public void setIso639Langcode(byte[] iso639Langcode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iso639Langcode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(iso639Langcode, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iso639Langcode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(iso639Langcode, false, SCOPE)));
+        }
     }
     
     /**
@@ -65,10 +69,12 @@ public class AtscMultString extends Struct {
      * @return The value of the field {@code segments}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscStringSegment> getSegments() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segments"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscStringSegment>(RESULT, org.gstreamer.mpegts.AtscStringSegment.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segments"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscStringSegment>(RESULT, org.gstreamer.mpegts.AtscStringSegment.fromAddress);
+        }
     }
     
     /**
@@ -76,22 +82,26 @@ public class AtscMultString extends Struct {
      * @param segments The new value of the field {@code segments}
      */
     public void setSegments(org.gstreamer.mpegts.AtscStringSegment[] segments) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segments"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segments, org.gstreamer.mpegts.AtscStringSegment.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segments"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segments, org.gstreamer.mpegts.AtscStringSegment.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscMultString proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscMultString(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscMultString(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscMultString> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscMultString(input, ownership);
+    public static final Marshal<Addressable, AtscMultString> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscMultString(input);
     
     /**
      * A {@link AtscMultString.Builder} object constructs a {@link AtscMultString} 
@@ -115,7 +125,7 @@ public class AtscMultString extends Struct {
             struct = AtscMultString.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscMultString} struct.
          * @return A new instance of {@code AtscMultString} with the fields 
          *         that were set in the Builder object.
@@ -130,17 +140,21 @@ public class AtscMultString extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIso639Langcode(byte[] iso639Langcode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iso639Langcode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(iso639Langcode, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("iso_639_langcode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iso639Langcode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(iso639Langcode, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setSegments(org.gstreamer.mpegts.AtscStringSegment[] segments) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segments"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segments, org.gstreamer.mpegts.AtscStringSegment.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segments"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segments, org.gstreamer.mpegts.AtscStringSegment.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

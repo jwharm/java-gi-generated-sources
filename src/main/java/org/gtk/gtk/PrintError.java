@@ -10,18 +10,22 @@ import org.jetbrains.annotations.*;
  * using the GTK printing support.
  */
 public enum PrintError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * An unspecified error occurred.
      */
     GENERAL(0),
+    
     /**
      * An internal error occurred.
      */
     INTERNAL_ERROR(1),
+    
     /**
      * A memory allocation failed.
      */
     NOMEM(2),
+    
     /**
      * An error occurred while loading a page setup
      *   or paper size from a key file.
@@ -31,15 +35,29 @@ public enum PrintError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkPrintError";
     
     private final int value;
+    
+    /**
+     * Create a new PrintError for the provided value
+     * @param numeric value the enum value
+     */
     PrintError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PrintError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PrintError of(int value) {
         return switch (value) {
             case 0 -> GENERAL;
@@ -67,9 +85,9 @@ public enum PrintError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_error_quark = Interop.downcallHandle(
-            "gtk_print_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gtk_print_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

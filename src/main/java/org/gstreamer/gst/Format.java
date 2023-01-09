@@ -9,10 +9,12 @@ import org.jetbrains.annotations.*;
  * Standard predefined formats
  */
 public enum Format implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * undefined format
      */
     UNDEFINED(0),
+    
     /**
      * the default format of the pad/element. This can be
      *    samples for raw audio, frames/fields for raw video (some, but not all,
@@ -20,19 +22,23 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      *    reason to query for samples/frames)
      */
     DEFAULT(1),
+    
     /**
      * bytes
      */
     BYTES(2),
+    
     /**
      * time in nanoseconds
      */
     TIME(3),
+    
     /**
      * buffers (few, if any, elements implement this as of
      *     May 2009)
      */
     BUFFERS(4),
+    
     /**
      * percentage of stream (few, if any, elements implement
      *     this as of May 2009)
@@ -42,15 +48,29 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstFormat";
     
     private final int value;
+    
+    /**
+     * Create a new Format for the provided value
+     * @param numeric value the enum value
+     */
     Format(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Format for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Format of(int value) {
         return switch (value) {
             case 0 -> UNDEFINED;
@@ -70,14 +90,15 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * if the format was not registered.
      */
     public static org.gstreamer.gst.Format getByNick(java.lang.String nick) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_format_get_by_nick.invokeExact(
-                    Marshal.stringToAddress.marshal(nick, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_format_get_by_nick.invokeExact(Marshal.stringToAddress.marshal(nick, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.Format.of(RESULT);
         }
-        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**
@@ -91,12 +112,11 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
     public static @Nullable org.gstreamer.gst.FormatDefinition getDetails(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_format_get_details.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_format_get_details.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.FormatDefinition.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.FormatDefinition.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -108,8 +128,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
     public static @Nullable java.lang.String getName(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_format_get_name.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_format_get_name.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +147,9 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -142,15 +163,17 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * MT safe.
      */
     public static org.gstreamer.gst.Format register(java.lang.String nick, java.lang.String description) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_format_register.invokeExact(
-                    Marshal.stringToAddress.marshal(nick, null),
-                    Marshal.stringToAddress.marshal(description, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_format_register.invokeExact(
+                        Marshal.stringToAddress.marshal(nick, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.Format.of(RESULT);
         }
-        return org.gstreamer.gst.Format.of(RESULT);
     }
     
     /**
@@ -162,8 +185,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
     public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.Format format) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_format_to_quark.invokeExact(
-                    format.getValue());
+            RESULT = (int) DowncallHandles.gst_format_to_quark.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,39 +195,39 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_format_get_by_nick = Interop.downcallHandle(
-            "gst_format_get_by_nick",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_format_get_by_nick",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_format_get_details = Interop.downcallHandle(
-            "gst_format_get_details",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_format_get_details",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_format_get_name = Interop.downcallHandle(
-            "gst_format_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_format_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_format_iterate_definitions = Interop.downcallHandle(
-            "gst_format_iterate_definitions",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_format_iterate_definitions",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_format_register = Interop.downcallHandle(
-            "gst_format_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_format_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_format_to_quark = Interop.downcallHandle(
-            "gst_format_to_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_format_to_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

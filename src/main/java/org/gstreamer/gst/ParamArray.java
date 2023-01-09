@@ -30,14 +30,16 @@ public class ParamArray extends org.gtk.gobject.ParamSpec {
     /**
      * Create a ParamArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamArray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamArray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamArray(input, ownership);
+    public static final Marshal<Addressable, ParamArray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamArray(input);
     
     /**
      * Get the gtype
@@ -56,9 +58,17 @@ public class ParamArray extends org.gtk.gobject.ParamSpec {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_param_spec_array_get_type = Interop.downcallHandle(
-            "gst_param_spec_array_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_param_spec_array_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_param_spec_array_get_type != null;
     }
 }

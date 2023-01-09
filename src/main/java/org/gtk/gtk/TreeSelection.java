@@ -52,14 +52,16 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     /**
      * Create a TreeSelection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeSelection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeSelection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeSelection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeSelection(input, ownership);
+    public static final Marshal<Addressable, TreeSelection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeSelection(input);
     
     /**
      * Returns the number of rows that have been selected in {@code tree}.
@@ -68,8 +70,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     public int countSelectedRows() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_count_selected_rows.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_count_selected_rows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +85,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     public org.gtk.gtk.SelectionMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_get_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_selection_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +99,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     public org.gtk.gtk.TreeSelectionFunc getSelectFunction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_select_function.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_select_function.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,18 +117,20 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      * @return TRUE, if there is a selected node.
      */
     public boolean getSelected(@Nullable Out<org.gtk.gtk.TreeModel> model, @Nullable org.gtk.gtk.TreeIter iter) {
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_selection_get_selected.invokeExact(
-                    handle(),
-                    (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
-                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment modelPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_selection_get_selected.invokeExact(
+                        handle(),
+                        (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
+                        (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (model != null) model.set((org.gtk.gtk.TreeModel) Interop.register(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (model != null) model.set((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -146,17 +147,21 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      * @return A {@code GList} containing a {@code GtkTreePath} for each selected row.
      */
     public org.gtk.glib.List getSelectedRows(@Nullable Out<org.gtk.gtk.TreeModel> model) {
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_selected_rows.invokeExact(
-                    handle(),
-                    (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment modelPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_selected_rows.invokeExact(
+                        handle(),
+                        (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (model != null) model.set((org.gtk.gtk.TreeModel) Interop.register(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (model != null) model.set((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -166,12 +171,11 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     public org.gtk.gtk.TreeView getTreeView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_tree_view.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_tree_view.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeView.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeView) Interop.register(RESULT, org.gtk.gtk.TreeView.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -181,8 +185,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_selection_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,8 +233,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_tree_selection_select_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_selection_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,8 +344,7 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_tree_selection_unselect_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_selection_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,19 +409,40 @@ public class TreeSelection extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted whenever the selection has (possibly) changed. Please note that
+         * this signal is mostly a hint.  It may only be emitted once when a range
+         * of rows are selected, and it may occasionally be emitted when nothing
+         * has happened.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeSelection) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -433,9 +455,10 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeSelection.Changed> onChanged(TreeSelection.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -458,6 +481,9 @@ public class TreeSelection extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -494,129 +520,137 @@ public class TreeSelection extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_selection_count_selected_rows = Interop.downcallHandle(
-            "gtk_tree_selection_count_selected_rows",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_count_selected_rows",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_mode = Interop.downcallHandle(
-            "gtk_tree_selection_get_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_select_function = Interop.downcallHandle(
-            "gtk_tree_selection_get_select_function",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_select_function",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_selected = Interop.downcallHandle(
-            "gtk_tree_selection_get_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_selected_rows = Interop.downcallHandle(
-            "gtk_tree_selection_get_selected_rows",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_selected_rows",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_tree_view = Interop.downcallHandle(
-            "gtk_tree_selection_get_tree_view",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_tree_view",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_user_data = Interop.downcallHandle(
-            "gtk_tree_selection_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_iter_is_selected = Interop.downcallHandle(
-            "gtk_tree_selection_iter_is_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_iter_is_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_path_is_selected = Interop.downcallHandle(
-            "gtk_tree_selection_path_is_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_path_is_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_select_all = Interop.downcallHandle(
-            "gtk_tree_selection_select_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_select_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_select_iter = Interop.downcallHandle(
-            "gtk_tree_selection_select_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_select_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_select_path = Interop.downcallHandle(
-            "gtk_tree_selection_select_path",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_select_path",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_select_range = Interop.downcallHandle(
-            "gtk_tree_selection_select_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_select_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_selected_foreach = Interop.downcallHandle(
-            "gtk_tree_selection_selected_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_selected_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_set_mode = Interop.downcallHandle(
-            "gtk_tree_selection_set_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_selection_set_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_set_select_function = Interop.downcallHandle(
-            "gtk_tree_selection_set_select_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_set_select_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_all = Interop.downcallHandle(
-            "gtk_tree_selection_unselect_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_unselect_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_iter = Interop.downcallHandle(
-            "gtk_tree_selection_unselect_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_unselect_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_path = Interop.downcallHandle(
-            "gtk_tree_selection_unselect_path",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_unselect_path",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_unselect_range = Interop.downcallHandle(
-            "gtk_tree_selection_unselect_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_selection_unselect_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_selection_get_type = Interop.downcallHandle(
-            "gtk_tree_selection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_selection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_selection_get_type != null;
     }
 }

@@ -31,8 +31,8 @@ public class Vp9Dpb extends Struct {
      * @return A new, uninitialized @{link Vp9Dpb}
      */
     public static Vp9Dpb allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp9Dpb newInstance = new Vp9Dpb(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp9Dpb newInstance = new Vp9Dpb(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,10 +42,12 @@ public class Vp9Dpb extends Struct {
      * @return The value of the field {@code pic_list}
      */
     public org.gstreamer.codecs.Vp9Picture[] getPicList() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.codecs.Vp9Picture>(RESULT, org.gstreamer.codecs.Vp9Picture.fromAddress).toArray((int) 8, org.gstreamer.codecs.Vp9Picture.class);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.codecs.Vp9Picture>(RESULT, org.gstreamer.codecs.Vp9Picture.fromAddress).toArray((int) 8, org.gstreamer.codecs.Vp9Picture.class);
+        }
     }
     
     /**
@@ -53,22 +55,26 @@ public class Vp9Dpb extends Struct {
      * @param picList The new value of the field {@code pic_list}
      */
     public void setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a Vp9Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp9Dpb(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp9Dpb(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp9Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9Dpb(input, ownership);
+    public static final Marshal<Addressable, Vp9Dpb> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp9Dpb(input);
     
     /**
      * Store the {@code picture}
@@ -90,8 +96,7 @@ public class Vp9Dpb extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_vp9_dpb_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_vp9_dpb_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,8 +107,7 @@ public class Vp9Dpb extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_vp9_dpb_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_vp9_dpb_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,33 +124,33 @@ public class Vp9Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.Vp9Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9Dpb.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vp9_dpb_add = Interop.downcallHandle(
-            "gst_vp9_dpb_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp9_dpb_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vp9_dpb_clear = Interop.downcallHandle(
-            "gst_vp9_dpb_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp9_dpb_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vp9_dpb_free = Interop.downcallHandle(
-            "gst_vp9_dpb_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp9_dpb_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vp9_dpb_new = Interop.downcallHandle(
-            "gst_vp9_dpb_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vp9_dpb_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -172,7 +176,7 @@ public class Vp9Dpb extends Struct {
             struct = Vp9Dpb.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp9Dpb} struct.
          * @return A new instance of {@code Vp9Dpb} with the fields 
          *         that were set in the Builder object.
@@ -182,10 +186,12 @@ public class Vp9Dpb extends Struct {
         }
         
         public Builder setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

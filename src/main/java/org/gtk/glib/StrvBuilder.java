@@ -42,8 +42,8 @@ public class StrvBuilder extends Struct {
      * @return A new, uninitialized @{link StrvBuilder}
      */
     public static StrvBuilder allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StrvBuilder newInstance = new StrvBuilder(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StrvBuilder newInstance = new StrvBuilder(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,14 +51,16 @@ public class StrvBuilder extends Struct {
     /**
      * Create a StrvBuilder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StrvBuilder(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StrvBuilder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StrvBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StrvBuilder(input, ownership);
+    public static final Marshal<Addressable, StrvBuilder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StrvBuilder(input);
     
     /**
      * Add a string to the end of the array.
@@ -67,12 +69,14 @@ public class StrvBuilder extends Struct {
      * @param value a string.
      */
     public void add(java.lang.String value) {
-        try {
-            DowncallHandles.g_strv_builder_add.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_strv_builder_add.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -99,12 +103,14 @@ public class StrvBuilder extends Struct {
      * @param value the vector of strings to add
      */
     public void addv(java.lang.String[] value) {
-        try {
-            DowncallHandles.g_strv_builder_addv.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(value, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_strv_builder_addv.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(value, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -117,14 +123,15 @@ public class StrvBuilder extends Struct {
      * Since 2.68
      */
     public PointerString end() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_end.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_end.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -135,12 +142,13 @@ public class StrvBuilder extends Struct {
     public org.gtk.glib.StrvBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -151,8 +159,7 @@ public class StrvBuilder extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_strv_builder_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_strv_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,51 +178,53 @@ public class StrvBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_strv_builder_add = Interop.downcallHandle(
-            "g_strv_builder_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_strv_builder_add_many = Interop.downcallHandle(
-            "g_strv_builder_add_many",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            true
+                "g_strv_builder_add_many",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_strv_builder_addv = Interop.downcallHandle(
-            "g_strv_builder_addv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_addv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_strv_builder_end = Interop.downcallHandle(
-            "g_strv_builder_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_strv_builder_ref = Interop.downcallHandle(
-            "g_strv_builder_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_strv_builder_unref = Interop.downcallHandle(
-            "g_strv_builder_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_strv_builder_new = Interop.downcallHandle(
-            "g_strv_builder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_strv_builder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

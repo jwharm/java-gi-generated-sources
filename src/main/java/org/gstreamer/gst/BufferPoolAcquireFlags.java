@@ -40,6 +40,9 @@ public class BufferPoolAcquireFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferPoolAcquireFlags LAST = new BufferPoolAcquireFlags(65536);
     
+    /**
+     * Create a new BufferPoolAcquireFlags with the provided value
+     */
     public BufferPoolAcquireFlags(int value) {
         super(value);
     }

@@ -14,88 +14,166 @@ import org.jetbrains.annotations.*;
  * Consult the relevant specifications for more details.
  */
 public enum DVBDescriptorType implements io.github.jwharm.javagi.Enumeration {
+    
     NETWORK_NAME(64),
+    
     SERVICE_LIST(65),
+    
     STUFFING(66),
+    
     SATELLITE_DELIVERY_SYSTEM(67),
+    
     CABLE_DELIVERY_SYSTEM(68),
+    
     VBI_DATA(69),
+    
     VBI_TELETEXT(70),
+    
     BOUQUET_NAME(71),
+    
     SERVICE(72),
+    
     COUNTRY_AVAILABILITY(73),
+    
     LINKAGE(74),
+    
     NVOD_REFERENCE(75),
+    
     TIME_SHIFTED_SERVICE(76),
+    
     SHORT_EVENT(77),
+    
     EXTENDED_EVENT(78),
+    
     TIME_SHIFTED_EVENT(79),
+    
     COMPONENT(80),
+    
     MOSAIC(81),
+    
     STREAM_IDENTIFIER(82),
+    
     CA_IDENTIFIER(83),
+    
     CONTENT(84),
+    
     PARENTAL_RATING(85),
+    
     TELETEXT(86),
+    
     TELEPHONE(87),
+    
     LOCAL_TIME_OFFSET(88),
+    
     SUBTITLING(89),
+    
     TERRESTRIAL_DELIVERY_SYSTEM(90),
+    
     MULTILINGUAL_NETWORK_NAME(91),
+    
     MULTILINGUAL_BOUQUET_NAME(92),
+    
     MULTILINGUAL_SERVICE_NAME(93),
+    
     MULTILINGUAL_COMPONENT(94),
+    
     PRIVATE_DATA_SPECIFIER(95),
+    
     SERVICE_MOVE(96),
+    
     SHORT_SMOOTHING_BUFFER(97),
+    
     FREQUENCY_LIST(98),
+    
     /**
      * Partial Transport Stream descriptor. Only present in SIT Sections.
      * <p>
      * See also: {@link SectionType#SIT}, {@code GstMpegtsSIT}
      */
     PARTIAL_TRANSPORT_STREAM(99),
+    
     DATA_BROADCAST(100),
+    
     SCRAMBLING(101),
+    
     DATA_BROADCAST_ID(102),
+    
     TRANSPORT_STREAM(103),
+    
     DSNG(104),
+    
     PDC(105),
+    
     AC3(106),
+    
     ANCILLARY_DATA(107),
+    
     CELL_LIST(108),
+    
     CELL_FREQUENCY_LINK(109),
+    
     ANNOUNCEMENT_SUPPORT(110),
+    
     APPLICATION_SIGNALLING(111),
+    
     ADAPTATION_FIELD_DATA(112),
+    
     SERVICE_IDENTIFIER(113),
+    
     SERVICE_AVAILABILITY(114),
+    
     DEFAULT_AUTHORITY(115),
+    
     RELATED_CONTENT(116),
+    
     TVA_ID(117),
+    
     CONTENT_IDENTIFIER(118),
+    
     TIMESLICE_FEC_IDENTIFIER(119),
+    
     ECM_REPETITION_RATE(120),
+    
     S2_SATELLITE_DELIVERY_SYSTEM(121),
+    
     ENHANCED_AC3(122),
+    
     DTS(123),
+    
     AAC(124),
+    
     XAIT_LOCATION(125),
+    
     FTA_CONTENT_MANAGEMENT(126),
+    
     EXTENSION(127);
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBDescriptorType";
     
     private final int value;
+    
+    /**
+     * Create a new DVBDescriptorType for the provided value
+     * @param numeric value the enum value
+     */
     DVBDescriptorType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DVBDescriptorType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DVBDescriptorType of(int value) {
         return switch (value) {
             case 64 -> NETWORK_NAME;

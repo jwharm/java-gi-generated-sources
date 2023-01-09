@@ -36,8 +36,8 @@ public class VideoMetaTransform extends Struct {
      * @return A new, uninitialized @{link VideoMetaTransform}
      */
     public static VideoMetaTransform allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoMetaTransform newInstance = new VideoMetaTransform(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoMetaTransform newInstance = new VideoMetaTransform(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class VideoMetaTransform extends Struct {
      * @return The value of the field {@code in_info}
      */
     public org.gstreamer.video.VideoInfo getInInfo() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class VideoMetaTransform extends Struct {
      * @param inInfo The new value of the field {@code in_info}
      */
     public void setInInfo(org.gstreamer.video.VideoInfo inInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class VideoMetaTransform extends Struct {
      * @return The value of the field {@code out_info}
      */
     public org.gstreamer.video.VideoInfo getOutInfo() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class VideoMetaTransform extends Struct {
      * @param outInfo The new value of the field {@code out_info}
      */
     public void setOutInfo(org.gstreamer.video.VideoInfo outInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));
+        }
     }
     
     /**
      * Create a VideoMetaTransform proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoMetaTransform(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoMetaTransform(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoMetaTransform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMetaTransform(input, ownership);
+    public static final Marshal<Addressable, VideoMetaTransform> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoMetaTransform(input);
     
     /**
      * Get the {@link org.gtk.glib.Quark} for the "gst-video-scale" metadata transform operation.
@@ -113,9 +123,9 @@ public class VideoMetaTransform extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_meta_transform_scale_get_quark = Interop.downcallHandle(
-            "gst_video_meta_transform_scale_get_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_video_meta_transform_scale_get_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -141,7 +151,7 @@ public class VideoMetaTransform extends Struct {
             struct = VideoMetaTransform.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoMetaTransform} struct.
          * @return A new instance of {@code VideoMetaTransform} with the fields 
          *         that were set in the Builder object.
@@ -156,10 +166,12 @@ public class VideoMetaTransform extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInInfo(org.gstreamer.video.VideoInfo inInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
+                return this;
+            }
         }
         
         /**
@@ -168,10 +180,12 @@ public class VideoMetaTransform extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOutInfo(org.gstreamer.video.VideoInfo outInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));
+                return this;
+            }
         }
     }
 }

@@ -108,8 +108,11 @@ import org.jetbrains.annotations.*;
  */
 public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AsyncInitableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AsyncInitableImpl(input, ownership);
+    public static final Marshal<Addressable, AsyncInitableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AsyncInitableImpl(input);
     
     /**
      * Starts asynchronous initialization of the object implementing the
@@ -174,20 +177,22 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean initFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_async_initable_init_finish.invokeExact(
-                    handle(),
-                    res.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_async_initable_init_finish.invokeExact(
+                        handle(),
+                        res.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,17 +227,19 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      *    value pairs, and ended by {@code null}.
      */
     public static void newAsync(org.gtk.glib.Type objectType, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_async_initable_new_async.invokeExact(
-                    objectType.getValue().longValue(),
-                    ioPriority,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstPropertyName, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_async_initable_new_async.invokeExact(
+                        objectType.getValue().longValue(),
+                        ioPriority,
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstPropertyName, SCOPE)),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -254,17 +261,19 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      *     finished
      */
     public static void newValistAsync(org.gtk.glib.Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        try {
-            DowncallHandles.g_async_initable_new_valist_async.invokeExact(
-                    objectType.getValue().longValue(),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varArgs,
-                    ioPriority,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_async_initable_new_valist_async.invokeExact(
+                        objectType.getValue().longValue(),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varArgs,
+                        ioPriority,
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -306,55 +315,70 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_init_async = Interop.downcallHandle(
-            "g_async_initable_init_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_initable_init_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_init_finish = Interop.downcallHandle(
-            "g_async_initable_init_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_initable_init_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_get_type = Interop.downcallHandle(
-            "g_async_initable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_async_initable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_new_async = Interop.downcallHandle(
-            "g_async_initable_new_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_async_initable_new_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_new_valist_async = Interop.downcallHandle(
-            "g_async_initable_new_valist_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_initable_new_valist_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_initable_newv_async = Interop.downcallHandle(
-            "g_async_initable_newv_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_initable_newv_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The AsyncInitableImpl type represents a native instance of the AsyncInitable interface.
+     */
     class AsyncInitableImpl extends org.gtk.gobject.GObject implements AsyncInitable {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public AsyncInitableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of AsyncInitable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public AsyncInitableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_async_initable_get_type != null;
     }
 }

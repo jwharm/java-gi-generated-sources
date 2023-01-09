@@ -29,8 +29,8 @@ public class ShortcutsShortcutClass extends Struct {
      * @return A new, uninitialized @{link ShortcutsShortcutClass}
      */
     public static ShortcutsShortcutClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShortcutsShortcutClass newInstance = new ShortcutsShortcutClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ShortcutsShortcutClass newInstance = new ShortcutsShortcutClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ShortcutsShortcutClass extends Struct {
     /**
      * Create a ShortcutsShortcutClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShortcutsShortcutClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShortcutsShortcutClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutsShortcutClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsShortcutClass(input, ownership);
+    public static final Marshal<Addressable, ShortcutsShortcutClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsShortcutClass(input);
 }

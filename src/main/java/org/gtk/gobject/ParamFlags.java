@@ -91,6 +91,9 @@ public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ParamFlags DEPRECATED = new ParamFlags(-2147483648);
     
+    /**
+     * Create a new ParamFlags with the provided value
+     */
     public ParamFlags(int value) {
         super(value);
     }

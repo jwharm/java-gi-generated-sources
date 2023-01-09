@@ -29,8 +29,8 @@ public class TlsInteractionPrivate extends Struct {
      * @return A new, uninitialized @{link TlsInteractionPrivate}
      */
     public static TlsInteractionPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsInteractionPrivate newInstance = new TlsInteractionPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsInteractionPrivate newInstance = new TlsInteractionPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TlsInteractionPrivate extends Struct {
     /**
      * Create a TlsInteractionPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsInteractionPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsInteractionPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsInteractionPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsInteractionPrivate(input, ownership);
+    public static final Marshal<Addressable, TlsInteractionPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsInteractionPrivate(input);
 }

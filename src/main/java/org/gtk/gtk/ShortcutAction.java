@@ -55,26 +55,29 @@ public class ShortcutAction extends org.gtk.gobject.GObject {
     /**
      * Create a ShortcutAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShortcutAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShortcutAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutAction(input, ownership);
+    public static final Marshal<Addressable, ShortcutAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutAction(input);
     
     private static MemoryAddress constructParseString(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Tries to parse the given string into an action.
      * <p>
@@ -94,7 +97,9 @@ public class ShortcutAction extends org.gtk.gobject.GObject {
      */
     public static ShortcutAction parseString(java.lang.String string) {
         var RESULT = constructParseString(string);
-        return (org.gtk.gtk.ShortcutAction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutAction.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.ShortcutAction) Interop.register(RESULT, org.gtk.gtk.ShortcutAction.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -153,8 +158,7 @@ public class ShortcutAction extends org.gtk.gobject.GObject {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,6 +195,9 @@ public class ShortcutAction extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -215,33 +222,41 @@ public class ShortcutAction extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcut_action_parse_string = Interop.downcallHandle(
-            "gtk_shortcut_action_parse_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_action_parse_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_action_activate = Interop.downcallHandle(
-            "gtk_shortcut_action_activate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_action_activate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_action_print = Interop.downcallHandle(
-            "gtk_shortcut_action_print",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_action_print",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_action_to_string = Interop.downcallHandle(
-            "gtk_shortcut_action_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_action_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_action_get_type = Interop.downcallHandle(
-            "gtk_shortcut_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_shortcut_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_shortcut_action_get_type != null;
     }
 }

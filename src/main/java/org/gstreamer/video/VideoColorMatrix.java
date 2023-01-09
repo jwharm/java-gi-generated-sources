@@ -10,32 +10,39 @@ import org.jetbrains.annotations.*;
  * non-linear RGB (R'G'B')
  */
 public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown matrix
      */
     UNKNOWN(0),
+    
     /**
      * identity matrix. Order of coefficients is
      * actually GBR, also IEC 61966-2-1 (sRGB)
      */
     RGB(1),
+    
     /**
      * FCC Title 47 Code of Federal Regulations 73.682 (a)(20)
      */
     FCC(2),
+    
     /**
      * ITU-R BT.709 color matrix, also ITU-R BT1361
      * / IEC 61966-2-4 xvYCC709 / SMPTE RP177 Annex B
      */
     BT709(3),
+    
     /**
      * ITU-R BT.601 color matrix, also SMPTE170M / ITU-R BT1358 525 / ITU-R BT1700 NTSC
      */
     BT601(4),
+    
     /**
      * SMPTE 240M color matrix
      */
     SMPTE240M(5),
+    
     /**
      * ITU-R BT.2020 color matrix. Since: 1.6
      */
@@ -44,15 +51,29 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoColorMatrix";
     
     private final int value;
+    
+    /**
+     * Create a new VideoColorMatrix for the provided value
+     * @param numeric value the enum value
+     */
     VideoColorMatrix(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoColorMatrix for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoColorMatrix of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -78,8 +99,7 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.video.VideoColorMatrix fromIso(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_color_matrix_from_iso.invokeExact(
-                    value);
+            RESULT = (int) DowncallHandles.gst_video_color_matrix_from_iso.invokeExact(value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,20 +135,22 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
      *    values.
      */
     public static boolean getKrKb(org.gstreamer.video.VideoColorMatrix matrix, Out<Double> Kr, Out<Double> Kb) {
-        MemorySegment KrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment KbPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_color_matrix_get_Kr_Kb.invokeExact(
-                    matrix.getValue(),
-                    (Addressable) KrPOINTER.address(),
-                    (Addressable) KbPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment KrPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment KbPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_color_matrix_get_Kr_Kb.invokeExact(
+                        matrix.getValue(),
+                        (Addressable) KrPOINTER.address(),
+                        (Addressable) KbPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    Kr.set(KrPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    Kb.set(KbPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        Kr.set(KrPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        Kb.set(KbPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,8 +164,7 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
     public static int toIso(org.gstreamer.video.VideoColorMatrix matrix) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_color_matrix_to_iso.invokeExact(
-                    matrix.getValue());
+            RESULT = (int) DowncallHandles.gst_video_color_matrix_to_iso.invokeExact(matrix.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,21 +174,21 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_color_matrix_from_iso = Interop.downcallHandle(
-            "gst_video_color_matrix_from_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_color_matrix_from_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_color_matrix_get_Kr_Kb = Interop.downcallHandle(
-            "gst_video_color_matrix_get_Kr_Kb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_color_matrix_get_Kr_Kb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_color_matrix_to_iso = Interop.downcallHandle(
-            "gst_video_color_matrix_to_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_color_matrix_to_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

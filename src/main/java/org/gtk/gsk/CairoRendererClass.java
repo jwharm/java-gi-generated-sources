@@ -29,8 +29,8 @@ public class CairoRendererClass extends Struct {
      * @return A new, uninitialized @{link CairoRendererClass}
      */
     public static CairoRendererClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CairoRendererClass newInstance = new CairoRendererClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CairoRendererClass newInstance = new CairoRendererClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CairoRendererClass extends Struct {
     /**
      * Create a CairoRendererClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CairoRendererClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CairoRendererClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CairoRendererClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CairoRendererClass(input, ownership);
+    public static final Marshal<Addressable, CairoRendererClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CairoRendererClass(input);
 }

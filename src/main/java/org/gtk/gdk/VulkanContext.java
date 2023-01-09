@@ -36,14 +36,16 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
     /**
      * Create a VulkanContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanContext(input, ownership);
+    public static final Marshal<Addressable, VulkanContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanContext(input);
     
     /**
      * Get the gtype
@@ -59,19 +61,40 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ImagesUpdated} callback.
+     */
     @FunctionalInterface
     public interface ImagesUpdated {
+    
+        /**
+         * Emitted when the images managed by this context have changed.
+         * <p>
+         * Usually this means that the swapchain had to be recreated,
+         * for example in response to a change of the surface size.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVulkanContext) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ImagesUpdated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ImagesUpdated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,9 +107,10 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VulkanContext.ImagesUpdated> onImagesUpdated(VulkanContext.ImagesUpdated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("images-updated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("images-updated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -109,6 +133,9 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
      */
     public static class Builder extends org.gtk.gdk.DrawContext.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -133,9 +160,17 @@ public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gi
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_vulkan_context_get_type = Interop.downcallHandle(
-            "gdk_vulkan_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_vulkan_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_vulkan_context_get_type != null;
     }
 }

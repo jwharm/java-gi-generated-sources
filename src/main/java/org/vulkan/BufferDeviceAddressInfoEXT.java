@@ -29,8 +29,8 @@ public class BufferDeviceAddressInfoEXT extends Struct {
      * @return A new, uninitialized @{link BufferDeviceAddressInfoEXT}
      */
     public static BufferDeviceAddressInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferDeviceAddressInfoEXT newInstance = new BufferDeviceAddressInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferDeviceAddressInfoEXT newInstance = new BufferDeviceAddressInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BufferDeviceAddressInfoEXT extends Struct {
     /**
      * Create a BufferDeviceAddressInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferDeviceAddressInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferDeviceAddressInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferDeviceAddressInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferDeviceAddressInfoEXT(input, ownership);
+    public static final Marshal<Addressable, BufferDeviceAddressInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferDeviceAddressInfoEXT(input);
 }

@@ -42,8 +42,8 @@ public class RTSPUrl extends Struct {
      * @return A new, uninitialized @{link RTSPUrl}
      */
     public static RTSPUrl allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPUrl newInstance = new RTSPUrl(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPUrl newInstance = new RTSPUrl(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code transports}
      */
     public org.gstreamer.rtsp.RTSPLowerTrans getTransports() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transports"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.rtsp.RTSPLowerTrans(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transports"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.rtsp.RTSPLowerTrans(RESULT);
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class RTSPUrl extends Struct {
      * @param transports The new value of the field {@code transports}
      */
     public void setTransports(org.gstreamer.rtsp.RTSPLowerTrans transports) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transports"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transports == null ? MemoryAddress.NULL : transports.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transports"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transports == null ? MemoryAddress.NULL : transports.getValue()));
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code family}
      */
     public org.gstreamer.rtsp.RTSPFamily getFamily() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("family"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.rtsp.RTSPFamily.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("family"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.rtsp.RTSPFamily.of(RESULT);
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class RTSPUrl extends Struct {
      * @param family The new value of the field {@code family}
      */
     public void setFamily(org.gstreamer.rtsp.RTSPFamily family) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("family"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (family == null ? MemoryAddress.NULL : family.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("family"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (family == null ? MemoryAddress.NULL : family.getValue()));
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code user}
      */
     public java.lang.String getUser() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class RTSPUrl extends Struct {
      * @param user The new value of the field {@code user}
      */
     public void setUser(java.lang.String user) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, SCOPE)));
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code passwd}
      */
     public java.lang.String getPasswd() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -127,9 +141,11 @@ public class RTSPUrl extends Struct {
      * @param passwd The new value of the field {@code passwd}
      */
     public void setPasswd(java.lang.String passwd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (passwd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(passwd, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (passwd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(passwd, SCOPE)));
+        }
     }
     
     /**
@@ -137,10 +153,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code host}
      */
     public java.lang.String getHost() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("host"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("host"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -148,9 +166,11 @@ public class RTSPUrl extends Struct {
      * @param host The new value of the field {@code host}
      */
     public void setHost(java.lang.String host) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("host"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("host"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, SCOPE)));
+        }
     }
     
     /**
@@ -158,10 +178,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code port}
      */
     public short getPort_() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("port"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -169,9 +191,11 @@ public class RTSPUrl extends Struct {
      * @param port The new value of the field {@code port}
      */
     public void setPort_(short port) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("port"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), port);
+        }
     }
     
     /**
@@ -179,10 +203,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code abspath}
      */
     public java.lang.String getAbspath() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -190,9 +216,11 @@ public class RTSPUrl extends Struct {
      * @param abspath The new value of the field {@code abspath}
      */
     public void setAbspath(java.lang.String abspath) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (abspath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(abspath, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (abspath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(abspath, SCOPE)));
+        }
     }
     
     /**
@@ -200,10 +228,12 @@ public class RTSPUrl extends Struct {
      * @return The value of the field {@code query}
      */
     public java.lang.String getQuery() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("query"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -211,22 +241,26 @@ public class RTSPUrl extends Struct {
      * @param query The new value of the field {@code query}
      */
     public void setQuery(java.lang.String query) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, SCOPE)));
+        }
     }
     
     /**
      * Create a RTSPUrl proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPUrl(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPUrl(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPUrl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPUrl(input, ownership);
+    public static final Marshal<Addressable, RTSPUrl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPUrl(input);
     
     /**
      * Make a copy of {@code url}.
@@ -235,12 +269,13 @@ public class RTSPUrl extends Struct {
     public org.gstreamer.rtsp.RTSPUrl copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -259,14 +294,15 @@ public class RTSPUrl extends Struct {
      * g_strfreev() when no longer needed.
      */
     public PointerString decodePathComponents() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_decode_path_components.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_decode_path_components.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -274,8 +310,7 @@ public class RTSPUrl extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_rtsp_url_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtsp_url_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,17 +322,19 @@ public class RTSPUrl extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult getPort(Out<Short> port) {
-        MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_url_get_port.invokeExact(
-                    handle(),
-                    (Addressable) portPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment portPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_url_get_port.invokeExact(
+                        handle(),
+                        (Addressable) portPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    port.set(portPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        port.set(portPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -307,8 +344,7 @@ public class RTSPUrl extends Struct {
     public java.lang.String getRequestUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_get_request_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_get_request_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,15 +359,17 @@ public class RTSPUrl extends Struct {
      * g_free() after usage.
      */
     public java.lang.String getRequestUriWithControl(java.lang.String controlPath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_get_request_uri_with_control.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(controlPath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_url_get_request_uri_with_control.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(controlPath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -359,67 +397,69 @@ public class RTSPUrl extends Struct {
      * @return a {@link RTSPResult}.
      */
     public static org.gstreamer.rtsp.RTSPResult parse(java.lang.String urlstr, Out<org.gstreamer.rtsp.RTSPUrl> url) {
-        MemorySegment urlPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_url_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(urlstr, null),
-                    (Addressable) urlPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment urlPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_url_parse.invokeExact(
+                        Marshal.stringToAddress.marshal(urlstr, SCOPE),
+                        (Addressable) urlPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    url.set(org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(urlPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        url.set(org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(urlPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_url_copy = Interop.downcallHandle(
-            "gst_rtsp_url_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_decode_path_components = Interop.downcallHandle(
-            "gst_rtsp_url_decode_path_components",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_decode_path_components",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_free = Interop.downcallHandle(
-            "gst_rtsp_url_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_get_port = Interop.downcallHandle(
-            "gst_rtsp_url_get_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_get_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_get_request_uri = Interop.downcallHandle(
-            "gst_rtsp_url_get_request_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_get_request_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_get_request_uri_with_control = Interop.downcallHandle(
-            "gst_rtsp_url_get_request_uri_with_control",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_get_request_uri_with_control",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_set_port = Interop.downcallHandle(
-            "gst_rtsp_url_set_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtsp_url_set_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_url_parse = Interop.downcallHandle(
-            "gst_rtsp_url_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_url_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -445,7 +485,7 @@ public class RTSPUrl extends Struct {
             struct = RTSPUrl.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPUrl} struct.
          * @return A new instance of {@code RTSPUrl} with the fields 
          *         that were set in the Builder object.
@@ -460,10 +500,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransports(org.gstreamer.rtsp.RTSPLowerTrans transports) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transports"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transports == null ? MemoryAddress.NULL : transports.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transports"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transports == null ? MemoryAddress.NULL : transports.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -472,10 +514,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFamily(org.gstreamer.rtsp.RTSPFamily family) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("family"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (family == null ? MemoryAddress.NULL : family.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("family"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (family == null ? MemoryAddress.NULL : family.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -484,10 +528,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUser(java.lang.String user) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -496,10 +542,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPasswd(java.lang.String passwd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (passwd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(passwd, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("passwd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (passwd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(passwd, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -508,10 +556,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHost(java.lang.String host) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("host"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("host"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -520,10 +570,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPort(short port) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("port"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), port);
+                return this;
+            }
         }
         
         /**
@@ -532,10 +584,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAbspath(java.lang.String abspath) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (abspath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(abspath, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("abspath"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (abspath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(abspath, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -544,10 +598,12 @@ public class RTSPUrl extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setQuery(java.lang.String query) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("query"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, SCOPE)));
+                return this;
+            }
         }
     }
 }

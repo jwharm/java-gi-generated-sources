@@ -10,15 +10,18 @@ import org.jetbrains.annotations.*;
  * @version 1.50
  */
 public enum LayoutDeserializeError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Unspecified error
      */
     INVALID(0),
+    
     /**
      * A JSon value could not be
      *   interpreted
      */
     INVALID_VALUE(1),
+    
     /**
      * A required JSon member was
      *   not found
@@ -28,15 +31,29 @@ public enum LayoutDeserializeError implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "PangoLayoutDeserializeError";
     
     private final int value;
+    
+    /**
+     * Create a new LayoutDeserializeError for the provided value
+     * @param numeric value the enum value
+     */
     LayoutDeserializeError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new LayoutDeserializeError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static LayoutDeserializeError of(int value) {
         return switch (value) {
             case 0 -> INVALID;
@@ -59,9 +76,9 @@ public enum LayoutDeserializeError implements io.github.jwharm.javagi.Enumeratio
     private static class DowncallHandles {
         
         private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
-            "pango_layout_deserialize_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "pango_layout_deserialize_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -46,14 +46,16 @@ public class WindowGroup extends org.gtk.gobject.GObject {
     /**
      * Create a WindowGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WindowGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WindowGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WindowGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowGroup(input, ownership);
+    public static final Marshal<Addressable, WindowGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WindowGroup(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -72,7 +74,8 @@ public class WindowGroup extends org.gtk.gobject.GObject {
      * within the same {@code GtkWindowGroup}.
      */
     public WindowGroup() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -97,12 +100,11 @@ public class WindowGroup extends org.gtk.gobject.GObject {
     public org.gtk.glib.List listWindows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -149,6 +151,9 @@ public class WindowGroup extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -173,33 +178,41 @@ public class WindowGroup extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
-            "gtk_window_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_window_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
-            "gtk_window_group_add_window",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_window_group_add_window",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
-            "gtk_window_group_list_windows",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_window_group_list_windows",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
-            "gtk_window_group_remove_window",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_window_group_remove_window",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_window_group_get_type = Interop.downcallHandle(
-            "gtk_window_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_window_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_window_group_get_type != null;
     }
 }

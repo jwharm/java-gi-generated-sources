@@ -45,8 +45,8 @@ public class RTCPPacket extends Struct {
      * @return A new, uninitialized @{link RTCPPacket}
      */
     public static RTCPPacket allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTCPPacket newInstance = new RTCPPacket(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTCPPacket newInstance = new RTCPPacket(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,10 +56,12 @@ public class RTCPPacket extends Struct {
      * @return The value of the field {@code rtcp}
      */
     public org.gstreamer.rtp.RTCPBuffer getRtcp() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.rtp.RTCPBuffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.rtp.RTCPBuffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -67,9 +69,11 @@ public class RTCPPacket extends Struct {
      * @param rtcp The new value of the field {@code rtcp}
      */
     public void setRtcp(org.gstreamer.rtp.RTCPBuffer rtcp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
+        }
     }
     
     /**
@@ -77,10 +81,12 @@ public class RTCPPacket extends Struct {
      * @return The value of the field {@code offset}
      */
     public int getOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -88,22 +94,26 @@ public class RTCPPacket extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(int offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
      * Create a RTCPPacket proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTCPPacket(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTCPPacket(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTCPPacket> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTCPPacket(input, ownership);
+    public static final Marshal<Addressable, RTCPPacket> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTCPPacket(input);
     
     /**
      * Add profile-specific extension {@code data} to {@code packet}. If {@code packet} already
@@ -114,16 +124,18 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the profile specific extension data was added.
      */
     public boolean addProfileSpecificExt(byte[] data, int len) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_add_profile_specific_ext.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_add_profile_specific_ext.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -164,8 +176,7 @@ public class RTCPPacket extends Struct {
     public PointerByte appGetData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_app_get_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_app_get_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +191,7 @@ public class RTCPPacket extends Struct {
     public short appGetDataLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtcp_packet_app_get_data_length.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtcp_packet_app_get_data_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,8 +205,7 @@ public class RTCPPacket extends Struct {
     public java.lang.String appGetName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_app_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_app_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,8 +219,7 @@ public class RTCPPacket extends Struct {
     public int appGetSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_app_get_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_app_get_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,8 +233,7 @@ public class RTCPPacket extends Struct {
     public byte appGetSubtype() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtcp_packet_app_get_subtype.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtcp_packet_app_get_subtype.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,12 +264,14 @@ public class RTCPPacket extends Struct {
      * @param name 4-byte ASCII name
      */
     public void appSetName(java.lang.String name) {
-        try {
-            DowncallHandles.gst_rtcp_packet_app_set_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_rtcp_packet_app_set_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -322,16 +331,18 @@ public class RTCPPacket extends Struct {
      * {@code GST_RTCP_MAX_BYE_SSRC_COUNT}.
      */
     public boolean byeAddSsrcs(int[] ssrc, int len) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_add_ssrcs.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(ssrc, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_add_ssrcs.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(ssrc, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -359,8 +370,7 @@ public class RTCPPacket extends Struct {
     public java.lang.String byeGetReason() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_bye_get_reason.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_bye_get_reason.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,8 +385,7 @@ public class RTCPPacket extends Struct {
     public byte byeGetReasonLen() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtcp_packet_bye_get_reason_len.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtcp_packet_bye_get_reason_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,8 +399,7 @@ public class RTCPPacket extends Struct {
     public int byeGetSsrcCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_get_ssrc_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_get_ssrc_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,15 +412,17 @@ public class RTCPPacket extends Struct {
      * @return TRUE if the string could be set.
      */
     public boolean byeSetReason(java.lang.String reason) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_set_reason.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(reason, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_set_reason.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(reason, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -423,20 +433,22 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if there was valid data.
      */
     public boolean copyProfileSpecificExt(Out<byte[]> data, Out<Integer> len) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_copy_profile_specific_ext.invokeExact(
-                    handle(),
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) lenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_copy_profile_specific_ext.invokeExact(
+                        handle(),
+                        (Addressable) dataPOINTER.address(),
+                        (Addressable) lenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -446,8 +458,7 @@ public class RTCPPacket extends Struct {
     public PointerByte fbGetFci() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_fb_get_fci.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_fb_get_fci.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,8 +473,7 @@ public class RTCPPacket extends Struct {
     public short fbGetFciLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtcp_packet_fb_get_fci_length.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtcp_packet_fb_get_fci_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -477,8 +487,7 @@ public class RTCPPacket extends Struct {
     public int fbGetMediaSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_media_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_media_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,8 +501,7 @@ public class RTCPPacket extends Struct {
     public int fbGetSenderSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_sender_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_sender_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,8 +515,7 @@ public class RTCPPacket extends Struct {
     public org.gstreamer.rtp.RTCPFBType fbGetType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -583,8 +590,7 @@ public class RTCPPacket extends Struct {
     public byte getCount() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.gst_rtcp_packet_get_count.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.gst_rtcp_packet_get_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -599,8 +605,7 @@ public class RTCPPacket extends Struct {
     public short getLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtcp_packet_get_length.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtcp_packet_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -614,8 +619,7 @@ public class RTCPPacket extends Struct {
     public boolean getPadding() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_padding.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_padding.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -623,27 +627,28 @@ public class RTCPPacket extends Struct {
     }
     
     public boolean getProfileSpecificExt(Out<byte[]> data, Out<Integer> len) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_profile_specific_ext.invokeExact(
-                    handle(),
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) lenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_get_profile_specific_ext.invokeExact(
+                        handle(),
+                        (Addressable) dataPOINTER.address(),
+                        (Addressable) lenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public short getProfileSpecificExtLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtcp_packet_get_profile_specific_ext_length.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtcp_packet_get_profile_specific_ext_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -663,34 +668,36 @@ public class RTCPPacket extends Struct {
      * @param dlsr result for the delay since last SR packet
      */
     public void getRb(int nth, Out<Integer> ssrc, Out<Byte> fractionlost, Out<Integer> packetslost, Out<Integer> exthighestseq, Out<Integer> jitter, Out<Integer> lsr, Out<Integer> dlsr) {
-        MemorySegment ssrcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment fractionlostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment packetslostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment exthighestseqPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment lsrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment dlsrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_rtcp_packet_get_rb.invokeExact(
-                    handle(),
-                    nth,
-                    (Addressable) ssrcPOINTER.address(),
-                    (Addressable) fractionlostPOINTER.address(),
-                    (Addressable) packetslostPOINTER.address(),
-                    (Addressable) exthighestseqPOINTER.address(),
-                    (Addressable) jitterPOINTER.address(),
-                    (Addressable) lsrPOINTER.address(),
-                    (Addressable) dlsrPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment ssrcPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment fractionlostPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment packetslostPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment exthighestseqPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment jitterPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment lsrPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment dlsrPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_rtcp_packet_get_rb.invokeExact(
+                        handle(),
+                        nth,
+                        (Addressable) ssrcPOINTER.address(),
+                        (Addressable) fractionlostPOINTER.address(),
+                        (Addressable) packetslostPOINTER.address(),
+                        (Addressable) exthighestseqPOINTER.address(),
+                        (Addressable) jitterPOINTER.address(),
+                        (Addressable) lsrPOINTER.address(),
+                        (Addressable) dlsrPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    ssrc.set(ssrcPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    fractionlost.set(fractionlostPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+                    packetslost.set(packetslostPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    exthighestseq.set(exthighestseqPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    jitter.set(jitterPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    lsr.set(lsrPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    dlsr.set(dlsrPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        ssrc.set(ssrcPOINTER.get(Interop.valueLayout.C_INT, 0));
-        fractionlost.set(fractionlostPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        packetslost.set(packetslostPOINTER.get(Interop.valueLayout.C_INT, 0));
-        exthighestseq.set(exthighestseqPOINTER.get(Interop.valueLayout.C_INT, 0));
-        jitter.set(jitterPOINTER.get(Interop.valueLayout.C_INT, 0));
-        lsr.set(lsrPOINTER.get(Interop.valueLayout.C_INT, 0));
-        dlsr.set(dlsrPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -700,8 +707,7 @@ public class RTCPPacket extends Struct {
     public int getRbCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_rb_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_rb_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,8 +722,7 @@ public class RTCPPacket extends Struct {
     public org.gstreamer.rtp.RTCPType getType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_get_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -733,8 +738,7 @@ public class RTCPPacket extends Struct {
     public boolean moveToNext() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_move_to_next.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_move_to_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -749,8 +753,7 @@ public class RTCPPacket extends Struct {
     public boolean remove() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_remove.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_remove.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -764,8 +767,7 @@ public class RTCPPacket extends Struct {
     public int rrGetSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_rr_get_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_rr_get_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -795,17 +797,19 @@ public class RTCPPacket extends Struct {
      * reached.
      */
     public boolean sdesAddEntry(org.gstreamer.rtp.RTCPSDESType type, byte len, byte[] data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_add_entry.invokeExact(
-                    handle(),
-                    type.getValue(),
-                    len,
-                    Interop.allocateNativeArray(data, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_add_entry.invokeExact(
+                        handle(),
+                        type.getValue(),
+                        len,
+                        Interop.allocateNativeArray(data, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -835,21 +839,23 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if there was valid data.
      */
     public boolean sdesCopyEntry(PointerEnumeration<org.gstreamer.rtp.RTCPSDESType> type, Out<Byte> len, Out<byte[]> data) {
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_copy_entry.invokeExact(
-                    handle(),
-                    type.handle(),
-                    (Addressable) lenPOINTER.address(),
-                    (Addressable) dataPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_copy_entry.invokeExact(
+                        handle(),
+                        type.handle(),
+                        (Addressable) lenPOINTER.address(),
+                        (Addressable) dataPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -859,8 +865,7 @@ public class RTCPPacket extends Struct {
     public boolean sdesFirstEntry() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_first_entry.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_first_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -874,8 +879,7 @@ public class RTCPPacket extends Struct {
     public boolean sdesFirstItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_first_item.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_first_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -896,21 +900,23 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if there was valid data.
      */
     public boolean sdesGetEntry(PointerEnumeration<org.gstreamer.rtp.RTCPSDESType> type, Out<Byte> len, Out<byte[]> data) {
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_entry.invokeExact(
-                    handle(),
-                    type.handle(),
-                    (Addressable) lenPOINTER.address(),
-                    (Addressable) dataPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_entry.invokeExact(
+                        handle(),
+                        type.handle(),
+                        (Addressable) lenPOINTER.address(),
+                        (Addressable) dataPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -920,8 +926,7 @@ public class RTCPPacket extends Struct {
     public int sdesGetItemCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_item_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_item_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -935,8 +940,7 @@ public class RTCPPacket extends Struct {
     public int sdesGetSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -950,8 +954,7 @@ public class RTCPPacket extends Struct {
     public boolean sdesNextEntry() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_next_entry.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_next_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -965,8 +968,7 @@ public class RTCPPacket extends Struct {
     public boolean sdesNextItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_next_item.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_next_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1012,27 +1014,29 @@ public class RTCPPacket extends Struct {
      * @param octetCount result octet count
      */
     public void srGetSenderInfo(Out<Integer> ssrc, Out<Long> ntptime, Out<Integer> rtptime, Out<Integer> packetCount, Out<Integer> octetCount) {
-        MemorySegment ssrcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment ntptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment rtptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment packetCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment octetCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_rtcp_packet_sr_get_sender_info.invokeExact(
-                    handle(),
-                    (Addressable) ssrcPOINTER.address(),
-                    (Addressable) ntptimePOINTER.address(),
-                    (Addressable) rtptimePOINTER.address(),
-                    (Addressable) packetCountPOINTER.address(),
-                    (Addressable) octetCountPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment ssrcPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment ntptimePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment rtptimePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment packetCountPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment octetCountPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_rtcp_packet_sr_get_sender_info.invokeExact(
+                        handle(),
+                        (Addressable) ssrcPOINTER.address(),
+                        (Addressable) ntptimePOINTER.address(),
+                        (Addressable) rtptimePOINTER.address(),
+                        (Addressable) packetCountPOINTER.address(),
+                        (Addressable) octetCountPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    ssrc.set(ssrcPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    ntptime.set(ntptimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    rtptime.set(rtptimePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    packetCount.set(packetCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    octetCount.set(octetCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        ssrc.set(ssrcPOINTER.get(Interop.valueLayout.C_INT, 0));
-        ntptime.set(ntptimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        rtptime.set(rtptimePOINTER.get(Interop.valueLayout.C_INT, 0));
-        packetCount.set(packetCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        octetCount.set(octetCountPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1064,8 +1068,7 @@ public class RTCPPacket extends Struct {
     public boolean xrFirstRb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_first_rb.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_first_rb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1075,8 +1078,7 @@ public class RTCPPacket extends Struct {
     public short xrGetBlockLength() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.gst_rtcp_packet_xr_get_block_length.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.gst_rtcp_packet_xr_get_block_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1090,8 +1092,7 @@ public class RTCPPacket extends Struct {
     public org.gstreamer.rtp.RTCPXRType xrGetBlockType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_block_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_block_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1226,8 +1227,7 @@ public class RTCPPacket extends Struct {
     public int xrGetSsrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_ssrc.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_ssrc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1441,8 +1441,7 @@ public class RTCPPacket extends Struct {
     public boolean xrNextRb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_next_rb.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_next_rb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1452,459 +1451,459 @@ public class RTCPPacket extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtcp_packet_add_profile_specific_ext = Interop.downcallHandle(
-            "gst_rtcp_packet_add_profile_specific_ext",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_add_profile_specific_ext",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_add_rb = Interop.downcallHandle(
-            "gst_rtcp_packet_add_rb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_add_rb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_get_data = Interop.downcallHandle(
-            "gst_rtcp_packet_app_get_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_get_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_get_data_length = Interop.downcallHandle(
-            "gst_rtcp_packet_app_get_data_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_get_data_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_get_name = Interop.downcallHandle(
-            "gst_rtcp_packet_app_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_get_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_app_get_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_get_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_get_subtype = Interop.downcallHandle(
-            "gst_rtcp_packet_app_get_subtype",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_get_subtype",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_set_data_length = Interop.downcallHandle(
-            "gst_rtcp_packet_app_set_data_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtcp_packet_app_set_data_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_set_name = Interop.downcallHandle(
-            "gst_rtcp_packet_app_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_app_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_set_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_app_set_ssrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_app_set_ssrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_app_set_subtype = Interop.downcallHandle(
-            "gst_rtcp_packet_app_set_subtype",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtcp_packet_app_set_subtype",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_add_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_add_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_bye_add_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_add_ssrcs = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_add_ssrcs",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_bye_add_ssrcs",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_get_nth_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_get_nth_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_bye_get_nth_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_get_reason = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_get_reason",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_bye_get_reason",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_get_reason_len = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_get_reason_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_bye_get_reason_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_get_ssrc_count = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_get_ssrc_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_bye_get_ssrc_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_bye_set_reason = Interop.downcallHandle(
-            "gst_rtcp_packet_bye_set_reason",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_bye_set_reason",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_copy_profile_specific_ext = Interop.downcallHandle(
-            "gst_rtcp_packet_copy_profile_specific_ext",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_copy_profile_specific_ext",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_get_fci = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_get_fci",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_fb_get_fci",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_get_fci_length = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_get_fci_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_fb_get_fci_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_get_media_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_get_media_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_fb_get_media_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_get_sender_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_get_sender_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_fb_get_sender_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_get_type = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_fb_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_set_fci_length = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_set_fci_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_rtcp_packet_fb_set_fci_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_set_media_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_set_media_ssrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_fb_set_media_ssrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_set_sender_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_set_sender_ssrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_fb_set_sender_ssrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_fb_set_type = Interop.downcallHandle(
-            "gst_rtcp_packet_fb_set_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_fb_set_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_count = Interop.downcallHandle(
-            "gst_rtcp_packet_get_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_length = Interop.downcallHandle(
-            "gst_rtcp_packet_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_padding = Interop.downcallHandle(
-            "gst_rtcp_packet_get_padding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_padding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_profile_specific_ext = Interop.downcallHandle(
-            "gst_rtcp_packet_get_profile_specific_ext",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_profile_specific_ext",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_profile_specific_ext_length = Interop.downcallHandle(
-            "gst_rtcp_packet_get_profile_specific_ext_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_profile_specific_ext_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_rb = Interop.downcallHandle(
-            "gst_rtcp_packet_get_rb",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_rb",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_rb_count = Interop.downcallHandle(
-            "gst_rtcp_packet_get_rb_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_rb_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_get_type = Interop.downcallHandle(
-            "gst_rtcp_packet_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_move_to_next = Interop.downcallHandle(
-            "gst_rtcp_packet_move_to_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_move_to_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_remove = Interop.downcallHandle(
-            "gst_rtcp_packet_remove",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_remove",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_rr_get_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_rr_get_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_rr_get_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_rr_set_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_rr_set_ssrc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_rr_set_ssrc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_add_entry = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_add_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_add_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_add_item = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_add_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_sdes_add_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_copy_entry = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_copy_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_copy_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_first_entry = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_first_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_first_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_first_item = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_first_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_first_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_get_entry = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_get_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_get_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_get_item_count = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_get_item_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_get_item_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_get_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_get_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_get_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_next_entry = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_next_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_next_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sdes_next_item = Interop.downcallHandle(
-            "gst_rtcp_packet_sdes_next_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sdes_next_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_set_rb = Interop.downcallHandle(
-            "gst_rtcp_packet_set_rb",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_set_rb",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sr_get_sender_info = Interop.downcallHandle(
-            "gst_rtcp_packet_sr_get_sender_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_sr_get_sender_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_sr_set_sender_info = Interop.downcallHandle(
-            "gst_rtcp_packet_sr_set_sender_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_packet_sr_set_sender_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_first_rb = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_first_rb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_first_rb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_block_length = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_block_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_block_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_block_type = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_block_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_block_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_dlrr_block = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_dlrr_block",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_dlrr_block",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_prt_by_seq = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_prt_by_seq",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_prt_by_seq",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_prt_info = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_prt_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_prt_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_rle_info = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_rle_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_rle_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_rle_nth_chunk = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_rle_nth_chunk",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_rle_nth_chunk",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_rrt = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_rrt",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_rrt",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_summary_info = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_summary_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_summary_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_summary_jitter = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_summary_jitter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_summary_jitter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_summary_pkt = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_summary_pkt",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_summary_pkt",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_summary_ttl = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_summary_ttl",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_summary_ttl",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_burst_metrics = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_burst_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_burst_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_configuration_params = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_configuration_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_configuration_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_delay_metrics = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_delay_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_delay_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_jitter_buffer_params = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_jitter_buffer_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_jitter_buffer_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_metrics_ssrc = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_metrics_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_metrics_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_packet_metrics = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_packet_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_packet_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_quality_metrics = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_quality_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_quality_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_get_voip_signal_metrics = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_get_voip_signal_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_get_voip_signal_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_packet_xr_next_rb = Interop.downcallHandle(
-            "gst_rtcp_packet_xr_next_rb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_packet_xr_next_rb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1930,7 +1929,7 @@ public class RTCPPacket extends Struct {
             struct = RTCPPacket.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTCPPacket} struct.
          * @return A new instance of {@code RTCPPacket} with the fields 
          *         that were set in the Builder object.
@@ -1945,10 +1944,12 @@ public class RTCPPacket extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRtcp(org.gstreamer.rtp.RTCPBuffer rtcp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1957,59 +1958,75 @@ public class RTCPPacket extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(int offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         public Builder setPadding(boolean padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(padding, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(padding, null).intValue());
+                return this;
+            }
         }
         
         public Builder setCount(byte count) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), count);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), count);
+                return this;
+            }
         }
         
         public Builder setType(org.gstreamer.rtp.RTCPType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         public Builder setLength(short length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
         
         public Builder setItemOffset(int itemOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("item_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), itemOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("item_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), itemOffset);
+                return this;
+            }
         }
         
         public Builder setItemCount(int itemCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("item_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), itemCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("item_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), itemCount);
+                return this;
+            }
         }
         
         public Builder setEntryOffset(int entryOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("entry_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), entryOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("entry_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), entryOffset);
+                return this;
+            }
         }
     }
 }

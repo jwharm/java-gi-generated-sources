@@ -29,8 +29,8 @@ public class VideoConverter extends Struct {
      * @return A new, uninitialized @{link VideoConverter}
      */
     public static VideoConverter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoConverter newInstance = new VideoConverter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoConverter newInstance = new VideoConverter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,14 +38,16 @@ public class VideoConverter extends Struct {
     /**
      * Create a VideoConverter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoConverter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoConverter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoConverter(input, ownership);
+    public static final Marshal<Addressable, VideoConverter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoConverter(input);
     
     /**
      * Convert the pixels of {@code src} into {@code dest} using {@code convert}.
@@ -73,8 +75,7 @@ public class VideoConverter extends Struct {
      */
     public void frameFinish() {
         try {
-            DowncallHandles.gst_video_converter_frame_finish.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_converter_frame_finish.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,8 +86,7 @@ public class VideoConverter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_converter_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_converter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,12 +100,11 @@ public class VideoConverter extends Struct {
     public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_get_config.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_get_config.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -152,7 +151,7 @@ public class VideoConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -179,51 +178,51 @@ public class VideoConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_converter_frame = Interop.downcallHandle(
-            "gst_video_converter_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_frame_finish = Interop.downcallHandle(
-            "gst_video_converter_frame_finish",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_frame_finish",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_free = Interop.downcallHandle(
-            "gst_video_converter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_get_config = Interop.downcallHandle(
-            "gst_video_converter_get_config",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_get_config",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_set_config = Interop.downcallHandle(
-            "gst_video_converter_set_config",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_set_config",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_new = Interop.downcallHandle(
-            "gst_video_converter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_converter_new_with_pool = Interop.downcallHandle(
-            "gst_video_converter_new_with_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_converter_new_with_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

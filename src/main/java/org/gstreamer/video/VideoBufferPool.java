@@ -27,26 +27,17 @@ public class VideoBufferPool extends org.gstreamer.gst.BufferPool {
     
     /**
      * Create a VideoBufferPool proxy instance for the provided memory address.
-     * <p>
-     * Because VideoBufferPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoBufferPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VideoBufferPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoBufferPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoBufferPool(input, ownership);
+    public static final Marshal<Addressable, VideoBufferPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoBufferPool(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -63,7 +54,8 @@ public class VideoBufferPool extends org.gstreamer.gst.BufferPool {
      * supports all the video bufferpool options.
      */
     public VideoBufferPool() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -96,6 +88,9 @@ public class VideoBufferPool extends org.gstreamer.gst.BufferPool {
      */
     public static class Builder extends org.gstreamer.gst.BufferPool.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -120,15 +115,23 @@ public class VideoBufferPool extends org.gstreamer.gst.BufferPool {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_buffer_pool_new = Interop.downcallHandle(
-            "gst_video_buffer_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_buffer_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_buffer_pool_get_type = Interop.downcallHandle(
-            "gst_video_buffer_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_buffer_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_buffer_pool_get_type != null;
     }
 }

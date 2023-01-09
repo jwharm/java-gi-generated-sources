@@ -44,8 +44,8 @@ public class RTCPBuffer extends Struct {
      * @return A new, uninitialized @{link RTCPBuffer}
      */
     public static RTCPBuffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTCPBuffer newInstance = new RTCPBuffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTCPBuffer newInstance = new RTCPBuffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class RTCPBuffer extends Struct {
      * @return The value of the field {@code buffer}
      */
     public org.gstreamer.gst.Buffer getBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class RTCPBuffer extends Struct {
      * @param buffer The new value of the field {@code buffer}
      */
     public void setBuffer(org.gstreamer.gst.Buffer buffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        }
     }
     
     /**
@@ -77,7 +81,7 @@ public class RTCPBuffer extends Struct {
      */
     public org.gstreamer.gst.MapInfo getMap() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("map"));
-        return org.gstreamer.gst.MapInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MapInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -85,22 +89,26 @@ public class RTCPBuffer extends Struct {
      * @param map The new value of the field {@code map}
      */
     public void setMap(org.gstreamer.gst.MapInfo map) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("map"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));
+        }
     }
     
     /**
      * Create a RTCPBuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTCPBuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTCPBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTCPBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTCPBuffer(input, ownership);
+    public static final Marshal<Addressable, RTCPBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTCPBuffer(input);
     
     /**
      * Add a new packet of {@code type} to {@code rtcp}. {@code packet} will point to the newly created
@@ -148,8 +156,7 @@ public class RTCPBuffer extends Struct {
     public int getPacketCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_get_packet_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_buffer_get_packet_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,8 +173,7 @@ public class RTCPBuffer extends Struct {
     public boolean unmap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_unmap.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_buffer_unmap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,12 +209,13 @@ public class RTCPBuffer extends Struct {
     public static org.gstreamer.gst.Buffer new_(int mtu) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new.invokeExact(
-                    mtu);
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new.invokeExact(mtu);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -220,15 +227,19 @@ public class RTCPBuffer extends Struct {
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
     public static org.gstreamer.gst.Buffer newCopyData(byte[] data, int len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_copy_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_copy_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -240,15 +251,19 @@ public class RTCPBuffer extends Struct {
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
     public static org.gstreamer.gst.Buffer newTakeData(byte[] data, int len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_take_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_take_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -260,8 +275,7 @@ public class RTCPBuffer extends Struct {
     public static boolean validate(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate.invokeExact(
-                    buffer.handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,15 +292,17 @@ public class RTCPBuffer extends Struct {
      * @return TRUE if the data points to a valid RTCP packet.
      */
     public static boolean validateData(byte[] data, int len) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -302,15 +318,17 @@ public class RTCPBuffer extends Struct {
      * @return TRUE if the data points to a valid RTCP packet.
      */
     public static boolean validateDataReduced(byte[] data, int len) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data_reduced.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data_reduced.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -322,8 +340,7 @@ public class RTCPBuffer extends Struct {
     public static boolean validateReduced(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_reduced.invokeExact(
-                    buffer.handle());
+            RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_reduced.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,75 +350,75 @@ public class RTCPBuffer extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtcp_buffer_add_packet = Interop.downcallHandle(
-            "gst_rtcp_buffer_add_packet",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_add_packet",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_get_first_packet = Interop.downcallHandle(
-            "gst_rtcp_buffer_get_first_packet",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_get_first_packet",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_get_packet_count = Interop.downcallHandle(
-            "gst_rtcp_buffer_get_packet_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_get_packet_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_unmap = Interop.downcallHandle(
-            "gst_rtcp_buffer_unmap",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_unmap",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_map = Interop.downcallHandle(
-            "gst_rtcp_buffer_map",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_map",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_new = Interop.downcallHandle(
-            "gst_rtcp_buffer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_buffer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_new_copy_data = Interop.downcallHandle(
-            "gst_rtcp_buffer_new_copy_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_buffer_new_copy_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_new_take_data = Interop.downcallHandle(
-            "gst_rtcp_buffer_new_take_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_buffer_new_take_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_validate = Interop.downcallHandle(
-            "gst_rtcp_buffer_validate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_validate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_validate_data = Interop.downcallHandle(
-            "gst_rtcp_buffer_validate_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_buffer_validate_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_validate_data_reduced = Interop.downcallHandle(
-            "gst_rtcp_buffer_validate_data_reduced",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtcp_buffer_validate_data_reduced",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtcp_buffer_validate_reduced = Interop.downcallHandle(
-            "gst_rtcp_buffer_validate_reduced",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtcp_buffer_validate_reduced",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -427,7 +444,7 @@ public class RTCPBuffer extends Struct {
             struct = RTCPBuffer.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTCPBuffer} struct.
          * @return A new instance of {@code RTCPBuffer} with the fields 
          *         that were set in the Builder object.
@@ -437,17 +454,21 @@ public class RTCPBuffer extends Struct {
         }
         
         public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+                return this;
+            }
         }
         
         public Builder setMap(org.gstreamer.gst.MapInfo map) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));
+                return this;
+            }
         }
     }
 }

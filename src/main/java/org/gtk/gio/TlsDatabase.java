@@ -40,14 +40,16 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
     /**
      * Create a TlsDatabase proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsDatabase(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsDatabase(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsDatabase> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsDatabase(input, ownership);
+    public static final Marshal<Addressable, TlsDatabase> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsDatabase(input);
     
     /**
      * Create a handle string for the certificate. The database will only be able
@@ -96,23 +98,27 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.TlsCertificate lookupCertificateForHandle(java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(handle, null),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(handle, SCOPE),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -125,17 +131,19 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @param callback callback to call when the operation completes
      */
     public void lookupCertificateForHandleAsync(java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        try {
-            DowncallHandles.g_tls_database_lookup_certificate_for_handle_async.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(handle, null),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_database_lookup_certificate_for_handle_async.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(handle, SCOPE),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -151,20 +159,24 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsCertificate lookupCertificateForHandleFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_for_handle_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -197,23 +209,27 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsCertificate lookupCertificateIssuer(org.gtk.gio.TlsCertificate certificate, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer.invokeExact(
-                    handle(),
-                    certificate.handle(),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer.invokeExact(
+                        handle(),
+                        certificate.handle(),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -249,20 +265,24 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsCertificate lookupCertificateIssuerFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificate_issuer_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -279,23 +299,27 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.glib.List lookupCertificatesIssuedBy(byte[] issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(issuerRawDn, false),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(issuerRawDn, false, SCOPE),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -312,17 +336,19 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @param callback callback to call when the operation completes
      */
     public void lookupCertificatesIssuedByAsync(byte[] issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        try {
-            DowncallHandles.g_tls_database_lookup_certificates_issued_by_async.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(issuerRawDn, false),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_database_lookup_certificates_issued_by_async.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(issuerRawDn, false, SCOPE),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -335,20 +361,24 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.glib.List lookupCertificatesIssuedByFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_database_lookup_certificates_issued_by_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -423,25 +453,27 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsCertificateFlags verifyChain(org.gtk.gio.TlsCertificate chain, java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_tls_database_verify_chain.invokeExact(
-                    handle(),
-                    chain.handle(),
-                    Marshal.stringToAddress.marshal(purpose, null),
-                    (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_tls_database_verify_chain.invokeExact(
+                        handle(),
+                        chain.handle(),
+                        Marshal.stringToAddress.marshal(purpose, SCOPE),
+                        (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.gio.TlsCertificateFlags(RESULT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return new org.gtk.gio.TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -457,19 +489,21 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @param callback callback to call when the operation completes
      */
     public void verifyChainAsync(org.gtk.gio.TlsCertificate chain, java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        try {
-            DowncallHandles.g_tls_database_verify_chain_async.invokeExact(
-                    handle(),
-                    chain.handle(),
-                    Marshal.stringToAddress.marshal(purpose, null),
-                    (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
-                    (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
-                    flags.getValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_database_verify_chain_async.invokeExact(
+                        handle(),
+                        chain.handle(),
+                        Marshal.stringToAddress.marshal(purpose, SCOPE),
+                        (Addressable) (identity == null ? MemoryAddress.NULL : identity.handle()),
+                        (Addressable) (interaction == null ? MemoryAddress.NULL : interaction.handle()),
+                        flags.getValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -491,20 +525,22 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsCertificateFlags verifyChainFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_tls_database_verify_chain_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_tls_database_verify_chain_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new org.gtk.gio.TlsCertificateFlags(RESULT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return new org.gtk.gio.TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -537,6 +573,9 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -561,87 +600,95 @@ public class TlsDatabase extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_database_create_certificate_handle = Interop.downcallHandle(
-            "g_tls_database_create_certificate_handle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_create_certificate_handle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_for_handle = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_for_handle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_for_handle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_for_handle_async = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_for_handle_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_for_handle_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_for_handle_finish = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_for_handle_finish",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_for_handle_finish",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_issuer = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_issuer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_issuer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_issuer_async = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_issuer_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_issuer_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificate_issuer_finish = Interop.downcallHandle(
-            "g_tls_database_lookup_certificate_issuer_finish",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificate_issuer_finish",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificates_issued_by = Interop.downcallHandle(
-            "g_tls_database_lookup_certificates_issued_by",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificates_issued_by",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificates_issued_by_async = Interop.downcallHandle(
-            "g_tls_database_lookup_certificates_issued_by_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificates_issued_by_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_lookup_certificates_issued_by_finish = Interop.downcallHandle(
-            "g_tls_database_lookup_certificates_issued_by_finish",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_lookup_certificates_issued_by_finish",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_verify_chain = Interop.downcallHandle(
-            "g_tls_database_verify_chain",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_verify_chain",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_verify_chain_async = Interop.downcallHandle(
-            "g_tls_database_verify_chain_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_verify_chain_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_verify_chain_finish = Interop.downcallHandle(
-            "g_tls_database_verify_chain_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_database_verify_chain_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_database_get_type = Interop.downcallHandle(
-            "g_tls_database_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tls_database_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tls_database_get_type != null;
     }
 }

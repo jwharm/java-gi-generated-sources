@@ -29,8 +29,8 @@ public class ObjectEntryUsageFlagBitsNVX extends Struct {
      * @return A new, uninitialized @{link ObjectEntryUsageFlagBitsNVX}
      */
     public static ObjectEntryUsageFlagBitsNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectEntryUsageFlagBitsNVX newInstance = new ObjectEntryUsageFlagBitsNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ObjectEntryUsageFlagBitsNVX newInstance = new ObjectEntryUsageFlagBitsNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ObjectEntryUsageFlagBitsNVX extends Struct {
     /**
      * Create a ObjectEntryUsageFlagBitsNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ObjectEntryUsageFlagBitsNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ObjectEntryUsageFlagBitsNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ObjectEntryUsageFlagBitsNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ObjectEntryUsageFlagBitsNVX(input, ownership);
+    public static final Marshal<Addressable, ObjectEntryUsageFlagBitsNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ObjectEntryUsageFlagBitsNVX(input);
 }

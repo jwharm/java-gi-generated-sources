@@ -35,8 +35,8 @@ public class DebugControllerInterface extends Struct {
      * @return A new, uninitialized @{link DebugControllerInterface}
      */
     public static DebugControllerInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugControllerInterface newInstance = new DebugControllerInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugControllerInterface newInstance = new DebugControllerInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class DebugControllerInterface extends Struct {
     /**
      * Create a DebugControllerInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugControllerInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugControllerInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugControllerInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerInterface(input, ownership);
+    public static final Marshal<Addressable, DebugControllerInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerInterface(input);
     
     /**
      * A {@link DebugControllerInterface.Builder} object constructs a {@link DebugControllerInterface} 
@@ -75,7 +77,7 @@ public class DebugControllerInterface extends Struct {
             struct = DebugControllerInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DebugControllerInterface} struct.
          * @return A new instance of {@code DebugControllerInterface} with the fields 
          *         that were set in the Builder object.
@@ -90,10 +92,12 @@ public class DebugControllerInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
     }
 }

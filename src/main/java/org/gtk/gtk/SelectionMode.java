@@ -9,14 +9,17 @@ import org.jetbrains.annotations.*;
  * Used to control what selections users are allowed to make.
  */
 public enum SelectionMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No selection is possible.
      */
     NONE(0),
+    
     /**
      * Zero or one element may be selected.
      */
     SINGLE(1),
+    
     /**
      * Exactly one element is selected.
      *   In some circumstances, such as initially or during a search
@@ -26,6 +29,7 @@ public enum SelectionMode implements io.github.jwharm.javagi.Enumeration {
      *   another element.
      */
     BROWSE(2),
+    
     /**
      * Any number of elements may be selected.
      *   The Ctrl key may be used to enlarge the selection, and Shift
@@ -37,15 +41,29 @@ public enum SelectionMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkSelectionMode";
     
     private final int value;
+    
+    /**
+     * Create a new SelectionMode for the provided value
+     * @param numeric value the enum value
+     */
     SelectionMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SelectionMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SelectionMode of(int value) {
         return switch (value) {
             case 0 -> NONE;

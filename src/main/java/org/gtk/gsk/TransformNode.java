@@ -28,14 +28,16 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a TransformNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TransformNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TransformNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TransformNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TransformNode(input, ownership);
+    public static final Marshal<Addressable, TransformNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TransformNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, org.gtk.gsk.Transform transform) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
      * @param transform The transform to apply
      */
     public TransformNode(org.gtk.gsk.RenderNode child, org.gtk.gsk.Transform transform) {
-        super(constructNew(child, transform), Ownership.FULL);
+        super(constructNew(child, transform));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +69,11 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -81,12 +83,11 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.Transform getTransform() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_transform.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_transform.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -106,27 +107,35 @@ public class TransformNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_transform_node_new = Interop.downcallHandle(
-            "gsk_transform_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_node_get_child = Interop.downcallHandle(
-            "gsk_transform_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_node_get_transform = Interop.downcallHandle(
-            "gsk_transform_node_get_transform",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_node_get_transform",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_node_get_type = Interop.downcallHandle(
-            "gsk_transform_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_transform_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_transform_node_get_type != null;
     }
 }

@@ -33,8 +33,8 @@ public class VulkanBarrierImageInfo extends Struct {
      * @return A new, uninitialized @{link VulkanBarrierImageInfo}
      */
     public static VulkanBarrierImageInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanBarrierImageInfo newInstance = new VulkanBarrierImageInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanBarrierImageInfo newInstance = new VulkanBarrierImageInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class VulkanBarrierImageInfo extends Struct {
      */
     public org.gstreamer.vulkan.VulkanBarrierMemoryInfo getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.vulkan.VulkanBarrierMemoryInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.vulkan.VulkanBarrierMemoryInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,9 +53,11 @@ public class VulkanBarrierImageInfo extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -64,7 +66,7 @@ public class VulkanBarrierImageInfo extends Struct {
      */
     public org.vulkan.ImageLayout getImageLayout() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("image_layout"));
-        return org.vulkan.ImageLayout.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.ImageLayout.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -72,9 +74,11 @@ public class VulkanBarrierImageInfo extends Struct {
      * @param imageLayout The new value of the field {@code image_layout}
      */
     public void setImageLayout(org.vulkan.ImageLayout imageLayout) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("image_layout"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (imageLayout == null ? MemoryAddress.NULL : imageLayout.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("image_layout"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (imageLayout == null ? MemoryAddress.NULL : imageLayout.handle()));
+        }
     }
     
     /**
@@ -83,7 +87,7 @@ public class VulkanBarrierImageInfo extends Struct {
      */
     public org.vulkan.ImageSubresourceRange getSubresourceRange() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("subresource_range"));
-        return org.vulkan.ImageSubresourceRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.ImageSubresourceRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -91,22 +95,26 @@ public class VulkanBarrierImageInfo extends Struct {
      * @param subresourceRange The new value of the field {@code subresource_range}
      */
     public void setSubresourceRange(org.vulkan.ImageSubresourceRange subresourceRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subresource_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subresourceRange == null ? MemoryAddress.NULL : subresourceRange.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subresource_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subresourceRange == null ? MemoryAddress.NULL : subresourceRange.handle()));
+        }
     }
     
     /**
      * Create a VulkanBarrierImageInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanBarrierImageInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanBarrierImageInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanBarrierImageInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierImageInfo(input, ownership);
+    public static final Marshal<Addressable, VulkanBarrierImageInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierImageInfo(input);
     
     /**
      * A {@link VulkanBarrierImageInfo.Builder} object constructs a {@link VulkanBarrierImageInfo} 
@@ -130,7 +138,7 @@ public class VulkanBarrierImageInfo extends Struct {
             struct = VulkanBarrierImageInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanBarrierImageInfo} struct.
          * @return A new instance of {@code VulkanBarrierImageInfo} with the fields 
          *         that were set in the Builder object.
@@ -145,10 +153,12 @@ public class VulkanBarrierImageInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -157,10 +167,12 @@ public class VulkanBarrierImageInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setImageLayout(org.vulkan.ImageLayout imageLayout) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("image_layout"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (imageLayout == null ? MemoryAddress.NULL : imageLayout.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("image_layout"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (imageLayout == null ? MemoryAddress.NULL : imageLayout.handle()));
+                return this;
+            }
         }
         
         /**
@@ -169,10 +181,12 @@ public class VulkanBarrierImageInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSubresourceRange(org.vulkan.ImageSubresourceRange subresourceRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("subresource_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subresourceRange == null ? MemoryAddress.NULL : subresourceRange.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("subresource_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subresourceRange == null ? MemoryAddress.NULL : subresourceRange.handle()));
+                return this;
+            }
         }
     }
 }

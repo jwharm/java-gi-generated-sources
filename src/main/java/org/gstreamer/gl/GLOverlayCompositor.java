@@ -37,32 +37,22 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a GLOverlayCompositor proxy instance for the provided memory address.
-     * <p>
-     * Because GLOverlayCompositor is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLOverlayCompositor(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLOverlayCompositor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLOverlayCompositor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLOverlayCompositor(input, ownership);
+    public static final Marshal<Addressable, GLOverlayCompositor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLOverlayCompositor(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_new.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_new.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,13 +60,14 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     }
     
     public GLOverlayCompositor(org.gstreamer.gl.GLContext context) {
-        super(constructNew(context), Ownership.NONE);
+        super(constructNew(context));
+        this.refSink();
+        this.takeOwnership();
     }
     
     public void drawOverlays() {
         try {
-            DowncallHandles.gst_gl_overlay_compositor_draw_overlays.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_overlay_compositor_draw_overlays.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +75,7 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     
     public void freeOverlays() {
         try {
-            DowncallHandles.gst_gl_overlay_compositor_free_overlays.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_overlay_compositor_free_overlays.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,12 +108,13 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     public static org.gstreamer.gst.Caps addCaps(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_add_caps.invokeExact(
-                    caps.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_add_caps.invokeExact(caps.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -142,6 +133,9 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -172,39 +166,47 @@ public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_overlay_compositor_new = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_overlay_compositor_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_overlay_compositor_draw_overlays = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_draw_overlays",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_overlay_compositor_draw_overlays",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_overlay_compositor_free_overlays = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_free_overlays",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_overlay_compositor_free_overlays",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_overlay_compositor_upload_overlays = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_upload_overlays",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_overlay_compositor_upload_overlays",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_overlay_compositor_get_type = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_overlay_compositor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_overlay_compositor_add_caps = Interop.downcallHandle(
-            "gst_gl_overlay_compositor_add_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_overlay_compositor_add_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_overlay_compositor_get_type != null;
     }
 }

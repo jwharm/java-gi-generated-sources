@@ -37,8 +37,8 @@ public class Color extends Struct {
      * @return A new, uninitialized @{link Color}
      */
     public static Color allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Color newInstance = new Color(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Color newInstance = new Color(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class Color extends Struct {
      * @return The value of the field {@code red}
      */
     public short getRed() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("red"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class Color extends Struct {
      * @param red The new value of the field {@code red}
      */
     public void setRed(short red) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("red"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), red);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class Color extends Struct {
      * @return The value of the field {@code green}
      */
     public short getGreen() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("green"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class Color extends Struct {
      * @param green The new value of the field {@code green}
      */
     public void setGreen(short green) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("green"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), green);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class Color extends Struct {
      * @return The value of the field {@code blue}
      */
     public short getBlue() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class Color extends Struct {
      * @param blue The new value of the field {@code blue}
      */
     public void setBlue(short blue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), blue);
+        }
     }
     
     /**
      * Create a Color proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Color(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Color(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Color> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Color(input, ownership);
+    public static final Marshal<Addressable, Color> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Color(input);
     
     /**
      * Creates a copy of {@code src}.
@@ -131,12 +145,13 @@ public class Color extends Struct {
     public @Nullable org.pango.Color copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_color_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Color.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Color.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -144,8 +159,7 @@ public class Color extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_color_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_color_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,15 +180,17 @@ public class Color extends Struct {
      *   otherwise {@code false}
      */
     public boolean parse(java.lang.String spec) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(spec, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(spec, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -199,18 +215,20 @@ public class Color extends Struct {
      *   otherwise {@code false}
      */
     public boolean parseWithAlpha(Out<Short> alpha, java.lang.String spec) {
-        MemorySegment alphaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(
-                    handle(),
-                    (Addressable) (alpha == null ? MemoryAddress.NULL : (Addressable) alphaPOINTER.address()),
-                    Marshal.stringToAddress.marshal(spec, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment alphaPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(
+                        handle(),
+                        (Addressable) (alpha == null ? MemoryAddress.NULL : (Addressable) alphaPOINTER.address()),
+                        Marshal.stringToAddress.marshal(spec, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (alpha != null) alpha.set(alphaPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (alpha != null) alpha.set(alphaPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -225,8 +243,7 @@ public class Color extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,33 +253,33 @@ public class Color extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_color_copy = Interop.downcallHandle(
-            "pango_color_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_color_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_color_free = Interop.downcallHandle(
-            "pango_color_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_color_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_color_parse = Interop.downcallHandle(
-            "pango_color_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_color_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
-            "pango_color_parse_with_alpha",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_color_parse_with_alpha",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
-            "pango_color_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_color_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -288,7 +305,7 @@ public class Color extends Struct {
             struct = Color.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Color} struct.
          * @return A new instance of {@code Color} with the fields 
          *         that were set in the Builder object.
@@ -303,10 +320,12 @@ public class Color extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRed(short red) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("red"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), red);
+                return this;
+            }
         }
         
         /**
@@ -315,10 +334,12 @@ public class Color extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGreen(short green) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("green"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), green);
+                return this;
+            }
         }
         
         /**
@@ -327,10 +348,12 @@ public class Color extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBlue(short blue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), blue);
+                return this;
+            }
         }
     }
 }

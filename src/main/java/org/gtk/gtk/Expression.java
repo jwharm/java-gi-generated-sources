@@ -145,14 +145,16 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
     /**
      * Create a Expression proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Expression(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Expression(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Expression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Expression(input, ownership);
+    public static final Marshal<Addressable, Expression> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Expression(input);
     
     /**
      * Bind {@code target}'s property named {@code property} to {@code self}.
@@ -174,18 +176,20 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      * @return a {@code GtkExpressionWatch}
      */
     public org.gtk.gtk.ExpressionWatch bind(org.gtk.gobject.GObject target, java.lang.String property, @Nullable org.gtk.gobject.GObject this_) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_bind.invokeExact(
-                    handle(),
-                    target.handle(),
-                    Marshal.stringToAddress.marshal(property, null),
-                    (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_expression_bind.invokeExact(
+                        handle(),
+                        target.handle(),
+                        Marshal.stringToAddress.marshal(property, SCOPE),
+                        (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            this.yieldOwnership();
+            return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, null);
         }
-        this.yieldOwnership();
-        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -226,8 +230,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
     public org.gtk.glib.Type getValueType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_expression_get_value_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gtk_expression_get_value_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,8 +250,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
     public boolean isStatic() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_expression_is_static.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_expression_is_static.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,12 +264,13 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
     public org.gtk.gtk.Expression ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -278,8 +281,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_expression_unref.invokeExact(
-                    handle());
+            DowncallHandles.gtk_expression_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +319,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -337,51 +339,59 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_expression_bind = Interop.downcallHandle(
-            "gtk_expression_bind",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_bind",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_evaluate = Interop.downcallHandle(
-            "gtk_expression_evaluate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_evaluate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_get_value_type = Interop.downcallHandle(
-            "gtk_expression_get_value_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_get_value_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_is_static = Interop.downcallHandle(
-            "gtk_expression_is_static",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_is_static",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_ref = Interop.downcallHandle(
-            "gtk_expression_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_unref = Interop.downcallHandle(
-            "gtk_expression_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_watch = Interop.downcallHandle(
-            "gtk_expression_watch",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_watch",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_get_type = Interop.downcallHandle(
-            "gtk_expression_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_expression_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_expression_get_type != null;
     }
 }

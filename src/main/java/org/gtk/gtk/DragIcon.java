@@ -37,26 +37,17 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a DragIcon proxy instance for the provided memory address.
-     * <p>
-     * Because DragIcon is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DragIcon(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected DragIcon(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DragIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragIcon(input, ownership);
+    public static final Marshal<Addressable, DragIcon> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DragIcon(input);
     
     /**
      * Gets the widget currently used as drag icon.
@@ -65,12 +56,11 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -119,12 +109,13 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public static @Nullable org.gtk.gtk.Widget createWidgetForValue(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_create_widget_for_value.invokeExact(
-                    value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_create_widget_for_value.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -138,12 +129,11 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public static org.gtk.gtk.Widget getForDrag(org.gtk.gdk.Drag drag) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_for_drag.invokeExact(
-                    drag.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_for_drag.invokeExact(drag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -185,6 +175,9 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -220,39 +213,47 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_drag_icon_get_child = Interop.downcallHandle(
-            "gtk_drag_icon_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drag_icon_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drag_icon_set_child = Interop.downcallHandle(
-            "gtk_drag_icon_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drag_icon_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drag_icon_get_type = Interop.downcallHandle(
-            "gtk_drag_icon_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_drag_icon_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_drag_icon_create_widget_for_value = Interop.downcallHandle(
-            "gtk_drag_icon_create_widget_for_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drag_icon_create_widget_for_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drag_icon_get_for_drag = Interop.downcallHandle(
-            "gtk_drag_icon_get_for_drag",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drag_icon_get_for_drag",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drag_icon_set_from_paintable = Interop.downcallHandle(
-            "gtk_drag_icon_set_from_paintable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_drag_icon_set_from_paintable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_drag_icon_get_type != null;
     }
 }

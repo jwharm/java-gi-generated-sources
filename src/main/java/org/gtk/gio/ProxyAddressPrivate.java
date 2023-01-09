@@ -29,8 +29,8 @@ public class ProxyAddressPrivate extends Struct {
      * @return A new, uninitialized @{link ProxyAddressPrivate}
      */
     public static ProxyAddressPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProxyAddressPrivate newInstance = new ProxyAddressPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ProxyAddressPrivate newInstance = new ProxyAddressPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ProxyAddressPrivate extends Struct {
     /**
      * Create a ProxyAddressPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyAddressPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProxyAddressPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyAddressPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddressPrivate(input, ownership);
+    public static final Marshal<Addressable, ProxyAddressPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddressPrivate(input);
 }

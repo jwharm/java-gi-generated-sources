@@ -43,14 +43,16 @@ public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
     /**
      * Create a SocketAddressEnumerator proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketAddressEnumerator(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketAddressEnumerator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketAddressEnumerator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddressEnumerator(input, ownership);
+    public static final Marshal<Addressable, SocketAddressEnumerator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddressEnumerator(input);
     
     /**
      * Retrieves the next {@link SocketAddress} from {@code enumerator}. Note that this
@@ -73,20 +75,24 @@ public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.SocketAddress next(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next.invokeExact(
-                    handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next.invokeExact(
+                        handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,20 +129,24 @@ public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.SocketAddress nextFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_socket_address_enumerator_next_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,6 +179,9 @@ public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -193,27 +206,35 @@ public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_address_enumerator_next = Interop.downcallHandle(
-            "g_socket_address_enumerator_next",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_enumerator_next",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_enumerator_next_async = Interop.downcallHandle(
-            "g_socket_address_enumerator_next_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_enumerator_next_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_enumerator_next_finish = Interop.downcallHandle(
-            "g_socket_address_enumerator_next_finish",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_enumerator_next_finish",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_enumerator_get_type = Interop.downcallHandle(
-            "g_socket_address_enumerator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_address_enumerator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_address_enumerator_get_type != null;
     }
 }

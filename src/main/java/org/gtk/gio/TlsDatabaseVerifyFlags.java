@@ -18,6 +18,9 @@ public class TlsDatabaseVerifyFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TlsDatabaseVerifyFlags NONE = new TlsDatabaseVerifyFlags(0);
     
+    /**
+     * Create a new TlsDatabaseVerifyFlags with the provided value
+     */
     public TlsDatabaseVerifyFlags(int value) {
         super(value);
     }

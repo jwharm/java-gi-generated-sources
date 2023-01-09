@@ -10,14 +10,17 @@ import org.jetbrains.annotations.*;
  * width-for-height geometry management.
  */
 public enum SizeRequestMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Prefer height-for-width geometry management
      */
     HEIGHT_FOR_WIDTH(0),
+    
     /**
      * Prefer width-for-height geometry management
      */
     WIDTH_FOR_HEIGHT(1),
+    
     /**
      * Don’t trade height-for-width or width-for-height
      */
@@ -26,15 +29,29 @@ public enum SizeRequestMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkSizeRequestMode";
     
     private final int value;
+    
+    /**
+     * Create a new SizeRequestMode for the provided value
+     * @param numeric value the enum value
+     */
     SizeRequestMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SizeRequestMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SizeRequestMode of(int value) {
         return switch (value) {
             case 0 -> HEIGHT_FOR_WIDTH;

@@ -87,6 +87,9 @@ public class SubprocessFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SubprocessFlags SEARCH_PATH_FROM_ENVP = new SubprocessFlags(256);
     
+    /**
+     * Create a new SubprocessFlags with the provided value
+     */
     public SubprocessFlags(int value) {
         super(value);
     }

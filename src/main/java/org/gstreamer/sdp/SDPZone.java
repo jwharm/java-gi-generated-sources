@@ -37,8 +37,8 @@ public class SDPZone extends Struct {
      * @return A new, uninitialized @{link SDPZone}
      */
     public static SDPZone allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDPZone newInstance = new SDPZone(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDPZone newInstance = new SDPZone(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class SDPZone extends Struct {
      * @return The value of the field {@code time}
      */
     public java.lang.String getTime() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class SDPZone extends Struct {
      * @param time The new value of the field {@code time}
      */
     public void setTime(java.lang.String time) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (time == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(time, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (time == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(time, SCOPE)));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class SDPZone extends Struct {
      * @return The value of the field {@code typed_time}
      */
     public java.lang.String getTypedTime() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -80,22 +86,26 @@ public class SDPZone extends Struct {
      * @param typedTime The new value of the field {@code typed_time}
      */
     public void setTypedTime(java.lang.String typedTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typedTime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typedTime, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (typedTime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typedTime, SCOPE)));
+        }
     }
     
     /**
      * Create a SDPZone proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDPZone(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDPZone(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDPZone> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPZone(input, ownership);
+    public static final Marshal<Addressable, SDPZone> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDPZone(input);
     
     /**
      * Reset the zone information in {@code zone}.
@@ -104,8 +114,7 @@ public class SDPZone extends Struct {
     public org.gstreamer.sdp.SDPResult clear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_zone_clear.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_zone_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,30 +128,32 @@ public class SDPZone extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult set(java.lang.String adjTime, java.lang.String typedTime) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_zone_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(adjTime, null),
-                    Marshal.stringToAddress.marshal(typedTime, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_zone_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(adjTime, SCOPE),
+                        Marshal.stringToAddress.marshal(typedTime, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_sdp_zone_clear = Interop.downcallHandle(
-            "gst_sdp_zone_clear",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_zone_clear",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_zone_set = Interop.downcallHandle(
-            "gst_sdp_zone_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_zone_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -168,7 +179,7 @@ public class SDPZone extends Struct {
             struct = SDPZone.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDPZone} struct.
          * @return A new instance of {@code SDPZone} with the fields 
          *         that were set in the Builder object.
@@ -183,10 +194,12 @@ public class SDPZone extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTime(java.lang.String time) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (time == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(time, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (time == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(time, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -195,10 +208,12 @@ public class SDPZone extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTypedTime(java.lang.String typedTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typedTime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typedTime, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("typed_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (typedTime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typedTime, SCOPE)));
+                return this;
+            }
         }
     }
 }

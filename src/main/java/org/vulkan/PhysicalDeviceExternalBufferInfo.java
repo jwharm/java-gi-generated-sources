@@ -29,8 +29,8 @@ public class PhysicalDeviceExternalBufferInfo extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceExternalBufferInfo}
      */
     public static PhysicalDeviceExternalBufferInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceExternalBufferInfo newInstance = new PhysicalDeviceExternalBufferInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceExternalBufferInfo newInstance = new PhysicalDeviceExternalBufferInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceExternalBufferInfo extends Struct {
     /**
      * Create a PhysicalDeviceExternalBufferInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceExternalBufferInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceExternalBufferInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceExternalBufferInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalBufferInfo(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceExternalBufferInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalBufferInfo(input);
 }

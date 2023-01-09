@@ -34,14 +34,16 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     /**
      * Create a FilterInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FilterInputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FilterInputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FilterInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilterInputStream(input, ownership);
+    public static final Marshal<Addressable, FilterInputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FilterInputStream(input);
     
     /**
      * Gets the base stream for the filter stream.
@@ -50,12 +52,11 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     public org.gtk.gio.InputStream getBaseStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filter_input_stream_get_base_stream.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_filter_input_stream_get_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) Interop.register(RESULT, org.gtk.gio.InputStream.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -66,8 +67,7 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     public boolean getCloseBaseStream() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_filter_input_stream_get_close_base_stream.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_filter_input_stream_get_close_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,6 +118,9 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
      */
     public static class Builder extends org.gtk.gio.InputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -154,27 +157,35 @@ public class FilterInputStream extends org.gtk.gio.InputStream {
     private static class DowncallHandles {
         
         private static final MethodHandle g_filter_input_stream_get_base_stream = Interop.downcallHandle(
-            "g_filter_input_stream_get_base_stream",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_filter_input_stream_get_base_stream",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_filter_input_stream_get_close_base_stream = Interop.downcallHandle(
-            "g_filter_input_stream_get_close_base_stream",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_filter_input_stream_get_close_base_stream",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_filter_input_stream_set_close_base_stream = Interop.downcallHandle(
-            "g_filter_input_stream_set_close_base_stream",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_filter_input_stream_set_close_base_stream",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_filter_input_stream_get_type = Interop.downcallHandle(
-            "g_filter_input_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_filter_input_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_filter_input_stream_get_type != null;
     }
 }

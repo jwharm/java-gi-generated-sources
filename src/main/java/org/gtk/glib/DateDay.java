@@ -12,6 +12,9 @@ import org.jetbrains.annotations.*;
  */
 public class DateDay extends io.github.jwharm.javagi.Alias<Byte> {
     
+    /**
+     * Create a new DateDay with the provided value
+     */
     public DateDay(byte value) {
         super(value);
     }

@@ -28,14 +28,16 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
     /**
      * Create a ActivateAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ActivateAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ActivateAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ActivateAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActivateAction(input, ownership);
+    public static final Marshal<Addressable, ActivateAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ActivateAction(input);
     
     /**
      * Get the gtype
@@ -65,7 +67,7 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ActivateAction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ActivateAction.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ActivateAction) Interop.register(RESULT, org.gtk.gtk.ActivateAction.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -84,6 +86,9 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
      */
     public static class Builder extends org.gtk.gtk.ShortcutAction.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -108,15 +113,23 @@ public class ActivateAction extends org.gtk.gtk.ShortcutAction {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_activate_action_get_type = Interop.downcallHandle(
-            "gtk_activate_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_activate_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_activate_action_get = Interop.downcallHandle(
-            "gtk_activate_action_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_activate_action_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_activate_action_get_type != null;
     }
 }

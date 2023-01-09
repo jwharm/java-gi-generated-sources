@@ -34,14 +34,16 @@ public class Monitor extends org.gtk.gobject.GObject {
     /**
      * Create a Monitor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Monitor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Monitor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Monitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Monitor(input, ownership);
+    public static final Marshal<Addressable, Monitor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Monitor(input);
     
     /**
      * Gets the name of the monitor's connector, if available.
@@ -50,8 +52,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getConnector() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_connector.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_connector.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,12 +66,11 @@ public class Monitor extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -98,8 +98,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public int getHeightMm() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_get_height_mm.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_get_height_mm.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,8 +118,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getManufacturer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_manufacturer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_manufacturer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,8 +132,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_monitor_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +149,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public int getRefreshRate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_get_refresh_rate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_get_refresh_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,8 +171,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public int getScaleFactor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_get_scale_factor.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_get_scale_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,8 +186,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public org.gtk.gdk.SubpixelLayout getSubpixelLayout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_get_subpixel_layout.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_get_subpixel_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,8 +200,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public int getWidthMm() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_get_width_mm.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_get_width_mm.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,8 +218,7 @@ public class Monitor extends org.gtk.gobject.GObject {
     public boolean isValid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_monitor_is_valid.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_monitor_is_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,19 +239,37 @@ public class Monitor extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Invalidate} callback.
+     */
     @FunctionalInterface
     public interface Invalidate {
+    
+        /**
+         * Emitted when the output represented by {@code monitor} gets disconnected.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceMonitor) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Invalidate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Invalidate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -269,9 +279,10 @@ public class Monitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Monitor.Invalidate> onInvalidate(Monitor.Invalidate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("invalidate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("invalidate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -294,6 +305,9 @@ public class Monitor extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -439,75 +453,83 @@ public class Monitor extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_monitor_get_connector = Interop.downcallHandle(
-            "gdk_monitor_get_connector",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_connector",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_display = Interop.downcallHandle(
-            "gdk_monitor_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_geometry = Interop.downcallHandle(
-            "gdk_monitor_get_geometry",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_geometry",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_height_mm = Interop.downcallHandle(
-            "gdk_monitor_get_height_mm",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_height_mm",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_manufacturer = Interop.downcallHandle(
-            "gdk_monitor_get_manufacturer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_manufacturer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_model = Interop.downcallHandle(
-            "gdk_monitor_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_refresh_rate = Interop.downcallHandle(
-            "gdk_monitor_get_refresh_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_refresh_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_scale_factor = Interop.downcallHandle(
-            "gdk_monitor_get_scale_factor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_scale_factor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_subpixel_layout = Interop.downcallHandle(
-            "gdk_monitor_get_subpixel_layout",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_subpixel_layout",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_width_mm = Interop.downcallHandle(
-            "gdk_monitor_get_width_mm",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_get_width_mm",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_is_valid = Interop.downcallHandle(
-            "gdk_monitor_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_monitor_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_monitor_get_type = Interop.downcallHandle(
-            "gdk_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_monitor_get_type != null;
     }
 }

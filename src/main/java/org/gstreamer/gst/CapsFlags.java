@@ -18,6 +18,9 @@ public class CapsFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final CapsFlags ANY = new CapsFlags(16);
     
+    /**
+     * Create a new CapsFlags with the provided value
+     */
     public CapsFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class DescriptorSetLayoutCreateFlags extends Struct {
      * @return A new, uninitialized @{link DescriptorSetLayoutCreateFlags}
      */
     public static DescriptorSetLayoutCreateFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DescriptorSetLayoutCreateFlags newInstance = new DescriptorSetLayoutCreateFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DescriptorSetLayoutCreateFlags newInstance = new DescriptorSetLayoutCreateFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DescriptorSetLayoutCreateFlags extends Struct {
     /**
      * Create a DescriptorSetLayoutCreateFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DescriptorSetLayoutCreateFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DescriptorSetLayoutCreateFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DescriptorSetLayoutCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetLayoutCreateFlags(input, ownership);
+    public static final Marshal<Addressable, DescriptorSetLayoutCreateFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetLayoutCreateFlags(input);
 }

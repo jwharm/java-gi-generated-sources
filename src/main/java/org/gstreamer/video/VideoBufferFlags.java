@@ -88,6 +88,9 @@ public class VideoBufferFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoBufferFlags LAST = new VideoBufferFlags(268435456);
     
+    /**
+     * Create a new VideoBufferFlags with the provided value
+     */
     public VideoBufferFlags(int value) {
         super(value);
     }

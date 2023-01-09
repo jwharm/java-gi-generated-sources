@@ -32,8 +32,8 @@ public class PlayerSignalDispatcherInterface extends Struct {
      * @return A new, uninitialized @{link PlayerSignalDispatcherInterface}
      */
     public static PlayerSignalDispatcherInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayerSignalDispatcherInterface newInstance = new PlayerSignalDispatcherInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayerSignalDispatcherInterface newInstance = new PlayerSignalDispatcherInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class PlayerSignalDispatcherInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParentIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,24 +52,41 @@ public class PlayerSignalDispatcherInterface extends Struct {
      * @param parentIface The new value of the field {@code parent_iface}
      */
     public void setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DispatchCallback} callback.
+     */
     @FunctionalInterface
     public interface DispatchCallback {
+    
         void run(org.gstreamer.player.PlayerSignalDispatcher self, org.gstreamer.player.Player player, org.gstreamer.player.PlayerSignalDispatcherFunc emitter, org.gtk.glib.DestroyNotify destroy);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress player, MemoryAddress emitter, MemoryAddress data, MemoryAddress destroy) {
-            run((org.gstreamer.player.PlayerSignalDispatcher) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.player.PlayerSignalDispatcher.fromAddress).marshal(self, Ownership.NONE), (org.gstreamer.player.Player) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(player)), org.gstreamer.player.Player.fromAddress).marshal(player, Ownership.NONE), null /* Unsupported parameter type */, null /* Unsupported parameter type */);
+            run((org.gstreamer.player.PlayerSignalDispatcher) Interop.register(self, org.gstreamer.player.PlayerSignalDispatcher.fromAddress).marshal(self, null), (org.gstreamer.player.Player) Interop.register(player, org.gstreamer.player.Player.fromAddress).marshal(player, null), null /* Unsupported parameter type */, null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DispatchCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DispatchCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -78,22 +95,26 @@ public class PlayerSignalDispatcherInterface extends Struct {
      * @param dispatch The new value of the field {@code dispatch}
      */
     public void setDispatch(DispatchCallback dispatch) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+        }
     }
     
     /**
      * Create a PlayerSignalDispatcherInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerSignalDispatcherInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerSignalDispatcherInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerSignalDispatcherInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSignalDispatcherInterface(input, ownership);
+    public static final Marshal<Addressable, PlayerSignalDispatcherInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSignalDispatcherInterface(input);
     
     /**
      * A {@link PlayerSignalDispatcherInterface.Builder} object constructs a {@link PlayerSignalDispatcherInterface} 
@@ -117,7 +138,7 @@ public class PlayerSignalDispatcherInterface extends Struct {
             struct = PlayerSignalDispatcherInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PlayerSignalDispatcherInterface} struct.
          * @return A new instance of {@code PlayerSignalDispatcherInterface} with the fields 
          *         that were set in the Builder object.
@@ -127,17 +148,21 @@ public class PlayerSignalDispatcherInterface extends Struct {
         }
         
         public Builder setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+                return this;
+            }
         }
         
         public Builder setDispatch(DispatchCallback dispatch) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch.toCallback()));
+                return this;
+            }
         }
     }
 }

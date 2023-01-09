@@ -40,6 +40,9 @@ public class RTPHeaderExtensionDirection extends io.github.jwharm.javagi.Bitfiel
      */
     public static final RTPHeaderExtensionDirection INHERITED = new RTPHeaderExtensionDirection(4);
     
+    /**
+     * Create a new RTPHeaderExtensionDirection with the provided value
+     */
     public RTPHeaderExtensionDirection(int value) {
         super(value);
     }

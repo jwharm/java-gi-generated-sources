@@ -41,8 +41,8 @@ public class DBusInterfaceInfo extends Struct {
      * @return A new, uninitialized @{link DBusInterfaceInfo}
      */
     public static DBusInterfaceInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusInterfaceInfo newInstance = new DBusInterfaceInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusInterfaceInfo newInstance = new DBusInterfaceInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code ref_count}
      */
     public int getRefCount() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class DBusInterfaceInfo extends Struct {
      * @param refCount The new value of the field {@code ref_count}
      */
     public void setRefCount(int refCount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code name}
      */
     public java.lang.String getName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class DBusInterfaceInfo extends Struct {
      * @param name The new value of the field {@code name}
      */
     public void setName(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code methods}
      */
     public PointerProxy<org.gtk.gio.DBusMethodInfo> getMethods() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("methods"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.DBusMethodInfo>(RESULT, org.gtk.gio.DBusMethodInfo.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("methods"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.DBusMethodInfo>(RESULT, org.gtk.gio.DBusMethodInfo.fromAddress);
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class DBusInterfaceInfo extends Struct {
      * @param methods The new value of the field {@code methods}
      */
     public void setMethods(org.gtk.gio.DBusMethodInfo[] methods) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("methods"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methods == null ? MemoryAddress.NULL : Interop.allocateNativeArray(methods, org.gtk.gio.DBusMethodInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("methods"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (methods == null ? MemoryAddress.NULL : Interop.allocateNativeArray(methods, org.gtk.gio.DBusMethodInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code signals}
      */
     public PointerProxy<org.gtk.gio.DBusSignalInfo> getSignals() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signals"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.DBusSignalInfo>(RESULT, org.gtk.gio.DBusSignalInfo.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signals"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.DBusSignalInfo>(RESULT, org.gtk.gio.DBusSignalInfo.fromAddress);
+        }
     }
     
     /**
@@ -126,9 +140,11 @@ public class DBusInterfaceInfo extends Struct {
      * @param signals The new value of the field {@code signals}
      */
     public void setSignals(org.gtk.gio.DBusSignalInfo[] signals) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signals"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signals == null ? MemoryAddress.NULL : Interop.allocateNativeArray(signals, org.gtk.gio.DBusSignalInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signals"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signals == null ? MemoryAddress.NULL : Interop.allocateNativeArray(signals, org.gtk.gio.DBusSignalInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -136,10 +152,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code properties}
      */
     public PointerProxy<org.gtk.gio.DBusPropertyInfo> getProperties() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("properties"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.DBusPropertyInfo>(RESULT, org.gtk.gio.DBusPropertyInfo.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("properties"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.DBusPropertyInfo>(RESULT, org.gtk.gio.DBusPropertyInfo.fromAddress);
+        }
     }
     
     /**
@@ -147,9 +165,11 @@ public class DBusInterfaceInfo extends Struct {
      * @param properties The new value of the field {@code properties}
      */
     public void setProperties(org.gtk.gio.DBusPropertyInfo[] properties) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("properties"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (properties == null ? MemoryAddress.NULL : Interop.allocateNativeArray(properties, org.gtk.gio.DBusPropertyInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("properties"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (properties == null ? MemoryAddress.NULL : Interop.allocateNativeArray(properties, org.gtk.gio.DBusPropertyInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -157,10 +177,12 @@ public class DBusInterfaceInfo extends Struct {
      * @return The value of the field {@code annotations}
      */
     public PointerProxy<org.gtk.gio.DBusAnnotationInfo> getAnnotations() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.DBusAnnotationInfo>(RESULT, org.gtk.gio.DBusAnnotationInfo.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.DBusAnnotationInfo>(RESULT, org.gtk.gio.DBusAnnotationInfo.fromAddress);
+        }
     }
     
     /**
@@ -168,22 +190,26 @@ public class DBusInterfaceInfo extends Struct {
      * @param annotations The new value of the field {@code annotations}
      */
     public void setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a DBusInterfaceInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusInterfaceInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusInterfaceInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusInterfaceInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceInfo(input, ownership);
+    public static final Marshal<Addressable, DBusInterfaceInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceInfo(input);
     
     /**
      * Builds a lookup-cache to speed up
@@ -199,8 +225,7 @@ public class DBusInterfaceInfo extends Struct {
      */
     public void cacheBuild() {
         try {
-            DowncallHandles.g_dbus_interface_info_cache_build.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_interface_info_cache_build.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,8 +238,7 @@ public class DBusInterfaceInfo extends Struct {
      */
     public void cacheRelease() {
         try {
-            DowncallHandles.g_dbus_interface_info_cache_release.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_interface_info_cache_release.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,15 +274,17 @@ public class DBusInterfaceInfo extends Struct {
      * @return A {@link DBusMethodInfo} or {@code null} if not found. Do not free, it is owned by {@code info}.
      */
     public @Nullable org.gtk.gio.DBusMethodInfo lookupMethod(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_method.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_method.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.DBusMethodInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.DBusMethodInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -270,15 +296,17 @@ public class DBusInterfaceInfo extends Struct {
      * @return A {@link DBusPropertyInfo} or {@code null} if not found. Do not free, it is owned by {@code info}.
      */
     public @Nullable org.gtk.gio.DBusPropertyInfo lookupProperty(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_property.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_property.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.DBusPropertyInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.DBusPropertyInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -290,15 +318,17 @@ public class DBusInterfaceInfo extends Struct {
      * @return A {@link DBusSignalInfo} or {@code null} if not found. Do not free, it is owned by {@code info}.
      */
     public @Nullable org.gtk.gio.DBusSignalInfo lookupSignal(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_signal.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_lookup_signal.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.DBusSignalInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.DBusSignalInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -309,12 +339,13 @@ public class DBusInterfaceInfo extends Struct {
     public org.gtk.gio.DBusInterfaceInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.DBusInterfaceInfo.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.DBusInterfaceInfo.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -324,8 +355,7 @@ public class DBusInterfaceInfo extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_dbus_interface_info_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_interface_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,51 +364,51 @@ public class DBusInterfaceInfo extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_interface_info_cache_build = Interop.downcallHandle(
-            "g_dbus_interface_info_cache_build",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_cache_build",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_cache_release = Interop.downcallHandle(
-            "g_dbus_interface_info_cache_release",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_cache_release",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_generate_xml = Interop.downcallHandle(
-            "g_dbus_interface_info_generate_xml",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_generate_xml",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_method = Interop.downcallHandle(
-            "g_dbus_interface_info_lookup_method",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_lookup_method",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_property = Interop.downcallHandle(
-            "g_dbus_interface_info_lookup_property",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_lookup_property",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_lookup_signal = Interop.downcallHandle(
-            "g_dbus_interface_info_lookup_signal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_lookup_signal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_ref = Interop.downcallHandle(
-            "g_dbus_interface_info_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_interface_info_unref = Interop.downcallHandle(
-            "g_dbus_interface_info_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_info_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -404,7 +434,7 @@ public class DBusInterfaceInfo extends Struct {
             struct = DBusInterfaceInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusInterfaceInfo} struct.
          * @return A new instance of {@code DBusInterfaceInfo} with the fields 
          *         that were set in the Builder object.
@@ -419,10 +449,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefCount(int refCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+                return this;
+            }
         }
         
         /**
@@ -431,10 +463,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -443,10 +477,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMethods(org.gtk.gio.DBusMethodInfo[] methods) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("methods"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methods == null ? MemoryAddress.NULL : Interop.allocateNativeArray(methods, org.gtk.gio.DBusMethodInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("methods"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (methods == null ? MemoryAddress.NULL : Interop.allocateNativeArray(methods, org.gtk.gio.DBusMethodInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -455,10 +491,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSignals(org.gtk.gio.DBusSignalInfo[] signals) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("signals"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signals == null ? MemoryAddress.NULL : Interop.allocateNativeArray(signals, org.gtk.gio.DBusSignalInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("signals"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signals == null ? MemoryAddress.NULL : Interop.allocateNativeArray(signals, org.gtk.gio.DBusSignalInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -467,10 +505,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProperties(org.gtk.gio.DBusPropertyInfo[] properties) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("properties"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (properties == null ? MemoryAddress.NULL : Interop.allocateNativeArray(properties, org.gtk.gio.DBusPropertyInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("properties"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (properties == null ? MemoryAddress.NULL : Interop.allocateNativeArray(properties, org.gtk.gio.DBusPropertyInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -479,10 +519,12 @@ public class DBusInterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAnnotations(org.gtk.gio.DBusAnnotationInfo[] annotations) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("annotations"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (annotations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(annotations, org.gtk.gio.DBusAnnotationInfo.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

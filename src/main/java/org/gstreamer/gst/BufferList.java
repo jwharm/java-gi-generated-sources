@@ -39,8 +39,8 @@ public class BufferList extends Struct {
      * @return A new, uninitialized @{link BufferList}
      */
     public static BufferList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferList newInstance = new BufferList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferList newInstance = new BufferList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class BufferList extends Struct {
     /**
      * Create a BufferList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferList(input, ownership);
+    public static final Marshal<Addressable, BufferList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferList(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -71,20 +73,20 @@ public class BufferList extends Struct {
      * Creates a new, empty {@link BufferList}.
      */
     public BufferList() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewSized(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_new_sized.invokeExact(
-                    size);
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_new_sized.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new, empty {@link BufferList}. The list will have {@code size} space
      * preallocated so that memory reallocations can be avoided.
@@ -93,7 +95,9 @@ public class BufferList extends Struct {
      */
     public static BufferList newSized(int size) {
         var RESULT = constructNewSized(size);
-        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -104,8 +108,7 @@ public class BufferList extends Struct {
     public long calculateSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_buffer_list_calculate_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_buffer_list_calculate_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,12 +123,13 @@ public class BufferList extends Struct {
     public org.gstreamer.gst.BufferList copyDeep() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_copy_deep.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_copy_deep.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -170,7 +174,7 @@ public class BufferList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -192,7 +196,7 @@ public class BufferList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -222,8 +226,7 @@ public class BufferList extends Struct {
     public int length() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_list_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_buffer_list_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,63 +253,63 @@ public class BufferList extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_buffer_list_new = Interop.downcallHandle(
-            "gst_buffer_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_new_sized = Interop.downcallHandle(
-            "gst_buffer_list_new_sized",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_list_new_sized",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_calculate_size = Interop.downcallHandle(
-            "gst_buffer_list_calculate_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_calculate_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_copy_deep = Interop.downcallHandle(
-            "gst_buffer_list_copy_deep",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_copy_deep",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_foreach = Interop.downcallHandle(
-            "gst_buffer_list_foreach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_foreach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_get = Interop.downcallHandle(
-            "gst_buffer_list_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_list_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_get_writable = Interop.downcallHandle(
-            "gst_buffer_list_get_writable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_list_get_writable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_insert = Interop.downcallHandle(
-            "gst_buffer_list_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_length = Interop.downcallHandle(
-            "gst_buffer_list_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_list_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_list_remove = Interop.downcallHandle(
-            "gst_buffer_list_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_list_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

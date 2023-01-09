@@ -31,26 +31,17 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
     
     /**
      * Create a DmaBufAllocator proxy instance for the provided memory address.
-     * <p>
-     * Because DmaBufAllocator is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DmaBufAllocator(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected DmaBufAllocator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DmaBufAllocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DmaBufAllocator(input, ownership);
+    public static final Marshal<Addressable, DmaBufAllocator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DmaBufAllocator(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -66,7 +57,8 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
      * Return a new dmabuf allocator.
      */
     public DmaBufAllocator() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -102,7 +94,9 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -128,7 +122,9 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -147,6 +143,9 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
      */
     public static class Builder extends org.gstreamer.allocators.FdAllocator.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -171,27 +170,35 @@ public class DmaBufAllocator extends org.gstreamer.allocators.FdAllocator {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_dmabuf_allocator_new = Interop.downcallHandle(
-            "gst_dmabuf_allocator_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_dmabuf_allocator_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_dmabuf_allocator_get_type = Interop.downcallHandle(
-            "gst_dmabuf_allocator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_dmabuf_allocator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_dmabuf_allocator_alloc = Interop.downcallHandle(
-            "gst_dmabuf_allocator_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_dmabuf_allocator_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_dmabuf_allocator_alloc_with_flags = Interop.downcallHandle(
-            "gst_dmabuf_allocator_alloc_with_flags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_dmabuf_allocator_alloc_with_flags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_dmabuf_allocator_get_type != null;
     }
 }

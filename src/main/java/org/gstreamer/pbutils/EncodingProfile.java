@@ -29,14 +29,16 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     /**
      * Create a EncodingProfile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EncodingProfile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EncodingProfile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EncodingProfile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingProfile(input, ownership);
+    public static final Marshal<Addressable, EncodingProfile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EncodingProfile(input);
     
     /**
      * Makes a deep copy of {@code self}
@@ -45,12 +47,13 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public org.gstreamer.pbutils.EncodingProfile copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.pbutils.EncodingProfile) Interop.register(RESULT, org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -60,8 +63,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public boolean getAllowDynamicOutput() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_profile_get_allow_dynamic_output.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_profile_get_allow_dynamic_output.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,8 +73,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,19 +83,19 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public @Nullable org.gstreamer.gst.Structure getElementProperties() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_element_properties.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_element_properties.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public java.lang.String getFileExtension() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_file_extension.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_file_extension.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,12 +105,13 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.Caps getFormat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_format.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_format.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -120,19 +122,19 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.Caps getInputCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_input_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_input_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,8 +144,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public int getPresence() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_profile_get_presence.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_profile_get_presence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,8 +154,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public java.lang.String getPreset() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,8 +164,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public java.lang.String getPresetName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,19 +174,19 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.Caps getRestriction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_restriction.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_restriction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public boolean getSingleSegment() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_profile_get_single_segment.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_profile_get_single_segment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,8 +196,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public java.lang.String getTypeNick() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_type_nick.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_type_nick.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,8 +206,7 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public boolean isEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_profile_is_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_profile_is_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,12 +252,14 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      * @param description the description to set on the profile
      */
     public void setDescription(@Nullable java.lang.String description) {
-        try {
-            DowncallHandles.gst_encoding_profile_set_description.invokeExact(
-                    handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_encoding_profile_set_description.invokeExact(
+                        handle(),
+                        (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -327,12 +326,14 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      * @param name the name to set on the profile
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.gst_encoding_profile_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_encoding_profile_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -358,12 +359,14 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      * @param preset the element preset to use
      */
     public void setPreset(@Nullable java.lang.String preset) {
-        try {
-            DowncallHandles.gst_encoding_profile_set_preset.invokeExact(
-                    handle(),
-                    (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_encoding_profile_set_preset.invokeExact(
+                        handle(),
+                        (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -372,12 +375,14 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      * @param presetName The name of the preset to use in this {@code profile}.
      */
     public void setPresetName(@Nullable java.lang.String presetName) {
-        try {
-            DowncallHandles.gst_encoding_profile_set_preset_name.invokeExact(
-                    handle(),
-                    (Addressable) (presetName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(presetName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_encoding_profile_set_preset_name.invokeExact(
+                        handle(),
+                        (Addressable) (presetName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(presetName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -442,16 +447,20 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      * @return The matching {@link EncodingProfile} or {@code null}.
      */
     public static org.gstreamer.pbutils.EncodingProfile find(java.lang.String targetname, @Nullable java.lang.String profilename, @Nullable java.lang.String category) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_find.invokeExact(
-                    Marshal.stringToAddress.marshal(targetname, null),
-                    (Addressable) (profilename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(profilename, null)),
-                    (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_find.invokeExact(
+                        Marshal.stringToAddress.marshal(targetname, SCOPE),
+                        (Addressable) (profilename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(profilename, SCOPE)),
+                        (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.pbutils.EncodingProfile) Interop.register(RESULT, org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -464,12 +473,13 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     public static org.gstreamer.pbutils.EncodingProfile fromDiscoverer(org.gstreamer.pbutils.DiscovererInfo info) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_from_discoverer.invokeExact(
-                    info.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_from_discoverer.invokeExact(info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.pbutils.EncodingProfile) Interop.register(RESULT, org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -488,6 +498,9 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -535,183 +548,191 @@ public class EncodingProfile extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_encoding_profile_copy = Interop.downcallHandle(
-            "gst_encoding_profile_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_allow_dynamic_output = Interop.downcallHandle(
-            "gst_encoding_profile_get_allow_dynamic_output",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_allow_dynamic_output",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_description = Interop.downcallHandle(
-            "gst_encoding_profile_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_element_properties = Interop.downcallHandle(
-            "gst_encoding_profile_get_element_properties",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_element_properties",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_file_extension = Interop.downcallHandle(
-            "gst_encoding_profile_get_file_extension",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_file_extension",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_format = Interop.downcallHandle(
-            "gst_encoding_profile_get_format",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_format",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_input_caps = Interop.downcallHandle(
-            "gst_encoding_profile_get_input_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_input_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_name = Interop.downcallHandle(
-            "gst_encoding_profile_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_presence = Interop.downcallHandle(
-            "gst_encoding_profile_get_presence",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_presence",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_preset = Interop.downcallHandle(
-            "gst_encoding_profile_get_preset",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_preset",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_preset_name = Interop.downcallHandle(
-            "gst_encoding_profile_get_preset_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_preset_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_restriction = Interop.downcallHandle(
-            "gst_encoding_profile_get_restriction",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_restriction",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_single_segment = Interop.downcallHandle(
-            "gst_encoding_profile_get_single_segment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_single_segment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_type_nick = Interop.downcallHandle(
-            "gst_encoding_profile_get_type_nick",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_get_type_nick",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_is_enabled = Interop.downcallHandle(
-            "gst_encoding_profile_is_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_is_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_is_equal = Interop.downcallHandle(
-            "gst_encoding_profile_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_allow_dynamic_output = Interop.downcallHandle(
-            "gst_encoding_profile_set_allow_dynamic_output",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_profile_set_allow_dynamic_output",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_description = Interop.downcallHandle(
-            "gst_encoding_profile_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_element_properties = Interop.downcallHandle(
-            "gst_encoding_profile_set_element_properties",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_element_properties",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_enabled = Interop.downcallHandle(
-            "gst_encoding_profile_set_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_profile_set_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_format = Interop.downcallHandle(
-            "gst_encoding_profile_set_format",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_format",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_name = Interop.downcallHandle(
-            "gst_encoding_profile_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_presence = Interop.downcallHandle(
-            "gst_encoding_profile_set_presence",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_profile_set_presence",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_preset = Interop.downcallHandle(
-            "gst_encoding_profile_set_preset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_preset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_preset_name = Interop.downcallHandle(
-            "gst_encoding_profile_set_preset_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_preset_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_restriction = Interop.downcallHandle(
-            "gst_encoding_profile_set_restriction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_set_restriction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_set_single_segment = Interop.downcallHandle(
-            "gst_encoding_profile_set_single_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_profile_set_single_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_get_type = Interop.downcallHandle(
-            "gst_encoding_profile_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_encoding_profile_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_find = Interop.downcallHandle(
-            "gst_encoding_profile_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_profile_from_discoverer = Interop.downcallHandle(
-            "gst_encoding_profile_from_discoverer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_profile_from_discoverer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_encoding_profile_get_type != null;
     }
 }

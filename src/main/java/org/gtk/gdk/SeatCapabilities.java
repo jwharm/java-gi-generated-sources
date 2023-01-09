@@ -52,6 +52,9 @@ public class SeatCapabilities extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SeatCapabilities ALL = new SeatCapabilities(15);
     
+    /**
+     * Create a new SeatCapabilities with the provided value
+     */
     public SeatCapabilities(int value) {
         super(value);
     }

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.*;
  * and {@link State#PLAYING} &amp;rArr; {@link State#NULL} a downwards state change.
  */
 public enum StateChange implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * state change from NULL to READY.
      *   * The element must check if the resources it needs are available. Device
@@ -19,6 +20,7 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
      *   * The element opens the device (in case feature need to be probed).
      */
     NULL_TO_READY(10),
+    
     /**
      * state change from READY to PAUSED.
      *   * The element pads are activated in order to receive data in PAUSED.
@@ -32,6 +34,7 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
      *   * Live sources return {@link StateChangeReturn#NO_PREROLL} and don't generate data.
      */
     READY_TO_PAUSED(19),
+    
     /**
      * state change from PAUSED to PLAYING.
      *   * Most elements ignore this state change.
@@ -50,6 +53,7 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
      *   * Live sources start generating data and return {@link StateChangeReturn#SUCCESS}.
      */
     PAUSED_TO_PLAYING(28),
+    
     /**
      * state change from PLAYING to PAUSED.
      *   * Most elements ignore this state change.
@@ -66,6 +70,7 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
      *   * Live sources stop generating data and return {@link StateChangeReturn#NO_PREROLL}.
      */
     PLAYING_TO_PAUSED(35),
+    
     /**
      * state change from PAUSED to READY.
      *   * Sinks unblock any waits in the preroll.
@@ -77,28 +82,33 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
      *   * Elements remove all sometimes pads
      */
     PAUSED_TO_READY(26),
+    
     /**
      * state change from READY to NULL.
      *   * Elements close devices
      *   * Elements reset any internal state.
      */
     READY_TO_NULL(17),
+    
     /**
      * state change from NULL to NULL. (Since: 1.14)
      */
     NULL_TO_NULL(9),
+    
     /**
      * state change from READY to READY,
      * This might happen when going to PAUSED asynchronously failed, in that case
      * elements should make sure they are in a proper, coherent READY state. (Since: 1.14)
      */
     READY_TO_READY(18),
+    
     /**
      * state change from PAUSED to PAUSED.
      * This might happen when elements were in PLAYING state and 'lost state',
      * they should make sure to go back to real 'PAUSED' state (prerolling for example). (Since: 1.14)
      */
     PAUSED_TO_PAUSED(27),
+    
     /**
      * state change from PLAYING to PLAYING. (Since: 1.14)
      */
@@ -107,15 +117,29 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstStateChange";
     
     private final int value;
+    
+    /**
+     * Create a new StateChange for the provided value
+     * @param numeric value the enum value
+     */
     StateChange(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new StateChange for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static StateChange of(int value) {
         return switch (value) {
             case 10 -> NULL_TO_READY;
@@ -141,8 +165,7 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String getName(org.gstreamer.gst.StateChange transition) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_state_change_get_name.invokeExact(
-                    transition.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_state_change_get_name.invokeExact(transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,9 +175,9 @@ public enum StateChange implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_state_change_get_name = Interop.downcallHandle(
-            "gst_state_change_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_state_change_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

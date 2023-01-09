@@ -11,20 +11,17 @@ import org.jetbrains.annotations.*;
 public final class GstInsertBin {
     
     static {
-        System.loadLibrary("gstinsertbin-1.0");
+        LibLoad.loadLibrary("gstinsertbin-1.0");
+        registerTypes();
     }
     
-    private static boolean javagi$initialized = false;
-    
-    @ApiStatus.Internal
-    public static void javagi$ensureInitialized() {
-        if (!javagi$initialized) {
-            javagi$initialized = true;
-            JavaGITypeRegister.register();
-        }
-    }
+    @ApiStatus.Internal public static void javagi$ensureInitialized() {}
     
     @ApiStatus.Internal
     public static class Callbacks {
+    }
+    
+    private static void registerTypes() {
+        if (InsertBin.isAvailable()) Interop.register(InsertBin.getType(), InsertBin.fromAddress);
     }
 }

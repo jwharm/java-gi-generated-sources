@@ -34,8 +34,8 @@ public class Vp9QuantizationParams extends Struct {
      * @return A new, uninitialized @{link Vp9QuantizationParams}
      */
     public static Vp9QuantizationParams allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp9QuantizationParams newInstance = new Vp9QuantizationParams(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp9QuantizationParams newInstance = new Vp9QuantizationParams(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class Vp9QuantizationParams extends Struct {
      * @return The value of the field {@code base_q_idx}
      */
     public byte getBaseQIdx() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class Vp9QuantizationParams extends Struct {
      * @param baseQIdx The new value of the field {@code base_q_idx}
      */
     public void setBaseQIdx(byte baseQIdx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), baseQIdx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), baseQIdx);
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class Vp9QuantizationParams extends Struct {
      * @return The value of the field {@code delta_q_y_dc}
      */
     public byte getDeltaQYDc() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class Vp9QuantizationParams extends Struct {
      * @param deltaQYDc The new value of the field {@code delta_q_y_dc}
      */
     public void setDeltaQYDc(byte deltaQYDc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQYDc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), deltaQYDc);
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class Vp9QuantizationParams extends Struct {
      * @return The value of the field {@code delta_q_uv_dc}
      */
     public byte getDeltaQUvDc() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -98,9 +108,11 @@ public class Vp9QuantizationParams extends Struct {
      * @param deltaQUvDc The new value of the field {@code delta_q_uv_dc}
      */
     public void setDeltaQUvDc(byte deltaQUvDc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQUvDc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), deltaQUvDc);
+        }
     }
     
     /**
@@ -108,10 +120,12 @@ public class Vp9QuantizationParams extends Struct {
      * @return The value of the field {@code delta_q_uv_ac}
      */
     public byte getDeltaQUvAc() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -119,22 +133,26 @@ public class Vp9QuantizationParams extends Struct {
      * @param deltaQUvAc The new value of the field {@code delta_q_uv_ac}
      */
     public void setDeltaQUvAc(byte deltaQUvAc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQUvAc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), deltaQUvAc);
+        }
     }
     
     /**
      * Create a Vp9QuantizationParams proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp9QuantizationParams(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp9QuantizationParams(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp9QuantizationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9QuantizationParams(input, ownership);
+    public static final Marshal<Addressable, Vp9QuantizationParams> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp9QuantizationParams(input);
     
     /**
      * A {@link Vp9QuantizationParams.Builder} object constructs a {@link Vp9QuantizationParams} 
@@ -158,7 +176,7 @@ public class Vp9QuantizationParams extends Struct {
             struct = Vp9QuantizationParams.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp9QuantizationParams} struct.
          * @return A new instance of {@code Vp9QuantizationParams} with the fields 
          *         that were set in the Builder object.
@@ -174,10 +192,12 @@ public class Vp9QuantizationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBaseQIdx(byte baseQIdx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), baseQIdx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("base_q_idx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), baseQIdx);
+                return this;
+            }
         }
         
         /**
@@ -186,10 +206,12 @@ public class Vp9QuantizationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeltaQYDc(byte deltaQYDc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQYDc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_q_y_dc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaQYDc);
+                return this;
+            }
         }
         
         /**
@@ -198,10 +220,12 @@ public class Vp9QuantizationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeltaQUvDc(byte deltaQUvDc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQUvDc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_dc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaQUvDc);
+                return this;
+            }
         }
         
         /**
@@ -210,10 +234,12 @@ public class Vp9QuantizationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeltaQUvAc(byte deltaQUvAc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaQUvAc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_q_uv_ac"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaQUvAc);
+                return this;
+            }
         }
     }
 }

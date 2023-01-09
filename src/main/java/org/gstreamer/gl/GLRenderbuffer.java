@@ -46,8 +46,8 @@ public class GLRenderbuffer extends Struct {
      * @return A new, uninitialized @{link GLRenderbuffer}
      */
     public static GLRenderbuffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLRenderbuffer newInstance = new GLRenderbuffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLRenderbuffer newInstance = new GLRenderbuffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,10 +57,12 @@ public class GLRenderbuffer extends Struct {
      * @return The value of the field {@code renderbuffer_id}
      */
     public int getRenderbufferId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -68,9 +70,11 @@ public class GLRenderbuffer extends Struct {
      * @param renderbufferId The new value of the field {@code renderbuffer_id}
      */
     public void setRenderbufferId(int renderbufferId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), renderbufferId);
+        }
     }
     
     /**
@@ -78,10 +82,12 @@ public class GLRenderbuffer extends Struct {
      * @return The value of the field {@code renderbuffer_format}
      */
     public org.gstreamer.gl.GLFormat getRenderbufferFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gl.GLFormat.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gl.GLFormat.of(RESULT);
+        }
     }
     
     /**
@@ -89,9 +95,11 @@ public class GLRenderbuffer extends Struct {
      * @param renderbufferFormat The new value of the field {@code renderbuffer_format}
      */
     public void setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
+        }
     }
     
     /**
@@ -99,10 +107,12 @@ public class GLRenderbuffer extends Struct {
      * @return The value of the field {@code width}
      */
     public int getWidth_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -110,9 +120,11 @@ public class GLRenderbuffer extends Struct {
      * @param width The new value of the field {@code width}
      */
     public void setWidth(int width) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), width);
+        }
     }
     
     /**
@@ -120,10 +132,12 @@ public class GLRenderbuffer extends Struct {
      * @return The value of the field {@code height}
      */
     public int getHeight_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -131,9 +145,11 @@ public class GLRenderbuffer extends Struct {
      * @param height The new value of the field {@code height}
      */
     public void setHeight(int height) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), height);
+        }
     }
     
     /**
@@ -141,10 +157,12 @@ public class GLRenderbuffer extends Struct {
      * @return The value of the field {@code renderbuffer_wrapped}
      */
     public boolean getRenderbufferWrapped() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -152,28 +170,31 @@ public class GLRenderbuffer extends Struct {
      * @param renderbufferWrapped The new value of the field {@code renderbuffer_wrapped}
      */
     public void setRenderbufferWrapped(boolean renderbufferWrapped) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
+        }
     }
     
     /**
      * Create a GLRenderbuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLRenderbuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLRenderbuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLRenderbuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLRenderbuffer(input, ownership);
+    public static final Marshal<Addressable, GLRenderbuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLRenderbuffer(input);
     
     public org.gstreamer.gl.GLFormat getFormat() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_format.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_format.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,8 +204,7 @@ public class GLRenderbuffer extends Struct {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,8 +214,7 @@ public class GLRenderbuffer extends Struct {
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,8 +224,7 @@ public class GLRenderbuffer extends Struct {
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,33 +246,33 @@ public class GLRenderbuffer extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_renderbuffer_get_format = Interop.downcallHandle(
-            "gst_gl_renderbuffer_get_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_renderbuffer_get_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_renderbuffer_get_height = Interop.downcallHandle(
-            "gst_gl_renderbuffer_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_renderbuffer_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_renderbuffer_get_id = Interop.downcallHandle(
-            "gst_gl_renderbuffer_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_renderbuffer_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_renderbuffer_get_width = Interop.downcallHandle(
-            "gst_gl_renderbuffer_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_renderbuffer_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_renderbuffer_init_once = Interop.downcallHandle(
-            "gst_gl_renderbuffer_init_once",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_gl_renderbuffer_init_once",
+                FunctionDescriptor.ofVoid(),
+                false
         );
     }
     
@@ -280,7 +298,7 @@ public class GLRenderbuffer extends Struct {
             struct = GLRenderbuffer.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLRenderbuffer} struct.
          * @return A new instance of {@code GLRenderbuffer} with the fields 
          *         that were set in the Builder object.
@@ -290,10 +308,12 @@ public class GLRenderbuffer extends Struct {
         }
         
         public Builder setMem(org.gstreamer.gl.GLBaseMemory mem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mem"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+                return this;
+            }
         }
         
         /**
@@ -302,10 +322,12 @@ public class GLRenderbuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRenderbufferId(int renderbufferId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), renderbufferId);
+                return this;
+            }
         }
         
         /**
@@ -314,10 +336,12 @@ public class GLRenderbuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -326,10 +350,12 @@ public class GLRenderbuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWidth(int width) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), width);
+                return this;
+            }
         }
         
         /**
@@ -338,24 +364,30 @@ public class GLRenderbuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHeight(int height) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), height);
+                return this;
+            }
         }
         
         public Builder setRenderbufferWrapped(boolean renderbufferWrapped) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class TreeModelSortPrivate extends Struct {
      * @return A new, uninitialized @{link TreeModelSortPrivate}
      */
     public static TreeModelSortPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeModelSortPrivate newInstance = new TreeModelSortPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeModelSortPrivate newInstance = new TreeModelSortPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TreeModelSortPrivate extends Struct {
     /**
      * Create a TreeModelSortPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeModelSortPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeModelSortPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeModelSortPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelSortPrivate(input, ownership);
+    public static final Marshal<Addressable, TreeModelSortPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelSortPrivate(input);
 }

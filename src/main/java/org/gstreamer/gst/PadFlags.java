@@ -99,6 +99,9 @@ public class PadFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PadFlags LAST = new PadFlags(1048576);
     
+    /**
+     * Create a new PadFlags with the provided value
+     */
     public PadFlags(int value) {
         super(value);
     }

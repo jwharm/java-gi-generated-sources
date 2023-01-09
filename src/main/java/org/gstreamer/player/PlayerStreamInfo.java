@@ -30,24 +30,25 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     /**
      * Create a PlayerStreamInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerStreamInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerStreamInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerStreamInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerStreamInfo(input, ownership);
+    public static final Marshal<Addressable, PlayerStreamInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerStreamInfo(input);
     
     public @Nullable org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -57,8 +58,7 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getCodec() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_codec.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_codec.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,8 +73,7 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     public int getIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_player_stream_info_get_index.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_player_stream_info_get_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +88,7 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     public java.lang.String getStreamType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_stream_type.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_stream_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,12 +98,11 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     public @Nullable org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_tags.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_stream_info_get_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -138,6 +135,9 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -162,39 +162,47 @@ public class PlayerStreamInfo extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_player_stream_info_get_caps = Interop.downcallHandle(
-            "gst_player_stream_info_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_stream_info_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_stream_info_get_codec = Interop.downcallHandle(
-            "gst_player_stream_info_get_codec",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_stream_info_get_codec",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_stream_info_get_index = Interop.downcallHandle(
-            "gst_player_stream_info_get_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_stream_info_get_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_stream_info_get_stream_type = Interop.downcallHandle(
-            "gst_player_stream_info_get_stream_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_stream_info_get_stream_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_stream_info_get_tags = Interop.downcallHandle(
-            "gst_player_stream_info_get_tags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_stream_info_get_tags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_stream_info_get_type = Interop.downcallHandle(
-            "gst_player_stream_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_player_stream_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_player_stream_info_get_type != null;
     }
 }

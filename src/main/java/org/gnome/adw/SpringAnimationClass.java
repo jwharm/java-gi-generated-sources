@@ -29,8 +29,8 @@ public class SpringAnimationClass extends Struct {
      * @return A new, uninitialized @{link SpringAnimationClass}
      */
     public static SpringAnimationClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SpringAnimationClass newInstance = new SpringAnimationClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SpringAnimationClass newInstance = new SpringAnimationClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SpringAnimationClass extends Struct {
     /**
      * Create a SpringAnimationClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SpringAnimationClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SpringAnimationClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SpringAnimationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpringAnimationClass(input, ownership);
+    public static final Marshal<Addressable, SpringAnimationClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SpringAnimationClass(input);
 }

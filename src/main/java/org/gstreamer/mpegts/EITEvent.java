@@ -41,8 +41,8 @@ public class EITEvent extends Struct {
      * @return A new, uninitialized @{link EITEvent}
      */
     public static EITEvent allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EITEvent newInstance = new EITEvent(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EITEvent newInstance = new EITEvent(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code event_id}
      */
     public short getEventId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class EITEvent extends Struct {
      * @param eventId The new value of the field {@code event_id}
      */
     public void setEventId(short eventId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), eventId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), eventId);
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code start_time}
      */
     public org.gstreamer.gst.DateTime getStartTime() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class EITEvent extends Struct {
      * @param startTime The new value of the field {@code start_time}
      */
     public void setStartTime(org.gstreamer.gst.DateTime startTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startTime == null ? MemoryAddress.NULL : startTime.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startTime == null ? MemoryAddress.NULL : startTime.handle()));
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code duration}
      */
     public int getDuration() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class EITEvent extends Struct {
      * @param duration The new value of the field {@code duration}
      */
     public void setDuration(int duration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), duration);
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code running_status}
      */
     public org.gstreamer.mpegts.RunningStatus getRunningStatus() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.RunningStatus.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.RunningStatus.of(RESULT);
+        }
     }
     
     /**
@@ -126,9 +140,11 @@ public class EITEvent extends Struct {
      * @param runningStatus The new value of the field {@code running_status}
      */
     public void setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
+        }
     }
     
     /**
@@ -136,10 +152,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code free_CA_mode}
      */
     public boolean getFreeCAMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -147,9 +165,11 @@ public class EITEvent extends Struct {
      * @param freeCAMode The new value of the field {@code free_CA_mode}
      */
     public void setFreeCAMode(boolean freeCAMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
+        }
     }
     
     /**
@@ -157,10 +177,12 @@ public class EITEvent extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        }
     }
     
     /**
@@ -168,22 +190,26 @@ public class EITEvent extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a EITEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EITEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EITEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EITEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EITEvent(input, ownership);
+    public static final Marshal<Addressable, EITEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EITEvent(input);
     
     /**
      * A {@link EITEvent.Builder} object constructs a {@link EITEvent} 
@@ -207,7 +233,7 @@ public class EITEvent extends Struct {
             struct = EITEvent.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link EITEvent} struct.
          * @return A new instance of {@code EITEvent} with the fields 
          *         that were set in the Builder object.
@@ -217,38 +243,48 @@ public class EITEvent extends Struct {
         }
         
         public Builder setEventId(short eventId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), eventId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("event_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), eventId);
+                return this;
+            }
         }
         
         public Builder setStartTime(org.gstreamer.gst.DateTime startTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startTime == null ? MemoryAddress.NULL : startTime.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startTime == null ? MemoryAddress.NULL : startTime.handle()));
+                return this;
+            }
         }
         
         public Builder setDuration(int duration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), duration);
+                return this;
+            }
         }
         
         public Builder setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
+                return this;
+            }
         }
         
         public Builder setFreeCAMode(boolean freeCAMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -257,10 +293,12 @@ public class EITEvent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

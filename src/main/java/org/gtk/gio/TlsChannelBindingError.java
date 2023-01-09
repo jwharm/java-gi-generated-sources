@@ -11,18 +11,21 @@ import org.jetbrains.annotations.*;
  * @version 2.66
  */
 public enum TlsChannelBindingError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Either entire binding
      *    retrieval facility or specific binding type is not implemented in the
      *    TLS backend.
      */
     NOT_IMPLEMENTED(0),
+    
     /**
      * The handshake is not yet
      *    complete on the connection which is a strong requirement for any existing
      *    binding type.
      */
     INVALID_STATE(1),
+    
     /**
      * Handshake is complete but
      *    binding data is not available. That normally indicates the TLS
@@ -30,6 +33,7 @@ public enum TlsChannelBindingError implements io.github.jwharm.javagi.Enumeratio
      *    implementations do not provide a peer certificate for resumed connections.
      */
     NOT_AVAILABLE(2),
+    
     /**
      * Binding type is not supported
      *    on the current connection. This error could be triggered when requesting
@@ -37,6 +41,7 @@ public enum TlsChannelBindingError implements io.github.jwharm.javagi.Enumeratio
      *    function or uses multiple hash functions.
      */
     NOT_SUPPORTED(3),
+    
     /**
      * Any other backend error
      *    preventing binding data retrieval.
@@ -46,15 +51,29 @@ public enum TlsChannelBindingError implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "GTlsChannelBindingError";
     
     private final int value;
+    
+    /**
+     * Create a new TlsChannelBindingError for the provided value
+     * @param numeric value the enum value
+     */
     TlsChannelBindingError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsChannelBindingError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsChannelBindingError of(int value) {
         return switch (value) {
             case 0 -> NOT_IMPLEMENTED;
@@ -83,9 +102,9 @@ public enum TlsChannelBindingError implements io.github.jwharm.javagi.Enumeratio
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_channel_binding_error_quark = Interop.downcallHandle(
-            "g_tls_channel_binding_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_tls_channel_binding_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

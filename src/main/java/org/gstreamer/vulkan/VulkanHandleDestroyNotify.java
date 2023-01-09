@@ -11,18 +11,39 @@ import org.jetbrains.annotations.*;
  * inside {@code handle}.
  * @version 1.18
  */
+/**
+ * Functional interface declaration of the {@code VulkanHandleDestroyNotify} callback.
+ */
 @FunctionalInterface
 public interface VulkanHandleDestroyNotify {
-    void run(org.gstreamer.vulkan.VulkanHandle handle);
 
+    /**
+     * Function definition called when the {@link VulkanHandle} is no longer in use.
+     * All implementations of this callback must free the internal handle stored
+     * inside {@code handle}.
+     * @version 1.18
+     */
+    void run(org.gstreamer.vulkan.VulkanHandle handle);
+    
     @ApiStatus.Internal default void upcall(MemoryAddress handle, MemoryAddress userData) {
-        run(org.gstreamer.vulkan.VulkanHandle.fromAddress.marshal(handle, Ownership.NONE));
+        run(org.gstreamer.vulkan.VulkanHandle.fromAddress.marshal(handle, null));
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VulkanHandleDestroyNotify.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VulkanHandleDestroyNotify.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

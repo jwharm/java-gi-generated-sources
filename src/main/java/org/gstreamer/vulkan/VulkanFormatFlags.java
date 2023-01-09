@@ -34,6 +34,9 @@ public class VulkanFormatFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VulkanFormatFlags COMPLEX = new VulkanFormatFlags(16);
     
+    /**
+     * Create a new VulkanFormatFlags with the provided value
+     */
     public VulkanFormatFlags(int value) {
         super(value);
     }

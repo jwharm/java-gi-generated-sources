@@ -10,8 +10,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeDragSourceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeDragSourceImpl(input, ownership);
+    public static final Marshal<Addressable, TreeDragSourceImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeDragSourceImpl(input);
     
     /**
      * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
@@ -51,7 +54,9 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.ContentProvider) Interop.register(RESULT, org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -92,41 +97,56 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_delete = Interop.downcallHandle(
-            "gtk_tree_drag_source_drag_data_delete",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_drag_source_drag_data_delete",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_drag_data_get = Interop.downcallHandle(
-            "gtk_tree_drag_source_drag_data_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_drag_source_drag_data_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_row_draggable = Interop.downcallHandle(
-            "gtk_tree_drag_source_row_draggable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_drag_source_row_draggable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_source_get_type = Interop.downcallHandle(
-            "gtk_tree_drag_source_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_drag_source_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TreeDragSourceImpl type represents a native instance of the TreeDragSource interface.
+     */
     class TreeDragSourceImpl extends org.gtk.gobject.GObject implements TreeDragSource {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeDragSourceImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TreeDragSource for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TreeDragSourceImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_drag_source_get_type != null;
     }
 }

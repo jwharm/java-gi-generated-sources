@@ -32,20 +32,21 @@ public class FontsetSimple extends org.pango.Fontset {
     /**
      * Create a FontsetSimple proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontsetSimple(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontsetSimple(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontsetSimple> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontsetSimple(input, ownership);
+    public static final Marshal<Addressable, FontsetSimple> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontsetSimple(input);
     
     private static MemoryAddress constructNew(org.pango.Language language) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_simple_new.invokeExact(
-                    language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_simple_new.invokeExact(language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -57,7 +58,8 @@ public class FontsetSimple extends org.pango.Fontset {
      * @param language a {@code PangoLanguage} tag
      */
     public FontsetSimple(org.pango.Language language) {
-        super(constructNew(language), Ownership.FULL);
+        super(constructNew(language));
+        this.takeOwnership();
     }
     
     /**
@@ -84,8 +86,7 @@ public class FontsetSimple extends org.pango.Fontset {
     public int size() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_fontset_simple_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_fontset_simple_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,6 +123,9 @@ public class FontsetSimple extends org.pango.Fontset {
      */
     public static class Builder extends org.pango.Fontset.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -146,27 +150,35 @@ public class FontsetSimple extends org.pango.Fontset {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
-            "pango_fontset_simple_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_fontset_simple_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
-            "pango_fontset_simple_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_fontset_simple_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
-            "pango_fontset_simple_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_fontset_simple_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_fontset_simple_get_type = Interop.downcallHandle(
-            "pango_fontset_simple_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_fontset_simple_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_fontset_simple_get_type != null;
     }
 }

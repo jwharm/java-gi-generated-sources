@@ -17,14 +17,17 @@ import org.jetbrains.annotations.*;
  * More values may be added over time.
  */
 public enum SystemSetting implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the {@code Gtk.Settings:gtk-xft-dpi} setting has changed
      */
     DPI(0),
+    
     /**
      * The {@code Gtk.Settings:gtk-font-name} setting has changed
      */
     FONT_NAME(1),
+    
     /**
      * The font configuration has changed in a way that
      *   requires text to be redrawn. This can be any of the
@@ -35,10 +38,12 @@ public enum SystemSetting implements io.github.jwharm.javagi.Enumeration {
      *   {@code Gtk.Settings:gtk-fontconfig-timestamp} settings
      */
     FONT_CONFIG(2),
+    
     /**
      * The display has changed
      */
     DISPLAY(3),
+    
     /**
      * The icon theme has changed in a way that requires
      *   icons to be looked up again
@@ -48,15 +53,29 @@ public enum SystemSetting implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkSystemSetting";
     
     private final int value;
+    
+    /**
+     * Create a new SystemSetting for the provided value
+     * @param numeric value the enum value
+     */
     SystemSetting(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SystemSetting for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SystemSetting of(int value) {
         return switch (value) {
             case 0 -> DPI;

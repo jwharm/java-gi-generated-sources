@@ -29,8 +29,8 @@ public class RenderPassCreateInfo2KHR extends Struct {
      * @return A new, uninitialized @{link RenderPassCreateInfo2KHR}
      */
     public static RenderPassCreateInfo2KHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RenderPassCreateInfo2KHR newInstance = new RenderPassCreateInfo2KHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RenderPassCreateInfo2KHR newInstance = new RenderPassCreateInfo2KHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RenderPassCreateInfo2KHR extends Struct {
     /**
      * Create a RenderPassCreateInfo2KHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderPassCreateInfo2KHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderPassCreateInfo2KHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderPassCreateInfo2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassCreateInfo2KHR(input, ownership);
+    public static final Marshal<Addressable, RenderPassCreateInfo2KHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassCreateInfo2KHR(input);
 }

@@ -10,54 +10,67 @@ import org.jetbrains.annotations.*;
  * {@link DateMonth#FEBRUARY}, etc. {@link DateMonth#BAD_MONTH} is the invalid value.
  */
 public enum DateMonth implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * invalid value
      */
     BAD_MONTH(0),
+    
     /**
      * January
      */
     JANUARY(1),
+    
     /**
      * February
      */
     FEBRUARY(2),
+    
     /**
      * March
      */
     MARCH(3),
+    
     /**
      * April
      */
     APRIL(4),
+    
     /**
      * May
      */
     MAY(5),
+    
     /**
      * June
      */
     JUNE(6),
+    
     /**
      * July
      */
     JULY(7),
+    
     /**
      * August
      */
     AUGUST(8),
+    
     /**
      * September
      */
     SEPTEMBER(9),
+    
     /**
      * October
      */
     OCTOBER(10),
+    
     /**
      * November
      */
     NOVEMBER(11),
+    
     /**
      * December
      */
@@ -66,15 +79,29 @@ public enum DateMonth implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GDateMonth";
     
     private final int value;
+    
+    /**
+     * Create a new DateMonth for the provided value
+     * @param numeric value the enum value
+     */
     DateMonth(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DateMonth for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DateMonth of(int value) {
         return switch (value) {
             case 0 -> BAD_MONTH;

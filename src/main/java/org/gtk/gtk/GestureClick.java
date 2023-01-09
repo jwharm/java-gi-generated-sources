@@ -34,14 +34,16 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     /**
      * Create a GestureClick proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureClick(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureClick(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureClick> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureClick(input, ownership);
+    public static final Marshal<Addressable, GestureClick> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureClick(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -58,7 +60,8 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * single and multiple presses.
      */
     public GestureClick() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -75,19 +78,37 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Pressed} callback.
+     */
     @FunctionalInterface
     public interface Pressed {
+    
+        /**
+         * Emitted whenever a button or touch press happens.
+         */
         void run(int nPress, double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureClick, int nPress, double x, double y) {
             run(nPress, x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Pressed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Pressed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -97,28 +118,52 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Pressed> onPressed(GestureClick.Pressed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pressed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pressed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Released} callback.
+     */
     @FunctionalInterface
     public interface Released {
+    
+        /**
+         * Emitted when a button or touch is released.
+         * <p>
+         * {@code n_press} will report the number of press that is paired to
+         * this event, note that {@code Gtk.GestureClick::stopped} may
+         * have been emitted between the press and its release, {@code n_press}
+         * will only start over at the next press.
+         */
         void run(int nPress, double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureClick, int nPress, double x, double y) {
             run(nPress, x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Released.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Released.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -133,28 +178,47 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Released> onReleased(GestureClick.Released handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("released"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("released", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Stopped} callback.
+     */
     @FunctionalInterface
     public interface Stopped {
+    
+        /**
+         * Emitted whenever any time/distance threshold has been exceeded.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureClick) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Stopped.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Stopped.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -164,28 +228,52 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.Stopped> onStopped(GestureClick.Stopped handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("stopped"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("stopped", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnpairedRelease} callback.
+     */
     @FunctionalInterface
     public interface UnpairedRelease {
+    
+        /**
+         * Emitted whenever the gesture receives a release
+         * event that had no previous corresponding press.
+         * <p>
+         * Due to implicit grabs, this can only happen on situations
+         * where input is grabbed elsewhere mid-press or the pressed
+         * widget voluntarily relinquishes its implicit grab.
+         */
         void run(double x, double y, int button, @Nullable org.gtk.gdk.EventSequence sequence);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureClick, double x, double y, int button, MemoryAddress sequence) {
-            run(x, y, button, org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE));
+            run(x, y, button, org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnpairedRelease.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnpairedRelease.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -200,9 +288,10 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureClick.UnpairedRelease> onUnpairedRelease(GestureClick.UnpairedRelease handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("unpaired-release"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("unpaired-release", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -225,6 +314,9 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
      */
     public static class Builder extends org.gtk.gtk.GestureSingle.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -249,15 +341,23 @@ public class GestureClick extends org.gtk.gtk.GestureSingle {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
-            "gtk_gesture_click_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_click_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_click_get_type = Interop.downcallHandle(
-            "gtk_gesture_click_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_click_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_click_get_type != null;
     }
 }

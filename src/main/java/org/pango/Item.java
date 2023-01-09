@@ -41,8 +41,8 @@ public class Item extends Struct {
      * @return A new, uninitialized @{link Item}
      */
     public static Item allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Item newInstance = new Item(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Item newInstance = new Item(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class Item extends Struct {
      * @return The value of the field {@code offset}
      */
     public int getOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class Item extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(int offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class Item extends Struct {
      * @return The value of the field {@code length}
      */
     public int getLength() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class Item extends Struct {
      * @param length The new value of the field {@code length}
      */
     public void setLength(int length) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), length);
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class Item extends Struct {
      * @return The value of the field {@code num_chars}
      */
     public int getNumChars() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class Item extends Struct {
      * @param numChars The new value of the field {@code num_chars}
      */
     public void setNumChars(int numChars) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), numChars);
+        }
     }
     
     /**
@@ -116,7 +128,7 @@ public class Item extends Struct {
      */
     public org.pango.Analysis getAnalysis() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("analysis"));
-        return org.pango.Analysis.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Analysis.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -124,22 +136,26 @@ public class Item extends Struct {
      * @param analysis The new value of the field {@code analysis}
      */
     public void setAnalysis(org.pango.Analysis analysis) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
+        }
     }
     
     /**
      * Create a Item proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Item(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Item(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Item> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Item(input, ownership);
+    public static final Marshal<Addressable, Item> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Item(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -155,7 +171,8 @@ public class Item extends Struct {
      * Creates a new {@code PangoItem} structure initialized to default values.
      */
     public Item() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -189,12 +206,13 @@ public class Item extends Struct {
     public @Nullable org.pango.Item copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_item_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Item.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Item.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -202,8 +220,7 @@ public class Item extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_item_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,39 +255,41 @@ public class Item extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Item.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Item.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_item_new = Interop.downcallHandle(
-            "pango_item_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "pango_item_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
-            "pango_item_apply_attrs",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_item_apply_attrs",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_item_copy = Interop.downcallHandle(
-            "pango_item_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_item_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_item_free = Interop.downcallHandle(
-            "pango_item_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_item_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_item_split = Interop.downcallHandle(
-            "pango_item_split",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_item_split",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -296,7 +315,7 @@ public class Item extends Struct {
             struct = Item.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Item} struct.
          * @return A new instance of {@code Item} with the fields 
          *         that were set in the Builder object.
@@ -311,10 +330,12 @@ public class Item extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(int offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -323,10 +344,12 @@ public class Item extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLength(int length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
         
         /**
@@ -335,10 +358,12 @@ public class Item extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumChars(int numChars) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), numChars);
+                return this;
+            }
         }
         
         /**
@@ -347,10 +372,12 @@ public class Item extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAnalysis(org.pango.Analysis analysis) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
+                return this;
+            }
         }
     }
 }

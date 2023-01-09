@@ -32,8 +32,8 @@ public class AudioAggregatorConvertPadClass extends Struct {
      * @return A new, uninitialized @{link AudioAggregatorConvertPadClass}
      */
     public static AudioAggregatorConvertPadClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioAggregatorConvertPadClass newInstance = new AudioAggregatorConvertPadClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioAggregatorConvertPadClass newInstance = new AudioAggregatorConvertPadClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class AudioAggregatorConvertPadClass extends Struct {
      */
     public org.gstreamer.audio.AudioAggregatorPadClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.audio.AudioAggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioAggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,22 +52,26 @@ public class AudioAggregatorConvertPadClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.audio.AudioAggregatorPadClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a AudioAggregatorConvertPadClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioAggregatorConvertPadClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioAggregatorConvertPadClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioAggregatorConvertPadClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorConvertPadClass(input, ownership);
+    public static final Marshal<Addressable, AudioAggregatorConvertPadClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorConvertPadClass(input);
     
     /**
      * A {@link AudioAggregatorConvertPadClass.Builder} object constructs a {@link AudioAggregatorConvertPadClass} 
@@ -91,7 +95,7 @@ public class AudioAggregatorConvertPadClass extends Struct {
             struct = AudioAggregatorConvertPadClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioAggregatorConvertPadClass} struct.
          * @return A new instance of {@code AudioAggregatorConvertPadClass} with the fields 
          *         that were set in the Builder object.
@@ -101,17 +105,21 @@ public class AudioAggregatorConvertPadClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.audio.AudioAggregatorPadClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

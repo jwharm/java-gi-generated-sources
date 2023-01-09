@@ -32,8 +32,8 @@ public class TestSuite extends Struct {
      * @return A new, uninitialized @{link TestSuite}
      */
     public static TestSuite allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestSuite newInstance = new TestSuite(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TestSuite newInstance = new TestSuite(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class TestSuite extends Struct {
     /**
      * Create a TestSuite proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestSuite(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TestSuite(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestSuite> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestSuite(input, ownership);
+    public static final Marshal<Addressable, TestSuite> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestSuite(input);
     
     /**
      * Adds {@code test_case} to {@code suite}.
@@ -83,8 +85,7 @@ public class TestSuite extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_test_suite_free.invokeExact(
-                    handle());
+            DowncallHandles.g_test_suite_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,21 +94,21 @@ public class TestSuite extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
-            "g_test_suite_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_test_suite_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
-            "g_test_suite_add_suite",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_test_suite_add_suite",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
-            "g_test_suite_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_suite_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

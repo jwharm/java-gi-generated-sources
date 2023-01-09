@@ -39,8 +39,8 @@ public class ControlBindingClass extends Struct {
      * @return A new, uninitialized @{link ControlBindingClass}
      */
     public static ControlBindingClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ControlBindingClass newInstance = new ControlBindingClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ControlBindingClass newInstance = new ControlBindingClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class ControlBindingClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,42 @@ public class ControlBindingClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SyncValuesCallback} callback.
+     */
     @FunctionalInterface
     public interface SyncValuesCallback {
+    
         boolean run(org.gstreamer.gst.ControlBinding binding, org.gstreamer.gst.GstObject object, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime lastSync);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress binding, MemoryAddress object, long timestamp, long lastSync) {
-            var RESULT = run((org.gstreamer.gst.ControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(binding)), org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, Ownership.NONE), (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gstreamer.gst.GstObject.fromAddress).marshal(object, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(lastSync));
+            var RESULT = run((org.gstreamer.gst.ControlBinding) Interop.register(binding, org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, null), (org.gstreamer.gst.GstObject) Interop.register(object, org.gstreamer.gst.GstObject.fromAddress).marshal(object, null), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(lastSync));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SyncValuesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SyncValuesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +103,43 @@ public class ControlBindingClass extends Struct {
      * @param syncValues The new value of the field {@code sync_values}
      */
     public void setSyncValues(SyncValuesCallback syncValues) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sync_values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (syncValues == null ? MemoryAddress.NULL : syncValues.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sync_values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (syncValues == null ? MemoryAddress.NULL : syncValues.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetValueCallback} callback.
+     */
     @FunctionalInterface
     public interface GetValueCallback {
+    
         @Nullable org.gtk.gobject.Value run(org.gstreamer.gst.ControlBinding binding, org.gstreamer.gst.ClockTime timestamp);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress binding, long timestamp) {
-            var RESULT = run((org.gstreamer.gst.ControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(binding)), org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp));
+            var RESULT = run((org.gstreamer.gst.ControlBinding) Interop.register(binding, org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, null), new org.gstreamer.gst.ClockTime(timestamp));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetValueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetValueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,25 +148,44 @@ public class ControlBindingClass extends Struct {
      * @param getValue The new value of the field {@code get_value}
      */
     public void setGetValue(GetValueCallback getValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetValueArrayCallback} callback.
+     */
     @FunctionalInterface
     public interface GetValueArrayCallback {
+    
         boolean run(org.gstreamer.gst.ControlBinding binding, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, java.lang.foreign.MemoryAddress[] values);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress binding, long timestamp, long interval, int nValues, MemoryAddress values) {
-            var RESULT = run((org.gstreamer.gst.ControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(binding)), org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(interval), nValues, Interop.getAddressArrayFrom(values, nValues));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.ControlBinding) Interop.register(binding, org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, null), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(interval), nValues, Interop.getAddressArrayFrom(values, nValues));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetValueArrayCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetValueArrayCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,25 +194,44 @@ public class ControlBindingClass extends Struct {
      * @param getValueArray The new value of the field {@code get_value_array}
      */
     public void setGetValueArray(GetValueArrayCallback getValueArray) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_value_array"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValueArray == null ? MemoryAddress.NULL : getValueArray.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_value_array"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValueArray == null ? MemoryAddress.NULL : getValueArray.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGValueArrayCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGValueArrayCallback {
+    
         boolean run(org.gstreamer.gst.ControlBinding binding, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, org.gtk.gobject.Value[] values);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress binding, long timestamp, long interval, int nValues, MemoryAddress values) {
-            var RESULT = run((org.gstreamer.gst.ControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(binding)), org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(interval), nValues, new PointerProxy<org.gtk.gobject.Value>(values, org.gtk.gobject.Value.fromAddress).toArray((int) nValues, org.gtk.gobject.Value.class));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.ControlBinding) Interop.register(binding, org.gstreamer.gst.ControlBinding.fromAddress).marshal(binding, null), new org.gstreamer.gst.ClockTime(timestamp), new org.gstreamer.gst.ClockTime(interval), nValues, new PointerProxy<org.gtk.gobject.Value>(values, org.gtk.gobject.Value.fromAddress).toArray((int) nValues, org.gtk.gobject.Value.class));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGValueArrayCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGValueArrayCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,22 +240,26 @@ public class ControlBindingClass extends Struct {
      * @param getGValueArray The new value of the field {@code get_g_value_array}
      */
     public void setGetGValueArray(GetGValueArrayCallback getGValueArray) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_g_value_array"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGValueArray == null ? MemoryAddress.NULL : getGValueArray.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_g_value_array"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGValueArray == null ? MemoryAddress.NULL : getGValueArray.toCallback()));
+        }
     }
     
     /**
      * Create a ControlBindingClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ControlBindingClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ControlBindingClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ControlBindingClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ControlBindingClass(input, ownership);
+    public static final Marshal<Addressable, ControlBindingClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ControlBindingClass(input);
     
     /**
      * A {@link ControlBindingClass.Builder} object constructs a {@link ControlBindingClass} 
@@ -206,7 +283,7 @@ public class ControlBindingClass extends Struct {
             struct = ControlBindingClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ControlBindingClass} struct.
          * @return A new instance of {@code ControlBindingClass} with the fields 
          *         that were set in the Builder object.
@@ -221,45 +298,57 @@ public class ControlBindingClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setSyncValues(SyncValuesCallback syncValues) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sync_values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (syncValues == null ? MemoryAddress.NULL : syncValues.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sync_values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (syncValues == null ? MemoryAddress.NULL : syncValues.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetValue(GetValueCallback getValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetValueArray(GetValueArrayCallback getValueArray) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_value_array"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValueArray == null ? MemoryAddress.NULL : getValueArray.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_value_array"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValueArray == null ? MemoryAddress.NULL : getValueArray.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGValueArray(GetGValueArrayCallback getGValueArray) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_g_value_array"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGValueArray == null ? MemoryAddress.NULL : getGValueArray.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_g_value_array"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGValueArray == null ? MemoryAddress.NULL : getGValueArray.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

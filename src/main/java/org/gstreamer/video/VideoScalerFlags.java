@@ -22,6 +22,9 @@ public class VideoScalerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoScalerFlags INTERLACED = new VideoScalerFlags(1);
     
+    /**
+     * Create a new VideoScalerFlags with the provided value
+     */
     public VideoScalerFlags(int value) {
         super(value);
     }

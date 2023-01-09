@@ -29,8 +29,8 @@ public class PipelineCreateFlagBits extends Struct {
      * @return A new, uninitialized @{link PipelineCreateFlagBits}
      */
     public static PipelineCreateFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineCreateFlagBits newInstance = new PipelineCreateFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineCreateFlagBits newInstance = new PipelineCreateFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineCreateFlagBits extends Struct {
     /**
      * Create a PipelineCreateFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineCreateFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineCreateFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineCreateFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCreateFlagBits(input, ownership);
+    public static final Marshal<Addressable, PipelineCreateFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCreateFlagBits(input);
 }

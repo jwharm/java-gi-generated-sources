@@ -38,8 +38,8 @@ public class Quad extends Struct {
      * @return A new, uninitialized @{link Quad}
      */
     public static Quad allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Quad newInstance = new Quad(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Quad newInstance = new Quad(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,14 +47,16 @@ public class Quad extends Struct {
     /**
      * Create a Quad proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Quad(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Quad(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Quad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Quad(input, ownership);
+    public static final Marshal<Addressable, Quad> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Quad(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -65,7 +67,7 @@ public class Quad extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Quad} instance.
      * <p>
@@ -74,7 +76,9 @@ public class Quad extends Struct {
      */
     public static Quad alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Quad.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -113,8 +117,7 @@ public class Quad extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_quad_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_quad_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +137,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -157,7 +160,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -166,15 +169,17 @@ public class Quad extends Struct {
      * @return the initialized {@link Quad}
      */
     public org.gtk.graphene.Quad initFromPoints(org.gtk.graphene.Point[] points) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -192,57 +197,57 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_quad_alloc = Interop.downcallHandle(
-            "graphene_quad_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_bounds = Interop.downcallHandle(
-            "graphene_quad_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_contains = Interop.downcallHandle(
-            "graphene_quad_contains",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_contains",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_free = Interop.downcallHandle(
-            "graphene_quad_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_get_point = Interop.downcallHandle(
-            "graphene_quad_get_point",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "graphene_quad_get_point",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_quad_init = Interop.downcallHandle(
-            "graphene_quad_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_init_from_points = Interop.downcallHandle(
-            "graphene_quad_init_from_points",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_init_from_points",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_quad_init_from_rect = Interop.downcallHandle(
-            "graphene_quad_init_from_rect",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_quad_init_from_rect",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -268,7 +273,7 @@ public class Quad extends Struct {
             struct = Quad.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Quad} struct.
          * @return A new instance of {@code Quad} with the fields 
          *         that were set in the Builder object.
@@ -278,10 +283,12 @@ public class Quad extends Struct {
         }
         
         public Builder setPoints(org.gtk.graphene.Point[] points) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("points"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (points == null ? MemoryAddress.NULL : Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("points"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (points == null ? MemoryAddress.NULL : Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

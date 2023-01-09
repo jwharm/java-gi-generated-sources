@@ -51,24 +51,27 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
     /**
      * Create a StringList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StringList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StringList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StringList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringList(input, ownership);
+    public static final Marshal<Addressable, StringList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StringList(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String[] strings) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(
-                    (Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact((Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -76,7 +79,8 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
      * @param strings The strings to put in the model
      */
     public StringList(@Nullable java.lang.String[] strings) {
-        super(constructNew(strings), Ownership.FULL);
+        super(constructNew(strings));
+        this.takeOwnership();
     }
     
     /**
@@ -87,12 +91,14 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
      * @param string the string to insert
      */
     public void append(java.lang.String string) {
-        try {
-            DowncallHandles.gtk_string_list_append.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_string_list_append.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -153,14 +159,16 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
      * @param additions The strings to add
      */
     public void splice(int position, int nRemovals, @Nullable java.lang.String[] additions) {
-        try {
-            DowncallHandles.gtk_string_list_splice.invokeExact(
-                    handle(),
-                    position,
-                    nRemovals,
-                    (Addressable) (additions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additions, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_string_list_splice.invokeExact(
+                        handle(),
+                        position,
+                        nRemovals,
+                        (Addressable) (additions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additions, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -176,12 +184,14 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
      * @param string the string to insert
      */
     public void take(java.lang.String string) {
-        try {
-            DowncallHandles.gtk_string_list_take.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_string_list_take.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -215,6 +225,9 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -239,45 +252,53 @@ public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.L
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_string_list_new = Interop.downcallHandle(
-            "gtk_string_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_list_append = Interop.downcallHandle(
-            "gtk_string_list_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_list_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_list_get_string = Interop.downcallHandle(
-            "gtk_string_list_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_string_list_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_string_list_remove = Interop.downcallHandle(
-            "gtk_string_list_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_string_list_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_string_list_splice = Interop.downcallHandle(
-            "gtk_string_list_splice",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_list_splice",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_list_take = Interop.downcallHandle(
-            "gtk_string_list_take",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_list_take",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_list_get_type = Interop.downcallHandle(
-            "gtk_string_list_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_string_list_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_string_list_get_type != null;
     }
 }

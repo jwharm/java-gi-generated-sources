@@ -29,8 +29,8 @@ public class PipelineRasterizationStateStreamCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link PipelineRasterizationStateStreamCreateInfoEXT}
      */
     public static PipelineRasterizationStateStreamCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineRasterizationStateStreamCreateInfoEXT newInstance = new PipelineRasterizationStateStreamCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineRasterizationStateStreamCreateInfoEXT newInstance = new PipelineRasterizationStateStreamCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineRasterizationStateStreamCreateInfoEXT extends Struct {
     /**
      * Create a PipelineRasterizationStateStreamCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineRasterizationStateStreamCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineRasterizationStateStreamCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineRasterizationStateStreamCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineRasterizationStateStreamCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, PipelineRasterizationStateStreamCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineRasterizationStateStreamCreateInfoEXT(input);
 }

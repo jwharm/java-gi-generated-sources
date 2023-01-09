@@ -41,20 +41,21 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     /**
      * Create a GesturePan proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GesturePan(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GesturePan(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GesturePan> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GesturePan(input, ownership);
+    public static final Marshal<Addressable, GesturePan> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GesturePan(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_pan_new.invokeExact(
-                    orientation.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_pan_new.invokeExact(orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +67,8 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      * @param orientation expected orientation
      */
     public GesturePan(org.gtk.gtk.Orientation orientation) {
-        super(constructNew(orientation), Ownership.FULL);
+        super(constructNew(orientation));
+        this.takeOwnership();
     }
     
     /**
@@ -76,8 +78,7 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     public org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_pan_get_orientation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_pan_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,19 +113,37 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Pan} callback.
+     */
     @FunctionalInterface
     public interface Pan {
+    
+        /**
+         * Emitted once a panning gesture along the expected axis is detected.
+         */
         void run(org.gtk.gtk.PanDirection direction, double offset);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesturePan, int direction, double offset) {
             run(org.gtk.gtk.PanDirection.of(direction), offset);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Pan.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Pan.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -134,9 +153,10 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GesturePan.Pan> onPan(GesturePan.Pan handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pan"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pan", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -159,6 +179,9 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
      */
     public static class Builder extends org.gtk.gtk.GestureDrag.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -194,27 +217,35 @@ public class GesturePan extends org.gtk.gtk.GestureDrag {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_pan_new = Interop.downcallHandle(
-            "gtk_gesture_pan_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_pan_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_pan_get_orientation = Interop.downcallHandle(
-            "gtk_gesture_pan_get_orientation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_pan_get_orientation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_pan_set_orientation = Interop.downcallHandle(
-            "gtk_gesture_pan_set_orientation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_pan_set_orientation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_pan_get_type = Interop.downcallHandle(
-            "gtk_gesture_pan_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_pan_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_pan_get_type != null;
     }
 }

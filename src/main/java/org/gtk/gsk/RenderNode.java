@@ -40,14 +40,16 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
     /**
      * Create a RenderNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderNode(input, ownership);
+    public static final Marshal<Addressable, RenderNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderNode(input);
     
     /**
      * Draw the contents of {@code node} to the given cairo context.
@@ -93,8 +95,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
     public org.gtk.gsk.RenderNodeType getNodeType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_render_node_get_node_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_render_node_get_node_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,12 +109,13 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
     public org.gtk.gsk.RenderNode ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -131,12 +133,13 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
     public org.gtk.glib.Bytes serialize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_serialize.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_serialize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -147,8 +150,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      */
     public void unref() {
         try {
-            DowncallHandles.gsk_render_node_unref.invokeExact(
-                    handle());
+            DowncallHandles.gsk_render_node_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,20 +170,22 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gsk_render_node_write_to_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gsk_render_node_write_to_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -216,63 +220,73 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_render_node_draw = Interop.downcallHandle(
-            "gsk_render_node_draw",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_draw",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_get_bounds = Interop.downcallHandle(
-            "gsk_render_node_get_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_get_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_get_node_type = Interop.downcallHandle(
-            "gsk_render_node_get_node_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_get_node_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_ref = Interop.downcallHandle(
-            "gsk_render_node_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_serialize = Interop.downcallHandle(
-            "gsk_render_node_serialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_serialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_unref = Interop.downcallHandle(
-            "gsk_render_node_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_write_to_file = Interop.downcallHandle(
-            "gsk_render_node_write_to_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_write_to_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_render_node_get_type = Interop.downcallHandle(
-            "gsk_render_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_render_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_render_node_deserialize = Interop.downcallHandle(
-            "gsk_render_node_deserialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_render_node_deserialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_render_node_get_type != null;
     }
 }

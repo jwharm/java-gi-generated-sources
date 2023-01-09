@@ -29,8 +29,8 @@ public class FontsetSimpleClass extends Struct {
      * @return A new, uninitialized @{link FontsetSimpleClass}
      */
     public static FontsetSimpleClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontsetSimpleClass newInstance = new FontsetSimpleClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontsetSimpleClass newInstance = new FontsetSimpleClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FontsetSimpleClass extends Struct {
     /**
      * Create a FontsetSimpleClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontsetSimpleClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontsetSimpleClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontsetSimpleClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontsetSimpleClass(input, ownership);
+    public static final Marshal<Addressable, FontsetSimpleClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontsetSimpleClass(input);
 }

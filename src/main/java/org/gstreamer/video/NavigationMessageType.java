@@ -10,28 +10,33 @@ import org.jetbrains.annotations.*;
  * related status changes.
  */
 public enum NavigationMessageType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Returned from
      * gst_navigation_message_get_type() when the passed message is not a
      * navigation message.
      */
     INVALID(0),
+    
     /**
      * Sent when the mouse moves over or leaves a
      * clickable region of the output, such as a DVD menu button.
      */
     MOUSE_OVER(1),
+    
     /**
      * Sent when the set of available commands
      * changes and should re-queried by interested applications.
      */
     COMMANDS_CHANGED(2),
+    
     /**
      * Sent when display angles in a multi-angle
      * feature (such as a multiangle DVD) change - either angles have appeared or
      * disappeared.
      */
     ANGLES_CHANGED(3),
+    
     /**
      * Sent when a navigation event was not handled
      * by any element in the pipeline (Since: 1.6)
@@ -41,15 +46,29 @@ public enum NavigationMessageType implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "GstNavigationMessageType";
     
     private final int value;
+    
+    /**
+     * Create a new NavigationMessageType for the provided value
+     * @param numeric value the enum value
+     */
     NavigationMessageType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new NavigationMessageType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static NavigationMessageType of(int value) {
         return switch (value) {
             case 0 -> INVALID;

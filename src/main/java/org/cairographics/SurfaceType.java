@@ -6,44 +6,83 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum SurfaceType implements io.github.jwharm.javagi.Enumeration {
+    
     IMAGE(0),
+    
     PDF(1),
+    
     PS(2),
+    
     XLIB(3),
+    
     XCB(4),
+    
     GLITZ(5),
+    
     QUARTZ(6),
+    
     WIN32(7),
+    
     BEOS(8),
+    
     DIRECTFB(9),
+    
     SVG(10),
+    
     OS2(11),
+    
     WIN32_PRINTING(12),
+    
     QUARTZ_IMAGE(13),
+    
     SCRIPT(14),
+    
     QT(15),
+    
     RECORDING(16),
+    
     VG(17),
+    
     GL(18),
+    
     DRM(19),
+    
     TEE(20),
+    
     XML(21),
+    
     SKIA(22),
+    
     SUBSURFACE(23),
+    
     COGL(24);
     
     private static final java.lang.String C_TYPE_NAME = "cairo_surface_type_t";
     
     private final int value;
+    
+    /**
+     * Create a new SurfaceType for the provided value
+     * @param numeric value the enum value
+     */
     SurfaceType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SurfaceType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SurfaceType of(int value) {
         return switch (value) {
             case 0 -> IMAGE;

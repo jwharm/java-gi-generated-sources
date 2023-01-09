@@ -44,8 +44,8 @@ public class VulkanFormatInfo extends Struct {
      * @return A new, uninitialized @{link VulkanFormatInfo}
      */
     public static VulkanFormatInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanFormatInfo newInstance = new VulkanFormatInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanFormatInfo newInstance = new VulkanFormatInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,7 +56,7 @@ public class VulkanFormatInfo extends Struct {
      */
     public org.vulkan.Format getFormat() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("format"));
-        return org.vulkan.Format.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.Format.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -64,9 +64,11 @@ public class VulkanFormatInfo extends Struct {
      * @param format The new value of the field {@code format}
      */
     public void setFormat(org.vulkan.Format format) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
+        }
     }
     
     /**
@@ -74,10 +76,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code name}
      */
     public java.lang.String getName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -85,9 +89,11 @@ public class VulkanFormatInfo extends Struct {
      * @param name The new value of the field {@code name}
      */
     public void setName(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+        }
     }
     
     /**
@@ -95,10 +101,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code scaling}
      */
     public org.gstreamer.vulkan.VulkanFormatScaling getScaling() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.vulkan.VulkanFormatScaling.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.vulkan.VulkanFormatScaling.of(RESULT);
+        }
     }
     
     /**
@@ -106,9 +114,11 @@ public class VulkanFormatInfo extends Struct {
      * @param scaling The new value of the field {@code scaling}
      */
     public void setScaling(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
+        }
     }
     
     /**
@@ -116,10 +126,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.vulkan.VulkanFormatFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanFormatFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.vulkan.VulkanFormatFlags(RESULT);
+        }
     }
     
     /**
@@ -127,9 +139,11 @@ public class VulkanFormatInfo extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.vulkan.VulkanFormatFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -137,10 +151,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code bits}
      */
     public int getBits() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -148,9 +164,11 @@ public class VulkanFormatInfo extends Struct {
      * @param bits The new value of the field {@code bits}
      */
     public void setBits(int bits) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bits);
+        }
     }
     
     /**
@@ -158,10 +176,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code n_components}
      */
     public int getNComponents() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -169,9 +189,11 @@ public class VulkanFormatInfo extends Struct {
      * @param nComponents The new value of the field {@code n_components}
      */
     public void setNComponents(int nComponents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nComponents);
+        }
     }
     
     /**
@@ -179,10 +201,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code shift}
      */
     public byte[] getShift() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -190,9 +214,11 @@ public class VulkanFormatInfo extends Struct {
      * @param shift The new value of the field {@code shift}
      */
     public void setShift(byte[] shift) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false, SCOPE)));
+        }
     }
     
     /**
@@ -200,10 +226,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code depth}
      */
     public byte[] getDepth() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -211,9 +239,11 @@ public class VulkanFormatInfo extends Struct {
      * @param depth The new value of the field {@code depth}
      */
     public void setDepth(byte[] depth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false, SCOPE)));
+        }
     }
     
     /**
@@ -221,10 +251,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code pixel_stride}
      */
     public byte[] getPixelStride() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -232,9 +264,11 @@ public class VulkanFormatInfo extends Struct {
      * @param pixelStride The new value of the field {@code pixel_stride}
      */
     public void setPixelStride(byte[] pixelStride) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false, SCOPE)));
+        }
     }
     
     /**
@@ -242,10 +276,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code n_planes}
      */
     public int getNPlanes() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -253,9 +289,11 @@ public class VulkanFormatInfo extends Struct {
      * @param nPlanes The new value of the field {@code n_planes}
      */
     public void setNPlanes(int nPlanes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nPlanes);
+        }
     }
     
     /**
@@ -263,10 +301,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code plane}
      */
     public byte[] getPlane() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -274,9 +314,11 @@ public class VulkanFormatInfo extends Struct {
      * @param plane The new value of the field {@code plane}
      */
     public void setPlane(byte[] plane) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false, SCOPE)));
+        }
     }
     
     /**
@@ -284,10 +326,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code poffset}
      */
     public byte[] getPoffset() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -295,9 +339,11 @@ public class VulkanFormatInfo extends Struct {
      * @param poffset The new value of the field {@code poffset}
      */
     public void setPoffset(byte[] poffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false, SCOPE)));
+        }
     }
     
     /**
@@ -305,10 +351,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code w_sub}
      */
     public byte[] getWSub() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -316,9 +364,11 @@ public class VulkanFormatInfo extends Struct {
      * @param wSub The new value of the field {@code w_sub}
      */
     public void setWSub(byte[] wSub) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false, SCOPE)));
+        }
     }
     
     /**
@@ -326,10 +376,12 @@ public class VulkanFormatInfo extends Struct {
      * @return The value of the field {@code h_sub}
      */
     public byte[] getHSub() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -337,22 +389,26 @@ public class VulkanFormatInfo extends Struct {
      * @param hSub The new value of the field {@code h_sub}
      */
     public void setHSub(byte[] hSub) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false, SCOPE)));
+        }
     }
     
     /**
      * Create a VulkanFormatInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanFormatInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanFormatInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanFormatInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFormatInfo(input, ownership);
+    public static final Marshal<Addressable, VulkanFormatInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFormatInfo(input);
     
     /**
      * A {@link VulkanFormatInfo.Builder} object constructs a {@link VulkanFormatInfo} 
@@ -376,7 +432,7 @@ public class VulkanFormatInfo extends Struct {
             struct = VulkanFormatInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanFormatInfo} struct.
          * @return A new instance of {@code VulkanFormatInfo} with the fields 
          *         that were set in the Builder object.
@@ -391,10 +447,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFormat(org.vulkan.Format format) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
+                return this;
+            }
         }
         
         /**
@@ -403,10 +461,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -415,10 +475,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScaling(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -427,10 +489,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.vulkan.VulkanFormatFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -443,17 +507,21 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBits(int bits) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bits);
+                return this;
+            }
         }
         
         public Builder setNComponents(int nComponents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nComponents);
+                return this;
+            }
         }
         
         /**
@@ -462,10 +530,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShift(byte[] shift) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -474,17 +544,21 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDepth(byte[] depth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setPixelStride(byte[] pixelStride) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -495,10 +569,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNPlanes(int nPlanes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nPlanes);
+                return this;
+            }
         }
         
         /**
@@ -507,10 +583,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPlane(byte[] plane) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -520,10 +598,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPoffset(byte[] poffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -533,10 +613,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWSub(byte[] wSub) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -546,10 +628,12 @@ public class VulkanFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHSub(byte[] hSub) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

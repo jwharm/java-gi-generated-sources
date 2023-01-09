@@ -49,38 +49,31 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a Avatar proxy instance for the provided memory address.
-     * <p>
-     * Because Avatar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Avatar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Avatar(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Avatar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Avatar(input);
+    
+    private static MemoryAddress constructNew(int size, @Nullable java.lang.String text, boolean showInitials) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.adw_avatar_new.invokeExact(
+                        size,
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)),
+                        Marshal.booleanToInteger.marshal(showInitials, null).intValue());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Avatar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Avatar(input, ownership);
-    
-    private static MemoryAddress constructNew(int size, @Nullable java.lang.String text, boolean showInitials) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_new.invokeExact(
-                    size,
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)),
-                    Marshal.booleanToInteger.marshal(showInitials, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -90,7 +83,9 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param showInitials whether to use initials instead of an icon as fallback
      */
     public Avatar(int size, @Nullable java.lang.String text, boolean showInitials) {
-        super(constructNew(size, text, showInitials), Ownership.NONE);
+        super(constructNew(size, text, showInitials));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -109,7 +104,9 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -119,12 +116,11 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable org.gtk.gdk.Paintable getCustomImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_custom_image.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_custom_image.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -134,8 +130,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,8 +144,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getShowInitials() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_avatar_get_show_initials.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_avatar_get_show_initials.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,8 +158,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_avatar_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_avatar_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +173,7 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public @Nullable java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_avatar_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,12 +203,14 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_avatar_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_avatar_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -258,12 +252,14 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param text the text used to get the initials and color
      */
     public void setText(@Nullable java.lang.String text) {
-        try {
-            DowncallHandles.adw_avatar_set_text.invokeExact(
-                    handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_avatar_set_text.invokeExact(
+                        handle(),
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -297,6 +293,9 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -385,81 +384,89 @@ public class Avatar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     private static class DowncallHandles {
         
         private static final MethodHandle adw_avatar_new = Interop.downcallHandle(
-            "adw_avatar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_avatar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_avatar_draw_to_texture = Interop.downcallHandle(
-            "adw_avatar_draw_to_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_avatar_draw_to_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_custom_image = Interop.downcallHandle(
-            "adw_avatar_get_custom_image",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_get_custom_image",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_icon_name = Interop.downcallHandle(
-            "adw_avatar_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_show_initials = Interop.downcallHandle(
-            "adw_avatar_get_show_initials",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_get_show_initials",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_size = Interop.downcallHandle(
-            "adw_avatar_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_text = Interop.downcallHandle(
-            "adw_avatar_get_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_get_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_set_custom_image = Interop.downcallHandle(
-            "adw_avatar_set_custom_image",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_set_custom_image",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_set_icon_name = Interop.downcallHandle(
-            "adw_avatar_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_set_show_initials = Interop.downcallHandle(
-            "adw_avatar_set_show_initials",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_avatar_set_show_initials",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_avatar_set_size = Interop.downcallHandle(
-            "adw_avatar_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_avatar_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_avatar_set_text = Interop.downcallHandle(
-            "adw_avatar_set_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_avatar_set_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_avatar_get_type = Interop.downcallHandle(
-            "adw_avatar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_avatar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_avatar_get_type != null;
     }
 }

@@ -164,6 +164,9 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RegexCompileFlags JAVASCRIPT_COMPAT = new RegexCompileFlags(33554432);
     
+    /**
+     * Create a new RegexCompileFlags with the provided value
+     */
     public RegexCompileFlags(int value) {
         super(value);
     }

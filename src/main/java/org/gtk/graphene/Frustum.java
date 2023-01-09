@@ -38,8 +38,8 @@ public class Frustum extends Struct {
      * @return A new, uninitialized @{link Frustum}
      */
     public static Frustum allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Frustum newInstance = new Frustum(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Frustum newInstance = new Frustum(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,14 +47,16 @@ public class Frustum extends Struct {
     /**
      * Create a Frustum proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Frustum(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Frustum(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Frustum> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Frustum(input, ownership);
+    public static final Marshal<Addressable, Frustum> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Frustum(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -65,7 +67,7 @@ public class Frustum extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Frustum} structure.
      * <p>
@@ -76,7 +78,9 @@ public class Frustum extends Struct {
      */
     public static Frustum alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -119,8 +123,7 @@ public class Frustum extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_frustum_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_frustum_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,20 +135,22 @@ public class Frustum extends Struct {
      *   of 6 {@link Plane}
      */
     public void getPlanes(Out<org.gtk.graphene.Plane[]> planes) {
-        MemorySegment planesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.graphene_frustum_get_planes.invokeExact(
-                    handle(),
-                    (Addressable) planesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment planesPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.graphene_frustum_get_planes.invokeExact(
+                        handle(),
+                        (Addressable) planesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            org.gtk.graphene.Plane[] planesARRAY = new org.gtk.graphene.Plane[6];
+            for (int I = 0; I < 6; I++) {
+                var OBJ = planesPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                planesARRAY[I] = org.gtk.graphene.Plane.fromAddress.marshal(OBJ, null);
+                }
+            planes.set(planesARRAY);
         }
-        org.gtk.graphene.Plane[] planesARRAY = new org.gtk.graphene.Plane[6];
-        for (int I = 0; I < 6; I++) {
-            var OBJ = planesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            planesARRAY[I] = org.gtk.graphene.Plane.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        planes.set(planesARRAY);
     }
     
     /**
@@ -173,7 +178,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -191,7 +196,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -208,7 +213,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -250,63 +255,63 @@ public class Frustum extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_frustum_alloc = Interop.downcallHandle(
-            "graphene_frustum_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_contains_point = Interop.downcallHandle(
-            "graphene_frustum_contains_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_contains_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_equal = Interop.downcallHandle(
-            "graphene_frustum_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_free = Interop.downcallHandle(
-            "graphene_frustum_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_get_planes = Interop.downcallHandle(
-            "graphene_frustum_get_planes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_get_planes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_init = Interop.downcallHandle(
-            "graphene_frustum_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_init_from_frustum = Interop.downcallHandle(
-            "graphene_frustum_init_from_frustum",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_init_from_frustum",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_init_from_matrix = Interop.downcallHandle(
-            "graphene_frustum_init_from_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_init_from_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_intersects_box = Interop.downcallHandle(
-            "graphene_frustum_intersects_box",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_intersects_box",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_frustum_intersects_sphere = Interop.downcallHandle(
-            "graphene_frustum_intersects_sphere",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_frustum_intersects_sphere",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -332,7 +337,7 @@ public class Frustum extends Struct {
             struct = Frustum.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Frustum} struct.
          * @return A new instance of {@code Frustum} with the fields 
          *         that were set in the Builder object.
@@ -342,10 +347,12 @@ public class Frustum extends Struct {
         }
         
         public Builder setPlanes(org.gtk.graphene.Plane[] planes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("planes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (planes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(planes, org.gtk.graphene.Plane.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("planes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (planes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(planes, org.gtk.graphene.Plane.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -40,8 +40,8 @@ public class AudioConverter extends Struct {
      * @return A new, uninitialized @{link AudioConverter}
      */
     public static AudioConverter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioConverter newInstance = new AudioConverter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioConverter newInstance = new AudioConverter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,14 +49,16 @@ public class AudioConverter extends Struct {
     /**
      * Create a AudioConverter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioConverter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioConverter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioConverter(input, ownership);
+    public static final Marshal<Addressable, AudioConverter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioConverter(input);
     
     private static MemoryAddress constructNew(org.gstreamer.audio.AudioConverterFlags flags, org.gstreamer.audio.AudioInfo inInfo, org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
@@ -85,7 +87,8 @@ public class AudioConverter extends Struct {
      * @param config a {@link org.gstreamer.gst.Structure} with configuration options
      */
     public AudioConverter(org.gstreamer.audio.AudioConverterFlags flags, org.gstreamer.audio.AudioInfo inInfo, org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
-        super(constructNew(flags, inInfo, outInfo, config), Ownership.FULL);
+        super(constructNew(flags, inInfo, outInfo, config));
+        this.takeOwnership();
     }
     
     /**
@@ -101,23 +104,25 @@ public class AudioConverter extends Struct {
      * @return {@code true} is the conversion could be performed.
      */
     public boolean convert(org.gstreamer.audio.AudioConverterFlags flags, byte[] in, long inSize, Out<byte[]> out, Out<Long> outSize) {
-        MemorySegment outPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment outSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_converter_convert.invokeExact(
-                    handle(),
-                    flags.getValue(),
-                    Interop.allocateNativeArray(in, false),
-                    inSize,
-                    (Addressable) outPOINTER.address(),
-                    (Addressable) outSizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment outSizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_converter_convert.invokeExact(
+                        handle(),
+                        flags.getValue(),
+                        Interop.allocateNativeArray(in, false, SCOPE),
+                        inSize,
+                        (Addressable) outPOINTER.address(),
+                        (Addressable) outSizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outSize.set(outSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            out.set(MemorySegment.ofAddress(outPOINTER.get(Interop.valueLayout.ADDRESS, 0), outSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        outSize.set(outSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        out.set(MemorySegment.ofAddress(outPOINTER.get(Interop.valueLayout.ADDRESS, 0), outSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -125,8 +130,7 @@ public class AudioConverter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_audio_converter_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_converter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,20 +144,22 @@ public class AudioConverter extends Struct {
      *   or until gst_audio_converter_update_config() is called.
      */
     public org.gstreamer.gst.Structure getConfig(Out<Integer> inRate, Out<Integer> outRate) {
-        MemorySegment inRatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment outRatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_converter_get_config.invokeExact(
-                    handle(),
-                    (Addressable) (inRate == null ? MemoryAddress.NULL : (Addressable) inRatePOINTER.address()),
-                    (Addressable) (outRate == null ? MemoryAddress.NULL : (Addressable) outRatePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment inRatePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment outRatePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_audio_converter_get_config.invokeExact(
+                        handle(),
+                        (Addressable) (inRate == null ? MemoryAddress.NULL : (Addressable) inRatePOINTER.address()),
+                        (Addressable) (outRate == null ? MemoryAddress.NULL : (Addressable) outRatePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (inRate != null) inRate.set(inRatePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (outRate != null) outRate.set(outRatePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
         }
-        if (inRate != null) inRate.set(inRatePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (outRate != null) outRate.set(outRatePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -183,8 +189,7 @@ public class AudioConverter extends Struct {
     public long getMaxLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_converter_get_max_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_converter_get_max_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,8 +222,7 @@ public class AudioConverter extends Struct {
     public boolean isPassthrough() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_converter_is_passthrough.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_converter_is_passthrough.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,8 +235,7 @@ public class AudioConverter extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_audio_converter_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_converter_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,8 +289,7 @@ public class AudioConverter extends Struct {
     public boolean supportsInplace() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_converter_supports_inplace.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_converter_supports_inplace.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,75 +334,75 @@ public class AudioConverter extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_converter_new = Interop.downcallHandle(
-            "gst_audio_converter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_convert = Interop.downcallHandle(
-            "gst_audio_converter_convert",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_convert",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_free = Interop.downcallHandle(
-            "gst_audio_converter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_get_config = Interop.downcallHandle(
-            "gst_audio_converter_get_config",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_get_config",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_get_in_frames = Interop.downcallHandle(
-            "gst_audio_converter_get_in_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_converter_get_in_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_get_max_latency = Interop.downcallHandle(
-            "gst_audio_converter_get_max_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_get_max_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_get_out_frames = Interop.downcallHandle(
-            "gst_audio_converter_get_out_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_converter_get_out_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_is_passthrough = Interop.downcallHandle(
-            "gst_audio_converter_is_passthrough",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_is_passthrough",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_reset = Interop.downcallHandle(
-            "gst_audio_converter_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_samples = Interop.downcallHandle(
-            "gst_audio_converter_samples",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_converter_samples",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_supports_inplace = Interop.downcallHandle(
-            "gst_audio_converter_supports_inplace",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_supports_inplace",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_converter_update_config = Interop.downcallHandle(
-            "gst_audio_converter_update_config",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_converter_update_config",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

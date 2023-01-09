@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class ClockTimeDiff extends io.github.jwharm.javagi.Alias<Long> {
     
+    /**
+     * Create a new ClockTimeDiff with the provided value
+     */
     public ClockTimeDiff(long value) {
         super(value);
     }

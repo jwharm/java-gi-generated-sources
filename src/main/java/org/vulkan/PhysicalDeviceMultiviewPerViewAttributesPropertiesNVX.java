@@ -29,8 +29,8 @@ public class PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX extends Struc
      * @return A new, uninitialized @{link PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX}
      */
     public static PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX newInstance = new PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX newInstance = new PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX extends Struc
     /**
      * Create a PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(input);
 }

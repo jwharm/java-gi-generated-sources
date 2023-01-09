@@ -42,8 +42,8 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return A new, uninitialized @{link SatelliteDeliverySystemDescriptor}
      */
     public static SatelliteDeliverySystemDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SatelliteDeliverySystemDescriptor newInstance = new SatelliteDeliverySystemDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SatelliteDeliverySystemDescriptor newInstance = new SatelliteDeliverySystemDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code frequency}
      */
     public int getFrequency() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param frequency The new value of the field {@code frequency}
      */
     public void setFrequency(int frequency) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frequency);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frequency);
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code orbital_position}
      */
     public float getOrbitalPosition() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param orbitalPosition The new value of the field {@code orbital_position}
      */
     public void setOrbitalPosition(float orbitalPosition) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), orbitalPosition);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), orbitalPosition);
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code west_east}
      */
     public boolean getWestEast() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param westEast The new value of the field {@code west_east}
      */
     public void setWestEast(boolean westEast) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(westEast, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(westEast, null).intValue());
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code polarization}
      */
     public org.gstreamer.mpegts.SatellitePolarizationType getPolarization() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.SatellitePolarizationType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.SatellitePolarizationType.of(RESULT);
+        }
     }
     
     /**
@@ -127,9 +141,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param polarization The new value of the field {@code polarization}
      */
     public void setPolarization(org.gstreamer.mpegts.SatellitePolarizationType polarization) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (polarization == null ? MemoryAddress.NULL : polarization.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (polarization == null ? MemoryAddress.NULL : polarization.getValue()));
+        }
     }
     
     /**
@@ -137,10 +153,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code roll_off}
      */
     public org.gstreamer.mpegts.SatelliteRolloff getRollOff() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.SatelliteRolloff.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.SatelliteRolloff.of(RESULT);
+        }
     }
     
     /**
@@ -148,9 +166,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param rollOff The new value of the field {@code roll_off}
      */
     public void setRollOff(org.gstreamer.mpegts.SatelliteRolloff rollOff) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rollOff == null ? MemoryAddress.NULL : rollOff.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rollOff == null ? MemoryAddress.NULL : rollOff.getValue()));
+        }
     }
     
     /**
@@ -158,10 +178,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code modulation_system}
      */
     public boolean getModulationSystem() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -169,9 +191,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param modulationSystem The new value of the field {@code modulation_system}
      */
     public void setModulationSystem(boolean modulationSystem) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modulationSystem, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(modulationSystem, null).intValue());
+        }
     }
     
     /**
@@ -179,10 +203,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code modulation_type}
      */
     public org.gstreamer.mpegts.ModulationType getModulationType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.ModulationType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.ModulationType.of(RESULT);
+        }
     }
     
     /**
@@ -190,9 +216,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param modulationType The new value of the field {@code modulation_type}
      */
     public void setModulationType(org.gstreamer.mpegts.ModulationType modulationType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulationType == null ? MemoryAddress.NULL : modulationType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulationType == null ? MemoryAddress.NULL : modulationType.getValue()));
+        }
     }
     
     /**
@@ -200,10 +228,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code symbol_rate}
      */
     public int getSymbolRate() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -211,9 +241,11 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param symbolRate The new value of the field {@code symbol_rate}
      */
     public void setSymbolRate(int symbolRate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbolRate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), symbolRate);
+        }
     }
     
     /**
@@ -221,10 +253,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code fec_inner}
      */
     public org.gstreamer.mpegts.DVBCodeRate getFecInner() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.DVBCodeRate.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.DVBCodeRate.of(RESULT);
+        }
     }
     
     /**
@@ -232,22 +266,26 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
      * @param fecInner The new value of the field {@code fec_inner}
      */
     public void setFecInner(org.gstreamer.mpegts.DVBCodeRate fecInner) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+        }
     }
     
     /**
      * Create a SatelliteDeliverySystemDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SatelliteDeliverySystemDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SatelliteDeliverySystemDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SatelliteDeliverySystemDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SatelliteDeliverySystemDescriptor(input, ownership);
+    public static final Marshal<Addressable, SatelliteDeliverySystemDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SatelliteDeliverySystemDescriptor(input);
     
     /**
      * A {@link SatelliteDeliverySystemDescriptor.Builder} object constructs a {@link SatelliteDeliverySystemDescriptor} 
@@ -271,7 +309,7 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
             struct = SatelliteDeliverySystemDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SatelliteDeliverySystemDescriptor} struct.
          * @return A new instance of {@code SatelliteDeliverySystemDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -286,10 +324,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrequency(int frequency) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frequency);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frequency);
+                return this;
+            }
         }
         
         /**
@@ -298,10 +338,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOrbitalPosition(float orbitalPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), orbitalPosition);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("orbital_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), orbitalPosition);
+                return this;
+            }
         }
         
         /**
@@ -311,10 +353,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWestEast(boolean westEast) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(westEast, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("west_east"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(westEast, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -323,10 +367,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPolarization(org.gstreamer.mpegts.SatellitePolarizationType polarization) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (polarization == null ? MemoryAddress.NULL : polarization.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("polarization"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (polarization == null ? MemoryAddress.NULL : polarization.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -335,10 +381,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRollOff(org.gstreamer.mpegts.SatelliteRolloff rollOff) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rollOff == null ? MemoryAddress.NULL : rollOff.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("roll_off"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rollOff == null ? MemoryAddress.NULL : rollOff.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -347,10 +395,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModulationSystem(boolean modulationSystem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modulationSystem, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("modulation_system"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(modulationSystem, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -359,10 +409,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModulationType(org.gstreamer.mpegts.ModulationType modulationType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulationType == null ? MemoryAddress.NULL : modulationType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("modulation_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulationType == null ? MemoryAddress.NULL : modulationType.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -371,10 +423,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSymbolRate(int symbolRate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbolRate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), symbolRate);
+                return this;
+            }
         }
         
         /**
@@ -383,10 +437,12 @@ public class SatelliteDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFecInner(org.gstreamer.mpegts.DVBCodeRate fecInner) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+                return this;
+            }
         }
     }
 }

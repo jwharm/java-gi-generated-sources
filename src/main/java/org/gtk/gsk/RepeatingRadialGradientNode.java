@@ -28,31 +28,35 @@ public class RepeatingRadialGradientNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a RepeatingRadialGradientNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RepeatingRadialGradientNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RepeatingRadialGradientNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RepeatingRadialGradientNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RepeatingRadialGradientNode(input, ownership);
+    public static final Marshal<Addressable, RepeatingRadialGradientNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RepeatingRadialGradientNode(input);
     
     private static MemoryAddress constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_repeating_radial_gradient_node_new.invokeExact(
-                    bounds.handle(),
-                    center.handle(),
-                    hradius,
-                    vradius,
-                    start,
-                    end,
-                    Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
-                    nColorStops);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_repeating_radial_gradient_node_new.invokeExact(
+                        bounds.handle(),
+                        center.handle(),
+                        hradius,
+                        vradius,
+                        start,
+                        end,
+                        Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false, SCOPE),
+                        nColorStops);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -74,7 +78,8 @@ public class RepeatingRadialGradientNode extends org.gtk.gsk.RenderNode {
      * @param nColorStops the number of elements in {@code color_stops}
      */
     public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops), Ownership.FULL);
+        super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops));
+        this.takeOwnership();
     }
     
     /**
@@ -94,15 +99,23 @@ public class RepeatingRadialGradientNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_repeating_radial_gradient_node_new = Interop.downcallHandle(
-            "gsk_repeating_radial_gradient_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_repeating_radial_gradient_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_repeating_radial_gradient_node_get_type = Interop.downcallHandle(
-            "gsk_repeating_radial_gradient_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_repeating_radial_gradient_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_repeating_radial_gradient_node_get_type != null;
     }
 }

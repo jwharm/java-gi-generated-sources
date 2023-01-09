@@ -54,6 +54,9 @@ public class FrameClockPhase extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FrameClockPhase AFTER_PAINT = new FrameClockPhase(64);
     
+    /**
+     * Create a new FrameClockPhase with the provided value
+     */
     public FrameClockPhase(int value) {
         super(value);
     }

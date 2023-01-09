@@ -36,26 +36,17 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a ControlBinding proxy instance for the provided memory address.
-     * <p>
-     * Because ControlBinding is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ControlBinding(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ControlBinding(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ControlBinding(input, ownership);
+    public static final Marshal<Addressable, ControlBinding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ControlBinding(input);
     
     /**
      * Gets a number of {@code GValues} for the given controlled property starting at the
@@ -71,18 +62,20 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
     public boolean getGValueArray(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, org.gtk.gobject.Value[] values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_control_binding_get_g_value_array.invokeExact(
-                    handle(),
-                    timestamp.getValue().longValue(),
-                    interval.getValue().longValue(),
-                    nValues,
-                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_control_binding_get_g_value_array.invokeExact(
+                        handle(),
+                        timestamp.getValue().longValue(),
+                        interval.getValue().longValue(),
+                        nValues,
+                        Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -100,7 +93,9 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -121,18 +116,20 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
     public boolean getValueArray(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, java.lang.foreign.MemoryAddress[] values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_control_binding_get_value_array.invokeExact(
-                    handle(),
-                    timestamp.getValue().longValue(),
-                    interval.getValue().longValue(),
-                    nValues,
-                    Interop.allocateNativeArray(values, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_control_binding_get_value_array.invokeExact(
+                        handle(),
+                        timestamp.getValue().longValue(),
+                        interval.getValue().longValue(),
+                        nValues,
+                        Interop.allocateNativeArray(values, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,8 +139,7 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
     public boolean isDisabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_control_binding_is_disabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_control_binding_is_disabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,6 +218,9 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -258,45 +257,53 @@ public class ControlBinding extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_control_binding_get_g_value_array = Interop.downcallHandle(
-            "gst_control_binding_get_g_value_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_binding_get_g_value_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_binding_get_value = Interop.downcallHandle(
-            "gst_control_binding_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_control_binding_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_control_binding_get_value_array = Interop.downcallHandle(
-            "gst_control_binding_get_value_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_binding_get_value_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_binding_is_disabled = Interop.downcallHandle(
-            "gst_control_binding_is_disabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_binding_is_disabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_binding_set_disabled = Interop.downcallHandle(
-            "gst_control_binding_set_disabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_control_binding_set_disabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_control_binding_sync_values = Interop.downcallHandle(
-            "gst_control_binding_sync_values",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_control_binding_sync_values",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_control_binding_get_type = Interop.downcallHandle(
-            "gst_control_binding_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_control_binding_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_control_binding_get_type != null;
     }
 }

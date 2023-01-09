@@ -9,30 +9,37 @@ import org.jetbrains.annotations.*;
  * Result values from gst_pad_link and friends.
  */
 public enum PadLinkReturn implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * link succeeded
      */
     OK(0),
+    
     /**
      * pads have no common grandparent
      */
     WRONG_HIERARCHY(-1),
+    
     /**
      * pad was already linked
      */
     WAS_LINKED(-2),
+    
     /**
      * pads have wrong direction
      */
     WRONG_DIRECTION(-3),
+    
     /**
      * pads do not have common format
      */
     NOFORMAT(-4),
+    
     /**
      * pads cannot cooperate in scheduling
      */
     NOSCHED(-5),
+    
     /**
      * refused for some reason
      */
@@ -41,15 +48,29 @@ public enum PadLinkReturn implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstPadLinkReturn";
     
     private final int value;
+    
+    /**
+     * Create a new PadLinkReturn for the provided value
+     * @param numeric value the enum value
+     */
     PadLinkReturn(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PadLinkReturn for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PadLinkReturn of(int value) {
         return switch (value) {
             case 0 -> OK;

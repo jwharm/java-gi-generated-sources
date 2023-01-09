@@ -23,23 +23,28 @@ import org.jetbrains.annotations.*;
  * a child or a container it is treated as {@link Align#FILL}.
  */
 public enum Align implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * stretch to fill all space if possible, center if
      *   no meaningful way to stretch
      */
     FILL(0),
+    
     /**
      * snap to left or top side, leaving space on right or bottom
      */
     START(1),
+    
     /**
      * snap to right or bottom side, leaving space on left or top
      */
     END(2),
+    
     /**
      * center natural width of widget inside the allocation
      */
     CENTER(3),
+    
     /**
      * align the widget according to the baseline.
      *   See {@link Widget}.
@@ -49,15 +54,29 @@ public enum Align implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkAlign";
     
     private final int value;
+    
+    /**
+     * Create a new Align for the provided value
+     * @param numeric value the enum value
+     */
     Align(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Align for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Align of(int value) {
         return switch (value) {
             case 0 -> FILL;

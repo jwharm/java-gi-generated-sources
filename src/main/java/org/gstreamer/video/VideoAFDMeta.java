@@ -52,8 +52,8 @@ public class VideoAFDMeta extends Struct {
      * @return A new, uninitialized @{link VideoAFDMeta}
      */
     public static VideoAFDMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAFDMeta newInstance = new VideoAFDMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAFDMeta newInstance = new VideoAFDMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -64,7 +64,7 @@ public class VideoAFDMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -72,9 +72,11 @@ public class VideoAFDMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -82,10 +84,12 @@ public class VideoAFDMeta extends Struct {
      * @return The value of the field {@code field}
      */
     public byte getField() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("field"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("field"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -93,9 +97,11 @@ public class VideoAFDMeta extends Struct {
      * @param field The new value of the field {@code field}
      */
     public void setField(byte field) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("field"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), field);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("field"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), field);
+        }
     }
     
     /**
@@ -103,10 +109,12 @@ public class VideoAFDMeta extends Struct {
      * @return The value of the field {@code spec}
      */
     public org.gstreamer.video.VideoAFDSpec getSpec() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("spec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoAFDSpec.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("spec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoAFDSpec.of(RESULT);
+        }
     }
     
     /**
@@ -114,9 +122,11 @@ public class VideoAFDMeta extends Struct {
      * @param spec The new value of the field {@code spec}
      */
     public void setSpec(org.gstreamer.video.VideoAFDSpec spec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("spec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (spec == null ? MemoryAddress.NULL : spec.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("spec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (spec == null ? MemoryAddress.NULL : spec.getValue()));
+        }
     }
     
     /**
@@ -124,10 +134,12 @@ public class VideoAFDMeta extends Struct {
      * @return The value of the field {@code afd}
      */
     public org.gstreamer.video.VideoAFDValue getAfd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("afd"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoAFDValue.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("afd"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoAFDValue.of(RESULT);
+        }
     }
     
     /**
@@ -135,22 +147,26 @@ public class VideoAFDMeta extends Struct {
      * @param afd The new value of the field {@code afd}
      */
     public void setAfd(org.gstreamer.video.VideoAFDValue afd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("afd"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (afd == null ? MemoryAddress.NULL : afd.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("afd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (afd == null ? MemoryAddress.NULL : afd.getValue()));
+        }
     }
     
     /**
      * Create a VideoAFDMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAFDMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAFDMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAFDMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAFDMeta(input, ownership);
+    public static final Marshal<Addressable, VideoAFDMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAFDMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -159,15 +175,15 @@ public class VideoAFDMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_afd_meta_get_info = Interop.downcallHandle(
-            "gst_video_afd_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_afd_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -193,7 +209,7 @@ public class VideoAFDMeta extends Struct {
             struct = VideoAFDMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAFDMeta} struct.
          * @return A new instance of {@code VideoAFDMeta} with the fields 
          *         that were set in the Builder object.
@@ -208,10 +224,12 @@ public class VideoAFDMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -220,10 +238,12 @@ public class VideoAFDMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setField(byte field) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), field);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("field"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), field);
+                return this;
+            }
         }
         
         /**
@@ -232,10 +252,12 @@ public class VideoAFDMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSpec(org.gstreamer.video.VideoAFDSpec spec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("spec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (spec == null ? MemoryAddress.NULL : spec.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("spec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (spec == null ? MemoryAddress.NULL : spec.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -244,10 +266,12 @@ public class VideoAFDMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAfd(org.gstreamer.video.VideoAFDValue afd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("afd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (afd == null ? MemoryAddress.NULL : afd.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("afd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (afd == null ? MemoryAddress.NULL : afd.getValue()));
+                return this;
+            }
         }
     }
 }

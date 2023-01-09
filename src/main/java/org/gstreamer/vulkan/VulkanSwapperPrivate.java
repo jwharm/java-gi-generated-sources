@@ -29,8 +29,8 @@ public class VulkanSwapperPrivate extends Struct {
      * @return A new, uninitialized @{link VulkanSwapperPrivate}
      */
     public static VulkanSwapperPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanSwapperPrivate newInstance = new VulkanSwapperPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanSwapperPrivate newInstance = new VulkanSwapperPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VulkanSwapperPrivate extends Struct {
     /**
      * Create a VulkanSwapperPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanSwapperPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanSwapperPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanSwapperPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanSwapperPrivate(input, ownership);
+    public static final Marshal<Addressable, VulkanSwapperPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanSwapperPrivate(input);
 }

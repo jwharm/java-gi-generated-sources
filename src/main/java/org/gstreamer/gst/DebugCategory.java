@@ -38,8 +38,8 @@ public class DebugCategory extends Struct {
      * @return A new, uninitialized @{link DebugCategory}
      */
     public static DebugCategory allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugCategory newInstance = new DebugCategory(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugCategory newInstance = new DebugCategory(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,14 +47,16 @@ public class DebugCategory extends Struct {
     /**
      * Create a DebugCategory proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugCategory(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugCategory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugCategory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugCategory(input, ownership);
+    public static final Marshal<Addressable, DebugCategory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugCategory(input);
     
     /**
      * Removes and frees the category and all associated resources.
@@ -63,8 +65,7 @@ public class DebugCategory extends Struct {
     @Deprecated
     public void free() {
         try {
-            DowncallHandles.gst_debug_category_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_debug_category_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,8 +79,7 @@ public class DebugCategory extends Struct {
     public int getColor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_debug_category_get_color.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_debug_category_get_color.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,8 +93,7 @@ public class DebugCategory extends Struct {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_debug_category_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_debug_category_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,8 +107,7 @@ public class DebugCategory extends Struct {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_debug_category_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_debug_category_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,8 +121,7 @@ public class DebugCategory extends Struct {
     public org.gstreamer.gst.DebugLevel getThreshold() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_debug_category_get_threshold.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_debug_category_get_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,8 +137,7 @@ public class DebugCategory extends Struct {
      */
     public void resetThreshold() {
         try {
-            DowncallHandles.gst_debug_category_reset_threshold.invokeExact(
-                    handle());
+            DowncallHandles.gst_debug_category_reset_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,45 +167,45 @@ public class DebugCategory extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_debug_category_free = Interop.downcallHandle(
-            "gst_debug_category_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_get_color = Interop.downcallHandle(
-            "gst_debug_category_get_color",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_get_color",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_get_description = Interop.downcallHandle(
-            "gst_debug_category_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_get_name = Interop.downcallHandle(
-            "gst_debug_category_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_get_threshold = Interop.downcallHandle(
-            "gst_debug_category_get_threshold",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_get_threshold",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_reset_threshold = Interop.downcallHandle(
-            "gst_debug_category_reset_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_debug_category_reset_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_debug_category_set_threshold = Interop.downcallHandle(
-            "gst_debug_category_set_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_debug_category_set_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -235,7 +231,7 @@ public class DebugCategory extends Struct {
             struct = DebugCategory.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DebugCategory} struct.
          * @return A new instance of {@code DebugCategory} with the fields 
          *         that were set in the Builder object.
@@ -245,31 +241,39 @@ public class DebugCategory extends Struct {
         }
         
         public Builder setThreshold(int threshold) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("threshold"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), threshold);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("threshold"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), threshold);
+                return this;
+            }
         }
         
         public Builder setColor(int color) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), color);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), color);
+                return this;
+            }
         }
         
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setDescription(java.lang.String description) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+                return this;
+            }
         }
     }
 }

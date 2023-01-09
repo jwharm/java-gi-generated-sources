@@ -27,6 +27,9 @@ public class RTPHeaderExtensionFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTPHeaderExtensionFlags TWO_BYTE = new RTPHeaderExtensionFlags(2);
     
+    /**
+     * Create a new RTPHeaderExtensionFlags with the provided value
+     */
     public RTPHeaderExtensionFlags(int value) {
         super(value);
     }

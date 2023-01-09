@@ -33,8 +33,8 @@ public class VideoScaler extends Struct {
      * @return A new, uninitialized @{link VideoScaler}
      */
     public static VideoScaler allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoScaler newInstance = new VideoScaler(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoScaler newInstance = new VideoScaler(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class VideoScaler extends Struct {
     /**
      * Create a VideoScaler proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoScaler(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoScaler(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoScaler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoScaler(input, ownership);
+    public static final Marshal<Addressable, VideoScaler> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoScaler(input);
     
     /**
      * Scale a rectangle of pixels in {@code src} with {@code src_stride} to {@code dest} with
@@ -108,7 +110,7 @@ public class VideoScaler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -116,8 +118,7 @@ public class VideoScaler extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_scaler_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_scaler_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,8 +156,7 @@ public class VideoScaler extends Struct {
     public int getMaxTaps() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_scaler_get_max_taps.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_scaler_get_max_taps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,57 +238,57 @@ public class VideoScaler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_scaler_2d = Interop.downcallHandle(
-            "gst_video_scaler_2d",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_scaler_2d",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_combine_packed_YUV = Interop.downcallHandle(
-            "gst_video_scaler_combine_packed_YUV",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_scaler_combine_packed_YUV",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_free = Interop.downcallHandle(
-            "gst_video_scaler_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_scaler_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_get_coeff = Interop.downcallHandle(
-            "gst_video_scaler_get_coeff",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_scaler_get_coeff",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_get_max_taps = Interop.downcallHandle(
-            "gst_video_scaler_get_max_taps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_scaler_get_max_taps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_horizontal = Interop.downcallHandle(
-            "gst_video_scaler_horizontal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_scaler_horizontal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_vertical = Interop.downcallHandle(
-            "gst_video_scaler_vertical",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_scaler_vertical",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_scaler_new = Interop.downcallHandle(
-            "gst_video_scaler_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_scaler_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

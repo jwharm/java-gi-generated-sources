@@ -29,8 +29,8 @@ public class GestureZoomClass extends Struct {
      * @return A new, uninitialized @{link GestureZoomClass}
      */
     public static GestureZoomClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GestureZoomClass newInstance = new GestureZoomClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GestureZoomClass newInstance = new GestureZoomClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GestureZoomClass extends Struct {
     /**
      * Create a GestureZoomClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureZoomClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureZoomClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureZoomClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureZoomClass(input, ownership);
+    public static final Marshal<Addressable, GestureZoomClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureZoomClass(input);
 }

@@ -58,14 +58,16 @@ public class IMContext extends org.gtk.gobject.GObject {
     /**
      * Create a IMContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IMContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IMContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IMContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMContext(input, ownership);
+    public static final Marshal<Addressable, IMContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IMContext(input);
     
     /**
      * Asks the widget that the input context is attached to delete
@@ -164,8 +166,7 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     public void focusIn() {
         try {
-            DowncallHandles.gtk_im_context_focus_in.invokeExact(
-                    handle());
+            DowncallHandles.gtk_im_context_focus_in.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +181,7 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     public void focusOut() {
         try {
-            DowncallHandles.gtk_im_context_focus_out.invokeExact(
-                    handle());
+            DowncallHandles.gtk_im_context_focus_out.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,21 +201,23 @@ public class IMContext extends org.gtk.gobject.GObject {
      *   (in characters) within the preedit string.
      */
     public void getPreeditString(Out<java.lang.String> str, Out<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
-        MemorySegment strPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment attrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment cursorPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(
-                    handle(),
-                    (Addressable) strPOINTER.address(),
-                    (Addressable) attrsPOINTER.address(),
-                    (Addressable) cursorPosPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment strPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment attrsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment cursorPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(
+                        handle(),
+                        (Addressable) strPOINTER.address(),
+                        (Addressable) attrsPOINTER.address(),
+                        (Addressable) cursorPosPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    str.set(Marshal.addressToString.marshal(strPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    attrs.set(org.pango.AttrList.fromAddress.marshal(attrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    cursorPos.set(cursorPosPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        str.set(Marshal.addressToString.marshal(strPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        attrs.set(org.pango.AttrList.fromAddress.marshal(attrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        cursorPos.set(cursorPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -246,20 +248,22 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public boolean getSurrounding(Out<java.lang.String> text, Out<Integer> cursorIndex) {
-        MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment cursorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding.invokeExact(
-                    handle(),
-                    (Addressable) textPOINTER.address(),
-                    (Addressable) cursorIndexPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment textPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment cursorIndexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding.invokeExact(
+                        handle(),
+                        (Addressable) textPOINTER.address(),
+                        (Addressable) cursorIndexPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,23 +294,25 @@ public class IMContext extends org.gtk.gobject.GObject {
      *   you must free the result stored in {@code text}.
      */
     public boolean getSurroundingWithSelection(Out<java.lang.String> text, Out<Integer> cursorIndex, Out<Integer> anchorIndex) {
-        MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment cursorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment anchorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding_with_selection.invokeExact(
-                    handle(),
-                    (Addressable) textPOINTER.address(),
-                    (Addressable) cursorIndexPOINTER.address(),
-                    (Addressable) anchorIndexPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment textPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment cursorIndexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment anchorIndexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_im_context_get_surrounding_with_selection.invokeExact(
+                        handle(),
+                        (Addressable) textPOINTER.address(),
+                        (Addressable) cursorIndexPOINTER.address(),
+                        (Addressable) anchorIndexPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    anchorIndex.set(anchorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        anchorIndex.set(anchorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,8 +323,7 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     public void reset() {
         try {
-            DowncallHandles.gtk_im_context_reset.invokeExact(
-                    handle());
+            DowncallHandles.gtk_im_context_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,14 +380,16 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public void setSurrounding(java.lang.String text, int len, int cursorIndex) {
-        try {
-            DowncallHandles.gtk_im_context_set_surrounding.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    len,
-                    cursorIndex);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_im_context_set_surrounding.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        len,
+                        cursorIndex);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -398,15 +405,17 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @param anchorIndex the byte index of the selection bound within {@code text}
      */
     public void setSurroundingWithSelection(java.lang.String text, int len, int cursorIndex, int anchorIndex) {
-        try {
-            DowncallHandles.gtk_im_context_set_surrounding_with_selection.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    len,
-                    cursorIndex,
-                    anchorIndex);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_im_context_set_surrounding_with_selection.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        len,
+                        cursorIndex,
+                        anchorIndex);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -443,19 +452,46 @@ public class IMContext extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Commit} callback.
+     */
     @FunctionalInterface
     public interface Commit {
+    
+        /**
+         * The ::commit signal is emitted when a complete input sequence
+         * has been entered by the user.
+         * <p>
+         * If the commit comes after a preediting sequence, the
+         * ::commit signal is emitted after ::preedit-end.
+         * <p>
+         * This can be a single character immediately after a key press or
+         * the final result of preediting.
+         */
         void run(java.lang.String str);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext, MemoryAddress str) {
-            run(Marshal.addressToString.marshal(str, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(str, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Commit.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Commit.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -472,29 +508,49 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.Commit> onCommit(IMContext.Commit handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("commit"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("commit", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DeleteSurrounding} callback.
+     */
     @FunctionalInterface
     public interface DeleteSurrounding {
+    
+        /**
+         * The ::delete-surrounding signal is emitted when the input method
+         * needs to delete all or part of the context surrounding the cursor.
+         */
         boolean run(int offset, int nChars);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceIMContext, int offset, int nChars) {
             var RESULT = run(offset, nChars);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteSurrounding.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DeleteSurrounding.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -505,28 +561,51 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.DeleteSurrounding> onDeleteSurrounding(IMContext.DeleteSurrounding handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("delete-surrounding"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("delete-surrounding", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PreeditChanged} callback.
+     */
     @FunctionalInterface
     public interface PreeditChanged {
+    
+        /**
+         * The ::preedit-changed signal is emitted whenever the preedit sequence
+         * currently being entered has changed.
+         * <p>
+         * It is also emitted at the end of a preedit sequence, in which case
+         * {@link IMContext#getPreeditString} returns the empty string.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PreeditChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -540,28 +619,48 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditChanged> onPreeditChanged(IMContext.PreeditChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("preedit-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("preedit-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PreeditEnd} callback.
+     */
     @FunctionalInterface
     public interface PreeditEnd {
+    
+        /**
+         * The ::preedit-end signal is emitted when a preediting sequence
+         * has been completed or canceled.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditEnd.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PreeditEnd.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -572,28 +671,48 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditEnd> onPreeditEnd(IMContext.PreeditEnd handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("preedit-end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("preedit-end", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PreeditStart} callback.
+     */
     @FunctionalInterface
     public interface PreeditStart {
+    
+        /**
+         * The ::preedit-start signal is emitted when a new preediting sequence
+         * starts.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditStart.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PreeditStart.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -604,29 +723,52 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.PreeditStart> onPreeditStart(IMContext.PreeditStart handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("preedit-start"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("preedit-start", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RetrieveSurrounding} callback.
+     */
     @FunctionalInterface
     public interface RetrieveSurrounding {
+    
+        /**
+         * The ::retrieve-surrounding signal is emitted when the input method
+         * requires the context surrounding the cursor.
+         * <p>
+         * The callback should set the input method surrounding context by
+         * calling the {@link IMContext#setSurrounding} method.
+         */
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceIMContext) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RetrieveSurrounding.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RetrieveSurrounding.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -640,9 +782,10 @@ public class IMContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<IMContext.RetrieveSurrounding> onRetrieveSurrounding(IMContext.RetrieveSurrounding handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("retrieve-surrounding"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("retrieve-surrounding", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -665,6 +808,9 @@ public class IMContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -715,93 +861,101 @@ public class IMContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_im_context_delete_surrounding = Interop.downcallHandle(
-            "gtk_im_context_delete_surrounding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_delete_surrounding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_filter_key = Interop.downcallHandle(
-            "gtk_im_context_filter_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_filter_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_filter_keypress = Interop.downcallHandle(
-            "gtk_im_context_filter_keypress",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_filter_keypress",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_focus_in = Interop.downcallHandle(
-            "gtk_im_context_focus_in",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_focus_in",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_focus_out = Interop.downcallHandle(
-            "gtk_im_context_focus_out",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_focus_out",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_get_preedit_string = Interop.downcallHandle(
-            "gtk_im_context_get_preedit_string",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_get_preedit_string",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_get_surrounding = Interop.downcallHandle(
-            "gtk_im_context_get_surrounding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_get_surrounding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_get_surrounding_with_selection = Interop.downcallHandle(
-            "gtk_im_context_get_surrounding_with_selection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_get_surrounding_with_selection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_reset = Interop.downcallHandle(
-            "gtk_im_context_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_set_client_widget = Interop.downcallHandle(
-            "gtk_im_context_set_client_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_set_client_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_set_cursor_location = Interop.downcallHandle(
-            "gtk_im_context_set_cursor_location",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_set_cursor_location",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_set_surrounding = Interop.downcallHandle(
-            "gtk_im_context_set_surrounding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_set_surrounding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_set_surrounding_with_selection = Interop.downcallHandle(
-            "gtk_im_context_set_surrounding_with_selection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_set_surrounding_with_selection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_set_use_preedit = Interop.downcallHandle(
-            "gtk_im_context_set_use_preedit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_set_use_preedit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_get_type = Interop.downcallHandle(
-            "gtk_im_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_im_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_im_context_get_type != null;
     }
 }

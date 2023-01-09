@@ -100,6 +100,9 @@ public class TagLicenseFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TagLicenseFlags FREE_SOFTWARE_FOUNDATION_LICENSE = new TagLicenseFlags(33554432);
     
+    /**
+     * Create a new TagLicenseFlags with the provided value
+     */
     public TagLicenseFlags(int value) {
         super(value);
     }

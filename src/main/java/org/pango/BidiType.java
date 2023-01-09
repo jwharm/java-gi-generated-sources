@@ -14,94 +14,117 @@ import org.jetbrains.annotations.*;
  * @version 1.22
  */
 public enum BidiType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Left-to-Right
      */
     L(0),
+    
     /**
      * Left-to-Right Embedding
      */
     LRE(1),
+    
     /**
      * Left-to-Right Override
      */
     LRO(2),
+    
     /**
      * Right-to-Left
      */
     R(3),
+    
     /**
      * Right-to-Left Arabic
      */
     AL(4),
+    
     /**
      * Right-to-Left Embedding
      */
     RLE(5),
+    
     /**
      * Right-to-Left Override
      */
     RLO(6),
+    
     /**
      * Pop Directional Format
      */
     PDF(7),
+    
     /**
      * European Number
      */
     EN(8),
+    
     /**
      * European Number Separator
      */
     ES(9),
+    
     /**
      * European Number Terminator
      */
     ET(10),
+    
     /**
      * Arabic Number
      */
     AN(11),
+    
     /**
      * Common Number Separator
      */
     CS(12),
+    
     /**
      * Nonspacing Mark
      */
     NSM(13),
+    
     /**
      * Boundary Neutral
      */
     BN(14),
+    
     /**
      * Paragraph Separator
      */
     B(15),
+    
     /**
      * Segment Separator
      */
     S(16),
+    
     /**
      * Whitespace
      */
     WS(17),
+    
     /**
      * Other Neutrals
      */
     ON(18),
+    
     /**
      * Left-to-Right isolate. Since 1.48.6
      */
     LRI(19),
+    
     /**
      * Right-to-Left isolate. Since 1.48.6
      */
     RLI(20),
+    
     /**
      * First strong isolate. Since 1.48.6
      */
     FSI(21),
+    
     /**
      * Pop directional isolate. Since 1.48.6
      */
@@ -110,15 +133,29 @@ public enum BidiType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoBidiType";
     
     private final int value;
+    
+    /**
+     * Create a new BidiType for the provided value
+     * @param numeric value the enum value
+     */
     BidiType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new BidiType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static BidiType of(int value) {
         return switch (value) {
             case 0 -> L;
@@ -161,8 +198,7 @@ public enum BidiType implements io.github.jwharm.javagi.Enumeration {
     public static org.pango.BidiType forUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(
-                    ch);
+            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,9 +208,9 @@ public enum BidiType implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
-            "pango_bidi_type_for_unichar",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_bidi_type_for_unichar",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

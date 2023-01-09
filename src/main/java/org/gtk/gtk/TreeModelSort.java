@@ -124,26 +124,27 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
     /**
      * Create a TreeModelSort proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeModelSort(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeModelSort(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeModelSort> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelSort(input, ownership);
+    public static final Marshal<Addressable, TreeModelSort> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelSort(input);
     
     private static MemoryAddress constructNewWithModel(org.gtk.gtk.TreeModel childModel) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(
-                    childModel.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(childModel.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkTreeModelSort}, with {@code child_model} as the child model.
      * @param childModel A {@code GtkTreeModel}
@@ -151,7 +152,9 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
      */
     public static TreeModelSort newWithModel(org.gtk.gtk.TreeModel childModel) {
         var RESULT = constructNewWithModel(childModel);
-        return (org.gtk.gtk.TreeModelSort) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModelSort.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.TreeModelSort) Interop.register(RESULT, org.gtk.gtk.TreeModelSort.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -164,8 +167,7 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
      */
     public void clearCache() {
         try {
-            DowncallHandles.gtk_tree_model_sort_clear_cache.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_model_sort_clear_cache.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +212,9 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -247,7 +251,9 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -257,12 +263,11 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
     public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -294,8 +299,7 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
      */
     public void resetDefaultSortFunc() {
         try {
-            DowncallHandles.gtk_tree_model_sort_reset_default_sort_func.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_model_sort_reset_default_sort_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,6 +335,9 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -361,63 +368,71 @@ public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gt
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
-            "gtk_tree_model_sort_new_with_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_new_with_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
-            "gtk_tree_model_sort_clear_cache",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_clear_cache",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
-            "gtk_tree_model_sort_convert_child_iter_to_iter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_convert_child_iter_to_iter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
-            "gtk_tree_model_sort_convert_child_path_to_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_convert_child_path_to_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
-            "gtk_tree_model_sort_convert_iter_to_child_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_convert_iter_to_child_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
-            "gtk_tree_model_sort_convert_path_to_child_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_convert_path_to_child_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
-            "gtk_tree_model_sort_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
-            "gtk_tree_model_sort_iter_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_iter_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
-            "gtk_tree_model_sort_reset_default_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_sort_reset_default_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_model_sort_get_type = Interop.downcallHandle(
-            "gtk_tree_model_sort_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_model_sort_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_model_sort_get_type != null;
     }
 }

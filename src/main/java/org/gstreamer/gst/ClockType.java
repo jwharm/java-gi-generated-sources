@@ -9,19 +9,23 @@ import org.jetbrains.annotations.*;
  * The different kind of clocks.
  */
 public enum ClockType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * time since Epoch
      */
     REALTIME(0),
+    
     /**
      * monotonic time since some unspecified starting
      *                            point
      */
     MONOTONIC(1),
+    
     /**
      * some other time source is used (Since: 1.0.5)
      */
     OTHER(2),
+    
     /**
      * time since Epoch, but using International Atomic Time
      *                      as reference (Since: 1.18)
@@ -31,15 +35,29 @@ public enum ClockType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstClockType";
     
     private final int value;
+    
+    /**
+     * Create a new ClockType for the provided value
+     * @param numeric value the enum value
+     */
     ClockType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ClockType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ClockType of(int value) {
         return switch (value) {
             case 0 -> REALTIME;

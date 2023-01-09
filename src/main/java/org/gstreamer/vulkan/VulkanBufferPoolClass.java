@@ -36,8 +36,8 @@ public class VulkanBufferPoolClass extends Struct {
      * @return A new, uninitialized @{link VulkanBufferPoolClass}
      */
     public static VulkanBufferPoolClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanBufferPoolClass newInstance = new VulkanBufferPoolClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanBufferPoolClass newInstance = new VulkanBufferPoolClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class VulkanBufferPoolClass extends Struct {
      */
     public org.gstreamer.gst.BufferPoolClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.BufferPoolClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.BufferPoolClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,22 +56,26 @@ public class VulkanBufferPoolClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.BufferPoolClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a VulkanBufferPoolClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanBufferPoolClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanBufferPoolClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanBufferPoolClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBufferPoolClass(input, ownership);
+    public static final Marshal<Addressable, VulkanBufferPoolClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBufferPoolClass(input);
     
     /**
      * A {@link VulkanBufferPoolClass.Builder} object constructs a {@link VulkanBufferPoolClass} 
@@ -95,7 +99,7 @@ public class VulkanBufferPoolClass extends Struct {
             struct = VulkanBufferPoolClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanBufferPoolClass} struct.
          * @return A new instance of {@code VulkanBufferPoolClass} with the fields 
          *         that were set in the Builder object.
@@ -110,17 +114,21 @@ public class VulkanBufferPoolClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.BufferPoolClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

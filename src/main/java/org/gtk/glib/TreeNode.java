@@ -33,8 +33,8 @@ public class TreeNode extends Struct {
      * @return A new, uninitialized @{link TreeNode}
      */
     public static TreeNode allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeNode newInstance = new TreeNode(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeNode newInstance = new TreeNode(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class TreeNode extends Struct {
     /**
      * Create a TreeNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeNode(input, ownership);
+    public static final Marshal<Addressable, TreeNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeNode(input);
     
     /**
      * Gets the key stored at a particular tree node.
@@ -58,8 +60,7 @@ public class TreeNode extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress key() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_key.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,12 +75,11 @@ public class TreeNode extends Struct {
     public @Nullable org.gtk.glib.TreeNode next() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_next.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -90,12 +90,11 @@ public class TreeNode extends Struct {
     public @Nullable org.gtk.glib.TreeNode previous() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_previous.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_previous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -105,8 +104,7 @@ public class TreeNode extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress value() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,27 +114,27 @@ public class TreeNode extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tree_node_key = Interop.downcallHandle(
-            "g_tree_node_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_node_next = Interop.downcallHandle(
-            "g_tree_node_next",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_next",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_node_previous = Interop.downcallHandle(
-            "g_tree_node_previous",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_previous",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_node_value = Interop.downcallHandle(
-            "g_tree_node_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

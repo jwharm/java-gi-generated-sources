@@ -48,24 +48,27 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     /**
      * Create a UnixSocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UnixSocketAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UnixSocketAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UnixSocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixSocketAddress(input, ownership);
+    public static final Marshal<Addressable, UnixSocketAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UnixSocketAddress(input);
     
     private static MemoryAddress constructNew(java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new.invokeExact(
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new.invokeExact(Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -76,21 +79,24 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param path the socket path
      */
     public UnixSocketAddress(java.lang.String path) {
-        super(constructNew(path), Ownership.FULL);
+        super(constructNew(path));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewAbstract(byte[] path, int pathLen) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_abstract.invokeExact(
-                    Interop.allocateNativeArray(path, false),
-                    pathLen);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_abstract.invokeExact(
+                        Interop.allocateNativeArray(path, false, SCOPE),
+                        pathLen);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link UnixSocketAddressType#ABSTRACT_PADDED}
      * {@link UnixSocketAddress} for {@code path}.
@@ -102,22 +108,26 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     @Deprecated
     public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
         var RESULT = constructNewAbstract(path, pathLen);
-        return (org.gtk.gio.UnixSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.UnixSocketAddress) Interop.register(RESULT, org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithType(byte[] path, int pathLen, org.gtk.gio.UnixSocketAddressType type) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_with_type.invokeExact(
-                    Interop.allocateNativeArray(path, false),
-                    pathLen,
-                    type.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_with_type.invokeExact(
+                        Interop.allocateNativeArray(path, false, SCOPE),
+                        pathLen,
+                        type.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link UnixSocketAddress} of type {@code type} with name {@code path}.
      * <p>
@@ -157,7 +167,9 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      */
     public static UnixSocketAddress newWithType(byte[] path, int pathLen, org.gtk.gio.UnixSocketAddressType type) {
         var RESULT = constructNewWithType(path, pathLen, type);
-        return (org.gtk.gio.UnixSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.UnixSocketAddress) Interop.register(RESULT, org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -167,8 +179,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public org.gtk.gio.UnixSocketAddressType getAddressType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_socket_address_get_address_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_socket_address_get_address_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +195,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public boolean getIsAbstract() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_socket_address_get_is_abstract.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_socket_address_get_is_abstract.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,8 +214,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_get_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,8 +230,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public long getPathLen() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_unix_socket_address_get_path_len.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_unix_socket_address_get_path_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,6 +281,9 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      */
     public static class Builder extends org.gtk.gio.SocketAddress.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -320,57 +331,65 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_socket_address_new = Interop.downcallHandle(
-            "g_unix_socket_address_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_socket_address_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_new_abstract = Interop.downcallHandle(
-            "g_unix_socket_address_new_abstract",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_unix_socket_address_new_abstract",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_new_with_type = Interop.downcallHandle(
-            "g_unix_socket_address_new_with_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_unix_socket_address_new_with_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_get_address_type = Interop.downcallHandle(
-            "g_unix_socket_address_get_address_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_socket_address_get_address_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_get_is_abstract = Interop.downcallHandle(
-            "g_unix_socket_address_get_is_abstract",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_socket_address_get_is_abstract",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_get_path = Interop.downcallHandle(
-            "g_unix_socket_address_get_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_socket_address_get_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_get_path_len = Interop.downcallHandle(
-            "g_unix_socket_address_get_path_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_socket_address_get_path_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_get_type = Interop.downcallHandle(
-            "g_unix_socket_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_unix_socket_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_unix_socket_address_abstract_names_supported = Interop.downcallHandle(
-            "g_unix_socket_address_abstract_names_supported",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_unix_socket_address_abstract_names_supported",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_unix_socket_address_get_type != null;
     }
 }

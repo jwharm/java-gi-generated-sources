@@ -35,8 +35,8 @@ public class FileDescriptorBasedIface extends Struct {
      * @return A new, uninitialized @{link FileDescriptorBasedIface}
      */
     public static FileDescriptorBasedIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileDescriptorBasedIface newInstance = new FileDescriptorBasedIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileDescriptorBasedIface newInstance = new FileDescriptorBasedIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class FileDescriptorBasedIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,25 +55,42 @@ public class FileDescriptorBasedIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetFdCallback} callback.
+     */
     @FunctionalInterface
     public interface GetFdCallback {
+    
         int run(org.gtk.gio.FileDescriptorBased fdBased);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress fdBased) {
-            var RESULT = run((org.gtk.gio.FileDescriptorBased) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(fdBased)), org.gtk.gio.FileDescriptorBased.fromAddress).marshal(fdBased, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.FileDescriptorBased) Interop.register(fdBased, org.gtk.gio.FileDescriptorBased.fromAddress).marshal(fdBased, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetFdCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetFdCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -82,22 +99,26 @@ public class FileDescriptorBasedIface extends Struct {
      * @param getFd The new value of the field {@code get_fd}
      */
     public void setGetFd(GetFdCallback getFd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_fd"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFd == null ? MemoryAddress.NULL : getFd.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_fd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFd == null ? MemoryAddress.NULL : getFd.toCallback()));
+        }
     }
     
     /**
      * Create a FileDescriptorBasedIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileDescriptorBasedIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileDescriptorBasedIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileDescriptorBasedIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileDescriptorBasedIface(input, ownership);
+    public static final Marshal<Addressable, FileDescriptorBasedIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileDescriptorBasedIface(input);
     
     /**
      * A {@link FileDescriptorBasedIface.Builder} object constructs a {@link FileDescriptorBasedIface} 
@@ -121,7 +142,7 @@ public class FileDescriptorBasedIface extends Struct {
             struct = FileDescriptorBasedIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FileDescriptorBasedIface} struct.
          * @return A new instance of {@code FileDescriptorBasedIface} with the fields 
          *         that were set in the Builder object.
@@ -136,17 +157,21 @@ public class FileDescriptorBasedIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setGetFd(GetFdCallback getFd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_fd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFd == null ? MemoryAddress.NULL : getFd.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_fd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFd == null ? MemoryAddress.NULL : getFd.toCallback()));
+                return this;
+            }
         }
     }
 }

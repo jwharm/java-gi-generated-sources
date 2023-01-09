@@ -29,8 +29,8 @@ public class QueryControlFlagBits extends Struct {
      * @return A new, uninitialized @{link QueryControlFlagBits}
      */
     public static QueryControlFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        QueryControlFlagBits newInstance = new QueryControlFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        QueryControlFlagBits newInstance = new QueryControlFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class QueryControlFlagBits extends Struct {
     /**
      * Create a QueryControlFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected QueryControlFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected QueryControlFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, QueryControlFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueryControlFlagBits(input, ownership);
+    public static final Marshal<Addressable, QueryControlFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new QueryControlFlagBits(input);
 }

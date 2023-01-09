@@ -37,8 +37,8 @@ public class MetaTransformCopy extends Struct {
      * @return A new, uninitialized @{link MetaTransformCopy}
      */
     public static MetaTransformCopy allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MetaTransformCopy newInstance = new MetaTransformCopy(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MetaTransformCopy newInstance = new MetaTransformCopy(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class MetaTransformCopy extends Struct {
      * @return The value of the field {@code region}
      */
     public boolean getRegion() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("region"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("region"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class MetaTransformCopy extends Struct {
      * @param region The new value of the field {@code region}
      */
     public void setRegion(boolean region) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("region"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(region, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("region"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(region, null).intValue());
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class MetaTransformCopy extends Struct {
      * @return The value of the field {@code offset}
      */
     public long getOffset() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class MetaTransformCopy extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(long offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class MetaTransformCopy extends Struct {
      * @return The value of the field {@code size}
      */
     public long getSize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class MetaTransformCopy extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
      * Create a MetaTransformCopy proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MetaTransformCopy(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MetaTransformCopy(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MetaTransformCopy> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MetaTransformCopy(input, ownership);
+    public static final Marshal<Addressable, MetaTransformCopy> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MetaTransformCopy(input);
     
     /**
      * A {@link MetaTransformCopy.Builder} object constructs a {@link MetaTransformCopy} 
@@ -140,7 +154,7 @@ public class MetaTransformCopy extends Struct {
             struct = MetaTransformCopy.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MetaTransformCopy} struct.
          * @return A new instance of {@code MetaTransformCopy} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class MetaTransformCopy extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRegion(boolean region) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("region"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(region, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("region"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(region, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class MetaTransformCopy extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(long offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -179,10 +197,12 @@ public class MetaTransformCopy extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(long size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
     }
 }

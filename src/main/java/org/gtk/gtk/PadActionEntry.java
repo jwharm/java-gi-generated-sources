@@ -39,8 +39,8 @@ public class PadActionEntry extends Struct {
      * @return A new, uninitialized @{link PadActionEntry}
      */
     public static PadActionEntry allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PadActionEntry newInstance = new PadActionEntry(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PadActionEntry newInstance = new PadActionEntry(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class PadActionEntry extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.gtk.PadActionType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gtk.PadActionType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gtk.PadActionType.of(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class PadActionEntry extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.gtk.PadActionType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class PadActionEntry extends Struct {
      * @return The value of the field {@code index}
      */
     public int getIndex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class PadActionEntry extends Struct {
      * @param index The new value of the field {@code index}
      */
     public void setIndex(int index) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), index);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), index);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class PadActionEntry extends Struct {
      * @return The value of the field {@code mode}
      */
     public int getMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class PadActionEntry extends Struct {
      * @param mode The new value of the field {@code mode}
      */
     public void setMode(int mode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), mode);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class PadActionEntry extends Struct {
      * @return The value of the field {@code label}
      */
     public java.lang.String getLabel() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("label"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("label"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -124,9 +138,11 @@ public class PadActionEntry extends Struct {
      * @param label The new value of the field {@code label}
      */
     public void setLabel(java.lang.String label) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("label"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("label"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)));
+        }
     }
     
     /**
@@ -134,10 +150,12 @@ public class PadActionEntry extends Struct {
      * @return The value of the field {@code action_name}
      */
     public java.lang.String getActionName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -145,22 +163,26 @@ public class PadActionEntry extends Struct {
      * @param actionName The new value of the field {@code action_name}
      */
     public void setActionName(java.lang.String actionName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, SCOPE)));
+        }
     }
     
     /**
      * Create a PadActionEntry proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PadActionEntry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PadActionEntry(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PadActionEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadActionEntry(input, ownership);
+    public static final Marshal<Addressable, PadActionEntry> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PadActionEntry(input);
     
     /**
      * A {@link PadActionEntry.Builder} object constructs a {@link PadActionEntry} 
@@ -184,7 +206,7 @@ public class PadActionEntry extends Struct {
             struct = PadActionEntry.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PadActionEntry} struct.
          * @return A new instance of {@code PadActionEntry} with the fields 
          *         that were set in the Builder object.
@@ -199,10 +221,12 @@ public class PadActionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.gtk.PadActionType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -212,10 +236,12 @@ public class PadActionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIndex(int index) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), index);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), index);
+                return this;
+            }
         }
         
         /**
@@ -224,10 +250,12 @@ public class PadActionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMode(int mode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), mode);
+                return this;
+            }
         }
         
         /**
@@ -237,10 +265,12 @@ public class PadActionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLabel(java.lang.String label) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("label"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("label"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -249,10 +279,12 @@ public class PadActionEntry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setActionName(java.lang.String actionName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("action_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, SCOPE)));
+                return this;
+            }
         }
     }
 }

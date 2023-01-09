@@ -22,8 +22,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ChildProxyImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ChildProxyImpl(input, ownership);
+    public static final Marshal<Addressable, ChildProxyImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ChildProxyImpl(input);
     
     /**
      * Emits the {@link ChildProxy}::child-added signal.
@@ -31,13 +34,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param name the name of the new child
      */
     default void childAdded(org.gtk.gobject.GObject child, java.lang.String name) {
-        try {
-            DowncallHandles.gst_child_proxy_child_added.invokeExact(
-                    handle(),
-                    child.handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_child_added.invokeExact(
+                        handle(),
+                        child.handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -47,13 +52,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param name the name of the old child
      */
     default void childRemoved(org.gtk.gobject.GObject child, java.lang.String name) {
-        try {
-            DowncallHandles.gst_child_proxy_child_removed.invokeExact(
-                    handle(),
-                    child.handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_child_removed.invokeExact(
+                        handle(),
+                        child.handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -63,13 +70,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param varargs return location for the first property, followed optionally by more name/return location pairs, followed by {@code null}
      */
     default void get(java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_child_proxy_get.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_get.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -88,7 +97,9 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -102,15 +113,19 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      *     not found.
      */
     default @Nullable org.gtk.gobject.GObject getChildByName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_child_proxy_get_child_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_child_proxy_get_child_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -120,8 +135,7 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
     default int getChildrenCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_child_proxy_get_children_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_child_proxy_get_children_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,13 +149,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param value a {@link org.gtk.gobject.Value} that should take the result.
      */
     default void getProperty(java.lang.String name, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_child_proxy_get_property.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_get_property.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -151,13 +167,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param varArgs return location for the first property, followed optionally by more name/return location pairs, followed by {@code null}
      */
     default void getValist(java.lang.String firstPropertyName, VaList varArgs) {
-        try {
-            DowncallHandles.gst_child_proxy_get_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_get_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -173,21 +191,23 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * usage. For plain {@link org.gtk.gobject.GObject} {@code target} is the same as {@code object}.
      */
     default boolean lookup(java.lang.String name, @Nullable Out<org.gtk.gobject.GObject> target, @Nullable Out<org.gtk.gobject.ParamSpec> pspec) {
-        MemorySegment targetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment pspecPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_child_proxy_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (target == null ? MemoryAddress.NULL : (Addressable) targetPOINTER.address()),
-                    (Addressable) (pspec == null ? MemoryAddress.NULL : (Addressable) pspecPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment targetPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment pspecPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_child_proxy_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (target == null ? MemoryAddress.NULL : (Addressable) targetPOINTER.address()),
+                        (Addressable) (pspec == null ? MemoryAddress.NULL : (Addressable) pspecPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (target != null) target.set((org.gtk.gobject.GObject) Interop.register(targetPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gobject.GObject.fromAddress).marshal(targetPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (pspec != null) pspec.set((org.gtk.gobject.ParamSpec) Interop.register(pspecPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspecPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (target != null) target.set((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(targetPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gobject.GObject.fromAddress).marshal(targetPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (pspec != null) pspec.set((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspecPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspecPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -196,13 +216,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param varargs value for the first property, followed optionally by more name/value pairs, followed by {@code null}
      */
     default void set(java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_child_proxy_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -212,13 +234,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param value new {@link org.gtk.gobject.Value} for the property
      */
     default void setProperty(java.lang.String name, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_child_proxy_set_property.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_set_property.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -228,13 +252,15 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @param varArgs value for the first property, followed optionally by more name/value pairs, followed by {@code null}
      */
     default void setValist(java.lang.String firstPropertyName, VaList varArgs) {
-        try {
-            DowncallHandles.gst_child_proxy_set_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_child_proxy_set_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -252,19 +278,39 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ChildAdded} callback.
+     */
     @FunctionalInterface
     public interface ChildAdded {
+    
+        /**
+         * Will be emitted after the {@code object} was added to the {@code child_proxy}.
+         */
         void run(org.gtk.gobject.GObject object, java.lang.String name);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceChildProxy, MemoryAddress object, MemoryAddress name) {
-            run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gobject.GObject.fromAddress).marshal(object, Ownership.NONE), Marshal.addressToString.marshal(name, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gobject.GObject) Interop.register(object, org.gtk.gobject.GObject.fromAddress).marshal(object, null), Marshal.addressToString.marshal(name, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChildAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -274,28 +320,49 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ChildProxy.ChildAdded> onChildAdded(ChildProxy.ChildAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("child-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("child-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChildRemoved} callback.
+     */
     @FunctionalInterface
     public interface ChildRemoved {
+    
+        /**
+         * Will be emitted after the {@code object} was removed from the {@code child_proxy}.
+         */
         void run(org.gtk.gobject.GObject object, java.lang.String name);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceChildProxy, MemoryAddress object, MemoryAddress name) {
-            run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gobject.GObject.fromAddress).marshal(object, Ownership.NONE), Marshal.addressToString.marshal(name, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gobject.GObject) Interop.register(object, org.gtk.gobject.GObject.fromAddress).marshal(object, null), Marshal.addressToString.marshal(name, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChildRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -305,9 +372,10 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ChildProxy.ChildRemoved> onChildRemoved(ChildProxy.ChildRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("child-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("child-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -319,104 +387,119 @@ public interface ChildProxy extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_child_added = Interop.downcallHandle(
-            "gst_child_proxy_child_added",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_child_added",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_child_removed = Interop.downcallHandle(
-            "gst_child_proxy_child_removed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_child_removed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get = Interop.downcallHandle(
-            "gst_child_proxy_get",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_child_proxy_get",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_child_by_index = Interop.downcallHandle(
-            "gst_child_proxy_get_child_by_index",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_child_proxy_get_child_by_index",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_child_by_name = Interop.downcallHandle(
-            "gst_child_proxy_get_child_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_get_child_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_children_count = Interop.downcallHandle(
-            "gst_child_proxy_get_children_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_get_children_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_property = Interop.downcallHandle(
-            "gst_child_proxy_get_property",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_get_property",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_valist = Interop.downcallHandle(
-            "gst_child_proxy_get_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_get_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_lookup = Interop.downcallHandle(
-            "gst_child_proxy_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_set = Interop.downcallHandle(
-            "gst_child_proxy_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_child_proxy_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_set_property = Interop.downcallHandle(
-            "gst_child_proxy_set_property",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_set_property",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_set_valist = Interop.downcallHandle(
-            "gst_child_proxy_set_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_child_proxy_set_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_child_proxy_get_type = Interop.downcallHandle(
-            "gst_child_proxy_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_child_proxy_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ChildProxyImpl type represents a native instance of the ChildProxy interface.
+     */
     class ChildProxyImpl extends org.gtk.gobject.GObject implements ChildProxy {
         
         static {
             Gst.javagi$ensureInitialized();
         }
         
-        public ChildProxyImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ChildProxy for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ChildProxyImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_child_proxy_get_type != null;
     }
 }

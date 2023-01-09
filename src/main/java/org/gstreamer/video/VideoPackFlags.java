@@ -33,6 +33,9 @@ public class VideoPackFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoPackFlags INTERLACED = new VideoPackFlags(2);
     
+    /**
+     * Create a new VideoPackFlags with the provided value
+     */
     public VideoPackFlags(int value) {
         super(value);
     }

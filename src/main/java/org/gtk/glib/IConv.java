@@ -33,8 +33,8 @@ public class IConv extends Struct {
      * @return A new, uninitialized @{link IConv}
      */
     public static IConv allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IConv newInstance = new IConv(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IConv newInstance = new IConv(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class IConv extends Struct {
     /**
      * Create a IConv proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IConv(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IConv(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IConv> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IConv(input, ownership);
+    public static final Marshal<Addressable, IConv> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IConv(input);
     
     /**
      * Same as the standard UNIX routine iconv(), but
@@ -72,22 +74,24 @@ public class IConv extends Struct {
      * @return count of non-reversible conversions, or -1 on error
      */
     public long gIconv(PointerString inbuf, Out<Long> inbytesLeft, PointerString outbuf, Out<Long> outbytesLeft) {
-        MemorySegment inbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment outbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_iconv.invokeExact(
-                    handle(),
-                    inbuf.handle(),
-                    (Addressable) inbytesLeftPOINTER.address(),
-                    outbuf.handle(),
-                    (Addressable) outbytesLeftPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment inbytesLeftPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment outbytesLeftPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_iconv.invokeExact(
+                        handle(),
+                        inbuf.handle(),
+                        (Addressable) inbytesLeftPOINTER.address(),
+                        outbuf.handle(),
+                        (Addressable) outbytesLeftPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    inbytesLeft.set(inbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    outbytesLeft.set(outbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        inbytesLeft.set(inbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        outbytesLeft.set(outbytesLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -104,8 +108,7 @@ public class IConv extends Struct {
     public int close() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_iconv_close.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_iconv_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,35 +128,37 @@ public class IConv extends Struct {
      *  opening the converter failed.
      */
     public static org.gtk.glib.IConv open(java.lang.String toCodeset, java.lang.String fromCodeset) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(
-                    Marshal.stringToAddress.marshal(toCodeset, null),
-                    Marshal.stringToAddress.marshal(fromCodeset, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(
+                        Marshal.stringToAddress.marshal(toCodeset, SCOPE),
+                        Marshal.stringToAddress.marshal(fromCodeset, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.IConv.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.IConv.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_iconv = Interop.downcallHandle(
-            "g_iconv",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_iconv",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_iconv_close = Interop.downcallHandle(
-            "g_iconv_close",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_iconv_close",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_iconv_open = Interop.downcallHandle(
-            "g_iconv_open",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_iconv_open",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

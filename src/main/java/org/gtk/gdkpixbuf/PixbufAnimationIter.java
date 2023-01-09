@@ -31,14 +31,16 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     /**
      * Create a PixbufAnimationIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufAnimationIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufAnimationIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufAnimationIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufAnimationIter(input, ownership);
+    public static final Marshal<Addressable, PixbufAnimationIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufAnimationIter(input);
     
     /**
      * Possibly advances an animation to a new frame.
@@ -92,8 +94,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     public int getDelayTime() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_get_delay_time.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_get_delay_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,12 +122,11 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     public org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdkpixbuf.Pixbuf) Interop.register(RESULT, org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -141,8 +141,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     public boolean onCurrentlyLoadingFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,6 +178,9 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -203,33 +205,41 @@ public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
-            "gdk_pixbuf_animation_iter_advance",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_animation_iter_advance",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
-            "gdk_pixbuf_animation_iter_get_delay_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_animation_iter_get_delay_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
-            "gdk_pixbuf_animation_iter_get_pixbuf",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_animation_iter_get_pixbuf",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
-            "gdk_pixbuf_animation_iter_on_currently_loading_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_animation_iter_on_currently_loading_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_animation_iter_get_type = Interop.downcallHandle(
-            "gdk_pixbuf_animation_iter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_pixbuf_animation_iter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_pixbuf_animation_iter_get_type != null;
     }
 }

@@ -29,8 +29,8 @@ public class ScaledFont extends Struct {
      * @return A new, uninitialized @{link ScaledFont}
      */
     public static ScaledFont allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScaledFont newInstance = new ScaledFont(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ScaledFont newInstance = new ScaledFont(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ScaledFont extends Struct {
     /**
      * Create a ScaledFont proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScaledFont(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScaledFont(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScaledFont> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScaledFont(input, ownership);
+    public static final Marshal<Addressable, ScaledFont> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScaledFont(input);
 }

@@ -36,8 +36,8 @@ public class DebugKey extends Struct {
      * @return A new, uninitialized @{link DebugKey}
      */
     public static DebugKey allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugKey newInstance = new DebugKey(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugKey newInstance = new DebugKey(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class DebugKey extends Struct {
      * @return The value of the field {@code key}
      */
     public java.lang.String getKey() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class DebugKey extends Struct {
      * @param key The new value of the field {@code key}
      */
     public void setKey(java.lang.String key) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class DebugKey extends Struct {
      * @return The value of the field {@code value}
      */
     public int getValue() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class DebugKey extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(int value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
      * Create a DebugKey proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugKey(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugKey(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugKey(input, ownership);
+    public static final Marshal<Addressable, DebugKey> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugKey(input);
     
     /**
      * A {@link DebugKey.Builder} object constructs a {@link DebugKey} 
@@ -118,7 +128,7 @@ public class DebugKey extends Struct {
             struct = DebugKey.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DebugKey} struct.
          * @return A new instance of {@code DebugKey} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class DebugKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKey(java.lang.String key) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -145,10 +157,12 @@ public class DebugKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(int value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
     }
 }

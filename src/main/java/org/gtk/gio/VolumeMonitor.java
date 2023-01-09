@@ -41,14 +41,16 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     /**
      * Create a VolumeMonitor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VolumeMonitor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VolumeMonitor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VolumeMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VolumeMonitor(input, ownership);
+    public static final Marshal<Addressable, VolumeMonitor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VolumeMonitor(input);
     
     /**
      * Gets a list of drives connected to the system.
@@ -60,12 +62,13 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     public org.gtk.glib.List getConnectedDrives() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_connected_drives.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_connected_drives.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -75,15 +78,19 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      *     Free the returned object with g_object_unref().
      */
     public @Nullable org.gtk.gio.Mount getMountForUuid(java.lang.String uuid) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mount_for_uuid.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uuid, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mount_for_uuid.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uuid, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.Mount) Interop.register(RESULT, org.gtk.gio.Mount.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Mount.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -96,12 +103,13 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     public org.gtk.glib.List getMounts() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mounts.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_mounts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -111,15 +119,19 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      *     Free the returned object with g_object_unref().
      */
     public @Nullable org.gtk.gio.Volume getVolumeForUuid(java.lang.String uuid) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volume_for_uuid.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uuid, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volume_for_uuid.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uuid, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.Volume) Interop.register(RESULT, org.gtk.gio.Volume.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Volume.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -132,12 +144,13 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     public org.gtk.glib.List getVolumes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volumes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_get_volumes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -196,12 +209,13 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     public static org.gtk.gio.Volume adoptOrphanMount(org.gtk.gio.Mount mount) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_adopt_orphan_mount.invokeExact(
-                    mount.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_volume_monitor_adopt_orphan_mount.invokeExact(mount.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Volume.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Volume) Interop.register(RESULT, org.gtk.gio.Volume.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -216,22 +230,42 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.VolumeMonitor) Interop.register(RESULT, org.gtk.gio.VolumeMonitor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveChanged} callback.
+     */
     @FunctionalInterface
     public interface DriveChanged {
+    
+        /**
+         * Emitted when a drive changes.
+         */
         void run(org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -241,28 +275,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.DriveChanged> onDriveChanged(VolumeMonitor.DriveChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drive-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drive-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveConnected} callback.
+     */
     @FunctionalInterface
     public interface DriveConnected {
+    
+        /**
+         * Emitted when a drive is connected to the system.
+         */
         void run(org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveConnected.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveConnected.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -272,28 +325,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.DriveConnected> onDriveConnected(VolumeMonitor.DriveConnected handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drive-connected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drive-connected", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveDisconnected} callback.
+     */
     @FunctionalInterface
     public interface DriveDisconnected {
+    
+        /**
+         * Emitted when a drive is disconnected from the system.
+         */
         void run(org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveDisconnected.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveDisconnected.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -303,28 +375,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.DriveDisconnected> onDriveDisconnected(VolumeMonitor.DriveDisconnected handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drive-disconnected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drive-disconnected", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveEjectButton} callback.
+     */
     @FunctionalInterface
     public interface DriveEjectButton {
+    
+        /**
+         * Emitted when the eject button is pressed on {@code drive}.
+         */
         void run(org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveEjectButton.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveEjectButton.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -334,28 +425,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.DriveEjectButton> onDriveEjectButton(VolumeMonitor.DriveEjectButton handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drive-eject-button"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drive-eject-button", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveStopButton} callback.
+     */
     @FunctionalInterface
     public interface DriveStopButton {
+    
+        /**
+         * Emitted when the stop button is pressed on {@code drive}.
+         */
         void run(org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveStopButton.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveStopButton.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -365,28 +475,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.DriveStopButton> onDriveStopButton(VolumeMonitor.DriveStopButton handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drive-stop-button"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drive-stop-button", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountAdded} callback.
+     */
     @FunctionalInterface
     public interface MountAdded {
+    
+        /**
+         * Emitted when a mount is added.
+         */
         void run(org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -396,28 +525,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.MountAdded> onMountAdded(VolumeMonitor.MountAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("mount-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("mount-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountChanged} callback.
+     */
     @FunctionalInterface
     public interface MountChanged {
+    
+        /**
+         * Emitted when a mount changes.
+         */
         void run(org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -427,28 +575,50 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.MountChanged> onMountChanged(VolumeMonitor.MountChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("mount-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("mount-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountPreUnmount} callback.
+     */
     @FunctionalInterface
     public interface MountPreUnmount {
+    
+        /**
+         * May be emitted when a mount is about to be removed.
+         * <p>
+         * This signal depends on the backend and is only emitted if
+         * GIO was used to unmount.
+         */
         void run(org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountPreUnmount.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountPreUnmount.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -461,28 +631,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.MountPreUnmount> onMountPreUnmount(VolumeMonitor.MountPreUnmount handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("mount-pre-unmount"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("mount-pre-unmount", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountRemoved} callback.
+     */
     @FunctionalInterface
     public interface MountRemoved {
+    
+        /**
+         * Emitted when a mount is removed.
+         */
         void run(org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -492,28 +681,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.MountRemoved> onMountRemoved(VolumeMonitor.MountRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("mount-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("mount-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeAdded} callback.
+     */
     @FunctionalInterface
     public interface VolumeAdded {
+    
+        /**
+         * Emitted when a mountable volume is added to the system.
+         */
         void run(org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -523,28 +731,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.VolumeAdded> onVolumeAdded(VolumeMonitor.VolumeAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("volume-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("volume-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeChanged} callback.
+     */
     @FunctionalInterface
     public interface VolumeChanged {
+    
+        /**
+         * Emitted when mountable volume is changed.
+         */
         void run(org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -554,28 +781,47 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.VolumeChanged> onVolumeChanged(VolumeMonitor.VolumeChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("volume-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("volume-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeRemoved} callback.
+     */
     @FunctionalInterface
     public interface VolumeRemoved {
+    
+        /**
+         * Emitted when a mountable volume is removed from the system.
+         */
         void run(org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceVolumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -585,9 +831,10 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<VolumeMonitor.VolumeRemoved> onVolumeRemoved(VolumeMonitor.VolumeRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("volume-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("volume-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -610,6 +857,9 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -634,51 +884,59 @@ public class VolumeMonitor extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_volume_monitor_get_connected_drives = Interop.downcallHandle(
-            "g_volume_monitor_get_connected_drives",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get_connected_drives",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get_mount_for_uuid = Interop.downcallHandle(
-            "g_volume_monitor_get_mount_for_uuid",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get_mount_for_uuid",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get_mounts = Interop.downcallHandle(
-            "g_volume_monitor_get_mounts",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get_mounts",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get_volume_for_uuid = Interop.downcallHandle(
-            "g_volume_monitor_get_volume_for_uuid",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get_volume_for_uuid",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get_volumes = Interop.downcallHandle(
-            "g_volume_monitor_get_volumes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get_volumes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get_type = Interop.downcallHandle(
-            "g_volume_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_volume_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_adopt_orphan_mount = Interop.downcallHandle(
-            "g_volume_monitor_adopt_orphan_mount",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_adopt_orphan_mount",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_volume_monitor_get = Interop.downcallHandle(
-            "g_volume_monitor_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_volume_monitor_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_volume_monitor_get_type != null;
     }
 }

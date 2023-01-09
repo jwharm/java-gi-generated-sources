@@ -32,8 +32,8 @@ public class BookmarkFile extends Struct {
      * @return A new, uninitialized @{link BookmarkFile}
      */
     public static BookmarkFile allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BookmarkFile newInstance = new BookmarkFile(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BookmarkFile newInstance = new BookmarkFile(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class BookmarkFile extends Struct {
     /**
      * Create a BookmarkFile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BookmarkFile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BookmarkFile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BookmarkFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkFile(input, ownership);
+    public static final Marshal<Addressable, BookmarkFile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkFile(input);
     
     /**
      * Adds the application with {@code name} and {@code exec} to the list of
@@ -79,14 +81,16 @@ public class BookmarkFile extends Struct {
      * @param exec command line to be used to launch the bookmark or {@code null}
      */
     public void addApplication(java.lang.String uri, @Nullable java.lang.String name, @Nullable java.lang.String exec) {
-        try {
-            DowncallHandles.g_bookmark_file_add_application.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    (Addressable) (exec == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(exec, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_add_application.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        (Addressable) (exec == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(exec, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -99,13 +103,15 @@ public class BookmarkFile extends Struct {
      * @param group the group name to be added
      */
     public void addGroup(java.lang.String uri, java.lang.String group) {
-        try {
-            DowncallHandles.g_bookmark_file_add_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(group, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_add_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(group, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -114,8 +120,7 @@ public class BookmarkFile extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_bookmark_file_free.invokeExact(
-                    handle());
+            DowncallHandles.g_bookmark_file_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,20 +139,22 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public long getAdded(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_bookmark_file_get_added.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_bookmark_file_get_added.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -160,20 +167,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.glib.DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_added_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_added_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,30 +211,32 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public boolean getAppInfo(java.lang.String uri, java.lang.String name, @Nullable Out<java.lang.String> exec, Out<Integer> count, Out<Long> stamp) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_get_app_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
-                    (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
-                    (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment execPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment countPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment stampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_get_app_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
+                        (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
+                        (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (stamp != null) stamp.set(stampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (stamp != null) stamp.set(stampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -251,30 +262,32 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, @Nullable Out<java.lang.String> exec, Out<Integer> count, @Nullable Out<org.gtk.glib.DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_get_application_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
-                    (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
-                    (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment execPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment countPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment stampPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_get_application_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
+                        (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
+                        (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (stamp != null) stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (stamp != null) stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,28 +303,30 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String[] getApplications(java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_applications.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_applications.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -325,20 +340,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_description.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_description.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -356,28 +373,30 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String[] getGroups(java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_groups.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_groups.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -393,26 +412,28 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean getIcon(java.lang.String uri, @Nullable Out<java.lang.String> href, @Nullable Out<java.lang.String> mimeType) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment hrefPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment mimeTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_get_icon.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (href == null ? MemoryAddress.NULL : (Addressable) hrefPOINTER.address()),
-                    (Addressable) (mimeType == null ? MemoryAddress.NULL : (Addressable) mimeTypePOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment hrefPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment mimeTypePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_get_icon.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (href == null ? MemoryAddress.NULL : (Addressable) hrefPOINTER.address()),
+                        (Addressable) (mimeType == null ? MemoryAddress.NULL : (Addressable) mimeTypePOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (href != null) href.set(Marshal.addressToString.marshal(hrefPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (mimeType != null) mimeType.set(Marshal.addressToString.marshal(mimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (href != null) href.set(Marshal.addressToString.marshal(hrefPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (mimeType != null) mimeType.set(Marshal.addressToString.marshal(mimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -427,20 +448,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_get_is_private.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_get_is_private.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -456,20 +479,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_mime_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_mime_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -485,20 +510,22 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public long getModified(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_bookmark_file_get_modified.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_bookmark_file_get_modified.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -511,20 +538,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.glib.DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_modified_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_modified_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -534,8 +563,7 @@ public class BookmarkFile extends Struct {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_bookmark_file_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -555,20 +583,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getTitle(@Nullable java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_title.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_title.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -580,22 +610,24 @@ public class BookmarkFile extends Struct {
      *   Use g_strfreev() to free it.
      */
     public java.lang.String[] getUris(Out<Long> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_uris.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_uris.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -611,20 +643,22 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public long getVisited(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_bookmark_file_get_visited.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_bookmark_file_get_visited.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -637,20 +671,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.glib.DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_visited_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_visited_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -665,21 +701,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_has_application.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_has_application.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -694,21 +732,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_has_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(group, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_has_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(group, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -717,15 +757,17 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if {@code uri} is inside {@code bookmark}, {@code false} otherwise
      */
     public boolean hasItem(java.lang.String uri) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_has_item.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_has_item.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -739,21 +781,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    length,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -769,23 +813,25 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromDataDirs(java.lang.String file, @Nullable Out<java.lang.String> fullPath) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data_dirs.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment fullPathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data_dirs.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -798,20 +844,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_load_from_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_load_from_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -827,21 +875,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean moveItem(java.lang.String oldUri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_move_item.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(oldUri, null),
-                    (Addressable) (newUri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(newUri, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_move_item.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(oldUri, SCOPE),
+                        (Addressable) (newUri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(newUri, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -859,21 +909,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_remove_application.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_remove_application.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -890,21 +942,23 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_remove_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(group, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_remove_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(group, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -914,20 +968,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_remove_item.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_remove_item.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -941,13 +997,15 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public void setAdded(java.lang.String uri, long added) {
-        try {
-            DowncallHandles.g_bookmark_file_set_added.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    added);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_added.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        added);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -959,13 +1017,15 @@ public class BookmarkFile extends Struct {
      * @param added a {@link DateTime}
      */
     public void setAddedDateTime(java.lang.String uri, org.gtk.glib.DateTime added) {
-        try {
-            DowncallHandles.g_bookmark_file_set_added_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    added.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_added_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        added.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1011,24 +1071,26 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public boolean setAppInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, long stamp) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_set_app_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(exec, null),
-                    count,
-                    stamp,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_set_app_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(exec, SCOPE),
+                        count,
+                        stamp,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1070,24 +1132,26 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, @Nullable org.gtk.glib.DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_set_application_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(exec, null),
-                    count,
-                    (Addressable) (stamp == null ? MemoryAddress.NULL : stamp.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_set_application_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(exec, SCOPE),
+                        count,
+                        (Addressable) (stamp == null ? MemoryAddress.NULL : stamp.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1100,13 +1164,15 @@ public class BookmarkFile extends Struct {
      * @param description a string
      */
     public void setDescription(@Nullable java.lang.String uri, java.lang.String description) {
-        try {
-            DowncallHandles.g_bookmark_file_set_description.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
-                    Marshal.stringToAddress.marshal(description, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_description.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)),
+                        Marshal.stringToAddress.marshal(description, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1121,14 +1187,16 @@ public class BookmarkFile extends Struct {
      * @param length number of group name values in {@code groups}
      */
     public void setGroups(java.lang.String uri, @Nullable java.lang.String[] groups, long length) {
-        try {
-            DowncallHandles.g_bookmark_file_set_groups.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false)),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_groups.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false, SCOPE)),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1143,14 +1211,16 @@ public class BookmarkFile extends Struct {
      * @param mimeType the MIME type of the icon for the bookmark
      */
     public void setIcon(java.lang.String uri, @Nullable java.lang.String href, java.lang.String mimeType) {
-        try {
-            DowncallHandles.g_bookmark_file_set_icon.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (href == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(href, null)),
-                    Marshal.stringToAddress.marshal(mimeType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_icon.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (href == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(href, SCOPE)),
+                        Marshal.stringToAddress.marshal(mimeType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1162,13 +1232,15 @@ public class BookmarkFile extends Struct {
      * @param isPrivate {@code true} if the bookmark should be marked as private
      */
     public void setIsPrivate(java.lang.String uri, boolean isPrivate) {
-        try {
-            DowncallHandles.g_bookmark_file_set_is_private.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.booleanToInteger.marshal(isPrivate, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_is_private.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.booleanToInteger.marshal(isPrivate, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1180,13 +1252,15 @@ public class BookmarkFile extends Struct {
      * @param mimeType a MIME type
      */
     public void setMimeType(java.lang.String uri, java.lang.String mimeType) {
-        try {
-            DowncallHandles.g_bookmark_file_set_mime_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(mimeType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_mime_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(mimeType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1206,13 +1280,15 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public void setModified(java.lang.String uri, long modified) {
-        try {
-            DowncallHandles.g_bookmark_file_set_modified.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    modified);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_modified.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        modified);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1229,13 +1305,15 @@ public class BookmarkFile extends Struct {
      * @param modified a {@link DateTime}
      */
     public void setModifiedDateTime(java.lang.String uri, org.gtk.glib.DateTime modified) {
-        try {
-            DowncallHandles.g_bookmark_file_set_modified_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    modified.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_modified_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        modified.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1250,13 +1328,15 @@ public class BookmarkFile extends Struct {
      * @param title a UTF-8 encoded string
      */
     public void setTitle(@Nullable java.lang.String uri, java.lang.String title) {
-        try {
-            DowncallHandles.g_bookmark_file_set_title.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_title.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1277,13 +1357,15 @@ public class BookmarkFile extends Struct {
      */
     @Deprecated
     public void setVisited(java.lang.String uri, long visited) {
-        try {
-            DowncallHandles.g_bookmark_file_set_visited.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    visited);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_visited.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        visited);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1301,13 +1383,15 @@ public class BookmarkFile extends Struct {
      * @param visited a {@link DateTime}
      */
     public void setVisitedDateTime(java.lang.String uri, org.gtk.glib.DateTime visited) {
-        try {
-            DowncallHandles.g_bookmark_file_set_visited_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    visited.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_bookmark_file_set_visited_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        visited.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1318,22 +1402,24 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public byte[] toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_to_data.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_to_data.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -1344,20 +1430,22 @@ public class BookmarkFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_bookmark_file_to_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_bookmark_file_to_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public static org.gtk.glib.Quark errorQuark() {
@@ -1385,297 +1473,297 @@ public class BookmarkFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.BookmarkFile.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.BookmarkFile.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_bookmark_file_add_application = Interop.downcallHandle(
-            "g_bookmark_file_add_application",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_add_application",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_add_group = Interop.downcallHandle(
-            "g_bookmark_file_add_group",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_add_group",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_free = Interop.downcallHandle(
-            "g_bookmark_file_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_added = Interop.downcallHandle(
-            "g_bookmark_file_get_added",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_added",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_added_date_time = Interop.downcallHandle(
-            "g_bookmark_file_get_added_date_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_added_date_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_app_info = Interop.downcallHandle(
-            "g_bookmark_file_get_app_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_app_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_application_info = Interop.downcallHandle(
-            "g_bookmark_file_get_application_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_application_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_applications = Interop.downcallHandle(
-            "g_bookmark_file_get_applications",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_applications",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_description = Interop.downcallHandle(
-            "g_bookmark_file_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_groups = Interop.downcallHandle(
-            "g_bookmark_file_get_groups",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_groups",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_icon = Interop.downcallHandle(
-            "g_bookmark_file_get_icon",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_icon",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_is_private = Interop.downcallHandle(
-            "g_bookmark_file_get_is_private",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_is_private",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_mime_type = Interop.downcallHandle(
-            "g_bookmark_file_get_mime_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_mime_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_modified = Interop.downcallHandle(
-            "g_bookmark_file_get_modified",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_modified",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_modified_date_time = Interop.downcallHandle(
-            "g_bookmark_file_get_modified_date_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_modified_date_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_size = Interop.downcallHandle(
-            "g_bookmark_file_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_title = Interop.downcallHandle(
-            "g_bookmark_file_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_uris = Interop.downcallHandle(
-            "g_bookmark_file_get_uris",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_uris",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_visited = Interop.downcallHandle(
-            "g_bookmark_file_get_visited",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_visited",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_get_visited_date_time = Interop.downcallHandle(
-            "g_bookmark_file_get_visited_date_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_get_visited_date_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_has_application = Interop.downcallHandle(
-            "g_bookmark_file_has_application",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_has_application",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_has_group = Interop.downcallHandle(
-            "g_bookmark_file_has_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_has_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_has_item = Interop.downcallHandle(
-            "g_bookmark_file_has_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_has_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_data = Interop.downcallHandle(
-            "g_bookmark_file_load_from_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_load_from_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_data_dirs = Interop.downcallHandle(
-            "g_bookmark_file_load_from_data_dirs",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_load_from_data_dirs",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_load_from_file = Interop.downcallHandle(
-            "g_bookmark_file_load_from_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_load_from_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_move_item = Interop.downcallHandle(
-            "g_bookmark_file_move_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_move_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_remove_application = Interop.downcallHandle(
-            "g_bookmark_file_remove_application",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_remove_application",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_remove_group = Interop.downcallHandle(
-            "g_bookmark_file_remove_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_remove_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_remove_item = Interop.downcallHandle(
-            "g_bookmark_file_remove_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_remove_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_added = Interop.downcallHandle(
-            "g_bookmark_file_set_added",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bookmark_file_set_added",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_added_date_time = Interop.downcallHandle(
-            "g_bookmark_file_set_added_date_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_added_date_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_app_info = Interop.downcallHandle(
-            "g_bookmark_file_set_app_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_app_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_application_info = Interop.downcallHandle(
-            "g_bookmark_file_set_application_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_application_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_description = Interop.downcallHandle(
-            "g_bookmark_file_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_groups = Interop.downcallHandle(
-            "g_bookmark_file_set_groups",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bookmark_file_set_groups",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_icon = Interop.downcallHandle(
-            "g_bookmark_file_set_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_is_private = Interop.downcallHandle(
-            "g_bookmark_file_set_is_private",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_bookmark_file_set_is_private",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_mime_type = Interop.downcallHandle(
-            "g_bookmark_file_set_mime_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_mime_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_modified = Interop.downcallHandle(
-            "g_bookmark_file_set_modified",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bookmark_file_set_modified",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_modified_date_time = Interop.downcallHandle(
-            "g_bookmark_file_set_modified_date_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_modified_date_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_title = Interop.downcallHandle(
-            "g_bookmark_file_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_visited = Interop.downcallHandle(
-            "g_bookmark_file_set_visited",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bookmark_file_set_visited",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_set_visited_date_time = Interop.downcallHandle(
-            "g_bookmark_file_set_visited_date_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_set_visited_date_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_to_data = Interop.downcallHandle(
-            "g_bookmark_file_to_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_to_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_to_file = Interop.downcallHandle(
-            "g_bookmark_file_to_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_to_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
-            "g_bookmark_file_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_bookmark_file_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_bookmark_file_new = Interop.downcallHandle(
-            "g_bookmark_file_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_bookmark_file_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

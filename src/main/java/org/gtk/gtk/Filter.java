@@ -47,14 +47,16 @@ public class Filter extends org.gtk.gobject.GObject {
     /**
      * Create a Filter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Filter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Filter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Filter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Filter(input, ownership);
+    public static final Marshal<Addressable, Filter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Filter(input);
     
     /**
      * Notifies all users of the filter that it has changed.
@@ -96,8 +98,7 @@ public class Filter extends org.gtk.gobject.GObject {
     public org.gtk.gtk.FilterMatch getStrictness() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,19 +137,46 @@ public class Filter extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted whenever the filter changed.
+         * <p>
+         * Users of the filter should then check items again via
+         * {@link Filter#match}.
+         * <p>
+         * {@code GtkFilterListModel} handles this signal automatically.
+         * <p>
+         * Depending on the {@code change} parameter, not all items need
+         * to be checked, but only some. Refer to the {@code Gtk.FilterChange}
+         * documentation for details.
+         */
         void run(org.gtk.gtk.FilterChange change);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFilter, int change) {
             run(org.gtk.gtk.FilterChange.of(change));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,9 +195,10 @@ public class Filter extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Filter.Changed> onChanged(Filter.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -192,6 +221,9 @@ public class Filter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -216,27 +248,35 @@ public class Filter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
-            "gtk_filter_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_filter_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
-            "gtk_filter_get_strictness",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_get_strictness",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_match = Interop.downcallHandle(
-            "gtk_filter_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_get_type = Interop.downcallHandle(
-            "gtk_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_filter_get_type != null;
     }
 }

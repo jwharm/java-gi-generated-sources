@@ -13,54 +13,67 @@ import org.jetbrains.annotations.*;
  * X and Y are present as axes depends on the GDK backend.
  */
 public enum AxisUse implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the axis is ignored.
      */
     IGNORE(0),
+    
     /**
      * the axis is used as the x axis.
      */
     X(1),
+    
     /**
      * the axis is used as the y axis.
      */
     Y(2),
+    
     /**
      * the axis is used as the scroll x delta
      */
     DELTA_X(3),
+    
     /**
      * the axis is used as the scroll y delta
      */
     DELTA_Y(4),
+    
     /**
      * the axis is used for pressure information.
      */
     PRESSURE(5),
+    
     /**
      * the axis is used for x tilt information.
      */
     XTILT(6),
+    
     /**
      * the axis is used for y tilt information.
      */
     YTILT(7),
+    
     /**
      * the axis is used for wheel information.
      */
     WHEEL(8),
+    
     /**
      * the axis is used for pen/tablet distance information
      */
     DISTANCE(9),
+    
     /**
      * the axis is used for pen rotation information
      */
     ROTATION(10),
+    
     /**
      * the axis is used for pen slider information
      */
     SLIDER(11),
+    
     /**
      * a constant equal to the numerically highest axis value.
      */
@@ -69,15 +82,29 @@ public enum AxisUse implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkAxisUse";
     
     private final int value;
+    
+    /**
+     * Create a new AxisUse for the provided value
+     * @param numeric value the enum value
+     */
     AxisUse(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AxisUse for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AxisUse of(int value) {
         return switch (value) {
             case 0 -> IGNORE;

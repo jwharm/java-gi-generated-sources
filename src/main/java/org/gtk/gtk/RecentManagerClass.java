@@ -39,25 +39,40 @@ public class RecentManagerClass extends Struct {
      * @return A new, uninitialized @{link RecentManagerClass}
      */
     public static RecentManagerClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RecentManagerClass newInstance = new RecentManagerClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RecentManagerClass newInstance = new RecentManagerClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ChangedCallback {
+    
         void run(org.gtk.gtk.RecentManager manager);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress manager) {
-            run((org.gtk.gtk.RecentManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(manager)), org.gtk.gtk.RecentManager.fromAddress).marshal(manager, Ownership.NONE));
+            run((org.gtk.gtk.RecentManager) Interop.register(manager, org.gtk.gtk.RecentManager.fromAddress).marshal(manager, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -66,24 +81,41 @@ public class RecentManagerClass extends Struct {
      * @param changed The new value of the field {@code changed}
      */
     public void setChanged(ChangedCallback changed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkRecent1Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkRecent1Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkRecent1Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkRecent1Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -92,24 +124,41 @@ public class RecentManagerClass extends Struct {
      * @param GtkRecent1 The new value of the field {@code _gtk_recent1}
      */
     public void setGtkRecent1(GtkRecent1Callback GtkRecent1) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent1 == null ? MemoryAddress.NULL : GtkRecent1.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent1 == null ? MemoryAddress.NULL : GtkRecent1.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkRecent2Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkRecent2Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkRecent2Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkRecent2Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -118,24 +167,41 @@ public class RecentManagerClass extends Struct {
      * @param GtkRecent2 The new value of the field {@code _gtk_recent2}
      */
     public void setGtkRecent2(GtkRecent2Callback GtkRecent2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent2 == null ? MemoryAddress.NULL : GtkRecent2.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent2 == null ? MemoryAddress.NULL : GtkRecent2.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkRecent3Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkRecent3Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkRecent3Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkRecent3Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -144,24 +210,41 @@ public class RecentManagerClass extends Struct {
      * @param GtkRecent3 The new value of the field {@code _gtk_recent3}
      */
     public void setGtkRecent3(GtkRecent3Callback GtkRecent3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent3 == null ? MemoryAddress.NULL : GtkRecent3.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent3 == null ? MemoryAddress.NULL : GtkRecent3.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkRecent4Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkRecent4Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkRecent4Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkRecent4Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -170,22 +253,26 @@ public class RecentManagerClass extends Struct {
      * @param GtkRecent4 The new value of the field {@code _gtk_recent4}
      */
     public void setGtkRecent4(GtkRecent4Callback GtkRecent4) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent4 == null ? MemoryAddress.NULL : GtkRecent4.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent4 == null ? MemoryAddress.NULL : GtkRecent4.toCallback()));
+        }
     }
     
     /**
      * Create a RecentManagerClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RecentManagerClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RecentManagerClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RecentManagerClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecentManagerClass(input, ownership);
+    public static final Marshal<Addressable, RecentManagerClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RecentManagerClass(input);
     
     /**
      * A {@link RecentManagerClass.Builder} object constructs a {@link RecentManagerClass} 
@@ -209,7 +296,7 @@ public class RecentManagerClass extends Struct {
             struct = RecentManagerClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RecentManagerClass} struct.
          * @return A new instance of {@code RecentManagerClass} with the fields 
          *         that were set in the Builder object.
@@ -219,45 +306,57 @@ public class RecentManagerClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setChanged(ChangedCallback changed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkRecent1(GtkRecent1Callback GtkRecent1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent1 == null ? MemoryAddress.NULL : GtkRecent1.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent1 == null ? MemoryAddress.NULL : GtkRecent1.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkRecent2(GtkRecent2Callback GtkRecent2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent2 == null ? MemoryAddress.NULL : GtkRecent2.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent2 == null ? MemoryAddress.NULL : GtkRecent2.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkRecent3(GtkRecent3Callback GtkRecent3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent3 == null ? MemoryAddress.NULL : GtkRecent3.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent3 == null ? MemoryAddress.NULL : GtkRecent3.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkRecent4(GtkRecent4Callback GtkRecent4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkRecent4 == null ? MemoryAddress.NULL : GtkRecent4.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_recent4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkRecent4 == null ? MemoryAddress.NULL : GtkRecent4.toCallback()));
+                return this;
+            }
         }
     }
 }

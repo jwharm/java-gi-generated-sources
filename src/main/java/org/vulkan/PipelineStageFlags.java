@@ -29,8 +29,8 @@ public class PipelineStageFlags extends Struct {
      * @return A new, uninitialized @{link PipelineStageFlags}
      */
     public static PipelineStageFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineStageFlags newInstance = new PipelineStageFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineStageFlags newInstance = new PipelineStageFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineStageFlags extends Struct {
     /**
      * Create a PipelineStageFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineStageFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineStageFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineStageFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineStageFlags(input, ownership);
+    public static final Marshal<Addressable, PipelineStageFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineStageFlags(input);
 }

@@ -68,26 +68,17 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a CollectPads proxy instance for the provided memory address.
-     * <p>
-     * Because CollectPads is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CollectPads(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CollectPads(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CollectPads> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CollectPads(input, ownership);
+    public static final Marshal<Addressable, CollectPads> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CollectPads(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -105,7 +96,8 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
      * MT safe.
      */
     public CollectPads() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -154,7 +146,7 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.CollectData.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.base.CollectData.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -172,8 +164,7 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
     public int available() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_collect_pads_available.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_collect_pads_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,20 +183,22 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
      * @param outbuf output buffer with running time, or NULL if clipped
      */
     public org.gstreamer.gst.FlowReturn clipRunningTime(org.gstreamer.base.CollectData cdata, org.gstreamer.gst.Buffer buf, @Nullable Out<org.gstreamer.gst.Buffer> outbuf) {
-        MemorySegment outbufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_collect_pads_clip_running_time.invokeExact(
-                    handle(),
-                    cdata.handle(),
-                    buf.handle(),
-                    (Addressable) (outbuf == null ? MemoryAddress.NULL : (Addressable) outbufPOINTER.address()),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outbufPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_collect_pads_clip_running_time.invokeExact(
+                        handle(),
+                        cdata.handle(),
+                        buf.handle(),
+                        (Addressable) (outbuf == null ? MemoryAddress.NULL : (Addressable) outbufPOINTER.address()),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (outbuf != null) outbuf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        if (outbuf != null) outbuf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -274,7 +267,9 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -296,7 +291,9 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -344,7 +341,9 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -580,8 +579,7 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
      */
     public void start() {
         try {
-            DowncallHandles.gst_collect_pads_start.invokeExact(
-                    handle());
+            DowncallHandles.gst_collect_pads_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,8 +593,7 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
      */
     public void stop() {
         try {
-            DowncallHandles.gst_collect_pads_stop.invokeExact(
-                    handle());
+            DowncallHandles.gst_collect_pads_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -626,7 +623,9 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -659,6 +658,9 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -683,153 +685,161 @@ public class CollectPads extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_collect_pads_new = Interop.downcallHandle(
-            "gst_collect_pads_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_add_pad = Interop.downcallHandle(
-            "gst_collect_pads_add_pad",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_add_pad",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_available = Interop.downcallHandle(
-            "gst_collect_pads_available",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_available",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_clip_running_time = Interop.downcallHandle(
-            "gst_collect_pads_clip_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_clip_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_event_default = Interop.downcallHandle(
-            "gst_collect_pads_event_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_event_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_flush = Interop.downcallHandle(
-            "gst_collect_pads_flush",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_flush",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_peek = Interop.downcallHandle(
-            "gst_collect_pads_peek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_peek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_pop = Interop.downcallHandle(
-            "gst_collect_pads_pop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_pop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_query_default = Interop.downcallHandle(
-            "gst_collect_pads_query_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_query_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_read_buffer = Interop.downcallHandle(
-            "gst_collect_pads_read_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_read_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_remove_pad = Interop.downcallHandle(
-            "gst_collect_pads_remove_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_remove_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_buffer_function = Interop.downcallHandle(
-            "gst_collect_pads_set_buffer_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_buffer_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_clip_function = Interop.downcallHandle(
-            "gst_collect_pads_set_clip_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_clip_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_compare_function = Interop.downcallHandle(
-            "gst_collect_pads_set_compare_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_compare_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_event_function = Interop.downcallHandle(
-            "gst_collect_pads_set_event_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_event_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_flush_function = Interop.downcallHandle(
-            "gst_collect_pads_set_flush_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_flush_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_flushing = Interop.downcallHandle(
-            "gst_collect_pads_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_function = Interop.downcallHandle(
-            "gst_collect_pads_set_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_query_function = Interop.downcallHandle(
-            "gst_collect_pads_set_query_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_set_query_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_set_waiting = Interop.downcallHandle(
-            "gst_collect_pads_set_waiting",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_set_waiting",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_src_event_default = Interop.downcallHandle(
-            "gst_collect_pads_src_event_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_src_event_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_start = Interop.downcallHandle(
-            "gst_collect_pads_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_stop = Interop.downcallHandle(
-            "gst_collect_pads_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_collect_pads_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_take_buffer = Interop.downcallHandle(
-            "gst_collect_pads_take_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_collect_pads_take_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_collect_pads_get_type = Interop.downcallHandle(
-            "gst_collect_pads_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_collect_pads_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_collect_pads_get_type != null;
     }
 }

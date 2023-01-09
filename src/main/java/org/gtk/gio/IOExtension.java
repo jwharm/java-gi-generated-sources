@@ -33,8 +33,8 @@ public class IOExtension extends Struct {
      * @return A new, uninitialized @{link IOExtension}
      */
     public static IOExtension allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOExtension newInstance = new IOExtension(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IOExtension newInstance = new IOExtension(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class IOExtension extends Struct {
     /**
      * Create a IOExtension proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOExtension(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOExtension(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOExtension> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOExtension(input, ownership);
+    public static final Marshal<Addressable, IOExtension> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOExtension(input);
     
     /**
      * Gets the name under which {@code extension} was registered.
@@ -61,8 +63,7 @@ public class IOExtension extends Struct {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,8 +77,7 @@ public class IOExtension extends Struct {
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_io_extension_get_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_io_extension_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,8 +91,7 @@ public class IOExtension extends Struct {
     public org.gtk.glib.Type getType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_io_extension_get_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_io_extension_get_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,38 +106,39 @@ public class IOExtension extends Struct {
     public org.gtk.gobject.TypeClass refClass() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_ref_class.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_extension_ref_class.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_extension_get_name = Interop.downcallHandle(
-            "g_io_extension_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_get_priority = Interop.downcallHandle(
-            "g_io_extension_get_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_get_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_get_type = Interop.downcallHandle(
-            "g_io_extension_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_extension_ref_class = Interop.downcallHandle(
-            "g_io_extension_ref_class",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_extension_ref_class",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class PhysicalDeviceASTCDecodeFeaturesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceASTCDecodeFeaturesEXT}
      */
     public static PhysicalDeviceASTCDecodeFeaturesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceASTCDecodeFeaturesEXT newInstance = new PhysicalDeviceASTCDecodeFeaturesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceASTCDecodeFeaturesEXT newInstance = new PhysicalDeviceASTCDecodeFeaturesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceASTCDecodeFeaturesEXT extends Struct {
     /**
      * Create a PhysicalDeviceASTCDecodeFeaturesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceASTCDecodeFeaturesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceASTCDecodeFeaturesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceASTCDecodeFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceASTCDecodeFeaturesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceASTCDecodeFeaturesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceASTCDecodeFeaturesEXT(input);
 }

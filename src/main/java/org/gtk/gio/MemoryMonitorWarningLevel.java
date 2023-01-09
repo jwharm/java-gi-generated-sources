@@ -17,12 +17,14 @@ import org.jetbrains.annotations.*;
  * @version 2.64
  */
 public enum MemoryMonitorWarningLevel implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Memory on the device is low, processes
      *   should free up unneeded resources (for example, in-memory caches) so they can
      *   be used elsewhere.
      */
     LOW(50),
+    
     /**
      * Same as {@code G_MEMORY_MONITOR_WARNING_LEVEL_LOW}
      *   but the device has even less free memory, so processes should try harder to free
@@ -30,6 +32,7 @@ public enum MemoryMonitorWarningLevel implements io.github.jwharm.javagi.Enumera
      *   good time for it to quit.
      */
     MEDIUM(100),
+    
     /**
      * The system will soon start terminating
      *   processes to reclaim memory, including background processes.
@@ -39,15 +42,29 @@ public enum MemoryMonitorWarningLevel implements io.github.jwharm.javagi.Enumera
     private static final java.lang.String C_TYPE_NAME = "GMemoryMonitorWarningLevel";
     
     private final int value;
+    
+    /**
+     * Create a new MemoryMonitorWarningLevel for the provided value
+     * @param numeric value the enum value
+     */
     MemoryMonitorWarningLevel(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new MemoryMonitorWarningLevel for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static MemoryMonitorWarningLevel of(int value) {
         return switch (value) {
             case 50 -> LOW;

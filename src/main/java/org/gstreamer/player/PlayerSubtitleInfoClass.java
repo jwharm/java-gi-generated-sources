@@ -29,8 +29,8 @@ public class PlayerSubtitleInfoClass extends Struct {
      * @return A new, uninitialized @{link PlayerSubtitleInfoClass}
      */
     public static PlayerSubtitleInfoClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayerSubtitleInfoClass newInstance = new PlayerSubtitleInfoClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayerSubtitleInfoClass newInstance = new PlayerSubtitleInfoClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PlayerSubtitleInfoClass extends Struct {
     /**
      * Create a PlayerSubtitleInfoClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerSubtitleInfoClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerSubtitleInfoClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerSubtitleInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSubtitleInfoClass(input, ownership);
+    public static final Marshal<Addressable, PlayerSubtitleInfoClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSubtitleInfoClass(input);
 }

@@ -29,8 +29,8 @@ public class BlendOp extends Struct {
      * @return A new, uninitialized @{link BlendOp}
      */
     public static BlendOp allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BlendOp newInstance = new BlendOp(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BlendOp newInstance = new BlendOp(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BlendOp extends Struct {
     /**
      * Create a BlendOp proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BlendOp(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BlendOp(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BlendOp> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BlendOp(input, ownership);
+    public static final Marshal<Addressable, BlendOp> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BlendOp(input);
 }

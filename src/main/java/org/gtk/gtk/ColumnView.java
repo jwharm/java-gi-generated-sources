@@ -89,32 +89,22 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     /**
      * Create a ColumnView proxy instance for the provided memory address.
-     * <p>
-     * Because ColumnView is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColumnView(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ColumnView(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColumnView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColumnView(input, ownership);
+    public static final Marshal<Addressable, ColumnView> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColumnView(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_new.invokeExact((Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,7 +120,9 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param model the list model to use
      */
     public ColumnView(@Nullable org.gtk.gtk.SelectionModel model) {
-        super(constructNew(model), Ownership.NONE);
+        super(constructNew(model));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -159,12 +151,11 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public org.gtk.gio.ListModel getColumns() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_columns.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -174,8 +165,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getEnableRubberband() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_get_enable_rubberband.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_get_enable_rubberband.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,12 +179,11 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.SelectionModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -204,8 +193,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getReorderable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_get_reorderable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_get_reorderable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,8 +208,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getShowColumnSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_get_show_column_separators.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_get_show_column_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +223,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getShowRowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_get_show_row_separators.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_get_show_row_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,8 +238,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public boolean getSingleClickActivate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_column_view_get_single_click_activate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_get_single_click_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,12 +270,11 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_sorter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Sorter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Sorter) Interop.register(RESULT, org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -455,19 +439,42 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted when a row has been activated by the user, usually via activating
+         * the GtkListBase|list.activate-item action.
+         * <p>
+         * This allows for a convenient way to handle activation in a columnview.
+         * See {@link ListItem#setActivatable} for details on how to use this
+         * signal.
+         */
         void run(int position);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceColumnView, int position) {
             run(position);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -482,9 +489,10 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ColumnView.Activate> onActivate(ColumnView.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -507,6 +515,9 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -619,123 +630,131 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_column_view_new = Interop.downcallHandle(
-            "gtk_column_view_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_append_column = Interop.downcallHandle(
-            "gtk_column_view_append_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_append_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_columns = Interop.downcallHandle(
-            "gtk_column_view_get_columns",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_columns",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_enable_rubberband = Interop.downcallHandle(
-            "gtk_column_view_get_enable_rubberband",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_enable_rubberband",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_model = Interop.downcallHandle(
-            "gtk_column_view_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_reorderable = Interop.downcallHandle(
-            "gtk_column_view_get_reorderable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_reorderable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_show_column_separators = Interop.downcallHandle(
-            "gtk_column_view_get_show_column_separators",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_show_column_separators",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_show_row_separators = Interop.downcallHandle(
-            "gtk_column_view_get_show_row_separators",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_show_row_separators",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_single_click_activate = Interop.downcallHandle(
-            "gtk_column_view_get_single_click_activate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_single_click_activate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_sorter = Interop.downcallHandle(
-            "gtk_column_view_get_sorter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_get_sorter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_insert_column = Interop.downcallHandle(
-            "gtk_column_view_insert_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_insert_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_remove_column = Interop.downcallHandle(
-            "gtk_column_view_remove_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_remove_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_enable_rubberband = Interop.downcallHandle(
-            "gtk_column_view_set_enable_rubberband",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_set_enable_rubberband",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_model = Interop.downcallHandle(
-            "gtk_column_view_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_column_view_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_reorderable = Interop.downcallHandle(
-            "gtk_column_view_set_reorderable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_set_reorderable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_show_column_separators = Interop.downcallHandle(
-            "gtk_column_view_set_show_column_separators",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_set_show_column_separators",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_show_row_separators = Interop.downcallHandle(
-            "gtk_column_view_set_show_row_separators",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_set_show_row_separators",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_set_single_click_activate = Interop.downcallHandle(
-            "gtk_column_view_set_single_click_activate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_set_single_click_activate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_sort_by_column = Interop.downcallHandle(
-            "gtk_column_view_sort_by_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_column_view_sort_by_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_column_view_get_type = Interop.downcallHandle(
-            "gtk_column_view_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_column_view_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_column_view_get_type != null;
     }
 }

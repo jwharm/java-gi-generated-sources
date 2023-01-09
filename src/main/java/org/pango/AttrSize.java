@@ -37,8 +37,8 @@ public class AttrSize extends Struct {
      * @return A new, uninitialized @{link AttrSize}
      */
     public static AttrSize allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrSize newInstance = new AttrSize(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrSize newInstance = new AttrSize(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class AttrSize extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,9 +57,11 @@ public class AttrSize extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -67,10 +69,12 @@ public class AttrSize extends Struct {
      * @return The value of the field {@code size}
      */
     public int getSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -78,9 +82,11 @@ public class AttrSize extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(int size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -88,10 +94,12 @@ public class AttrSize extends Struct {
      * @return The value of the field {@code absolute}
      */
     public int getAbsolute() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -99,22 +107,26 @@ public class AttrSize extends Struct {
      * @param absolute The new value of the field {@code absolute}
      */
     public void setAbsolute(int absolute) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), absolute);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), absolute);
+        }
     }
     
     /**
      * Create a AttrSize proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrSize(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrSize(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrSize(input, ownership);
+    public static final Marshal<Addressable, AttrSize> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrSize(input);
     
     /**
      * Create a new font-size attribute in fractional points.
@@ -126,12 +138,13 @@ public class AttrSize extends Struct {
     public static org.pango.Attribute new_(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new.invokeExact(
-                    size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -144,26 +157,27 @@ public class AttrSize extends Struct {
     public static org.pango.Attribute newAbsolute(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new_absolute.invokeExact(
-                    size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new_absolute.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
-            "pango_attr_size_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_size_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
-            "pango_attr_size_new_absolute",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_size_new_absolute",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -189,7 +203,7 @@ public class AttrSize extends Struct {
             struct = AttrSize.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrSize} struct.
          * @return A new instance of {@code AttrSize} with the fields 
          *         that were set in the Builder object.
@@ -204,10 +218,12 @@ public class AttrSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -217,10 +233,12 @@ public class AttrSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         /**
@@ -232,10 +250,12 @@ public class AttrSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAbsolute(int absolute) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), absolute);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("absolute"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), absolute);
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Navigation extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NavigationImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NavigationImpl(input, ownership);
+    public static final Marshal<Addressable, NavigationImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NavigationImpl(input);
     
     /**
      * Sends the indicated command to the navigation interface.
@@ -57,13 +60,15 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
     }
     
     default void sendKeyEvent(java.lang.String event, java.lang.String key) {
-        try {
-            DowncallHandles.gst_navigation_send_key_event.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(event, null),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_navigation_send_key_event.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(event, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -80,15 +85,17 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param y The y coordinate of the mouse event.
      */
     default void sendMouseEvent(java.lang.String event, int button, double x, double y) {
-        try {
-            DowncallHandles.gst_navigation_send_mouse_event.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(event, null),
-                    button,
-                    x,
-                    y);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_navigation_send_mouse_event.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(event, SCOPE),
+                        button,
+                        x,
+                        y);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -137,8 +144,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
     public static org.gstreamer.video.NavigationEventType eventGetType(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_get_type.invokeExact(
-                    event.handle());
+            RESULT = (int) DowncallHandles.gst_navigation_event_get_type.invokeExact(event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,31 +160,35 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return TRUE if the navigation command could be extracted, otherwise FALSE.
      */
     public static boolean eventParseCommand(org.gstreamer.gst.Event event, @Nullable Out<org.gstreamer.video.NavigationCommand> command) {
-        MemorySegment commandPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_parse_command.invokeExact(
-                    event.handle(),
-                    (Addressable) (command == null ? MemoryAddress.NULL : (Addressable) commandPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment commandPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_event_parse_command.invokeExact(
+                        event.handle(),
+                        (Addressable) (command == null ? MemoryAddress.NULL : (Addressable) commandPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (command != null) command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (command != null) command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public static boolean eventParseKeyEvent(org.gstreamer.gst.Event event, @Nullable Out<java.lang.String> key) {
-        MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_parse_key_event.invokeExact(
-                    event.handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment keyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_event_parse_key_event.invokeExact(
+                        event.handle(),
+                        (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (key != null) key.set(Marshal.addressToString.marshal(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (key != null) key.set(Marshal.addressToString.marshal(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -196,23 +206,25 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     otherwise FALSE.
      */
     public static boolean eventParseMouseButtonEvent(org.gstreamer.gst.Event event, Out<Integer> button, Out<Double> x, Out<Double> y) {
-        MemorySegment buttonPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_button_event.invokeExact(
-                    event.handle(),
-                    (Addressable) (button == null ? MemoryAddress.NULL : (Addressable) buttonPOINTER.address()),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment buttonPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_button_event.invokeExact(
+                        event.handle(),
+                        (Addressable) (button == null ? MemoryAddress.NULL : (Addressable) buttonPOINTER.address()),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (button != null) button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (button != null) button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -226,20 +238,22 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return TRUE if both coordinates could be extracted, otherwise FALSE.
      */
     public static boolean eventParseMouseMoveEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_move_event.invokeExact(
-                    event.handle(),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_move_event.invokeExact(
+                        event.handle(),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,26 +271,28 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return TRUE if all coordinates could be extracted, otherwise FALSE.
      */
     public static boolean eventParseMouseScrollEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y, Out<Double> deltaX, Out<Double> deltaY) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_scroll_event.invokeExact(
-                    event.handle(),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
-                    (Addressable) (deltaX == null ? MemoryAddress.NULL : (Addressable) deltaXPOINTER.address()),
-                    (Addressable) (deltaY == null ? MemoryAddress.NULL : (Addressable) deltaYPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment deltaXPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment deltaYPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_scroll_event.invokeExact(
+                        event.handle(),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                        (Addressable) (deltaX == null ? MemoryAddress.NULL : (Addressable) deltaXPOINTER.address()),
+                        (Addressable) (deltaY == null ? MemoryAddress.NULL : (Addressable) deltaYPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (deltaX != null) deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (deltaY != null) deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (deltaX != null) deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (deltaY != null) deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,8 +306,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
     public static org.gstreamer.video.NavigationMessageType messageGetType(org.gstreamer.gst.Message message) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_navigation_message_get_type.invokeExact(
-                    message.handle());
+            RESULT = (int) DowncallHandles.gst_navigation_message_get_type.invokeExact(message.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +333,9 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -330,12 +347,13 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
     public static org.gstreamer.gst.Message messageNewCommandsChanged(org.gstreamer.gst.GstObject src) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_commands_changed.invokeExact(
-                    src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_commands_changed.invokeExact(src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -354,7 +372,9 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -374,7 +394,9 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -388,20 +410,22 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
     public static boolean messageParseAnglesChanged(org.gstreamer.gst.Message message, Out<Integer> curAngle, Out<Integer> nAngles) {
-        MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_message_parse_angles_changed.invokeExact(
-                    message.handle(),
-                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
-                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment curAnglePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment nAnglesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_message_parse_angles_changed.invokeExact(
+                        message.handle(),
+                        (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                        (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -414,17 +438,19 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
     public static boolean messageParseEvent(org.gstreamer.gst.Message message, @Nullable Out<org.gstreamer.gst.Event> event) {
-        MemorySegment eventPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_message_parse_event.invokeExact(
-                    message.handle(),
-                    (Addressable) (event == null ? MemoryAddress.NULL : (Addressable) eventPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment eventPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_message_parse_event.invokeExact(
+                        message.handle(),
+                        (Addressable) (event == null ? MemoryAddress.NULL : (Addressable) eventPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (event != null) event.set(org.gstreamer.gst.Event.fromAddress.marshal(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (event != null) event.set(org.gstreamer.gst.Event.fromAddress.marshal(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -437,17 +463,19 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
     public static boolean messageParseMouseOver(org.gstreamer.gst.Message message, Out<Boolean> active) {
-        MemorySegment activePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_message_parse_mouse_over.invokeExact(
-                    message.handle(),
-                    (Addressable) (active == null ? MemoryAddress.NULL : (Addressable) activePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment activePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_message_parse_mouse_over.invokeExact(
+                        message.handle(),
+                        (Addressable) (active == null ? MemoryAddress.NULL : (Addressable) activePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (active != null) active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (active != null) active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -460,8 +488,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
     public static org.gstreamer.video.NavigationQueryType queryGetType(org.gstreamer.gst.Query query) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_navigation_query_get_type.invokeExact(
-                    query.handle());
+            RESULT = (int) DowncallHandles.gst_navigation_query_get_type.invokeExact(query.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,7 +508,9 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -496,7 +525,9 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -511,20 +542,22 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
     public static boolean queryParseAngles(org.gstreamer.gst.Query query, Out<Integer> curAngle, Out<Integer> nAngles) {
-        MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_query_parse_angles.invokeExact(
-                    query.handle(),
-                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
-                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment curAnglePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment nAnglesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_query_parse_angles.invokeExact(
+                        query.handle(),
+                        (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                        (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -534,17 +567,19 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
     public static boolean queryParseCommandsLength(org.gstreamer.gst.Query query, Out<Integer> nCmds) {
-        MemorySegment nCmdsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_length.invokeExact(
-                    query.handle(),
-                    (Addressable) (nCmds == null ? MemoryAddress.NULL : (Addressable) nCmdsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nCmdsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_length.invokeExact(
+                        query.handle(),
+                        (Addressable) (nCmds == null ? MemoryAddress.NULL : (Addressable) nCmdsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nCmds != null) nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (nCmds != null) nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -557,18 +592,20 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
     public static boolean queryParseCommandsNth(org.gstreamer.gst.Query query, int nth, @Nullable Out<org.gstreamer.video.NavigationCommand> cmd) {
-        MemorySegment cmdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_nth.invokeExact(
-                    query.handle(),
-                    nth,
-                    (Addressable) (cmd == null ? MemoryAddress.NULL : (Addressable) cmdPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment cmdPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_nth.invokeExact(
+                        query.handle(),
+                        nth,
+                        (Addressable) (cmd == null ? MemoryAddress.NULL : (Addressable) cmdPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (cmd != null) cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (cmd != null) cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -615,13 +652,15 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     {@code GstNavigationCommand} values.
      */
     public static void querySetCommandsv(org.gstreamer.gst.Query query, int nCmds, org.gstreamer.video.NavigationCommand[] cmds) {
-        try {
-            DowncallHandles.gst_navigation_query_set_commandsv.invokeExact(
-                    query.handle(),
-                    nCmds,
-                    Interop.allocateNativeArray(Enumeration.getValues(cmds), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_navigation_query_set_commandsv.invokeExact(
+                        query.handle(),
+                        nCmds,
+                        Interop.allocateNativeArray(Enumeration.getValues(cmds), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -630,216 +669,231 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_send_command = Interop.downcallHandle(
-            "gst_navigation_send_command",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_send_command",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_send_event = Interop.downcallHandle(
-            "gst_navigation_send_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_send_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_send_key_event = Interop.downcallHandle(
-            "gst_navigation_send_key_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_send_key_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_send_mouse_event = Interop.downcallHandle(
-            "gst_navigation_send_mouse_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_navigation_send_mouse_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_send_mouse_scroll_event = Interop.downcallHandle(
-            "gst_navigation_send_mouse_scroll_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_navigation_send_mouse_scroll_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_get_type = Interop.downcallHandle(
-            "gst_navigation_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_navigation_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_get_type = Interop.downcallHandle(
-            "gst_navigation_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_parse_command = Interop.downcallHandle(
-            "gst_navigation_event_parse_command",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_event_parse_command",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_parse_key_event = Interop.downcallHandle(
-            "gst_navigation_event_parse_key_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_event_parse_key_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_parse_mouse_button_event = Interop.downcallHandle(
-            "gst_navigation_event_parse_mouse_button_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_event_parse_mouse_button_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_parse_mouse_move_event = Interop.downcallHandle(
-            "gst_navigation_event_parse_mouse_move_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_event_parse_mouse_move_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_event_parse_mouse_scroll_event = Interop.downcallHandle(
-            "gst_navigation_event_parse_mouse_scroll_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_event_parse_mouse_scroll_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_get_type = Interop.downcallHandle(
-            "gst_navigation_message_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_message_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_new_angles_changed = Interop.downcallHandle(
-            "gst_navigation_message_new_angles_changed",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_message_new_angles_changed",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_new_commands_changed = Interop.downcallHandle(
-            "gst_navigation_message_new_commands_changed",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_message_new_commands_changed",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_new_event = Interop.downcallHandle(
-            "gst_navigation_message_new_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_message_new_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_new_mouse_over = Interop.downcallHandle(
-            "gst_navigation_message_new_mouse_over",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_message_new_mouse_over",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_parse_angles_changed = Interop.downcallHandle(
-            "gst_navigation_message_parse_angles_changed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_message_parse_angles_changed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_parse_event = Interop.downcallHandle(
-            "gst_navigation_message_parse_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_message_parse_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_message_parse_mouse_over = Interop.downcallHandle(
-            "gst_navigation_message_parse_mouse_over",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_message_parse_mouse_over",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_get_type = Interop.downcallHandle(
-            "gst_navigation_query_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_new_angles = Interop.downcallHandle(
-            "gst_navigation_query_new_angles",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_new_angles",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_new_commands = Interop.downcallHandle(
-            "gst_navigation_query_new_commands",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_new_commands",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_parse_angles = Interop.downcallHandle(
-            "gst_navigation_query_parse_angles",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_parse_angles",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_parse_commands_length = Interop.downcallHandle(
-            "gst_navigation_query_parse_commands_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_parse_commands_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_parse_commands_nth = Interop.downcallHandle(
-            "gst_navigation_query_parse_commands_nth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_query_parse_commands_nth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_set_angles = Interop.downcallHandle(
-            "gst_navigation_query_set_angles",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_navigation_query_set_angles",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_set_commands = Interop.downcallHandle(
-            "gst_navigation_query_set_commands",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
+                "gst_navigation_query_set_commands",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_navigation_query_set_commandsv = Interop.downcallHandle(
-            "gst_navigation_query_set_commandsv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_navigation_query_set_commandsv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The NavigationImpl type represents a native instance of the Navigation interface.
+     */
     class NavigationImpl extends org.gtk.gobject.GObject implements Navigation {
         
         static {
             GstVideo.javagi$ensureInitialized();
         }
         
-        public NavigationImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Navigation for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public NavigationImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_navigation_get_type != null;
     }
 }

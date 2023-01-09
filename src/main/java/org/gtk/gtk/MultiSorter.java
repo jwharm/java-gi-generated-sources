@@ -32,14 +32,16 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
     /**
      * Create a MultiSorter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MultiSorter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MultiSorter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MultiSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MultiSorter(input, ownership);
+    public static final Marshal<Addressable, MultiSorter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MultiSorter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -60,7 +62,8 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      * items as equal.
      */
     public MultiSorter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -128,6 +131,9 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
      */
     public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -174,27 +180,35 @@ public class MultiSorter extends org.gtk.gtk.Sorter implements org.gtk.gio.ListM
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_multi_sorter_new = Interop.downcallHandle(
-            "gtk_multi_sorter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_multi_sorter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_multi_sorter_append = Interop.downcallHandle(
-            "gtk_multi_sorter_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_multi_sorter_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_multi_sorter_remove = Interop.downcallHandle(
-            "gtk_multi_sorter_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_multi_sorter_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_multi_sorter_get_type = Interop.downcallHandle(
-            "gtk_multi_sorter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_multi_sorter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_multi_sorter_get_type != null;
     }
 }

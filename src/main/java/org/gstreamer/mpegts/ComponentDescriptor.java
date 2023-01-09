@@ -36,8 +36,8 @@ public class ComponentDescriptor extends Struct {
      * @return A new, uninitialized @{link ComponentDescriptor}
      */
     public static ComponentDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ComponentDescriptor newInstance = new ComponentDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ComponentDescriptor newInstance = new ComponentDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class ComponentDescriptor extends Struct {
      * @return The value of the field {@code stream_content}
      */
     public byte getStreamContent() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class ComponentDescriptor extends Struct {
      * @param streamContent The new value of the field {@code stream_content}
      */
     public void setStreamContent(byte streamContent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamContent);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), streamContent);
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class ComponentDescriptor extends Struct {
      * @return The value of the field {@code component_type}
      */
     public byte getComponentType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class ComponentDescriptor extends Struct {
      * @param componentType The new value of the field {@code component_type}
      */
     public void setComponentType(byte componentType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), componentType);
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class ComponentDescriptor extends Struct {
      * @return The value of the field {@code component_tag}
      */
     public byte getComponentTag() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -100,9 +110,11 @@ public class ComponentDescriptor extends Struct {
      * @param componentTag The new value of the field {@code component_tag}
      */
     public void setComponentTag(byte componentTag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentTag);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), componentTag);
+        }
     }
     
     /**
@@ -110,10 +122,12 @@ public class ComponentDescriptor extends Struct {
      * @return The value of the field {@code language_code}
      */
     public java.lang.String getLanguageCode() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -121,9 +135,11 @@ public class ComponentDescriptor extends Struct {
      * @param languageCode The new value of the field {@code language_code}
      */
     public void setLanguageCode(java.lang.String languageCode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, SCOPE)));
+        }
     }
     
     /**
@@ -131,10 +147,12 @@ public class ComponentDescriptor extends Struct {
      * @return The value of the field {@code text}
      */
     public java.lang.String getText() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -142,22 +160,26 @@ public class ComponentDescriptor extends Struct {
      * @param text The new value of the field {@code text}
      */
     public void setText(java.lang.String text) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+        }
     }
     
     /**
      * Create a ComponentDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ComponentDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ComponentDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ComponentDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ComponentDescriptor(input, ownership);
+    public static final Marshal<Addressable, ComponentDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ComponentDescriptor(input);
     
     /**
      * A {@link ComponentDescriptor.Builder} object constructs a {@link ComponentDescriptor} 
@@ -181,7 +203,7 @@ public class ComponentDescriptor extends Struct {
             struct = ComponentDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ComponentDescriptor} struct.
          * @return A new instance of {@code ComponentDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -191,38 +213,48 @@ public class ComponentDescriptor extends Struct {
         }
         
         public Builder setStreamContent(byte streamContent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamContent);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), streamContent);
+                return this;
+            }
         }
         
         public Builder setComponentType(byte componentType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), componentType);
+                return this;
+            }
         }
         
         public Builder setComponentTag(byte componentTag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentTag);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), componentTag);
+                return this;
+            }
         }
         
         public Builder setLanguageCode(java.lang.String languageCode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setText(java.lang.String text) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+                return this;
+            }
         }
     }
 }

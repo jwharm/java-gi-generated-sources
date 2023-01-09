@@ -29,8 +29,8 @@ public class SampleMask extends Struct {
      * @return A new, uninitialized @{link SampleMask}
      */
     public static SampleMask allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SampleMask newInstance = new SampleMask(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SampleMask newInstance = new SampleMask(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SampleMask extends Struct {
     /**
      * Create a SampleMask proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SampleMask(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SampleMask(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SampleMask> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SampleMask(input, ownership);
+    public static final Marshal<Addressable, SampleMask> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SampleMask(input);
 }

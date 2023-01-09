@@ -29,8 +29,8 @@ public class DisplaySurfaceCreateFlagsKHR extends Struct {
      * @return A new, uninitialized @{link DisplaySurfaceCreateFlagsKHR}
      */
     public static DisplaySurfaceCreateFlagsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplaySurfaceCreateFlagsKHR newInstance = new DisplaySurfaceCreateFlagsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplaySurfaceCreateFlagsKHR newInstance = new DisplaySurfaceCreateFlagsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplaySurfaceCreateFlagsKHR extends Struct {
     /**
      * Create a DisplaySurfaceCreateFlagsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplaySurfaceCreateFlagsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplaySurfaceCreateFlagsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplaySurfaceCreateFlagsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplaySurfaceCreateFlagsKHR(input, ownership);
+    public static final Marshal<Addressable, DisplaySurfaceCreateFlagsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplaySurfaceCreateFlagsKHR(input);
 }

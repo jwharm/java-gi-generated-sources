@@ -37,6 +37,9 @@ public class RTSPProfile extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTSPProfile SAVPF = new RTSPProfile(8);
     
+    /**
+     * Create a new RTSPProfile with the provided value
+     */
     public RTSPProfile(int value) {
         super(value);
     }

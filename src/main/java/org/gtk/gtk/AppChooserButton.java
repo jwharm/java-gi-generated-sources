@@ -52,36 +52,28 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Create a AppChooserButton proxy instance for the provided memory address.
-     * <p>
-     * Because AppChooserButton is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppChooserButton(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected AppChooserButton(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppChooserButton> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserButton(input);
+    
+    private static MemoryAddress constructNew(java.lang.String contentType) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_new.invokeExact(Marshal.stringToAddress.marshal(contentType, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, AppChooserButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserButton(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String contentType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_new.invokeExact(
-                    Marshal.stringToAddress.marshal(contentType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -90,7 +82,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param contentType the content type to show applications for
      */
     public AppChooserButton(java.lang.String contentType) {
-        super(constructNew(contentType), Ownership.NONE);
+        super(constructNew(contentType));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -108,14 +102,16 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param icon the icon for the custom item
      */
     public void appendCustomItem(java.lang.String name, java.lang.String label, org.gtk.gio.Icon icon) {
-        try {
-            DowncallHandles.gtk_app_chooser_button_append_custom_item.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(label, null),
-                    icon.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_app_chooser_button_append_custom_item.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(label, SCOPE),
+                        icon.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -125,8 +121,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public void appendSeparator() {
         try {
-            DowncallHandles.gtk_app_chooser_button_append_separator.invokeExact(
-                    handle());
+            DowncallHandles.gtk_app_chooser_button_append_separator.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,8 +135,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getHeading() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_get_heading.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_button_get_heading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,8 +149,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_modal.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_modal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,8 +164,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDefaultItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_default_item.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_default_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,8 +179,7 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDialogItem() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_dialog_item.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_button_get_show_dialog_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,12 +196,14 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param name the name of the custom item
      */
     public void setActiveCustomItem(java.lang.String name) {
-        try {
-            DowncallHandles.gtk_app_chooser_button_set_active_custom_item.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_app_chooser_button_set_active_custom_item.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -221,12 +214,14 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param heading a string containing Pango markup
      */
     public void setHeading(java.lang.String heading) {
-        try {
-            DowncallHandles.gtk_app_chooser_button_set_heading.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(heading, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_app_chooser_button_set_heading.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(heading, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -288,19 +283,40 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted to when the button is activated.
+         * <p>
+         * The {@code ::activate} signal on {@code GtkAppChooserButton} is an action signal and
+         * emitting it causes the button to pop up its dialog.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserButton) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -313,28 +329,47 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserButton.Activate> onActivate(AppChooserButton.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted when the active application changes.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserButton) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -344,28 +379,52 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserButton.Changed> onChanged(AppChooserButton.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code CustomItemActivated} callback.
+     */
     @FunctionalInterface
     public interface CustomItemActivated {
+    
+        /**
+         * Emitted when a custom item is activated.
+         * <p>
+         * Use {@link AppChooserButton#appendCustomItem},
+         * to add custom items.
+         */
         void run(java.lang.String itemName);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserButton, MemoryAddress itemName) {
-            run(Marshal.addressToString.marshal(itemName, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(itemName, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CustomItemActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CustomItemActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -379,9 +438,10 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserButton.CustomItemActivated> onCustomItemActivated(@Nullable String detail, AppChooserButton.CustomItemActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("custom-item-activated" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("custom-item-activated" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -404,6 +464,9 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -477,81 +540,89 @@ public class AppChooserButton extends org.gtk.gtk.Widget implements org.gtk.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_app_chooser_button_new = Interop.downcallHandle(
-            "gtk_app_chooser_button_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_append_custom_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_append_custom_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_append_custom_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_append_separator = Interop.downcallHandle(
-            "gtk_app_chooser_button_append_separator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_append_separator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_heading = Interop.downcallHandle(
-            "gtk_app_chooser_button_get_heading",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_get_heading",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_modal = Interop.downcallHandle(
-            "gtk_app_chooser_button_get_modal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_get_modal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_show_default_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_get_show_default_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_get_show_default_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_show_dialog_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_get_show_dialog_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_get_show_dialog_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_active_custom_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_set_active_custom_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_set_active_custom_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_heading = Interop.downcallHandle(
-            "gtk_app_chooser_button_set_heading",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_button_set_heading",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_modal = Interop.downcallHandle(
-            "gtk_app_chooser_button_set_modal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_button_set_modal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_show_default_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_set_show_default_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_button_set_show_default_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_set_show_dialog_item = Interop.downcallHandle(
-            "gtk_app_chooser_button_set_show_dialog_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_button_set_show_dialog_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_button_get_type = Interop.downcallHandle(
-            "gtk_app_chooser_button_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_app_chooser_button_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_app_chooser_button_get_type != null;
     }
 }

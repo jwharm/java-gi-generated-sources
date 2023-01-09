@@ -29,8 +29,8 @@ public class RasterizationOrderAMD extends Struct {
      * @return A new, uninitialized @{link RasterizationOrderAMD}
      */
     public static RasterizationOrderAMD allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RasterizationOrderAMD newInstance = new RasterizationOrderAMD(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RasterizationOrderAMD newInstance = new RasterizationOrderAMD(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RasterizationOrderAMD extends Struct {
     /**
      * Create a RasterizationOrderAMD proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RasterizationOrderAMD(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RasterizationOrderAMD(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RasterizationOrderAMD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RasterizationOrderAMD(input, ownership);
+    public static final Marshal<Addressable, RasterizationOrderAMD> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RasterizationOrderAMD(input);
 }

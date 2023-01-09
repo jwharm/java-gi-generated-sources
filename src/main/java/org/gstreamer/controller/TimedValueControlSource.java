@@ -40,26 +40,17 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     
     /**
      * Create a TimedValueControlSource proxy instance for the provided memory address.
-     * <p>
-     * Because TimedValueControlSource is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimedValueControlSource(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TimedValueControlSource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimedValueControlSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedValueControlSource(input, ownership);
+    public static final Marshal<Addressable, TimedValueControlSource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimedValueControlSource(input);
     
     /**
      * Find last value before given timestamp in control point list.
@@ -79,7 +70,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -91,12 +82,11 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     public org.gtk.glib.List getAll() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_timed_value_control_source_get_all.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_timed_value_control_source_get_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -106,8 +96,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     public int getCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_timed_value_control_source_get_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_timed_value_control_source_get_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +163,7 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      */
     public void unsetAll() {
         try {
-            DowncallHandles.gst_timed_value_control_source_unset_all.invokeExact(
-                    handle());
+            DowncallHandles.gst_timed_value_control_source_unset_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,19 +183,37 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueAdded} callback.
+     */
     @FunctionalInterface
     public interface ValueAdded {
+    
+        /**
+         * Emitted right after the new value has been added to {@code self}
+         */
         void run(org.gstreamer.controller.ControlPoint timedValue);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue) {
-            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, Ownership.NONE));
+            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -217,28 +223,47 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TimedValueControlSource.ValueAdded> onValueAdded(TimedValueControlSource.ValueAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueChanged} callback.
+     */
     @FunctionalInterface
     public interface ValueChanged {
+    
+        /**
+         * Emitted right after the new value has been set on {@code timed_signals}
+         */
         void run(org.gstreamer.controller.ControlPoint timedValue);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue) {
-            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, Ownership.NONE));
+            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -248,28 +273,47 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TimedValueControlSource.ValueChanged> onValueChanged(TimedValueControlSource.ValueChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueRemoved} callback.
+     */
     @FunctionalInterface
     public interface ValueRemoved {
+    
+        /**
+         * Emitted when {@code timed_value} is removed from {@code self}
+         */
         void run(org.gstreamer.controller.ControlPoint timedValue);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTimedValueControlSource, MemoryAddress timedValue) {
-            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, Ownership.NONE));
+            run(org.gstreamer.controller.ControlPoint.fromAddress.marshal(timedValue, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -279,9 +323,10 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TimedValueControlSource.ValueRemoved> onValueRemoved(TimedValueControlSource.ValueRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -304,6 +349,9 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
      */
     public static class Builder extends org.gstreamer.gst.ControlSource.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -328,51 +376,59 @@ public class TimedValueControlSource extends org.gstreamer.gst.ControlSource {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_timed_value_control_source_find_control_point_iter = Interop.downcallHandle(
-            "gst_timed_value_control_source_find_control_point_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_timed_value_control_source_find_control_point_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_get_all = Interop.downcallHandle(
-            "gst_timed_value_control_source_get_all",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_timed_value_control_source_get_all",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_get_count = Interop.downcallHandle(
-            "gst_timed_value_control_source_get_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_timed_value_control_source_get_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_set = Interop.downcallHandle(
-            "gst_timed_value_control_source_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_timed_value_control_source_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_set_from_list = Interop.downcallHandle(
-            "gst_timed_value_control_source_set_from_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_timed_value_control_source_set_from_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_unset = Interop.downcallHandle(
-            "gst_timed_value_control_source_unset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_timed_value_control_source_unset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_unset_all = Interop.downcallHandle(
-            "gst_timed_value_control_source_unset_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_timed_value_control_source_unset_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_timed_value_control_source_get_type = Interop.downcallHandle(
-            "gst_timed_value_control_source_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_timed_value_control_source_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_timed_value_control_source_get_type != null;
     }
 }

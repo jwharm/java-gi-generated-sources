@@ -29,8 +29,8 @@ public class FileEnumeratorPrivate extends Struct {
      * @return A new, uninitialized @{link FileEnumeratorPrivate}
      */
     public static FileEnumeratorPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileEnumeratorPrivate newInstance = new FileEnumeratorPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileEnumeratorPrivate newInstance = new FileEnumeratorPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FileEnumeratorPrivate extends Struct {
     /**
      * Create a FileEnumeratorPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileEnumeratorPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileEnumeratorPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileEnumeratorPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileEnumeratorPrivate(input, ownership);
+    public static final Marshal<Addressable, FileEnumeratorPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileEnumeratorPrivate(input);
 }

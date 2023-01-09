@@ -32,20 +32,21 @@ public class NoSelection extends org.gtk.gobject.GObject implements org.gtk.gio.
     /**
      * Create a NoSelection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NoSelection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NoSelection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NoSelection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NoSelection(input, ownership);
+    public static final Marshal<Addressable, NoSelection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NoSelection(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_no_selection_new.invokeExact(
-                    (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_no_selection_new.invokeExact((Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +59,8 @@ public class NoSelection extends org.gtk.gobject.GObject implements org.gtk.gio.
      * @param model the {@code GListModel} to manage
      */
     public NoSelection(@Nullable org.gtk.gio.ListModel model) {
-        super(constructNew(model), Ownership.FULL);
+        super(constructNew(model));
+        this.takeOwnership();
     }
     
     /**
@@ -68,12 +70,11 @@ public class NoSelection extends org.gtk.gobject.GObject implements org.gtk.gio.
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_no_selection_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_no_selection_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -122,6 +123,9 @@ public class NoSelection extends org.gtk.gobject.GObject implements org.gtk.gio.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -179,27 +183,35 @@ public class NoSelection extends org.gtk.gobject.GObject implements org.gtk.gio.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_no_selection_new = Interop.downcallHandle(
-            "gtk_no_selection_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_no_selection_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_no_selection_get_model = Interop.downcallHandle(
-            "gtk_no_selection_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_no_selection_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_no_selection_set_model = Interop.downcallHandle(
-            "gtk_no_selection_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_no_selection_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_no_selection_get_type = Interop.downcallHandle(
-            "gtk_no_selection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_no_selection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_no_selection_get_type != null;
     }
 }

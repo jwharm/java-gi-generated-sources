@@ -32,26 +32,17 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
     
     /**
      * Create a H264Decoder proxy instance for the provided memory address.
-     * <p>
-     * Because H264Decoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H264Decoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected H264Decoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H264Decoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264Decoder(input, ownership);
+    public static final Marshal<Addressable, H264Decoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H264Decoder(input);
     
     /**
      * Retrive DPB and return a {@link H264Picture} corresponding to
@@ -68,7 +59,9 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -115,6 +108,9 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
      */
     public static class Builder extends org.gstreamer.video.VideoDecoder.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -153,21 +149,29 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_h264_decoder_get_picture = Interop.downcallHandle(
-            "gst_h264_decoder_get_picture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_decoder_get_picture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_decoder_set_process_ref_pic_lists = Interop.downcallHandle(
-            "gst_h264_decoder_set_process_ref_pic_lists",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_decoder_set_process_ref_pic_lists",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_decoder_get_type = Interop.downcallHandle(
-            "gst_h264_decoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_h264_decoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_h264_decoder_get_type != null;
     }
 }

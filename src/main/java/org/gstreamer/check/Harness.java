@@ -125,8 +125,8 @@ public class Harness extends Struct {
      * @return A new, uninitialized @{link Harness}
      */
     public static Harness allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Harness newInstance = new Harness(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Harness newInstance = new Harness(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -136,10 +136,12 @@ public class Harness extends Struct {
      * @return The value of the field {@code element}
      */
     public org.gstreamer.gst.Element getElement() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("element"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -147,9 +149,11 @@ public class Harness extends Struct {
      * @param element The new value of the field {@code element}
      */
     public void setElement(org.gstreamer.gst.Element element) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("element"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
+        }
     }
     
     /**
@@ -157,10 +161,12 @@ public class Harness extends Struct {
      * @return The value of the field {@code srcpad}
      */
     public org.gstreamer.gst.Pad getSrcpad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -168,9 +174,11 @@ public class Harness extends Struct {
      * @param srcpad The new value of the field {@code srcpad}
      */
     public void setSrcpad(org.gstreamer.gst.Pad srcpad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
+        }
     }
     
     /**
@@ -178,10 +186,12 @@ public class Harness extends Struct {
      * @return The value of the field {@code sinkpad}
      */
     public org.gstreamer.gst.Pad getSinkpad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -189,9 +199,11 @@ public class Harness extends Struct {
      * @param sinkpad The new value of the field {@code sinkpad}
      */
     public void setSinkpad(org.gstreamer.gst.Pad sinkpad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
+        }
     }
     
     /**
@@ -199,10 +211,12 @@ public class Harness extends Struct {
      * @return The value of the field {@code src_harness}
      */
     public org.gstreamer.check.Harness getSrcHarness() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -210,9 +224,11 @@ public class Harness extends Struct {
      * @param srcHarness The new value of the field {@code src_harness}
      */
     public void setSrcHarness(org.gstreamer.check.Harness srcHarness) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
+        }
     }
     
     /**
@@ -220,10 +236,12 @@ public class Harness extends Struct {
      * @return The value of the field {@code sink_harness}
      */
     public org.gstreamer.check.Harness getSinkHarness() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -231,22 +249,26 @@ public class Harness extends Struct {
      * @param sinkHarness The new value of the field {@code sink_harness}
      */
     public void setSinkHarness(org.gstreamer.check.Harness sinkHarness) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
+        }
     }
     
     /**
      * Create a Harness proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Harness(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Harness(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Harness> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Harness(input, ownership);
+    public static final Marshal<Addressable, Harness> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Harness(input);
     
     /**
      * Adds a {@link org.gstreamer.gst.Element} to an empty {@link Harness}
@@ -266,16 +288,18 @@ public class Harness extends Struct {
      * {@code element_sinkpad_name}.
      */
     public void addElementFull(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
-        try {
-            DowncallHandles.gst_harness_add_element_full.invokeExact(
-                    handle(),
-                    element.handle(),
-                    (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
-                    (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_element_full.invokeExact(
+                        handle(),
+                        element.handle(),
+                        (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
+                        (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, SCOPE)),
+                        (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
+                        (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -321,12 +345,14 @@ public class Harness extends Struct {
      * @param launchline a {@code gchar} describing a gst-launch type line
      */
     public void addParse(java.lang.String launchline) {
-        try {
-            DowncallHandles.gst_harness_add_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(launchline, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(launchline, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -343,17 +369,19 @@ public class Harness extends Struct {
      * @param destroyData a {@link org.gtk.glib.DestroyNotify} (see gst_pad_add_probe)
      */
     public void addProbe(java.lang.String elementName, java.lang.String padName, org.gstreamer.gst.PadProbeType mask, org.gstreamer.gst.PadProbeCallback callback, org.gtk.glib.DestroyNotify destroyData) {
-        try {
-            DowncallHandles.gst_harness_add_probe.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(elementName, null),
-                    Marshal.stringToAddress.marshal(padName, null),
-                    mask.getValue(),
-                    (Addressable) callback.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) destroyData.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_probe.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(elementName, SCOPE),
+                        Marshal.stringToAddress.marshal(padName, SCOPE),
+                        mask.getValue(),
+                        (Addressable) callback.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) destroyData.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -384,12 +412,14 @@ public class Harness extends Struct {
      * @param sinkElementName a {@code gchar} with the name of a {@link org.gstreamer.gst.Element}
      */
     public void addSink(java.lang.String sinkElementName) {
-        try {
-            DowncallHandles.gst_harness_add_sink.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(sinkElementName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_sink.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(sinkElementName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -425,12 +455,14 @@ public class Harness extends Struct {
      * @param launchline a {@code gchar} with the name of a {@link org.gstreamer.gst.Element}
      */
     public void addSinkParse(java.lang.String launchline) {
-        try {
-            DowncallHandles.gst_harness_add_sink_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(launchline, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_sink_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(launchline, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -444,13 +476,15 @@ public class Harness extends Struct {
      * gst_clock_wait_id internally.
      */
     public void addSrc(java.lang.String srcElementName, boolean hasClockWait) {
-        try {
-            DowncallHandles.gst_harness_add_src.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(srcElementName, null),
-                    Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_src.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(srcElementName, SCOPE),
+                        Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -495,13 +529,15 @@ public class Harness extends Struct {
      * gst_clock_wait_id internally.
      */
     public void addSrcParse(java.lang.String launchline, boolean hasClockWait) {
-        try {
-            DowncallHandles.gst_harness_add_src_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(launchline, null),
-                    Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_add_src_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(launchline, SCOPE),
+                        Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -514,8 +550,7 @@ public class Harness extends Struct {
     public int buffersInQueue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_buffers_in_queue.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_buffers_in_queue.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -533,8 +568,7 @@ public class Harness extends Struct {
     public int buffersReceived() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_buffers_received.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_buffers_received.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -581,8 +615,7 @@ public class Harness extends Struct {
     public boolean crankSingleClockWait() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_crank_single_clock_wait.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_crank_single_clock_wait.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -606,7 +639,9 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -617,12 +652,14 @@ public class Harness extends Struct {
      * @param filename a {@code gchar} with a the name of a file
      */
     public void dumpToFile(java.lang.String filename) {
-        try {
-            DowncallHandles.gst_harness_dump_to_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_dump_to_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -635,8 +672,7 @@ public class Harness extends Struct {
     public int eventsInQueue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_events_in_queue.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_events_in_queue.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,8 +690,7 @@ public class Harness extends Struct {
     public int eventsReceived() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_events_received.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_events_received.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -673,15 +708,19 @@ public class Harness extends Struct {
      * @return a {@link org.gstreamer.gst.Element} or {@code null} if not found
      */
     public @Nullable org.gstreamer.gst.Element findElement(java.lang.String elementName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_find_element.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(elementName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_find_element.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(elementName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -696,14 +735,16 @@ public class Harness extends Struct {
      *  name/return location pairs, followed by {@code null}
      */
     public void get(java.lang.String elementName, java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_harness_get.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(elementName, null),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_get.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(elementName, SCOPE),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -717,17 +758,19 @@ public class Harness extends Struct {
      *   {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_harness_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_harness_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            params.yieldOwnership();
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        params.yieldOwnership();
     }
     
     /**
@@ -741,8 +784,7 @@ public class Harness extends Struct {
     public org.gstreamer.gst.ClockTime getLastPushedTimestamp() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_harness_get_last_pushed_timestamp.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_harness_get_last_pushed_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -760,12 +802,13 @@ public class Harness extends Struct {
     public org.gstreamer.check.TestClock getTestclock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_get_testclock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_get_testclock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.check.TestClock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.check.TestClock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.check.TestClock) Interop.register(RESULT, org.gstreamer.check.TestClock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -781,8 +824,7 @@ public class Harness extends Struct {
      */
     public void play() {
         try {
-            DowncallHandles.gst_harness_play.invokeExact(
-                    handle());
+            DowncallHandles.gst_harness_play.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -799,12 +841,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Buffer pull() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -817,12 +860,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Event pullEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_event.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -834,17 +878,19 @@ public class Harness extends Struct {
      * @return {@code true} on success, {@code false} on timeout.
      */
     public boolean pullUntilEos(Out<org.gstreamer.gst.Buffer> buf) {
-        MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_harness_pull_until_eos.invokeExact(
-                    handle(),
-                    (Addressable) bufPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_harness_pull_until_eos.invokeExact(
+                        handle(),
+                        (Addressable) bufPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    buf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        buf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -857,12 +903,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Event pullUpstreamEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_upstream_event.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_upstream_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -905,7 +952,9 @@ public class Harness extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -941,8 +990,7 @@ public class Harness extends Struct {
     public org.gstreamer.gst.FlowReturn pushFromSrc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_push_from_src.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_push_from_src.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -959,8 +1007,7 @@ public class Harness extends Struct {
     public org.gstreamer.gst.FlowReturn pushToSink() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_push_to_sink.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_push_to_sink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -995,8 +1042,7 @@ public class Harness extends Struct {
     public org.gstreamer.gst.ClockTime queryLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_harness_query_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_harness_query_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1015,14 +1061,16 @@ public class Harness extends Struct {
      *  name/value pairs, followed by {@code null}
      */
     public void set(java.lang.String elementName, java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_harness_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(elementName, null),
-                    Marshal.stringToAddress.marshal(firstPropertyName, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(elementName, SCOPE),
+                        Marshal.stringToAddress.marshal(firstPropertyName, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1037,8 +1085,7 @@ public class Harness extends Struct {
      */
     public void setBlockingPushMode() {
         try {
-            DowncallHandles.gst_harness_set_blocking_push_mode.invokeExact(
-                    handle());
+            DowncallHandles.gst_harness_set_blocking_push_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1072,13 +1119,15 @@ public class Harness extends Struct {
      * @param out a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
     public void setCapsStr(java.lang.String in, java.lang.String out) {
-        try {
-            DowncallHandles.gst_harness_set_caps_str.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(in, null),
-                    Marshal.stringToAddress.marshal(out, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_set_caps_str.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(in, SCOPE),
+                        Marshal.stringToAddress.marshal(out, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1186,12 +1235,14 @@ public class Harness extends Struct {
      * @param str a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
     public void setSinkCapsStr(java.lang.String str) {
-        try {
-            DowncallHandles.gst_harness_set_sink_caps_str.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_set_sink_caps_str.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1221,12 +1272,14 @@ public class Harness extends Struct {
      * @param str a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness srcpad
      */
     public void setSrcCapsStr(java.lang.String str) {
-        try {
-            DowncallHandles.gst_harness_set_src_caps_str.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_harness_set_src_caps_str.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1320,8 +1373,7 @@ public class Harness extends Struct {
     public boolean srcPushEvent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_src_push_event.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_src_push_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1351,7 +1403,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1365,17 +1417,19 @@ public class Harness extends Struct {
      * @return a {@link HarnessThread}
      */
     public org.gstreamer.check.HarnessThread stressPropertyStartFull(java.lang.String name, org.gtk.gobject.Value value, long sleep) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_property_start_full.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    value.handle(),
-                    sleep);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_property_start_full.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        value.handle(),
+                        sleep);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1401,7 +1455,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1431,7 +1485,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1454,7 +1508,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1481,7 +1535,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1504,7 +1558,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1531,7 +1585,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1547,19 +1601,21 @@ public class Harness extends Struct {
      * @return a {@link HarnessThread}
      */
     public org.gstreamer.check.HarnessThread stressRequestpadStartFull(org.gstreamer.gst.PadTemplate templ, java.lang.String name, org.gstreamer.gst.Caps caps, boolean release, long sleep) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_requestpad_start_full.invokeExact(
-                    handle(),
-                    templ.handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    caps.handle(),
-                    Marshal.booleanToInteger.marshal(release, null).intValue(),
-                    sleep);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_requestpad_start_full.invokeExact(
+                        handle(),
+                        templ.handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        caps.handle(),
+                        Marshal.booleanToInteger.marshal(release, null).intValue(),
+                        sleep);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1580,7 +1636,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1591,12 +1647,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Buffer takeAllDataAsBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1607,12 +1664,13 @@ public class Harness extends Struct {
     public org.gtk.glib.Bytes takeAllData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1622,8 +1680,7 @@ public class Harness extends Struct {
      */
     public void teardown() {
         try {
-            DowncallHandles.gst_harness_teardown.invokeExact(
-                    handle());
+            DowncallHandles.gst_harness_teardown.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1640,12 +1697,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Buffer tryPull() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1658,12 +1716,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Event tryPullEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_event.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1676,12 +1735,13 @@ public class Harness extends Struct {
     public org.gstreamer.gst.Event tryPullUpstreamEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_upstream_event.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_upstream_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1693,8 +1753,7 @@ public class Harness extends Struct {
     public int upstreamEventsInQueue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_upstream_events_in_queue.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_upstream_events_in_queue.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1712,8 +1771,7 @@ public class Harness extends Struct {
     public int upstreamEventsReceived() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_upstream_events_received.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_harness_upstream_events_received.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1727,8 +1785,7 @@ public class Harness extends Struct {
      */
     public void useSystemclock() {
         try {
-            DowncallHandles.gst_harness_use_systemclock.invokeExact(
-                    handle());
+            DowncallHandles.gst_harness_use_systemclock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1741,8 +1798,7 @@ public class Harness extends Struct {
      */
     public void useTestclock() {
         try {
-            DowncallHandles.gst_harness_use_testclock.invokeExact(
-                    handle());
+            DowncallHandles.gst_harness_use_testclock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1784,14 +1840,17 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness new_(java.lang.String elementName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new.invokeExact(
-                    Marshal.stringToAddress.marshal(elementName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new.invokeExact(Marshal.stringToAddress.marshal(elementName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1809,7 +1868,9 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1832,18 +1893,22 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness newFull(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_full.invokeExact(
-                    element.handle(),
-                    (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
-                    (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_full.invokeExact(
+                        element.handle(),
+                        (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
+                        (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, SCOPE)),
+                        (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
+                        (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1856,14 +1921,17 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness newParse(java.lang.String launchline) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(launchline, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_parse.invokeExact(Marshal.stringToAddress.marshal(launchline, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1883,16 +1951,20 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness newWithElement(org.gstreamer.gst.Element element, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_element.invokeExact(
-                    element.handle(),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_element.invokeExact(
+                        element.handle(),
+                        (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, SCOPE)),
+                        (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1911,16 +1983,20 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness newWithPadnames(java.lang.String elementName, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_padnames.invokeExact(
-                    Marshal.stringToAddress.marshal(elementName, null),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_padnames.invokeExact(
+                        Marshal.stringToAddress.marshal(elementName, SCOPE),
+                        (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, SCOPE)),
+                        (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1937,16 +2013,20 @@ public class Harness extends Struct {
      * not be created
      */
     public static org.gstreamer.check.Harness newWithTemplates(java.lang.String elementName, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable org.gstreamer.gst.StaticPadTemplate hsink) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_templates.invokeExact(
-                    Marshal.stringToAddress.marshal(elementName, null),
-                    (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_templates.invokeExact(
+                        Marshal.stringToAddress.marshal(elementName, SCOPE),
+                        (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
+                        (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.check.Harness.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1958,8 +2038,7 @@ public class Harness extends Struct {
     public static int stressThreadStop(org.gstreamer.check.HarnessThread t) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_harness_stress_thread_stop.invokeExact(
-                    t.handle());
+            RESULT = (int) DowncallHandles.gst_harness_stress_thread_stop.invokeExact(t.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1969,501 +2048,501 @@ public class Harness extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_harness_add_element_full = Interop.downcallHandle(
-            "gst_harness_add_element_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_element_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_element_sink_pad = Interop.downcallHandle(
-            "gst_harness_add_element_sink_pad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_element_sink_pad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_element_src_pad = Interop.downcallHandle(
-            "gst_harness_add_element_src_pad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_element_src_pad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_parse = Interop.downcallHandle(
-            "gst_harness_add_parse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_parse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_probe = Interop.downcallHandle(
-            "gst_harness_add_probe",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_probe",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_propose_allocation_meta = Interop.downcallHandle(
-            "gst_harness_add_propose_allocation_meta",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_propose_allocation_meta",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_sink = Interop.downcallHandle(
-            "gst_harness_add_sink",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_sink",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_sink_harness = Interop.downcallHandle(
-            "gst_harness_add_sink_harness",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_sink_harness",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_sink_parse = Interop.downcallHandle(
-            "gst_harness_add_sink_parse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_add_sink_parse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_add_src = Interop.downcallHandle(
-            "gst_harness_add_src",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_add_src",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_add_src_harness = Interop.downcallHandle(
-            "gst_harness_add_src_harness",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_add_src_harness",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_add_src_parse = Interop.downcallHandle(
-            "gst_harness_add_src_parse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_add_src_parse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_buffers_in_queue = Interop.downcallHandle(
-            "gst_harness_buffers_in_queue",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_buffers_in_queue",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_buffers_received = Interop.downcallHandle(
-            "gst_harness_buffers_received",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_buffers_received",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_crank_multiple_clock_waits = Interop.downcallHandle(
-            "gst_harness_crank_multiple_clock_waits",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_crank_multiple_clock_waits",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_crank_single_clock_wait = Interop.downcallHandle(
-            "gst_harness_crank_single_clock_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_crank_single_clock_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_create_buffer = Interop.downcallHandle(
-            "gst_harness_create_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_create_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_dump_to_file = Interop.downcallHandle(
-            "gst_harness_dump_to_file",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_dump_to_file",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_events_in_queue = Interop.downcallHandle(
-            "gst_harness_events_in_queue",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_events_in_queue",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_events_received = Interop.downcallHandle(
-            "gst_harness_events_received",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_events_received",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_find_element = Interop.downcallHandle(
-            "gst_harness_find_element",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_find_element",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_get = Interop.downcallHandle(
-            "gst_harness_get",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_harness_get",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_harness_get_allocator = Interop.downcallHandle(
-            "gst_harness_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_get_last_pushed_timestamp = Interop.downcallHandle(
-            "gst_harness_get_last_pushed_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_get_last_pushed_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_get_testclock = Interop.downcallHandle(
-            "gst_harness_get_testclock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_get_testclock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_play = Interop.downcallHandle(
-            "gst_harness_play",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_play",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_pull = Interop.downcallHandle(
-            "gst_harness_pull",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_pull",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_pull_event = Interop.downcallHandle(
-            "gst_harness_pull_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_pull_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_pull_until_eos = Interop.downcallHandle(
-            "gst_harness_pull_until_eos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_pull_until_eos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_pull_upstream_event = Interop.downcallHandle(
-            "gst_harness_pull_upstream_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_pull_upstream_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push = Interop.downcallHandle(
-            "gst_harness_push",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push_and_pull = Interop.downcallHandle(
-            "gst_harness_push_and_pull",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push_and_pull",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push_event = Interop.downcallHandle(
-            "gst_harness_push_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push_from_src = Interop.downcallHandle(
-            "gst_harness_push_from_src",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push_from_src",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push_to_sink = Interop.downcallHandle(
-            "gst_harness_push_to_sink",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push_to_sink",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_push_upstream_event = Interop.downcallHandle(
-            "gst_harness_push_upstream_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_push_upstream_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_query_latency = Interop.downcallHandle(
-            "gst_harness_query_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_query_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set = Interop.downcallHandle(
-            "gst_harness_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_harness_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_harness_set_blocking_push_mode = Interop.downcallHandle(
-            "gst_harness_set_blocking_push_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_blocking_push_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_caps = Interop.downcallHandle(
-            "gst_harness_set_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_caps_str = Interop.downcallHandle(
-            "gst_harness_set_caps_str",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_caps_str",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_drop_buffers = Interop.downcallHandle(
-            "gst_harness_set_drop_buffers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_set_drop_buffers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_set_forwarding = Interop.downcallHandle(
-            "gst_harness_set_forwarding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_set_forwarding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_set_live = Interop.downcallHandle(
-            "gst_harness_set_live",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_set_live",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_set_propose_allocator = Interop.downcallHandle(
-            "gst_harness_set_propose_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_propose_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_sink_caps = Interop.downcallHandle(
-            "gst_harness_set_sink_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_sink_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_sink_caps_str = Interop.downcallHandle(
-            "gst_harness_set_sink_caps_str",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_sink_caps_str",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_src_caps = Interop.downcallHandle(
-            "gst_harness_set_src_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_src_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_src_caps_str = Interop.downcallHandle(
-            "gst_harness_set_src_caps_str",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_set_src_caps_str",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_set_time = Interop.downcallHandle(
-            "gst_harness_set_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_set_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_set_upstream_latency = Interop.downcallHandle(
-            "gst_harness_set_upstream_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_set_upstream_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_sink_push_many = Interop.downcallHandle(
-            "gst_harness_sink_push_many",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_sink_push_many",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_src_crank_and_push_many = Interop.downcallHandle(
-            "gst_harness_src_crank_and_push_many",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_src_crank_and_push_many",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_src_push_event = Interop.downcallHandle(
-            "gst_harness_src_push_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_src_push_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_custom_start = Interop.downcallHandle(
-            "gst_harness_stress_custom_start",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_custom_start",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_property_start_full = Interop.downcallHandle(
-            "gst_harness_stress_property_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_property_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_buffer_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_buffer_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_buffer_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_buffer_with_cb_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_buffer_with_cb_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_buffer_with_cb_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_event_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_event_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_event_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_event_with_cb_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_event_with_cb_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_event_with_cb_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_upstream_event_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_upstream_event_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_upstream_event_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_push_upstream_event_with_cb_start_full = Interop.downcallHandle(
-            "gst_harness_stress_push_upstream_event_with_cb_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_push_upstream_event_with_cb_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_requestpad_start_full = Interop.downcallHandle(
-            "gst_harness_stress_requestpad_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_requestpad_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_statechange_start_full = Interop.downcallHandle(
-            "gst_harness_stress_statechange_start_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_harness_stress_statechange_start_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_harness_take_all_data_as_buffer = Interop.downcallHandle(
-            "gst_harness_take_all_data_as_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_take_all_data_as_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_take_all_data_as_bytes = Interop.downcallHandle(
-            "gst_harness_take_all_data_as_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_take_all_data_as_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_teardown = Interop.downcallHandle(
-            "gst_harness_teardown",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_teardown",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_try_pull = Interop.downcallHandle(
-            "gst_harness_try_pull",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_try_pull",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_try_pull_event = Interop.downcallHandle(
-            "gst_harness_try_pull_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_try_pull_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_try_pull_upstream_event = Interop.downcallHandle(
-            "gst_harness_try_pull_upstream_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_try_pull_upstream_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_upstream_events_in_queue = Interop.downcallHandle(
-            "gst_harness_upstream_events_in_queue",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_upstream_events_in_queue",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_upstream_events_received = Interop.downcallHandle(
-            "gst_harness_upstream_events_received",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_upstream_events_received",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_use_systemclock = Interop.downcallHandle(
-            "gst_harness_use_systemclock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_use_systemclock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_use_testclock = Interop.downcallHandle(
-            "gst_harness_use_testclock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_use_testclock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_wait_for_clock_id_waits = Interop.downcallHandle(
-            "gst_harness_wait_for_clock_id_waits",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_harness_wait_for_clock_id_waits",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_harness_new = Interop.downcallHandle(
-            "gst_harness_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_empty = Interop.downcallHandle(
-            "gst_harness_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_full = Interop.downcallHandle(
-            "gst_harness_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_parse = Interop.downcallHandle(
-            "gst_harness_new_parse",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_parse",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_with_element = Interop.downcallHandle(
-            "gst_harness_new_with_element",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_with_element",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_with_padnames = Interop.downcallHandle(
-            "gst_harness_new_with_padnames",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_with_padnames",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_new_with_templates = Interop.downcallHandle(
-            "gst_harness_new_with_templates",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_new_with_templates",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_harness_stress_thread_stop = Interop.downcallHandle(
-            "gst_harness_stress_thread_stop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_harness_stress_thread_stop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -2489,7 +2568,7 @@ public class Harness extends Struct {
             struct = Harness.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Harness} struct.
          * @return A new instance of {@code Harness} with the fields 
          *         that were set in the Builder object.
@@ -2504,10 +2583,12 @@ public class Harness extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setElement(org.gstreamer.gst.Element element) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("element"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("element"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2516,10 +2597,12 @@ public class Harness extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSrcpad(org.gstreamer.gst.Pad srcpad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2528,10 +2611,12 @@ public class Harness extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSinkpad(org.gstreamer.gst.Pad sinkpad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2540,10 +2625,12 @@ public class Harness extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSrcHarness(org.gstreamer.check.Harness srcHarness) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2552,17 +2639,21 @@ public class Harness extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSinkHarness(org.gstreamer.check.Harness sinkHarness) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
+                return this;
+            }
         }
         
         public Builder setPriv(org.gstreamer.check.HarnessPrivate priv) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
+                return this;
+            }
         }
     }
 }

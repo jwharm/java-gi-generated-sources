@@ -16,6 +16,9 @@ import org.jetbrains.annotations.*;
  */
 public class DateYear extends io.github.jwharm.javagi.Alias<Short> {
     
+    /**
+     * Create a new DateYear with the provided value
+     */
     public DateYear(short value) {
         super(value);
     }

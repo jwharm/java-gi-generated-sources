@@ -64,14 +64,16 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
     /**
      * Create a TypeModule proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeModule(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeModule(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeModule(input, ownership);
+    public static final Marshal<Addressable, TypeModule> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeModule(input);
     
     /**
      * Registers an additional interface for a type, whose interface lives
@@ -118,16 +120,18 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      * @return the new or existing type ID
      */
     public org.gtk.glib.Type registerEnum(java.lang.String name, org.gtk.gobject.EnumValue constStaticValues) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_type_module_register_enum.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    constStaticValues.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_type_module_register_enum.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        constStaticValues.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -149,16 +153,18 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      * @return the new or existing type ID
      */
     public org.gtk.glib.Type registerFlags(java.lang.String name, org.gtk.gobject.FlagsValue constStaticValues) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_type_module_register_flags.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    constStaticValues.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_type_module_register_flags.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        constStaticValues.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -183,18 +189,20 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      * @return the new or existing type ID
      */
     public org.gtk.glib.Type registerType(org.gtk.glib.Type parentType, java.lang.String typeName, org.gtk.gobject.TypeInfo typeInfo, org.gtk.gobject.TypeFlags flags) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_type_module_register_type.invokeExact(
-                    handle(),
-                    parentType.getValue().longValue(),
-                    Marshal.stringToAddress.marshal(typeName, null),
-                    typeInfo.handle(),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_type_module_register_type.invokeExact(
+                        handle(),
+                        parentType.getValue().longValue(),
+                        Marshal.stringToAddress.marshal(typeName, SCOPE),
+                        typeInfo.handle(),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -202,12 +210,14 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      * @param name a human-readable name to use in error messages.
      */
     public void setName(java.lang.String name) {
-        try {
-            DowncallHandles.g_type_module_set_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_type_module_set_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -220,8 +230,7 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      */
     public void unuse() {
         try {
-            DowncallHandles.g_type_module_unuse.invokeExact(
-                    handle());
+            DowncallHandles.g_type_module_unuse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,8 +247,7 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
     public boolean useTypeModule() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_module_use.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_type_module_use.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,6 +284,9 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -300,51 +311,59 @@ public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobje
     private static class DowncallHandles {
         
         private static final MethodHandle g_type_module_add_interface = Interop.downcallHandle(
-            "g_type_module_add_interface",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_add_interface",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_register_enum = Interop.downcallHandle(
-            "g_type_module_register_enum",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_register_enum",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_register_flags = Interop.downcallHandle(
-            "g_type_module_register_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_register_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_register_type = Interop.downcallHandle(
-            "g_type_module_register_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_type_module_register_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_type_module_set_name = Interop.downcallHandle(
-            "g_type_module_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_unuse = Interop.downcallHandle(
-            "g_type_module_unuse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_unuse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_use = Interop.downcallHandle(
-            "g_type_module_use",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_module_use",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_module_get_type = Interop.downcallHandle(
-            "g_type_module_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_type_module_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_type_module_get_type != null;
     }
 }

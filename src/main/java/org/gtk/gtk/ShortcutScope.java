@@ -10,16 +10,19 @@ import org.jetbrains.annotations.*;
  * {@link ShortcutController} get handled.
  */
 public enum ShortcutScope implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Shortcuts are handled inside
      *   the widget the controller belongs to.
      */
     LOCAL(0),
+    
     /**
      * Shortcuts are handled by
      *   the first ancestor that is a {@code ShortcutManager}
      */
     MANAGED(1),
+    
     /**
      * Shortcuts are handled by
      *   the root widget.
@@ -29,15 +32,29 @@ public enum ShortcutScope implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkShortcutScope";
     
     private final int value;
+    
+    /**
+     * Create a new ShortcutScope for the provided value
+     * @param numeric value the enum value
+     */
     ShortcutScope(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ShortcutScope for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ShortcutScope of(int value) {
         return switch (value) {
             case 0 -> LOCAL;

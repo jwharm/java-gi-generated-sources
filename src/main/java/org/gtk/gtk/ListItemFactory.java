@@ -75,14 +75,16 @@ public class ListItemFactory extends org.gtk.gobject.GObject {
     /**
      * Create a ListItemFactory proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListItemFactory(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ListItemFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListItemFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListItemFactory(input, ownership);
+    public static final Marshal<Addressable, ListItemFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListItemFactory(input);
     
     /**
      * Get the gtype
@@ -114,6 +116,9 @@ public class ListItemFactory extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -138,9 +143,17 @@ public class ListItemFactory extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_item_factory_get_type = Interop.downcallHandle(
-            "gtk_list_item_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_list_item_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_list_item_factory_get_type != null;
     }
 }

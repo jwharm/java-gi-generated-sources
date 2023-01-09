@@ -13,14 +13,17 @@ import org.jetbrains.annotations.*;
  * cbrt(val) and 20 * log10 (val).
  */
 public enum StreamVolumeFormat implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Linear scale factor, 1.0 = 100%
      */
     LINEAR(0),
+    
     /**
      * Cubic volume scale
      */
     CUBIC(1),
+    
     /**
      * Logarithmic volume scale (dB, amplitude not power)
      */
@@ -29,15 +32,29 @@ public enum StreamVolumeFormat implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstStreamVolumeFormat";
     
     private final int value;
+    
+    /**
+     * Create a new StreamVolumeFormat for the provided value
+     * @param numeric value the enum value
+     */
     StreamVolumeFormat(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new StreamVolumeFormat for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static StreamVolumeFormat of(int value) {
         return switch (value) {
             case 0 -> LINEAR;

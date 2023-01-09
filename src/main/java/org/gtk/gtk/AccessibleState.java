@@ -9,27 +9,32 @@ import org.jetbrains.annotations.*;
  * The possible accessible states of a {@code Accessible}.
  */
 public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * A “busy” state. This state has boolean values
      */
     BUSY(0),
+    
     /**
      * A “checked” state; indicates the current
      *   state of a {@link CheckButton}
      */
     CHECKED(1),
+    
     /**
      * A “disabled” state; corresponds to the
      *   {@code Widget:sensitive} property. It indicates a UI element
      *   that is perceivable, but not editable or operable. Value type: boolean
      */
     DISABLED(2),
+    
     /**
      * An “expanded” state; corresponds to the
      *   {@code Expander:expanded} property. Value type: boolean
      *   or undefined
      */
     EXPANDED(3),
+    
     /**
      * A “hidden” state; corresponds to the
      *   {@code Widget:visible} property. You can use this state
@@ -38,17 +43,20 @@ public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
      *   See also: {@link AccessibleState#DISABLED}
      */
     HIDDEN(4),
+    
     /**
      * An “invalid” state; set when a widget
      *   is showing an error. Value type: {@code AccessibleInvalidState}
      */
     INVALID(5),
+    
     /**
      * A “pressed” state; indicates the current
      *   state of a {@link ToggleButton}
      *   enumeration
      */
     PRESSED(6),
+    
     /**
      * A “selected” state; set when a widget
      *   is selected. Value type: boolean or undefined
@@ -58,15 +66,29 @@ public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkAccessibleState";
     
     private final int value;
+    
+    /**
+     * Create a new AccessibleState for the provided value
+     * @param numeric value the enum value
+     */
     AccessibleState(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AccessibleState for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AccessibleState of(int value) {
         return switch (value) {
             case 0 -> BUSY;
@@ -94,9 +116,9 @@ public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_accessible_state_init_value = Interop.downcallHandle(
-            "gtk_accessible_state_init_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_accessible_state_init_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

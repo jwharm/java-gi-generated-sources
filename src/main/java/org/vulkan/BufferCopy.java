@@ -29,8 +29,8 @@ public class BufferCopy extends Struct {
      * @return A new, uninitialized @{link BufferCopy}
      */
     public static BufferCopy allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferCopy newInstance = new BufferCopy(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferCopy newInstance = new BufferCopy(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BufferCopy extends Struct {
     /**
      * Create a BufferCopy proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferCopy(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferCopy(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferCopy> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferCopy(input, ownership);
+    public static final Marshal<Addressable, BufferCopy> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferCopy(input);
 }

@@ -29,8 +29,8 @@ public class PhysicalDevicePointClippingPropertiesKHR extends Struct {
      * @return A new, uninitialized @{link PhysicalDevicePointClippingPropertiesKHR}
      */
     public static PhysicalDevicePointClippingPropertiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDevicePointClippingPropertiesKHR newInstance = new PhysicalDevicePointClippingPropertiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDevicePointClippingPropertiesKHR newInstance = new PhysicalDevicePointClippingPropertiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDevicePointClippingPropertiesKHR extends Struct {
     /**
      * Create a PhysicalDevicePointClippingPropertiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDevicePointClippingPropertiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDevicePointClippingPropertiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDevicePointClippingPropertiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDevicePointClippingPropertiesKHR(input, ownership);
+    public static final Marshal<Addressable, PhysicalDevicePointClippingPropertiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDevicePointClippingPropertiesKHR(input);
 }

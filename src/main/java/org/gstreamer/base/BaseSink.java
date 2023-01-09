@@ -164,26 +164,17 @@ public class BaseSink extends org.gstreamer.gst.Element {
     
     /**
      * Create a BaseSink proxy instance for the provided memory address.
-     * <p>
-     * Because BaseSink is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseSink(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected BaseSink(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSink(input, ownership);
+    public static final Marshal<Addressable, BaseSink> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseSink(input);
     
     /**
      * If the {@code sink} spawns its own thread for pulling buffers from upstream it
@@ -216,8 +207,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public int getBlocksize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_get_blocksize.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_get_blocksize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +223,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public boolean getDropOutOfSegment() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_get_drop_out_of_segment.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_get_drop_out_of_segment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,12 +244,13 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public @Nullable org.gstreamer.gst.Sample getLastSample() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_base_sink_get_last_sample.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_base_sink_get_last_sample.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -270,8 +260,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,8 +274,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public long getMaxBitrate() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_max_bitrate.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_max_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,8 +291,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public long getMaxLateness() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_max_lateness.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_max_lateness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,8 +307,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTime getProcessingDeadline() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_processing_deadline.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_processing_deadline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,8 +322,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTime getRenderDelay() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_render_delay.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_render_delay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,12 +342,13 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.Structure getStats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_base_sink_get_stats.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_base_sink_get_stats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -373,8 +359,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public boolean getSync() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_get_sync.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_get_sync.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,8 +374,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public long getThrottleTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_throttle_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_throttle_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,8 +388,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.ClockTimeDiff getTsOffset() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_base_sink_get_ts_offset.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_base_sink_get_ts_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -421,8 +404,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public boolean isAsyncEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_is_async_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_is_async_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,8 +419,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public boolean isLastSampleEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_is_last_sample_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_is_last_sample_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,8 +434,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public boolean isQosEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_is_qos_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_is_qos_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,26 +459,28 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @return {@code true} if the query succeeded.
      */
     public boolean queryLatency(Out<Boolean> live, Out<Boolean> upstreamLive, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
-        MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment upstreamLivePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_base_sink_query_latency.invokeExact(
-                    handle(),
-                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
-                    (Addressable) (upstreamLive == null ? MemoryAddress.NULL : (Addressable) upstreamLivePOINTER.address()),
-                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
-                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment livePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment upstreamLivePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_base_sink_query_latency.invokeExact(
+                        handle(),
+                        (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                        (Addressable) (upstreamLive == null ? MemoryAddress.NULL : (Addressable) upstreamLivePOINTER.address()),
+                        (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                        (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (upstreamLive != null) upstreamLive.set(upstreamLivePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (upstreamLive != null) upstreamLive.set(upstreamLivePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -715,18 +697,20 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @return {@link org.gstreamer.gst.FlowReturn}
      */
     public org.gstreamer.gst.FlowReturn wait_(org.gstreamer.gst.ClockTime time, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
-        MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_base_sink_wait.invokeExact(
-                    handle(),
-                    time.getValue().longValue(),
-                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment jitterPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_base_sink_wait.invokeExact(
+                        handle(),
+                        time.getValue().longValue(),
+                        (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -750,18 +734,20 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @return {@link org.gstreamer.gst.ClockReturn}
      */
     public org.gstreamer.gst.ClockReturn waitClock(org.gstreamer.gst.ClockTime time, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
-        MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_base_sink_wait_clock.invokeExact(
-                    handle(),
-                    time.getValue().longValue(),
-                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment jitterPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_base_sink_wait_clock.invokeExact(
+                        handle(),
+                        time.getValue().longValue(),
+                        (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return org.gstreamer.gst.ClockReturn.of(RESULT);
         }
-        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
     /**
@@ -789,8 +775,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.FlowReturn waitPreroll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_sink_wait_preroll.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_sink_wait_preroll.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -827,6 +812,9 @@ public class BaseSink extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1003,201 +991,209 @@ public class BaseSink extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_base_sink_do_preroll = Interop.downcallHandle(
-            "gst_base_sink_do_preroll",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_do_preroll",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_blocksize = Interop.downcallHandle(
-            "gst_base_sink_get_blocksize",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_blocksize",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_drop_out_of_segment = Interop.downcallHandle(
-            "gst_base_sink_get_drop_out_of_segment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_drop_out_of_segment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_last_sample = Interop.downcallHandle(
-            "gst_base_sink_get_last_sample",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_last_sample",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_latency = Interop.downcallHandle(
-            "gst_base_sink_get_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_max_bitrate = Interop.downcallHandle(
-            "gst_base_sink_get_max_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_max_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_max_lateness = Interop.downcallHandle(
-            "gst_base_sink_get_max_lateness",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_max_lateness",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_processing_deadline = Interop.downcallHandle(
-            "gst_base_sink_get_processing_deadline",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_processing_deadline",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_render_delay = Interop.downcallHandle(
-            "gst_base_sink_get_render_delay",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_render_delay",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_stats = Interop.downcallHandle(
-            "gst_base_sink_get_stats",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_stats",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_sync = Interop.downcallHandle(
-            "gst_base_sink_get_sync",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_sync",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_throttle_time = Interop.downcallHandle(
-            "gst_base_sink_get_throttle_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_throttle_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_ts_offset = Interop.downcallHandle(
-            "gst_base_sink_get_ts_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_get_ts_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_is_async_enabled = Interop.downcallHandle(
-            "gst_base_sink_is_async_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_is_async_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_is_last_sample_enabled = Interop.downcallHandle(
-            "gst_base_sink_is_last_sample_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_is_last_sample_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_is_qos_enabled = Interop.downcallHandle(
-            "gst_base_sink_is_qos_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_is_qos_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_query_latency = Interop.downcallHandle(
-            "gst_base_sink_query_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_query_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_async_enabled = Interop.downcallHandle(
-            "gst_base_sink_set_async_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_async_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_blocksize = Interop.downcallHandle(
-            "gst_base_sink_set_blocksize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_blocksize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_drop_out_of_segment = Interop.downcallHandle(
-            "gst_base_sink_set_drop_out_of_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_drop_out_of_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_last_sample_enabled = Interop.downcallHandle(
-            "gst_base_sink_set_last_sample_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_last_sample_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_max_bitrate = Interop.downcallHandle(
-            "gst_base_sink_set_max_bitrate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_max_bitrate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_max_lateness = Interop.downcallHandle(
-            "gst_base_sink_set_max_lateness",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_max_lateness",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_processing_deadline = Interop.downcallHandle(
-            "gst_base_sink_set_processing_deadline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_processing_deadline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_qos_enabled = Interop.downcallHandle(
-            "gst_base_sink_set_qos_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_qos_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_render_delay = Interop.downcallHandle(
-            "gst_base_sink_set_render_delay",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_render_delay",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_sync = Interop.downcallHandle(
-            "gst_base_sink_set_sync",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_sink_set_sync",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_throttle_time = Interop.downcallHandle(
-            "gst_base_sink_set_throttle_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_throttle_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_set_ts_offset = Interop.downcallHandle(
-            "gst_base_sink_set_ts_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_set_ts_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_sink_wait = Interop.downcallHandle(
-            "gst_base_sink_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_wait_clock = Interop.downcallHandle(
-            "gst_base_sink_wait_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_wait_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_wait_preroll = Interop.downcallHandle(
-            "gst_base_sink_wait_preroll",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_sink_wait_preroll",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_sink_get_type = Interop.downcallHandle(
-            "gst_base_sink_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_base_sink_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_base_sink_get_type != null;
     }
 }

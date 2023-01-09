@@ -41,8 +41,8 @@ public class TypeModuleClass extends Struct {
      * @return A new, uninitialized @{link TypeModuleClass}
      */
     public static TypeModuleClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeModuleClass newInstance = new TypeModuleClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypeModuleClass newInstance = new TypeModuleClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,7 +53,7 @@ public class TypeModuleClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -61,25 +61,42 @@ public class TypeModuleClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadCallback {
+    
         boolean run(org.gtk.gobject.TypeModule module);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress module) {
-            var RESULT = run((org.gtk.gobject.TypeModule) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(module)), org.gtk.gobject.TypeModule.fromAddress).marshal(module, Ownership.NONE));
+            var RESULT = run((org.gtk.gobject.TypeModule) Interop.register(module, org.gtk.gobject.TypeModule.fromAddress).marshal(module, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -88,24 +105,41 @@ public class TypeModuleClass extends Struct {
      * @param load The new value of the field {@code load}
      */
     public void setLoad(LoadCallback load) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnloadCallback} callback.
+     */
     @FunctionalInterface
     public interface UnloadCallback {
+    
         void run(org.gtk.gobject.TypeModule module);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress module) {
-            run((org.gtk.gobject.TypeModule) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(module)), org.gtk.gobject.TypeModule.fromAddress).marshal(module, Ownership.NONE));
+            run((org.gtk.gobject.TypeModule) Interop.register(module, org.gtk.gobject.TypeModule.fromAddress).marshal(module, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnloadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnloadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -114,24 +148,41 @@ public class TypeModuleClass extends Struct {
      * @param unload The new value of the field {@code unload}
      */
     public void setUnload(UnloadCallback unload) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unload"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unload == null ? MemoryAddress.NULL : unload.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unload"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unload == null ? MemoryAddress.NULL : unload.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved1Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved1Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved1Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved1Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,24 +191,41 @@ public class TypeModuleClass extends Struct {
      * @param reserved1 The new value of the field {@code reserved1}
      */
     public void setReserved1(Reserved1Callback reserved1) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved2Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved2Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved2Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved2Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,24 +234,41 @@ public class TypeModuleClass extends Struct {
      * @param reserved2 The new value of the field {@code reserved2}
      */
     public void setReserved2(Reserved2Callback reserved2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved3Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved3Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved3Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved3Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -192,24 +277,41 @@ public class TypeModuleClass extends Struct {
      * @param reserved3 The new value of the field {@code reserved3}
      */
     public void setReserved3(Reserved3Callback reserved3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved4Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved4Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved4Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved4Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -218,22 +320,26 @@ public class TypeModuleClass extends Struct {
      * @param reserved4 The new value of the field {@code reserved4}
      */
     public void setReserved4(Reserved4Callback reserved4) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.toCallback()));
+        }
     }
     
     /**
      * Create a TypeModuleClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeModuleClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeModuleClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeModuleClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeModuleClass(input, ownership);
+    public static final Marshal<Addressable, TypeModuleClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeModuleClass(input);
     
     /**
      * A {@link TypeModuleClass.Builder} object constructs a {@link TypeModuleClass} 
@@ -257,7 +363,7 @@ public class TypeModuleClass extends Struct {
             struct = TypeModuleClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypeModuleClass} struct.
          * @return A new instance of {@code TypeModuleClass} with the fields 
          *         that were set in the Builder object.
@@ -272,52 +378,66 @@ public class TypeModuleClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setLoad(LoadCallback load) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUnload(UnloadCallback unload) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unload"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unload == null ? MemoryAddress.NULL : unload.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unload"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unload == null ? MemoryAddress.NULL : unload.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved1(Reserved1Callback reserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved2(Reserved2Callback reserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved3(Reserved3Callback reserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved4(Reserved4Callback reserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.toCallback()));
+                return this;
+            }
         }
     }
 }

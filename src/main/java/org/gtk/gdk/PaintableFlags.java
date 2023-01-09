@@ -28,6 +28,9 @@ public class PaintableFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PaintableFlags CONTENTS = new PaintableFlags(2);
     
+    /**
+     * Create a new PaintableFlags with the provided value
+     */
     public PaintableFlags(int value) {
         super(value);
     }

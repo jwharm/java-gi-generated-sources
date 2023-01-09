@@ -39,8 +39,8 @@ public class TypePluginClass extends Struct {
      * @return A new, uninitialized @{link TypePluginClass}
      */
     public static TypePluginClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypePluginClass newInstance = new TypePluginClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypePluginClass newInstance = new TypePluginClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class TypePluginClass extends Struct {
      * @return The value of the field {@code use_plugin}
      */
     public org.gtk.gobject.TypePluginUse getUsePlugin() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class TypePluginClass extends Struct {
      * @param usePlugin The new value of the field {@code use_plugin}
      */
     public void setUsePlugin(org.gtk.gobject.TypePluginUse usePlugin) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (usePlugin == null ? MemoryAddress.NULL : (Addressable) usePlugin.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (usePlugin == null ? MemoryAddress.NULL : (Addressable) usePlugin.toCallback()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class TypePluginClass extends Struct {
      * @return The value of the field {@code unuse_plugin}
      */
     public org.gtk.gobject.TypePluginUnuse getUnusePlugin() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class TypePluginClass extends Struct {
      * @param unusePlugin The new value of the field {@code unuse_plugin}
      */
     public void setUnusePlugin(org.gtk.gobject.TypePluginUnuse unusePlugin) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unusePlugin == null ? MemoryAddress.NULL : (Addressable) unusePlugin.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unusePlugin == null ? MemoryAddress.NULL : (Addressable) unusePlugin.toCallback()));
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class TypePluginClass extends Struct {
      * @return The value of the field {@code complete_type_info}
      */
     public org.gtk.gobject.TypePluginCompleteTypeInfo getCompleteTypeInfo() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class TypePluginClass extends Struct {
      * @param completeTypeInfo The new value of the field {@code complete_type_info}
      */
     public void setCompleteTypeInfo(org.gtk.gobject.TypePluginCompleteTypeInfo completeTypeInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeTypeInfo == null ? MemoryAddress.NULL : (Addressable) completeTypeInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (completeTypeInfo == null ? MemoryAddress.NULL : (Addressable) completeTypeInfo.toCallback()));
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class TypePluginClass extends Struct {
      * @return The value of the field {@code complete_interface_info}
      */
     public org.gtk.gobject.TypePluginCompleteInterfaceInfo getCompleteInterfaceInfo() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class TypePluginClass extends Struct {
      * @param completeInterfaceInfo The new value of the field {@code complete_interface_info}
      */
     public void setCompleteInterfaceInfo(org.gtk.gobject.TypePluginCompleteInterfaceInfo completeInterfaceInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeInterfaceInfo == null ? MemoryAddress.NULL : (Addressable) completeInterfaceInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (completeInterfaceInfo == null ? MemoryAddress.NULL : (Addressable) completeInterfaceInfo.toCallback()));
+        }
     }
     
     /**
      * Create a TypePluginClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypePluginClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypePluginClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypePluginClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypePluginClass(input, ownership);
+    public static final Marshal<Addressable, TypePluginClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypePluginClass(input);
     
     /**
      * A {@link TypePluginClass.Builder} object constructs a {@link TypePluginClass} 
@@ -163,7 +181,7 @@ public class TypePluginClass extends Struct {
             struct = TypePluginClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypePluginClass} struct.
          * @return A new instance of {@code TypePluginClass} with the fields 
          *         that were set in the Builder object.
@@ -173,10 +191,12 @@ public class TypePluginClass extends Struct {
         }
         
         public Builder setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+                return this;
+            }
         }
         
         /**
@@ -185,10 +205,12 @@ public class TypePluginClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUsePlugin(org.gtk.gobject.TypePluginUse usePlugin) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (usePlugin == null ? MemoryAddress.NULL : (Addressable) usePlugin.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("use_plugin"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (usePlugin == null ? MemoryAddress.NULL : (Addressable) usePlugin.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -197,10 +219,12 @@ public class TypePluginClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUnusePlugin(org.gtk.gobject.TypePluginUnuse unusePlugin) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unusePlugin == null ? MemoryAddress.NULL : (Addressable) unusePlugin.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unuse_plugin"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unusePlugin == null ? MemoryAddress.NULL : (Addressable) unusePlugin.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -211,10 +235,12 @@ public class TypePluginClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompleteTypeInfo(org.gtk.gobject.TypePluginCompleteTypeInfo completeTypeInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeTypeInfo == null ? MemoryAddress.NULL : (Addressable) completeTypeInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("complete_type_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (completeTypeInfo == null ? MemoryAddress.NULL : (Addressable) completeTypeInfo.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -225,10 +251,12 @@ public class TypePluginClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompleteInterfaceInfo(org.gtk.gobject.TypePluginCompleteInterfaceInfo completeInterfaceInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (completeInterfaceInfo == null ? MemoryAddress.NULL : (Addressable) completeInterfaceInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("complete_interface_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (completeInterfaceInfo == null ? MemoryAddress.NULL : (Addressable) completeInterfaceInfo.toCallback()));
+                return this;
+            }
         }
     }
 }

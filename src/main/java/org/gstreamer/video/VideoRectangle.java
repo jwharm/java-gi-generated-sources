@@ -37,8 +37,8 @@ public class VideoRectangle extends Struct {
      * @return A new, uninitialized @{link VideoRectangle}
      */
     public static VideoRectangle allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoRectangle newInstance = new VideoRectangle(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoRectangle newInstance = new VideoRectangle(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class VideoRectangle extends Struct {
      * @return The value of the field {@code x}
      */
     public int getX() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class VideoRectangle extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(int x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class VideoRectangle extends Struct {
      * @return The value of the field {@code y}
      */
     public int getY() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class VideoRectangle extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(int y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class VideoRectangle extends Struct {
      * @return The value of the field {@code w}
      */
     public int getW() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,9 +111,11 @@ public class VideoRectangle extends Struct {
      * @param w The new value of the field {@code w}
      */
     public void setW(int w) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), w);
+        }
     }
     
     /**
@@ -111,10 +123,12 @@ public class VideoRectangle extends Struct {
      * @return The value of the field {@code h}
      */
     public int getH() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -122,22 +136,26 @@ public class VideoRectangle extends Struct {
      * @param h The new value of the field {@code h}
      */
     public void setH(int h) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), h);
+        }
     }
     
     /**
      * Create a VideoRectangle proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoRectangle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoRectangle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoRectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoRectangle(input, ownership);
+    public static final Marshal<Addressable, VideoRectangle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoRectangle(input);
     
     /**
      * A {@link VideoRectangle.Builder} object constructs a {@link VideoRectangle} 
@@ -161,7 +179,7 @@ public class VideoRectangle extends Struct {
             struct = VideoRectangle.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoRectangle} struct.
          * @return A new instance of {@code VideoRectangle} with the fields 
          *         that were set in the Builder object.
@@ -176,10 +194,12 @@ public class VideoRectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(int x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -188,10 +208,12 @@ public class VideoRectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(int y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
         
         /**
@@ -200,10 +222,12 @@ public class VideoRectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setW(int w) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), w);
+                return this;
+            }
         }
         
         /**
@@ -212,10 +236,12 @@ public class VideoRectangle extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setH(int h) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("h"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), h);
+                return this;
+            }
         }
     }
 }

@@ -40,25 +40,40 @@ public class ShortcutManagerInterface extends Struct {
      * @return A new, uninitialized @{link ShortcutManagerInterface}
      */
     public static ShortcutManagerInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShortcutManagerInterface newInstance = new ShortcutManagerInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ShortcutManagerInterface newInstance = new ShortcutManagerInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code AddControllerCallback} callback.
+     */
     @FunctionalInterface
     public interface AddControllerCallback {
+    
         void run(org.gtk.gtk.ShortcutManager self, org.gtk.gtk.ShortcutController controller);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress controller) {
-            run((org.gtk.gtk.ShortcutManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gtk.ShortcutManager.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gtk.ShortcutController) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(controller)), org.gtk.gtk.ShortcutController.fromAddress).marshal(controller, Ownership.NONE));
+            run((org.gtk.gtk.ShortcutManager) Interop.register(self, org.gtk.gtk.ShortcutManager.fromAddress).marshal(self, null), (org.gtk.gtk.ShortcutController) Interop.register(controller, org.gtk.gtk.ShortcutController.fromAddress).marshal(controller, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AddControllerCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AddControllerCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -67,24 +82,41 @@ public class ShortcutManagerInterface extends Struct {
      * @param addController The new value of the field {@code add_controller}
      */
     public void setAddController(AddControllerCallback addController) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("add_controller"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addController == null ? MemoryAddress.NULL : addController.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("add_controller"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addController == null ? MemoryAddress.NULL : addController.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RemoveControllerCallback} callback.
+     */
     @FunctionalInterface
     public interface RemoveControllerCallback {
+    
         void run(org.gtk.gtk.ShortcutManager self, org.gtk.gtk.ShortcutController controller);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress controller) {
-            run((org.gtk.gtk.ShortcutManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gtk.ShortcutManager.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gtk.ShortcutController) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(controller)), org.gtk.gtk.ShortcutController.fromAddress).marshal(controller, Ownership.NONE));
+            run((org.gtk.gtk.ShortcutManager) Interop.register(self, org.gtk.gtk.ShortcutManager.fromAddress).marshal(self, null), (org.gtk.gtk.ShortcutController) Interop.register(controller, org.gtk.gtk.ShortcutController.fromAddress).marshal(controller, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveControllerCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RemoveControllerCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -93,22 +125,26 @@ public class ShortcutManagerInterface extends Struct {
      * @param removeController The new value of the field {@code remove_controller}
      */
     public void setRemoveController(RemoveControllerCallback removeController) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("remove_controller"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeController == null ? MemoryAddress.NULL : removeController.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("remove_controller"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (removeController == null ? MemoryAddress.NULL : removeController.toCallback()));
+        }
     }
     
     /**
      * Create a ShortcutManagerInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShortcutManagerInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShortcutManagerInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutManagerInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutManagerInterface(input, ownership);
+    public static final Marshal<Addressable, ShortcutManagerInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutManagerInterface(input);
     
     /**
      * A {@link ShortcutManagerInterface.Builder} object constructs a {@link ShortcutManagerInterface} 
@@ -132,7 +168,7 @@ public class ShortcutManagerInterface extends Struct {
             struct = ShortcutManagerInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutManagerInterface} struct.
          * @return A new instance of {@code ShortcutManagerInterface} with the fields 
          *         that were set in the Builder object.
@@ -142,24 +178,30 @@ public class ShortcutManagerInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setAddController(AddControllerCallback addController) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("add_controller"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addController == null ? MemoryAddress.NULL : addController.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("add_controller"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addController == null ? MemoryAddress.NULL : addController.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRemoveController(RemoveControllerCallback removeController) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("remove_controller"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeController == null ? MemoryAddress.NULL : removeController.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("remove_controller"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (removeController == null ? MemoryAddress.NULL : removeController.toCallback()));
+                return this;
+            }
         }
     }
 }

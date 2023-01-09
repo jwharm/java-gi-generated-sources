@@ -54,6 +54,9 @@ public class PbUtilsCapsDescriptionFlags extends io.github.jwharm.javagi.Bitfiel
      */
     public static final PbUtilsCapsDescriptionFlags GENERIC = new PbUtilsCapsDescriptionFlags(64);
     
+    /**
+     * Create a new PbUtilsCapsDescriptionFlags with the provided value
+     */
     public PbUtilsCapsDescriptionFlags(int value) {
         super(value);
     }

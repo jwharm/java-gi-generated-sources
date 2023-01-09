@@ -52,26 +52,17 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     /**
      * Create a ViewSwitcher proxy instance for the provided memory address.
-     * <p>
-     * Because ViewSwitcher is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ViewSwitcher(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ViewSwitcher(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ViewSwitcher> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ViewSwitcher(input, ownership);
+    public static final Marshal<Addressable, ViewSwitcher> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ViewSwitcher(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -87,7 +78,9 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Creates a new {@code AdwViewSwitcher}.
      */
     public ViewSwitcher() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -97,8 +90,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public org.gnome.adw.ViewSwitcherPolicy getPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_switcher_get_policy.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_switcher_get_policy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,12 +104,11 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gnome.adw.ViewStack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_get_stack.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.ViewStack) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStack.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStack) Interop.register(RESULT, org.gnome.adw.ViewStack.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -178,6 +169,9 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -224,39 +218,47 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_switcher_new = Interop.downcallHandle(
-            "adw_view_switcher_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_switcher_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_switcher_get_policy = Interop.downcallHandle(
-            "adw_view_switcher_get_policy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_switcher_get_policy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_switcher_get_stack = Interop.downcallHandle(
-            "adw_view_switcher_get_stack",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_switcher_get_stack",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_switcher_set_policy = Interop.downcallHandle(
-            "adw_view_switcher_set_policy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_switcher_set_policy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_switcher_set_stack = Interop.downcallHandle(
-            "adw_view_switcher_set_stack",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_switcher_set_stack",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_switcher_get_type = Interop.downcallHandle(
-            "adw_view_switcher_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_view_switcher_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_view_switcher_get_type != null;
     }
 }

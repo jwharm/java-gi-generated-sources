@@ -11,6 +11,9 @@ import org.jetbrains.annotations.*;
  */
 public class Quark extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new Quark with the provided value
+     */
     public Quark(int value) {
         super(value);
     }

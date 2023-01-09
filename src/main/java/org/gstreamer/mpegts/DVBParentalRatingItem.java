@@ -32,8 +32,8 @@ public class DVBParentalRatingItem extends Struct {
      * @return A new, uninitialized @{link DVBParentalRatingItem}
      */
     public static DVBParentalRatingItem allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DVBParentalRatingItem newInstance = new DVBParentalRatingItem(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DVBParentalRatingItem newInstance = new DVBParentalRatingItem(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,10 +43,12 @@ public class DVBParentalRatingItem extends Struct {
      * @return The value of the field {@code country_code}
      */
     public java.lang.String getCountryCode() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -54,9 +56,11 @@ public class DVBParentalRatingItem extends Struct {
      * @param countryCode The new value of the field {@code country_code}
      */
     public void setCountryCode(java.lang.String countryCode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, SCOPE)));
+        }
     }
     
     /**
@@ -64,10 +68,12 @@ public class DVBParentalRatingItem extends Struct {
      * @return The value of the field {@code rating}
      */
     public byte getRating() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rating"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rating"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -75,22 +81,26 @@ public class DVBParentalRatingItem extends Struct {
      * @param rating The new value of the field {@code rating}
      */
     public void setRating(byte rating) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rating"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rating);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rating"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), rating);
+        }
     }
     
     /**
      * Create a DVBParentalRatingItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DVBParentalRatingItem(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DVBParentalRatingItem(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DVBParentalRatingItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBParentalRatingItem(input, ownership);
+    public static final Marshal<Addressable, DVBParentalRatingItem> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DVBParentalRatingItem(input);
     
     /**
      * A {@link DVBParentalRatingItem.Builder} object constructs a {@link DVBParentalRatingItem} 
@@ -114,7 +124,7 @@ public class DVBParentalRatingItem extends Struct {
             struct = DVBParentalRatingItem.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DVBParentalRatingItem} struct.
          * @return A new instance of {@code DVBParentalRatingItem} with the fields 
          *         that were set in the Builder object.
@@ -124,17 +134,21 @@ public class DVBParentalRatingItem extends Struct {
         }
         
         public Builder setCountryCode(java.lang.String countryCode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setRating(byte rating) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("rating"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), rating);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("rating"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), rating);
+                return this;
+            }
         }
     }
 }

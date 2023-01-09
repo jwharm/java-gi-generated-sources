@@ -31,8 +31,8 @@ public class TranscoderClass extends Struct {
      * @return A new, uninitialized @{link TranscoderClass}
      */
     public static TranscoderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TranscoderClass newInstance = new TranscoderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TranscoderClass newInstance = new TranscoderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class TranscoderClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class TranscoderClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a TranscoderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TranscoderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TranscoderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TranscoderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TranscoderClass(input, ownership);
+    public static final Marshal<Addressable, TranscoderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TranscoderClass(input);
     
     /**
      * A {@link TranscoderClass.Builder} object constructs a {@link TranscoderClass} 
@@ -90,7 +94,7 @@ public class TranscoderClass extends Struct {
             struct = TranscoderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TranscoderClass} struct.
          * @return A new instance of {@code TranscoderClass} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class TranscoderClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

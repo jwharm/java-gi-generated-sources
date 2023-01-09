@@ -29,8 +29,8 @@ public class SwapchainCreateFlagBitsKHR extends Struct {
      * @return A new, uninitialized @{link SwapchainCreateFlagBitsKHR}
      */
     public static SwapchainCreateFlagBitsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SwapchainCreateFlagBitsKHR newInstance = new SwapchainCreateFlagBitsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SwapchainCreateFlagBitsKHR newInstance = new SwapchainCreateFlagBitsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SwapchainCreateFlagBitsKHR extends Struct {
     /**
      * Create a SwapchainCreateFlagBitsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SwapchainCreateFlagBitsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SwapchainCreateFlagBitsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SwapchainCreateFlagBitsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwapchainCreateFlagBitsKHR(input, ownership);
+    public static final Marshal<Addressable, SwapchainCreateFlagBitsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SwapchainCreateFlagBitsKHR(input);
 }

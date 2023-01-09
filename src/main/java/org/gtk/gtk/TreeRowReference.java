@@ -34,8 +34,8 @@ public class TreeRowReference extends Struct {
      * @return A new, uninitialized @{link TreeRowReference}
      */
     public static TreeRowReference allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeRowReference newInstance = new TreeRowReference(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeRowReference newInstance = new TreeRowReference(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class TreeRowReference extends Struct {
     /**
      * Create a TreeRowReference proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeRowReference(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeRowReference(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeRowReference> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeRowReference(input, ownership);
+    public static final Marshal<Addressable, TreeRowReference> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeRowReference(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
         MemoryAddress RESULT;
@@ -75,7 +77,8 @@ public class TreeRowReference extends Struct {
      * @param path a valid {@code GtkTreePath} to monitor
      */
     public TreeRowReference(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
-        super(constructNew(model, path), Ownership.FULL);
+        super(constructNew(model, path));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewProxy(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
@@ -90,7 +93,7 @@ public class TreeRowReference extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * You do not need to use this function.
      * <p>
@@ -123,7 +126,9 @@ public class TreeRowReference extends Struct {
      */
     public static TreeRowReference newProxy(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
         var RESULT = constructNewProxy(proxy, model, path);
-        return org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -133,12 +138,13 @@ public class TreeRowReference extends Struct {
     public org.gtk.gtk.TreeRowReference copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -146,8 +152,7 @@ public class TreeRowReference extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_tree_row_reference_free.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_row_reference_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,12 +165,11 @@ public class TreeRowReference extends Struct {
     public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -176,12 +180,13 @@ public class TreeRowReference extends Struct {
     public @Nullable org.gtk.gtk.TreePath getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -192,8 +197,7 @@ public class TreeRowReference extends Struct {
     public boolean valid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_row_reference_valid.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_row_reference_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,77 +248,79 @@ public class TreeRowReference extends Struct {
      * @param newOrder the new order of rows
      */
     public static void reordered(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter, int[] newOrder) {
-        try {
-            DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(
-                    proxy.handle(),
-                    path.handle(),
-                    iter.handle(),
-                    Interop.allocateNativeArray(newOrder, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(
+                        proxy.handle(),
+                        path.handle(),
+                        iter.handle(),
+                        Interop.allocateNativeArray(newOrder, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
-            "gtk_tree_row_reference_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
-            "gtk_tree_row_reference_new_proxy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_new_proxy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
-            "gtk_tree_row_reference_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
-            "gtk_tree_row_reference_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
-            "gtk_tree_row_reference_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
-            "gtk_tree_row_reference_get_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_get_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
-            "gtk_tree_row_reference_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
-            "gtk_tree_row_reference_deleted",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_deleted",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
-            "gtk_tree_row_reference_inserted",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_inserted",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
-            "gtk_tree_row_reference_reordered",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_row_reference_reordered",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

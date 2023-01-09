@@ -37,8 +37,8 @@ public class MIKEYMapSRTP extends Struct {
      * @return A new, uninitialized @{link MIKEYMapSRTP}
      */
     public static MIKEYMapSRTP allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MIKEYMapSRTP newInstance = new MIKEYMapSRTP(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MIKEYMapSRTP newInstance = new MIKEYMapSRTP(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class MIKEYMapSRTP extends Struct {
      * @return The value of the field {@code policy}
      */
     public byte getPolicy() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("policy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("policy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class MIKEYMapSRTP extends Struct {
      * @param policy The new value of the field {@code policy}
      */
     public void setPolicy(byte policy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("policy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), policy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("policy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), policy);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class MIKEYMapSRTP extends Struct {
      * @return The value of the field {@code ssrc}
      */
     public int getSsrc() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class MIKEYMapSRTP extends Struct {
      * @param ssrc The new value of the field {@code ssrc}
      */
     public void setSsrc(int ssrc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), ssrc);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class MIKEYMapSRTP extends Struct {
      * @return The value of the field {@code roc}
      */
     public int getRoc() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class MIKEYMapSRTP extends Struct {
      * @param roc The new value of the field {@code roc}
      */
     public void setRoc(int roc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), roc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), roc);
+        }
     }
     
     /**
      * Create a MIKEYMapSRTP proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MIKEYMapSRTP(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MIKEYMapSRTP(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MIKEYMapSRTP> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYMapSRTP(input, ownership);
+    public static final Marshal<Addressable, MIKEYMapSRTP> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYMapSRTP(input);
     
     /**
      * A {@link MIKEYMapSRTP.Builder} object constructs a {@link MIKEYMapSRTP} 
@@ -140,7 +154,7 @@ public class MIKEYMapSRTP extends Struct {
             struct = MIKEYMapSRTP.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MIKEYMapSRTP} struct.
          * @return A new instance of {@code MIKEYMapSRTP} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class MIKEYMapSRTP extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPolicy(byte policy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("policy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), policy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("policy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), policy);
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class MIKEYMapSRTP extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSsrc(int ssrc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), ssrc);
+                return this;
+            }
         }
         
         /**
@@ -179,10 +197,12 @@ public class MIKEYMapSRTP extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRoc(int roc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("roc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), roc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("roc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), roc);
+                return this;
+            }
         }
     }
 }

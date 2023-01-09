@@ -43,8 +43,8 @@ public class VideoAncillary extends Struct {
      * @return A new, uninitialized @{link VideoAncillary}
      */
     public static VideoAncillary allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAncillary newInstance = new VideoAncillary(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAncillary newInstance = new VideoAncillary(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class VideoAncillary extends Struct {
      * @return The value of the field {@code DID}
      */
     public byte getDID() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("DID"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("DID"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class VideoAncillary extends Struct {
      * @param DID The new value of the field {@code DID}
      */
     public void setDID(byte DID) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("DID"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), DID);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("DID"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), DID);
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class VideoAncillary extends Struct {
      * @return The value of the field {@code SDID_block_number}
      */
     public byte getSDIDBlockNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class VideoAncillary extends Struct {
      * @param SDIDBlockNumber The new value of the field {@code SDID_block_number}
      */
     public void setSDIDBlockNumber(byte SDIDBlockNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), SDIDBlockNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), SDIDBlockNumber);
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class VideoAncillary extends Struct {
      * @return The value of the field {@code data_count}
      */
     public byte getDataCount() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,9 +117,11 @@ public class VideoAncillary extends Struct {
      * @param dataCount The new value of the field {@code data_count}
      */
     public void setDataCount(byte dataCount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataCount);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), dataCount);
+        }
     }
     
     /**
@@ -117,10 +129,12 @@ public class VideoAncillary extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -128,22 +142,26 @@ public class VideoAncillary extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(byte[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
      * Create a VideoAncillary proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAncillary(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAncillary(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAncillary> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAncillary(input, ownership);
+    public static final Marshal<Addressable, VideoAncillary> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAncillary(input);
     
     /**
      * A {@link VideoAncillary.Builder} object constructs a {@link VideoAncillary} 
@@ -167,7 +185,7 @@ public class VideoAncillary extends Struct {
             struct = VideoAncillary.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAncillary} struct.
          * @return A new instance of {@code VideoAncillary} with the fields 
          *         that were set in the Builder object.
@@ -182,10 +200,12 @@ public class VideoAncillary extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDID(byte DID) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("DID"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), DID);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("DID"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), DID);
+                return this;
+            }
         }
         
         /**
@@ -195,10 +215,12 @@ public class VideoAncillary extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSDIDBlockNumber(byte SDIDBlockNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), SDIDBlockNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), SDIDBlockNumber);
+                return this;
+            }
         }
         
         /**
@@ -207,10 +229,12 @@ public class VideoAncillary extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDataCount(byte dataCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dataCount);
+                return this;
+            }
         }
         
         /**
@@ -220,17 +244,21 @@ public class VideoAncillary extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(byte[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

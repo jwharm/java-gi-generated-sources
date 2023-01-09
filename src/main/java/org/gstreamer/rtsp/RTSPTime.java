@@ -36,8 +36,8 @@ public class RTSPTime extends Struct {
      * @return A new, uninitialized @{link RTSPTime}
      */
     public static RTSPTime allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPTime newInstance = new RTSPTime(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPTime newInstance = new RTSPTime(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class RTSPTime extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.rtsp.RTSPTimeType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.rtsp.RTSPTimeType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.rtsp.RTSPTimeType.of(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class RTSPTime extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.rtsp.RTSPTimeType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class RTSPTime extends Struct {
      * @return The value of the field {@code seconds}
      */
     public double getSeconds() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class RTSPTime extends Struct {
      * @param seconds The new value of the field {@code seconds}
      */
     public void setSeconds(double seconds) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), seconds);
+        }
     }
     
     /**
      * Create a RTSPTime proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPTime(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPTime(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime(input, ownership);
+    public static final Marshal<Addressable, RTSPTime> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime(input);
     
     /**
      * A {@link RTSPTime.Builder} object constructs a {@link RTSPTime} 
@@ -118,7 +128,7 @@ public class RTSPTime extends Struct {
             struct = RTSPTime.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPTime} struct.
          * @return A new instance of {@code RTSPTime} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class RTSPTime extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.rtsp.RTSPTimeType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -146,10 +158,12 @@ public class RTSPTime extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSeconds(double seconds) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), seconds);
+                return this;
+            }
         }
     }
 }

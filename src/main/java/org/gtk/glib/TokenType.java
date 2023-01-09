@@ -10,94 +10,117 @@ import org.jetbrains.annotations.*;
  * g_scanner_get_next_token() call.
  */
 public enum TokenType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the end of the file
      */
     EOF(0),
+    
     /**
      * a '(' character
      */
     LEFT_PAREN(40),
+    
     /**
      * a ')' character
      */
     RIGHT_PAREN(41),
+    
     /**
      * a '{' character
      */
     LEFT_CURLY(123),
+    
     /**
      * a '}' character
      */
     RIGHT_CURLY(125),
+    
     /**
      * a '[' character
      */
     LEFT_BRACE(91),
+    
     /**
      * a ']' character
      */
     RIGHT_BRACE(93),
+    
     /**
      * a '=' character
      */
     EQUAL_SIGN(61),
+    
     /**
      * a ',' character
      */
     COMMA(44),
+    
     /**
      * not a token
      */
     NONE(256),
+    
     /**
      * an error occurred
      */
     ERROR(257),
+    
     /**
      * a character
      */
     CHAR(258),
+    
     /**
      * a binary integer
      */
     BINARY(259),
+    
     /**
      * an octal integer
      */
     OCTAL(260),
+    
     /**
      * an integer
      */
     INT(261),
+    
     /**
      * a hex integer
      */
     HEX(262),
+    
     /**
      * a floating point number
      */
     FLOAT(263),
+    
     /**
      * a string
      */
     STRING(264),
+    
     /**
      * a symbol
      */
     SYMBOL(265),
+    
     /**
      * an identifier
      */
     IDENTIFIER(266),
+    
     /**
      * a null identifier
      */
     IDENTIFIER_NULL(267),
+    
     /**
      * one line comment
      */
     COMMENT_SINGLE(268),
+    
     /**
      * multi line comment
      */
@@ -106,15 +129,29 @@ public enum TokenType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTokenType";
     
     private final int value;
+    
+    /**
+     * Create a new TokenType for the provided value
+     * @param numeric value the enum value
+     */
     TokenType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TokenType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TokenType of(int value) {
         return switch (value) {
             case 0 -> EOF;

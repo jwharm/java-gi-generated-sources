@@ -69,26 +69,17 @@ public class Bus extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Bus proxy instance for the provided memory address.
-     * <p>
-     * Because Bus is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Bus(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Bus(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Bus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bus(input, ownership);
+    public static final Marshal<Addressable, Bus> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Bus(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -104,7 +95,8 @@ public class Bus extends org.gstreamer.gst.GstObject {
      * Creates a new {@link Bus} instance.
      */
     public Bus() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -123,8 +115,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
      */
     public void addSignalWatch() {
         try {
-            DowncallHandles.gst_bus_add_signal_watch.invokeExact(
-                    handle());
+            DowncallHandles.gst_bus_add_signal_watch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,12 +222,13 @@ public class Bus extends org.gstreamer.gst.GstObject {
     public @Nullable org.gtk.glib.Source createWatch() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_bus_create_watch.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_bus_create_watch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -252,8 +244,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
      */
     public void disableSyncMessageEmission() {
         try {
-            DowncallHandles.gst_bus_disable_sync_message_emission.invokeExact(
-                    handle());
+            DowncallHandles.gst_bus_disable_sync_message_emission.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,8 +269,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
      */
     public void enableSyncMessageEmission() {
         try {
-            DowncallHandles.gst_bus_enable_sync_message_emission.invokeExact(
-                    handle());
+            DowncallHandles.gst_bus_enable_sync_message_emission.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,8 +305,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
     public boolean havePending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bus_have_pending.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bus_have_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,12 +321,13 @@ public class Bus extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Message peek() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_bus_peek.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_bus_peek.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -391,7 +381,9 @@ public class Bus extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -402,12 +394,13 @@ public class Bus extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Message pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_bus_pop.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_bus_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -430,7 +423,9 @@ public class Bus extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -457,8 +452,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
      */
     public void removeSignalWatch() {
         try {
-            DowncallHandles.gst_bus_remove_signal_watch.invokeExact(
-                    handle());
+            DowncallHandles.gst_bus_remove_signal_watch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,8 +465,7 @@ public class Bus extends org.gstreamer.gst.GstObject {
     public boolean removeWatch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bus_remove_watch.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bus_remove_watch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -559,7 +552,9 @@ public class Bus extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -586,7 +581,9 @@ public class Bus extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Message.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -603,19 +600,39 @@ public class Bus extends org.gstreamer.gst.GstObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Message} callback.
+     */
     @FunctionalInterface
     public interface Message {
+    
+        /**
+         * A message has been posted on the bus. This signal is emitted from a
+         * {@link org.gtk.glib.Source} added to the mainloop. this signal will only be emitted when
+         * there is a {@link org.gtk.glib.MainLoop} running.
+         */
         void run(org.gstreamer.gst.Message message);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceBus, MemoryAddress message) {
-            run(org.gstreamer.gst.Message.fromAddress.marshal(message, Ownership.NONE));
+            run(org.gstreamer.gst.Message.fromAddress.marshal(message, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Message.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Message.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -628,28 +645,51 @@ public class Bus extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Bus.Message> onMessage(@Nullable String detail, Bus.Message handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("message" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("message" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SyncMessage} callback.
+     */
     @FunctionalInterface
     public interface SyncMessage {
+    
+        /**
+         * A message has been posted on the bus. This signal is emitted from the
+         * thread that posted the message so one has to be careful with locking.
+         * <p>
+         * This signal will not be emitted by default, you have to call
+         * gst_bus_enable_sync_message_emission() before.
+         */
         void run(org.gstreamer.gst.Message message);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceBus, MemoryAddress message) {
-            run(org.gstreamer.gst.Message.fromAddress.marshal(message, Ownership.NONE));
+            run(org.gstreamer.gst.Message.fromAddress.marshal(message, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SyncMessage.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SyncMessage.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -664,9 +704,10 @@ public class Bus extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Bus.SyncMessage> onSyncMessage(@Nullable String detail, Bus.SyncMessage handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("sync-message" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("sync-message" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -689,6 +730,9 @@ public class Bus extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -729,141 +773,149 @@ public class Bus extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_bus_new = Interop.downcallHandle(
-            "gst_bus_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_add_signal_watch = Interop.downcallHandle(
-            "gst_bus_add_signal_watch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_add_signal_watch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_add_signal_watch_full = Interop.downcallHandle(
-            "gst_bus_add_signal_watch_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bus_add_signal_watch_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bus_add_watch_full = Interop.downcallHandle(
-            "gst_bus_add_watch_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_add_watch_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_async_signal_func = Interop.downcallHandle(
-            "gst_bus_async_signal_func",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_async_signal_func",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_create_watch = Interop.downcallHandle(
-            "gst_bus_create_watch",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_create_watch",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_disable_sync_message_emission = Interop.downcallHandle(
-            "gst_bus_disable_sync_message_emission",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_disable_sync_message_emission",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_enable_sync_message_emission = Interop.downcallHandle(
-            "gst_bus_enable_sync_message_emission",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_enable_sync_message_emission",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_get_pollfd = Interop.downcallHandle(
-            "gst_bus_get_pollfd",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_get_pollfd",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_have_pending = Interop.downcallHandle(
-            "gst_bus_have_pending",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_have_pending",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_peek = Interop.downcallHandle(
-            "gst_bus_peek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_peek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_poll = Interop.downcallHandle(
-            "gst_bus_poll",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_bus_poll",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_bus_pop = Interop.downcallHandle(
-            "gst_bus_pop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_pop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_pop_filtered = Interop.downcallHandle(
-            "gst_bus_pop_filtered",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bus_pop_filtered",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bus_post = Interop.downcallHandle(
-            "gst_bus_post",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_post",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_remove_signal_watch = Interop.downcallHandle(
-            "gst_bus_remove_signal_watch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_remove_signal_watch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_remove_watch = Interop.downcallHandle(
-            "gst_bus_remove_watch",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_remove_watch",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_set_flushing = Interop.downcallHandle(
-            "gst_bus_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bus_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bus_set_sync_handler = Interop.downcallHandle(
-            "gst_bus_set_sync_handler",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_set_sync_handler",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_sync_signal_handler = Interop.downcallHandle(
-            "gst_bus_sync_signal_handler",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bus_sync_signal_handler",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bus_timed_pop = Interop.downcallHandle(
-            "gst_bus_timed_pop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_bus_timed_pop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_bus_timed_pop_filtered = Interop.downcallHandle(
-            "gst_bus_timed_pop_filtered",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_bus_timed_pop_filtered",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bus_get_type = Interop.downcallHandle(
-            "gst_bus_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_bus_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_bus_get_type != null;
     }
 }

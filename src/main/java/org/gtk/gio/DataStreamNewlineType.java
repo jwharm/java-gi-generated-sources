@@ -9,18 +9,22 @@ import org.jetbrains.annotations.*;
  * {@link DataStreamNewlineType} is used when checking for or setting the line endings for a given file.
  */
 public enum DataStreamNewlineType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Selects "LF" line endings, common on most modern UNIX platforms.
      */
     LF(0),
+    
     /**
      * Selects "CR" line endings.
      */
     CR(1),
+    
     /**
      * Selects "CR, LF" line ending, common on Microsoft Windows.
      */
     CR_LF(2),
+    
     /**
      * Automatically try to handle any line ending type.
      */
@@ -29,15 +33,29 @@ public enum DataStreamNewlineType implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "GDataStreamNewlineType";
     
     private final int value;
+    
+    /**
+     * Create a new DataStreamNewlineType for the provided value
+     * @param numeric value the enum value
+     */
     DataStreamNewlineType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DataStreamNewlineType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DataStreamNewlineType of(int value) {
         return switch (value) {
             case 0 -> LF;

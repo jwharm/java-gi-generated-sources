@@ -35,8 +35,8 @@ public class GLMemoryEGLAllocatorClass extends Struct {
      * @return A new, uninitialized @{link GLMemoryEGLAllocatorClass}
      */
     public static GLMemoryEGLAllocatorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLMemoryEGLAllocatorClass newInstance = new GLMemoryEGLAllocatorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLMemoryEGLAllocatorClass newInstance = new GLMemoryEGLAllocatorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class GLMemoryEGLAllocatorClass extends Struct {
     /**
      * Create a GLMemoryEGLAllocatorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemoryEGLAllocatorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLMemoryEGLAllocatorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemoryEGLAllocatorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryEGLAllocatorClass(input, ownership);
+    public static final Marshal<Addressable, GLMemoryEGLAllocatorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryEGLAllocatorClass(input);
     
     /**
      * A {@link GLMemoryEGLAllocatorClass.Builder} object constructs a {@link GLMemoryEGLAllocatorClass} 
@@ -75,7 +77,7 @@ public class GLMemoryEGLAllocatorClass extends Struct {
             struct = GLMemoryEGLAllocatorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLMemoryEGLAllocatorClass} struct.
          * @return A new instance of {@code GLMemoryEGLAllocatorClass} with the fields 
          *         that were set in the Builder object.
@@ -85,17 +87,21 @@ public class GLMemoryEGLAllocatorClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gl.GLMemoryAllocatorClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

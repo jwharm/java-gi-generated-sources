@@ -42,8 +42,8 @@ public class CollectData extends Struct {
      * @return A new, uninitialized @{link CollectData}
      */
     public static CollectData allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CollectData newInstance = new CollectData(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CollectData newInstance = new CollectData(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class CollectData extends Struct {
      * @return The value of the field {@code collect}
      */
     public org.gstreamer.base.CollectPads getCollect() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("collect"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.base.CollectPads) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.base.CollectPads.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("collect"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.base.CollectPads) Interop.register(RESULT, org.gstreamer.base.CollectPads.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class CollectData extends Struct {
      * @param collect The new value of the field {@code collect}
      */
     public void setCollect(org.gstreamer.base.CollectPads collect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("collect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("collect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class CollectData extends Struct {
      * @return The value of the field {@code pad}
      */
     public org.gstreamer.gst.Pad getPad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class CollectData extends Struct {
      * @param pad The new value of the field {@code pad}
      */
     public void setPad(org.gstreamer.gst.Pad pad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class CollectData extends Struct {
      * @return The value of the field {@code buffer}
      */
     public org.gstreamer.gst.Buffer getBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class CollectData extends Struct {
      * @param buffer The new value of the field {@code buffer}
      */
     public void setBuffer(org.gstreamer.gst.Buffer buffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class CollectData extends Struct {
      * @return The value of the field {@code pos}
      */
     public int getPos() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pos"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pos"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -127,9 +141,11 @@ public class CollectData extends Struct {
      * @param pos The new value of the field {@code pos}
      */
     public void setPos(int pos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pos);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), pos);
+        }
     }
     
     /**
@@ -138,7 +154,7 @@ public class CollectData extends Struct {
      */
     public org.gstreamer.gst.Segment getSegment() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("segment"));
-        return org.gstreamer.gst.Segment.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Segment.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -146,22 +162,26 @@ public class CollectData extends Struct {
      * @param segment The new value of the field {@code segment}
      */
     public void setSegment(org.gstreamer.gst.Segment segment) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segment"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segment"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
+        }
     }
     
     /**
      * Create a CollectData proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CollectData(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CollectData(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CollectData> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CollectData(input, ownership);
+    public static final Marshal<Addressable, CollectData> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CollectData(input);
     
     /**
      * A {@link CollectData.Builder} object constructs a {@link CollectData} 
@@ -185,7 +205,7 @@ public class CollectData extends Struct {
             struct = CollectData.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CollectData} struct.
          * @return A new instance of {@code CollectData} with the fields 
          *         that were set in the Builder object.
@@ -200,10 +220,12 @@ public class CollectData extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCollect(org.gstreamer.base.CollectPads collect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("collect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("collect"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
+                return this;
+            }
         }
         
         /**
@@ -212,10 +234,12 @@ public class CollectData extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPad(org.gstreamer.gst.Pad pad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
+                return this;
+            }
         }
         
         /**
@@ -224,10 +248,12 @@ public class CollectData extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -236,10 +262,12 @@ public class CollectData extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPos(int pos) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pos"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pos);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pos"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), pos);
+                return this;
+            }
         }
         
         /**
@@ -248,24 +276,30 @@ public class CollectData extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSegment(org.gstreamer.gst.Segment segment) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segment"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segment"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
+                return this;
+            }
         }
         
         public Builder setState(org.gstreamer.base.CollectPadsStateFlags state) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (state == null ? MemoryAddress.NULL : state.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("state"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (state == null ? MemoryAddress.NULL : state.getValue()));
+                return this;
+            }
         }
         
         public Builder setPriv(org.gstreamer.base.CollectDataPrivate priv) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
+                return this;
+            }
         }
     }
 }

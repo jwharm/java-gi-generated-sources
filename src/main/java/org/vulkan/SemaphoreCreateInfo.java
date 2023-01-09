@@ -29,8 +29,8 @@ public class SemaphoreCreateInfo extends Struct {
      * @return A new, uninitialized @{link SemaphoreCreateInfo}
      */
     public static SemaphoreCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SemaphoreCreateInfo newInstance = new SemaphoreCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SemaphoreCreateInfo newInstance = new SemaphoreCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SemaphoreCreateInfo extends Struct {
     /**
      * Create a SemaphoreCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SemaphoreCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SemaphoreCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SemaphoreCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SemaphoreCreateInfo(input, ownership);
+    public static final Marshal<Addressable, SemaphoreCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SemaphoreCreateInfo(input);
 }

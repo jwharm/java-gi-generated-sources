@@ -37,8 +37,8 @@ public class SDPTime extends Struct {
      * @return A new, uninitialized @{link SDPTime}
      */
     public static SDPTime allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDPTime newInstance = new SDPTime(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDPTime newInstance = new SDPTime(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class SDPTime extends Struct {
      * @return The value of the field {@code start}
      */
     public java.lang.String getStart() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class SDPTime extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(java.lang.String start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, SCOPE)));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class SDPTime extends Struct {
      * @return The value of the field {@code stop}
      */
     public java.lang.String getStop() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class SDPTime extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(java.lang.String stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, SCOPE)));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class SDPTime extends Struct {
      * @return The value of the field {@code repeat}
      */
     public PointerAddress getRepeat() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class SDPTime extends Struct {
      * @param repeat The new value of the field {@code repeat}
      */
     public void setRepeat(java.lang.foreign.MemoryAddress[] repeat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false, SCOPE)));
+        }
     }
     
     /**
      * Create a SDPTime proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDPTime(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDPTime(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDPTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPTime(input, ownership);
+    public static final Marshal<Addressable, SDPTime> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDPTime(input);
     
     /**
      * Reset the time information in {@code t}.
@@ -125,8 +139,7 @@ public class SDPTime extends Struct {
     public org.gstreamer.sdp.SDPResult clear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_time_clear.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_time_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,31 +154,33 @@ public class SDPTime extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult set(java.lang.String start, java.lang.String stop, java.lang.String[] repeat) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_time_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(start, null),
-                    Marshal.stringToAddress.marshal(stop, null),
-                    Interop.allocateNativeArray(repeat, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_time_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(start, SCOPE),
+                        Marshal.stringToAddress.marshal(stop, SCOPE),
+                        Interop.allocateNativeArray(repeat, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_sdp_time_clear = Interop.downcallHandle(
-            "gst_sdp_time_clear",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_time_clear",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_time_set = Interop.downcallHandle(
-            "gst_sdp_time_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_time_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -191,7 +206,7 @@ public class SDPTime extends Struct {
             struct = SDPTime.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDPTime} struct.
          * @return A new instance of {@code SDPTime} with the fields 
          *         that were set in the Builder object.
@@ -207,10 +222,12 @@ public class SDPTime extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(java.lang.String start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -220,10 +237,12 @@ public class SDPTime extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStop(java.lang.String stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -232,10 +251,12 @@ public class SDPTime extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRepeat(java.lang.foreign.MemoryAddress[] repeat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

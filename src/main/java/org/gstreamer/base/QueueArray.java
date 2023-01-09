@@ -34,8 +34,8 @@ public class QueueArray extends Struct {
      * @return A new, uninitialized @{link QueueArray}
      */
     public static QueueArray allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        QueueArray newInstance = new QueueArray(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        QueueArray newInstance = new QueueArray(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,22 +43,23 @@ public class QueueArray extends Struct {
     /**
      * Create a QueueArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected QueueArray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected QueueArray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, QueueArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueueArray(input, ownership);
+    public static final Marshal<Addressable, QueueArray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new QueueArray(input);
     
     /**
      * Clears queue {@code array} and frees all memory associated to it.
      */
     public void clear() {
         try {
-            DowncallHandles.gst_queue_array_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_queue_array_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,8 +128,7 @@ public class QueueArray extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_queue_array_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_queue_array_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,8 +141,7 @@ public class QueueArray extends Struct {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_queue_array_get_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_queue_array_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,8 +155,7 @@ public class QueueArray extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_queue_array_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_queue_array_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,8 +170,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_head.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_head.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,8 +186,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekHeadStruct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_head_struct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_head_struct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +232,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_tail.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_tail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,8 +246,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekTailStruct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_tail_struct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_peek_tail_struct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,8 +261,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_head.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_head.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,8 +277,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popHeadStruct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_head_struct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_head_struct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,8 +292,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_tail.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_tail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,8 +307,7 @@ public class QueueArray extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popTailStruct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_tail_struct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_pop_tail_struct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,12 +369,11 @@ public class QueueArray extends Struct {
     public static org.gstreamer.base.QueueArray new_(int initialSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new.invokeExact(
-                    initialSize);
+            RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new.invokeExact(initialSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -403,141 +392,141 @@ public class QueueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_queue_array_clear = Interop.downcallHandle(
-            "gst_queue_array_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_drop_element = Interop.downcallHandle(
-            "gst_queue_array_drop_element",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_queue_array_drop_element",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_queue_array_drop_struct = Interop.downcallHandle(
-            "gst_queue_array_drop_struct",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_drop_struct",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_find = Interop.downcallHandle(
-            "gst_queue_array_find",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_find",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_free = Interop.downcallHandle(
-            "gst_queue_array_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_get_length = Interop.downcallHandle(
-            "gst_queue_array_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_is_empty = Interop.downcallHandle(
-            "gst_queue_array_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_head = Interop.downcallHandle(
-            "gst_queue_array_peek_head",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_peek_head",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_head_struct = Interop.downcallHandle(
-            "gst_queue_array_peek_head_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_peek_head_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_nth = Interop.downcallHandle(
-            "gst_queue_array_peek_nth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_queue_array_peek_nth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_nth_struct = Interop.downcallHandle(
-            "gst_queue_array_peek_nth_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_queue_array_peek_nth_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_tail = Interop.downcallHandle(
-            "gst_queue_array_peek_tail",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_peek_tail",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_peek_tail_struct = Interop.downcallHandle(
-            "gst_queue_array_peek_tail_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_peek_tail_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_pop_head = Interop.downcallHandle(
-            "gst_queue_array_pop_head",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_pop_head",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_pop_head_struct = Interop.downcallHandle(
-            "gst_queue_array_pop_head_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_pop_head_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_pop_tail = Interop.downcallHandle(
-            "gst_queue_array_pop_tail",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_pop_tail",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_pop_tail_struct = Interop.downcallHandle(
-            "gst_queue_array_pop_tail_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_pop_tail_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_push_tail = Interop.downcallHandle(
-            "gst_queue_array_push_tail",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_push_tail",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_push_tail_struct = Interop.downcallHandle(
-            "gst_queue_array_push_tail_struct",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_push_tail_struct",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_set_clear_func = Interop.downcallHandle(
-            "gst_queue_array_set_clear_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_queue_array_set_clear_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_queue_array_new = Interop.downcallHandle(
-            "gst_queue_array_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_queue_array_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_queue_array_new_for_struct = Interop.downcallHandle(
-            "gst_queue_array_new_for_struct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_queue_array_new_for_struct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

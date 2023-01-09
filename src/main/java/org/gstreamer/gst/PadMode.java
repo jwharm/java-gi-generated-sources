@@ -11,14 +11,17 @@ import org.jetbrains.annotations.*;
  * pad operates in push or pull mode.
  */
 public enum PadMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Pad will not handle dataflow
      */
     NONE(0),
+    
     /**
      * Pad handles dataflow in downstream push mode
      */
     PUSH(1),
+    
     /**
      * Pad handles dataflow in upstream pull mode
      */
@@ -27,15 +30,29 @@ public enum PadMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstPadMode";
     
     private final int value;
+    
+    /**
+     * Create a new PadMode for the provided value
+     * @param numeric value the enum value
+     */
     PadMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PadMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PadMode of(int value) {
         return switch (value) {
             case 0 -> NONE;
@@ -53,8 +70,7 @@ public enum PadMode implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String getName(org.gstreamer.gst.PadMode mode) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pad_mode_get_name.invokeExact(
-                    mode.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pad_mode_get_name.invokeExact(mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,9 +80,9 @@ public enum PadMode implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_pad_mode_get_name = Interop.downcallHandle(
-            "gst_pad_mode_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_pad_mode_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

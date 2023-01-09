@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class ElementFactoryListType extends io.github.jwharm.javagi.Alias<Long> {
     
+    /**
+     * Create a new ElementFactoryListType with the provided value
+     */
     public ElementFactoryListType(long value) {
         super(value);
     }

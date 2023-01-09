@@ -73,26 +73,17 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a ViewStack proxy instance for the provided memory address.
-     * <p>
-     * Because ViewStack is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ViewStack(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ViewStack(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ViewStack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ViewStack(input, ownership);
+    public static final Marshal<Addressable, ViewStack> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ViewStack(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -108,7 +99,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Creates a new {@code AdwViewStack}.
      */
     public ViewStack() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -125,7 +118,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) Interop.register(RESULT, org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -137,16 +130,18 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @return the {@code AdwViewStackPage} for {@code child}
      */
     public org.gnome.adw.ViewStackPage addNamed(org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(
-                    handle(),
-                    child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(
+                        handle(),
+                        child.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gnome.adw.ViewStackPage) Interop.register(RESULT, org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, null);
         }
-        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -160,17 +155,19 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @return the {@code AdwViewStackPage} for {@code child}
      */
     public org.gnome.adw.ViewStackPage addTitled(org.gtk.gtk.Widget child, @Nullable java.lang.String name, java.lang.String title) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(
-                    handle(),
-                    child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(
+                        handle(),
+                        child.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gnome.adw.ViewStackPage) Interop.register(RESULT, org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, null);
         }
-        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -185,18 +182,20 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @return the {@code AdwViewStackPage} for {@code child}
      */
     public org.gnome.adw.ViewStackPage addTitledWithIcon(org.gtk.gtk.Widget child, @Nullable java.lang.String name, java.lang.String title, java.lang.String iconName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled_with_icon.invokeExact(
-                    handle(),
-                    child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Marshal.stringToAddress.marshal(title, null),
-                    Marshal.stringToAddress.marshal(iconName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled_with_icon.invokeExact(
+                        handle(),
+                        child.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        Marshal.stringToAddress.marshal(iconName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gnome.adw.ViewStackPage) Interop.register(RESULT, org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, null);
         }
-        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -205,15 +204,17 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @return the requested child
      */
     public @Nullable org.gtk.gtk.Widget getChildByName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,8 +224,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_get_hhomogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_hhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +245,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) Interop.register(RESULT, org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -259,12 +259,13 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -274,8 +275,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_get_vhomogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_vhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,12 +289,11 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -304,8 +303,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,12 +385,14 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param name the name of the child
      */
     public void setVisibleChildName(java.lang.String name) {
-        try {
-            DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -426,6 +426,9 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -523,111 +526,119 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_stack_new = Interop.downcallHandle(
-            "adw_view_stack_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_add = Interop.downcallHandle(
-            "adw_view_stack_add",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_add",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_add_named = Interop.downcallHandle(
-            "adw_view_stack_add_named",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_add_named",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_add_titled = Interop.downcallHandle(
-            "adw_view_stack_add_titled",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_add_titled",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_add_titled_with_icon = Interop.downcallHandle(
-            "adw_view_stack_add_titled_with_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_add_titled_with_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_child_by_name = Interop.downcallHandle(
-            "adw_view_stack_get_child_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_child_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_hhomogeneous = Interop.downcallHandle(
-            "adw_view_stack_get_hhomogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_hhomogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_page = Interop.downcallHandle(
-            "adw_view_stack_get_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_pages = Interop.downcallHandle(
-            "adw_view_stack_get_pages",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_pages",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_vhomogeneous = Interop.downcallHandle(
-            "adw_view_stack_get_vhomogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_vhomogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_visible_child = Interop.downcallHandle(
-            "adw_view_stack_get_visible_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_visible_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_visible_child_name = Interop.downcallHandle(
-            "adw_view_stack_get_visible_child_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_get_visible_child_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_remove = Interop.downcallHandle(
-            "adw_view_stack_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_set_hhomogeneous = Interop.downcallHandle(
-            "adw_view_stack_set_hhomogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_set_hhomogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_set_vhomogeneous = Interop.downcallHandle(
-            "adw_view_stack_set_vhomogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_set_vhomogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_set_visible_child = Interop.downcallHandle(
-            "adw_view_stack_set_visible_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_set_visible_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_set_visible_child_name = Interop.downcallHandle(
-            "adw_view_stack_set_visible_child_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_set_visible_child_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_get_type = Interop.downcallHandle(
-            "adw_view_stack_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_view_stack_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_view_stack_get_type != null;
     }
 }

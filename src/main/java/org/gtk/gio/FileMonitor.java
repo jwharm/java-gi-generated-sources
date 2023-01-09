@@ -44,14 +44,16 @@ public class FileMonitor extends org.gtk.gobject.GObject {
     /**
      * Create a FileMonitor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileMonitor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileMonitor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileMonitor(input, ownership);
+    public static final Marshal<Addressable, FileMonitor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileMonitor(input);
     
     /**
      * Cancels a file monitor.
@@ -60,8 +62,7 @@ public class FileMonitor extends org.gtk.gobject.GObject {
     public boolean cancel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_monitor_cancel.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_file_monitor_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +100,7 @@ public class FileMonitor extends org.gtk.gobject.GObject {
     public boolean isCancelled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_monitor_is_cancelled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_file_monitor_is_cancelled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,19 +137,64 @@ public class FileMonitor extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted when {@code file} has been changed.
+         * <p>
+         * If using {@link FileMonitorFlags#WATCH_MOVES} on a directory monitor, and
+         * the information is available (and if supported by the backend),
+         * {@code event_type} may be {@link FileMonitorEvent#RENAMED},
+         * {@link FileMonitorEvent#MOVED_IN} or {@link FileMonitorEvent#MOVED_OUT}.
+         * <p>
+         * In all cases {@code file} will be a child of the monitored directory.  For
+         * renames, {@code file} will be the old name and {@code other_file} is the new
+         * name.  For "moved in" events, {@code file} is the name of the file that
+         * appeared and {@code other_file} is the old name that it was moved from (in
+         * another directory).  For "moved out" events, {@code file} is the name of
+         * the file that used to be in this directory and {@code other_file} is the
+         * name of the file at its new location.
+         * <p>
+         * It makes sense to treat {@link FileMonitorEvent#MOVED_IN} as
+         * equivalent to {@link FileMonitorEvent#CREATED} and
+         * {@link FileMonitorEvent#MOVED_OUT} as equivalent to
+         * {@link FileMonitorEvent#DELETED}, with extra information.
+         * {@link FileMonitorEvent#RENAMED} is equivalent to a delete/create
+         * pair.  This is exactly how the events will be reported in the case
+         * that the {@link FileMonitorFlags#WATCH_MOVES} flag is not in use.
+         * <p>
+         * If using the deprecated flag {@link FileMonitorFlags#SEND_MOVED} flag and {@code event_type} is
+         * {@link FileMonitorEvent#MOVED}, {@code file} will be set to a {@link File} containing the
+         * old path, and {@code other_file} will be set to a {@link File} containing the new path.
+         * <p>
+         * In all the other cases, {@code other_file} will be set to {@code NULL}.
+         */
         void run(org.gtk.gio.File file, @Nullable org.gtk.gio.File otherFile, org.gtk.gio.FileMonitorEvent eventType);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFileMonitor, MemoryAddress file, MemoryAddress otherFile, int eventType) {
-            run((org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(file)), org.gtk.gio.File.fromAddress).marshal(file, Ownership.NONE), (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(otherFile)), org.gtk.gio.File.fromAddress).marshal(otherFile, Ownership.NONE), org.gtk.gio.FileMonitorEvent.of(eventType));
+            run((org.gtk.gio.File) Interop.register(file, org.gtk.gio.File.fromAddress).marshal(file, null), (org.gtk.gio.File) Interop.register(otherFile, org.gtk.gio.File.fromAddress).marshal(otherFile, null), org.gtk.gio.FileMonitorEvent.of(eventType));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -186,9 +231,10 @@ public class FileMonitor extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FileMonitor.Changed> onChanged(FileMonitor.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -211,6 +257,9 @@ public class FileMonitor extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -247,33 +296,41 @@ public class FileMonitor extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_monitor_cancel = Interop.downcallHandle(
-            "g_file_monitor_cancel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_monitor_cancel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_monitor_emit_event = Interop.downcallHandle(
-            "g_file_monitor_emit_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_file_monitor_emit_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_file_monitor_is_cancelled = Interop.downcallHandle(
-            "g_file_monitor_is_cancelled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_monitor_is_cancelled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_monitor_set_rate_limit = Interop.downcallHandle(
-            "g_file_monitor_set_rate_limit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_file_monitor_set_rate_limit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_file_monitor_get_type = Interop.downcallHandle(
-            "g_file_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_file_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_file_monitor_get_type != null;
     }
 }

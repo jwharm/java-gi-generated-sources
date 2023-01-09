@@ -22,6 +22,9 @@ public class AudioQuantizeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioQuantizeFlags NON_INTERLEAVED = new AudioQuantizeFlags(1);
     
+    /**
+     * Create a new AudioQuantizeFlags with the provided value
+     */
     public AudioQuantizeFlags(int value) {
         super(value);
     }

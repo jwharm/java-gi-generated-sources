@@ -206,8 +206,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeModelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelImpl(input, ownership);
+    public static final Marshal<Addressable, TreeModelImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelImpl(input);
     
     /**
      * Creates a new {@code GtkTreeModel}, with {@code child_model} as the child_model
@@ -224,7 +227,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -302,8 +307,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gtk.TreeModelFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,16 +366,18 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return {@code true}, if {@code iter} was set
      */
     default boolean getIterFromString(org.gtk.gtk.TreeIter iter, java.lang.String pathString) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_from_string.invokeExact(
-                    handle(),
-                    iter.handle(),
-                    Marshal.stringToAddress.marshal(pathString, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_model_get_iter_from_string.invokeExact(
+                        handle(),
+                        iter.handle(),
+                        Marshal.stringToAddress.marshal(pathString, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -381,8 +387,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     default int getNColumns() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_model_get_n_columns.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_get_n_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,7 +410,9 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -756,15 +763,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @param length length of {@code new_order} array
      */
     default void rowsReordered(org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeIter iter, int[] newOrder, int length) {
-        try {
-            DowncallHandles.gtk_tree_model_rows_reordered_with_length.invokeExact(
-                    handle(),
-                    path.handle(),
-                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
-                    Interop.allocateNativeArray(newOrder, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tree_model_rows_reordered_with_length.invokeExact(
+                        handle(),
+                        path.handle(),
+                        (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
+                        Interop.allocateNativeArray(newOrder, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -803,19 +812,37 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code RowChanged} callback.
+     */
     @FunctionalInterface
     public interface RowChanged {
+    
+        /**
+         * This signal is emitted when a row in the model has changed.
+         */
         void run(org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE));
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -825,28 +852,54 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowChanged> onRowChanged(TreeModel.RowChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowDeleted} callback.
+     */
     @FunctionalInterface
     public interface RowDeleted {
+    
+        /**
+         * This signal is emitted when a row has been deleted.
+         * <p>
+         * Note that no iterator is passed to the signal handler,
+         * since the row is already deleted.
+         * <p>
+         * This should be called by models after a row has been removed.
+         * The location pointed to by {@code path} should be the location that
+         * the row previously was at. It may not be a valid location anymore.
+         */
         void run(org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeModel, MemoryAddress path) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowDeleted.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowDeleted.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -863,28 +916,48 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowDeleted> onRowDeleted(TreeModel.RowDeleted handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-deleted"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-deleted", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowHasChildToggled} callback.
+     */
     @FunctionalInterface
     public interface RowHasChildToggled {
+    
+        /**
+         * This signal is emitted when a row has gotten the first child
+         * row or lost its last child row.
+         */
         void run(org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE));
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowHasChildToggled.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowHasChildToggled.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -895,28 +968,52 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowHasChildToggled> onRowHasChildToggled(TreeModel.RowHasChildToggled handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-has-child-toggled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-has-child-toggled", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowInserted} callback.
+     */
     @FunctionalInterface
     public interface RowInserted {
+    
+        /**
+         * This signal is emitted when a new row has been inserted in
+         * the model.
+         * <p>
+         * Note that the row may still be empty at this point, since
+         * it is a common pattern to first insert an empty row, and
+         * then fill it with the desired values.
+         */
         void run(org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE));
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowInserted.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowInserted.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -931,28 +1028,52 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowInserted> onRowInserted(TreeModel.RowInserted handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-inserted"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-inserted", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowsReordered} callback.
+     */
     @FunctionalInterface
     public interface RowsReordered {
+    
+        /**
+         * This signal is emitted when the children of a node in the
+         * {@code GtkTreeModel} have been reordered.
+         * <p>
+         * Note that this signal is not emitted
+         * when rows are reordered by DND, since this is implemented
+         * by removing and then reinserting the row.
+         */
         void run(org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter, @Nullable java.lang.foreign.MemoryAddress newOrder);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeModel, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), newOrder);
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), newOrder);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowsReordered.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowsReordered.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -967,9 +1088,10 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeModel.RowsReordered> onRowsReordered(TreeModel.RowsReordered handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("rows-reordered"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("rows-reordered", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -981,209 +1103,224 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_filter_new = Interop.downcallHandle(
-            "gtk_tree_model_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_foreach = Interop.downcallHandle(
-            "gtk_tree_model_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get = Interop.downcallHandle(
-            "gtk_tree_model_get",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_tree_model_get",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_column_type = Interop.downcallHandle(
-            "gtk_tree_model_get_column_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_model_get_column_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_flags = Interop.downcallHandle(
-            "gtk_tree_model_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter = Interop.downcallHandle(
-            "gtk_tree_model_get_iter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_iter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter_first = Interop.downcallHandle(
-            "gtk_tree_model_get_iter_first",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_iter_first",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_iter_from_string = Interop.downcallHandle(
-            "gtk_tree_model_get_iter_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_iter_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_n_columns = Interop.downcallHandle(
-            "gtk_tree_model_get_n_columns",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_n_columns",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_path = Interop.downcallHandle(
-            "gtk_tree_model_get_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_string_from_iter = Interop.downcallHandle(
-            "gtk_tree_model_get_string_from_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_string_from_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_valist = Interop.downcallHandle(
-            "gtk_tree_model_get_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_value = Interop.downcallHandle(
-            "gtk_tree_model_get_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_get_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_children = Interop.downcallHandle(
-            "gtk_tree_model_iter_children",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_children",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_has_child = Interop.downcallHandle(
-            "gtk_tree_model_iter_has_child",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_has_child",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_n_children = Interop.downcallHandle(
-            "gtk_tree_model_iter_n_children",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_n_children",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_next = Interop.downcallHandle(
-            "gtk_tree_model_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_nth_child = Interop.downcallHandle(
-            "gtk_tree_model_iter_nth_child",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_model_iter_nth_child",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_parent = Interop.downcallHandle(
-            "gtk_tree_model_iter_parent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_parent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_iter_previous = Interop.downcallHandle(
-            "gtk_tree_model_iter_previous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_iter_previous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_ref_node = Interop.downcallHandle(
-            "gtk_tree_model_ref_node",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_ref_node",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_changed = Interop.downcallHandle(
-            "gtk_tree_model_row_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_row_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_deleted = Interop.downcallHandle(
-            "gtk_tree_model_row_deleted",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_row_deleted",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_has_child_toggled = Interop.downcallHandle(
-            "gtk_tree_model_row_has_child_toggled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_row_has_child_toggled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_row_inserted = Interop.downcallHandle(
-            "gtk_tree_model_row_inserted",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_row_inserted",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_rows_reordered_with_length = Interop.downcallHandle(
-            "gtk_tree_model_rows_reordered_with_length",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_model_rows_reordered_with_length",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_unref_node = Interop.downcallHandle(
-            "gtk_tree_model_unref_node",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_model_unref_node",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_model_get_type = Interop.downcallHandle(
-            "gtk_tree_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TreeModelImpl type represents a native instance of the TreeModel interface.
+     */
     class TreeModelImpl extends org.gtk.gobject.GObject implements TreeModel {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeModelImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TreeModel for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TreeModelImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_model_get_type != null;
     }
 }

@@ -31,8 +31,8 @@ public class FixedLayoutChildClass extends Struct {
      * @return A new, uninitialized @{link FixedLayoutChildClass}
      */
     public static FixedLayoutChildClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FixedLayoutChildClass newInstance = new FixedLayoutChildClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FixedLayoutChildClass newInstance = new FixedLayoutChildClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class FixedLayoutChildClass extends Struct {
      */
     public org.gtk.gtk.LayoutChildClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.LayoutChildClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.LayoutChildClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class FixedLayoutChildClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.LayoutChildClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a FixedLayoutChildClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FixedLayoutChildClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FixedLayoutChildClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FixedLayoutChildClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FixedLayoutChildClass(input, ownership);
+    public static final Marshal<Addressable, FixedLayoutChildClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FixedLayoutChildClass(input);
     
     /**
      * A {@link FixedLayoutChildClass.Builder} object constructs a {@link FixedLayoutChildClass} 
@@ -90,7 +94,7 @@ public class FixedLayoutChildClass extends Struct {
             struct = FixedLayoutChildClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FixedLayoutChildClass} struct.
          * @return A new instance of {@code FixedLayoutChildClass} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class FixedLayoutChildClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.LayoutChildClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

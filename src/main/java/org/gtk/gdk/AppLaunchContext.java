@@ -45,14 +45,16 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     /**
      * Create a AppLaunchContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppLaunchContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AppLaunchContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppLaunchContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppLaunchContext(input, ownership);
+    public static final Marshal<Addressable, AppLaunchContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppLaunchContext(input);
     
     /**
      * Gets the {@code GdkDisplay} that {@code context} is for.
@@ -61,12 +63,11 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_app_launch_context_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_app_launch_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -128,12 +129,14 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * @param iconName an icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.gdk_app_launch_context_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gdk_app_launch_context_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -189,6 +192,9 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public static class Builder extends org.gtk.gio.AppLaunchContext.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -224,39 +230,47 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_app_launch_context_get_display = Interop.downcallHandle(
-            "gdk_app_launch_context_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_app_launch_context_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_desktop = Interop.downcallHandle(
-            "gdk_app_launch_context_set_desktop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_app_launch_context_set_desktop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_icon = Interop.downcallHandle(
-            "gdk_app_launch_context_set_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_app_launch_context_set_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_icon_name = Interop.downcallHandle(
-            "gdk_app_launch_context_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_app_launch_context_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_app_launch_context_set_timestamp = Interop.downcallHandle(
-            "gdk_app_launch_context_set_timestamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_app_launch_context_set_timestamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_app_launch_context_get_type = Interop.downcallHandle(
-            "gdk_app_launch_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_app_launch_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_app_launch_context_get_type != null;
     }
 }

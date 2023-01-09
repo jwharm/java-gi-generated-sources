@@ -16,8 +16,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Popup extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PopupImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopupImpl(input, ownership);
+    public static final Marshal<Addressable, PopupImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PopupImpl(input);
     
     /**
      * Returns whether this popup is set to hide on outside clicks.
@@ -26,8 +29,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default boolean getAutohide() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_get_autohide.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_autohide.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -41,12 +43,11 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gdk.Surface getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_get_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -56,8 +57,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default int getPositionX() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_get_position_x.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_position_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,8 +71,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default int getPositionY() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_get_position_y.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_position_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +88,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gdk.Gravity getRectAnchor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_get_rect_anchor.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_rect_anchor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,8 +105,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gdk.Gravity getSurfaceAnchor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_popup_get_surface_anchor.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_surface_anchor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,69 +166,84 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_autohide = Interop.downcallHandle(
-            "gdk_popup_get_autohide",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_autohide",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_parent = Interop.downcallHandle(
-            "gdk_popup_get_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_position_x = Interop.downcallHandle(
-            "gdk_popup_get_position_x",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_position_x",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_position_y = Interop.downcallHandle(
-            "gdk_popup_get_position_y",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_position_y",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_rect_anchor = Interop.downcallHandle(
-            "gdk_popup_get_rect_anchor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_rect_anchor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_surface_anchor = Interop.downcallHandle(
-            "gdk_popup_get_surface_anchor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_get_surface_anchor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_present = Interop.downcallHandle(
-            "gdk_popup_present",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_popup_present",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_popup_get_type = Interop.downcallHandle(
-            "gdk_popup_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_popup_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The PopupImpl type represents a native instance of the Popup interface.
+     */
     class PopupImpl extends org.gtk.gobject.GObject implements Popup {
         
         static {
             Gdk.javagi$ensureInitialized();
         }
         
-        public PopupImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Popup for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PopupImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_popup_get_type != null;
     }
 }

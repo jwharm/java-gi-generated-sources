@@ -29,8 +29,8 @@ public class RTPBasePayloadPrivate extends Struct {
      * @return A new, uninitialized @{link RTPBasePayloadPrivate}
      */
     public static RTPBasePayloadPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTPBasePayloadPrivate newInstance = new RTPBasePayloadPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTPBasePayloadPrivate newInstance = new RTPBasePayloadPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RTPBasePayloadPrivate extends Struct {
     /**
      * Create a RTPBasePayloadPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPBasePayloadPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTPBasePayloadPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPBasePayloadPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBasePayloadPrivate(input, ownership);
+    public static final Marshal<Addressable, RTPBasePayloadPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPBasePayloadPrivate(input);
 }

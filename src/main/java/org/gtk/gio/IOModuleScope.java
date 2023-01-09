@@ -37,8 +37,8 @@ public class IOModuleScope extends Struct {
      * @return A new, uninitialized @{link IOModuleScope}
      */
     public static IOModuleScope allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOModuleScope newInstance = new IOModuleScope(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IOModuleScope newInstance = new IOModuleScope(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class IOModuleScope extends Struct {
     /**
      * Create a IOModuleScope proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOModuleScope(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOModuleScope(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOModuleScope> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOModuleScope(input, ownership);
+    public static final Marshal<Addressable, IOModuleScope> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOModuleScope(input);
     
     /**
      * Block modules with the given {@code basename} from being loaded when
@@ -62,12 +64,14 @@ public class IOModuleScope extends Struct {
      * @param basename the basename to block
      */
     public void block(java.lang.String basename) {
-        try {
-            DowncallHandles.g_io_module_scope_block.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(basename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_io_module_scope_block.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(basename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -76,8 +80,7 @@ public class IOModuleScope extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_io_module_scope_free.invokeExact(
-                    handle());
+            DowncallHandles.g_io_module_scope_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,32 +99,33 @@ public class IOModuleScope extends Struct {
     public static org.gtk.gio.IOModuleScope new_(org.gtk.gio.IOModuleScopeFlags flags) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_module_scope_new.invokeExact(
-                    flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_io_module_scope_new.invokeExact(flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.IOModuleScope.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.IOModuleScope.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_module_scope_block = Interop.downcallHandle(
-            "g_io_module_scope_block",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_module_scope_block",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_module_scope_free = Interop.downcallHandle(
-            "g_io_module_scope_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_io_module_scope_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_module_scope_new = Interop.downcallHandle(
-            "g_io_module_scope_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_io_module_scope_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

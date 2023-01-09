@@ -183,26 +183,17 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     
     /**
      * Create a AboutWindow proxy instance for the provided memory address.
-     * <p>
-     * Because AboutWindow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AboutWindow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AboutWindow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AboutWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AboutWindow(input, ownership);
+    public static final Marshal<Addressable, AboutWindow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AboutWindow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -218,7 +209,9 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Creates a new {@code AdwAboutWindow}.
      */
     public AboutWindow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -243,13 +236,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param people the list of names
      */
     public void addAcknowledgementSection(@Nullable java.lang.String name, java.lang.String[] people) {
-        try {
-            DowncallHandles.adw_about_window_add_acknowledgement_section.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Interop.allocateNativeArray(people, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_add_acknowledgement_section.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Interop.allocateNativeArray(people, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -273,13 +268,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param people the list of names
      */
     public void addCreditSection(@Nullable java.lang.String name, java.lang.String[] people) {
-        try {
-            DowncallHandles.adw_about_window_add_credit_section.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Interop.allocateNativeArray(people, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_add_credit_section.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Interop.allocateNativeArray(people, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -329,15 +326,17 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param license custom license information
      */
     public void addLegalSection(java.lang.String title, @Nullable java.lang.String copyright, org.gtk.gtk.License licenseType, @Nullable java.lang.String license) {
-        try {
-            DowncallHandles.adw_about_window_add_legal_section.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null),
-                    (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, null)),
-                    licenseType.getValue(),
-                    (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_add_legal_section.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, SCOPE)),
+                        licenseType.getValue(),
+                        (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -353,13 +352,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param url the link URL
      */
     public void addLink(java.lang.String title, java.lang.String url) {
-        try {
-            DowncallHandles.adw_about_window_add_link.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null),
-                    Marshal.stringToAddress.marshal(url, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_add_link.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        Marshal.stringToAddress.marshal(url, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -370,8 +371,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getApplicationIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,8 +385,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getApplicationName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,14 +397,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @return The list of artists
      */
     public @Nullable PointerString getArtists() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_artists.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_artists.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -415,8 +415,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getComments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_comments.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_comments.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -430,8 +429,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getCopyright() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_copyright.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_copyright.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,8 +443,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getDebugInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,8 +457,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getDebugInfoFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info_filename.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,14 +469,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @return The list of designers
      */
     public @Nullable PointerString getDesigners() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_designers.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_designers.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -490,8 +487,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getDeveloperName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_developer_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_developer_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -503,14 +499,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @return The list of developers
      */
     public @Nullable PointerString getDevelopers() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_developers.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_developers.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -518,14 +515,15 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @return The list of documenters
      */
     public @Nullable PointerString getDocumenters() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_documenters.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_documenters.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -535,8 +533,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getIssueUrl() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_issue_url.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_issue_url.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,8 +547,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_license.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,8 +561,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public org.gtk.gtk.License getLicenseType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_about_window_get_license_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_about_window_get_license_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -580,8 +575,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getReleaseNotes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,8 +589,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getReleaseNotesVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes_version.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -610,8 +603,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getSupportUrl() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_support_url.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_support_url.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -625,8 +617,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getTranslatorCredits() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_translator_credits.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_translator_credits.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -640,8 +631,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_version.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -655,8 +645,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public java.lang.String getWebsite() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_website.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_website.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -670,12 +659,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param applicationIcon the application icon name
      */
     public void setApplicationIcon(java.lang.String applicationIcon) {
-        try {
-            DowncallHandles.adw_about_window_set_application_icon.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(applicationIcon, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_application_icon.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(applicationIcon, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -686,12 +677,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param applicationName the application name
      */
     public void setApplicationName(java.lang.String applicationName) {
-        try {
-            DowncallHandles.adw_about_window_set_application_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(applicationName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_application_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(applicationName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -714,12 +707,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param artists the list of artists
      */
     public void setArtists(@Nullable java.lang.String[] artists) {
-        try {
-            DowncallHandles.adw_about_window_set_artists.invokeExact(
-                    handle(),
-                    (Addressable) (artists == null ? MemoryAddress.NULL : Interop.allocateNativeArray(artists, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_artists.invokeExact(
+                        handle(),
+                        (Addressable) (artists == null ? MemoryAddress.NULL : Interop.allocateNativeArray(artists, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -733,12 +728,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param comments the comments
      */
     public void setComments(java.lang.String comments) {
-        try {
-            DowncallHandles.adw_about_window_set_comments.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(comments, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_comments.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(comments, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -756,12 +753,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param copyright the copyright information
      */
     public void setCopyright(java.lang.String copyright) {
-        try {
-            DowncallHandles.adw_about_window_set_copyright.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(copyright, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_copyright.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(copyright, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -780,12 +779,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param debugInfo the debug information
      */
     public void setDebugInfo(java.lang.String debugInfo) {
-        try {
-            DowncallHandles.adw_about_window_set_debug_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(debugInfo, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_debug_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(debugInfo, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -799,12 +800,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param filename the debug info filename
      */
     public void setDebugInfoFilename(java.lang.String filename) {
-        try {
-            DowncallHandles.adw_about_window_set_debug_info_filename.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_debug_info_filename.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -827,12 +830,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param designers the list of designers
      */
     public void setDesigners(@Nullable java.lang.String[] designers) {
-        try {
-            DowncallHandles.adw_about_window_set_designers.invokeExact(
-                    handle(),
-                    (Addressable) (designers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(designers, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_designers.invokeExact(
+                        handle(),
+                        (Addressable) (designers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(designers, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -848,12 +853,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param developerName the developer name
      */
     public void setDeveloperName(java.lang.String developerName) {
-        try {
-            DowncallHandles.adw_about_window_set_developer_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(developerName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_developer_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(developerName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -876,12 +883,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param developers the list of developers
      */
     public void setDevelopers(@Nullable java.lang.String[] developers) {
-        try {
-            DowncallHandles.adw_about_window_set_developers.invokeExact(
-                    handle(),
-                    (Addressable) (developers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(developers, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_developers.invokeExact(
+                        handle(),
+                        (Addressable) (developers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(developers, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -904,12 +913,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param documenters the list of documenters
      */
     public void setDocumenters(@Nullable java.lang.String[] documenters) {
-        try {
-            DowncallHandles.adw_about_window_set_documenters.invokeExact(
-                    handle(),
-                    (Addressable) (documenters == null ? MemoryAddress.NULL : Interop.allocateNativeArray(documenters, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_documenters.invokeExact(
+                        handle(),
+                        (Addressable) (documenters == null ? MemoryAddress.NULL : Interop.allocateNativeArray(documenters, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -920,12 +931,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param issueUrl the issue tracker URL
      */
     public void setIssueUrl(java.lang.String issueUrl) {
-        try {
-            DowncallHandles.adw_about_window_set_issue_url.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(issueUrl, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_issue_url.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(issueUrl, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -948,12 +961,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param license the license
      */
     public void setLicense(java.lang.String license) {
-        try {
-            DowncallHandles.adw_about_window_set_license.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(license, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_license.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(license, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1014,12 +1029,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param releaseNotes the release notes
      */
     public void setReleaseNotes(java.lang.String releaseNotes) {
-        try {
-            DowncallHandles.adw_about_window_set_release_notes.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(releaseNotes, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_release_notes.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(releaseNotes, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1039,12 +1056,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param version the release notes version
      */
     public void setReleaseNotesVersion(java.lang.String version) {
-        try {
-            DowncallHandles.adw_about_window_set_release_notes_version.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(version, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_release_notes_version.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(version, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1055,12 +1074,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param supportUrl the support page URL
      */
     public void setSupportUrl(java.lang.String supportUrl) {
-        try {
-            DowncallHandles.adw_about_window_set_support_url.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(supportUrl, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_support_url.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(supportUrl, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1086,12 +1107,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param translatorCredits the translator credits
      */
     public void setTranslatorCredits(java.lang.String translatorCredits) {
-        try {
-            DowncallHandles.adw_about_window_set_translator_credits.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(translatorCredits, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_translator_credits.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(translatorCredits, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1105,12 +1128,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param version the version
      */
     public void setVersion(java.lang.String version) {
-        try {
-            DowncallHandles.adw_about_window_set_version.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(version, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_version.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(version, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1124,12 +1149,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param website the website URL
      */
     public void setWebsite(java.lang.String website) {
-        try {
-            DowncallHandles.adw_about_window_set_website.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(website, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_about_window_set_website.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(website, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1147,20 +1174,43 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateLink} callback.
+     */
     @FunctionalInterface
     public interface ActivateLink {
+    
+        /**
+         * Emitted when a URL is activated.
+         * <p>
+         * Applications may connect to it to override the default behavior, which is
+         * to call {@link org.gtk.gtk.Gtk#showUri}.
+         */
         boolean run(java.lang.String uri);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAboutWindow, MemoryAddress uri) {
-            var RESULT = run(Marshal.addressToString.marshal(uri, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(Marshal.addressToString.marshal(uri, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateLink.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1173,9 +1223,10 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AboutWindow.ActivateLink> onActivateLink(AboutWindow.ActivateLink handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate-link", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1198,6 +1249,9 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gnome.adw.Window.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1536,279 +1590,287 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle adw_about_window_new = Interop.downcallHandle(
-            "adw_about_window_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_add_acknowledgement_section = Interop.downcallHandle(
-            "adw_about_window_add_acknowledgement_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_add_acknowledgement_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_add_credit_section = Interop.downcallHandle(
-            "adw_about_window_add_credit_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_add_credit_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_add_legal_section = Interop.downcallHandle(
-            "adw_about_window_add_legal_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_add_legal_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_add_link = Interop.downcallHandle(
-            "adw_about_window_add_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_add_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_application_icon = Interop.downcallHandle(
-            "adw_about_window_get_application_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_application_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_application_name = Interop.downcallHandle(
-            "adw_about_window_get_application_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_application_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_artists = Interop.downcallHandle(
-            "adw_about_window_get_artists",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_artists",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_comments = Interop.downcallHandle(
-            "adw_about_window_get_comments",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_comments",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_copyright = Interop.downcallHandle(
-            "adw_about_window_get_copyright",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_copyright",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info = Interop.downcallHandle(
-            "adw_about_window_get_debug_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_debug_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_debug_info_filename = Interop.downcallHandle(
-            "adw_about_window_get_debug_info_filename",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_debug_info_filename",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_designers = Interop.downcallHandle(
-            "adw_about_window_get_designers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_designers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_developer_name = Interop.downcallHandle(
-            "adw_about_window_get_developer_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_developer_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_developers = Interop.downcallHandle(
-            "adw_about_window_get_developers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_developers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_documenters = Interop.downcallHandle(
-            "adw_about_window_get_documenters",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_documenters",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_issue_url = Interop.downcallHandle(
-            "adw_about_window_get_issue_url",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_issue_url",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_license = Interop.downcallHandle(
-            "adw_about_window_get_license",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_license",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_license_type = Interop.downcallHandle(
-            "adw_about_window_get_license_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_license_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes = Interop.downcallHandle(
-            "adw_about_window_get_release_notes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_release_notes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_release_notes_version = Interop.downcallHandle(
-            "adw_about_window_get_release_notes_version",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_release_notes_version",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_support_url = Interop.downcallHandle(
-            "adw_about_window_get_support_url",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_support_url",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_translator_credits = Interop.downcallHandle(
-            "adw_about_window_get_translator_credits",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_translator_credits",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_version = Interop.downcallHandle(
-            "adw_about_window_get_version",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_version",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_website = Interop.downcallHandle(
-            "adw_about_window_get_website",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_get_website",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_application_icon = Interop.downcallHandle(
-            "adw_about_window_set_application_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_application_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_application_name = Interop.downcallHandle(
-            "adw_about_window_set_application_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_application_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_artists = Interop.downcallHandle(
-            "adw_about_window_set_artists",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_artists",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_comments = Interop.downcallHandle(
-            "adw_about_window_set_comments",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_comments",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_copyright = Interop.downcallHandle(
-            "adw_about_window_set_copyright",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_copyright",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info = Interop.downcallHandle(
-            "adw_about_window_set_debug_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_debug_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_debug_info_filename = Interop.downcallHandle(
-            "adw_about_window_set_debug_info_filename",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_debug_info_filename",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_designers = Interop.downcallHandle(
-            "adw_about_window_set_designers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_designers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_developer_name = Interop.downcallHandle(
-            "adw_about_window_set_developer_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_developer_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_developers = Interop.downcallHandle(
-            "adw_about_window_set_developers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_developers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_documenters = Interop.downcallHandle(
-            "adw_about_window_set_documenters",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_documenters",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_issue_url = Interop.downcallHandle(
-            "adw_about_window_set_issue_url",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_issue_url",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_license = Interop.downcallHandle(
-            "adw_about_window_set_license",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_license",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_license_type = Interop.downcallHandle(
-            "adw_about_window_set_license_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_about_window_set_license_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes = Interop.downcallHandle(
-            "adw_about_window_set_release_notes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_release_notes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_release_notes_version = Interop.downcallHandle(
-            "adw_about_window_set_release_notes_version",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_release_notes_version",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_support_url = Interop.downcallHandle(
-            "adw_about_window_set_support_url",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_support_url",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_translator_credits = Interop.downcallHandle(
-            "adw_about_window_set_translator_credits",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_translator_credits",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_version = Interop.downcallHandle(
-            "adw_about_window_set_version",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_version",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_set_website = Interop.downcallHandle(
-            "adw_about_window_set_website",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_about_window_set_website",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_about_window_get_type = Interop.downcallHandle(
-            "adw_about_window_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_about_window_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_about_window_get_type != null;
     }
 }

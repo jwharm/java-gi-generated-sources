@@ -29,8 +29,8 @@ public class SurfaceFormatKHR extends Struct {
      * @return A new, uninitialized @{link SurfaceFormatKHR}
      */
     public static SurfaceFormatKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SurfaceFormatKHR newInstance = new SurfaceFormatKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SurfaceFormatKHR newInstance = new SurfaceFormatKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SurfaceFormatKHR extends Struct {
     /**
      * Create a SurfaceFormatKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SurfaceFormatKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SurfaceFormatKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SurfaceFormatKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SurfaceFormatKHR(input, ownership);
+    public static final Marshal<Addressable, SurfaceFormatKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SurfaceFormatKHR(input);
 }

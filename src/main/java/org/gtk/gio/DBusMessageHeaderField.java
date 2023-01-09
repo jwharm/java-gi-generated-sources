@@ -10,42 +10,52 @@ import org.jetbrains.annotations.*;
  * @version 2.26
  */
 public enum DBusMessageHeaderField implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Not a valid header field.
      */
     INVALID(0),
+    
     /**
      * The object path.
      */
     PATH(1),
+    
     /**
      * The interface name.
      */
     INTERFACE(2),
+    
     /**
      * The method or signal name.
      */
     MEMBER(3),
+    
     /**
      * The name of the error that occurred.
      */
     ERROR_NAME(4),
+    
     /**
      * The serial number the message is a reply to.
      */
     REPLY_SERIAL(5),
+    
     /**
      * The name the message is intended for.
      */
     DESTINATION(6),
+    
     /**
      * Unique name of the sender of the message (filled in by the bus).
      */
     SENDER(7),
+    
     /**
      * The signature of the message body.
      */
     SIGNATURE(8),
+    
     /**
      * The number of UNIX file descriptors that accompany the message.
      */
@@ -54,15 +64,29 @@ public enum DBusMessageHeaderField implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "GDBusMessageHeaderField";
     
     private final int value;
+    
+    /**
+     * Create a new DBusMessageHeaderField for the provided value
+     * @param numeric value the enum value
+     */
     DBusMessageHeaderField(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DBusMessageHeaderField for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DBusMessageHeaderField of(int value) {
         return switch (value) {
             case 0 -> INVALID;

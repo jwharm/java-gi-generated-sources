@@ -32,30 +32,34 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     /**
      * Create a ProxyAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProxyAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddress(input, ownership);
+    public static final Marshal<Addressable, ProxyAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddress(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(
-                    inetaddr.handle(),
-                    port,
-                    Marshal.stringToAddress.marshal(protocol, null),
-                    Marshal.stringToAddress.marshal(destHostname, null),
-                    destPort,
-                    (Addressable) (username == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(username, null)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_new.invokeExact(
+                        inetaddr.handle(),
+                        port,
+                        Marshal.stringToAddress.marshal(protocol, SCOPE),
+                        Marshal.stringToAddress.marshal(destHostname, SCOPE),
+                        destPort,
+                        (Addressable) (username == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(username, SCOPE)),
+                        (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -76,7 +80,8 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      *     (or {@code null}).
      */
     public ProxyAddress(org.gtk.gio.InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, @Nullable java.lang.String username, @Nullable java.lang.String password) {
-        super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password), Ownership.FULL);
+        super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password));
+        this.takeOwnership();
     }
     
     /**
@@ -88,8 +93,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public java.lang.String getDestinationHostname() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_hostname.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_hostname.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,8 +109,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public short getDestinationPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_proxy_address_get_destination_port.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.g_proxy_address_get_destination_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,8 +124,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public java.lang.String getDestinationProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_protocol.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_destination_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,8 +138,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getPassword() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_password.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_password.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,8 +152,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public java.lang.String getProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_protocol.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,8 +166,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,8 +180,7 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     public @Nullable java.lang.String getUsername() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_username.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_proxy_address_get_username.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,6 +217,9 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
      */
     public static class Builder extends org.gtk.gio.InetSocketAddress.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -297,57 +298,65 @@ public class ProxyAddress extends org.gtk.gio.InetSocketAddress implements org.g
     private static class DowncallHandles {
         
         private static final MethodHandle g_proxy_address_new = Interop.downcallHandle(
-            "g_proxy_address_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_hostname = Interop.downcallHandle(
-            "g_proxy_address_get_destination_hostname",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_destination_hostname",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_port = Interop.downcallHandle(
-            "g_proxy_address_get_destination_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_destination_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_destination_protocol = Interop.downcallHandle(
-            "g_proxy_address_get_destination_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_destination_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_password = Interop.downcallHandle(
-            "g_proxy_address_get_password",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_password",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_protocol = Interop.downcallHandle(
-            "g_proxy_address_get_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_uri = Interop.downcallHandle(
-            "g_proxy_address_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_username = Interop.downcallHandle(
-            "g_proxy_address_get_username",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_proxy_address_get_username",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_proxy_address_get_type = Interop.downcallHandle(
-            "g_proxy_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_proxy_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_proxy_address_get_type != null;
     }
 }

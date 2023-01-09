@@ -28,14 +28,16 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
     /**
      * Create a ConstantExpression proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConstantExpression(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConstantExpression(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConstantExpression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConstantExpression(input, ownership);
+    public static final Marshal<Addressable, ConstantExpression> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConstantExpression(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type valueType, java.lang.Object... varargs) {
         MemoryAddress RESULT;
@@ -56,20 +58,20 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
      * @param varargs arguments to create the object from
      */
     public ConstantExpression(org.gtk.glib.Type valueType, java.lang.Object... varargs) {
-        super(constructNew(valueType, varargs), Ownership.FULL);
+        super(constructNew(valueType, varargs));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewForValue(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constant_expression_new_for_value.invokeExact(
-                    value.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constant_expression_new_for_value.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates an expression that always evaluates to the given {@code value}.
      * @param value a {@code GValue}
@@ -77,7 +79,9 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
      */
     public static ConstantExpression newForValue(org.gtk.gobject.Value value) {
         var RESULT = constructNewForValue(value);
-        return (org.gtk.gtk.ConstantExpression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ConstantExpression.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.ConstantExpression) Interop.register(RESULT, org.gtk.gtk.ConstantExpression.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -87,12 +91,11 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
     public org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constant_expression_get_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constant_expression_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -112,27 +115,35 @@ public class ConstantExpression extends org.gtk.gtk.Expression {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constant_expression_new = Interop.downcallHandle(
-            "gtk_constant_expression_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            true
+                "gtk_constant_expression_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                true
         );
         
         private static final MethodHandle gtk_constant_expression_new_for_value = Interop.downcallHandle(
-            "gtk_constant_expression_new_for_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constant_expression_new_for_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constant_expression_get_value = Interop.downcallHandle(
-            "gtk_constant_expression_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constant_expression_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constant_expression_get_type = Interop.downcallHandle(
-            "gtk_constant_expression_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_constant_expression_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_constant_expression_get_type != null;
     }
 }

@@ -36,14 +36,16 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     /**
      * Create a FilterListModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FilterListModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FilterListModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FilterListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilterListModel(input, ownership);
+    public static final Marshal<Addressable, FilterListModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FilterListModel(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Filter filter) {
         MemoryAddress RESULT;
@@ -66,7 +68,8 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
      * @param filter filter
      */
     public FilterListModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Filter filter) {
-        super(constructNew(model, filter), Ownership.FULL);
+        super(constructNew(model, filter));
+        this.takeOwnership();
     }
     
     /**
@@ -76,12 +79,11 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     public @Nullable org.gtk.gtk.Filter getFilter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_filter_list_model_get_filter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_filter_list_model_get_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Filter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Filter.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Filter) Interop.register(RESULT, org.gtk.gtk.Filter.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -93,8 +95,7 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     public boolean getIncremental() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_filter_list_model_get_incremental.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_filter_list_model_get_incremental.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,12 +109,11 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_filter_list_model_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_filter_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -137,8 +137,7 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     public int getPending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_filter_list_model_get_pending.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_filter_list_model_get_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,6 +236,9 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -327,57 +329,65 @@ public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_filter_list_model_new = Interop.downcallHandle(
-            "gtk_filter_list_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_get_filter = Interop.downcallHandle(
-            "gtk_filter_list_model_get_filter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_get_filter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_get_incremental = Interop.downcallHandle(
-            "gtk_filter_list_model_get_incremental",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_get_incremental",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_get_model = Interop.downcallHandle(
-            "gtk_filter_list_model_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_get_pending = Interop.downcallHandle(
-            "gtk_filter_list_model_get_pending",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_get_pending",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_set_filter = Interop.downcallHandle(
-            "gtk_filter_list_model_set_filter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_set_filter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_set_incremental = Interop.downcallHandle(
-            "gtk_filter_list_model_set_incremental",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_filter_list_model_set_incremental",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_set_model = Interop.downcallHandle(
-            "gtk_filter_list_model_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_filter_list_model_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_filter_list_model_get_type = Interop.downcallHandle(
-            "gtk_filter_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_filter_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_filter_list_model_get_type != null;
     }
 }

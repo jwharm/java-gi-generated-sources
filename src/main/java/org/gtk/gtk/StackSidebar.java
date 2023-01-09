@@ -40,26 +40,17 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     /**
      * Create a StackSidebar proxy instance for the provided memory address.
-     * <p>
-     * Because StackSidebar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StackSidebar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected StackSidebar(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StackSidebar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StackSidebar(input, ownership);
+    public static final Marshal<Addressable, StackSidebar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StackSidebar(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -75,7 +66,9 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Creates a new {@code GtkStackSidebar}.
      */
     public StackSidebar() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -86,12 +79,11 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Stack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_sidebar_get_stack.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_sidebar_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Stack) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Stack.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Stack) Interop.register(RESULT, org.gtk.gtk.Stack.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -141,6 +133,9 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -176,27 +171,35 @@ public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
-            "gtk_stack_sidebar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_sidebar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
-            "gtk_stack_sidebar_get_stack",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_sidebar_get_stack",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
-            "gtk_stack_sidebar_set_stack",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_sidebar_set_stack",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_sidebar_get_type = Interop.downcallHandle(
-            "gtk_stack_sidebar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_stack_sidebar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_stack_sidebar_get_type != null;
     }
 }

@@ -22,8 +22,11 @@ import org.jetbrains.annotations.*;
  */
 public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SymbolicPaintableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SymbolicPaintableImpl(input, ownership);
+    public static final Marshal<Addressable, SymbolicPaintableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SymbolicPaintableImpl(input);
     
     /**
      * Snapshots the paintable with the given colors.
@@ -37,16 +40,18 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
      * @param nColors The number of colors
      */
     default void snapshotSymbolic(org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
-        try {
-            DowncallHandles.gtk_symbolic_paintable_snapshot_symbolic.invokeExact(
-                    handle(),
-                    snapshot.handle(),
-                    width,
-                    height,
-                    Interop.allocateNativeArray(colors, org.gtk.gdk.RGBA.getMemoryLayout(), false),
-                    nColors);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_symbolic_paintable_snapshot_symbolic.invokeExact(
+                        handle(),
+                        snapshot.handle(),
+                        width,
+                        height,
+                        Interop.allocateNativeArray(colors, org.gtk.gdk.RGBA.getMemoryLayout(), false, SCOPE),
+                        nColors);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -69,27 +74,42 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
-            "gtk_symbolic_paintable_snapshot_symbolic",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gtk_symbolic_paintable_snapshot_symbolic",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_symbolic_paintable_get_type = Interop.downcallHandle(
-            "gtk_symbolic_paintable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_symbolic_paintable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The SymbolicPaintableImpl type represents a native instance of the SymbolicPaintable interface.
+     */
     class SymbolicPaintableImpl extends org.gtk.gobject.GObject implements SymbolicPaintable {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public SymbolicPaintableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of SymbolicPaintable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public SymbolicPaintableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_symbolic_paintable_get_type != null;
     }
 }

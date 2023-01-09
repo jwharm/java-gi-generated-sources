@@ -10,12 +10,14 @@ public class DiscovererSubtitleInfoClass extends org.gtk.gobject.ObjectClass {
     /**
      * Create a DiscovererSubtitleInfoClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererSubtitleInfoClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererSubtitleInfoClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererSubtitleInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererSubtitleInfoClass(input, ownership);
+    public static final Marshal<Addressable, DiscovererSubtitleInfoClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererSubtitleInfoClass(input);
 }

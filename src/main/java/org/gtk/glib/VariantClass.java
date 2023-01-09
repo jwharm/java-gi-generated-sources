@@ -10,76 +10,94 @@ import org.jetbrains.annotations.*;
  * @version 2.24
  */
 public enum VariantClass implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The {@link Variant} is a boolean.
      */
     BOOLEAN(98),
+    
     /**
      * The {@link Variant} is a byte.
      */
     BYTE(121),
+    
     /**
      * The {@link Variant} is a signed 16 bit integer.
      */
     INT16(110),
+    
     /**
      * The {@link Variant} is an unsigned 16 bit integer.
      */
     UINT16(113),
+    
     /**
      * The {@link Variant} is a signed 32 bit integer.
      */
     INT32(105),
+    
     /**
      * The {@link Variant} is an unsigned 32 bit integer.
      */
     UINT32(117),
+    
     /**
      * The {@link Variant} is a signed 64 bit integer.
      */
     INT64(120),
+    
     /**
      * The {@link Variant} is an unsigned 64 bit integer.
      */
     UINT64(116),
+    
     /**
      * The {@link Variant} is a file handle index.
      */
     HANDLE(104),
+    
     /**
      * The {@link Variant} is a double precision floating
      *                          point value.
      */
     DOUBLE(100),
+    
     /**
      * The {@link Variant} is a normal string.
      */
     STRING(115),
+    
     /**
      * The {@link Variant} is a D-Bus object path
      *                               string.
      */
     OBJECT_PATH(111),
+    
     /**
      * The {@link Variant} is a D-Bus signature string.
      */
     SIGNATURE(103),
+    
     /**
      * The {@link Variant} is a variant.
      */
     VARIANT(118),
+    
     /**
      * The {@link Variant} is a maybe-typed value.
      */
     MAYBE(109),
+    
     /**
      * The {@link Variant} is an array.
      */
     ARRAY(97),
+    
     /**
      * The {@link Variant} is a tuple.
      */
     TUPLE(40),
+    
     /**
      * The {@link Variant} is a dictionary entry.
      */
@@ -88,15 +106,29 @@ public enum VariantClass implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GVariantClass";
     
     private final int value;
+    
+    /**
+     * Create a new VariantClass for the provided value
+     * @param numeric value the enum value
+     */
     VariantClass(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VariantClass for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VariantClass of(int value) {
         return switch (value) {
             case 98 -> BOOLEAN;

@@ -35,14 +35,16 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     /**
      * Create a MemoryOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryOutputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryOutputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryOutputStream(input, ownership);
+    public static final Marshal<Addressable, MemoryOutputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryOutputStream(input);
     
     private static MemoryAddress constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction, @Nullable org.gtk.glib.DestroyNotify destroyFunction) {
         MemoryAddress RESULT;
@@ -106,7 +108,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      *     finalized, or {@code null}
      */
     public MemoryOutputStream(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction, @Nullable org.gtk.glib.DestroyNotify destroyFunction) {
-        super(constructNew(size, reallocFunction, destroyFunction), Ownership.FULL);
+        super(constructNew(size, reallocFunction, destroyFunction));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewResizable() {
@@ -118,14 +121,16 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link MemoryOutputStream}, using g_realloc() and g_free()
      * for memory allocation.
      */
     public static MemoryOutputStream newResizable() {
         var RESULT = constructNewResizable();
-        return (org.gtk.gio.MemoryOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MemoryOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MemoryOutputStream) Interop.register(RESULT, org.gtk.gio.MemoryOutputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -139,8 +144,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public @Nullable java.lang.foreign.MemoryAddress getData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_get_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_get_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,8 +159,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public long getDataSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_memory_output_stream_get_data_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_data_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +187,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_memory_output_stream_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,12 +202,13 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public org.gtk.glib.Bytes stealAsBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -221,8 +224,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     public @Nullable java.lang.foreign.MemoryAddress stealData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,6 +261,9 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      */
     public static class Builder extends org.gtk.gio.OutputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -338,51 +343,59 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle g_memory_output_stream_new = Interop.downcallHandle(
-            "g_memory_output_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_new_resizable = Interop.downcallHandle(
-            "g_memory_output_stream_new_resizable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_new_resizable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data = Interop.downcallHandle(
-            "g_memory_output_stream_get_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_get_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_get_data_size = Interop.downcallHandle(
-            "g_memory_output_stream_get_data_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_get_data_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_get_size = Interop.downcallHandle(
-            "g_memory_output_stream_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_as_bytes = Interop.downcallHandle(
-            "g_memory_output_stream_steal_as_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_steal_as_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_steal_data = Interop.downcallHandle(
-            "g_memory_output_stream_steal_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_output_stream_steal_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_output_stream_get_type = Interop.downcallHandle(
-            "g_memory_output_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_memory_output_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_memory_output_stream_get_type != null;
     }
 }

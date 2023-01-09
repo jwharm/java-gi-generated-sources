@@ -20,6 +20,9 @@ public class GapFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GapFlags DATA = new GapFlags(1);
     
+    /**
+     * Create a new GapFlags with the provided value
+     */
     public GapFlags(int value) {
         super(value);
     }

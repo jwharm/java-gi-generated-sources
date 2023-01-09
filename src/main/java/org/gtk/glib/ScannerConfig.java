@@ -62,8 +62,8 @@ public class ScannerConfig extends Struct {
      * @return A new, uninitialized @{link ScannerConfig}
      */
     public static ScannerConfig allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScannerConfig newInstance = new ScannerConfig(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ScannerConfig newInstance = new ScannerConfig(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -73,10 +73,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code cset_skip_characters}
      */
     public java.lang.String getCsetSkipCharacters() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -84,9 +86,11 @@ public class ScannerConfig extends Struct {
      * @param csetSkipCharacters The new value of the field {@code cset_skip_characters}
      */
     public void setCsetSkipCharacters(java.lang.String csetSkipCharacters) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, SCOPE)));
+        }
     }
     
     /**
@@ -94,10 +98,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code cset_identifier_first}
      */
     public java.lang.String getCsetIdentifierFirst() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -105,9 +111,11 @@ public class ScannerConfig extends Struct {
      * @param csetIdentifierFirst The new value of the field {@code cset_identifier_first}
      */
     public void setCsetIdentifierFirst(java.lang.String csetIdentifierFirst) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, SCOPE)));
+        }
     }
     
     /**
@@ -115,10 +123,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code cset_identifier_nth}
      */
     public java.lang.String getCsetIdentifierNth() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -126,9 +136,11 @@ public class ScannerConfig extends Struct {
      * @param csetIdentifierNth The new value of the field {@code cset_identifier_nth}
      */
     public void setCsetIdentifierNth(java.lang.String csetIdentifierNth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, SCOPE)));
+        }
     }
     
     /**
@@ -136,10 +148,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code cpair_comment_single}
      */
     public java.lang.String getCpairCommentSingle() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -147,9 +161,11 @@ public class ScannerConfig extends Struct {
      * @param cpairCommentSingle The new value of the field {@code cpair_comment_single}
      */
     public void setCpairCommentSingle(java.lang.String cpairCommentSingle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, SCOPE)));
+        }
     }
     
     /**
@@ -157,10 +173,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code case_sensitive}
      */
     public int getCaseSensitive() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -168,9 +186,11 @@ public class ScannerConfig extends Struct {
      * @param caseSensitive The new value of the field {@code case_sensitive}
      */
     public void setCaseSensitive(int caseSensitive) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), caseSensitive);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), caseSensitive);
+        }
     }
     
     /**
@@ -178,10 +198,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code skip_comment_multi}
      */
     public int getSkipCommentMulti() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -189,9 +211,11 @@ public class ScannerConfig extends Struct {
      * @param skipCommentMulti The new value of the field {@code skip_comment_multi}
      */
     public void setSkipCommentMulti(int skipCommentMulti) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentMulti);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), skipCommentMulti);
+        }
     }
     
     /**
@@ -199,10 +223,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code skip_comment_single}
      */
     public int getSkipCommentSingle() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -210,9 +236,11 @@ public class ScannerConfig extends Struct {
      * @param skipCommentSingle The new value of the field {@code skip_comment_single}
      */
     public void setSkipCommentSingle(int skipCommentSingle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentSingle);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), skipCommentSingle);
+        }
     }
     
     /**
@@ -220,10 +248,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_comment_multi}
      */
     public int getScanCommentMulti() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -231,9 +261,11 @@ public class ScannerConfig extends Struct {
      * @param scanCommentMulti The new value of the field {@code scan_comment_multi}
      */
     public void setScanCommentMulti(int scanCommentMulti) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanCommentMulti);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanCommentMulti);
+        }
     }
     
     /**
@@ -241,10 +273,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_identifier}
      */
     public int getScanIdentifier() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -252,9 +286,11 @@ public class ScannerConfig extends Struct {
      * @param scanIdentifier The new value of the field {@code scan_identifier}
      */
     public void setScanIdentifier(int scanIdentifier) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifier);
+        }
     }
     
     /**
@@ -262,10 +298,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_identifier_1char}
      */
     public int getScanIdentifier1char() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -273,9 +311,11 @@ public class ScannerConfig extends Struct {
      * @param scanIdentifier1char The new value of the field {@code scan_identifier_1char}
      */
     public void setScanIdentifier1char(int scanIdentifier1char) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier1char);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifier1char);
+        }
     }
     
     /**
@@ -283,10 +323,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_identifier_NULL}
      */
     public int getScanIdentifierNULL() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -294,9 +336,11 @@ public class ScannerConfig extends Struct {
      * @param scanIdentifierNULL The new value of the field {@code scan_identifier_NULL}
      */
     public void setScanIdentifierNULL(int scanIdentifierNULL) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifierNULL);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifierNULL);
+        }
     }
     
     /**
@@ -304,10 +348,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_symbols}
      */
     public int getScanSymbols() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -315,9 +361,11 @@ public class ScannerConfig extends Struct {
      * @param scanSymbols The new value of the field {@code scan_symbols}
      */
     public void setScanSymbols(int scanSymbols) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanSymbols);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanSymbols);
+        }
     }
     
     /**
@@ -325,10 +373,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_binary}
      */
     public int getScanBinary() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -336,9 +386,11 @@ public class ScannerConfig extends Struct {
      * @param scanBinary The new value of the field {@code scan_binary}
      */
     public void setScanBinary(int scanBinary) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanBinary);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanBinary);
+        }
     }
     
     /**
@@ -346,10 +398,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_octal}
      */
     public int getScanOctal() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -357,9 +411,11 @@ public class ScannerConfig extends Struct {
      * @param scanOctal The new value of the field {@code scan_octal}
      */
     public void setScanOctal(int scanOctal) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanOctal);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanOctal);
+        }
     }
     
     /**
@@ -367,10 +423,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_float}
      */
     public int getScanFloat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -378,9 +436,11 @@ public class ScannerConfig extends Struct {
      * @param scanFloat The new value of the field {@code scan_float}
      */
     public void setScanFloat(int scanFloat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanFloat);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanFloat);
+        }
     }
     
     /**
@@ -388,10 +448,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_hex}
      */
     public int getScanHex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -399,9 +461,11 @@ public class ScannerConfig extends Struct {
      * @param scanHex The new value of the field {@code scan_hex}
      */
     public void setScanHex(int scanHex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanHex);
+        }
     }
     
     /**
@@ -409,10 +473,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_hex_dollar}
      */
     public int getScanHexDollar() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -420,9 +486,11 @@ public class ScannerConfig extends Struct {
      * @param scanHexDollar The new value of the field {@code scan_hex_dollar}
      */
     public void setScanHexDollar(int scanHexDollar) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHexDollar);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanHexDollar);
+        }
     }
     
     /**
@@ -430,10 +498,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_string_sq}
      */
     public int getScanStringSq() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -441,9 +511,11 @@ public class ScannerConfig extends Struct {
      * @param scanStringSq The new value of the field {@code scan_string_sq}
      */
     public void setScanStringSq(int scanStringSq) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringSq);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanStringSq);
+        }
     }
     
     /**
@@ -451,10 +523,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scan_string_dq}
      */
     public int getScanStringDq() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -462,9 +536,11 @@ public class ScannerConfig extends Struct {
      * @param scanStringDq The new value of the field {@code scan_string_dq}
      */
     public void setScanStringDq(int scanStringDq) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringDq);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scanStringDq);
+        }
     }
     
     /**
@@ -472,10 +548,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code numbers_2_int}
      */
     public int getNumbers2Int() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -483,9 +561,11 @@ public class ScannerConfig extends Struct {
      * @param numbers2Int The new value of the field {@code numbers_2_int}
      */
     public void setNumbers2Int(int numbers2Int) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numbers2Int);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), numbers2Int);
+        }
     }
     
     /**
@@ -493,10 +573,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code int_2_float}
      */
     public int getInt2Float() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -504,9 +586,11 @@ public class ScannerConfig extends Struct {
      * @param int2Float The new value of the field {@code int_2_float}
      */
     public void setInt2Float(int int2Float) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), int2Float);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), int2Float);
+        }
     }
     
     /**
@@ -514,10 +598,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code identifier_2_string}
      */
     public int getIdentifier2String() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -525,9 +611,11 @@ public class ScannerConfig extends Struct {
      * @param identifier2String The new value of the field {@code identifier_2_string}
      */
     public void setIdentifier2String(int identifier2String) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), identifier2String);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), identifier2String);
+        }
     }
     
     /**
@@ -535,10 +623,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code char_2_token}
      */
     public int getChar2Token() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -546,9 +636,11 @@ public class ScannerConfig extends Struct {
      * @param char2Token The new value of the field {@code char_2_token}
      */
     public void setChar2Token(int char2Token) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), char2Token);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), char2Token);
+        }
     }
     
     /**
@@ -556,10 +648,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code symbol_2_token}
      */
     public int getSymbol2Token() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -567,9 +661,11 @@ public class ScannerConfig extends Struct {
      * @param symbol2Token The new value of the field {@code symbol_2_token}
      */
     public void setSymbol2Token(int symbol2Token) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbol2Token);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), symbol2Token);
+        }
     }
     
     /**
@@ -577,10 +673,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code scope_0_fallback}
      */
     public int getScope0Fallback() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -588,9 +686,11 @@ public class ScannerConfig extends Struct {
      * @param scope0Fallback The new value of the field {@code scope_0_fallback}
      */
     public void setScope0Fallback(int scope0Fallback) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope0Fallback);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), scope0Fallback);
+        }
     }
     
     /**
@@ -598,10 +698,12 @@ public class ScannerConfig extends Struct {
      * @return The value of the field {@code store_int64}
      */
     public int getStoreInt64() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -609,22 +711,26 @@ public class ScannerConfig extends Struct {
      * @param storeInt64 The new value of the field {@code store_int64}
      */
     public void setStoreInt64(int storeInt64) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), storeInt64);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), storeInt64);
+        }
     }
     
     /**
      * Create a ScannerConfig proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScannerConfig(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScannerConfig(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScannerConfig> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScannerConfig(input, ownership);
+    public static final Marshal<Addressable, ScannerConfig> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScannerConfig(input);
     
     /**
      * A {@link ScannerConfig.Builder} object constructs a {@link ScannerConfig} 
@@ -648,7 +754,7 @@ public class ScannerConfig extends Struct {
             struct = ScannerConfig.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ScannerConfig} struct.
          * @return A new instance of {@code ScannerConfig} with the fields 
          *         that were set in the Builder object.
@@ -665,10 +771,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCsetSkipCharacters(java.lang.String csetSkipCharacters) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -678,10 +786,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCsetIdentifierFirst(java.lang.String csetIdentifierFirst) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -693,10 +803,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCsetIdentifierNth(java.lang.String csetIdentifierNth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -708,10 +820,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCpairCommentSingle(java.lang.String cpairCommentSingle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -721,10 +835,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCaseSensitive(int caseSensitive) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), caseSensitive);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), caseSensitive);
+                return this;
+            }
         }
         
         /**
@@ -734,10 +850,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSkipCommentMulti(int skipCommentMulti) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentMulti);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), skipCommentMulti);
+                return this;
+            }
         }
         
         /**
@@ -747,10 +865,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSkipCommentSingle(int skipCommentSingle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentSingle);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), skipCommentSingle);
+                return this;
+            }
         }
         
         /**
@@ -760,10 +880,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanCommentMulti(int scanCommentMulti) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanCommentMulti);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanCommentMulti);
+                return this;
+            }
         }
         
         /**
@@ -773,10 +895,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanIdentifier(int scanIdentifier) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifier);
+                return this;
+            }
         }
         
         /**
@@ -786,10 +910,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanIdentifier1char(int scanIdentifier1char) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier1char);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifier1char);
+                return this;
+            }
         }
         
         /**
@@ -799,10 +925,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanIdentifierNULL(int scanIdentifierNULL) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifierNULL);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanIdentifierNULL);
+                return this;
+            }
         }
         
         /**
@@ -812,10 +940,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanSymbols(int scanSymbols) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanSymbols);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanSymbols);
+                return this;
+            }
         }
         
         /**
@@ -825,10 +955,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanBinary(int scanBinary) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanBinary);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanBinary);
+                return this;
+            }
         }
         
         /**
@@ -838,10 +970,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanOctal(int scanOctal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanOctal);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanOctal);
+                return this;
+            }
         }
         
         /**
@@ -851,10 +985,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanFloat(int scanFloat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanFloat);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanFloat);
+                return this;
+            }
         }
         
         /**
@@ -864,10 +1000,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanHex(int scanHex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanHex);
+                return this;
+            }
         }
         
         /**
@@ -877,10 +1015,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanHexDollar(int scanHexDollar) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHexDollar);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanHexDollar);
+                return this;
+            }
         }
         
         /**
@@ -890,10 +1030,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanStringSq(int scanStringSq) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringSq);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanStringSq);
+                return this;
+            }
         }
         
         /**
@@ -903,10 +1045,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScanStringDq(int scanStringDq) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringDq);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scanStringDq);
+                return this;
+            }
         }
         
         /**
@@ -916,10 +1060,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumbers2Int(int numbers2Int) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numbers2Int);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), numbers2Int);
+                return this;
+            }
         }
         
         /**
@@ -929,10 +1075,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInt2Float(int int2Float) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), int2Float);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), int2Float);
+                return this;
+            }
         }
         
         /**
@@ -942,10 +1090,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIdentifier2String(int identifier2String) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), identifier2String);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), identifier2String);
+                return this;
+            }
         }
         
         /**
@@ -955,10 +1105,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setChar2Token(int char2Token) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), char2Token);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), char2Token);
+                return this;
+            }
         }
         
         /**
@@ -968,10 +1120,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSymbol2Token(int symbol2Token) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbol2Token);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), symbol2Token);
+                return this;
+            }
         }
         
         /**
@@ -981,10 +1135,12 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setScope0Fallback(int scope0Fallback) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope0Fallback);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scope0Fallback);
+                return this;
+            }
         }
         
         /**
@@ -993,17 +1149,21 @@ public class ScannerConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStoreInt64(int storeInt64) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), storeInt64);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), storeInt64);
+                return this;
+            }
         }
         
         public Builder setPaddingDummy(int paddingDummy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding_dummy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingDummy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding_dummy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), paddingDummy);
+                return this;
+            }
         }
     }
 }

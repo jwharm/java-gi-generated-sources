@@ -29,8 +29,8 @@ public class ImageMemoryRequirementsInfo2 extends Struct {
      * @return A new, uninitialized @{link ImageMemoryRequirementsInfo2}
      */
     public static ImageMemoryRequirementsInfo2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageMemoryRequirementsInfo2 newInstance = new ImageMemoryRequirementsInfo2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageMemoryRequirementsInfo2 newInstance = new ImageMemoryRequirementsInfo2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageMemoryRequirementsInfo2 extends Struct {
     /**
      * Create a ImageMemoryRequirementsInfo2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageMemoryRequirementsInfo2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageMemoryRequirementsInfo2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageMemoryRequirementsInfo2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageMemoryRequirementsInfo2(input, ownership);
+    public static final Marshal<Addressable, ImageMemoryRequirementsInfo2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageMemoryRequirementsInfo2(input);
 }

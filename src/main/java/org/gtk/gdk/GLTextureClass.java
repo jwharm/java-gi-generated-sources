@@ -29,8 +29,8 @@ public class GLTextureClass extends Struct {
      * @return A new, uninitialized @{link GLTextureClass}
      */
     public static GLTextureClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLTextureClass newInstance = new GLTextureClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLTextureClass newInstance = new GLTextureClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLTextureClass extends Struct {
     /**
      * Create a GLTextureClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLTextureClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLTextureClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLTextureClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLTextureClass(input, ownership);
+    public static final Marshal<Addressable, GLTextureClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLTextureClass(input);
 }

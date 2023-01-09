@@ -29,27 +29,31 @@ public class ClosureExpression extends org.gtk.gtk.Expression {
     /**
      * Create a ClosureExpression proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ClosureExpression(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ClosureExpression(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ClosureExpression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClosureExpression(input, ownership);
+    public static final Marshal<Addressable, ClosureExpression> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ClosureExpression(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type valueType, org.gtk.gobject.Closure closure, int nParams, @Nullable org.gtk.gtk.Expression[] params) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_closure_expression_new.invokeExact(
-                    valueType.getValue().longValue(),
-                    closure.handle(),
-                    nParams,
-                    (Addressable) (params == null ? MemoryAddress.NULL : Interop.allocateNativeArray(params, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_closure_expression_new.invokeExact(
+                        valueType.getValue().longValue(),
+                        closure.handle(),
+                        nParams,
+                        (Addressable) (params == null ? MemoryAddress.NULL : Interop.allocateNativeArray(params, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -63,7 +67,8 @@ public class ClosureExpression extends org.gtk.gtk.Expression {
      * @param params expressions for each parameter
      */
     public ClosureExpression(org.gtk.glib.Type valueType, org.gtk.gobject.Closure closure, int nParams, @Nullable org.gtk.gtk.Expression[] params) {
-        super(constructNew(valueType, closure, nParams, params), Ownership.FULL);
+        super(constructNew(valueType, closure, nParams, params));
+        this.takeOwnership();
     }
     
     /**
@@ -83,15 +88,23 @@ public class ClosureExpression extends org.gtk.gtk.Expression {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_closure_expression_new = Interop.downcallHandle(
-            "gtk_closure_expression_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_closure_expression_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_closure_expression_get_type = Interop.downcallHandle(
-            "gtk_closure_expression_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_closure_expression_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_closure_expression_get_type != null;
     }
 }

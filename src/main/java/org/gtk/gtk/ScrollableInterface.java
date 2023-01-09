@@ -32,8 +32,8 @@ public class ScrollableInterface extends Struct {
      * @return A new, uninitialized @{link ScrollableInterface}
      */
     public static ScrollableInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScrollableInterface newInstance = new ScrollableInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ScrollableInterface newInstance = new ScrollableInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class ScrollableInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getBaseIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,25 +52,42 @@ public class ScrollableInterface extends Struct {
      * @param baseIface The new value of the field {@code base_iface}
      */
     public void setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetBorderCallback} callback.
+     */
     @FunctionalInterface
     public interface GetBorderCallback {
+    
         boolean run(org.gtk.gtk.Scrollable scrollable, org.gtk.gtk.Border border);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress scrollable, MemoryAddress border) {
-            var RESULT = run((org.gtk.gtk.Scrollable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(scrollable)), org.gtk.gtk.Scrollable.fromAddress).marshal(scrollable, Ownership.NONE), org.gtk.gtk.Border.fromAddress.marshal(border, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.Scrollable) Interop.register(scrollable, org.gtk.gtk.Scrollable.fromAddress).marshal(scrollable, null), org.gtk.gtk.Border.fromAddress.marshal(border, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetBorderCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetBorderCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +96,26 @@ public class ScrollableInterface extends Struct {
      * @param getBorder The new value of the field {@code get_border}
      */
     public void setGetBorder(GetBorderCallback getBorder) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_border"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getBorder == null ? MemoryAddress.NULL : getBorder.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_border"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getBorder == null ? MemoryAddress.NULL : getBorder.toCallback()));
+        }
     }
     
     /**
      * Create a ScrollableInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScrollableInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScrollableInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScrollableInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScrollableInterface(input, ownership);
+    public static final Marshal<Addressable, ScrollableInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScrollableInterface(input);
     
     /**
      * A {@link ScrollableInterface.Builder} object constructs a {@link ScrollableInterface} 
@@ -118,7 +139,7 @@ public class ScrollableInterface extends Struct {
             struct = ScrollableInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ScrollableInterface} struct.
          * @return A new instance of {@code ScrollableInterface} with the fields 
          *         that were set in the Builder object.
@@ -128,17 +149,21 @@ public class ScrollableInterface extends Struct {
         }
         
         public Builder setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+                return this;
+            }
         }
         
         public Builder setGetBorder(GetBorderCallback getBorder) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_border"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getBorder == null ? MemoryAddress.NULL : getBorder.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_border"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getBorder == null ? MemoryAddress.NULL : getBorder.toCallback()));
+                return this;
+            }
         }
     }
 }

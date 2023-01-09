@@ -24,7 +24,7 @@ public class GErrorException extends Exception {
 
     // Dereference the GError instance from the pointer
     private static org.gtk.glib.Error dereference(MemorySegment pointer) {
-        return (org.gtk.glib.Error) org.gtk.glib.Error.fromAddress.marshal(pointer.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE);
+        return (org.gtk.glib.Error) org.gtk.glib.Error.fromAddress.marshal(pointer.get(Interop.valueLayout.ADDRESS, 0), null);
     }
     
     // Get the message from the GError instance (used by the GErrorException constructor)
@@ -35,6 +35,7 @@ public class GErrorException extends Exception {
     /**
      * Create a GErrorException from a GError memory segment that was
      * returned by a native function.
+     * @param gerrorPtr Pointer to a GError in native memory
      */
     @ApiStatus.Internal
     public GErrorException(MemorySegment gerrorPtr) {
@@ -58,6 +59,7 @@ public class GErrorException extends Exception {
 
     /**
      * Check if an error is set.
+     * @param gerrorPtr pointer to a GError in native memory
      * @return true when an error was set on this pointer
      */
     public static boolean isErrorSet(MemorySegment gerrorPtr) {

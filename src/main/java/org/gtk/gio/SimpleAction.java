@@ -32,25 +32,29 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
     /**
      * Create a SimpleAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SimpleAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SimpleAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SimpleAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAction(input, ownership);
+    public static final Marshal<Addressable, SimpleAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAction(input);
     
     private static MemoryAddress constructNew(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -63,22 +67,25 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
      *   handlers for the {@link SimpleAction}::activate signal, or {@code null} for no parameter
      */
     public SimpleAction(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
-        super(constructNew(name, parameterType), Ownership.FULL);
+        super(constructNew(name, parameterType));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewStateful(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
-                    state.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
+                        state.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new stateful action.
      * <p>
@@ -94,7 +101,9 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public static SimpleAction newStateful(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
         var RESULT = constructNewStateful(name, parameterType, state);
-        return (org.gtk.gio.SimpleAction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SimpleAction.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.SimpleAction) Interop.register(RESULT, org.gtk.gio.SimpleAction.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -171,19 +180,49 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Indicates that the action was just activated.
+         * <p>
+         * {@code parameter} will always be of the expected type, i.e. the parameter type
+         * specified when the action was created. If an incorrect type is given when
+         * activating the action, this signal is not emitted.
+         * <p>
+         * Since GLib 2.40, if no handler is connected to this signal then the
+         * default behaviour for boolean-stated actions with a {@code null} parameter
+         * type is to toggle them via the {@link SimpleAction}::change-state signal.
+         * For stateful actions where the state type is equal to the parameter
+         * type, the default is to forward them directly to
+         * {@link SimpleAction}::change-state.  This should allow almost all users
+         * of {@link SimpleAction} to connect only one handler or the other.
+         */
         void run(@Nullable org.gtk.glib.Variant parameter);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSimpleAction, MemoryAddress parameter) {
-            run(org.gtk.glib.Variant.fromAddress.marshal(parameter, Ownership.NONE));
+            run(org.gtk.glib.Variant.fromAddress.marshal(parameter, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -205,28 +244,79 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SimpleAction.Activate> onActivate(SimpleAction.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangeState} callback.
+     */
     @FunctionalInterface
     public interface ChangeState {
+    
+        /**
+         * Indicates that the action just received a request to change its
+         * state.
+         * <p>
+         * {@code value} will always be of the correct state type, i.e. the type of the
+         * initial state passed to g_simple_action_new_stateful(). If an incorrect
+         * type is given when requesting to change the state, this signal is not
+         * emitted.
+         * <p>
+         * If no handler is connected to this signal then the default
+         * behaviour is to call g_simple_action_set_state() to set the state
+         * to the requested value. If you connect a signal handler then no
+         * default action is taken. If the state should change then you must
+         * call g_simple_action_set_state() from the handler.
+         * <p>
+         * An example of a 'change-state' handler:
+         * <pre>{@code <!-- language="C" -->
+         * static void
+         * change_volume_state (GSimpleAction *action,
+         *                      GVariant      *value,
+         *                      gpointer       user_data)
+         * {
+         *   gint requested;
+         * 
+         *   requested = g_variant_get_int32 (value);
+         * 
+         *   // Volume only goes from 0 to 10
+         *   if (0 <= requested && requested <= 10)
+         *     g_simple_action_set_state (action, value);
+         * }
+         * }</pre>
+         * <p>
+         * The handler need not set the state to the requested value.
+         * It could set it to any value at all, or take some other action.
+         */
         void run(@Nullable org.gtk.glib.Variant value);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSimpleAction, MemoryAddress value) {
-            run(org.gtk.glib.Variant.fromAddress.marshal(value, Ownership.NONE));
+            run(org.gtk.glib.Variant.fromAddress.marshal(value, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeState.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangeState.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -268,9 +358,10 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SimpleAction.ChangeState> onChangeState(SimpleAction.ChangeState handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("change-state"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("change-state", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -293,6 +384,9 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -378,39 +472,47 @@ public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_action_new = Interop.downcallHandle(
-            "g_simple_action_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_new_stateful = Interop.downcallHandle(
-            "g_simple_action_new_stateful",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_new_stateful",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_set_enabled = Interop.downcallHandle(
-            "g_simple_action_set_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_simple_action_set_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_simple_action_set_state = Interop.downcallHandle(
-            "g_simple_action_set_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_set_state",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_set_state_hint = Interop.downcallHandle(
-            "g_simple_action_set_state_hint",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_set_state_hint",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_get_type = Interop.downcallHandle(
-            "g_simple_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_simple_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_simple_action_get_type != null;
     }
 }

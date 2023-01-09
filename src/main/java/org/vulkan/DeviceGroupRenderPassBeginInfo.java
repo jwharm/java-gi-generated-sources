@@ -29,8 +29,8 @@ public class DeviceGroupRenderPassBeginInfo extends Struct {
      * @return A new, uninitialized @{link DeviceGroupRenderPassBeginInfo}
      */
     public static DeviceGroupRenderPassBeginInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceGroupRenderPassBeginInfo newInstance = new DeviceGroupRenderPassBeginInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceGroupRenderPassBeginInfo newInstance = new DeviceGroupRenderPassBeginInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceGroupRenderPassBeginInfo extends Struct {
     /**
      * Create a DeviceGroupRenderPassBeginInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceGroupRenderPassBeginInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceGroupRenderPassBeginInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceGroupRenderPassBeginInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupRenderPassBeginInfo(input, ownership);
+    public static final Marshal<Addressable, DeviceGroupRenderPassBeginInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupRenderPassBeginInfo(input);
 }

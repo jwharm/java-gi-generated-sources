@@ -37,8 +37,8 @@ public class LayoutIter extends Struct {
      * @return A new, uninitialized @{link LayoutIter}
      */
     public static LayoutIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutIter newInstance = new LayoutIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LayoutIter newInstance = new LayoutIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class LayoutIter extends Struct {
     /**
      * Create a LayoutIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutIter(input, ownership);
+    public static final Marshal<Addressable, LayoutIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutIter(input);
     
     /**
      * Determines whether {@code iter} is on the last line of the layout.
@@ -62,8 +64,7 @@ public class LayoutIter extends Struct {
     public boolean atLastLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_at_last_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_at_last_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,12 +78,13 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.LayoutIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutIter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.LayoutIter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -90,8 +92,7 @@ public class LayoutIter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_layout_iter_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_layout_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,8 +108,7 @@ public class LayoutIter extends Struct {
     public int getBaseline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_get_baseline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_get_baseline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,8 +165,7 @@ public class LayoutIter extends Struct {
     public int getIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_get_index.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_get_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,12 +179,11 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_layout.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -215,12 +213,11 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.LayoutLine getLine() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_line.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -256,12 +253,11 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.LayoutLine getLineReadonly() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_line_readonly.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_line_readonly.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -280,18 +276,20 @@ public class LayoutIter extends Struct {
      * @param y1 end of line
      */
     public void getLineYrange(Out<Integer> y0, Out<Integer> y1) {
-        MemorySegment y0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment y1POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_iter_get_line_yrange.invokeExact(
-                    handle(),
-                    (Addressable) (y0 == null ? MemoryAddress.NULL : (Addressable) y0POINTER.address()),
-                    (Addressable) (y1 == null ? MemoryAddress.NULL : (Addressable) y1POINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment y0POINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment y1POINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_iter_get_line_yrange.invokeExact(
+                        handle(),
+                        (Addressable) (y0 == null ? MemoryAddress.NULL : (Addressable) y0POINTER.address()),
+                        (Addressable) (y1 == null ? MemoryAddress.NULL : (Addressable) y1POINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (y0 != null) y0.set(y0POINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (y1 != null) y1.set(y1POINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (y0 != null) y0.set(y0POINTER.get(Interop.valueLayout.C_INT, 0));
-        if (y1 != null) y1.set(y1POINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -309,12 +307,11 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.LayoutRun getRun() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_run.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_run.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.LayoutRun) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.LayoutRun.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.LayoutRun) Interop.register(RESULT, org.pango.LayoutRun.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -329,8 +326,7 @@ public class LayoutIter extends Struct {
     public int getRunBaseline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_get_run_baseline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_get_run_baseline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,12 +368,11 @@ public class LayoutIter extends Struct {
     public @Nullable org.pango.LayoutRun getRunReadonly() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_run_readonly.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_iter_get_run_readonly.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.LayoutRun) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.LayoutRun.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.LayoutRun) Interop.register(RESULT, org.pango.LayoutRun.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -389,8 +384,7 @@ public class LayoutIter extends Struct {
     public boolean nextChar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_next_char.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_next_char.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,8 +400,7 @@ public class LayoutIter extends Struct {
     public boolean nextCluster() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_next_cluster.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_next_cluster.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -423,8 +416,7 @@ public class LayoutIter extends Struct {
     public boolean nextLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_next_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_next_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,8 +432,7 @@ public class LayoutIter extends Struct {
     public boolean nextRun() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_iter_next_run.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_iter_next_run.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,129 +442,129 @@ public class LayoutIter extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_layout_iter_at_last_line = Interop.downcallHandle(
-            "pango_layout_iter_at_last_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_at_last_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_copy = Interop.downcallHandle(
-            "pango_layout_iter_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_free = Interop.downcallHandle(
-            "pango_layout_iter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_baseline = Interop.downcallHandle(
-            "pango_layout_iter_get_baseline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_baseline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_char_extents = Interop.downcallHandle(
-            "pango_layout_iter_get_char_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_char_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_cluster_extents = Interop.downcallHandle(
-            "pango_layout_iter_get_cluster_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_cluster_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_index = Interop.downcallHandle(
-            "pango_layout_iter_get_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_layout = Interop.downcallHandle(
-            "pango_layout_iter_get_layout",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_layout",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_layout_extents = Interop.downcallHandle(
-            "pango_layout_iter_get_layout_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_layout_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_line = Interop.downcallHandle(
-            "pango_layout_iter_get_line",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_line",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_extents = Interop.downcallHandle(
-            "pango_layout_iter_get_line_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_line_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_readonly = Interop.downcallHandle(
-            "pango_layout_iter_get_line_readonly",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_line_readonly",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_line_yrange = Interop.downcallHandle(
-            "pango_layout_iter_get_line_yrange",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_line_yrange",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_run = Interop.downcallHandle(
-            "pango_layout_iter_get_run",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_run",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_baseline = Interop.downcallHandle(
-            "pango_layout_iter_get_run_baseline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_run_baseline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_extents = Interop.downcallHandle(
-            "pango_layout_iter_get_run_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_run_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_get_run_readonly = Interop.downcallHandle(
-            "pango_layout_iter_get_run_readonly",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_get_run_readonly",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_next_char = Interop.downcallHandle(
-            "pango_layout_iter_next_char",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_next_char",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_next_cluster = Interop.downcallHandle(
-            "pango_layout_iter_next_cluster",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_next_cluster",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_next_line = Interop.downcallHandle(
-            "pango_layout_iter_next_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_next_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_iter_next_run = Interop.downcallHandle(
-            "pango_layout_iter_next_run",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_iter_next_run",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

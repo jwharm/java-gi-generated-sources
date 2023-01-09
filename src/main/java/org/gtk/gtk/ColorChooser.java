@@ -17,8 +17,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorChooserImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorChooserImpl(input, ownership);
+    public static final Marshal<Addressable, ColorChooserImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorChooserImpl(input);
     
     /**
      * Adds a palette to the color chooser.
@@ -45,15 +48,17 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @param colors the colors of the palette
      */
     default void addPalette(org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, @Nullable org.gtk.gdk.RGBA[] colors) {
-        try {
-            DowncallHandles.gtk_color_chooser_add_palette.invokeExact(
-                    handle(),
-                    orientation.getValue(),
-                    colorsPerLine,
-                    nColors,
-                    (Addressable) (colors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(colors, org.gtk.gdk.RGBA.getMemoryLayout(), false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_color_chooser_add_palette.invokeExact(
+                        handle(),
+                        orientation.getValue(),
+                        colorsPerLine,
+                        nColors,
+                        (Addressable) (colors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(colors, org.gtk.gdk.RGBA.getMemoryLayout(), false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -79,8 +84,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     default boolean getUseAlpha() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_color_chooser_get_use_alpha.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_color_chooser_get_use_alpha.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,19 +133,41 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ColorActivated} callback.
+     */
     @FunctionalInterface
     public interface ColorActivated {
+    
+        /**
+         * Emitted when a color is activated from the color chooser.
+         * <p>
+         * This usually happens when the user clicks a color swatch,
+         * or a color is selected and the user presses one of the keys
+         * Space, Shift+Space, Return or Enter.
+         */
         void run(org.gtk.gdk.RGBA color);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceColorChooser, MemoryAddress color) {
-            run(org.gtk.gdk.RGBA.fromAddress.marshal(color, Ownership.NONE));
+            run(org.gtk.gdk.RGBA.fromAddress.marshal(color, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ColorActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ColorActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -155,9 +181,10 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ColorChooser.ColorActivated> onColorActivated(ColorChooser.ColorActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("color-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("color-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -169,55 +196,70 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_add_palette = Interop.downcallHandle(
-            "gtk_color_chooser_add_palette",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_color_chooser_add_palette",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_rgba = Interop.downcallHandle(
-            "gtk_color_chooser_get_rgba",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_color_chooser_get_rgba",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_use_alpha = Interop.downcallHandle(
-            "gtk_color_chooser_get_use_alpha",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_color_chooser_get_use_alpha",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_rgba = Interop.downcallHandle(
-            "gtk_color_chooser_set_rgba",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_color_chooser_set_rgba",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_set_use_alpha = Interop.downcallHandle(
-            "gtk_color_chooser_set_use_alpha",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_color_chooser_set_use_alpha",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_color_chooser_get_type = Interop.downcallHandle(
-            "gtk_color_chooser_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_color_chooser_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ColorChooserImpl type represents a native instance of the ColorChooser interface.
+     */
     class ColorChooserImpl extends org.gtk.gobject.GObject implements ColorChooser {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ColorChooserImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ColorChooser for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ColorChooserImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_color_chooser_get_type != null;
     }
 }

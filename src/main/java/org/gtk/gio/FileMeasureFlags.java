@@ -39,6 +39,9 @@ public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileMeasureFlags NO_XDEV = new FileMeasureFlags(8);
     
+    /**
+     * Create a new FileMeasureFlags with the provided value
+     */
     public FileMeasureFlags(int value) {
         super(value);
     }

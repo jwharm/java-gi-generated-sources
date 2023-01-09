@@ -36,14 +36,16 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     /**
      * Create a TcpWrapperConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TcpWrapperConnection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TcpWrapperConnection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TcpWrapperConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnection(input, ownership);
+    public static final Marshal<Addressable, TcpWrapperConnection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnection(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.IOStream baseIoStream, org.gtk.gio.Socket socket) {
         MemoryAddress RESULT;
@@ -63,7 +65,8 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @param socket the {@link Socket} associated with {@code base_io_stream}
      */
     public TcpWrapperConnection(org.gtk.gio.IOStream baseIoStream, org.gtk.gio.Socket socket) {
-        super(constructNew(baseIoStream, socket), Ownership.FULL);
+        super(constructNew(baseIoStream, socket));
+        this.takeOwnership();
     }
     
     /**
@@ -73,12 +76,11 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     public org.gtk.gio.IOStream getBaseIoStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tcp_wrapper_connection_get_base_io_stream.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tcp_wrapper_connection_get_base_io_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.IOStream.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.IOStream) Interop.register(RESULT, org.gtk.gio.IOStream.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -111,6 +113,9 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      */
     public static class Builder extends org.gtk.gio.TcpConnection.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -141,21 +146,29 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tcp_wrapper_connection_new = Interop.downcallHandle(
-            "g_tcp_wrapper_connection_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tcp_wrapper_connection_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tcp_wrapper_connection_get_base_io_stream = Interop.downcallHandle(
-            "g_tcp_wrapper_connection_get_base_io_stream",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tcp_wrapper_connection_get_base_io_stream",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tcp_wrapper_connection_get_type = Interop.downcallHandle(
-            "g_tcp_wrapper_connection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tcp_wrapper_connection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tcp_wrapper_connection_get_type != null;
     }
 }

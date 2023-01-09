@@ -40,25 +40,29 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
     /**
      * Create a NetworkAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetworkAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NetworkAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetworkAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkAddress(input, ownership);
+    public static final Marshal<Addressable, NetworkAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetworkAddress(input);
     
     private static MemoryAddress constructNew(java.lang.String hostname, short port) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
-                    Marshal.stringToAddress.marshal(hostname, null),
-                    port);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
+                        Marshal.stringToAddress.marshal(hostname, SCOPE),
+                        port);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -74,20 +78,20 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
      * @param port the port
      */
     public NetworkAddress(java.lang.String hostname, short port) {
-        super(constructNew(hostname, port), Ownership.FULL);
+        super(constructNew(hostname, port));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewLoopback(short port) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(
-                    port);
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link SocketConnectable} for connecting to the local host
      * over a loopback connection to the given {@code port}. This is intended for
@@ -106,7 +110,9 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
      */
     public static NetworkAddress newLoopback(short port) {
         var RESULT = constructNewLoopback(port);
-        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.NetworkAddress) Interop.register(RESULT, org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -117,8 +123,7 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
     public java.lang.String getHostname() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_hostname.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_hostname.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,8 +137,7 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
     public short getPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_network_address_get_port.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.g_network_address_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,8 +151,7 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
     public @Nullable java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_scheme.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,20 +201,24 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.gio.NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(hostAndPort, null),
-                    defaultPort,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(
+                        Marshal.stringToAddress.marshal(hostAndPort, SCOPE),
+                        defaultPort,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.NetworkAddress) Interop.register(RESULT, org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -228,20 +235,24 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.gio.NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null),
-                    defaultPort,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        defaultPort,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.NetworkAddress) Interop.register(RESULT, org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -260,6 +271,9 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -302,51 +316,59 @@ public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle g_network_address_new = Interop.downcallHandle(
-            "g_network_address_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "g_network_address_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_network_address_new_loopback = Interop.downcallHandle(
-            "g_network_address_new_loopback",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "g_network_address_new_loopback",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_network_address_get_hostname = Interop.downcallHandle(
-            "g_network_address_get_hostname",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_address_get_hostname",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_address_get_port = Interop.downcallHandle(
-            "g_network_address_get_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_address_get_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_address_get_scheme = Interop.downcallHandle(
-            "g_network_address_get_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_address_get_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_address_get_type = Interop.downcallHandle(
-            "g_network_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_network_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_network_address_parse = Interop.downcallHandle(
-            "g_network_address_parse",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_address_parse",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_network_address_parse_uri = Interop.downcallHandle(
-            "g_network_address_parse_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_address_parse_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_network_address_get_type != null;
     }
 }

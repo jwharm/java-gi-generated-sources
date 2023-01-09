@@ -52,37 +52,30 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
     
     /**
      * Create a PtpClock proxy instance for the provided memory address.
-     * <p>
-     * Because PtpClock is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PtpClock(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected PtpClock(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PtpClock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PtpClock(input);
+    
+    private static MemoryAddress constructNew(java.lang.String name, int domain) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_ptp_clock_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        domain);
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, PtpClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PtpClock(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String name, int domain) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_ptp_clock_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    domain);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -101,7 +94,8 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
      * @param domain PTP domain
      */
     public PtpClock(java.lang.String name, int domain) {
-        super(constructNew(name, domain), Ownership.FULL);
+        super(constructNew(name, domain));
+        this.takeOwnership();
     }
     
     /**
@@ -134,6 +128,9 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
      */
     public static class Builder extends org.gstreamer.gst.SystemClock.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -182,15 +179,23 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_ptp_clock_new = Interop.downcallHandle(
-            "gst_ptp_clock_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_ptp_clock_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_ptp_clock_get_type = Interop.downcallHandle(
-            "gst_ptp_clock_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_ptp_clock_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_ptp_clock_get_type != null;
     }
 }

@@ -51,8 +51,8 @@ public class VideoCodecFrame extends Struct {
      * @return A new, uninitialized @{link VideoCodecFrame}
      */
     public static VideoCodecFrame allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoCodecFrame newInstance = new VideoCodecFrame(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoCodecFrame newInstance = new VideoCodecFrame(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -62,10 +62,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code system_frame_number}
      */
     public int getSystemFrameNumber() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -73,9 +75,11 @@ public class VideoCodecFrame extends Struct {
      * @param systemFrameNumber The new value of the field {@code system_frame_number}
      */
     public void setSystemFrameNumber(int systemFrameNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+        }
     }
     
     /**
@@ -83,10 +87,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code dts}
      */
     public org.gstreamer.gst.ClockTime getDts() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -94,9 +100,11 @@ public class VideoCodecFrame extends Struct {
      * @param dts The new value of the field {@code dts}
      */
     public void setDts(org.gstreamer.gst.ClockTime dts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+        }
     }
     
     /**
@@ -104,10 +112,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code pts}
      */
     public org.gstreamer.gst.ClockTime getPts() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -115,9 +125,11 @@ public class VideoCodecFrame extends Struct {
      * @param pts The new value of the field {@code pts}
      */
     public void setPts(org.gstreamer.gst.ClockTime pts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        }
     }
     
     /**
@@ -125,10 +137,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code duration}
      */
     public org.gstreamer.gst.ClockTime getDuration() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -136,9 +150,11 @@ public class VideoCodecFrame extends Struct {
      * @param duration The new value of the field {@code duration}
      */
     public void setDuration(org.gstreamer.gst.ClockTime duration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+        }
     }
     
     /**
@@ -146,10 +162,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code distance_from_sync}
      */
     public int getDistanceFromSync() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -157,9 +175,11 @@ public class VideoCodecFrame extends Struct {
      * @param distanceFromSync The new value of the field {@code distance_from_sync}
      */
     public void setDistanceFromSync(int distanceFromSync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), distanceFromSync);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), distanceFromSync);
+        }
     }
     
     /**
@@ -167,10 +187,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code input_buffer}
      */
     public org.gstreamer.gst.Buffer getInputBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -178,9 +200,11 @@ public class VideoCodecFrame extends Struct {
      * @param inputBuffer The new value of the field {@code input_buffer}
      */
     public void setInputBuffer(org.gstreamer.gst.Buffer inputBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
+        }
     }
     
     /**
@@ -188,10 +212,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code output_buffer}
      */
     public org.gstreamer.gst.Buffer getOutputBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -199,9 +225,11 @@ public class VideoCodecFrame extends Struct {
      * @param outputBuffer The new value of the field {@code output_buffer}
      */
     public void setOutputBuffer(org.gstreamer.gst.Buffer outputBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
+        }
     }
     
     /**
@@ -209,10 +237,12 @@ public class VideoCodecFrame extends Struct {
      * @return The value of the field {@code deadline}
      */
     public org.gstreamer.gst.ClockTime getDeadline() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -220,22 +250,26 @@ public class VideoCodecFrame extends Struct {
      * @param deadline The new value of the field {@code deadline}
      */
     public void setDeadline(org.gstreamer.gst.ClockTime deadline) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
+        }
     }
     
     /**
      * Create a VideoCodecFrame proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoCodecFrame(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoCodecFrame(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoCodecFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoCodecFrame(input, ownership);
+    public static final Marshal<Addressable, VideoCodecFrame> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoCodecFrame(input);
     
     /**
      * Gets private data set on the frame by the subclass via
@@ -245,8 +279,7 @@ public class VideoCodecFrame extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_frame_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_frame_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,12 +293,13 @@ public class VideoCodecFrame extends Struct {
     public org.gstreamer.video.VideoCodecFrame ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_frame_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_frame_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -293,8 +327,7 @@ public class VideoCodecFrame extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_video_codec_frame_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_codec_frame_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,27 +336,27 @@ public class VideoCodecFrame extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_codec_frame_get_user_data = Interop.downcallHandle(
-            "gst_video_codec_frame_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_codec_frame_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_codec_frame_ref = Interop.downcallHandle(
-            "gst_video_codec_frame_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_codec_frame_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_codec_frame_set_user_data = Interop.downcallHandle(
-            "gst_video_codec_frame_set_user_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_codec_frame_set_user_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_codec_frame_unref = Interop.downcallHandle(
-            "gst_video_codec_frame_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_codec_frame_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -349,7 +382,7 @@ public class VideoCodecFrame extends Struct {
             struct = VideoCodecFrame.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoCodecFrame} struct.
          * @return A new instance of {@code VideoCodecFrame} with the fields 
          *         that were set in the Builder object.
@@ -359,17 +392,21 @@ public class VideoCodecFrame extends Struct {
         }
         
         public Builder setRefCount(int refCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+                return this;
+            }
         }
         
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         /**
@@ -381,24 +418,30 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSystemFrameNumber(int systemFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+                return this;
+            }
         }
         
         public Builder setDecodeFrameNumber(int decodeFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decode_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), decodeFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decode_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), decodeFrameNumber);
+                return this;
+            }
         }
         
         public Builder setPresentationFrameNumber(int presentationFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("presentation_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), presentationFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("presentation_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), presentationFrameNumber);
+                return this;
+            }
         }
         
         /**
@@ -407,10 +450,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDts(org.gstreamer.gst.ClockTime dts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -419,10 +464,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPts(org.gstreamer.gst.ClockTime pts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -431,10 +478,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDuration(org.gstreamer.gst.ClockTime duration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -443,10 +492,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDistanceFromSync(int distanceFromSync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), distanceFromSync);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), distanceFromSync);
+                return this;
+            }
         }
         
         /**
@@ -457,10 +508,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInputBuffer(org.gstreamer.gst.Buffer inputBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -474,10 +527,12 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOutputBuffer(org.gstreamer.gst.Buffer outputBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -486,31 +541,39 @@ public class VideoCodecFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeadline(org.gstreamer.gst.ClockTime deadline) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
+                return this;
+            }
         }
         
         public Builder setEvents(org.gtk.glib.List events) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : events.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (events == null ? MemoryAddress.NULL : events.handle()));
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setUserDataDestroyNotify(org.gtk.glib.DestroyNotify userDataDestroyNotify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data_destroy_notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userDataDestroyNotify == null ? MemoryAddress.NULL : (Addressable) userDataDestroyNotify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data_destroy_notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userDataDestroyNotify == null ? MemoryAddress.NULL : (Addressable) userDataDestroyNotify.toCallback()));
+                return this;
+            }
         }
     }
 }

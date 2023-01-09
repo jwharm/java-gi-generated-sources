@@ -38,8 +38,8 @@ public class ThreadPool extends Struct {
      * @return A new, uninitialized @{link ThreadPool}
      */
     public static ThreadPool allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ThreadPool newInstance = new ThreadPool(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ThreadPool newInstance = new ThreadPool(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class ThreadPool extends Struct {
      * @return The value of the field {@code func}
      */
     public org.gtk.glib.Func getFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class ThreadPool extends Struct {
      * @param func The new value of the field {@code func}
      */
     public void setFunc(org.gtk.glib.Func func) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class ThreadPool extends Struct {
      * @return The value of the field {@code user_data}
      */
     public java.lang.foreign.MemoryAddress getUserData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class ThreadPool extends Struct {
      * @param userData The new value of the field {@code user_data}
      */
     public void setUserData(java.lang.foreign.MemoryAddress userData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class ThreadPool extends Struct {
      * @return The value of the field {@code exclusive}
      */
     public boolean getExclusive() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -102,22 +112,26 @@ public class ThreadPool extends Struct {
      * @param exclusive The new value of the field {@code exclusive}
      */
     public void setExclusive(boolean exclusive) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
+        }
     }
     
     /**
      * Create a ThreadPool proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ThreadPool(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ThreadPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ThreadPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ThreadPool(input, ownership);
+    public static final Marshal<Addressable, ThreadPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ThreadPool(input);
     
     /**
      * Frees all resources allocated for {@code pool}.
@@ -155,8 +169,7 @@ public class ThreadPool extends Struct {
     public int getMaxThreads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_get_max_threads.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_max_threads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,8 +183,7 @@ public class ThreadPool extends Struct {
     public int getNumThreads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_get_num_threads.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_num_threads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,20 +226,22 @@ public class ThreadPool extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean push() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
-                    handle(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
+                        handle(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,20 +271,22 @@ public class ThreadPool extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(
-                    handle(),
-                    maxThreads,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(
+                        handle(),
+                        maxThreads,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -308,8 +324,7 @@ public class ThreadPool extends Struct {
     public int unprocessed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_thread_pool_unprocessed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_unprocessed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -405,22 +420,24 @@ public class ThreadPool extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.glib.ThreadPool new_(org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new.invokeExact(
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    maxThreads,
-                    Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new.invokeExact(
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        maxThreads,
+                        Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -438,23 +455,27 @@ public class ThreadPool extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.glib.ThreadPool newFull(org.gtk.glib.Func func, @Nullable org.gtk.glib.DestroyNotify itemFreeFunc, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new_full.invokeExact(
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (itemFreeFunc == null ? MemoryAddress.NULL : (Addressable) itemFreeFunc.toCallback()),
-                    maxThreads,
-                    Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new_full.invokeExact(
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (itemFreeFunc == null ? MemoryAddress.NULL : (Addressable) itemFreeFunc.toCallback()),
+                        maxThreads,
+                        Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -472,8 +493,7 @@ public class ThreadPool extends Struct {
      */
     public static void setMaxIdleTime(int interval) {
         try {
-            DowncallHandles.g_thread_pool_set_max_idle_time.invokeExact(
-                    interval);
+            DowncallHandles.g_thread_pool_set_max_idle_time.invokeExact(interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,8 +509,7 @@ public class ThreadPool extends Struct {
      */
     public static void setMaxUnusedThreads(int maxThreads) {
         try {
-            DowncallHandles.g_thread_pool_set_max_unused_threads.invokeExact(
-                    maxThreads);
+            DowncallHandles.g_thread_pool_set_max_unused_threads.invokeExact(maxThreads);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,99 +531,99 @@ public class ThreadPool extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_thread_pool_free = Interop.downcallHandle(
-            "g_thread_pool_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_get_max_threads = Interop.downcallHandle(
-            "g_thread_pool_get_max_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_get_max_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_get_num_threads = Interop.downcallHandle(
-            "g_thread_pool_get_num_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_get_num_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_move_to_front = Interop.downcallHandle(
-            "g_thread_pool_move_to_front",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_move_to_front",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
-            "g_thread_pool_push",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_push",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
-            "g_thread_pool_set_max_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_set_max_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_set_sort_function = Interop.downcallHandle(
-            "g_thread_pool_set_sort_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_set_sort_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_unprocessed = Interop.downcallHandle(
-            "g_thread_pool_unprocessed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_unprocessed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
-            "g_thread_pool_get_max_idle_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_get_max_idle_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
-            "g_thread_pool_get_max_unused_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_get_max_unused_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
-            "g_thread_pool_get_num_unused_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_get_num_unused_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
-            "g_thread_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
-            "g_thread_pool_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_pool_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
-            "g_thread_pool_set_max_idle_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_set_max_idle_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
-            "g_thread_pool_set_max_unused_threads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
-            false
+                "g_thread_pool_set_max_unused_threads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_pool_stop_unused_threads = Interop.downcallHandle(
-            "g_thread_pool_stop_unused_threads",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_thread_pool_stop_unused_threads",
+                FunctionDescriptor.ofVoid(),
+                false
         );
     }
     
@@ -630,7 +649,7 @@ public class ThreadPool extends Struct {
             struct = ThreadPool.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ThreadPool} struct.
          * @return A new instance of {@code ThreadPool} with the fields 
          *         that were set in the Builder object.
@@ -645,10 +664,12 @@ public class ThreadPool extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFunc(org.gtk.glib.Func func) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -657,10 +678,12 @@ public class ThreadPool extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         /**
@@ -669,10 +692,12 @@ public class ThreadPool extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setExclusive(boolean exclusive) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
+                return this;
+            }
         }
     }
 }

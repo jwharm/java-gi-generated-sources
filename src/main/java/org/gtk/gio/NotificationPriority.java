@@ -10,24 +10,28 @@ import org.jetbrains.annotations.*;
  * @version 2.42
  */
 public enum NotificationPriority implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the default priority, to be used for the
      *   majority of notifications (for example email messages, software updates,
      *   completed download/sync operations)
      */
     NORMAL(0),
+    
     /**
      * for notifications that do not require
      *   immediate attention - typically used for contextual background
      *   information, such as contact birthdays or local weather
      */
     LOW(1),
+    
     /**
      * for events that require more attention,
      *   usually because responses are time-sensitive (for example chat and SMS
      *   messages or alarms)
      */
     HIGH(2),
+    
     /**
      * for urgent notifications, or notifications
      *   that require a response in a short space of time (for example phone calls
@@ -38,15 +42,29 @@ public enum NotificationPriority implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GNotificationPriority";
     
     private final int value;
+    
+    /**
+     * Create a new NotificationPriority for the provided value
+     * @param numeric value the enum value
+     */
     NotificationPriority(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new NotificationPriority for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static NotificationPriority of(int value) {
         return switch (value) {
             case 0 -> NORMAL;

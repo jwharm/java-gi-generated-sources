@@ -35,20 +35,21 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     /**
      * Create a StringSorter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StringSorter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StringSorter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StringSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringSorter(input, ownership);
+    public static final Marshal<Addressable, StringSorter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StringSorter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Expression expression) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact((Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +66,8 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * @param expression The expression to evaluate
      */
     public StringSorter(@Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(expression), Ownership.FULL);
+        super(constructNew(expression));
+        this.takeOwnership();
     }
     
     /**
@@ -75,12 +77,11 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_get_expression.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -90,8 +91,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     public boolean getIgnoreCase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_sorter_get_ignore_case.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_string_sorter_get_ignore_case.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,6 +158,9 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      */
     public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -204,39 +207,47 @@ public class StringSorter extends org.gtk.gtk.Sorter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_string_sorter_new = Interop.downcallHandle(
-            "gtk_string_sorter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_sorter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_sorter_get_expression = Interop.downcallHandle(
-            "gtk_string_sorter_get_expression",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_sorter_get_expression",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_sorter_get_ignore_case = Interop.downcallHandle(
-            "gtk_string_sorter_get_ignore_case",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_sorter_get_ignore_case",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_sorter_set_expression = Interop.downcallHandle(
-            "gtk_string_sorter_set_expression",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_sorter_set_expression",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_sorter_set_ignore_case = Interop.downcallHandle(
-            "gtk_string_sorter_set_ignore_case",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_string_sorter_set_ignore_case",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_string_sorter_get_type = Interop.downcallHandle(
-            "gtk_string_sorter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_string_sorter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_string_sorter_get_type != null;
     }
 }

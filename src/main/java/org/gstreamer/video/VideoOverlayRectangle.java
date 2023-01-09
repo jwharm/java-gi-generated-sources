@@ -33,8 +33,8 @@ public class VideoOverlayRectangle extends Struct {
      * @return A new, uninitialized @{link VideoOverlayRectangle}
      */
     public static VideoOverlayRectangle allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoOverlayRectangle newInstance = new VideoOverlayRectangle(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoOverlayRectangle newInstance = new VideoOverlayRectangle(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class VideoOverlayRectangle extends Struct {
     /**
      * Create a VideoOverlayRectangle proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoOverlayRectangle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoOverlayRectangle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoOverlayRectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayRectangle(input, ownership);
+    public static final Marshal<Addressable, VideoOverlayRectangle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayRectangle(input);
     
     private static MemoryAddress constructNewRaw(org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
@@ -66,7 +68,7 @@ public class VideoOverlayRectangle extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new video overlay rectangle with ARGB or AYUV pixel data.
      * The layout in case of ARGB of the components in memory is B-G-R-A
@@ -92,7 +94,9 @@ public class VideoOverlayRectangle extends Struct {
      */
     public static VideoOverlayRectangle newRaw(org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, org.gstreamer.video.VideoOverlayFormatFlags flags) {
         var RESULT = constructNewRaw(pixels, renderX, renderY, renderWidth, renderHeight, flags);
-        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -106,12 +110,13 @@ public class VideoOverlayRectangle extends Struct {
     public org.gstreamer.video.VideoOverlayRectangle copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -125,8 +130,7 @@ public class VideoOverlayRectangle extends Struct {
     public org.gstreamer.video.VideoOverlayFormatFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,8 +144,7 @@ public class VideoOverlayRectangle extends Struct {
     public float getGlobalAlpha() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gst_video_overlay_rectangle_get_global_alpha.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gst_video_overlay_rectangle_get_global_alpha.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,7 +160,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     public org.gstreamer.gst.Buffer getPixelsAyuv(org.gstreamer.video.VideoOverlayFormatFlags flags) {
@@ -169,7 +172,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     public org.gstreamer.gst.Buffer getPixelsRaw(org.gstreamer.video.VideoOverlayFormatFlags flags) {
@@ -181,7 +184,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -207,7 +210,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -233,7 +236,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -259,7 +262,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -272,26 +275,28 @@ public class VideoOverlayRectangle extends Struct {
      * @return TRUE if valid render dimensions were retrieved.
      */
     public boolean getRenderRectangle(Out<Integer> renderX, Out<Integer> renderY, Out<Integer> renderWidth, Out<Integer> renderHeight) {
-        MemorySegment renderXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment renderYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment renderWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment renderHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_render_rectangle.invokeExact(
-                    handle(),
-                    (Addressable) (renderX == null ? MemoryAddress.NULL : (Addressable) renderXPOINTER.address()),
-                    (Addressable) (renderY == null ? MemoryAddress.NULL : (Addressable) renderYPOINTER.address()),
-                    (Addressable) (renderWidth == null ? MemoryAddress.NULL : (Addressable) renderWidthPOINTER.address()),
-                    (Addressable) (renderHeight == null ? MemoryAddress.NULL : (Addressable) renderHeightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment renderXPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment renderYPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment renderWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment renderHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_render_rectangle.invokeExact(
+                        handle(),
+                        (Addressable) (renderX == null ? MemoryAddress.NULL : (Addressable) renderXPOINTER.address()),
+                        (Addressable) (renderY == null ? MemoryAddress.NULL : (Addressable) renderYPOINTER.address()),
+                        (Addressable) (renderWidth == null ? MemoryAddress.NULL : (Addressable) renderWidthPOINTER.address()),
+                        (Addressable) (renderHeight == null ? MemoryAddress.NULL : (Addressable) renderHeightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (renderX != null) renderX.set(renderXPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (renderY != null) renderY.set(renderYPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (renderWidth != null) renderWidth.set(renderWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (renderHeight != null) renderHeight.set(renderHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (renderX != null) renderX.set(renderXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (renderY != null) renderY.set(renderYPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (renderWidth != null) renderWidth.set(renderWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (renderHeight != null) renderHeight.set(renderHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -314,8 +319,7 @@ public class VideoOverlayRectangle extends Struct {
     public int getSeqnum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_seqnum.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_seqnum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,87 +378,87 @@ public class VideoOverlayRectangle extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_overlay_rectangle_new_raw = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_new_raw",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_new_raw",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_copy = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_rectangle_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_flags = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_rectangle_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_global_alpha = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_global_alpha",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_rectangle_get_global_alpha",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_argb = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_argb",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_argb",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_ayuv = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_ayuv",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_ayuv",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_raw = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_raw",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_raw",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_unscaled_argb = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_unscaled_argb",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_unscaled_argb",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_unscaled_ayuv = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_unscaled_ayuv",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_unscaled_ayuv",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_pixels_unscaled_raw = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_pixels_unscaled_raw",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_get_pixels_unscaled_raw",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_render_rectangle = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_render_rectangle",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_rectangle_get_render_rectangle",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_get_seqnum = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_get_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_rectangle_get_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_set_global_alpha = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_set_global_alpha",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gst_video_overlay_rectangle_set_global_alpha",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_rectangle_set_render_rectangle = Interop.downcallHandle(
-            "gst_video_overlay_rectangle_set_render_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_rectangle_set_render_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -49,6 +49,9 @@ public class PluginDependencyFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PluginDependencyFlags PATHS_ARE_RELATIVE_TO_EXE = new PluginDependencyFlags(16);
     
+    /**
+     * Create a new PluginDependencyFlags with the provided value
+     */
     public PluginDependencyFlags(int value) {
         super(value);
     }

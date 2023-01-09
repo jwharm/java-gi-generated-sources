@@ -35,8 +35,8 @@ public class GLFramebufferClass extends Struct {
      * @return A new, uninitialized @{link GLFramebufferClass}
      */
     public static GLFramebufferClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLFramebufferClass newInstance = new GLFramebufferClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLFramebufferClass newInstance = new GLFramebufferClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class GLFramebufferClass extends Struct {
     /**
      * Create a GLFramebufferClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLFramebufferClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLFramebufferClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLFramebufferClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebufferClass(input, ownership);
+    public static final Marshal<Addressable, GLFramebufferClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebufferClass(input);
     
     /**
      * A {@link GLFramebufferClass.Builder} object constructs a {@link GLFramebufferClass} 
@@ -75,7 +77,7 @@ public class GLFramebufferClass extends Struct {
             struct = GLFramebufferClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLFramebufferClass} struct.
          * @return A new instance of {@code GLFramebufferClass} with the fields 
          *         that were set in the Builder object.
@@ -85,17 +87,21 @@ public class GLFramebufferClass extends Struct {
         }
         
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

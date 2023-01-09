@@ -39,8 +39,8 @@ public class RTPSourceMeta extends Struct {
      * @return A new, uninitialized @{link RTPSourceMeta}
      */
     public static RTPSourceMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTPSourceMeta newInstance = new RTPSourceMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTPSourceMeta newInstance = new RTPSourceMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class RTPSourceMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,9 +59,11 @@ public class RTPSourceMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -69,10 +71,12 @@ public class RTPSourceMeta extends Struct {
      * @return The value of the field {@code ssrc}
      */
     public int getSsrc() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +84,11 @@ public class RTPSourceMeta extends Struct {
      * @param ssrc The new value of the field {@code ssrc}
      */
     public void setSsrc_(int ssrc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), ssrc);
+        }
     }
     
     /**
@@ -90,10 +96,12 @@ public class RTPSourceMeta extends Struct {
      * @return The value of the field {@code ssrc_valid}
      */
     public boolean getSsrcValid() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -101,9 +109,11 @@ public class RTPSourceMeta extends Struct {
      * @param ssrcValid The new value of the field {@code ssrc_valid}
      */
     public void setSsrcValid(boolean ssrcValid) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(ssrcValid, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(ssrcValid, null).intValue());
+        }
     }
     
     /**
@@ -111,10 +121,12 @@ public class RTPSourceMeta extends Struct {
      * @return The value of the field {@code csrc}
      */
     public int[] getCsrc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 15, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 15, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -122,9 +134,11 @@ public class RTPSourceMeta extends Struct {
      * @param csrc The new value of the field {@code csrc}
      */
     public void setCsrc(int[] csrc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csrc == null ? MemoryAddress.NULL : Interop.allocateNativeArray(csrc, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csrc == null ? MemoryAddress.NULL : Interop.allocateNativeArray(csrc, false, SCOPE)));
+        }
     }
     
     /**
@@ -132,10 +146,12 @@ public class RTPSourceMeta extends Struct {
      * @return The value of the field {@code csrc_count}
      */
     public int getCsrcCount() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -143,22 +159,26 @@ public class RTPSourceMeta extends Struct {
      * @param csrcCount The new value of the field {@code csrc_count}
      */
     public void setCsrcCount(int csrcCount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), csrcCount);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), csrcCount);
+        }
     }
     
     /**
      * Create a RTPSourceMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPSourceMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTPSourceMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPSourceMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPSourceMeta(input, ownership);
+    public static final Marshal<Addressable, RTPSourceMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPSourceMeta(input);
     
     /**
      * Appends {@code csrc} to the list of contributing sources in {@code meta}.
@@ -186,8 +206,7 @@ public class RTPSourceMeta extends Struct {
     public int getSourceCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_source_meta_get_source_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_source_meta_get_source_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,33 +237,33 @@ public class RTPSourceMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_source_meta_append_csrc = Interop.downcallHandle(
-            "gst_rtp_source_meta_append_csrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_source_meta_append_csrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_source_meta_get_source_count = Interop.downcallHandle(
-            "gst_rtp_source_meta_get_source_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_source_meta_get_source_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_source_meta_set_ssrc = Interop.downcallHandle(
-            "gst_rtp_source_meta_set_ssrc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_source_meta_set_ssrc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_source_meta_get_info = Interop.downcallHandle(
-            "gst_rtp_source_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_source_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -270,7 +289,7 @@ public class RTPSourceMeta extends Struct {
             struct = RTPSourceMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTPSourceMeta} struct.
          * @return A new instance of {@code RTPSourceMeta} with the fields 
          *         that were set in the Builder object.
@@ -285,10 +304,12 @@ public class RTPSourceMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -297,10 +318,12 @@ public class RTPSourceMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSsrc(int ssrc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), ssrc);
+                return this;
+            }
         }
         
         /**
@@ -309,10 +332,12 @@ public class RTPSourceMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSsrcValid(boolean ssrcValid) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(ssrcValid, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ssrc_valid"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(ssrcValid, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -321,10 +346,12 @@ public class RTPSourceMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCsrc(int[] csrc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csrc == null ? MemoryAddress.NULL : Interop.allocateNativeArray(csrc, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("csrc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (csrc == null ? MemoryAddress.NULL : Interop.allocateNativeArray(csrc, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -333,10 +360,12 @@ public class RTPSourceMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCsrcCount(int csrcCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), csrcCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("csrc_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), csrcCount);
+                return this;
+            }
         }
     }
 }

@@ -61,26 +61,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a TabView proxy instance for the provided memory address.
-     * <p>
-     * Because TabView is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TabView(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TabView(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TabView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabView(input, ownership);
+    public static final Marshal<Addressable, TabView> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TabView(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -96,7 +87,9 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Creates a new {@code AdwTabView}.
      */
     public TabView() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -121,7 +114,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -154,7 +147,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -171,7 +164,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -281,12 +274,11 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.gio.Icon getDefaultIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_default_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_default_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -302,8 +294,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getIsTransferringPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_get_is_transferring_page.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_get_is_transferring_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,12 +308,11 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_menu_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_menu_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) Interop.register(RESULT, org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -332,8 +322,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_get_n_pages.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,8 +338,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getNPinnedPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_get_n_pinned_pages.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_get_n_pinned_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,7 +359,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -388,7 +376,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -419,12 +407,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_pages.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -434,12 +423,11 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gnome.adw.TabPage getSelectedPage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_selected_page.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_selected_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -449,8 +437,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gnome.adw.TabViewShortcuts getShortcuts() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_get_shortcuts.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_get_shortcuts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +463,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -498,7 +485,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -515,7 +502,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -532,7 +519,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -650,8 +637,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean selectNextPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_select_next_page.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_select_next_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -667,8 +653,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean selectPreviousPage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_view_select_previous_page.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_view_select_previous_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -827,20 +812,62 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ClosePage} callback.
+     */
     @FunctionalInterface
     public interface ClosePage {
+    
+        /**
+         * Emitted after {@code TabView#closePage} has been called for {@code page}.
+         * <p>
+         * The handler is expected to call {@code TabView#closePageFinish} to
+         * confirm or reject the closing.
+         * <p>
+         * The default handler will immediately confirm closing for non-pinned pages,
+         * or reject it for pinned pages, equivalent to the following example:
+         * <pre>{@code c
+         * static gboolean
+         * close_page_cb (AdwTabView *view,
+         *                AdwTabPage *page,
+         *                gpointer    user_data)
+         * {
+         *   adw_tab_view_close_page_finish (view, page, !adw_tab_page_get_pinned (page));
+         * 
+         *   return GDK_EVENT_STOP;
+         * }
+         * }</pre>
+         * <p>
+         * The {@code TabView#closePageFinish} call doesn't have to happen inside
+         * the handler, so can be used to do asynchronous checks before confirming the
+         * closing.
+         * <p>
+         * A typical reason to connect to this signal is to show a confirmation dialog
+         * for closing a tab.
+         */
         boolean run(org.gnome.adw.TabPage page);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTabView, MemoryAddress page) {
-            var RESULT = run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+            var RESULT = run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClosePage.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClosePage.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -874,29 +901,53 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.ClosePage> onClosePage(TabView.ClosePage handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("close-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("close-page", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateWindow} callback.
+     */
     @FunctionalInterface
     public interface CreateWindow {
+    
+        /**
+         * Emitted when a tab should be transferred into a new window.
+         * <p>
+         * This can happen after a tab has been dropped on desktop.
+         * <p>
+         * The signal handler is expected to create a new window, position it as
+         * needed and return its {@code AdwTabView} that the page will be transferred into.
+         */
         @Nullable org.gnome.adw.TabView run();
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceTabView) {
             var RESULT = run();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateWindow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateWindow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -911,28 +962,50 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.CreateWindow> onCreateWindow(TabView.CreateWindow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("create-window"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("create-window", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code IndicatorActivated} callback.
+     */
     @FunctionalInterface
     public interface IndicatorActivated {
+    
+        /**
+         * Emitted after the indicator icon on {@code page} has been activated.
+         * <p>
+         * See {@code TabPage:indicator-icon} and
+         * {@code TabPage:indicator-activatable}.
+         */
         void run(org.gnome.adw.TabPage page);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page) {
-            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+            run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IndicatorActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IndicatorActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -945,28 +1018,50 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.IndicatorActivated> onIndicatorActivated(TabView.IndicatorActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("indicator-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("indicator-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PageAttached} callback.
+     */
     @FunctionalInterface
     public interface PageAttached {
+    
+        /**
+         * Emitted when a page has been created or transferred to {@code self}.
+         * <p>
+         * A typical reason to connect to this signal would be to connect to page
+         * signals for things such as updating window title.
+         */
         void run(org.gnome.adw.TabPage page, int position);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
-            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+            run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null), position);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageAttached.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PageAttached.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -979,28 +1074,55 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.PageAttached> onPageAttached(TabView.PageAttached handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("page-attached"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("page-attached", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PageDetached} callback.
+     */
     @FunctionalInterface
     public interface PageDetached {
+    
+        /**
+         * Emitted when a page has been removed or transferred to another view.
+         * <p>
+         * A typical reason to connect to this signal would be to disconnect signal
+         * handlers connected in the {@code TabView::page-attached} handler.
+         * <p>
+         * It is important not to try and destroy the page child in the handler of
+         * this function as the child might merely be moved to another window; use
+         * child dispose handler for that or do it in sync with your
+         * {@code TabView#closePageFinish} calls.
+         */
         void run(org.gnome.adw.TabPage page, int position);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
-            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+            run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null), position);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageDetached.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PageDetached.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1018,28 +1140,47 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.PageDetached> onPageDetached(TabView.PageDetached handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("page-detached"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("page-detached", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PageReordered} callback.
+     */
     @FunctionalInterface
     public interface PageReordered {
+    
+        /**
+         * Emitted after {@code page} has been reordered to {@code position}.
+         */
         void run(org.gnome.adw.TabPage page, int position);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
-            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+            run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null), position);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageReordered.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PageReordered.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1049,28 +1190,52 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.PageReordered> onPageReordered(TabView.PageReordered handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("page-reordered"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("page-reordered", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetupMenu} callback.
+     */
     @FunctionalInterface
     public interface SetupMenu {
+    
+        /**
+         * Emitted when a context menu is opened or closed for {@code page}.
+         * <p>
+         * If the menu has been closed, {@code page} will be set to {@code NULL}.
+         * <p>
+         * It can be used to set up menu actions before showing the menu, for example
+         * disable actions not applicable to {@code page}.
+         */
         void run(@Nullable org.gnome.adw.TabPage page);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page) {
-            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+            run((org.gnome.adw.TabPage) Interop.register(page, org.gnome.adw.TabPage.fromAddress).marshal(page, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetupMenu.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetupMenu.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1085,9 +1250,10 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TabView.SetupMenu> onSetupMenu(TabView.SetupMenu handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("setup-menu"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("setup-menu", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1110,6 +1276,9 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1254,243 +1423,251 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class DowncallHandles {
         
         private static final MethodHandle adw_tab_view_new = Interop.downcallHandle(
-            "adw_tab_view_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_add_page = Interop.downcallHandle(
-            "adw_tab_view_add_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_add_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_add_shortcuts = Interop.downcallHandle(
-            "adw_tab_view_add_shortcuts",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_add_shortcuts",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_append = Interop.downcallHandle(
-            "adw_tab_view_append",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_append",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_append_pinned = Interop.downcallHandle(
-            "adw_tab_view_append_pinned",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_append_pinned",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_close_other_pages = Interop.downcallHandle(
-            "adw_tab_view_close_other_pages",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_close_other_pages",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_close_page = Interop.downcallHandle(
-            "adw_tab_view_close_page",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_close_page",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_close_page_finish = Interop.downcallHandle(
-            "adw_tab_view_close_page_finish",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_close_page_finish",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_close_pages_after = Interop.downcallHandle(
-            "adw_tab_view_close_pages_after",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_close_pages_after",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_close_pages_before = Interop.downcallHandle(
-            "adw_tab_view_close_pages_before",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_close_pages_before",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_default_icon = Interop.downcallHandle(
-            "adw_tab_view_get_default_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_default_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_is_transferring_page = Interop.downcallHandle(
-            "adw_tab_view_get_is_transferring_page",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_is_transferring_page",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_menu_model = Interop.downcallHandle(
-            "adw_tab_view_get_menu_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_menu_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_n_pages = Interop.downcallHandle(
-            "adw_tab_view_get_n_pages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_n_pages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_n_pinned_pages = Interop.downcallHandle(
-            "adw_tab_view_get_n_pinned_pages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_n_pinned_pages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_nth_page = Interop.downcallHandle(
-            "adw_tab_view_get_nth_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_get_nth_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_page = Interop.downcallHandle(
-            "adw_tab_view_get_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_page_position = Interop.downcallHandle(
-            "adw_tab_view_get_page_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_page_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_pages = Interop.downcallHandle(
-            "adw_tab_view_get_pages",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_pages",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_selected_page = Interop.downcallHandle(
-            "adw_tab_view_get_selected_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_selected_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_shortcuts = Interop.downcallHandle(
-            "adw_tab_view_get_shortcuts",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_get_shortcuts",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_insert = Interop.downcallHandle(
-            "adw_tab_view_insert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_insert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_insert_pinned = Interop.downcallHandle(
-            "adw_tab_view_insert_pinned",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_insert_pinned",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_prepend = Interop.downcallHandle(
-            "adw_tab_view_prepend",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_prepend",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_prepend_pinned = Interop.downcallHandle(
-            "adw_tab_view_prepend_pinned",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_prepend_pinned",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_remove_shortcuts = Interop.downcallHandle(
-            "adw_tab_view_remove_shortcuts",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_remove_shortcuts",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_reorder_backward = Interop.downcallHandle(
-            "adw_tab_view_reorder_backward",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_reorder_backward",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_reorder_first = Interop.downcallHandle(
-            "adw_tab_view_reorder_first",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_reorder_first",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_reorder_forward = Interop.downcallHandle(
-            "adw_tab_view_reorder_forward",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_reorder_forward",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_reorder_last = Interop.downcallHandle(
-            "adw_tab_view_reorder_last",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_reorder_last",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_reorder_page = Interop.downcallHandle(
-            "adw_tab_view_reorder_page",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_reorder_page",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_select_next_page = Interop.downcallHandle(
-            "adw_tab_view_select_next_page",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_select_next_page",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_select_previous_page = Interop.downcallHandle(
-            "adw_tab_view_select_previous_page",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_select_previous_page",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_set_default_icon = Interop.downcallHandle(
-            "adw_tab_view_set_default_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_set_default_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_set_menu_model = Interop.downcallHandle(
-            "adw_tab_view_set_menu_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_set_menu_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_set_page_pinned = Interop.downcallHandle(
-            "adw_tab_view_set_page_pinned",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_set_page_pinned",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_set_selected_page = Interop.downcallHandle(
-            "adw_tab_view_set_selected_page",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_view_set_selected_page",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_view_set_shortcuts = Interop.downcallHandle(
-            "adw_tab_view_set_shortcuts",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_set_shortcuts",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_transfer_page = Interop.downcallHandle(
-            "adw_tab_view_transfer_page",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_view_transfer_page",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_view_get_type = Interop.downcallHandle(
-            "adw_tab_view_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_tab_view_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_tab_view_get_type != null;
     }
 }

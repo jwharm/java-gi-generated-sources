@@ -29,8 +29,8 @@ public class VertexInputRate extends Struct {
      * @return A new, uninitialized @{link VertexInputRate}
      */
     public static VertexInputRate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VertexInputRate newInstance = new VertexInputRate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VertexInputRate newInstance = new VertexInputRate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VertexInputRate extends Struct {
     /**
      * Create a VertexInputRate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VertexInputRate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VertexInputRate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VertexInputRate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VertexInputRate(input, ownership);
+    public static final Marshal<Addressable, VertexInputRate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VertexInputRate(input);
 }

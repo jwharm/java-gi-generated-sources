@@ -29,8 +29,8 @@ public class GLViewConvertPrivate extends Struct {
      * @return A new, uninitialized @{link GLViewConvertPrivate}
      */
     public static GLViewConvertPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLViewConvertPrivate newInstance = new GLViewConvertPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLViewConvertPrivate newInstance = new GLViewConvertPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLViewConvertPrivate extends Struct {
     /**
      * Create a GLViewConvertPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLViewConvertPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLViewConvertPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLViewConvertPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLViewConvertPrivate(input, ownership);
+    public static final Marshal<Addressable, GLViewConvertPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLViewConvertPrivate(input);
 }

@@ -37,8 +37,8 @@ public class Vec3 extends Struct {
      * @return A new, uninitialized @{link Vec3}
      */
     public static Vec3 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vec3 newInstance = new Vec3(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vec3 newInstance = new Vec3(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class Vec3 extends Struct {
     /**
      * Create a Vec3 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vec3(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vec3(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vec3> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vec3(input, ownership);
+    public static final Marshal<Addressable, Vec3> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vec3(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -64,7 +66,7 @@ public class Vec3 extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Vec3} structure.
      * <p>
@@ -77,7 +79,9 @@ public class Vec3 extends Struct {
      */
     public static Vec3 alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -169,8 +173,7 @@ public class Vec3 extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_vec3_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_vec3_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,8 +186,7 @@ public class Vec3 extends Struct {
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec3_get_x.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,8 +277,7 @@ public class Vec3 extends Struct {
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec3_get_y.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,8 +291,7 @@ public class Vec3 extends Struct {
     public float getZ() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec3_get_z.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_z.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +319,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -328,15 +328,17 @@ public class Vec3 extends Struct {
      * @return the initialized vector
      */
     public org.gtk.graphene.Vec3 initFromFloat(float[] src) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_init_from_float.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(src, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_init_from_float.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(src, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -354,7 +356,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -382,8 +384,7 @@ public class Vec3 extends Struct {
     public float length() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_vec3_length.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -528,15 +529,17 @@ public class Vec3 extends Struct {
      *   an array of floating point values
      */
     public void toFloat(Out<float[]> dest) {
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.graphene_vec3_to_float.invokeExact(
-                    handle(),
-                    (Addressable) destPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment destPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.graphene_vec3_to_float.invokeExact(
+                        handle(),
+                        (Addressable) destPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), 3 * Interop.valueLayout.C_FLOAT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_FLOAT));
         }
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), 3 * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT));
     }
     
     /**
@@ -551,7 +554,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -566,7 +569,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -581,7 +584,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -596,7 +599,7 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -611,213 +614,213 @@ public class Vec3 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_vec3_alloc = Interop.downcallHandle(
-            "graphene_vec3_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_add = Interop.downcallHandle(
-            "graphene_vec3_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_cross = Interop.downcallHandle(
-            "graphene_vec3_cross",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_cross",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_divide = Interop.downcallHandle(
-            "graphene_vec3_divide",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_divide",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_dot = Interop.downcallHandle(
-            "graphene_vec3_dot",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_dot",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_equal = Interop.downcallHandle(
-            "graphene_vec3_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_free = Interop.downcallHandle(
-            "graphene_vec3_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_x = Interop.downcallHandle(
-            "graphene_vec3_get_x",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_x",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_xy = Interop.downcallHandle(
-            "graphene_vec3_get_xy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_xy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_xy0 = Interop.downcallHandle(
-            "graphene_vec3_get_xy0",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_xy0",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_xyz0 = Interop.downcallHandle(
-            "graphene_vec3_get_xyz0",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_xyz0",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_xyz1 = Interop.downcallHandle(
-            "graphene_vec3_get_xyz1",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_xyz1",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_xyzw = Interop.downcallHandle(
-            "graphene_vec3_get_xyzw",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_xyzw",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_y = Interop.downcallHandle(
-            "graphene_vec3_get_y",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_y",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_get_z = Interop.downcallHandle(
-            "graphene_vec3_get_z",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_get_z",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_init = Interop.downcallHandle(
-            "graphene_vec3_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_vec3_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_vec3_init_from_float = Interop.downcallHandle(
-            "graphene_vec3_init_from_float",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_init_from_float",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_init_from_vec3 = Interop.downcallHandle(
-            "graphene_vec3_init_from_vec3",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_init_from_vec3",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_interpolate = Interop.downcallHandle(
-            "graphene_vec3_interpolate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_interpolate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_length = Interop.downcallHandle(
-            "graphene_vec3_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_max = Interop.downcallHandle(
-            "graphene_vec3_max",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_max",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_min = Interop.downcallHandle(
-            "graphene_vec3_min",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_min",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_multiply = Interop.downcallHandle(
-            "graphene_vec3_multiply",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_multiply",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_near = Interop.downcallHandle(
-            "graphene_vec3_near",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_vec3_near",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_vec3_negate = Interop.downcallHandle(
-            "graphene_vec3_negate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_negate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_normalize = Interop.downcallHandle(
-            "graphene_vec3_normalize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_normalize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_scale = Interop.downcallHandle(
-            "graphene_vec3_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_subtract = Interop.downcallHandle(
-            "graphene_vec3_subtract",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_subtract",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_to_float = Interop.downcallHandle(
-            "graphene_vec3_to_float",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_to_float",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_one = Interop.downcallHandle(
-            "graphene_vec3_one",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_one",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_x_axis = Interop.downcallHandle(
-            "graphene_vec3_x_axis",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_x_axis",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_y_axis = Interop.downcallHandle(
-            "graphene_vec3_y_axis",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_y_axis",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_z_axis = Interop.downcallHandle(
-            "graphene_vec3_z_axis",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_z_axis",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_vec3_zero = Interop.downcallHandle(
-            "graphene_vec3_zero",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_vec3_zero",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -843,7 +846,7 @@ public class Vec3 extends Struct {
             struct = Vec3.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vec3} struct.
          * @return A new instance of {@code Vec3} with the fields 
          *         that were set in the Builder object.
@@ -853,10 +856,12 @@ public class Vec3 extends Struct {
         }
         
         public Builder setValue(org.gtk.graphene.Simd4F value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+                return this;
+            }
         }
     }
 }

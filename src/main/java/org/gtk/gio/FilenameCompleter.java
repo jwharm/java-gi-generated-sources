@@ -30,14 +30,16 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
     /**
      * Create a FilenameCompleter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FilenameCompleter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FilenameCompleter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FilenameCompleter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilenameCompleter(input, ownership);
+    public static final Marshal<Addressable, FilenameCompleter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FilenameCompleter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -53,7 +55,8 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
      * Creates a new filename completer.
      */
     public FilenameCompleter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -64,15 +67,17 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
      *     it when finished.
      */
     public @Nullable java.lang.String getCompletionSuffix(java.lang.String initialText) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completion_suffix.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(initialText, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completion_suffix.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(initialText, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -82,15 +87,17 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
      * This array must be freed by g_strfreev() when finished.
      */
     public PointerString getCompletions(java.lang.String initialText) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completions.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(initialText, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completions.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(initialText, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -122,19 +129,37 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code GotCompletionData} callback.
+     */
     @FunctionalInterface
     public interface GotCompletionData {
+    
+        /**
+         * Emitted when the file name completion information comes available.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFilenameCompleter) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GotCompletionData.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GotCompletionData.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -144,9 +169,10 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FilenameCompleter.GotCompletionData> onGotCompletionData(FilenameCompleter.GotCompletionData handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("got-completion-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("got-completion-data", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -169,6 +195,9 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -193,33 +222,41 @@ public class FilenameCompleter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_filename_completer_new = Interop.downcallHandle(
-            "g_filename_completer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_filename_completer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_filename_completer_get_completion_suffix = Interop.downcallHandle(
-            "g_filename_completer_get_completion_suffix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_filename_completer_get_completion_suffix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_filename_completer_get_completions = Interop.downcallHandle(
-            "g_filename_completer_get_completions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_filename_completer_get_completions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_filename_completer_set_dirs_only = Interop.downcallHandle(
-            "g_filename_completer_set_dirs_only",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_filename_completer_set_dirs_only",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_filename_completer_get_type = Interop.downcallHandle(
-            "g_filename_completer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_filename_completer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_filename_completer_get_type != null;
     }
 }

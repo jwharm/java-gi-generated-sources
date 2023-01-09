@@ -31,8 +31,8 @@ public class WindowControlsClass extends Struct {
      * @return A new, uninitialized @{link WindowControlsClass}
      */
     public static WindowControlsClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WindowControlsClass newInstance = new WindowControlsClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WindowControlsClass newInstance = new WindowControlsClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class WindowControlsClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class WindowControlsClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a WindowControlsClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WindowControlsClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WindowControlsClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WindowControlsClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowControlsClass(input, ownership);
+    public static final Marshal<Addressable, WindowControlsClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WindowControlsClass(input);
     
     /**
      * A {@link WindowControlsClass.Builder} object constructs a {@link WindowControlsClass} 
@@ -90,7 +94,7 @@ public class WindowControlsClass extends Struct {
             struct = WindowControlsClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link WindowControlsClass} struct.
          * @return A new instance of {@code WindowControlsClass} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class WindowControlsClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

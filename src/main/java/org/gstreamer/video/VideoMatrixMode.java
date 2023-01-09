@@ -10,20 +10,24 @@ import org.jetbrains.annotations.*;
  * @version 1.6
  */
 public enum VideoMatrixMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * do conversion between color matrices
      */
     FULL(0),
+    
     /**
      * use the input color matrix to convert
      *   to and from R'G'B
      */
     INPUT_ONLY(1),
+    
     /**
      * use the output color matrix to convert
      *   to and from R'G'B
      */
     OUTPUT_ONLY(2),
+    
     /**
      * disable color matrix conversion.
      */
@@ -32,15 +36,29 @@ public enum VideoMatrixMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoMatrixMode";
     
     private final int value;
+    
+    /**
+     * Create a new VideoMatrixMode for the provided value
+     * @param numeric value the enum value
+     */
     VideoMatrixMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoMatrixMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoMatrixMode of(int value) {
         return switch (value) {
             case 0 -> FULL;

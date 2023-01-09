@@ -29,8 +29,8 @@ public class VulkanImageBufferPoolPrivate extends Struct {
      * @return A new, uninitialized @{link VulkanImageBufferPoolPrivate}
      */
     public static VulkanImageBufferPoolPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanImageBufferPoolPrivate newInstance = new VulkanImageBufferPoolPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanImageBufferPoolPrivate newInstance = new VulkanImageBufferPoolPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VulkanImageBufferPoolPrivate extends Struct {
     /**
      * Create a VulkanImageBufferPoolPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanImageBufferPoolPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanImageBufferPoolPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanImageBufferPoolPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanImageBufferPoolPrivate(input, ownership);
+    public static final Marshal<Addressable, VulkanImageBufferPoolPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanImageBufferPoolPrivate(input);
 }

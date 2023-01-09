@@ -38,8 +38,8 @@ public class PMTStream extends Struct {
      * @return A new, uninitialized @{link PMTStream}
      */
     public static PMTStream allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PMTStream newInstance = new PMTStream(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PMTStream newInstance = new PMTStream(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class PMTStream extends Struct {
      * @return The value of the field {@code stream_type}
      */
     public byte getStreamType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class PMTStream extends Struct {
      * @param streamType The new value of the field {@code stream_type}
      */
     public void setStreamType(byte streamType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), streamType);
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class PMTStream extends Struct {
      * @return The value of the field {@code pid}
      */
     public short getPid() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class PMTStream extends Struct {
      * @param pid The new value of the field {@code pid}
      */
     public void setPid(short pid) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), pid);
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class PMTStream extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        }
     }
     
     /**
@@ -102,22 +112,26 @@ public class PMTStream extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a PMTStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PMTStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PMTStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PMTStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PMTStream(input, ownership);
+    public static final Marshal<Addressable, PMTStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PMTStream(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -133,15 +147,16 @@ public class PMTStream extends Struct {
      * Allocates and initializes a new {@link PMTStream}.
      */
     public PMTStream() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_pmt_stream_new = Interop.downcallHandle(
-            "gst_mpegts_pmt_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_pmt_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -167,7 +182,7 @@ public class PMTStream extends Struct {
             struct = PMTStream.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PMTStream} struct.
          * @return A new instance of {@code PMTStream} with the fields 
          *         that were set in the Builder object.
@@ -182,10 +197,12 @@ public class PMTStream extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStreamType(byte streamType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), streamType);
+                return this;
+            }
         }
         
         /**
@@ -194,10 +211,12 @@ public class PMTStream extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPid(short pid) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), pid);
+                return this;
+            }
         }
         
         /**
@@ -207,10 +226,12 @@ public class PMTStream extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

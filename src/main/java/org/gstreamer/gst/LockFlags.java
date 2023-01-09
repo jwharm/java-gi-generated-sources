@@ -32,6 +32,9 @@ public class LockFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final LockFlags LAST = new LockFlags(256);
     
+    /**
+     * Create a new LockFlags with the provided value
+     */
     public LockFlags(int value) {
         super(value);
     }

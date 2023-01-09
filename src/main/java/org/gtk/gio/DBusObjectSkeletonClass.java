@@ -37,8 +37,8 @@ public class DBusObjectSkeletonClass extends Struct {
      * @return A new, uninitialized @{link DBusObjectSkeletonClass}
      */
     public static DBusObjectSkeletonClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusObjectSkeletonClass newInstance = new DBusObjectSkeletonClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusObjectSkeletonClass newInstance = new DBusObjectSkeletonClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class DBusObjectSkeletonClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,25 +57,42 @@ public class DBusObjectSkeletonClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AuthorizeMethodCallback} callback.
+     */
     @FunctionalInterface
     public interface AuthorizeMethodCallback {
+    
         boolean run(org.gtk.gio.DBusObjectSkeleton object, org.gtk.gio.DBusInterfaceSkeleton interface_, org.gtk.gio.DBusMethodInvocation invocation);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress object, MemoryAddress interface_, MemoryAddress invocation) {
-            var RESULT = run((org.gtk.gio.DBusObjectSkeleton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gio.DBusObjectSkeleton.fromAddress).marshal(object, Ownership.NONE), (org.gtk.gio.DBusInterfaceSkeleton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterfaceSkeleton.fromAddress).marshal(interface_, Ownership.NONE), (org.gtk.gio.DBusMethodInvocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(invocation)), org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusObjectSkeleton) Interop.register(object, org.gtk.gio.DBusObjectSkeleton.fromAddress).marshal(object, null), (org.gtk.gio.DBusInterfaceSkeleton) Interop.register(interface_, org.gtk.gio.DBusInterfaceSkeleton.fromAddress).marshal(interface_, null), (org.gtk.gio.DBusMethodInvocation) Interop.register(invocation, org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AuthorizeMethodCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AuthorizeMethodCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,22 +101,26 @@ public class DBusObjectSkeletonClass extends Struct {
      * @param authorizeMethod The new value of the field {@code authorize_method}
      */
     public void setAuthorizeMethod(AuthorizeMethodCallback authorizeMethod) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("authorize_method"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (authorizeMethod == null ? MemoryAddress.NULL : authorizeMethod.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("authorize_method"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (authorizeMethod == null ? MemoryAddress.NULL : authorizeMethod.toCallback()));
+        }
     }
     
     /**
      * Create a DBusObjectSkeletonClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusObjectSkeletonClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusObjectSkeletonClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusObjectSkeletonClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectSkeletonClass(input, ownership);
+    public static final Marshal<Addressable, DBusObjectSkeletonClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectSkeletonClass(input);
     
     /**
      * A {@link DBusObjectSkeletonClass.Builder} object constructs a {@link DBusObjectSkeletonClass} 
@@ -123,7 +144,7 @@ public class DBusObjectSkeletonClass extends Struct {
             struct = DBusObjectSkeletonClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusObjectSkeletonClass} struct.
          * @return A new instance of {@code DBusObjectSkeletonClass} with the fields 
          *         that were set in the Builder object.
@@ -138,24 +159,30 @@ public class DBusObjectSkeletonClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setAuthorizeMethod(AuthorizeMethodCallback authorizeMethod) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("authorize_method"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (authorizeMethod == null ? MemoryAddress.NULL : authorizeMethod.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("authorize_method"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (authorizeMethod == null ? MemoryAddress.NULL : authorizeMethod.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

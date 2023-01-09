@@ -16,22 +16,27 @@ import org.jetbrains.annotations.*;
  * @version 2.22
  */
 public enum SocketProtocol implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The protocol type is unknown
      */
     UNKNOWN(-1),
+    
     /**
      * The default protocol for the family/type
      */
     DEFAULT(0),
+    
     /**
      * TCP over IP
      */
     TCP(6),
+    
     /**
      * UDP over IP
      */
     UDP(17),
+    
     /**
      * SCTP over IP
      */
@@ -40,15 +45,29 @@ public enum SocketProtocol implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GSocketProtocol";
     
     private final int value;
+    
+    /**
+     * Create a new SocketProtocol for the provided value
+     * @param numeric value the enum value
+     */
     SocketProtocol(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SocketProtocol for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SocketProtocol of(int value) {
         return switch (value) {
             case -1 -> UNKNOWN;

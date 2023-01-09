@@ -9,36 +9,44 @@ import org.jetbrains.annotations.*;
  * Error codes returned by bookmark file parsing.
  */
 public enum BookmarkFileError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * URI was ill-formed
      */
     INVALID_URI(0),
+    
     /**
      * a requested field was not found
      */
     INVALID_VALUE(1),
+    
     /**
      * a requested application did
      *     not register a bookmark
      */
     APP_NOT_REGISTERED(2),
+    
     /**
      * a requested URI was not found
      */
     URI_NOT_FOUND(3),
+    
     /**
      * document was ill formed
      */
     READ(4),
+    
     /**
      * the text being parsed was
      *     in an unknown encoding
      */
     UNKNOWN_ENCODING(5),
+    
     /**
      * an error occurred while writing
      */
     WRITE(6),
+    
     /**
      * requested file was not found
      */
@@ -47,15 +55,29 @@ public enum BookmarkFileError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GBookmarkFileError";
     
     private final int value;
+    
+    /**
+     * Create a new BookmarkFileError for the provided value
+     * @param numeric value the enum value
+     */
     BookmarkFileError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new BookmarkFileError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static BookmarkFileError of(int value) {
         return switch (value) {
             case 0 -> INVALID_URI;

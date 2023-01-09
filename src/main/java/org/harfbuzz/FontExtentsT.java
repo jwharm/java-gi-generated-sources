@@ -48,8 +48,8 @@ public class FontExtentsT extends Struct {
      * @return A new, uninitialized @{link FontExtentsT}
      */
     public static FontExtentsT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontExtentsT newInstance = new FontExtentsT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontExtentsT newInstance = new FontExtentsT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,10 +59,12 @@ public class FontExtentsT extends Struct {
      * @return The value of the field {@code ascender}
      */
     public org.harfbuzz.PositionT getAscender() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -70,9 +72,11 @@ public class FontExtentsT extends Struct {
      * @param ascender The new value of the field {@code ascender}
      */
     public void setAscender(org.harfbuzz.PositionT ascender) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ascender == null ? MemoryAddress.NULL : ascender.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ascender == null ? MemoryAddress.NULL : ascender.getValue().intValue()));
+        }
     }
     
     /**
@@ -80,10 +84,12 @@ public class FontExtentsT extends Struct {
      * @return The value of the field {@code descender}
      */
     public org.harfbuzz.PositionT getDescender() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descender"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descender"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -91,9 +97,11 @@ public class FontExtentsT extends Struct {
      * @param descender The new value of the field {@code descender}
      */
     public void setDescender(org.harfbuzz.PositionT descender) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descender"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descender == null ? MemoryAddress.NULL : descender.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descender"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descender == null ? MemoryAddress.NULL : descender.getValue().intValue()));
+        }
     }
     
     /**
@@ -101,10 +109,12 @@ public class FontExtentsT extends Struct {
      * @return The value of the field {@code line_gap}
      */
     public org.harfbuzz.PositionT getLineGap() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -112,22 +122,26 @@ public class FontExtentsT extends Struct {
      * @param lineGap The new value of the field {@code line_gap}
      */
     public void setLineGap(org.harfbuzz.PositionT lineGap) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineGap == null ? MemoryAddress.NULL : lineGap.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lineGap == null ? MemoryAddress.NULL : lineGap.getValue().intValue()));
+        }
     }
     
     /**
      * Create a FontExtentsT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontExtentsT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontExtentsT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontExtentsT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontExtentsT(input, ownership);
+    public static final Marshal<Addressable, FontExtentsT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontExtentsT(input);
     
     /**
      * A {@link FontExtentsT.Builder} object constructs a {@link FontExtentsT} 
@@ -151,7 +165,7 @@ public class FontExtentsT extends Struct {
             struct = FontExtentsT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FontExtentsT} struct.
          * @return A new instance of {@code FontExtentsT} with the fields 
          *         that were set in the Builder object.
@@ -166,10 +180,12 @@ public class FontExtentsT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAscender(org.harfbuzz.PositionT ascender) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ascender == null ? MemoryAddress.NULL : ascender.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ascender"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ascender == null ? MemoryAddress.NULL : ascender.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -178,10 +194,12 @@ public class FontExtentsT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescender(org.harfbuzz.PositionT descender) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descender"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descender == null ? MemoryAddress.NULL : descender.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descender"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descender == null ? MemoryAddress.NULL : descender.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -190,73 +208,93 @@ public class FontExtentsT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLineGap(org.harfbuzz.PositionT lineGap) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineGap == null ? MemoryAddress.NULL : lineGap.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("line_gap"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lineGap == null ? MemoryAddress.NULL : lineGap.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved9(org.harfbuzz.PositionT reserved9) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved9"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved9 == null ? MemoryAddress.NULL : reserved9.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved9"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved9 == null ? MemoryAddress.NULL : reserved9.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved8(org.harfbuzz.PositionT reserved8) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved8"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved8 == null ? MemoryAddress.NULL : reserved8.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved8"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved8 == null ? MemoryAddress.NULL : reserved8.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved7(org.harfbuzz.PositionT reserved7) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved7"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved7 == null ? MemoryAddress.NULL : reserved7.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved7"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved7 == null ? MemoryAddress.NULL : reserved7.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved6(org.harfbuzz.PositionT reserved6) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved6 == null ? MemoryAddress.NULL : reserved6.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved6"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved6 == null ? MemoryAddress.NULL : reserved6.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved5(org.harfbuzz.PositionT reserved5) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved5 == null ? MemoryAddress.NULL : reserved5.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved5"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved5 == null ? MemoryAddress.NULL : reserved5.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved4(org.harfbuzz.PositionT reserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved3(org.harfbuzz.PositionT reserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved2(org.harfbuzz.PositionT reserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setReserved1(org.harfbuzz.PositionT reserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.getValue().intValue()));
+                return this;
+            }
         }
     }
 }

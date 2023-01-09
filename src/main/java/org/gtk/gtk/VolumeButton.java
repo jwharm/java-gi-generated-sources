@@ -32,26 +32,17 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
     
     /**
      * Create a VolumeButton proxy instance for the provided memory address.
-     * <p>
-     * Because VolumeButton is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VolumeButton(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VolumeButton(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VolumeButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VolumeButton(input, ownership);
+    public static final Marshal<Addressable, VolumeButton> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VolumeButton(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -71,7 +62,9 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      * {@link ScaleButton}.
      */
     public VolumeButton() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -104,6 +97,9 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
      */
     public static class Builder extends org.gtk.gtk.ScaleButton.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -142,15 +138,23 @@ public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_volume_button_new = Interop.downcallHandle(
-            "gtk_volume_button_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_volume_button_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_volume_button_get_type = Interop.downcallHandle(
-            "gtk_volume_button_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_volume_button_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_volume_button_get_type != null;
     }
 }

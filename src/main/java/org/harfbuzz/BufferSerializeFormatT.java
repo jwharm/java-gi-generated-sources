@@ -11,14 +11,17 @@ import org.jetbrains.annotations.*;
  * @version 0.9.2
  */
 public enum BufferSerializeFormatT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * a human-readable, plain text format.
      */
     TEXT(1413830740),
+    
     /**
      * a machine-readable JSON format.
      */
     JSON(1246973774),
+    
     /**
      * invalid format.
      */
@@ -27,15 +30,29 @@ public enum BufferSerializeFormatT implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "hb_buffer_serialize_format_t";
     
     private final int value;
+    
+    /**
+     * Create a new BufferSerializeFormatT for the provided value
+     * @param numeric value the enum value
+     */
     BufferSerializeFormatT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new BufferSerializeFormatT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static BufferSerializeFormatT of(int value) {
         return switch (value) {
             case 1413830740 -> TEXT;

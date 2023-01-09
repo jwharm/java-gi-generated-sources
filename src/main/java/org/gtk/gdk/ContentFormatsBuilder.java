@@ -33,8 +33,8 @@ public class ContentFormatsBuilder extends Struct {
      * @return A new, uninitialized @{link ContentFormatsBuilder}
      */
     public static ContentFormatsBuilder allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ContentFormatsBuilder newInstance = new ContentFormatsBuilder(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ContentFormatsBuilder newInstance = new ContentFormatsBuilder(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class ContentFormatsBuilder extends Struct {
     /**
      * Create a ContentFormatsBuilder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ContentFormatsBuilder(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ContentFormatsBuilder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ContentFormatsBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormatsBuilder(input, ownership);
+    public static final Marshal<Addressable, ContentFormatsBuilder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormatsBuilder(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -68,7 +70,8 @@ public class ContentFormatsBuilder extends Struct {
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -105,12 +108,14 @@ public class ContentFormatsBuilder extends Struct {
      * @param mimeType a mime type
      */
     public void addMimeType(java.lang.String mimeType) {
-        try {
-            DowncallHandles.gdk_content_formats_builder_add_mime_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(mimeType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gdk_content_formats_builder_add_mime_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(mimeType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -123,12 +128,13 @@ public class ContentFormatsBuilder extends Struct {
     public org.gtk.gdk.ContentFormats freeToFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_free_to_formats.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_free_to_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -142,12 +148,11 @@ public class ContentFormatsBuilder extends Struct {
     public org.gtk.gdk.ContentFormatsBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ContentFormatsBuilder.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gdk.ContentFormatsBuilder.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -164,12 +169,13 @@ public class ContentFormatsBuilder extends Struct {
     public org.gtk.gdk.ContentFormats toFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_to_formats.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_to_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -177,8 +183,7 @@ public class ContentFormatsBuilder extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_content_formats_builder_unref.invokeExact(
-                    handle());
+            DowncallHandles.gdk_content_formats_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,51 +192,51 @@ public class ContentFormatsBuilder extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_content_formats_builder_new = Interop.downcallHandle(
-            "gdk_content_formats_builder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_formats = Interop.downcallHandle(
-            "gdk_content_formats_builder_add_formats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_add_formats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_gtype = Interop.downcallHandle(
-            "gdk_content_formats_builder_add_gtype",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_content_formats_builder_add_gtype",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_add_mime_type = Interop.downcallHandle(
-            "gdk_content_formats_builder_add_mime_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_add_mime_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_free_to_formats = Interop.downcallHandle(
-            "gdk_content_formats_builder_free_to_formats",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_free_to_formats",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_ref = Interop.downcallHandle(
-            "gdk_content_formats_builder_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_to_formats = Interop.downcallHandle(
-            "gdk_content_formats_builder_to_formats",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_to_formats",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_formats_builder_unref = Interop.downcallHandle(
-            "gdk_content_formats_builder_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_formats_builder_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

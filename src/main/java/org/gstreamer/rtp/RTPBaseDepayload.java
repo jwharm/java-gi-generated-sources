@@ -38,26 +38,17 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
     
     /**
      * Create a RTPBaseDepayload proxy instance for the provided memory address.
-     * <p>
-     * Because RTPBaseDepayload is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPBaseDepayload(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected RTPBaseDepayload(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPBaseDepayload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBaseDepayload(input, ownership);
+    public static final Marshal<Addressable, RTPBaseDepayload> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPBaseDepayload(input);
     
     /**
      * Queries whether {@link RTPSourceMeta} will be added to depayloaded buffers.
@@ -66,8 +57,7 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
     public boolean isSourceInfoEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_base_depayload_is_source_info_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_base_depayload_is_source_info_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,19 +131,38 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code AddExtension} callback.
+     */
     @FunctionalInterface
     public interface AddExtension {
+    
+        /**
+         * Add {@code ext} as an extension for reading part of an RTP header extension from
+         * incoming RTP packets.
+         */
         void run(org.gstreamer.rtp.RTPHeaderExtension ext);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceRTPBaseDepayload, MemoryAddress ext) {
-            run((org.gstreamer.rtp.RTPHeaderExtension) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(ext)), org.gstreamer.rtp.RTPHeaderExtension.fromAddress).marshal(ext, Ownership.FULL));
+            run((org.gstreamer.rtp.RTPHeaderExtension) Interop.register(ext, org.gstreamer.rtp.RTPHeaderExtension.fromAddress).marshal(ext, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AddExtension.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AddExtension.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -164,28 +173,47 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<RTPBaseDepayload.AddExtension> onAddExtension(RTPBaseDepayload.AddExtension handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("add-extension"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("add-extension", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ClearExtensions} callback.
+     */
     @FunctionalInterface
     public interface ClearExtensions {
+    
+        /**
+         * Clear all RTP header extensions used by this depayloader.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceRTPBaseDepayload) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClearExtensions.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClearExtensions.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -195,29 +223,52 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<RTPBaseDepayload.ClearExtensions> onClearExtensions(RTPBaseDepayload.ClearExtensions handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("clear-extensions"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("clear-extensions", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestExtension} callback.
+     */
     @FunctionalInterface
     public interface RequestExtension {
+    
+        /**
+         * The returned {@code ext} must be configured with the correct {@code ext_id} and with the
+         * necessary attributes as required by the extension implementation.
+         */
         org.gstreamer.rtp.RTPHeaderExtension run(int extId, @Nullable java.lang.String extUri);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceRTPBaseDepayload, int extId, MemoryAddress extUri) {
-            var RESULT = run(extId, Marshal.addressToString.marshal(extUri, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(extId, Marshal.addressToString.marshal(extUri, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestExtension.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestExtension.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -228,9 +279,10 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<RTPBaseDepayload.RequestExtension> onRequestExtension(RTPBaseDepayload.RequestExtension handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("request-extension"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("request-extension", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -253,6 +305,9 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -342,33 +397,41 @@ public class RTPBaseDepayload extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_base_depayload_is_source_info_enabled = Interop.downcallHandle(
-            "gst_rtp_base_depayload_is_source_info_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_depayload_is_source_info_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_depayload_push = Interop.downcallHandle(
-            "gst_rtp_base_depayload_push",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_depayload_push",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_depayload_push_list = Interop.downcallHandle(
-            "gst_rtp_base_depayload_push_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_depayload_push_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_depayload_set_source_info_enabled = Interop.downcallHandle(
-            "gst_rtp_base_depayload_set_source_info_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_base_depayload_set_source_info_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_depayload_get_type = Interop.downcallHandle(
-            "gst_rtp_base_depayload_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_base_depayload_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_rtp_base_depayload_get_type != null;
     }
 }

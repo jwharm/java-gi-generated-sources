@@ -35,14 +35,16 @@ public class BindingGroup extends org.gtk.gobject.GObject {
     /**
      * Create a BindingGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BindingGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BindingGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BindingGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BindingGroup(input, ownership);
+    public static final Marshal<Addressable, BindingGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BindingGroup(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -58,7 +60,8 @@ public class BindingGroup extends org.gtk.gobject.GObject {
      * Creates a new {@link BindingGroup}.
      */
     public BindingGroup() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -74,15 +77,17 @@ public class BindingGroup extends org.gtk.gobject.GObject {
      * @param flags the flags used to create the {@link Binding}
      */
     public void bind(java.lang.String sourceProperty, org.gtk.gobject.GObject target, java.lang.String targetProperty, org.gtk.gobject.BindingFlags flags) {
-        try {
-            DowncallHandles.g_binding_group_bind.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(sourceProperty, null),
-                    target.handle(),
-                    Marshal.stringToAddress.marshal(targetProperty, null),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_binding_group_bind.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(sourceProperty, SCOPE),
+                        target.handle(),
+                        Marshal.stringToAddress.marshal(targetProperty, SCOPE),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -109,17 +114,19 @@ public class BindingGroup extends org.gtk.gobject.GObject {
      *     or {@code null} to use the default
      */
     public void bindFull(java.lang.String sourceProperty, org.gtk.gobject.GObject target, java.lang.String targetProperty, org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.Closure transformTo, @Nullable org.gtk.gobject.Closure transformFrom) {
-        try {
-            DowncallHandles.g_binding_group_bind_with_closures.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(sourceProperty, null),
-                    target.handle(),
-                    Marshal.stringToAddress.marshal(targetProperty, null),
-                    flags.getValue(),
-                    (Addressable) (transformTo == null ? MemoryAddress.NULL : transformTo.handle()),
-                    (Addressable) (transformFrom == null ? MemoryAddress.NULL : transformFrom.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_binding_group_bind_with_closures.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(sourceProperty, SCOPE),
+                        target.handle(),
+                        Marshal.stringToAddress.marshal(targetProperty, SCOPE),
+                        flags.getValue(),
+                        (Addressable) (transformTo == null ? MemoryAddress.NULL : transformTo.handle()),
+                        (Addressable) (transformFrom == null ? MemoryAddress.NULL : transformFrom.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -130,12 +137,11 @@ public class BindingGroup extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -187,6 +193,9 @@ public class BindingGroup extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -222,39 +231,47 @@ public class BindingGroup extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_binding_group_new = Interop.downcallHandle(
-            "g_binding_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
-            "g_binding_group_bind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_binding_group_bind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_binding_group_bind_with_closures = Interop.downcallHandle(
-            "g_binding_group_bind_with_closures",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_group_bind_with_closures",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_group_dup_source = Interop.downcallHandle(
-            "g_binding_group_dup_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_group_dup_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_group_set_source = Interop.downcallHandle(
-            "g_binding_group_set_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_group_set_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_group_get_type = Interop.downcallHandle(
-            "g_binding_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_binding_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_binding_group_get_type != null;
     }
 }

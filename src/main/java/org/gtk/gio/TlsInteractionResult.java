@@ -11,16 +11,19 @@ import org.jetbrains.annotations.*;
  * @version 2.30
  */
 public enum TlsInteractionResult implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The interaction was unhandled (i.e. not
      *     implemented).
      */
     UNHANDLED(0),
+    
     /**
      * The interaction completed, and resulting data
      *     is available.
      */
     HANDLED(1),
+    
     /**
      * The interaction has failed, or was cancelled.
      *     and the operation should be aborted.
@@ -30,15 +33,29 @@ public enum TlsInteractionResult implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GTlsInteractionResult";
     
     private final int value;
+    
+    /**
+     * Create a new TlsInteractionResult for the provided value
+     * @param numeric value the enum value
+     */
     TlsInteractionResult(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsInteractionResult for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsInteractionResult of(int value) {
         return switch (value) {
             case 0 -> UNHANDLED;

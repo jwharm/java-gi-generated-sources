@@ -16,12 +16,14 @@ public class LayoutRun extends org.pango.GlyphItem {
     /**
      * Create a LayoutRun proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutRun(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutRun(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutRun> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutRun(input, ownership);
+    public static final Marshal<Addressable, LayoutRun> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutRun(input);
 }

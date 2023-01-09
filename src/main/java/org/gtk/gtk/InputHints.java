@@ -91,6 +91,9 @@ public class InputHints extends io.github.jwharm.javagi.Bitfield {
      */
     public static final InputHints PRIVATE = new InputHints(2048);
     
+    /**
+     * Create a new InputHints with the provided value
+     */
     public InputHints(int value) {
         super(value);
     }

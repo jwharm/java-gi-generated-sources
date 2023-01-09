@@ -44,8 +44,8 @@ public class VideoResampler extends Struct {
      * @return A new, uninitialized @{link VideoResampler}
      */
     public static VideoResampler allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoResampler newInstance = new VideoResampler(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoResampler newInstance = new VideoResampler(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code in_size}
      */
     public int getInSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class VideoResampler extends Struct {
      * @param inSize The new value of the field {@code in_size}
      */
     public void setInSize(int inSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), inSize);
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code out_size}
      */
     public int getOutSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,9 +93,11 @@ public class VideoResampler extends Struct {
      * @param outSize The new value of the field {@code out_size}
      */
     public void setOutSize(int outSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), outSize);
+        }
     }
     
     /**
@@ -97,10 +105,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code max_taps}
      */
     public int getMaxTaps() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -108,9 +118,11 @@ public class VideoResampler extends Struct {
      * @param maxTaps The new value of the field {@code max_taps}
      */
     public void setMaxTaps(int maxTaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxTaps);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxTaps);
+        }
     }
     
     /**
@@ -118,10 +130,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code n_phases}
      */
     public int getNPhases() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -129,9 +143,11 @@ public class VideoResampler extends Struct {
      * @param nPhases The new value of the field {@code n_phases}
      */
     public void setNPhases(int nPhases) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPhases);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nPhases);
+        }
     }
     
     /**
@@ -139,10 +155,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code offset}
      */
     public PointerInteger getOffset() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -150,9 +168,11 @@ public class VideoResampler extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(PointerInteger offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
+        }
     }
     
     /**
@@ -160,10 +180,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code phase}
      */
     public PointerInteger getPhase() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("phase"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("phase"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -171,9 +193,11 @@ public class VideoResampler extends Struct {
      * @param phase The new value of the field {@code phase}
      */
     public void setPhase(PointerInteger phase) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("phase"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("phase"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
+        }
     }
     
     /**
@@ -181,10 +205,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code n_taps}
      */
     public PointerInteger getNTaps() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -192,9 +218,11 @@ public class VideoResampler extends Struct {
      * @param nTaps The new value of the field {@code n_taps}
      */
     public void setNTaps(PointerInteger nTaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
+        }
     }
     
     /**
@@ -202,10 +230,12 @@ public class VideoResampler extends Struct {
      * @return The value of the field {@code taps}
      */
     public PointerDouble getTaps() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("taps"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerDouble(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("taps"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerDouble(RESULT);
+        }
     }
     
     /**
@@ -213,30 +243,33 @@ public class VideoResampler extends Struct {
      * @param taps The new value of the field {@code taps}
      */
     public void setTaps(PointerDouble taps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("taps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("taps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
+        }
     }
     
     /**
      * Create a VideoResampler proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoResampler(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoResampler(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoResampler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoResampler(input, ownership);
+    public static final Marshal<Addressable, VideoResampler> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoResampler(input);
     
     /**
      * Clear a previously initialized {@link VideoResampler} {@code resampler}.
      */
     public void clear() {
         try {
-            DowncallHandles.gst_video_resampler_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_resampler_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,15 +297,15 @@ public class VideoResampler extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_resampler_clear = Interop.downcallHandle(
-            "gst_video_resampler_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_resampler_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_resampler_init = Interop.downcallHandle(
-            "gst_video_resampler_init",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_resampler_init",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -298,7 +331,7 @@ public class VideoResampler extends Struct {
             struct = VideoResampler.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoResampler} struct.
          * @return A new instance of {@code VideoResampler} with the fields 
          *         that were set in the Builder object.
@@ -313,10 +346,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInSize(int inSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), inSize);
+                return this;
+            }
         }
         
         /**
@@ -325,10 +360,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOutSize(int outSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), outSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), outSize);
+                return this;
+            }
         }
         
         /**
@@ -337,10 +374,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxTaps(int maxTaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxTaps);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxTaps);
+                return this;
+            }
         }
         
         /**
@@ -349,10 +388,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNPhases(int nPhases) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPhases);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nPhases);
+                return this;
+            }
         }
         
         /**
@@ -361,10 +402,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(PointerInteger offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
+                return this;
+            }
         }
         
         /**
@@ -373,10 +416,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPhase(PointerInteger phase) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("phase"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("phase"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
+                return this;
+            }
         }
         
         /**
@@ -385,10 +430,12 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNTaps(PointerInteger nTaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
+                return this;
+            }
         }
         
         /**
@@ -397,17 +444,21 @@ public class VideoResampler extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTaps(PointerDouble taps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("taps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("taps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

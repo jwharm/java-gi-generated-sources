@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class ClockID extends io.github.jwharm.javagi.Alias<java.lang.foreign.MemoryAddress> {
     
+    /**
+     * Create a new ClockID with the provided value
+     */
     public ClockID(java.lang.foreign.MemoryAddress value) {
         super(value);
     }

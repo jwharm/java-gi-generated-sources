@@ -38,26 +38,41 @@ public class GLAreaClass extends Struct {
      * @return A new, uninitialized @{link GLAreaClass}
      */
     public static GLAreaClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLAreaClass newInstance = new GLAreaClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLAreaClass newInstance = new GLAreaClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code RenderCallback} callback.
+     */
     @FunctionalInterface
     public interface RenderCallback {
+    
         boolean run(org.gtk.gtk.GLArea area, org.gtk.gdk.GLContext context);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area, MemoryAddress context) {
-            var RESULT = run((org.gtk.gtk.GLArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.GLArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gdk.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.GLArea) Interop.register(area, org.gtk.gtk.GLArea.fromAddress).marshal(area, null), (org.gtk.gdk.GLContext) Interop.register(context, org.gtk.gdk.GLContext.fromAddress).marshal(context, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RenderCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RenderCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -66,24 +81,41 @@ public class GLAreaClass extends Struct {
      * @param render The new value of the field {@code render}
      */
     public void setRender(RenderCallback render) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (render == null ? MemoryAddress.NULL : render.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (render == null ? MemoryAddress.NULL : render.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ResizeCallback} callback.
+     */
     @FunctionalInterface
     public interface ResizeCallback {
+    
         void run(org.gtk.gtk.GLArea area, int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, int width, int height) {
-            run((org.gtk.gtk.GLArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.GLArea.fromAddress).marshal(area, Ownership.NONE), width, height);
+            run((org.gtk.gtk.GLArea) Interop.register(area, org.gtk.gtk.GLArea.fromAddress).marshal(area, null), width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResizeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ResizeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -92,25 +124,42 @@ public class GLAreaClass extends Struct {
      * @param resize The new value of the field {@code resize}
      */
     public void setResize(ResizeCallback resize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resize == null ? MemoryAddress.NULL : resize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resize == null ? MemoryAddress.NULL : resize.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateContextCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateContextCallback {
+    
         org.gtk.gdk.GLContext run(org.gtk.gtk.GLArea area);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress area) {
-            var RESULT = run((org.gtk.gtk.GLArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.GLArea.fromAddress).marshal(area, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.GLArea) Interop.register(area, org.gtk.gtk.GLArea.fromAddress).marshal(area, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -119,22 +168,26 @@ public class GLAreaClass extends Struct {
      * @param createContext The new value of the field {@code create_context}
      */
     public void setCreateContext(CreateContextCallback createContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        }
     }
     
     /**
      * Create a GLAreaClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLAreaClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLAreaClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLAreaClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLAreaClass(input, ownership);
+    public static final Marshal<Addressable, GLAreaClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLAreaClass(input);
     
     /**
      * A {@link GLAreaClass.Builder} object constructs a {@link GLAreaClass} 
@@ -158,7 +211,7 @@ public class GLAreaClass extends Struct {
             struct = GLAreaClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLAreaClass} struct.
          * @return A new instance of {@code GLAreaClass} with the fields 
          *         that were set in the Builder object.
@@ -168,38 +221,48 @@ public class GLAreaClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setRender(RenderCallback render) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (render == null ? MemoryAddress.NULL : render.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (render == null ? MemoryAddress.NULL : render.toCallback()));
+                return this;
+            }
         }
         
         public Builder setResize(ResizeCallback resize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("resize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resize == null ? MemoryAddress.NULL : resize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("resize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resize == null ? MemoryAddress.NULL : resize.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateContext(CreateContextCallback createContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -29,6 +29,9 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLConfigSurfaceType PIXMAP = new GLConfigSurfaceType(4);
     
+    /**
+     * Create a new GLConfigSurfaceType with the provided value
+     */
     public GLConfigSurfaceType(int value) {
         super(value);
     }
@@ -36,8 +39,7 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
     public static @Nullable java.lang.String toString(org.gstreamer.gl.GLConfigSurfaceType surfaceType) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_surface_type_to_string.invokeExact(
-                    surfaceType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_surface_type_to_string.invokeExact(surfaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,9 +76,9 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_config_surface_type_to_string = Interop.downcallHandle(
-            "gst_gl_config_surface_type_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_config_surface_type_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

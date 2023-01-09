@@ -26,6 +26,9 @@ public class DBusObjectManagerClientFlags extends io.github.jwharm.javagi.Bitfie
      */
     public static final DBusObjectManagerClientFlags DO_NOT_AUTO_START = new DBusObjectManagerClientFlags(1);
     
+    /**
+     * Create a new DBusObjectManagerClientFlags with the provided value
+     */
     public DBusObjectManagerClientFlags(int value) {
         super(value);
     }

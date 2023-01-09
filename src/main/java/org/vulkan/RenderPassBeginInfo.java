@@ -29,8 +29,8 @@ public class RenderPassBeginInfo extends Struct {
      * @return A new, uninitialized @{link RenderPassBeginInfo}
      */
     public static RenderPassBeginInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RenderPassBeginInfo newInstance = new RenderPassBeginInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RenderPassBeginInfo newInstance = new RenderPassBeginInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RenderPassBeginInfo extends Struct {
     /**
      * Create a RenderPassBeginInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderPassBeginInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderPassBeginInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderPassBeginInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassBeginInfo(input, ownership);
+    public static final Marshal<Addressable, RenderPassBeginInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassBeginInfo(input);
 }

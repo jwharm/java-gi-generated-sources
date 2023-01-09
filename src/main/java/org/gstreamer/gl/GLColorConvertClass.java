@@ -35,8 +35,8 @@ public class GLColorConvertClass extends Struct {
      * @return A new, uninitialized @{link GLColorConvertClass}
      */
     public static GLColorConvertClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLColorConvertClass newInstance = new GLColorConvertClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLColorConvertClass newInstance = new GLColorConvertClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class GLColorConvertClass extends Struct {
     /**
      * Create a GLColorConvertClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLColorConvertClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLColorConvertClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLColorConvertClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLColorConvertClass(input, ownership);
+    public static final Marshal<Addressable, GLColorConvertClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLColorConvertClass(input);
     
     /**
      * A {@link GLColorConvertClass.Builder} object constructs a {@link GLColorConvertClass} 
@@ -75,7 +77,7 @@ public class GLColorConvertClass extends Struct {
             struct = GLColorConvertClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLColorConvertClass} struct.
          * @return A new instance of {@code GLColorConvertClass} with the fields 
          *         that were set in the Builder object.
@@ -85,17 +87,21 @@ public class GLColorConvertClass extends Struct {
         }
         
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

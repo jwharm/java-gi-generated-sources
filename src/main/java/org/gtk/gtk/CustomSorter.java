@@ -29,14 +29,16 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
     /**
      * Create a CustomSorter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CustomSorter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CustomSorter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CustomSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CustomSorter(input, ownership);
+    public static final Marshal<Addressable, CustomSorter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CustomSorter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify userDestroy) {
         MemoryAddress RESULT;
@@ -60,7 +62,8 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * @param userDestroy destroy notify for {@code user_data}
      */
     public CustomSorter(@Nullable org.gtk.glib.CompareDataFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify userDestroy) {
-        super(constructNew(sortFunc, userDestroy), Ownership.FULL);
+        super(constructNew(sortFunc, userDestroy));
+        this.takeOwnership();
     }
     
     /**
@@ -118,6 +121,9 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      */
     public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -142,21 +148,29 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_custom_sorter_new = Interop.downcallHandle(
-            "gtk_custom_sorter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_custom_sorter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_custom_sorter_set_sort_func = Interop.downcallHandle(
-            "gtk_custom_sorter_set_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_custom_sorter_set_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_custom_sorter_get_type = Interop.downcallHandle(
-            "gtk_custom_sorter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_custom_sorter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_custom_sorter_get_type != null;
     }
 }

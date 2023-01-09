@@ -39,8 +39,8 @@ public class VulkanWindowClass extends Struct {
      * @return A new, uninitialized @{link VulkanWindowClass}
      */
     public static VulkanWindowClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanWindowClass newInstance = new VulkanWindowClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanWindowClass newInstance = new VulkanWindowClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class VulkanWindowClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,42 @@ public class VulkanWindowClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OpenCallback} callback.
+     */
     @FunctionalInterface
     public interface OpenCallback {
+    
         boolean run(org.gstreamer.vulkan.VulkanWindow window);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress window) {
-            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE));
+            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OpenCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OpenCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,24 +103,41 @@ public class VulkanWindowClass extends Struct {
      * @param open The new value of the field {@code open}
      */
     public void setOpen(OpenCallback open) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("open"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CloseCallback} callback.
+     */
     @FunctionalInterface
     public interface CloseCallback {
+    
         void run(org.gstreamer.vulkan.VulkanWindow window);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window) {
-            run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE));
+            run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CloseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,25 +146,42 @@ public class VulkanWindowClass extends Struct {
      * @param close The new value of the field {@code close}
      */
     public void setClose(CloseCallback close) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("close"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSurfaceCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSurfaceCallback {
+    
         org.vulkan.SurfaceKHR run(org.gstreamer.vulkan.VulkanWindow window);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress window) {
-            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE));
+            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSurfaceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSurfaceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,25 +190,42 @@ public class VulkanWindowClass extends Struct {
      * @param getSurface The new value of the field {@code get_surface}
      */
     public void setGetSurface(GetSurfaceCallback getSurface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_surface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurface == null ? MemoryAddress.NULL : getSurface.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_surface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSurface == null ? MemoryAddress.NULL : getSurface.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPresentationSupportCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPresentationSupportCallback {
+    
         boolean run(org.gstreamer.vulkan.VulkanWindow window, org.gstreamer.vulkan.VulkanDevice device, int queueFamilyIdx);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress window, MemoryAddress device, int queueFamilyIdx) {
-            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE), (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(device)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(device, Ownership.NONE), queueFamilyIdx);
+            var RESULT = run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null), (org.gstreamer.vulkan.VulkanDevice) Interop.register(device, org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(device, null), queueFamilyIdx);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPresentationSupportCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPresentationSupportCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,24 +234,41 @@ public class VulkanWindowClass extends Struct {
      * @param getPresentationSupport The new value of the field {@code get_presentation_support}
      */
     public void setGetPresentationSupport(GetPresentationSupportCallback getPresentationSupport) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_presentation_support"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPresentationSupport == null ? MemoryAddress.NULL : getPresentationSupport.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_presentation_support"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPresentationSupport == null ? MemoryAddress.NULL : getPresentationSupport.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetWindowHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface SetWindowHandleCallback {
+    
         void run(org.gstreamer.vulkan.VulkanWindow window, long handle);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window, long handle) {
-            run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE), handle);
+            run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null), handle);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetWindowHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetWindowHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -192,24 +277,41 @@ public class VulkanWindowClass extends Struct {
      * @param setWindowHandle The new value of the field {@code set_window_handle}
      */
     public void setSetWindowHandle(SetWindowHandleCallback setWindowHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSurfaceDimensionsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSurfaceDimensionsCallback {
+    
         void run(org.gstreamer.vulkan.VulkanWindow window, PointerInteger width, PointerInteger height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window, MemoryAddress width, MemoryAddress height) {
-            run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE), new PointerInteger(width), new PointerInteger(height));
+            run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null), new PointerInteger(width), new PointerInteger(height));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSurfaceDimensionsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSurfaceDimensionsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -218,24 +320,41 @@ public class VulkanWindowClass extends Struct {
      * @param getSurfaceDimensions The new value of the field {@code get_surface_dimensions}
      */
     public void setGetSurfaceDimensions(GetSurfaceDimensionsCallback getSurfaceDimensions) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_surface_dimensions"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurfaceDimensions == null ? MemoryAddress.NULL : getSurfaceDimensions.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_surface_dimensions"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSurfaceDimensions == null ? MemoryAddress.NULL : getSurfaceDimensions.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandleEventsCallback} callback.
+     */
     @FunctionalInterface
     public interface HandleEventsCallback {
+    
         void run(org.gstreamer.vulkan.VulkanWindow window, boolean handleEvents);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window, int handleEvents) {
-            run((org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, Ownership.NONE), Marshal.integerToBoolean.marshal(handleEvents, null).booleanValue());
+            run((org.gstreamer.vulkan.VulkanWindow) Interop.register(window, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(window, null), Marshal.integerToBoolean.marshal(handleEvents, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandleEventsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandleEventsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -244,22 +363,26 @@ public class VulkanWindowClass extends Struct {
      * @param handleEvents The new value of the field {@code handle_events}
      */
     public void setHandleEvents(HandleEventsCallback handleEvents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+        }
     }
     
     /**
      * Create a VulkanWindowClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanWindowClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanWindowClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanWindowClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanWindowClass(input, ownership);
+    public static final Marshal<Addressable, VulkanWindowClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanWindowClass(input);
     
     /**
      * A {@link VulkanWindowClass.Builder} object constructs a {@link VulkanWindowClass} 
@@ -283,7 +406,7 @@ public class VulkanWindowClass extends Struct {
             struct = VulkanWindowClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanWindowClass} struct.
          * @return A new instance of {@code VulkanWindowClass} with the fields 
          *         that were set in the Builder object.
@@ -298,66 +421,84 @@ public class VulkanWindowClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setOpen(OpenCallback open) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("open"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClose(CloseCallback close) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("close"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSurface(GetSurfaceCallback getSurface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_surface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurface == null ? MemoryAddress.NULL : getSurface.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_surface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSurface == null ? MemoryAddress.NULL : getSurface.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPresentationSupport(GetPresentationSupportCallback getPresentationSupport) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_presentation_support"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPresentationSupport == null ? MemoryAddress.NULL : getPresentationSupport.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_presentation_support"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPresentationSupport == null ? MemoryAddress.NULL : getPresentationSupport.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetWindowHandle(SetWindowHandleCallback setWindowHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSurfaceDimensions(GetSurfaceDimensionsCallback getSurfaceDimensions) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_surface_dimensions"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSurfaceDimensions == null ? MemoryAddress.NULL : getSurfaceDimensions.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_surface_dimensions"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSurfaceDimensions == null ? MemoryAddress.NULL : getSurfaceDimensions.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandleEvents(HandleEventsCallback handleEvents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

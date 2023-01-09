@@ -28,14 +28,16 @@ public class TouchEvent extends org.gtk.gdk.Event {
     /**
      * Create a TouchEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TouchEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TouchEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TouchEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TouchEvent(input, ownership);
+    public static final Marshal<Addressable, TouchEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TouchEvent(input);
     
     /**
      * Extracts whether a touch event is emulating a pointer event.
@@ -44,8 +46,7 @@ public class TouchEvent extends org.gtk.gdk.Event {
     public boolean getEmulatingPointer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_touch_event_get_emulating_pointer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_touch_event_get_emulating_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,15 +70,23 @@ public class TouchEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_touch_event_get_emulating_pointer = Interop.downcallHandle(
-            "gdk_touch_event_get_emulating_pointer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_touch_event_get_emulating_pointer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_touch_event_get_type = Interop.downcallHandle(
-            "gdk_touch_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_touch_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_touch_event_get_type != null;
     }
 }

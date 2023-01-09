@@ -28,14 +28,16 @@ public class CallbackAction extends org.gtk.gtk.ShortcutAction {
     /**
      * Create a CallbackAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CallbackAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CallbackAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CallbackAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAction(input, ownership);
+    public static final Marshal<Addressable, CallbackAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAction(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.ShortcutFunc callback, org.gtk.glib.DestroyNotify destroy) {
         MemoryAddress RESULT;
@@ -58,7 +60,8 @@ public class CallbackAction extends org.gtk.gtk.ShortcutAction {
      *   callback action is finalized
      */
     public CallbackAction(@Nullable org.gtk.gtk.ShortcutFunc callback, org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(callback, destroy), Ownership.FULL);
+        super(constructNew(callback, destroy));
+        this.takeOwnership();
     }
     
     /**
@@ -91,6 +94,9 @@ public class CallbackAction extends org.gtk.gtk.ShortcutAction {
      */
     public static class Builder extends org.gtk.gtk.ShortcutAction.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -115,15 +121,23 @@ public class CallbackAction extends org.gtk.gtk.ShortcutAction {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_callback_action_new = Interop.downcallHandle(
-            "gtk_callback_action_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_callback_action_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_callback_action_get_type = Interop.downcallHandle(
-            "gtk_callback_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_callback_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_callback_action_get_type != null;
     }
 }

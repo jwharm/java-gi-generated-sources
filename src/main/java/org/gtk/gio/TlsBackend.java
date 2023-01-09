@@ -11,8 +11,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsBackendImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsBackendImpl(input, ownership);
+    public static final Marshal<Addressable, TlsBackendImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsBackendImpl(input);
     
     /**
      * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsCertificate} implementation.
@@ -22,8 +25,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getCertificateType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_certificate_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_certificate_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -38,8 +40,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getClientConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_client_connection_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_client_connection_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,12 +55,13 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.TlsDatabase getDefaultDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default_database.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default_database.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.TlsDatabase) Interop.register(RESULT, org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -70,8 +72,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getDtlsClientConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_client_connection_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_client_connection_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,8 +87,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getDtlsServerConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_server_connection_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_server_connection_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,8 +101,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getFileDatabaseType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_file_database_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_file_database_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,8 +116,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getServerConnectionType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_tls_backend_get_server_connection_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_tls_backend_get_server_connection_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +152,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default boolean supportsDtls() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_backend_supports_dtls.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tls_backend_supports_dtls.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,8 +167,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     default boolean supportsTls() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_backend_supports_tls.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tls_backend_supports_tls.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,7 +200,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsBackend) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsBackend.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsBackend) Interop.register(RESULT, org.gtk.gio.TlsBackend.fromAddress).marshal(RESULT, null);
     }
     
     @ApiStatus.Internal
@@ -212,97 +208,112 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_certificate_type = Interop.downcallHandle(
-            "g_tls_backend_get_certificate_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_certificate_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_client_connection_type = Interop.downcallHandle(
-            "g_tls_backend_get_client_connection_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_client_connection_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_default_database = Interop.downcallHandle(
-            "g_tls_backend_get_default_database",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_default_database",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_dtls_client_connection_type = Interop.downcallHandle(
-            "g_tls_backend_get_dtls_client_connection_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_dtls_client_connection_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_dtls_server_connection_type = Interop.downcallHandle(
-            "g_tls_backend_get_dtls_server_connection_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_dtls_server_connection_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_file_database_type = Interop.downcallHandle(
-            "g_tls_backend_get_file_database_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_file_database_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_server_connection_type = Interop.downcallHandle(
-            "g_tls_backend_get_server_connection_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_server_connection_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_set_default_database = Interop.downcallHandle(
-            "g_tls_backend_set_default_database",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_set_default_database",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_supports_dtls = Interop.downcallHandle(
-            "g_tls_backend_supports_dtls",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_supports_dtls",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_supports_tls = Interop.downcallHandle(
-            "g_tls_backend_supports_tls",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_supports_tls",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_type = Interop.downcallHandle(
-            "g_tls_backend_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tls_backend_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_backend_get_default = Interop.downcallHandle(
-            "g_tls_backend_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_backend_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The TlsBackendImpl type represents a native instance of the TlsBackend interface.
+     */
     class TlsBackendImpl extends org.gtk.gobject.GObject implements TlsBackend {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public TlsBackendImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TlsBackend for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TlsBackendImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tls_backend_get_type != null;
     }
 }

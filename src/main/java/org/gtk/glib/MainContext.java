@@ -33,8 +33,8 @@ public class MainContext extends Struct {
      * @return A new, uninitialized @{link MainContext}
      */
     public static MainContext allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MainContext newInstance = new MainContext(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MainContext newInstance = new MainContext(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class MainContext extends Struct {
     /**
      * Create a MainContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MainContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MainContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MainContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MainContext(input, ownership);
+    public static final Marshal<Addressable, MainContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MainContext(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,20 +67,20 @@ public class MainContext extends Struct {
      * Creates a new {@link MainContext} structure.
      */
     public MainContext() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithFlags(org.gtk.glib.MainContextFlags flags) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(
-                    flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link MainContext} structure.
      * @param flags a bitwise-OR combination of {@link MainContextFlags} flags that can only be
@@ -87,7 +89,9 @@ public class MainContext extends Struct {
      */
     public static MainContext newWithFlags(org.gtk.glib.MainContextFlags flags) {
         var RESULT = constructNewWithFlags(flags);
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -107,8 +111,7 @@ public class MainContext extends Struct {
     public boolean acquire() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_acquire.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_main_context_acquire.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,17 +154,19 @@ public class MainContext extends Struct {
      * @return {@code true} if some sources are ready to be dispatched.
      */
     public boolean check(int maxPriority, org.gtk.glib.PollFD[] fds, int nFds) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(
-                    handle(),
-                    maxPriority,
-                    Interop.allocateNativeArray(fds, org.gtk.glib.PollFD.getMemoryLayout(), false),
-                    nFds);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(
+                        handle(),
+                        maxPriority,
+                        Interop.allocateNativeArray(fds, org.gtk.glib.PollFD.getMemoryLayout(), false, SCOPE),
+                        nFds);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,8 +177,7 @@ public class MainContext extends Struct {
      */
     public void dispatch() {
         try {
-            DowncallHandles.g_main_context_dispatch.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_dispatch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,7 +200,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -224,7 +228,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -242,7 +246,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -252,8 +256,7 @@ public class MainContext extends Struct {
     public org.gtk.glib.PollFunc getPollFunc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_get_poll_func.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_get_poll_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,8 +335,7 @@ public class MainContext extends Struct {
     public boolean isOwner() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_is_owner.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_main_context_is_owner.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,8 +377,7 @@ public class MainContext extends Struct {
     public boolean pending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_context_pending.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_main_context_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -389,8 +390,7 @@ public class MainContext extends Struct {
      */
     public void popThreadDefault() {
         try {
-            DowncallHandles.g_main_context_pop_thread_default.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_pop_thread_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -408,17 +408,19 @@ public class MainContext extends Struct {
      *               prior to polling.
      */
     public boolean prepare(Out<Integer> priority) {
-        MemorySegment priorityPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(
-                    handle(),
-                    (Addressable) (priority == null ? MemoryAddress.NULL : (Addressable) priorityPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment priorityPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(
+                        handle(),
+                        (Addressable) (priority == null ? MemoryAddress.NULL : (Addressable) priorityPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (priority != null) priority.set(priorityPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (priority != null) priority.set(priorityPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -463,8 +465,7 @@ public class MainContext extends Struct {
      */
     public void pushThreadDefault() {
         try {
-            DowncallHandles.g_main_context_push_thread_default.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_push_thread_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -488,27 +489,29 @@ public class MainContext extends Struct {
      *   of records that need to be stored.
      */
     public int query(int maxPriority, Out<Integer> timeout, Out<org.gtk.glib.PollFD[]> fds, int nFds) {
-        MemorySegment timeoutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment fdsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_main_context_query.invokeExact(
-                    handle(),
-                    maxPriority,
-                    (Addressable) timeoutPOINTER.address(),
-                    (Addressable) fdsPOINTER.address(),
-                    nFds);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment timeoutPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment fdsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_main_context_query.invokeExact(
+                        handle(),
+                        maxPriority,
+                        (Addressable) timeoutPOINTER.address(),
+                        (Addressable) fdsPOINTER.address(),
+                        nFds);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    timeout.set(timeoutPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.glib.PollFD[] fdsARRAY = new org.gtk.glib.PollFD[nFds];
+            for (int I = 0; I < nFds; I++) {
+                var OBJ = fdsPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                fdsARRAY[I] = org.gtk.glib.PollFD.fromAddress.marshal(OBJ, null);
+                }
+            fds.set(fdsARRAY);
+            return RESULT;
         }
-        timeout.set(timeoutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.glib.PollFD[] fdsARRAY = new org.gtk.glib.PollFD[nFds];
-        for (int I = 0; I < nFds; I++) {
-            var OBJ = fdsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            fdsARRAY[I] = org.gtk.glib.PollFD.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        fds.set(fdsARRAY);
-        return RESULT;
     }
     
     /**
@@ -518,12 +521,13 @@ public class MainContext extends Struct {
     public org.gtk.glib.MainContext ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -534,8 +538,7 @@ public class MainContext extends Struct {
      */
     public void release() {
         try {
-            DowncallHandles.g_main_context_release.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_release.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -582,8 +585,7 @@ public class MainContext extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_main_context_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -646,8 +648,7 @@ public class MainContext extends Struct {
      */
     public void wakeup() {
         try {
-            DowncallHandles.g_main_context_wakeup.invokeExact(
-                    handle());
+            DowncallHandles.g_main_context_wakeup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -667,7 +668,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -692,7 +693,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -712,183 +713,185 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_main_context_new = Interop.downcallHandle(
-            "g_main_context_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_new_with_flags = Interop.downcallHandle(
-            "g_main_context_new_with_flags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_new_with_flags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_acquire = Interop.downcallHandle(
-            "g_main_context_acquire",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_acquire",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_add_poll = Interop.downcallHandle(
-            "g_main_context_add_poll",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_add_poll",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_check = Interop.downcallHandle(
-            "g_main_context_check",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_check",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_dispatch = Interop.downcallHandle(
-            "g_main_context_dispatch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_dispatch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_find_source_by_funcs_user_data = Interop.downcallHandle(
-            "g_main_context_find_source_by_funcs_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_find_source_by_funcs_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_find_source_by_id = Interop.downcallHandle(
-            "g_main_context_find_source_by_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_find_source_by_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_find_source_by_user_data = Interop.downcallHandle(
-            "g_main_context_find_source_by_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_find_source_by_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_get_poll_func = Interop.downcallHandle(
-            "g_main_context_get_poll_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_get_poll_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_invoke = Interop.downcallHandle(
-            "g_main_context_invoke",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_invoke",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_invoke_full = Interop.downcallHandle(
-            "g_main_context_invoke_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_invoke_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_is_owner = Interop.downcallHandle(
-            "g_main_context_is_owner",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_is_owner",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_iteration = Interop.downcallHandle(
-            "g_main_context_iteration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_iteration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_pending = Interop.downcallHandle(
-            "g_main_context_pending",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_pending",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_pop_thread_default = Interop.downcallHandle(
-            "g_main_context_pop_thread_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_pop_thread_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_prepare = Interop.downcallHandle(
-            "g_main_context_prepare",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_prepare",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_push_thread_default = Interop.downcallHandle(
-            "g_main_context_push_thread_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_push_thread_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_query = Interop.downcallHandle(
-            "g_main_context_query",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_context_query",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_context_ref = Interop.downcallHandle(
-            "g_main_context_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_release = Interop.downcallHandle(
-            "g_main_context_release",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_release",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_remove_poll = Interop.downcallHandle(
-            "g_main_context_remove_poll",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_remove_poll",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_set_poll_func = Interop.downcallHandle(
-            "g_main_context_set_poll_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_set_poll_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_unref = Interop.downcallHandle(
-            "g_main_context_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_wait = Interop.downcallHandle(
-            "g_main_context_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_wakeup = Interop.downcallHandle(
-            "g_main_context_wakeup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_wakeup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_default = Interop.downcallHandle(
-            "g_main_context_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
-            "g_main_context_get_thread_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_get_thread_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
-            "g_main_context_ref_thread_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_context_ref_thread_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

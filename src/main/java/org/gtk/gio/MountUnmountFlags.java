@@ -23,6 +23,9 @@ public class MountUnmountFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MountUnmountFlags FORCE = new MountUnmountFlags(1);
     
+    /**
+     * Create a new MountUnmountFlags with the provided value
+     */
     public MountUnmountFlags(int value) {
         super(value);
     }

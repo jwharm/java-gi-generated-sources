@@ -29,8 +29,8 @@ public class IMContextSimplePrivate extends Struct {
      * @return A new, uninitialized @{link IMContextSimplePrivate}
      */
     public static IMContextSimplePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IMContextSimplePrivate newInstance = new IMContextSimplePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IMContextSimplePrivate newInstance = new IMContextSimplePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class IMContextSimplePrivate extends Struct {
     /**
      * Create a IMContextSimplePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IMContextSimplePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IMContextSimplePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IMContextSimplePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMContextSimplePrivate(input, ownership);
+    public static final Marshal<Addressable, IMContextSimplePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IMContextSimplePrivate(input);
 }

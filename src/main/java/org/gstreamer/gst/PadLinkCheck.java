@@ -58,6 +58,9 @@ public class PadLinkCheck extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PadLinkCheck DEFAULT = new PadLinkCheck(5);
     
+    /**
+     * Create a new PadLinkCheck with the provided value
+     */
     public PadLinkCheck(int value) {
         super(value);
     }

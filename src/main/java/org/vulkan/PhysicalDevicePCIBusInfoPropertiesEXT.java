@@ -29,8 +29,8 @@ public class PhysicalDevicePCIBusInfoPropertiesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDevicePCIBusInfoPropertiesEXT}
      */
     public static PhysicalDevicePCIBusInfoPropertiesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDevicePCIBusInfoPropertiesEXT newInstance = new PhysicalDevicePCIBusInfoPropertiesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDevicePCIBusInfoPropertiesEXT newInstance = new PhysicalDevicePCIBusInfoPropertiesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDevicePCIBusInfoPropertiesEXT extends Struct {
     /**
      * Create a PhysicalDevicePCIBusInfoPropertiesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDevicePCIBusInfoPropertiesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDevicePCIBusInfoPropertiesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDevicePCIBusInfoPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDevicePCIBusInfoPropertiesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDevicePCIBusInfoPropertiesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDevicePCIBusInfoPropertiesEXT(input);
 }

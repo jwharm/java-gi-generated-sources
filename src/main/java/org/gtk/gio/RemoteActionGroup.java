@@ -31,8 +31,11 @@ import org.jetbrains.annotations.*;
  */
 public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RemoteActionGroupImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RemoteActionGroupImpl(input, ownership);
+    public static final Marshal<Addressable, RemoteActionGroupImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RemoteActionGroupImpl(input);
     
     /**
      * Activates the remote action.
@@ -49,14 +52,16 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param platformData the platform data to send
      */
     default void activateActionFull(java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData) {
-        try {
-            DowncallHandles.g_remote_action_group_activate_action_full.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null),
-                    (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()),
-                    platformData.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_remote_action_group_activate_action_full.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE),
+                        (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()),
+                        platformData.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -75,14 +80,16 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param platformData the platform data to send
      */
     default void changeActionStateFull(java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData) {
-        try {
-            DowncallHandles.g_remote_action_group_change_action_state_full.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null),
-                    value.handle(),
-                    platformData.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_remote_action_group_change_action_state_full.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE),
+                        value.handle(),
+                        platformData.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -105,34 +112,49 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_remote_action_group_activate_action_full = Interop.downcallHandle(
-            "g_remote_action_group_activate_action_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_remote_action_group_activate_action_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_remote_action_group_change_action_state_full = Interop.downcallHandle(
-            "g_remote_action_group_change_action_state_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_remote_action_group_change_action_state_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_remote_action_group_get_type = Interop.downcallHandle(
-            "g_remote_action_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_remote_action_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The RemoteActionGroupImpl type represents a native instance of the RemoteActionGroup interface.
+     */
     class RemoteActionGroupImpl extends org.gtk.gobject.GObject implements RemoteActionGroup {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public RemoteActionGroupImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of RemoteActionGroup for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public RemoteActionGroupImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_remote_action_group_get_type != null;
     }
 }

@@ -40,32 +40,22 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a Separator proxy instance for the provided memory address.
-     * <p>
-     * Because Separator is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Separator(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Separator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Separator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Separator(input, ownership);
+    public static final Marshal<Addressable, Separator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Separator(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(
-                    orientation.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_separator_new.invokeExact(orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +67,9 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param orientation the separator’s orientation.
      */
     public Separator(org.gtk.gtk.Orientation orientation) {
-        super(constructNew(orientation), Ownership.NONE);
+        super(constructNew(orientation));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -110,6 +102,9 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -134,15 +129,23 @@ public class Separator extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_separator_new = Interop.downcallHandle(
-            "gtk_separator_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_separator_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_separator_get_type = Interop.downcallHandle(
-            "gtk_separator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_separator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_separator_get_type != null;
     }
 }

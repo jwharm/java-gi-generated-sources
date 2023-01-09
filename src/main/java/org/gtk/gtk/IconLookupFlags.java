@@ -30,6 +30,9 @@ public class IconLookupFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final IconLookupFlags PRELOAD = new IconLookupFlags(4);
     
+    /**
+     * Create a new IconLookupFlags with the provided value
+     */
     public IconLookupFlags(int value) {
         super(value);
     }

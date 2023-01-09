@@ -45,8 +45,8 @@ public class EGLImage extends Struct {
      * @return A new, uninitialized @{link EGLImage}
      */
     public static EGLImage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EGLImage newInstance = new EGLImage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EGLImage newInstance = new EGLImage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,14 +54,16 @@ public class EGLImage extends Struct {
     /**
      * Create a EGLImage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EGLImage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EGLImage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EGLImage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EGLImage(input, ownership);
+    public static final Marshal<Addressable, EGLImage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EGLImage(input);
     
     private static MemoryAddress constructNewWrapped(org.gstreamer.gl.GLContext context, @Nullable java.lang.foreign.MemoryAddress image, org.gstreamer.gl.GLFormat format, org.gstreamer.gl.egl.EGLImageDestroyNotify userDataDestroy) {
         MemoryAddress RESULT;
@@ -77,10 +79,12 @@ public class EGLImage extends Struct {
         }
         return RESULT;
     }
-    
+        
     public static EGLImage newWrapped(org.gstreamer.gl.GLContext context, @Nullable java.lang.foreign.MemoryAddress image, org.gstreamer.gl.GLFormat format, org.gstreamer.gl.egl.EGLImageDestroyNotify userDataDestroy) {
         var RESULT = constructNewWrapped(context, image, format, userDataDestroy);
-        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public boolean exportDmabuf(PointerInteger fd, PointerInteger stride, PointerLong offset) {
@@ -100,8 +104,7 @@ public class EGLImage extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_get_image.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_get_image.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,7 +138,9 @@ public class EGLImage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -165,7 +170,9 @@ public class EGLImage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -197,7 +204,9 @@ public class EGLImage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public static org.gstreamer.gl.egl.EGLImage fromTexture(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLMemory glMem, PointerLong attribs) {
@@ -210,51 +219,53 @@ public class EGLImage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_egl_image_new_wrapped = Interop.downcallHandle(
-            "gst_egl_image_new_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_egl_image_new_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_egl_image_export_dmabuf = Interop.downcallHandle(
-            "gst_egl_image_export_dmabuf",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_egl_image_export_dmabuf",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_egl_image_get_image = Interop.downcallHandle(
-            "gst_egl_image_get_image",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_egl_image_get_image",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_egl_image_from_dmabuf = Interop.downcallHandle(
-            "gst_egl_image_from_dmabuf",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_egl_image_from_dmabuf",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_egl_image_from_dmabuf_direct = Interop.downcallHandle(
-            "gst_egl_image_from_dmabuf_direct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_egl_image_from_dmabuf_direct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_egl_image_from_dmabuf_direct_target = Interop.downcallHandle(
-            "gst_egl_image_from_dmabuf_direct_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_egl_image_from_dmabuf_direct_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_egl_image_from_texture = Interop.downcallHandle(
-            "gst_egl_image_from_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_egl_image_from_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -280,7 +291,7 @@ public class EGLImage extends Struct {
             struct = EGLImage.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link EGLImage} struct.
          * @return A new instance of {@code EGLImage} with the fields 
          *         that were set in the Builder object.
@@ -290,52 +301,66 @@ public class EGLImage extends Struct {
         }
         
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setContext(org.gstreamer.gl.GLContext context) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
+                return this;
+            }
         }
         
         public Builder setImage(java.lang.foreign.MemoryAddress image) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (image == null ? MemoryAddress.NULL : (Addressable) image));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("image"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (image == null ? MemoryAddress.NULL : (Addressable) image));
+                return this;
+            }
         }
         
         public Builder setFormat(org.gstreamer.gl.GLFormat format) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+                return this;
+            }
         }
         
         public Builder setDestroyData(java.lang.foreign.MemoryAddress destroyData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("destroy_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyData == null ? MemoryAddress.NULL : (Addressable) destroyData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("destroy_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyData == null ? MemoryAddress.NULL : (Addressable) destroyData));
+                return this;
+            }
         }
         
         public Builder setDestroyNotify(org.gstreamer.gl.egl.EGLImageDestroyNotify destroyNotify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("destroy_notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyNotify == null ? MemoryAddress.NULL : (Addressable) destroyNotify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("destroy_notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyNotify == null ? MemoryAddress.NULL : (Addressable) destroyNotify.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

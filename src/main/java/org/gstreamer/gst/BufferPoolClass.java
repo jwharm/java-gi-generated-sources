@@ -46,8 +46,8 @@ public class BufferPoolClass extends Struct {
      * @return A new, uninitialized @{link BufferPoolClass}
      */
     public static BufferPoolClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferPoolClass newInstance = new BufferPoolClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferPoolClass newInstance = new BufferPoolClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,7 +58,7 @@ public class BufferPoolClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -66,24 +66,43 @@ public class BufferPoolClass extends Struct {
      * @param objectClass The new value of the field {@code object_class}
      */
     public void setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetOptionsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetOptionsCallback {
+    
         java.lang.String[] run(org.gstreamer.gst.BufferPool pool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetOptionsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetOptionsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -92,25 +111,42 @@ public class BufferPoolClass extends Struct {
      * @param getOptions The new value of the field {@code get_options}
      */
     public void setGetOptions(GetOptionsCallback getOptions) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_options"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getOptions == null ? MemoryAddress.NULL : getOptions.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_options"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getOptions == null ? MemoryAddress.NULL : getOptions.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetConfigCallback} callback.
+     */
     @FunctionalInterface
     public interface SetConfigCallback {
+    
         boolean run(org.gstreamer.gst.BufferPool pool, org.gstreamer.gst.Structure config);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pool, MemoryAddress config) {
-            var RESULT = run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), org.gstreamer.gst.Structure.fromAddress.marshal(config, Ownership.FULL));
+            var RESULT = run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), org.gstreamer.gst.Structure.fromAddress.marshal(config, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetConfigCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetConfigCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -119,25 +155,42 @@ public class BufferPoolClass extends Struct {
      * @param setConfig The new value of the field {@code set_config}
      */
     public void setSetConfig(SetConfigCallback setConfig) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_config"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setConfig == null ? MemoryAddress.NULL : setConfig.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_config"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setConfig == null ? MemoryAddress.NULL : setConfig.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartCallback} callback.
+     */
     @FunctionalInterface
     public interface StartCallback {
+    
         boolean run(org.gstreamer.gst.BufferPool pool);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pool) {
-            var RESULT = run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -146,25 +199,42 @@ public class BufferPoolClass extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(StartCallback start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StopCallback} callback.
+     */
     @FunctionalInterface
     public interface StopCallback {
+    
         boolean run(org.gstreamer.gst.BufferPool pool);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pool) {
-            var RESULT = run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -173,27 +243,46 @@ public class BufferPoolClass extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(StopCallback stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AcquireBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface AcquireBufferCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.BufferPool pool, Out<org.gstreamer.gst.Buffer> buffer, @Nullable org.gstreamer.gst.BufferPoolAcquireParams params);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pool, MemoryAddress buffer, MemoryAddress params) {
-            Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
-            var RESULT = run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), bufferOUT, org.gstreamer.gst.BufferPoolAcquireParams.fromAddress.marshal(params, Ownership.NONE));
-            buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
+                var RESULT = run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), bufferOUT, org.gstreamer.gst.BufferPoolAcquireParams.fromAddress.marshal(params, null));
+                buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcquireBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AcquireBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -202,27 +291,46 @@ public class BufferPoolClass extends Struct {
      * @param acquireBuffer The new value of the field {@code acquire_buffer}
      */
     public void setAcquireBuffer(AcquireBufferCallback acquireBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("acquire_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquireBuffer == null ? MemoryAddress.NULL : acquireBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("acquire_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acquireBuffer == null ? MemoryAddress.NULL : acquireBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AllocBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface AllocBufferCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.BufferPool pool, Out<org.gstreamer.gst.Buffer> buffer, @Nullable org.gstreamer.gst.BufferPoolAcquireParams params);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pool, MemoryAddress buffer, MemoryAddress params) {
-            Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
-            var RESULT = run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), bufferOUT, org.gstreamer.gst.BufferPoolAcquireParams.fromAddress.marshal(params, Ownership.NONE));
-            buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
+                var RESULT = run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), bufferOUT, org.gstreamer.gst.BufferPoolAcquireParams.fromAddress.marshal(params, null));
+                buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AllocBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AllocBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -231,24 +339,41 @@ public class BufferPoolClass extends Struct {
      * @param allocBuffer The new value of the field {@code alloc_buffer}
      */
     public void setAllocBuffer(AllocBufferCallback allocBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alloc_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocBuffer == null ? MemoryAddress.NULL : allocBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alloc_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (allocBuffer == null ? MemoryAddress.NULL : allocBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ResetBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface ResetBufferCallback {
+    
         void run(org.gstreamer.gst.BufferPool pool, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool, MemoryAddress buffer) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResetBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ResetBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -257,24 +382,41 @@ public class BufferPoolClass extends Struct {
      * @param resetBuffer The new value of the field {@code reset_buffer}
      */
     public void setResetBuffer(ResetBufferCallback resetBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reset_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resetBuffer == null ? MemoryAddress.NULL : resetBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reset_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resetBuffer == null ? MemoryAddress.NULL : resetBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReleaseBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface ReleaseBufferCallback {
+    
         void run(org.gstreamer.gst.BufferPool pool, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool, MemoryAddress buffer) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
+            run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReleaseBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReleaseBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -283,24 +425,41 @@ public class BufferPoolClass extends Struct {
      * @param releaseBuffer The new value of the field {@code release_buffer}
      */
     public void setReleaseBuffer(ReleaseBufferCallback releaseBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("release_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseBuffer == null ? MemoryAddress.NULL : releaseBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("release_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releaseBuffer == null ? MemoryAddress.NULL : releaseBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FreeBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface FreeBufferCallback {
+    
         void run(org.gstreamer.gst.BufferPool pool, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool, MemoryAddress buffer) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FreeBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FreeBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -309,24 +468,41 @@ public class BufferPoolClass extends Struct {
      * @param freeBuffer The new value of the field {@code free_buffer}
      */
     public void setFreeBuffer(FreeBufferCallback freeBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (freeBuffer == null ? MemoryAddress.NULL : freeBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (freeBuffer == null ? MemoryAddress.NULL : freeBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FlushStartCallback} callback.
+     */
     @FunctionalInterface
     public interface FlushStartCallback {
+    
         void run(org.gstreamer.gst.BufferPool pool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE));
+            run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FlushStartCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FlushStartCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -335,24 +511,41 @@ public class BufferPoolClass extends Struct {
      * @param flushStart The new value of the field {@code flush_start}
      */
     public void setFlushStart(FlushStartCallback flushStart) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flush_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flushStart == null ? MemoryAddress.NULL : flushStart.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flush_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flushStart == null ? MemoryAddress.NULL : flushStart.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FlushStopCallback} callback.
+     */
     @FunctionalInterface
     public interface FlushStopCallback {
+    
         void run(org.gstreamer.gst.BufferPool pool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool) {
-            run((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, Ownership.NONE));
+            run((org.gstreamer.gst.BufferPool) Interop.register(pool, org.gstreamer.gst.BufferPool.fromAddress).marshal(pool, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FlushStopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FlushStopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -361,22 +554,26 @@ public class BufferPoolClass extends Struct {
      * @param flushStop The new value of the field {@code flush_stop}
      */
     public void setFlushStop(FlushStopCallback flushStop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flush_stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flushStop == null ? MemoryAddress.NULL : flushStop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flush_stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flushStop == null ? MemoryAddress.NULL : flushStop.toCallback()));
+        }
     }
     
     /**
      * Create a BufferPoolClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferPoolClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferPoolClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferPoolClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferPoolClass(input, ownership);
+    public static final Marshal<Addressable, BufferPoolClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferPoolClass(input);
     
     /**
      * A {@link BufferPoolClass.Builder} object constructs a {@link BufferPoolClass} 
@@ -400,7 +597,7 @@ public class BufferPoolClass extends Struct {
             struct = BufferPoolClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BufferPoolClass} struct.
          * @return A new instance of {@code BufferPoolClass} with the fields 
          *         that were set in the Builder object.
@@ -415,94 +612,120 @@ public class BufferPoolClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetOptions(GetOptionsCallback getOptions) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_options"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getOptions == null ? MemoryAddress.NULL : getOptions.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_options"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getOptions == null ? MemoryAddress.NULL : getOptions.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetConfig(SetConfigCallback setConfig) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_config"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setConfig == null ? MemoryAddress.NULL : setConfig.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_config"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setConfig == null ? MemoryAddress.NULL : setConfig.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStart(StartCallback start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStop(StopCallback stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAcquireBuffer(AcquireBufferCallback acquireBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("acquire_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquireBuffer == null ? MemoryAddress.NULL : acquireBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("acquire_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acquireBuffer == null ? MemoryAddress.NULL : acquireBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAllocBuffer(AllocBufferCallback allocBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("alloc_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocBuffer == null ? MemoryAddress.NULL : allocBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("alloc_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (allocBuffer == null ? MemoryAddress.NULL : allocBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setResetBuffer(ResetBufferCallback resetBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reset_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resetBuffer == null ? MemoryAddress.NULL : resetBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reset_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resetBuffer == null ? MemoryAddress.NULL : resetBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReleaseBuffer(ReleaseBufferCallback releaseBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("release_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseBuffer == null ? MemoryAddress.NULL : releaseBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("release_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releaseBuffer == null ? MemoryAddress.NULL : releaseBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFreeBuffer(FreeBufferCallback freeBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (freeBuffer == null ? MemoryAddress.NULL : freeBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (freeBuffer == null ? MemoryAddress.NULL : freeBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFlushStart(FlushStartCallback flushStart) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flush_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flushStart == null ? MemoryAddress.NULL : flushStart.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flush_start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flushStart == null ? MemoryAddress.NULL : flushStart.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFlushStop(FlushStopCallback flushStop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flush_stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flushStop == null ? MemoryAddress.NULL : flushStop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flush_stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flushStop == null ? MemoryAddress.NULL : flushStop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

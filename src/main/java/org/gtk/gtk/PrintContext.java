@@ -95,14 +95,16 @@ public class PrintContext extends org.gtk.gobject.GObject {
     /**
      * Create a PrintContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PrintContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PrintContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PrintContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintContext(input, ownership);
+    public static final Marshal<Addressable, PrintContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PrintContext(input);
     
     /**
      * Creates a new {@code PangoContext} that can be used with the
@@ -112,12 +114,13 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public org.pango.Context createPangoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Context) Interop.register(RESULT, org.pango.Context.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -128,12 +131,13 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public org.pango.Layout createPangoLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_layout.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -144,12 +148,11 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public org.cairographics.Context getCairoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_cairo_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_cairo_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Context.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.cairographics.Context.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -160,8 +163,7 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public double getDpiX() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_x.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,8 +178,7 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public double getDpiY() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_y.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_dpi_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,26 +195,28 @@ public class PrintContext extends org.gtk.gobject.GObject {
      * @return {@code true} if the hard margins were retrieved
      */
     public boolean getHardMargins(Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
-        MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_print_context_get_hard_margins.invokeExact(
-                    handle(),
-                    (Addressable) topPOINTER.address(),
-                    (Addressable) bottomPOINTER.address(),
-                    (Addressable) leftPOINTER.address(),
-                    (Addressable) rightPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment topPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment bottomPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment leftPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment rightPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_print_context_get_hard_margins.invokeExact(
+                        handle(),
+                        (Addressable) topPOINTER.address(),
+                        (Addressable) bottomPOINTER.address(),
+                        (Addressable) leftPOINTER.address(),
+                        (Addressable) rightPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    top.set(topPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        top.set(topPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,8 +226,7 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public double getHeight() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_height.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,12 +241,11 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_page_setup.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_page_setup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) Interop.register(RESULT, org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -255,12 +256,11 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public org.pango.FontMap getPangoFontmap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_pango_fontmap.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_pango_fontmap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.FontMap) Interop.register(RESULT, org.pango.FontMap.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -270,8 +270,7 @@ public class PrintContext extends org.gtk.gobject.GObject {
     public double getWidth() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_print_context_get_width.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_print_context_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,6 +330,9 @@ public class PrintContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -355,75 +357,83 @@ public class PrintContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_print_context_create_pango_context = Interop.downcallHandle(
-            "gtk_print_context_create_pango_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_create_pango_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_create_pango_layout = Interop.downcallHandle(
-            "gtk_print_context_create_pango_layout",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_create_pango_layout",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_cairo_context = Interop.downcallHandle(
-            "gtk_print_context_get_cairo_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_cairo_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_dpi_x = Interop.downcallHandle(
-            "gtk_print_context_get_dpi_x",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_dpi_x",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_dpi_y = Interop.downcallHandle(
-            "gtk_print_context_get_dpi_y",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_dpi_y",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_hard_margins = Interop.downcallHandle(
-            "gtk_print_context_get_hard_margins",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_hard_margins",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_height = Interop.downcallHandle(
-            "gtk_print_context_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_page_setup = Interop.downcallHandle(
-            "gtk_print_context_get_page_setup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_page_setup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_pango_fontmap = Interop.downcallHandle(
-            "gtk_print_context_get_pango_fontmap",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_pango_fontmap",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_width = Interop.downcallHandle(
-            "gtk_print_context_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_print_context_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_print_context_set_cairo_context = Interop.downcallHandle(
-            "gtk_print_context_set_cairo_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_print_context_set_cairo_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_print_context_get_type = Interop.downcallHandle(
-            "gtk_print_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_print_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_print_context_get_type != null;
     }
 }

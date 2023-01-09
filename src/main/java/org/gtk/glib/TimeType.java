@@ -16,14 +16,17 @@ import org.jetbrains.annotations.*;
  * transitions, for example).
  */
 public enum TimeType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the time is in local standard time
      */
     STANDARD(0),
+    
     /**
      * the time is in local daylight time
      */
     DAYLIGHT(1),
+    
     /**
      * the time is in UTC
      */
@@ -32,15 +35,29 @@ public enum TimeType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTimeType";
     
     private final int value;
+    
+    /**
+     * Create a new TimeType for the provided value
+     * @param numeric value the enum value
+     */
     TimeType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TimeType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TimeType of(int value) {
         return switch (value) {
             case 0 -> STANDARD;

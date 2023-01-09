@@ -29,8 +29,8 @@ public class WriteDescriptorSetInlineUniformBlockEXT extends Struct {
      * @return A new, uninitialized @{link WriteDescriptorSetInlineUniformBlockEXT}
      */
     public static WriteDescriptorSetInlineUniformBlockEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WriteDescriptorSetInlineUniformBlockEXT newInstance = new WriteDescriptorSetInlineUniformBlockEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WriteDescriptorSetInlineUniformBlockEXT newInstance = new WriteDescriptorSetInlineUniformBlockEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class WriteDescriptorSetInlineUniformBlockEXT extends Struct {
     /**
      * Create a WriteDescriptorSetInlineUniformBlockEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WriteDescriptorSetInlineUniformBlockEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WriteDescriptorSetInlineUniformBlockEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WriteDescriptorSetInlineUniformBlockEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WriteDescriptorSetInlineUniformBlockEXT(input, ownership);
+    public static final Marshal<Addressable, WriteDescriptorSetInlineUniformBlockEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WriteDescriptorSetInlineUniformBlockEXT(input);
 }

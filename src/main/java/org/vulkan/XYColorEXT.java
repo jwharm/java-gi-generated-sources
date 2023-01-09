@@ -29,8 +29,8 @@ public class XYColorEXT extends Struct {
      * @return A new, uninitialized @{link XYColorEXT}
      */
     public static XYColorEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        XYColorEXT newInstance = new XYColorEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        XYColorEXT newInstance = new XYColorEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class XYColorEXT extends Struct {
     /**
      * Create a XYColorEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected XYColorEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected XYColorEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, XYColorEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new XYColorEXT(input, ownership);
+    public static final Marshal<Addressable, XYColorEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new XYColorEXT(input);
 }

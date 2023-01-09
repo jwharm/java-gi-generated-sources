@@ -10,14 +10,17 @@ import org.jetbrains.annotations.*;
  * gst_event_new_seek() or when doing gst_segment_do_seek ().
  */
 public enum SeekType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no change in position is required
      */
     NONE(0),
+    
     /**
      * absolute position is requested
      */
     SET(1),
+    
     /**
      * relative position to duration is requested
      */
@@ -26,15 +29,29 @@ public enum SeekType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstSeekType";
     
     private final int value;
+    
+    /**
+     * Create a new SeekType for the provided value
+     * @param numeric value the enum value
+     */
     SeekType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SeekType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SeekType of(int value) {
         return switch (value) {
             case 0 -> NONE;

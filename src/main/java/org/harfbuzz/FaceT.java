@@ -32,8 +32,8 @@ public class FaceT extends Struct {
      * @return A new, uninitialized @{link FaceT}
      */
     public static FaceT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FaceT newInstance = new FaceT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FaceT newInstance = new FaceT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,12 +41,14 @@ public class FaceT extends Struct {
     /**
      * Create a FaceT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FaceT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FaceT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FaceT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FaceT(input, ownership);
+    public static final Marshal<Addressable, FaceT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FaceT(input);
 }

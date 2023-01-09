@@ -29,8 +29,8 @@ public class SubpassDescriptionFlagBits extends Struct {
      * @return A new, uninitialized @{link SubpassDescriptionFlagBits}
      */
     public static SubpassDescriptionFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SubpassDescriptionFlagBits newInstance = new SubpassDescriptionFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SubpassDescriptionFlagBits newInstance = new SubpassDescriptionFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SubpassDescriptionFlagBits extends Struct {
     /**
      * Create a SubpassDescriptionFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SubpassDescriptionFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SubpassDescriptionFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SubpassDescriptionFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SubpassDescriptionFlagBits(input, ownership);
+    public static final Marshal<Addressable, SubpassDescriptionFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SubpassDescriptionFlagBits(input);
 }

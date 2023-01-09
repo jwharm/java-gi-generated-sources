@@ -21,6 +21,7 @@ import org.jetbrains.annotations.*;
  * </ul>
  */
 public enum TraverseType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * vists a node's left child first, then the node itself,
      *              then its right child. This is the one to use if you
@@ -28,14 +29,17 @@ public enum TraverseType implements io.github.jwharm.javagi.Enumeration {
      *              function.
      */
     IN_ORDER(0),
+    
     /**
      * visits a node, then its children.
      */
     PRE_ORDER(1),
+    
     /**
      * visits the node's children, then the node itself.
      */
     POST_ORDER(2),
+    
     /**
      * is not implemented for
      *              [balanced binary trees][glib-Balanced-Binary-Trees].
@@ -49,15 +53,29 @@ public enum TraverseType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTraverseType";
     
     private final int value;
+    
+    /**
+     * Create a new TraverseType for the provided value
+     * @param numeric value the enum value
+     */
     TraverseType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TraverseType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TraverseType of(int value) {
         return switch (value) {
             case 0 -> IN_ORDER;

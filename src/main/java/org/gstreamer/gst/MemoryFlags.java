@@ -54,6 +54,9 @@ public class MemoryFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MemoryFlags LAST = new MemoryFlags(1048576);
     
+    /**
+     * Create a new MemoryFlags with the provided value
+     */
     public MemoryFlags(int value) {
         super(value);
     }

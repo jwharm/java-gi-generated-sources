@@ -46,8 +46,8 @@ public class Bitset extends Struct {
      * @return A new, uninitialized @{link Bitset}
      */
     public static Bitset allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Bitset newInstance = new Bitset(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Bitset newInstance = new Bitset(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,14 +55,16 @@ public class Bitset extends Struct {
     /**
      * Create a Bitset proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Bitset(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Bitset(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Bitset> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bitset(input, ownership);
+    public static final Marshal<Addressable, Bitset> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Bitset(input);
     
     private static MemoryAddress constructNewEmpty() {
         MemoryAddress RESULT;
@@ -73,14 +75,16 @@ public class Bitset extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new empty bitset.
      * @return A new empty bitset
      */
     public static Bitset newEmpty() {
         var RESULT = constructNewEmpty();
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewRange(int start, int nItems) {
@@ -94,7 +98,7 @@ public class Bitset extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a bitset with the given range set.
      * @param start first value to add
@@ -103,7 +107,9 @@ public class Bitset extends Struct {
      */
     public static Bitset newRange(int start, int nItems) {
         var RESULT = constructNewRange(start, nItems);
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -204,12 +210,13 @@ public class Bitset extends Struct {
     public org.gtk.gtk.Bitset copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -259,8 +266,7 @@ public class Bitset extends Struct {
     public int getMaximum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_get_maximum.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_get_maximum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,8 +282,7 @@ public class Bitset extends Struct {
     public int getMinimum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_get_minimum.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_get_minimum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,8 +322,7 @@ public class Bitset extends Struct {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gtk_bitset_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gtk_bitset_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,8 +379,7 @@ public class Bitset extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,12 +393,11 @@ public class Bitset extends Struct {
     public org.gtk.gtk.Bitset ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -421,8 +423,7 @@ public class Bitset extends Struct {
      */
     public void removeAll() {
         try {
-            DowncallHandles.gtk_bitset_remove_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_bitset_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -588,8 +589,7 @@ public class Bitset extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_bitset_unref.invokeExact(
-                    handle());
+            DowncallHandles.gtk_bitset_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -598,177 +598,177 @@ public class Bitset extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_bitset_new_empty = Interop.downcallHandle(
-            "gtk_bitset_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_new_range = Interop.downcallHandle(
-            "gtk_bitset_new_range",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_new_range",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_add = Interop.downcallHandle(
-            "gtk_bitset_add",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_add",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_add_range = Interop.downcallHandle(
-            "gtk_bitset_add_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_add_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_add_range_closed = Interop.downcallHandle(
-            "gtk_bitset_add_range_closed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_add_range_closed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_add_rectangle = Interop.downcallHandle(
-            "gtk_bitset_add_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_add_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_contains = Interop.downcallHandle(
-            "gtk_bitset_contains",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_contains",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_copy = Interop.downcallHandle(
-            "gtk_bitset_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_difference = Interop.downcallHandle(
-            "gtk_bitset_difference",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_difference",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_equals = Interop.downcallHandle(
-            "gtk_bitset_equals",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_equals",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_get_maximum = Interop.downcallHandle(
-            "gtk_bitset_get_maximum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_get_maximum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_get_minimum = Interop.downcallHandle(
-            "gtk_bitset_get_minimum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_get_minimum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_get_nth = Interop.downcallHandle(
-            "gtk_bitset_get_nth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_get_nth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_get_size = Interop.downcallHandle(
-            "gtk_bitset_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_get_size_in_range = Interop.downcallHandle(
-            "gtk_bitset_get_size_in_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_get_size_in_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_intersect = Interop.downcallHandle(
-            "gtk_bitset_intersect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_intersect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_is_empty = Interop.downcallHandle(
-            "gtk_bitset_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_ref = Interop.downcallHandle(
-            "gtk_bitset_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_remove = Interop.downcallHandle(
-            "gtk_bitset_remove",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_remove",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_remove_all = Interop.downcallHandle(
-            "gtk_bitset_remove_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_remove_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_remove_range = Interop.downcallHandle(
-            "gtk_bitset_remove_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_remove_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_remove_range_closed = Interop.downcallHandle(
-            "gtk_bitset_remove_range_closed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_remove_range_closed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_remove_rectangle = Interop.downcallHandle(
-            "gtk_bitset_remove_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_remove_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_shift_left = Interop.downcallHandle(
-            "gtk_bitset_shift_left",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_shift_left",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_shift_right = Interop.downcallHandle(
-            "gtk_bitset_shift_right",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_shift_right",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_splice = Interop.downcallHandle(
-            "gtk_bitset_splice",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_bitset_splice",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bitset_subtract = Interop.downcallHandle(
-            "gtk_bitset_subtract",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_subtract",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_union = Interop.downcallHandle(
-            "gtk_bitset_union",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_union",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_unref = Interop.downcallHandle(
-            "gtk_bitset_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

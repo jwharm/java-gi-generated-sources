@@ -32,8 +32,8 @@ public class IOSchedulerJob extends Struct {
      * @return A new, uninitialized @{link IOSchedulerJob}
      */
     public static IOSchedulerJob allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOSchedulerJob newInstance = new IOSchedulerJob(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IOSchedulerJob newInstance = new IOSchedulerJob(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class IOSchedulerJob extends Struct {
     /**
      * Create a IOSchedulerJob proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOSchedulerJob(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOSchedulerJob(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOSchedulerJob> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOSchedulerJob(input, ownership);
+    public static final Marshal<Addressable, IOSchedulerJob> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOSchedulerJob(input);
     
     /**
      * Used from an I/O job to send a callback to be run in the thread
@@ -104,15 +106,15 @@ public class IOSchedulerJob extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop = Interop.downcallHandle(
-            "g_io_scheduler_job_send_to_mainloop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_scheduler_job_send_to_mainloop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_scheduler_job_send_to_mainloop_async = Interop.downcallHandle(
-            "g_io_scheduler_job_send_to_mainloop_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_scheduler_job_send_to_mainloop_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

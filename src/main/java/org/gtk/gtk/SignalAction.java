@@ -31,24 +31,27 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
     /**
      * Create a SignalAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SignalAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SignalAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SignalAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SignalAction(input, ownership);
+    public static final Marshal<Addressable, SignalAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SignalAction(input);
     
     private static MemoryAddress constructNew(java.lang.String signalName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_new.invokeExact(
-                    Marshal.stringToAddress.marshal(signalName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_new.invokeExact(Marshal.stringToAddress.marshal(signalName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -59,7 +62,8 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * @param signalName name of the signal to emit
      */
     public SignalAction(java.lang.String signalName) {
-        super(constructNew(signalName), Ownership.FULL);
+        super(constructNew(signalName));
+        this.takeOwnership();
     }
     
     /**
@@ -69,8 +73,7 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
     public java.lang.String getSignalName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_get_signal_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_get_signal_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,6 +110,9 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      */
     public static class Builder extends org.gtk.gtk.ShortcutAction.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -142,21 +148,29 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_signal_action_new = Interop.downcallHandle(
-            "gtk_signal_action_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_signal_action_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_signal_action_get_signal_name = Interop.downcallHandle(
-            "gtk_signal_action_get_signal_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_signal_action_get_signal_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_signal_action_get_type = Interop.downcallHandle(
-            "gtk_signal_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_signal_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_signal_action_get_type != null;
     }
 }

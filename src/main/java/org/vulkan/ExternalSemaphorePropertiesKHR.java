@@ -29,8 +29,8 @@ public class ExternalSemaphorePropertiesKHR extends Struct {
      * @return A new, uninitialized @{link ExternalSemaphorePropertiesKHR}
      */
     public static ExternalSemaphorePropertiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalSemaphorePropertiesKHR newInstance = new ExternalSemaphorePropertiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalSemaphorePropertiesKHR newInstance = new ExternalSemaphorePropertiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalSemaphorePropertiesKHR extends Struct {
     /**
      * Create a ExternalSemaphorePropertiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalSemaphorePropertiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalSemaphorePropertiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalSemaphorePropertiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalSemaphorePropertiesKHR(input, ownership);
+    public static final Marshal<Addressable, ExternalSemaphorePropertiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalSemaphorePropertiesKHR(input);
 }

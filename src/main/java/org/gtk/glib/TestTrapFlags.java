@@ -41,6 +41,9 @@ public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TestTrapFlags INHERIT_STDIN = new TestTrapFlags(512);
     
+    /**
+     * Create a new TestTrapFlags with the provided value
+     */
     public TestTrapFlags(int value) {
         super(value);
     }

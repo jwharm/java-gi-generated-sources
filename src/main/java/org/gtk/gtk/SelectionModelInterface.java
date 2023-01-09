@@ -54,26 +54,41 @@ public class SelectionModelInterface extends Struct {
      * @return A new, uninitialized @{link SelectionModelInterface}
      */
     public static SelectionModelInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SelectionModelInterface newInstance = new SelectionModelInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SelectionModelInterface newInstance = new SelectionModelInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code IsSelectedCallback} callback.
+     */
     @FunctionalInterface
     public interface IsSelectedCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, int position);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, int position) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position);
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsSelectedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IsSelectedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -82,25 +97,43 @@ public class SelectionModelInterface extends Struct {
      * @param isSelected The new value of the field {@code is_selected}
      */
     public void setIsSelected(IsSelectedCallback isSelected) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSelectionInRangeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSelectionInRangeCallback {
+    
         org.gtk.gtk.Bitset run(org.gtk.gtk.SelectionModel model, int position, int nItems);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress model, int position, int nItems) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position, nItems);
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position, nItems);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSelectionInRangeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSelectionInRangeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -109,25 +142,42 @@ public class SelectionModelInterface extends Struct {
      * @param getSelectionInRange The new value of the field {@code get_selection_in_range}
      */
     public void setGetSelectionInRange(GetSelectionInRangeCallback getSelectionInRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_selection_in_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSelectionInRange == null ? MemoryAddress.NULL : getSelectionInRange.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_selection_in_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSelectionInRange == null ? MemoryAddress.NULL : getSelectionInRange.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectItemCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectItemCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, int position, boolean unselectRest);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, int position, int unselectRest) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position, Marshal.integerToBoolean.marshal(unselectRest, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position, Marshal.integerToBoolean.marshal(unselectRest, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectItemCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectItemCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -136,25 +186,42 @@ public class SelectionModelInterface extends Struct {
      * @param selectItem The new value of the field {@code select_item}
      */
     public void setSelectItem(SelectItemCallback selectItem) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectItem == null ? MemoryAddress.NULL : selectItem.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectItem == null ? MemoryAddress.NULL : selectItem.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectItemCallback} callback.
+     */
     @FunctionalInterface
     public interface UnselectItemCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, int position);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, int position) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position);
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectItemCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectItemCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -163,25 +230,42 @@ public class SelectionModelInterface extends Struct {
      * @param unselectItem The new value of the field {@code unselect_item}
      */
     public void setUnselectItem(UnselectItemCallback unselectItem) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unselect_item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectItem == null ? MemoryAddress.NULL : unselectItem.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unselect_item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectItem == null ? MemoryAddress.NULL : unselectItem.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectRangeCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectRangeCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, int position, int nItems, boolean unselectRest);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, int position, int nItems, int unselectRest) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position, nItems, Marshal.integerToBoolean.marshal(unselectRest, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position, nItems, Marshal.integerToBoolean.marshal(unselectRest, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectRangeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectRangeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -190,25 +274,42 @@ public class SelectionModelInterface extends Struct {
      * @param selectRange The new value of the field {@code select_range}
      */
     public void setSelectRange(SelectRangeCallback selectRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectRange == null ? MemoryAddress.NULL : selectRange.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectRange == null ? MemoryAddress.NULL : selectRange.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectRangeCallback} callback.
+     */
     @FunctionalInterface
     public interface UnselectRangeCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, int position, int nItems);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, int position, int nItems) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), position, nItems);
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), position, nItems);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectRangeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectRangeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -217,25 +318,42 @@ public class SelectionModelInterface extends Struct {
      * @param unselectRange The new value of the field {@code unselect_range}
      */
     public void setUnselectRange(UnselectRangeCallback unselectRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unselect_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectRange == null ? MemoryAddress.NULL : unselectRange.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unselect_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectRange == null ? MemoryAddress.NULL : unselectRange.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectAllCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectAllCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAllCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectAllCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -244,25 +362,42 @@ public class SelectionModelInterface extends Struct {
      * @param selectAll The new value of the field {@code select_all}
      */
     public void setSelectAll(SelectAllCallback selectAll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectAllCallback} callback.
+     */
     @FunctionalInterface
     public interface UnselectAllCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAllCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectAllCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -271,25 +406,42 @@ public class SelectionModelInterface extends Struct {
      * @param unselectAll The new value of the field {@code unselect_all}
      */
     public void setUnselectAll(UnselectAllCallback unselectAll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetSelectionCallback} callback.
+     */
     @FunctionalInterface
     public interface SetSelectionCallback {
+    
         boolean run(org.gtk.gtk.SelectionModel model, org.gtk.gtk.Bitset selected, org.gtk.gtk.Bitset mask);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress model, MemoryAddress selected, MemoryAddress mask) {
-            var RESULT = run((org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.SelectionModel.fromAddress).marshal(model, Ownership.NONE), org.gtk.gtk.Bitset.fromAddress.marshal(selected, Ownership.NONE), org.gtk.gtk.Bitset.fromAddress.marshal(mask, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.SelectionModel) Interop.register(model, org.gtk.gtk.SelectionModel.fromAddress).marshal(model, null), org.gtk.gtk.Bitset.fromAddress.marshal(selected, null), org.gtk.gtk.Bitset.fromAddress.marshal(mask, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetSelectionCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetSelectionCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -298,22 +450,26 @@ public class SelectionModelInterface extends Struct {
      * @param setSelection The new value of the field {@code set_selection}
      */
     public void setSetSelection(SetSelectionCallback setSelection) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_selection"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSelection == null ? MemoryAddress.NULL : setSelection.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_selection"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setSelection == null ? MemoryAddress.NULL : setSelection.toCallback()));
+        }
     }
     
     /**
      * Create a SelectionModelInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SelectionModelInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SelectionModelInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SelectionModelInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SelectionModelInterface(input, ownership);
+    public static final Marshal<Addressable, SelectionModelInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SelectionModelInterface(input);
     
     /**
      * A {@link SelectionModelInterface.Builder} object constructs a {@link SelectionModelInterface} 
@@ -337,7 +493,7 @@ public class SelectionModelInterface extends Struct {
             struct = SelectionModelInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SelectionModelInterface} struct.
          * @return A new instance of {@code SelectionModelInterface} with the fields 
          *         that were set in the Builder object.
@@ -347,73 +503,93 @@ public class SelectionModelInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setIsSelected(IsSelectedCallback isSelected) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSelectionInRange(GetSelectionInRangeCallback getSelectionInRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_selection_in_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSelectionInRange == null ? MemoryAddress.NULL : getSelectionInRange.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_selection_in_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSelectionInRange == null ? MemoryAddress.NULL : getSelectionInRange.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectItem(SelectItemCallback selectItem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectItem == null ? MemoryAddress.NULL : selectItem.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_item"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectItem == null ? MemoryAddress.NULL : selectItem.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUnselectItem(UnselectItemCallback unselectItem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unselect_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectItem == null ? MemoryAddress.NULL : unselectItem.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unselect_item"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectItem == null ? MemoryAddress.NULL : unselectItem.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectRange(SelectRangeCallback selectRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectRange == null ? MemoryAddress.NULL : selectRange.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectRange == null ? MemoryAddress.NULL : selectRange.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUnselectRange(UnselectRangeCallback unselectRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unselect_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectRange == null ? MemoryAddress.NULL : unselectRange.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unselect_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectRange == null ? MemoryAddress.NULL : unselectRange.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectAll(SelectAllCallback selectAll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUnselectAll(UnselectAllCallback unselectAll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetSelection(SetSelectionCallback setSelection) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_selection"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setSelection == null ? MemoryAddress.NULL : setSelection.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_selection"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setSelection == null ? MemoryAddress.NULL : setSelection.toCallback()));
+                return this;
+            }
         }
     }
 }

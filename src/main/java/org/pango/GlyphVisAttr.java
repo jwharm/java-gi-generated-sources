@@ -44,8 +44,8 @@ public class GlyphVisAttr extends Struct {
      * @return A new, uninitialized @{link GlyphVisAttr}
      */
     public static GlyphVisAttr allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphVisAttr newInstance = new GlyphVisAttr(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GlyphVisAttr newInstance = new GlyphVisAttr(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class GlyphVisAttr extends Struct {
      * @return The value of the field {@code is_cluster_start}
      */
     public int getIsClusterStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class GlyphVisAttr extends Struct {
      * @param isClusterStart The new value of the field {@code is_cluster_start}
      */
     public void setIsClusterStart(int isClusterStart) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isClusterStart);
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class GlyphVisAttr extends Struct {
      * @return The value of the field {@code is_color}
      */
     public int getIsColor() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,22 +93,26 @@ public class GlyphVisAttr extends Struct {
      * @param isColor The new value of the field {@code is_color}
      */
     public void setIsColor(int isColor) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isColor);
+        }
     }
     
     /**
      * Create a GlyphVisAttr proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GlyphVisAttr(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GlyphVisAttr(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GlyphVisAttr> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphVisAttr(input, ownership);
+    public static final Marshal<Addressable, GlyphVisAttr> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GlyphVisAttr(input);
     
     /**
      * A {@link GlyphVisAttr.Builder} object constructs a {@link GlyphVisAttr} 
@@ -126,7 +136,7 @@ public class GlyphVisAttr extends Struct {
             struct = GlyphVisAttr.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GlyphVisAttr} struct.
          * @return A new instance of {@code GlyphVisAttr} with the fields 
          *         that were set in the Builder object.
@@ -141,10 +151,12 @@ public class GlyphVisAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsClusterStart(int isClusterStart) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isClusterStart);
+                return this;
+            }
         }
         
         /**
@@ -153,10 +165,12 @@ public class GlyphVisAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsColor(int isColor) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isColor);
+                return this;
+            }
         }
     }
 }

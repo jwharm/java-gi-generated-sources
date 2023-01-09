@@ -15,6 +15,9 @@ import org.jetbrains.annotations.*;
  */
 public class TagT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new TagT with the provided value
+     */
     public TagT(int value) {
         super(value);
     }

@@ -33,14 +33,16 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
     /**
      * Create a CairoContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CairoContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CairoContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CairoContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CairoContext(input, ownership);
+    public static final Marshal<Addressable, CairoContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CairoContext(input);
     
     /**
      * Retrieves a Cairo context to be used to draw on the {@code GdkSurface}
@@ -57,12 +59,13 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
     public @Nullable org.cairographics.Context cairoCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_context_cairo_create.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_context_cairo_create.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Context.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.cairographics.Context.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -95,6 +98,9 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
      */
     public static class Builder extends org.gtk.gdk.DrawContext.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -119,15 +125,23 @@ public class CairoContext extends org.gtk.gdk.DrawContext {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
-            "gdk_cairo_context_cairo_create",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cairo_context_cairo_create",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cairo_context_get_type = Interop.downcallHandle(
-            "gdk_cairo_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_cairo_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_cairo_context_get_type != null;
     }
 }

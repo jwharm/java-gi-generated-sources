@@ -6,32 +6,59 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum DVBCodeRate implements io.github.jwharm.javagi.Enumeration {
+    
     NONE(0),
+    
     _1_2(1),
+    
     _2_3(2),
+    
     _3_4(3),
+    
     _4_5(4),
+    
     _5_6(5),
+    
     _6_7(6),
+    
     _7_8(7),
+    
     _8_9(8),
+    
     AUTO(9),
+    
     _3_5(10),
+    
     _9_10(11),
+    
     _2_5(12);
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBCodeRate";
     
     private final int value;
+    
+    /**
+     * Create a new DVBCodeRate for the provided value
+     * @param numeric value the enum value
+     */
     DVBCodeRate(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DVBCodeRate for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DVBCodeRate of(int value) {
         return switch (value) {
             case 0 -> NONE;

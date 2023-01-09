@@ -96,6 +96,9 @@ public class StateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final StateFlags FOCUS_WITHIN = new StateFlags(16384);
     
+    /**
+     * Create a new StateFlags with the provided value
+     */
     public StateFlags(int value) {
         super(value);
     }

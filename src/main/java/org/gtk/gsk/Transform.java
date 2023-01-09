@@ -40,8 +40,8 @@ public class Transform extends Struct {
      * @return A new, uninitialized @{link Transform}
      */
     public static Transform allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Transform newInstance = new Transform(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Transform newInstance = new Transform(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,14 +49,16 @@ public class Transform extends Struct {
     /**
      * Create a Transform proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Transform(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Transform(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Transform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Transform(input, ownership);
+    public static final Marshal<Addressable, Transform> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Transform(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -69,7 +71,8 @@ public class Transform extends Struct {
     }
     
     public Transform() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -96,8 +99,7 @@ public class Transform extends Struct {
     public org.gtk.gsk.TransformCategory getCategory() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_transform_get_category.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_transform_get_category.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,13 +119,14 @@ public class Transform extends Struct {
     public @Nullable org.gtk.gsk.Transform invert() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_invert.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_invert.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -141,7 +144,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -166,7 +171,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -194,12 +201,11 @@ public class Transform extends Struct {
     public @Nullable org.gtk.gsk.Transform ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -217,7 +223,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -239,7 +247,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -261,7 +271,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -283,7 +295,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -303,7 +317,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -331,30 +347,32 @@ public class Transform extends Struct {
      * @param outDy return location for the y0 member
      */
     public void to2d(Out<Float> outXx, Out<Float> outYx, Out<Float> outXy, Out<Float> outYy, Out<Float> outDx, Out<Float> outDy) {
-        MemorySegment outXxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outYxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outXyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outYyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        try {
-            DowncallHandles.gsk_transform_to_2d.invokeExact(
-                    handle(),
-                    (Addressable) outXxPOINTER.address(),
-                    (Addressable) outYxPOINTER.address(),
-                    (Addressable) outXyPOINTER.address(),
-                    (Addressable) outYyPOINTER.address(),
-                    (Addressable) outDxPOINTER.address(),
-                    (Addressable) outDyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outXxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outYxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outXyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outYyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            try {
+                DowncallHandles.gsk_transform_to_2d.invokeExact(
+                        handle(),
+                        (Addressable) outXxPOINTER.address(),
+                        (Addressable) outYxPOINTER.address(),
+                        (Addressable) outXyPOINTER.address(),
+                        (Addressable) outYyPOINTER.address(),
+                        (Addressable) outDxPOINTER.address(),
+                        (Addressable) outDyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outXx.set(outXxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outYx.set(outYxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outXy.set(outXyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outYy.set(outYyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         }
-        outXx.set(outXxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outYx.set(outYxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outXy.set(outXyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outYy.set(outYyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -391,33 +409,35 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void to2dComponents(Out<Float> outSkewX, Out<Float> outSkewY, Out<Float> outScaleX, Out<Float> outScaleY, Out<Float> outAngle, Out<Float> outDx, Out<Float> outDy) {
-        MemorySegment outSkewXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outSkewYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        try {
-            DowncallHandles.gsk_transform_to_2d_components.invokeExact(
-                    handle(),
-                    (Addressable) outSkewXPOINTER.address(),
-                    (Addressable) outSkewYPOINTER.address(),
-                    (Addressable) outScaleXPOINTER.address(),
-                    (Addressable) outScaleYPOINTER.address(),
-                    (Addressable) outAnglePOINTER.address(),
-                    (Addressable) outDxPOINTER.address(),
-                    (Addressable) outDyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outSkewXPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outSkewYPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outScaleXPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outScaleYPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outAnglePOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            try {
+                DowncallHandles.gsk_transform_to_2d_components.invokeExact(
+                        handle(),
+                        (Addressable) outSkewXPOINTER.address(),
+                        (Addressable) outSkewYPOINTER.address(),
+                        (Addressable) outScaleXPOINTER.address(),
+                        (Addressable) outScaleYPOINTER.address(),
+                        (Addressable) outAnglePOINTER.address(),
+                        (Addressable) outDxPOINTER.address(),
+                        (Addressable) outDyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outSkewX.set(outSkewXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outSkewY.set(outSkewYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outScaleX.set(outScaleXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outScaleY.set(outScaleYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outAngle.set(outAnglePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         }
-        outSkewX.set(outSkewXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outSkewY.set(outSkewYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outScaleX.set(outScaleXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outScaleY.set(outScaleYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outAngle.set(outAnglePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -446,24 +466,26 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void toAffine(Out<Float> outScaleX, Out<Float> outScaleY, Out<Float> outDx, Out<Float> outDy) {
-        MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        try {
-            DowncallHandles.gsk_transform_to_affine.invokeExact(
-                    handle(),
-                    (Addressable) outScaleXPOINTER.address(),
-                    (Addressable) outScaleYPOINTER.address(),
-                    (Addressable) outDxPOINTER.address(),
-                    (Addressable) outDyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outScaleXPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outScaleYPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            try {
+                DowncallHandles.gsk_transform_to_affine.invokeExact(
+                        handle(),
+                        (Addressable) outScaleXPOINTER.address(),
+                        (Addressable) outScaleYPOINTER.address(),
+                        (Addressable) outDxPOINTER.address(),
+                        (Addressable) outDyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outScaleX.set(outScaleXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outScaleY.set(outScaleYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         }
-        outScaleX.set(outScaleXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outScaleY.set(outScaleYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -493,8 +515,7 @@ public class Transform extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -516,18 +537,20 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void toTranslate(Out<Float> outDx, Out<Float> outDy) {
-        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        try {
-            DowncallHandles.gsk_transform_to_translate.invokeExact(
-                    handle(),
-                    (Addressable) outDxPOINTER.address(),
-                    (Addressable) outDyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outDxPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment outDyPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            try {
+                DowncallHandles.gsk_transform_to_translate.invokeExact(
+                        handle(),
+                        (Addressable) outDxPOINTER.address(),
+                        (Addressable) outDyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         }
-        outDx.set(outDxPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        outDy.set(outDyPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -545,7 +568,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -599,7 +624,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -617,7 +644,9 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -628,8 +657,7 @@ public class Transform extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gsk_transform_unref.invokeExact(
-                    handle());
+            DowncallHandles.gsk_transform_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -649,175 +677,177 @@ public class Transform extends Struct {
      * @return {@code true} if {@code string} described a valid transform.
      */
     public static boolean parse(java.lang.String string, Out<org.gtk.gsk.Transform> outTransform) {
-        MemorySegment outTransformPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null),
-                    (Addressable) outTransformPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outTransformPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        (Addressable) outTransformPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outTransform.set(org.gtk.gsk.Transform.fromAddress.marshal(outTransformPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        outTransform.set(org.gtk.gsk.Transform.fromAddress.marshal(outTransformPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_transform_new = Interop.downcallHandle(
-            "gsk_transform_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_equal = Interop.downcallHandle(
-            "gsk_transform_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_get_category = Interop.downcallHandle(
-            "gsk_transform_get_category",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_get_category",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_invert = Interop.downcallHandle(
-            "gsk_transform_invert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_invert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_matrix = Interop.downcallHandle(
-            "gsk_transform_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_perspective = Interop.downcallHandle(
-            "gsk_transform_perspective",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_transform_perspective",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_transform_print = Interop.downcallHandle(
-            "gsk_transform_print",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_print",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_ref = Interop.downcallHandle(
-            "gsk_transform_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_rotate = Interop.downcallHandle(
-            "gsk_transform_rotate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_transform_rotate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_transform_rotate_3d = Interop.downcallHandle(
-            "gsk_transform_rotate_3d",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_rotate_3d",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_scale = Interop.downcallHandle(
-            "gsk_transform_scale",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_transform_scale",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_transform_scale_3d = Interop.downcallHandle(
-            "gsk_transform_scale_3d",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_transform_scale_3d",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_transform_skew = Interop.downcallHandle(
-            "gsk_transform_skew",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_transform_skew",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_2d = Interop.downcallHandle(
-            "gsk_transform_to_2d",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_2d",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_2d_components = Interop.downcallHandle(
-            "gsk_transform_to_2d_components",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_2d_components",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_affine = Interop.downcallHandle(
-            "gsk_transform_to_affine",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_affine",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_matrix = Interop.downcallHandle(
-            "gsk_transform_to_matrix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_matrix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_string = Interop.downcallHandle(
-            "gsk_transform_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_to_translate = Interop.downcallHandle(
-            "gsk_transform_to_translate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_to_translate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_transform = Interop.downcallHandle(
-            "gsk_transform_transform",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_transform",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_transform_bounds = Interop.downcallHandle(
-            "gsk_transform_transform_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_transform_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_transform_point = Interop.downcallHandle(
-            "gsk_transform_transform_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_transform_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_translate = Interop.downcallHandle(
-            "gsk_transform_translate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_translate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_translate_3d = Interop.downcallHandle(
-            "gsk_transform_translate_3d",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_translate_3d",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_unref = Interop.downcallHandle(
-            "gsk_transform_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
-            "gsk_transform_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_transform_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

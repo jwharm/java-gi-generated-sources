@@ -28,14 +28,16 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     /**
      * Create a GridLayoutChild proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GridLayoutChild(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GridLayoutChild(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GridLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GridLayoutChild(input, ownership);
+    public static final Marshal<Addressable, GridLayoutChild> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GridLayoutChild(input);
     
     /**
      * Retrieves the column number to which {@code child} attaches its left side.
@@ -44,8 +46,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,8 +60,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getColumnSpan() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column_span.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_column_span.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +74,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getRow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +88,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     public int getRowSpan() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row_span.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_child_get_row_span.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,6 +181,9 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -251,57 +252,65 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_grid_layout_child_get_column = Interop.downcallHandle(
-            "gtk_grid_layout_child_get_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_child_get_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_column_span = Interop.downcallHandle(
-            "gtk_grid_layout_child_get_column_span",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_child_get_column_span",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row = Interop.downcallHandle(
-            "gtk_grid_layout_child_get_row",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_child_get_row",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_row_span = Interop.downcallHandle(
-            "gtk_grid_layout_child_get_row_span",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_child_get_row_span",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column = Interop.downcallHandle(
-            "gtk_grid_layout_child_set_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_child_set_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_column_span = Interop.downcallHandle(
-            "gtk_grid_layout_child_set_column_span",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_child_set_column_span",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row = Interop.downcallHandle(
-            "gtk_grid_layout_child_set_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_child_set_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_set_row_span = Interop.downcallHandle(
-            "gtk_grid_layout_child_set_row_span",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_child_set_row_span",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_child_get_type = Interop.downcallHandle(
-            "gtk_grid_layout_child_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_grid_layout_child_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_grid_layout_child_get_type != null;
     }
 }

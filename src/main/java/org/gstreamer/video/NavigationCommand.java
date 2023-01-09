@@ -20,75 +20,90 @@ import org.jetbrains.annotations.*;
  *    GST_NAVIGATION_COMMAND_DVD_CHAPTER_MENU    = {@code GST_NAVIGATION_COMMAND_MENU7}
  */
 public enum NavigationCommand implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * An invalid command entry
      */
     INVALID(0),
+    
     /**
      * Execute navigation menu command 1. For DVD,
      * this enters the DVD root menu, or exits back to the title from the menu.
      */
     MENU1(1),
+    
     /**
      * Execute navigation menu command 2. For DVD,
      * this jumps to the DVD title menu.
      */
     MENU2(2),
+    
     /**
      * Execute navigation menu command 3. For DVD,
      * this jumps into the DVD root menu.
      */
     MENU3(3),
+    
     /**
      * Execute navigation menu command 4. For DVD,
      * this jumps to the Subpicture menu.
      */
     MENU4(4),
+    
     /**
      * Execute navigation menu command 5. For DVD,
      * the jumps to the audio menu.
      */
     MENU5(5),
+    
     /**
      * Execute navigation menu command 6. For DVD,
      * this jumps to the angles menu.
      */
     MENU6(6),
+    
     /**
      * Execute navigation menu command 7. For DVD,
      * this jumps to the chapter menu.
      */
     MENU7(7),
+    
     /**
      * Select the next button to the left in a menu,
      * if such a button exists.
      */
     LEFT(20),
+    
     /**
      * Select the next button to the right in a menu,
      * if such a button exists.
      */
     RIGHT(21),
+    
     /**
      * Select the button above the current one in a
      * menu, if such a button exists.
      */
     UP(22),
+    
     /**
      * Select the button below the current one in a
      * menu, if such a button exists.
      */
     DOWN(23),
+    
     /**
      * Activate (click) the currently selected
      * button in a menu, if such a button exists.
      */
     ACTIVATE(24),
+    
     /**
      * Switch to the previous angle in a
      * multiangle feature.
      */
     PREV_ANGLE(30),
+    
     /**
      * Switch to the next angle in a multiangle
      * feature.
@@ -98,15 +113,29 @@ public enum NavigationCommand implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstNavigationCommand";
     
     private final int value;
+    
+    /**
+     * Create a new NavigationCommand for the provided value
+     * @param numeric value the enum value
+     */
     NavigationCommand(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new NavigationCommand for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static NavigationCommand of(int value) {
         return switch (value) {
             case 0 -> INVALID;

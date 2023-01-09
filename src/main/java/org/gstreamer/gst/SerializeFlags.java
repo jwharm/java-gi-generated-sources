@@ -20,6 +20,9 @@ public class SerializeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SerializeFlags BACKWARD_COMPAT = new SerializeFlags(1);
     
+    /**
+     * Create a new SerializeFlags with the provided value
+     */
     public SerializeFlags(int value) {
         super(value);
     }

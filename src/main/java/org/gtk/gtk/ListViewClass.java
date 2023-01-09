@@ -29,8 +29,8 @@ public class ListViewClass extends Struct {
      * @return A new, uninitialized @{link ListViewClass}
      */
     public static ListViewClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ListViewClass newInstance = new ListViewClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ListViewClass newInstance = new ListViewClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ListViewClass extends Struct {
     /**
      * Create a ListViewClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListViewClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ListViewClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListViewClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListViewClass(input, ownership);
+    public static final Marshal<Addressable, ListViewClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListViewClass(input);
 }

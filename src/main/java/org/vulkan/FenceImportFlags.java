@@ -29,8 +29,8 @@ public class FenceImportFlags extends Struct {
      * @return A new, uninitialized @{link FenceImportFlags}
      */
     public static FenceImportFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FenceImportFlags newInstance = new FenceImportFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FenceImportFlags newInstance = new FenceImportFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FenceImportFlags extends Struct {
     /**
      * Create a FenceImportFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FenceImportFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FenceImportFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FenceImportFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FenceImportFlags(input, ownership);
+    public static final Marshal<Addressable, FenceImportFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FenceImportFlags(input);
 }

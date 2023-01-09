@@ -39,8 +39,8 @@ public class SeekableIface extends Struct {
      * @return A new, uninitialized @{link SeekableIface}
      */
     public static SeekableIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SeekableIface newInstance = new SeekableIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SeekableIface newInstance = new SeekableIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class SeekableIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,42 @@ public class SeekableIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TellCallback} callback.
+     */
     @FunctionalInterface
     public interface TellCallback {
+    
         long run(org.gtk.gio.Seekable seekable);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress seekable) {
-            var RESULT = run((org.gtk.gio.Seekable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(seekable)), org.gtk.gio.Seekable.fromAddress).marshal(seekable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Seekable) Interop.register(seekable, org.gtk.gio.Seekable.fromAddress).marshal(seekable, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TellCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TellCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +103,42 @@ public class SeekableIface extends Struct {
      * @param tell The new value of the field {@code tell}
      */
     public void setTell(TellCallback tell) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tell"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tell"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanSeekCallback} callback.
+     */
     @FunctionalInterface
     public interface CanSeekCallback {
+    
         boolean run(org.gtk.gio.Seekable seekable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress seekable) {
-            var RESULT = run((org.gtk.gio.Seekable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(seekable)), org.gtk.gio.Seekable.fromAddress).marshal(seekable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Seekable) Interop.register(seekable, org.gtk.gio.Seekable.fromAddress).marshal(seekable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanSeekCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanSeekCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,25 +147,42 @@ public class SeekableIface extends Struct {
      * @param canSeek The new value of the field {@code can_seek}
      */
     public void setCanSeek(CanSeekCallback canSeek) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_seek"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canSeek == null ? MemoryAddress.NULL : canSeek.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_seek"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canSeek == null ? MemoryAddress.NULL : canSeek.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SeekCallback} callback.
+     */
     @FunctionalInterface
     public interface SeekCallback {
+    
         boolean run(org.gtk.gio.Seekable seekable, long offset, org.gtk.glib.SeekType type, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress seekable, long offset, int type, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.Seekable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(seekable)), org.gtk.gio.Seekable.fromAddress).marshal(seekable, Ownership.NONE), offset, org.gtk.glib.SeekType.of(type), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Seekable) Interop.register(seekable, org.gtk.gio.Seekable.fromAddress).marshal(seekable, null), offset, org.gtk.glib.SeekType.of(type), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SeekCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SeekCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,25 +191,42 @@ public class SeekableIface extends Struct {
      * @param seek The new value of the field {@code seek}
      */
     public void setSeek(SeekCallback seek) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seek"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seek"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanTruncateCallback} callback.
+     */
     @FunctionalInterface
     public interface CanTruncateCallback {
+    
         boolean run(org.gtk.gio.Seekable seekable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress seekable) {
-            var RESULT = run((org.gtk.gio.Seekable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(seekable)), org.gtk.gio.Seekable.fromAddress).marshal(seekable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Seekable) Interop.register(seekable, org.gtk.gio.Seekable.fromAddress).marshal(seekable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanTruncateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanTruncateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,25 +235,42 @@ public class SeekableIface extends Struct {
      * @param canTruncate The new value of the field {@code can_truncate}
      */
     public void setCanTruncate(CanTruncateCallback canTruncate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_truncate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canTruncate == null ? MemoryAddress.NULL : canTruncate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_truncate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canTruncate == null ? MemoryAddress.NULL : canTruncate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TruncateFnCallback} callback.
+     */
     @FunctionalInterface
     public interface TruncateFnCallback {
+    
         boolean run(org.gtk.gio.Seekable seekable, long offset, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress seekable, long offset, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.Seekable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(seekable)), org.gtk.gio.Seekable.fromAddress).marshal(seekable, Ownership.NONE), offset, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Seekable) Interop.register(seekable, org.gtk.gio.Seekable.fromAddress).marshal(seekable, null), offset, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TruncateFnCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TruncateFnCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -194,22 +279,26 @@ public class SeekableIface extends Struct {
      * @param truncateFn The new value of the field {@code truncate_fn}
      */
     public void setTruncateFn(TruncateFnCallback truncateFn) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("truncate_fn"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (truncateFn == null ? MemoryAddress.NULL : truncateFn.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("truncate_fn"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (truncateFn == null ? MemoryAddress.NULL : truncateFn.toCallback()));
+        }
     }
     
     /**
      * Create a SeekableIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SeekableIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SeekableIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SeekableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SeekableIface(input, ownership);
+    public static final Marshal<Addressable, SeekableIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SeekableIface(input);
     
     /**
      * A {@link SeekableIface.Builder} object constructs a {@link SeekableIface} 
@@ -233,7 +322,7 @@ public class SeekableIface extends Struct {
             struct = SeekableIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SeekableIface} struct.
          * @return A new instance of {@code SeekableIface} with the fields 
          *         that were set in the Builder object.
@@ -248,45 +337,57 @@ public class SeekableIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setTell(TellCallback tell) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tell"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tell"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tell == null ? MemoryAddress.NULL : tell.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCanSeek(CanSeekCallback canSeek) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_seek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canSeek == null ? MemoryAddress.NULL : canSeek.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_seek"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canSeek == null ? MemoryAddress.NULL : canSeek.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSeek(SeekCallback seek) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seek"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (seek == null ? MemoryAddress.NULL : seek.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCanTruncate(CanTruncateCallback canTruncate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_truncate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canTruncate == null ? MemoryAddress.NULL : canTruncate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_truncate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canTruncate == null ? MemoryAddress.NULL : canTruncate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTruncateFn(TruncateFnCallback truncateFn) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("truncate_fn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (truncateFn == null ? MemoryAddress.NULL : truncateFn.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("truncate_fn"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (truncateFn == null ? MemoryAddress.NULL : truncateFn.toCallback()));
+                return this;
+            }
         }
     }
 }

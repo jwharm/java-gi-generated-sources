@@ -36,8 +36,8 @@ public class AttrFloat extends Struct {
      * @return A new, uninitialized @{link AttrFloat}
      */
     public static AttrFloat allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrFloat newInstance = new AttrFloat(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrFloat newInstance = new AttrFloat(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class AttrFloat extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,9 +56,11 @@ public class AttrFloat extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -66,10 +68,12 @@ public class AttrFloat extends Struct {
      * @return The value of the field {@code value}
      */
     public double getValue() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -77,22 +81,26 @@ public class AttrFloat extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(double value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
      * Create a AttrFloat proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrFloat(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrFloat(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrFloat> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrFloat(input, ownership);
+    public static final Marshal<Addressable, AttrFloat> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrFloat(input);
     
     /**
      * A {@link AttrFloat.Builder} object constructs a {@link AttrFloat} 
@@ -116,7 +124,7 @@ public class AttrFloat extends Struct {
             struct = AttrFloat.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrFloat} struct.
          * @return A new instance of {@code AttrFloat} with the fields 
          *         that were set in the Builder object.
@@ -131,10 +139,12 @@ public class AttrFloat extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -143,10 +153,12 @@ public class AttrFloat extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(double value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
     }
 }

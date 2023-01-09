@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A union holding the value of the token.
  */
-public class TokenValue extends ObjectBase {
+public class TokenValue extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -41,13 +41,14 @@ public class TokenValue extends ObjectBase {
     /**
      * Create a TokenValue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TokenValue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TokenValue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TokenValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TokenValue(input, ownership);
+    public static final Marshal<Addressable, TokenValue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TokenValue(input);
 }
-

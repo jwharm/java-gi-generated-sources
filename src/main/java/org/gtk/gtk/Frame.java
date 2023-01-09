@@ -68,36 +68,28 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Frame proxy instance for the provided memory address.
-     * <p>
-     * Because Frame is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Frame(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Frame(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Frame> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Frame(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String label) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_frame_new.invokeExact((Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Frame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Frame(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String label) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_new.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -107,7 +99,9 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param label the text to use as the label of the frame
      */
     public Frame(@Nullable java.lang.String label) {
-        super(constructNew(label), Ownership.NONE);
+        super(constructNew(label));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -117,12 +111,11 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -137,8 +130,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +144,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public float getLabelAlign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_frame_get_label_align.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gtk_frame_get_label_align.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,12 +158,11 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getLabelWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_frame_get_label_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -195,12 +185,14 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param label the text to use as the label of the frame
      */
     public void setLabel(@Nullable java.lang.String label) {
-        try {
-            DowncallHandles.gtk_frame_set_label.invokeExact(
-                    handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_frame_set_label.invokeExact(
+                        handle(),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -269,6 +261,9 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -337,63 +332,71 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_frame_new = Interop.downcallHandle(
-            "gtk_frame_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_get_child = Interop.downcallHandle(
-            "gtk_frame_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_get_label = Interop.downcallHandle(
-            "gtk_frame_get_label",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_get_label",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_get_label_align = Interop.downcallHandle(
-            "gtk_frame_get_label_align",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_get_label_align",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_get_label_widget = Interop.downcallHandle(
-            "gtk_frame_get_label_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_get_label_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_set_child = Interop.downcallHandle(
-            "gtk_frame_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_set_label = Interop.downcallHandle(
-            "gtk_frame_set_label",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_set_label",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_set_label_align = Interop.downcallHandle(
-            "gtk_frame_set_label_align",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gtk_frame_set_label_align",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gtk_frame_set_label_widget = Interop.downcallHandle(
-            "gtk_frame_set_label_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_frame_set_label_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_frame_get_type = Interop.downcallHandle(
-            "gtk_frame_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_frame_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_frame_get_type != null;
     }
 }

@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class ClockTime extends io.github.jwharm.javagi.Alias<Long> {
     
+    /**
+     * Create a new ClockTime with the provided value
+     */
     public ClockTime(long value) {
         super(value);
     }

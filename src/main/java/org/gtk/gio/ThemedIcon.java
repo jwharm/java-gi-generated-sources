@@ -34,24 +34,27 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
     /**
      * Create a ThemedIcon proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ThemedIcon(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ThemedIcon(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ThemedIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ThemedIcon(input, ownership);
+    public static final Marshal<Addressable, ThemedIcon> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ThemedIcon(input);
     
     private static MemoryAddress constructNew(java.lang.String iconname) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(
-                    Marshal.stringToAddress.marshal(iconname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(Marshal.stringToAddress.marshal(iconname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -59,21 +62,24 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      * @param iconname a string containing an icon name.
      */
     public ThemedIcon(java.lang.String iconname) {
-        super(constructNew(iconname), Ownership.FULL);
+        super(constructNew(iconname));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromNames(java.lang.String[] iconnames, int len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
-                    Interop.allocateNativeArray(iconnames, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
+                        Interop.allocateNativeArray(iconnames, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new themed icon for {@code iconnames}.
      * @param iconnames an array of strings containing icon names.
@@ -83,20 +89,23 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
         var RESULT = constructNewFromNames(iconnames, len);
-        return (org.gtk.gio.ThemedIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.ThemedIcon) Interop.register(RESULT, org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithDefaultFallbacks(java.lang.String iconname) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(
-                    Marshal.stringToAddress.marshal(iconname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(Marshal.stringToAddress.marshal(iconname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new themed icon for {@code iconname}, and all the names
      * that can be created by shortening {@code iconname} at '-' characters.
@@ -118,7 +127,9 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
         var RESULT = constructNewWithDefaultFallbacks(iconname);
-        return (org.gtk.gio.ThemedIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.ThemedIcon) Interop.register(RESULT, org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -129,12 +140,14 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      * @param iconname name of icon to append to list of icons from within {@code icon}.
      */
     public void appendName(java.lang.String iconname) {
-        try {
-            DowncallHandles.g_themed_icon_append_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(iconname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_themed_icon_append_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(iconname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -143,14 +156,15 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      * @return a list of icon names.
      */
     public PointerString getNames() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_get_names.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_get_names.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -161,12 +175,14 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      * @param iconname name of icon to prepend to list of icons from within {@code icon}.
      */
     public void prependName(java.lang.String iconname) {
-        try {
-            DowncallHandles.g_themed_icon_prepend_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(iconname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_themed_icon_prepend_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(iconname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -200,6 +216,9 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -260,45 +279,53 @@ public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.I
     private static class DowncallHandles {
         
         private static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
-            "g_themed_icon_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_themed_icon_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
-            "g_themed_icon_new_from_names",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_themed_icon_new_from_names",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
-            "g_themed_icon_new_with_default_fallbacks",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_themed_icon_new_with_default_fallbacks",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
-            "g_themed_icon_append_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_themed_icon_append_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
-            "g_themed_icon_get_names",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_themed_icon_get_names",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
-            "g_themed_icon_prepend_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_themed_icon_prepend_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_themed_icon_get_type = Interop.downcallHandle(
-            "g_themed_icon_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_themed_icon_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_themed_icon_get_type != null;
     }
 }

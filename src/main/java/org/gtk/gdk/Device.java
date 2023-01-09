@@ -32,14 +32,16 @@ public class Device extends org.gtk.gobject.GObject {
     /**
      * Create a Device proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Device(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Device(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Device> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Device(input, ownership);
+    public static final Marshal<Addressable, Device> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Device(input);
     
     /**
      * Retrieves whether the Caps Lock modifier of the keyboard is locked.
@@ -50,8 +52,7 @@ public class Device extends org.gtk.gobject.GObject {
     public boolean getCapsLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_caps_lock_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_caps_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,12 +66,11 @@ public class Device extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.DeviceTool getDeviceTool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_device_tool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_device_tool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.DeviceTool.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.DeviceTool) Interop.register(RESULT, org.gtk.gdk.DeviceTool.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -87,8 +87,7 @@ public class Device extends org.gtk.gobject.GObject {
     public org.pango.Direction getDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_direction.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,12 +101,11 @@ public class Device extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -120,8 +118,7 @@ public class Device extends org.gtk.gobject.GObject {
     public boolean getHasCursor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_has_cursor.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_has_cursor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,8 +134,7 @@ public class Device extends org.gtk.gobject.GObject {
     public org.gtk.gdk.ModifierType getModifierState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_modifier_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_modifier_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +148,7 @@ public class Device extends org.gtk.gobject.GObject {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,8 +164,7 @@ public class Device extends org.gtk.gobject.GObject {
     public boolean getNumLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_num_lock_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_num_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +178,7 @@ public class Device extends org.gtk.gobject.GObject {
     public int getNumTouches() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_num_touches.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_num_touches.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,8 +195,7 @@ public class Device extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getProductId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_product_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_product_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,8 +211,7 @@ public class Device extends org.gtk.gobject.GObject {
     public boolean getScrollLockState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_scroll_lock_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_scroll_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,12 +225,11 @@ public class Device extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Seat getSeat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_seat.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_seat.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Seat) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Seat.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Seat) Interop.register(RESULT, org.gtk.gdk.Seat.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -249,8 +239,7 @@ public class Device extends org.gtk.gobject.GObject {
     public org.gtk.gdk.InputSource getSource() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_source.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,20 +260,22 @@ public class Device extends org.gtk.gobject.GObject {
      *   device position
      */
     public @Nullable org.gtk.gdk.Surface getSurfaceAtPosition(Out<Double> winX, Out<Double> winY) {
-        MemorySegment winXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment winYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_surface_at_position.invokeExact(
-                    handle(),
-                    (Addressable) (winX == null ? MemoryAddress.NULL : (Addressable) winXPOINTER.address()),
-                    (Addressable) (winY == null ? MemoryAddress.NULL : (Addressable) winYPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment winXPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment winYPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_surface_at_position.invokeExact(
+                        handle(),
+                        (Addressable) (winX == null ? MemoryAddress.NULL : (Addressable) winXPOINTER.address()),
+                        (Addressable) (winY == null ? MemoryAddress.NULL : (Addressable) winYPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (winX != null) winX.set(winXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (winY != null) winY.set(winYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
         }
-        if (winX != null) winX.set(winXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (winY != null) winY.set(winYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -299,8 +290,7 @@ public class Device extends org.gtk.gobject.GObject {
     public int getTimestamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_get_timestamp.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_get_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,8 +329,7 @@ public class Device extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getVendorId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_vendor_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_device_get_vendor_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,8 +346,7 @@ public class Device extends org.gtk.gobject.GObject {
     public boolean hasBidiLayouts() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_has_bidi_layouts.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_has_bidi_layouts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,19 +367,43 @@ public class Device extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted either when the number of either axes or keys changes.
+         * <p>
+         * On X11 this will normally happen when the physical device
+         * routing events through the logical device changes (for
+         * example, user switches from the USB mouse to a tablet); in
+         * that case the logical device will change to reflect the axes
+         * and keys on the new physical device.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceDevice) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -407,28 +419,47 @@ public class Device extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Device.Changed> onChanged(Device.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToolChanged} callback.
+     */
     @FunctionalInterface
     public interface ToolChanged {
+    
+        /**
+         * Emitted on pen/eraser devices whenever tools enter or leave proximity.
+         */
         void run(org.gtk.gdk.DeviceTool tool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceDevice, MemoryAddress tool) {
-            run((org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tool)), org.gtk.gdk.DeviceTool.fromAddress).marshal(tool, Ownership.NONE));
+            run((org.gtk.gdk.DeviceTool) Interop.register(tool, org.gtk.gdk.DeviceTool.fromAddress).marshal(tool, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToolChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToolChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -438,9 +469,10 @@ public class Device extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Device.ToolChanged> onToolChanged(Device.ToolChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("tool-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("tool-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -463,6 +495,9 @@ public class Device extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -682,111 +717,119 @@ public class Device extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_device_get_caps_lock_state = Interop.downcallHandle(
-            "gdk_device_get_caps_lock_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_caps_lock_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_device_tool = Interop.downcallHandle(
-            "gdk_device_get_device_tool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_device_tool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_direction = Interop.downcallHandle(
-            "gdk_device_get_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_display = Interop.downcallHandle(
-            "gdk_device_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_has_cursor = Interop.downcallHandle(
-            "gdk_device_get_has_cursor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_has_cursor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_modifier_state = Interop.downcallHandle(
-            "gdk_device_get_modifier_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_modifier_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_name = Interop.downcallHandle(
-            "gdk_device_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_num_lock_state = Interop.downcallHandle(
-            "gdk_device_get_num_lock_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_num_lock_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_num_touches = Interop.downcallHandle(
-            "gdk_device_get_num_touches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_num_touches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_product_id = Interop.downcallHandle(
-            "gdk_device_get_product_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_product_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_scroll_lock_state = Interop.downcallHandle(
-            "gdk_device_get_scroll_lock_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_scroll_lock_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_seat = Interop.downcallHandle(
-            "gdk_device_get_seat",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_seat",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_source = Interop.downcallHandle(
-            "gdk_device_get_source",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_source",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_surface_at_position = Interop.downcallHandle(
-            "gdk_device_get_surface_at_position",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_surface_at_position",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_timestamp = Interop.downcallHandle(
-            "gdk_device_get_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_vendor_id = Interop.downcallHandle(
-            "gdk_device_get_vendor_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_get_vendor_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_has_bidi_layouts = Interop.downcallHandle(
-            "gdk_device_has_bidi_layouts",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_has_bidi_layouts",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_get_type = Interop.downcallHandle(
-            "gdk_device_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_device_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_device_get_type != null;
     }
 }

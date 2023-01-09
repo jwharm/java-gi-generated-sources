@@ -39,8 +39,8 @@ public class VideoCaptionMeta extends Struct {
      * @return A new, uninitialized @{link VideoCaptionMeta}
      */
     public static VideoCaptionMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoCaptionMeta newInstance = new VideoCaptionMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoCaptionMeta newInstance = new VideoCaptionMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class VideoCaptionMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,9 +59,11 @@ public class VideoCaptionMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -69,10 +71,12 @@ public class VideoCaptionMeta extends Struct {
      * @return The value of the field {@code caption_type}
      */
     public org.gstreamer.video.VideoCaptionType getCaptionType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoCaptionType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoCaptionType.of(RESULT);
+        }
     }
     
     /**
@@ -80,9 +84,11 @@ public class VideoCaptionMeta extends Struct {
      * @param captionType The new value of the field {@code caption_type}
      */
     public void setCaptionType(org.gstreamer.video.VideoCaptionType captionType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
+        }
     }
     
     /**
@@ -90,10 +96,12 @@ public class VideoCaptionMeta extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -101,9 +109,11 @@ public class VideoCaptionMeta extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(byte[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
@@ -111,10 +121,12 @@ public class VideoCaptionMeta extends Struct {
      * @return The value of the field {@code size}
      */
     public long getSize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -122,22 +134,26 @@ public class VideoCaptionMeta extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
      * Create a VideoCaptionMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoCaptionMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoCaptionMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoCaptionMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoCaptionMeta(input, ownership);
+    public static final Marshal<Addressable, VideoCaptionMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoCaptionMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -146,15 +162,15 @@ public class VideoCaptionMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_caption_meta_get_info = Interop.downcallHandle(
-            "gst_video_caption_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_caption_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -180,7 +196,7 @@ public class VideoCaptionMeta extends Struct {
             struct = VideoCaptionMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoCaptionMeta} struct.
          * @return A new instance of {@code VideoCaptionMeta} with the fields 
          *         that were set in the Builder object.
@@ -195,10 +211,12 @@ public class VideoCaptionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -207,10 +225,12 @@ public class VideoCaptionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCaptionType(org.gstreamer.video.VideoCaptionType captionType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -219,10 +239,12 @@ public class VideoCaptionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(byte[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -231,10 +253,12 @@ public class VideoCaptionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(long size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
     }
 }

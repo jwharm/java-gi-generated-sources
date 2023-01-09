@@ -99,8 +99,8 @@ public class Cond extends Struct {
      * @return A new, uninitialized @{link Cond}
      */
     public static Cond allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Cond newInstance = new Cond(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Cond newInstance = new Cond(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -108,14 +108,16 @@ public class Cond extends Struct {
     /**
      * Create a Cond proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Cond(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Cond(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Cond> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Cond(input, ownership);
+    public static final Marshal<Addressable, Cond> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Cond(input);
     
     /**
      * If threads are waiting for {@code cond}, all of them are unblocked.
@@ -125,8 +127,7 @@ public class Cond extends Struct {
      */
     public void broadcast() {
         try {
-            DowncallHandles.g_cond_broadcast.invokeExact(
-                    handle());
+            DowncallHandles.g_cond_broadcast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,8 +144,7 @@ public class Cond extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_cond_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_cond_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,8 +165,7 @@ public class Cond extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.g_cond_init.invokeExact(
-                    handle());
+            DowncallHandles.g_cond_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +179,7 @@ public class Cond extends Struct {
      */
     public void signal() {
         try {
-            DowncallHandles.g_cond_signal.invokeExact(
-                    handle());
+            DowncallHandles.g_cond_signal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,39 +280,39 @@ public class Cond extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
-            "g_cond_broadcast",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_cond_broadcast",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cond_clear = Interop.downcallHandle(
-            "g_cond_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_cond_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cond_init = Interop.downcallHandle(
-            "g_cond_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_cond_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cond_signal = Interop.downcallHandle(
-            "g_cond_signal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_cond_signal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cond_wait = Interop.downcallHandle(
-            "g_cond_wait",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cond_wait",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
-            "g_cond_wait_until",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_cond_wait_until",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -340,7 +338,7 @@ public class Cond extends Struct {
             struct = Cond.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Cond} struct.
          * @return A new instance of {@code Cond} with the fields 
          *         that were set in the Builder object.
@@ -350,17 +348,21 @@ public class Cond extends Struct {
         }
         
         public Builder setP(java.lang.foreign.MemoryAddress p) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("p"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+                return this;
+            }
         }
         
         public Builder setI(int[] i) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("i"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

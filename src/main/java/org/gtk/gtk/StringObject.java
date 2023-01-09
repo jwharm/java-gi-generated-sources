@@ -31,24 +31,27 @@ public class StringObject extends org.gtk.gobject.GObject {
     /**
      * Create a StringObject proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StringObject(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StringObject(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StringObject> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringObject(input, ownership);
+    public static final Marshal<Addressable, StringObject> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StringObject(input);
     
     private static MemoryAddress constructNew(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -56,7 +59,8 @@ public class StringObject extends org.gtk.gobject.GObject {
      * @param string The string to wrap
      */
     public StringObject(java.lang.String string) {
-        super(constructNew(string), Ownership.FULL);
+        super(constructNew(string));
+        this.takeOwnership();
     }
     
     /**
@@ -66,8 +70,7 @@ public class StringObject extends org.gtk.gobject.GObject {
     public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,6 +107,9 @@ public class StringObject extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -139,21 +145,29 @@ public class StringObject extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
-            "gtk_string_object_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_object_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
-            "gtk_string_object_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_object_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_object_get_type = Interop.downcallHandle(
-            "gtk_string_object_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_string_object_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_string_object_get_type != null;
     }
 }

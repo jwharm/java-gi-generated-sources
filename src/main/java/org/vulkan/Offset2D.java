@@ -29,8 +29,8 @@ public class Offset2D extends Struct {
      * @return A new, uninitialized @{link Offset2D}
      */
     public static Offset2D allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Offset2D newInstance = new Offset2D(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Offset2D newInstance = new Offset2D(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Offset2D extends Struct {
     /**
      * Create a Offset2D proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Offset2D(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Offset2D(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Offset2D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Offset2D(input, ownership);
+    public static final Marshal<Addressable, Offset2D> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Offset2D(input);
 }

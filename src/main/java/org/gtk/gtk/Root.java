@@ -22,8 +22,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Root extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RootImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RootImpl(input, ownership);
+    public static final Marshal<Addressable, RootImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RootImpl(input);
     
     /**
      * Returns the display that this {@code GtkRoot} is on.
@@ -32,12 +35,11 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -52,12 +54,11 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.Widget getFocus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_focus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -101,41 +102,56 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
-            "gtk_root_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_root_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
-            "gtk_root_get_focus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_root_get_focus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
-            "gtk_root_set_focus",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_root_set_focus",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_root_get_type = Interop.downcallHandle(
-            "gtk_root_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_root_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The RootImpl type represents a native instance of the Root interface.
+     */
     class RootImpl extends org.gtk.gobject.GObject implements Root {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public RootImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Root for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public RootImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_root_get_type != null;
     }
 }

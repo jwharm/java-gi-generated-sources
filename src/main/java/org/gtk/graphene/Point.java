@@ -36,8 +36,8 @@ public class Point extends Struct {
      * @return A new, uninitialized @{link Point}
      */
     public static Point allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Point newInstance = new Point(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Point newInstance = new Point(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class Point extends Struct {
      * @return The value of the field {@code x}
      */
     public float getX() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class Point extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(float x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class Point extends Struct {
      * @return The value of the field {@code y}
      */
     public float getY() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class Point extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(float y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
      * Create a Point proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Point(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Point(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Point> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Point(input, ownership);
+    public static final Marshal<Addressable, Point> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Point(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -105,7 +115,7 @@ public class Point extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Point} structure.
      * <p>
@@ -132,7 +142,9 @@ public class Point extends Struct {
      */
     public static Point alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -143,21 +155,23 @@ public class Point extends Struct {
      * @return the distance between the two points
      */
     public float distance(org.gtk.graphene.Point b, Out<Float> dX, Out<Float> dY) {
-        MemorySegment dXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        MemorySegment dYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        float RESULT;
-        try {
-            RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(
-                    handle(),
-                    b.handle(),
-                    (Addressable) (dX == null ? MemoryAddress.NULL : (Addressable) dXPOINTER.address()),
-                    (Addressable) (dY == null ? MemoryAddress.NULL : (Addressable) dYPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dXPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            MemorySegment dYPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            float RESULT;
+            try {
+                RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(
+                        handle(),
+                        b.handle(),
+                        (Addressable) (dX == null ? MemoryAddress.NULL : (Addressable) dXPOINTER.address()),
+                        (Addressable) (dY == null ? MemoryAddress.NULL : (Addressable) dYPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (dX != null) dX.set(dXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+                    if (dY != null) dY.set(dYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return RESULT;
         }
-        if (dX != null) dX.set(dXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        if (dY != null) dY.set(dYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT;
     }
     
     /**
@@ -187,8 +201,7 @@ public class Point extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_point_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_point_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +225,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -229,7 +242,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -246,7 +259,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -315,75 +328,75 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_point_alloc = Interop.downcallHandle(
-            "graphene_point_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_distance = Interop.downcallHandle(
-            "graphene_point_distance",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_distance",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_equal = Interop.downcallHandle(
-            "graphene_point_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_free = Interop.downcallHandle(
-            "graphene_point_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_init = Interop.downcallHandle(
-            "graphene_point_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_point_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_point_init_from_point = Interop.downcallHandle(
-            "graphene_point_init_from_point",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_init_from_point",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_init_from_vec2 = Interop.downcallHandle(
-            "graphene_point_init_from_vec2",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_init_from_vec2",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_interpolate = Interop.downcallHandle(
-            "graphene_point_interpolate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_interpolate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_near = Interop.downcallHandle(
-            "graphene_point_near",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_point_near",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_point_to_vec2 = Interop.downcallHandle(
-            "graphene_point_to_vec2",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_to_vec2",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_point_zero = Interop.downcallHandle(
-            "graphene_point_zero",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_point_zero",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -409,7 +422,7 @@ public class Point extends Struct {
             struct = Point.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Point} struct.
          * @return A new instance of {@code Point} with the fields 
          *         that were set in the Builder object.
@@ -424,10 +437,12 @@ public class Point extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(float x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -436,10 +451,12 @@ public class Point extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(float y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
     }
 }

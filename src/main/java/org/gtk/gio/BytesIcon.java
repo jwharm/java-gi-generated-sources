@@ -30,20 +30,21 @@ public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ic
     /**
      * Create a BytesIcon proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BytesIcon(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BytesIcon(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BytesIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BytesIcon(input, ownership);
+    public static final Marshal<Addressable, BytesIcon> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BytesIcon(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Bytes bytes) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(
-                    bytes.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +59,8 @@ public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ic
      * @param bytes a {@link org.gtk.glib.Bytes}.
      */
     public BytesIcon(org.gtk.glib.Bytes bytes) {
-        super(constructNew(bytes), Ownership.FULL);
+        super(constructNew(bytes));
+        this.takeOwnership();
     }
     
     /**
@@ -68,12 +70,11 @@ public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ic
     public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -106,6 +107,9 @@ public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ic
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -141,21 +145,29 @@ public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ic
     private static class DowncallHandles {
         
         private static final MethodHandle g_bytes_icon_new = Interop.downcallHandle(
-            "g_bytes_icon_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_icon_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_icon_get_bytes = Interop.downcallHandle(
-            "g_bytes_icon_get_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_icon_get_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_icon_get_type = Interop.downcallHandle(
-            "g_bytes_icon_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_icon_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_bytes_icon_get_type != null;
     }
 }

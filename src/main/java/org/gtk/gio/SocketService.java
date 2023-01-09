@@ -57,14 +57,16 @@ public class SocketService extends org.gtk.gio.SocketListener {
     /**
      * Create a SocketService proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketService(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketService(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketService(input, ownership);
+    public static final Marshal<Addressable, SocketService> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketService(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -86,7 +88,8 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * called before.
      */
     public SocketService() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -99,8 +102,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_service_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_socket_service_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +120,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public void start() {
         try {
-            DowncallHandles.g_socket_service_start.invokeExact(
-                    handle());
+            DowncallHandles.g_socket_service_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,8 +145,7 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public void stop() {
         try {
-            DowncallHandles.g_socket_service_stop.invokeExact(
-                    handle());
+            DowncallHandles.g_socket_service_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,20 +165,44 @@ public class SocketService extends org.gtk.gio.SocketListener {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Incoming} callback.
+     */
     @FunctionalInterface
     public interface Incoming {
+    
+        /**
+         * The ::incoming signal is emitted when a new incoming connection
+         * to {@code service} needs to be handled. The handler must initiate the
+         * handling of {@code connection}, but may not block; in essence,
+         * asynchronous operations must be used.
+         * <p>
+         * {@code connection} will be unreffed once the signal handler returns,
+         * so you need to ref it yourself if you are planning to use it.
+         */
         boolean run(org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.GObject sourceObject);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSocketService, MemoryAddress connection, MemoryAddress sourceObject) {
-            var RESULT = run((org.gtk.gio.SocketConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.SocketConnection.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sourceObject)), org.gtk.gobject.GObject.fromAddress).marshal(sourceObject, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketConnection) Interop.register(connection, org.gtk.gio.SocketConnection.fromAddress).marshal(connection, null), (org.gtk.gobject.GObject) Interop.register(sourceObject, org.gtk.gobject.GObject.fromAddress).marshal(sourceObject, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Incoming.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Incoming.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -194,9 +218,10 @@ public class SocketService extends org.gtk.gio.SocketListener {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SocketService.Incoming> onIncoming(SocketService.Incoming handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("incoming"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("incoming", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -219,6 +244,9 @@ public class SocketService extends org.gtk.gio.SocketListener {
      */
     public static class Builder extends org.gtk.gio.SocketListener.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -254,33 +282,41 @@ public class SocketService extends org.gtk.gio.SocketListener {
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
-            "g_socket_service_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_service_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
-            "g_socket_service_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_service_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
-            "g_socket_service_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_service_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
-            "g_socket_service_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_service_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_service_get_type = Interop.downcallHandle(
-            "g_socket_service_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_service_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_service_get_type != null;
     }
 }

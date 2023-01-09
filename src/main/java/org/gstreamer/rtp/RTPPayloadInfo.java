@@ -43,8 +43,8 @@ public class RTPPayloadInfo extends Struct {
      * @return A new, uninitialized @{link RTPPayloadInfo}
      */
     public static RTPPayloadInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTPPayloadInfo newInstance = new RTPPayloadInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTPPayloadInfo newInstance = new RTPPayloadInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code payload_type}
      */
     public byte getPayloadType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class RTPPayloadInfo extends Struct {
      * @param payloadType The new value of the field {@code payload_type}
      */
     public void setPayloadType(byte payloadType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), payloadType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), payloadType);
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code media}
      */
     public java.lang.String getMedia() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class RTPPayloadInfo extends Struct {
      * @param media The new value of the field {@code media}
      */
     public void setMedia(java.lang.String media) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, SCOPE)));
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code encoding_name}
      */
     public java.lang.String getEncodingName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -107,9 +117,11 @@ public class RTPPayloadInfo extends Struct {
      * @param encodingName The new value of the field {@code encoding_name}
      */
     public void setEncodingName(java.lang.String encodingName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, SCOPE)));
+        }
     }
     
     /**
@@ -117,10 +129,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code clock_rate}
      */
     public int getClockRate() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -128,9 +142,11 @@ public class RTPPayloadInfo extends Struct {
      * @param clockRate The new value of the field {@code clock_rate}
      */
     public void setClockRate(int clockRate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), clockRate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), clockRate);
+        }
     }
     
     /**
@@ -138,10 +154,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code encoding_parameters}
      */
     public java.lang.String getEncodingParameters() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -149,9 +167,11 @@ public class RTPPayloadInfo extends Struct {
      * @param encodingParameters The new value of the field {@code encoding_parameters}
      */
     public void setEncodingParameters(java.lang.String encodingParameters) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, SCOPE)));
+        }
     }
     
     /**
@@ -159,10 +179,12 @@ public class RTPPayloadInfo extends Struct {
      * @return The value of the field {@code bitrate}
      */
     public int getBitrate() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -170,22 +192,26 @@ public class RTPPayloadInfo extends Struct {
      * @param bitrate The new value of the field {@code bitrate}
      */
     public void setBitrate(int bitrate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitrate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bitrate);
+        }
     }
     
     /**
      * Create a RTPPayloadInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPPayloadInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTPPayloadInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPPayloadInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPPayloadInfo(input, ownership);
+    public static final Marshal<Addressable, RTPPayloadInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPPayloadInfo(input);
     
     /**
      * Get the {@link RTPPayloadInfo} for {@code media} and {@code encoding_name}. This function is
@@ -198,15 +224,17 @@ public class RTPPayloadInfo extends Struct {
      * @return a {@link RTPPayloadInfo} or NULL when no info could be found.
      */
     public static org.gstreamer.rtp.RTPPayloadInfo forName(java.lang.String media, java.lang.String encodingName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_name.invokeExact(
-                    Marshal.stringToAddress.marshal(media, null),
-                    Marshal.stringToAddress.marshal(encodingName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_name.invokeExact(
+                        Marshal.stringToAddress.marshal(media, SCOPE),
+                        Marshal.stringToAddress.marshal(encodingName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,26 +247,25 @@ public class RTPPayloadInfo extends Struct {
     public static org.gstreamer.rtp.RTPPayloadInfo forPt(byte payloadType) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_pt.invokeExact(
-                    payloadType);
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_pt.invokeExact(payloadType);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_payload_info_for_name = Interop.downcallHandle(
-            "gst_rtp_payload_info_for_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_payload_info_for_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_payload_info_for_pt = Interop.downcallHandle(
-            "gst_rtp_payload_info_for_pt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtp_payload_info_for_pt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
     }
     
@@ -264,7 +291,7 @@ public class RTPPayloadInfo extends Struct {
             struct = RTPPayloadInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTPPayloadInfo} struct.
          * @return A new instance of {@code RTPPayloadInfo} with the fields 
          *         that were set in the Builder object.
@@ -279,10 +306,12 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPayloadType(byte payloadType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), payloadType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), payloadType);
+                return this;
+            }
         }
         
         /**
@@ -292,10 +321,12 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMedia(java.lang.String media) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("media"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -304,10 +335,12 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEncodingName(java.lang.String encodingName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -316,10 +349,12 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setClockRate(int clockRate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), clockRate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), clockRate);
+                return this;
+            }
         }
         
         /**
@@ -329,10 +364,12 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEncodingParameters(java.lang.String encodingParameters) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -341,17 +378,21 @@ public class RTPPayloadInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBitrate(int bitrate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitrate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bitrate);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -20,6 +20,9 @@ public class PopoverMenuFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PopoverMenuFlags NESTED = new PopoverMenuFlags(1);
     
+    /**
+     * Create a new PopoverMenuFlags with the provided value
+     */
     public PopoverMenuFlags(int value) {
         super(value);
     }

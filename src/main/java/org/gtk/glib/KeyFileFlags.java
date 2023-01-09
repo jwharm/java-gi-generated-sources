@@ -33,6 +33,9 @@ public class KeyFileFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final KeyFileFlags KEEP_TRANSLATIONS = new KeyFileFlags(2);
     
+    /**
+     * Create a new KeyFileFlags with the provided value
+     */
     public KeyFileFlags(int value) {
         super(value);
     }

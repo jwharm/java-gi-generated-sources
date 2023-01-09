@@ -28,14 +28,16 @@ public class ButtonEvent extends org.gtk.gdk.Event {
     /**
      * Create a ButtonEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ButtonEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ButtonEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ButtonEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ButtonEvent(input, ownership);
+    public static final Marshal<Addressable, ButtonEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ButtonEvent(input);
     
     /**
      * Extract the button number from a button event.
@@ -44,8 +46,7 @@ public class ButtonEvent extends org.gtk.gdk.Event {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_button_event_get_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_button_event_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,15 +70,23 @@ public class ButtonEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_button_event_get_button = Interop.downcallHandle(
-            "gdk_button_event_get_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_button_event_get_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_button_event_get_type = Interop.downcallHandle(
-            "gdk_button_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_button_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_button_event_get_type != null;
     }
 }

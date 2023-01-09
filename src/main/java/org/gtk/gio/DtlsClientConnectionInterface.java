@@ -35,8 +35,8 @@ public class DtlsClientConnectionInterface extends Struct {
      * @return A new, uninitialized @{link DtlsClientConnectionInterface}
      */
     public static DtlsClientConnectionInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DtlsClientConnectionInterface newInstance = new DtlsClientConnectionInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DtlsClientConnectionInterface newInstance = new DtlsClientConnectionInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class DtlsClientConnectionInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,22 +55,26 @@ public class DtlsClientConnectionInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
     /**
      * Create a DtlsClientConnectionInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DtlsClientConnectionInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DtlsClientConnectionInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DtlsClientConnectionInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsClientConnectionInterface(input, ownership);
+    public static final Marshal<Addressable, DtlsClientConnectionInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DtlsClientConnectionInterface(input);
     
     /**
      * A {@link DtlsClientConnectionInterface.Builder} object constructs a {@link DtlsClientConnectionInterface} 
@@ -94,7 +98,7 @@ public class DtlsClientConnectionInterface extends Struct {
             struct = DtlsClientConnectionInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DtlsClientConnectionInterface} struct.
          * @return A new instance of {@code DtlsClientConnectionInterface} with the fields 
          *         that were set in the Builder object.
@@ -109,10 +113,12 @@ public class DtlsClientConnectionInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
     }
 }

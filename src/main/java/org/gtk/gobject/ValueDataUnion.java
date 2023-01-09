@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class ValueDataUnion extends ObjectBase {
+public class ValueDataUnion extends Struct {
     
     static {
         GObjects.javagi$ensureInitialized();
@@ -35,13 +35,14 @@ public class ValueDataUnion extends ObjectBase {
     /**
      * Create a ValueDataUnion proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ValueDataUnion(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ValueDataUnion(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ValueDataUnion> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValueDataUnion(input, ownership);
+    public static final Marshal<Addressable, ValueDataUnion> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ValueDataUnion(input);
 }
-

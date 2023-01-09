@@ -34,8 +34,8 @@ public class Simd4F extends Struct {
      * @return A new, uninitialized @{link Simd4F}
      */
     public static Simd4F allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Simd4F newInstance = new Simd4F(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Simd4F newInstance = new Simd4F(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class Simd4F extends Struct {
     /**
      * Create a Simd4F proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Simd4F(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Simd4F(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Simd4F> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Simd4F(input, ownership);
+    public static final Marshal<Addressable, Simd4F> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Simd4F(input);
     
     /**
      * A {@link Simd4F.Builder} object constructs a {@link Simd4F} 
@@ -74,7 +76,7 @@ public class Simd4F extends Struct {
             struct = Simd4F.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Simd4F} struct.
          * @return A new instance of {@code Simd4F} with the fields 
          *         that were set in the Builder object.
@@ -84,31 +86,39 @@ public class Simd4F extends Struct {
         }
         
         public Builder setX(float x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         public Builder setY(float y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
         
         public Builder setZ(float z) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("z"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), z);
+                return this;
+            }
         }
         
         public Builder setW(float w) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), w);
+                return this;
+            }
         }
     }
 }

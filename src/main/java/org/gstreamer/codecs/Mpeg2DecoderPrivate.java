@@ -29,8 +29,8 @@ public class Mpeg2DecoderPrivate extends Struct {
      * @return A new, uninitialized @{link Mpeg2DecoderPrivate}
      */
     public static Mpeg2DecoderPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Mpeg2DecoderPrivate newInstance = new Mpeg2DecoderPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Mpeg2DecoderPrivate newInstance = new Mpeg2DecoderPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Mpeg2DecoderPrivate extends Struct {
     /**
      * Create a Mpeg2DecoderPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Mpeg2DecoderPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Mpeg2DecoderPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Mpeg2DecoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2DecoderPrivate(input, ownership);
+    public static final Marshal<Addressable, Mpeg2DecoderPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2DecoderPrivate(input);
 }

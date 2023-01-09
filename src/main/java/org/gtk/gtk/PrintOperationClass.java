@@ -43,8 +43,8 @@ public class PrintOperationClass extends Struct {
      * @return A new, uninitialized @{link PrintOperationClass}
      */
     public static PrintOperationClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PrintOperationClass newInstance = new PrintOperationClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PrintOperationClass newInstance = new PrintOperationClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,7 +55,7 @@ public class PrintOperationClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -63,24 +63,41 @@ public class PrintOperationClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DoneCallback} callback.
+     */
     @FunctionalInterface
     public interface DoneCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintOperationResult result);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, int result) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), org.gtk.gtk.PrintOperationResult.of(result));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), org.gtk.gtk.PrintOperationResult.of(result));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DoneCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DoneCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -89,24 +106,41 @@ public class PrintOperationClass extends Struct {
      * @param done The new value of the field {@code done}
      */
     public void setDone(DoneCallback done) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("done"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (done == null ? MemoryAddress.NULL : done.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("done"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (done == null ? MemoryAddress.NULL : done.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code BeginPrintCallback} callback.
+     */
     @FunctionalInterface
     public interface BeginPrintCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintContext context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress context) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginPrintCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), BeginPrintCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,25 +149,42 @@ public class PrintOperationClass extends Struct {
      * @param beginPrint The new value of the field {@code begin_print}
      */
     public void setBeginPrint(BeginPrintCallback beginPrint) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("begin_print"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginPrint == null ? MemoryAddress.NULL : beginPrint.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("begin_print"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginPrint == null ? MemoryAddress.NULL : beginPrint.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PaginateCallback} callback.
+     */
     @FunctionalInterface
     public interface PaginateCallback {
+    
         boolean run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintContext context);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress operation, MemoryAddress context) {
-            var RESULT = run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PaginateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PaginateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -142,24 +193,41 @@ public class PrintOperationClass extends Struct {
      * @param paginate The new value of the field {@code paginate}
      */
     public void setPaginate(PaginateCallback paginate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("paginate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paginate == null ? MemoryAddress.NULL : paginate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("paginate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (paginate == null ? MemoryAddress.NULL : paginate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestPageSetupCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestPageSetupCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintContext context, int pageNr, org.gtk.gtk.PageSetup setup);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress context, int pageNr, MemoryAddress setup) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), pageNr, (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(setup)), org.gtk.gtk.PageSetup.fromAddress).marshal(setup, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null), pageNr, (org.gtk.gtk.PageSetup) Interop.register(setup, org.gtk.gtk.PageSetup.fromAddress).marshal(setup, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestPageSetupCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestPageSetupCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -168,24 +236,41 @@ public class PrintOperationClass extends Struct {
      * @param requestPageSetup The new value of the field {@code request_page_setup}
      */
     public void setRequestPageSetup(RequestPageSetupCallback requestPageSetup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_page_setup"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestPageSetup == null ? MemoryAddress.NULL : requestPageSetup.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_page_setup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestPageSetup == null ? MemoryAddress.NULL : requestPageSetup.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DrawPageCallback} callback.
+     */
     @FunctionalInterface
     public interface DrawPageCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintContext context, int pageNr);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress context, int pageNr) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), pageNr);
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null), pageNr);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DrawPageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DrawPageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -194,24 +279,41 @@ public class PrintOperationClass extends Struct {
      * @param drawPage The new value of the field {@code draw_page}
      */
     public void setDrawPage(DrawPageCallback drawPage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("draw_page"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawPage == null ? MemoryAddress.NULL : drawPage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("draw_page"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (drawPage == null ? MemoryAddress.NULL : drawPage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndPrintCallback} callback.
+     */
     @FunctionalInterface
     public interface EndPrintCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintContext context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress context) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndPrintCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndPrintCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -220,24 +322,41 @@ public class PrintOperationClass extends Struct {
      * @param endPrint The new value of the field {@code end_print}
      */
     public void setEndPrint(EndPrintCallback endPrint) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_print"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPrint == null ? MemoryAddress.NULL : endPrint.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_print"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPrint == null ? MemoryAddress.NULL : endPrint.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StatusChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface StatusChangedCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StatusChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StatusChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -246,25 +365,42 @@ public class PrintOperationClass extends Struct {
      * @param statusChanged The new value of the field {@code status_changed}
      */
     public void setStatusChanged(StatusChangedCallback statusChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("status_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (statusChanged == null ? MemoryAddress.NULL : statusChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("status_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (statusChanged == null ? MemoryAddress.NULL : statusChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateCustomWidgetCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateCustomWidgetCallback {
+    
         org.gtk.gtk.Widget run(org.gtk.gtk.PrintOperation operation);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress operation) {
-            var RESULT = run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateCustomWidgetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateCustomWidgetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -273,24 +409,41 @@ public class PrintOperationClass extends Struct {
      * @param createCustomWidget The new value of the field {@code create_custom_widget}
      */
     public void setCreateCustomWidget(CreateCustomWidgetCallback createCustomWidget) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_custom_widget"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCustomWidget == null ? MemoryAddress.NULL : createCustomWidget.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_custom_widget"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createCustomWidget == null ? MemoryAddress.NULL : createCustomWidget.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CustomWidgetApplyCallback} callback.
+     */
     @FunctionalInterface
     public interface CustomWidgetApplyCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.Widget widget);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress widget) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CustomWidgetApplyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CustomWidgetApplyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -299,25 +452,42 @@ public class PrintOperationClass extends Struct {
      * @param customWidgetApply The new value of the field {@code custom_widget_apply}
      */
     public void setCustomWidgetApply(CustomWidgetApplyCallback customWidgetApply) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("custom_widget_apply"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customWidgetApply == null ? MemoryAddress.NULL : customWidgetApply.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("custom_widget_apply"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (customWidgetApply == null ? MemoryAddress.NULL : customWidgetApply.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PreviewCallback} callback.
+     */
     @FunctionalInterface
     public interface PreviewCallback {
+    
         boolean run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.PrintOperationPreview preview, org.gtk.gtk.PrintContext context, org.gtk.gtk.Window parent);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress operation, MemoryAddress preview, MemoryAddress context, MemoryAddress parent) {
-            var RESULT = run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gtk.gtk.Window.fromAddress).marshal(parent, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.PrintOperationPreview) Interop.register(preview, org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, null), (org.gtk.gtk.PrintContext) Interop.register(context, org.gtk.gtk.PrintContext.fromAddress).marshal(context, null), (org.gtk.gtk.Window) Interop.register(parent, org.gtk.gtk.Window.fromAddress).marshal(parent, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreviewCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PreviewCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -326,24 +496,41 @@ public class PrintOperationClass extends Struct {
      * @param preview The new value of the field {@code preview}
      */
     public void setPreview(PreviewCallback preview) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("preview"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preview == null ? MemoryAddress.NULL : preview.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("preview"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (preview == null ? MemoryAddress.NULL : preview.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UpdateCustomWidgetCallback} callback.
+     */
     @FunctionalInterface
     public interface UpdateCustomWidgetCallback {
+    
         void run(org.gtk.gtk.PrintOperation operation, org.gtk.gtk.Widget widget, org.gtk.gtk.PageSetup setup, org.gtk.gtk.PrintSettings settings);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress operation, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings) {
-            run((org.gtk.gtk.PrintOperation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(operation)), org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(setup)), org.gtk.gtk.PageSetup.fromAddress).marshal(setup, Ownership.NONE), (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(settings)), org.gtk.gtk.PrintSettings.fromAddress).marshal(settings, Ownership.NONE));
+            run((org.gtk.gtk.PrintOperation) Interop.register(operation, org.gtk.gtk.PrintOperation.fromAddress).marshal(operation, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), (org.gtk.gtk.PageSetup) Interop.register(setup, org.gtk.gtk.PageSetup.fromAddress).marshal(setup, null), (org.gtk.gtk.PrintSettings) Interop.register(settings, org.gtk.gtk.PrintSettings.fromAddress).marshal(settings, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateCustomWidgetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UpdateCustomWidgetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -352,22 +539,26 @@ public class PrintOperationClass extends Struct {
      * @param updateCustomWidget The new value of the field {@code update_custom_widget}
      */
     public void setUpdateCustomWidget(UpdateCustomWidgetCallback updateCustomWidget) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("update_custom_widget"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateCustomWidget == null ? MemoryAddress.NULL : updateCustomWidget.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("update_custom_widget"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateCustomWidget == null ? MemoryAddress.NULL : updateCustomWidget.toCallback()));
+        }
     }
     
     /**
      * Create a PrintOperationClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PrintOperationClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PrintOperationClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PrintOperationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperationClass(input, ownership);
+    public static final Marshal<Addressable, PrintOperationClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperationClass(input);
     
     /**
      * A {@link PrintOperationClass.Builder} object constructs a {@link PrintOperationClass} 
@@ -391,7 +582,7 @@ public class PrintOperationClass extends Struct {
             struct = PrintOperationClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PrintOperationClass} struct.
          * @return A new instance of {@code PrintOperationClass} with the fields 
          *         that were set in the Builder object.
@@ -406,94 +597,120 @@ public class PrintOperationClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setDone(DoneCallback done) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("done"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (done == null ? MemoryAddress.NULL : done.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("done"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (done == null ? MemoryAddress.NULL : done.toCallback()));
+                return this;
+            }
         }
         
         public Builder setBeginPrint(BeginPrintCallback beginPrint) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("begin_print"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginPrint == null ? MemoryAddress.NULL : beginPrint.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("begin_print"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginPrint == null ? MemoryAddress.NULL : beginPrint.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPaginate(PaginateCallback paginate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("paginate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paginate == null ? MemoryAddress.NULL : paginate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("paginate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (paginate == null ? MemoryAddress.NULL : paginate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestPageSetup(RequestPageSetupCallback requestPageSetup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_page_setup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestPageSetup == null ? MemoryAddress.NULL : requestPageSetup.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_page_setup"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestPageSetup == null ? MemoryAddress.NULL : requestPageSetup.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDrawPage(DrawPageCallback drawPage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("draw_page"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (drawPage == null ? MemoryAddress.NULL : drawPage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("draw_page"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (drawPage == null ? MemoryAddress.NULL : drawPage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEndPrint(EndPrintCallback endPrint) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_print"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPrint == null ? MemoryAddress.NULL : endPrint.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_print"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPrint == null ? MemoryAddress.NULL : endPrint.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStatusChanged(StatusChangedCallback statusChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("status_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (statusChanged == null ? MemoryAddress.NULL : statusChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("status_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (statusChanged == null ? MemoryAddress.NULL : statusChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateCustomWidget(CreateCustomWidgetCallback createCustomWidget) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_custom_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCustomWidget == null ? MemoryAddress.NULL : createCustomWidget.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_custom_widget"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createCustomWidget == null ? MemoryAddress.NULL : createCustomWidget.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCustomWidgetApply(CustomWidgetApplyCallback customWidgetApply) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("custom_widget_apply"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (customWidgetApply == null ? MemoryAddress.NULL : customWidgetApply.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("custom_widget_apply"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (customWidgetApply == null ? MemoryAddress.NULL : customWidgetApply.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPreview(PreviewCallback preview) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("preview"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (preview == null ? MemoryAddress.NULL : preview.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("preview"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (preview == null ? MemoryAddress.NULL : preview.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUpdateCustomWidget(UpdateCustomWidgetCallback updateCustomWidget) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("update_custom_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateCustomWidget == null ? MemoryAddress.NULL : updateCustomWidget.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("update_custom_widget"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateCustomWidget == null ? MemoryAddress.NULL : updateCustomWidget.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

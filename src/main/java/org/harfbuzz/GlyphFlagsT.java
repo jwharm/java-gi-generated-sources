@@ -108,6 +108,9 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GlyphFlagsT DEFINED = new GlyphFlagsT(7);
     
+    /**
+     * Create a new GlyphFlagsT with the provided value
+     */
     public GlyphFlagsT(int value) {
         super(value);
     }

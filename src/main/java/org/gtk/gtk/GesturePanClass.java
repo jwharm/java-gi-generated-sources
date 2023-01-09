@@ -29,8 +29,8 @@ public class GesturePanClass extends Struct {
      * @return A new, uninitialized @{link GesturePanClass}
      */
     public static GesturePanClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GesturePanClass newInstance = new GesturePanClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GesturePanClass newInstance = new GesturePanClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GesturePanClass extends Struct {
     /**
      * Create a GesturePanClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GesturePanClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GesturePanClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GesturePanClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GesturePanClass(input, ownership);
+    public static final Marshal<Addressable, GesturePanClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GesturePanClass(input);
 }

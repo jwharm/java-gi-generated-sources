@@ -9,18 +9,22 @@ import org.jetbrains.annotations.*;
  * The corner indices used by {@code GskRoundedRect}.
  */
 public enum Corner implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The top left corner
      */
     TOP_LEFT(0),
+    
     /**
      * The top right corner
      */
     TOP_RIGHT(1),
+    
     /**
      * The bottom right corner
      */
     BOTTOM_RIGHT(2),
+    
     /**
      * The bottom left corner
      */
@@ -29,15 +33,29 @@ public enum Corner implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GskCorner";
     
     private final int value;
+    
+    /**
+     * Create a new Corner for the provided value
+     * @param numeric value the enum value
+     */
     Corner(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Corner for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Corner of(int value) {
         return switch (value) {
             case 0 -> TOP_LEFT;

@@ -9,14 +9,17 @@ import org.jetbrains.annotations.*;
  * The plugin loading errors
  */
 public enum PluginError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The plugin could not be loaded
      */
     MODULE(0),
+    
     /**
      * The plugin has unresolved dependencies
      */
     DEPENDENCIES(1),
+    
     /**
      * The plugin has already be loaded from a different file
      */
@@ -25,15 +28,29 @@ public enum PluginError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstPluginError";
     
     private final int value;
+    
+    /**
+     * Create a new PluginError for the provided value
+     * @param numeric value the enum value
+     */
     PluginError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PluginError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PluginError of(int value) {
         return switch (value) {
             case 0 -> MODULE;
@@ -60,9 +77,9 @@ public enum PluginError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_plugin_error_quark = Interop.downcallHandle(
-            "gst_plugin_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_plugin_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

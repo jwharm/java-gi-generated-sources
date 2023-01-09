@@ -12,14 +12,17 @@ import org.jetbrains.annotations.*;
  * @version 1.0
  */
 public enum LeafletTransitionType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Cover the old page or uncover the new page, sliding from or towards the end according to orientation, text direction and children order
      */
     OVER(0),
+    
     /**
      * Uncover the new page or cover the old page, sliding from or towards the start according to orientation, text direction and children order
      */
     UNDER(1),
+    
     /**
      * Slide from left, right, up or down according to the orientation, text direction and the children order
      */
@@ -28,15 +31,29 @@ public enum LeafletTransitionType implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "AdwLeafletTransitionType";
     
     private final int value;
+    
+    /**
+     * Create a new LeafletTransitionType for the provided value
+     * @param numeric value the enum value
+     */
     LeafletTransitionType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new LeafletTransitionType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static LeafletTransitionType of(int value) {
         return switch (value) {
             case 0 -> OVER;

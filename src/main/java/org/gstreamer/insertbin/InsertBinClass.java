@@ -34,8 +34,8 @@ public class InsertBinClass extends Struct {
      * @return A new, uninitialized @{link InsertBinClass}
      */
     public static InsertBinClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InsertBinClass newInstance = new InsertBinClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InsertBinClass newInstance = new InsertBinClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class InsertBinClass extends Struct {
      */
     public org.gstreamer.gst.BinClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.BinClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.BinClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,22 +54,26 @@ public class InsertBinClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.BinClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a InsertBinClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InsertBinClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InsertBinClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InsertBinClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InsertBinClass(input, ownership);
+    public static final Marshal<Addressable, InsertBinClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InsertBinClass(input);
     
     /**
      * A {@link InsertBinClass.Builder} object constructs a {@link InsertBinClass} 
@@ -93,7 +97,7 @@ public class InsertBinClass extends Struct {
             struct = InsertBinClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link InsertBinClass} struct.
          * @return A new instance of {@code InsertBinClass} with the fields 
          *         that were set in the Builder object.
@@ -103,10 +107,12 @@ public class InsertBinClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.BinClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

@@ -41,26 +41,17 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
     
     /**
      * Create a CellRendererSpin proxy instance for the provided memory address.
-     * <p>
-     * Because CellRendererSpin is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellRendererSpin(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CellRendererSpin(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellRendererSpin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererSpin(input, ownership);
+    public static final Marshal<Addressable, CellRendererSpin> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererSpin(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -76,7 +67,9 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
      * Creates a new {@code GtkCellRendererSpin}.
      */
     public CellRendererSpin() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -109,6 +102,9 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
      */
     public static class Builder extends org.gtk.gtk.CellRendererText.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -167,15 +163,23 @@ public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
-            "gtk_cell_renderer_spin_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_spin_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_spin_get_type = Interop.downcallHandle(
-            "gtk_cell_renderer_spin_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_renderer_spin_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_renderer_spin_get_type != null;
     }
 }

@@ -31,8 +31,8 @@ public class StreamVolumeInterface extends Struct {
      * @return A new, uninitialized @{link StreamVolumeInterface}
      */
     public static StreamVolumeInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StreamVolumeInterface newInstance = new StreamVolumeInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StreamVolumeInterface newInstance = new StreamVolumeInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class StreamVolumeInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class StreamVolumeInterface extends Struct {
      * @param iface The new value of the field {@code iface}
      */
     public void setIface(org.gtk.gobject.TypeInterface iface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        }
     }
     
     /**
      * Create a StreamVolumeInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StreamVolumeInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StreamVolumeInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StreamVolumeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamVolumeInterface(input, ownership);
+    public static final Marshal<Addressable, StreamVolumeInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StreamVolumeInterface(input);
     
     /**
      * A {@link StreamVolumeInterface.Builder} object constructs a {@link StreamVolumeInterface} 
@@ -90,7 +94,7 @@ public class StreamVolumeInterface extends Struct {
             struct = StreamVolumeInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link StreamVolumeInterface} struct.
          * @return A new instance of {@code StreamVolumeInterface} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class StreamVolumeInterface extends Struct {
         }
         
         public Builder setIface(org.gtk.gobject.TypeInterface iface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+                return this;
+            }
         }
     }
 }

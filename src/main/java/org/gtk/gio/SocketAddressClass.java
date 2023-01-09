@@ -34,8 +34,8 @@ public class SocketAddressClass extends Struct {
      * @return A new, uninitialized @{link SocketAddressClass}
      */
     public static SocketAddressClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SocketAddressClass newInstance = new SocketAddressClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SocketAddressClass newInstance = new SocketAddressClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class SocketAddressClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,25 +54,42 @@ public class SocketAddressClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetFamilyCallback} callback.
+     */
     @FunctionalInterface
     public interface GetFamilyCallback {
+    
         org.gtk.gio.SocketFamily run(org.gtk.gio.SocketAddress address);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress address) {
-            var RESULT = run((org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(address)), org.gtk.gio.SocketAddress.fromAddress).marshal(address, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketAddress) Interop.register(address, org.gtk.gio.SocketAddress.fromAddress).marshal(address, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetFamilyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetFamilyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,25 +98,42 @@ public class SocketAddressClass extends Struct {
      * @param getFamily The new value of the field {@code get_family}
      */
     public void setGetFamily(GetFamilyCallback getFamily) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNativeSizeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNativeSizeCallback {
+    
         long run(org.gtk.gio.SocketAddress address);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress address) {
-            var RESULT = run((org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(address)), org.gtk.gio.SocketAddress.fromAddress).marshal(address, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketAddress) Interop.register(address, org.gtk.gio.SocketAddress.fromAddress).marshal(address, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNativeSizeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNativeSizeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -108,25 +142,42 @@ public class SocketAddressClass extends Struct {
      * @param getNativeSize The new value of the field {@code get_native_size}
      */
     public void setGetNativeSize(GetNativeSizeCallback getNativeSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_native_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNativeSize == null ? MemoryAddress.NULL : getNativeSize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_native_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNativeSize == null ? MemoryAddress.NULL : getNativeSize.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToNativeCallback} callback.
+     */
     @FunctionalInterface
     public interface ToNativeCallback {
+    
         boolean run(org.gtk.gio.SocketAddress address, @Nullable java.lang.foreign.MemoryAddress dest, long destlen);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress address, MemoryAddress dest, long destlen) {
-            var RESULT = run((org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(address)), org.gtk.gio.SocketAddress.fromAddress).marshal(address, Ownership.NONE), dest, destlen);
+            var RESULT = run((org.gtk.gio.SocketAddress) Interop.register(address, org.gtk.gio.SocketAddress.fromAddress).marshal(address, null), dest, destlen);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToNativeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToNativeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -135,22 +186,26 @@ public class SocketAddressClass extends Struct {
      * @param toNative The new value of the field {@code to_native}
      */
     public void setToNative(ToNativeCallback toNative) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_native"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toNative == null ? MemoryAddress.NULL : toNative.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_native"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toNative == null ? MemoryAddress.NULL : toNative.toCallback()));
+        }
     }
     
     /**
      * Create a SocketAddressClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketAddressClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketAddressClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketAddressClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddressClass(input, ownership);
+    public static final Marshal<Addressable, SocketAddressClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddressClass(input);
     
     /**
      * A {@link SocketAddressClass.Builder} object constructs a {@link SocketAddressClass} 
@@ -174,7 +229,7 @@ public class SocketAddressClass extends Struct {
             struct = SocketAddressClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SocketAddressClass} struct.
          * @return A new instance of {@code SocketAddressClass} with the fields 
          *         that were set in the Builder object.
@@ -184,31 +239,39 @@ public class SocketAddressClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetFamily(GetFamilyCallback getFamily) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_family"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFamily == null ? MemoryAddress.NULL : getFamily.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetNativeSize(GetNativeSizeCallback getNativeSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_native_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNativeSize == null ? MemoryAddress.NULL : getNativeSize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_native_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNativeSize == null ? MemoryAddress.NULL : getNativeSize.toCallback()));
+                return this;
+            }
         }
         
         public Builder setToNative(ToNativeCallback toNative) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_native"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toNative == null ? MemoryAddress.NULL : toNative.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_native"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toNative == null ? MemoryAddress.NULL : toNative.toCallback()));
+                return this;
+            }
         }
     }
 }

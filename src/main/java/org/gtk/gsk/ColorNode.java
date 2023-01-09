@@ -28,14 +28,16 @@ public class ColorNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a ColorNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColorNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorNode(input, ownership);
+    public static final Marshal<Addressable, ColorNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class ColorNode extends org.gtk.gsk.RenderNode {
      * @param bounds the rectangle to render the color into
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        super(constructNew(rgba, bounds), Ownership.FULL);
+        super(constructNew(rgba, bounds));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +69,11 @@ public class ColorNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gdk.RGBA getColor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_node_get_color.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_node_get_color.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.RGBA.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gdk.RGBA.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -91,21 +93,29 @@ public class ColorNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_color_node_new = Interop.downcallHandle(
-            "gsk_color_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_node_get_color = Interop.downcallHandle(
-            "gsk_color_node_get_color",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_node_get_color",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_node_get_type = Interop.downcallHandle(
-            "gsk_color_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_color_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_color_node_get_type != null;
     }
 }

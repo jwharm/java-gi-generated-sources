@@ -25,6 +25,9 @@ public class BusNameWatcherFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BusNameWatcherFlags AUTO_START = new BusNameWatcherFlags(1);
     
+    /**
+     * Create a new BusNameWatcherFlags with the provided value
+     */
     public BusNameWatcherFlags(int value) {
         super(value);
     }

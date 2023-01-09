@@ -38,8 +38,8 @@ public class SocketConnectableIface extends Struct {
      * @return A new, uninitialized @{link SocketConnectableIface}
      */
     public static SocketConnectableIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SocketConnectableIface newInstance = new SocketConnectableIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SocketConnectableIface newInstance = new SocketConnectableIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class SocketConnectableIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,25 +58,43 @@ public class SocketConnectableIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EnumerateCallback} callback.
+     */
     @FunctionalInterface
     public interface EnumerateCallback {
+    
         org.gtk.gio.SocketAddressEnumerator run(org.gtk.gio.SocketConnectable connectable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress connectable) {
-            var RESULT = run((org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connectable)), org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketConnectable) Interop.register(connectable, org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EnumerateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EnumerateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,25 +103,43 @@ public class SocketConnectableIface extends Struct {
      * @param enumerate The new value of the field {@code enumerate}
      */
     public void setEnumerate(EnumerateCallback enumerate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ProxyEnumerateCallback} callback.
+     */
     @FunctionalInterface
     public interface ProxyEnumerateCallback {
+    
         org.gtk.gio.SocketAddressEnumerator run(org.gtk.gio.SocketConnectable connectable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress connectable) {
-            var RESULT = run((org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connectable)), org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.SocketConnectable) Interop.register(connectable, org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProxyEnumerateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ProxyEnumerateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,25 +148,44 @@ public class SocketConnectableIface extends Struct {
      * @param proxyEnumerate The new value of the field {@code proxy_enumerate}
      */
     public void setProxyEnumerate(ProxyEnumerateCallback proxyEnumerate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("proxy_enumerate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proxyEnumerate == null ? MemoryAddress.NULL : proxyEnumerate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("proxy_enumerate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proxyEnumerate == null ? MemoryAddress.NULL : proxyEnumerate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToStringCallback} callback.
+     */
     @FunctionalInterface
     public interface ToStringCallback {
+    
         java.lang.String run(org.gtk.gio.SocketConnectable connectable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress connectable) {
-            var RESULT = run((org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connectable)), org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.SocketConnectable) Interop.register(connectable, org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToStringCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToStringCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,22 +194,26 @@ public class SocketConnectableIface extends Struct {
      * @param toString The new value of the field {@code to_string}
      */
     public void setToString(ToStringCallback toString) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+        }
     }
     
     /**
      * Create a SocketConnectableIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketConnectableIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketConnectableIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketConnectableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectableIface(input, ownership);
+    public static final Marshal<Addressable, SocketConnectableIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectableIface(input);
     
     /**
      * A {@link SocketConnectableIface.Builder} object constructs a {@link SocketConnectableIface} 
@@ -178,7 +237,7 @@ public class SocketConnectableIface extends Struct {
             struct = SocketConnectableIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SocketConnectableIface} struct.
          * @return A new instance of {@code SocketConnectableIface} with the fields 
          *         that were set in the Builder object.
@@ -193,31 +252,39 @@ public class SocketConnectableIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setEnumerate(EnumerateCallback enumerate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setProxyEnumerate(ProxyEnumerateCallback proxyEnumerate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("proxy_enumerate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proxyEnumerate == null ? MemoryAddress.NULL : proxyEnumerate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("proxy_enumerate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proxyEnumerate == null ? MemoryAddress.NULL : proxyEnumerate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setToString(ToStringCallback toString) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_string"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toString == null ? MemoryAddress.NULL : toString.toCallback()));
+                return this;
+            }
         }
     }
 }

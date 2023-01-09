@@ -35,26 +35,17 @@ public class InitiallyUnowned extends org.gtk.gobject.GObject {
     
     /**
      * Create a InitiallyUnowned proxy instance for the provided memory address.
-     * <p>
-     * Because InitiallyUnowned is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InitiallyUnowned(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected InitiallyUnowned(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InitiallyUnowned> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InitiallyUnowned(input, ownership);
+    public static final Marshal<Addressable, InitiallyUnowned> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InitiallyUnowned(input);
     
     /**
      * Get the gtype
@@ -86,6 +77,9 @@ public class InitiallyUnowned extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -110,9 +104,17 @@ public class InitiallyUnowned extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_initially_unowned_get_type = Interop.downcallHandle(
-            "g_initially_unowned_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_initially_unowned_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_initially_unowned_get_type != null;
     }
 }

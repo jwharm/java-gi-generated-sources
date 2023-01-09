@@ -44,39 +44,32 @@ public class Stream extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Stream proxy instance for the provided memory address.
-     * <p>
-     * Because Stream is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Stream(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Stream(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Stream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Stream(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String streamId, @Nullable org.gstreamer.gst.Caps caps, org.gstreamer.gst.StreamType type, org.gstreamer.gst.StreamFlags flags) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_stream_new.invokeExact(
+                        (Addressable) (streamId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(streamId, SCOPE)),
+                        (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()),
+                        type.getValue(),
+                        flags.getValue());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Stream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Stream(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String streamId, @Nullable org.gstreamer.gst.Caps caps, org.gstreamer.gst.StreamType type, org.gstreamer.gst.StreamFlags flags) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_new.invokeExact(
-                    (Addressable) (streamId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(streamId, null)),
-                    (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()),
-                    type.getValue(),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -89,7 +82,8 @@ public class Stream extends org.gstreamer.gst.GstObject {
      * @param flags the {@link StreamFlags} of the stream
      */
     public Stream(@Nullable java.lang.String streamId, @Nullable org.gstreamer.gst.Caps caps, org.gstreamer.gst.StreamType type, org.gstreamer.gst.StreamFlags flags) {
-        super(constructNew(streamId, caps, type, flags), Ownership.FULL);
+        super(constructNew(streamId, caps, type, flags));
+        this.takeOwnership();
     }
     
     /**
@@ -99,12 +93,13 @@ public class Stream extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -114,8 +109,7 @@ public class Stream extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.StreamFlags getStreamFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_stream_get_stream_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_stream_get_stream_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,8 +124,7 @@ public class Stream extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getStreamId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_stream_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_stream_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,8 +138,7 @@ public class Stream extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.StreamType getStreamType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_stream_get_stream_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_stream_get_stream_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,12 +152,13 @@ public class Stream extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_tags.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_stream_get_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -254,6 +247,9 @@ public class Stream extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -329,69 +325,77 @@ public class Stream extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_stream_new = Interop.downcallHandle(
-            "gst_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_stream_get_caps = Interop.downcallHandle(
-            "gst_stream_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_get_stream_flags = Interop.downcallHandle(
-            "gst_stream_get_stream_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_get_stream_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_get_stream_id = Interop.downcallHandle(
-            "gst_stream_get_stream_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_get_stream_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_get_stream_type = Interop.downcallHandle(
-            "gst_stream_get_stream_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_get_stream_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_get_tags = Interop.downcallHandle(
-            "gst_stream_get_tags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_get_tags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_set_caps = Interop.downcallHandle(
-            "gst_stream_set_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_set_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_set_stream_flags = Interop.downcallHandle(
-            "gst_stream_set_stream_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_set_stream_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_stream_set_stream_type = Interop.downcallHandle(
-            "gst_stream_set_stream_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_set_stream_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_stream_set_tags = Interop.downcallHandle(
-            "gst_stream_set_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_set_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_get_type = Interop.downcallHandle(
-            "gst_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_stream_get_type != null;
     }
 }

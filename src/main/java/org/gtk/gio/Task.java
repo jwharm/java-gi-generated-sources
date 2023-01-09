@@ -523,14 +523,16 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     /**
      * Create a Task proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Task(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Task(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Task> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Task(input, ownership);
+    public static final Marshal<Addressable, Task> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Task(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         MemoryAddress RESULT;
@@ -569,7 +571,8 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @param callback a {@link AsyncReadyCallback}.
      */
     public Task(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        super(constructNew(sourceObject, cancellable, callback), Ownership.FULL);
+        super(constructNew(sourceObject, cancellable, callback));
+        this.takeOwnership();
     }
     
     /**
@@ -603,12 +606,11 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public org.gtk.gio.Cancellable getCancellable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_cancellable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) Interop.register(RESULT, org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -618,8 +620,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public boolean getCheckCancellable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_get_check_cancellable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_get_check_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -635,8 +636,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public boolean getCompleted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_get_completed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_get_completed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -656,12 +656,11 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -671,8 +670,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -686,8 +684,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_get_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,8 +698,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public boolean getReturnOnCancel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_get_return_on_cancel.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_get_return_on_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -717,12 +713,11 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public @Nullable org.gtk.gobject.GObject getSourceObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_source_object.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_source_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -732,8 +727,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public @Nullable java.lang.foreign.MemoryAddress getSourceTag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_source_tag.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_source_tag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -747,8 +741,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public @Nullable java.lang.foreign.MemoryAddress getTaskData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_get_task_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_task_get_task_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -762,8 +755,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public boolean hadError() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_had_error.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_had_error.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -782,19 +774,19 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean propagateBoolean() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_task_propagate_boolean.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_task_propagate_boolean.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -809,19 +801,19 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long propagateInt() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_task_propagate_int.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_task_propagate_int.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -837,19 +829,19 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable java.lang.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_task_propagate_pointer.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_task_propagate_pointer.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -868,20 +860,22 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_task_propagate_value.invokeExact(
-                    handle(),
-                    value.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_task_propagate_value.invokeExact(
+                        handle(),
+                        value.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -935,8 +929,7 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     public boolean returnErrorIfCancelled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_task_return_error_if_cancelled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_task_return_error_if_cancelled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -972,15 +965,17 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @param varargs a list of values to insert into {@code format}.
      */
     public void returnNewError(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_task_return_new_error.invokeExact(
-                    handle(),
-                    domain.getValue().intValue(),
-                    code,
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_task_return_new_error.invokeExact(
+                        handle(),
+                        domain.getValue().intValue(),
+                        code,
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1136,12 +1131,14 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @param name a human readable name for the task, or {@code null} to unset it
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.g_task_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_task_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1337,18 +1334,20 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      * @param varargs a list of values to insert into {@code format}.
      */
     public static void reportNewError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_task_report_new_error.invokeExact(
-                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (sourceTag == null ? MemoryAddress.NULL : (Addressable) sourceTag),
-                    domain.getValue().intValue(),
-                    code,
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_task_report_new_error.invokeExact(
+                        (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                        (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (sourceTag == null ? MemoryAddress.NULL : (Addressable) sourceTag),
+                        domain.getValue().intValue(),
+                        code,
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1368,6 +1367,9 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1411,219 +1413,227 @@ public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncRe
     private static class DowncallHandles {
         
         private static final MethodHandle g_task_new = Interop.downcallHandle(
-            "g_task_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_attach_source = Interop.downcallHandle(
-            "g_task_attach_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_attach_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_cancellable = Interop.downcallHandle(
-            "g_task_get_cancellable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_cancellable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_check_cancellable = Interop.downcallHandle(
-            "g_task_get_check_cancellable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_check_cancellable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_completed = Interop.downcallHandle(
-            "g_task_get_completed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_completed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_context = Interop.downcallHandle(
-            "g_task_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_name = Interop.downcallHandle(
-            "g_task_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_priority = Interop.downcallHandle(
-            "g_task_get_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_return_on_cancel = Interop.downcallHandle(
-            "g_task_get_return_on_cancel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_return_on_cancel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_source_object = Interop.downcallHandle(
-            "g_task_get_source_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_source_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_source_tag = Interop.downcallHandle(
-            "g_task_get_source_tag",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_source_tag",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_task_data = Interop.downcallHandle(
-            "g_task_get_task_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_get_task_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_had_error = Interop.downcallHandle(
-            "g_task_had_error",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_had_error",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_propagate_boolean = Interop.downcallHandle(
-            "g_task_propagate_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_propagate_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_propagate_int = Interop.downcallHandle(
-            "g_task_propagate_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_propagate_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_propagate_pointer = Interop.downcallHandle(
-            "g_task_propagate_pointer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_propagate_pointer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_propagate_value = Interop.downcallHandle(
-            "g_task_propagate_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_propagate_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_return_boolean = Interop.downcallHandle(
-            "g_task_return_boolean",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_task_return_boolean",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_task_return_error = Interop.downcallHandle(
-            "g_task_return_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_return_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_return_error_if_cancelled = Interop.downcallHandle(
-            "g_task_return_error_if_cancelled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_return_error_if_cancelled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_return_int = Interop.downcallHandle(
-            "g_task_return_int",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_task_return_int",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_task_return_new_error = Interop.downcallHandle(
-            "g_task_return_new_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "g_task_return_new_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_task_return_pointer = Interop.downcallHandle(
-            "g_task_return_pointer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_return_pointer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_return_value = Interop.downcallHandle(
-            "g_task_return_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_return_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_run_in_thread = Interop.downcallHandle(
-            "g_task_run_in_thread",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_run_in_thread",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_run_in_thread_sync = Interop.downcallHandle(
-            "g_task_run_in_thread_sync",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_run_in_thread_sync",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_set_check_cancellable = Interop.downcallHandle(
-            "g_task_set_check_cancellable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_task_set_check_cancellable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_task_set_name = Interop.downcallHandle(
-            "g_task_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_set_priority = Interop.downcallHandle(
-            "g_task_set_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_task_set_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_task_set_return_on_cancel = Interop.downcallHandle(
-            "g_task_set_return_on_cancel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_task_set_return_on_cancel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_task_set_source_tag = Interop.downcallHandle(
-            "g_task_set_source_tag",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_set_source_tag",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_set_task_data = Interop.downcallHandle(
-            "g_task_set_task_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_set_task_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_get_type = Interop.downcallHandle(
-            "g_task_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_task_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_task_is_valid = Interop.downcallHandle(
-            "g_task_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_report_error = Interop.downcallHandle(
-            "g_task_report_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_task_report_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_task_report_new_error = Interop.downcallHandle(
-            "g_task_report_new_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "g_task_report_new_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_task_get_type != null;
     }
 }

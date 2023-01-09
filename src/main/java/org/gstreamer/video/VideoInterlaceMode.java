@@ -10,20 +10,24 @@ import org.jetbrains.annotations.*;
  * mode of the stream.
  */
 public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * all frames are progressive
      */
     PROGRESSIVE(0),
+    
     /**
      * 2 fields are interleaved in one video
      *     frame. Extra buffer flags describe the field order.
      */
     INTERLEAVED(1),
+    
     /**
      * frames contains both interlaced and
      *     progressive video, the buffer flags describe the frame and fields.
      */
     MIXED(2),
+    
     /**
      * 2 fields are stored in one buffer, use the
      *     frame ID to get access to the required field. For multiview (the
@@ -34,6 +38,7 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
      *     to describe the fields.
      */
     FIELDS(3),
+    
     /**
      * 1 field is stored in one buffer,
      *     {@code GST_VIDEO_BUFFER_FLAG_TF} or {@code GST_VIDEO_BUFFER_FLAG_BF} indicates if
@@ -46,15 +51,29 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoInterlaceMode";
     
     private final int value;
+    
+    /**
+     * Create a new VideoInterlaceMode for the provided value
+     * @param numeric value the enum value
+     */
     VideoInterlaceMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoInterlaceMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoInterlaceMode of(int value) {
         return switch (value) {
             case 0 -> PROGRESSIVE;
@@ -74,14 +93,15 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
      *    string representation for a {@link VideoInterlaceMode}.
      */
     public static org.gstreamer.video.VideoInterlaceMode fromString(java.lang.String mode) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_interlace_mode_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(mode, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_interlace_mode_from_string.invokeExact(Marshal.stringToAddress.marshal(mode, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.video.VideoInterlaceMode.of(RESULT);
         }
-        return org.gstreamer.video.VideoInterlaceMode.of(RESULT);
     }
     
     /**
@@ -92,8 +112,7 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String toString(org.gstreamer.video.VideoInterlaceMode mode) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_interlace_mode_to_string.invokeExact(
-                    mode.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_interlace_mode_to_string.invokeExact(mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,15 +122,15 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_interlace_mode_from_string = Interop.downcallHandle(
-            "gst_video_interlace_mode_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_interlace_mode_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_interlace_mode_to_string = Interop.downcallHandle(
-            "gst_video_interlace_mode_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_interlace_mode_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

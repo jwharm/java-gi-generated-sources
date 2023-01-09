@@ -14,151 +14,189 @@ import org.jetbrains.annotations.*;
  * listed in parentheses after the description.
  */
 public enum AttrType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * does not happen
      */
     INVALID(0),
+    
     /**
      * language ({@code Pango.AttrLanguage})
      */
     LANGUAGE(1),
+    
     /**
      * font family name list ({@code Pango.AttrString})
      */
     FAMILY(2),
+    
     /**
      * font slant style ({@code Pango.AttrInt})
      */
     STYLE(3),
+    
     /**
      * font weight ({@code Pango.AttrInt})
      */
     WEIGHT(4),
+    
     /**
      * font variant (normal or small caps) ({@code Pango.AttrInt})
      */
     VARIANT(5),
+    
     /**
      * font stretch ({@code Pango.AttrInt})
      */
     STRETCH(6),
+    
     /**
      * font size in points scaled by {@code PANGO_SCALE} ({@code Pango.AttrInt})
      */
     SIZE(7),
+    
     /**
      * font description ({@code Pango.AttrFontDesc})
      */
     FONT_DESC(8),
+    
     /**
      * foreground color ({@code Pango.AttrColor})
      */
     FOREGROUND(9),
+    
     /**
      * background color ({@code Pango.AttrColor})
      */
     BACKGROUND(10),
+    
     /**
      * whether the text has an underline ({@code Pango.AttrInt})
      */
     UNDERLINE(11),
+    
     /**
      * whether the text is struck-through ({@code Pango.AttrInt})
      */
     STRIKETHROUGH(12),
+    
     /**
      * baseline displacement ({@code Pango.AttrInt})
      */
     RISE(13),
+    
     /**
      * shape ({@code Pango.AttrShape})
      */
     SHAPE(14),
+    
     /**
      * font size scale factor ({@code Pango.AttrFloat})
      */
     SCALE(15),
+    
     /**
      * whether fallback is enabled ({@code Pango.AttrInt})
      */
     FALLBACK(16),
+    
     /**
      * letter spacing ({@code PangoAttrInt})
      */
     LETTER_SPACING(17),
+    
     /**
      * underline color ({@code Pango.AttrColor})
      */
     UNDERLINE_COLOR(18),
+    
     /**
      * strikethrough color ({@code Pango.AttrColor})
      */
     STRIKETHROUGH_COLOR(19),
+    
     /**
      * font size in pixels scaled by {@code PANGO_SCALE} ({@code Pango.AttrInt})
      */
     ABSOLUTE_SIZE(20),
+    
     /**
      * base text gravity ({@code Pango.AttrInt})
      */
     GRAVITY(21),
+    
     /**
      * gravity hint ({@code Pango.AttrInt})
      */
     GRAVITY_HINT(22),
+    
     /**
      * OpenType font features ({@code Pango.AttrFontFeatures}). Since 1.38
      */
     FONT_FEATURES(23),
+    
     /**
      * foreground alpha ({@code Pango.AttrInt}). Since 1.38
      */
     FOREGROUND_ALPHA(24),
+    
     /**
      * background alpha ({@code Pango.AttrInt}). Since 1.38
      */
     BACKGROUND_ALPHA(25),
+    
     /**
      * whether breaks are allowed ({@code Pango.AttrInt}). Since 1.44
      */
     ALLOW_BREAKS(26),
+    
     /**
      * how to render invisible characters ({@code Pango.AttrInt}). Since 1.44
      */
     SHOW(27),
+    
     /**
      * whether to insert hyphens at intra-word line breaks ({@code Pango.AttrInt}). Since 1.44
      */
     INSERT_HYPHENS(28),
+    
     /**
      * whether the text has an overline ({@code Pango.AttrInt}). Since 1.46
      */
     OVERLINE(29),
+    
     /**
      * overline color ({@code Pango.AttrColor}). Since 1.46
      */
     OVERLINE_COLOR(30),
+    
     /**
      * line height factor ({@code Pango.AttrFloat}). Since: 1.50
      */
     LINE_HEIGHT(31),
+    
     /**
      * line height ({@code Pango.AttrInt}). Since: 1.50
      */
     ABSOLUTE_LINE_HEIGHT(32),
+    
     TEXT_TRANSFORM(33),
+    
     /**
      * override segmentation to classify the range of the attribute as a single word ({@code Pango.AttrInt}). Since 1.50
      */
     WORD(34),
+    
     /**
      * override segmentation to classify the range of the attribute as a single sentence ({@code Pango.AttrInt}). Since 1.50
      */
     SENTENCE(35),
+    
     /**
      * baseline displacement ({@code Pango.AttrInt}). Since 1.50
      */
     BASELINE_SHIFT(36),
+    
     /**
      * font-relative size change ({@code Pango.AttrInt}). Since 1.50
      */
@@ -167,15 +205,29 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoAttrType";
     
     private final int value;
+    
+    /**
+     * Create a new AttrType for the provided value
+     * @param numeric value the enum value
+     */
     AttrType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AttrType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AttrType of(int value) {
         return switch (value) {
             case 0 -> INVALID;
@@ -238,8 +290,7 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
     public static @Nullable java.lang.String getName(org.pango.AttrType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,28 +306,29 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
      * @return the new type ID.
      */
     public static org.pango.AttrType register(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.pango.AttrType.of(RESULT);
         }
-        return org.pango.AttrType.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
-            "pango_attr_type_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_type_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
-            "pango_attr_type_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_type_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

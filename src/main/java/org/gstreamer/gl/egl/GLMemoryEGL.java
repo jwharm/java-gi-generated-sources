@@ -37,8 +37,8 @@ public class GLMemoryEGL extends Struct {
      * @return A new, uninitialized @{link GLMemoryEGL}
      */
     public static GLMemoryEGL allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLMemoryEGL newInstance = new GLMemoryEGL(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLMemoryEGL newInstance = new GLMemoryEGL(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,20 +46,21 @@ public class GLMemoryEGL extends Struct {
     /**
      * Create a GLMemoryEGL proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemoryEGL(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLMemoryEGL(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemoryEGL> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryEGL(input, ownership);
+    public static final Marshal<Addressable, GLMemoryEGL> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryEGL(input);
     
     public @Nullable java.lang.foreign.MemoryAddress getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_egl_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_egl_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,8 +70,7 @@ public class GLMemoryEGL extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_egl_get_image.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_egl_get_image.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,21 +92,21 @@ public class GLMemoryEGL extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_memory_egl_get_display = Interop.downcallHandle(
-            "gst_gl_memory_egl_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_egl_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_egl_get_image = Interop.downcallHandle(
-            "gst_gl_memory_egl_get_image",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_egl_get_image",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_egl_init_once = Interop.downcallHandle(
-            "gst_gl_memory_egl_init_once",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_gl_memory_egl_init_once",
+                FunctionDescriptor.ofVoid(),
+                false
         );
     }
     
@@ -132,7 +132,7 @@ public class GLMemoryEGL extends Struct {
             struct = GLMemoryEGL.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLMemoryEGL} struct.
          * @return A new instance of {@code GLMemoryEGL} with the fields 
          *         that were set in the Builder object.
@@ -142,24 +142,30 @@ public class GLMemoryEGL extends Struct {
         }
         
         public Builder setMem(org.gstreamer.gl.GLMemory mem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mem"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+                return this;
+            }
         }
         
         public Builder setImage(org.gstreamer.gl.egl.EGLImage image) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (image == null ? MemoryAddress.NULL : image.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("image"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (image == null ? MemoryAddress.NULL : image.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

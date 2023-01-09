@@ -33,8 +33,8 @@ public class FileList extends Struct {
      * @return A new, uninitialized @{link FileList}
      */
     public static FileList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileList newInstance = new FileList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileList newInstance = new FileList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,27 +42,31 @@ public class FileList extends Struct {
     /**
      * Create a FileList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileList(input, ownership);
+    public static final Marshal<Addressable, FileList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileList(input);
     
     private static MemoryAddress constructNewFromArray(org.gtk.gio.File[] files, long nFiles) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_array.invokeExact(
-                    Interop.allocateNativeArray(files, false),
-                    nFiles);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_array.invokeExact(
+                        Interop.allocateNativeArray(files, false, SCOPE),
+                        nFiles);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GdkFileList} for the given array of files.
      * <p>
@@ -73,20 +77,21 @@ public class FileList extends Struct {
      */
     public static FileList newFromArray(org.gtk.gio.File[] files, long nFiles) {
         var RESULT = constructNewFromArray(files, nFiles);
-        return org.gtk.gdk.FileList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.FileList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromList(org.gtk.glib.SList files) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_list.invokeExact(
-                    files.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_list.invokeExact(files.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new files list container from a singly linked list of
      * {@code GFile} instances.
@@ -97,7 +102,9 @@ public class FileList extends Struct {
      */
     public static FileList newFromList(org.gtk.glib.SList files) {
         var RESULT = constructNewFromList(files);
-        return org.gtk.gdk.FileList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.FileList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -109,32 +116,31 @@ public class FileList extends Struct {
     public org.gtk.glib.SList getFiles() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_get_files.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_get_files.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_file_list_new_from_array = Interop.downcallHandle(
-            "gdk_file_list_new_from_array",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_file_list_new_from_array",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_file_list_new_from_list = Interop.downcallHandle(
-            "gdk_file_list_new_from_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_file_list_new_from_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_file_list_get_files = Interop.downcallHandle(
-            "gdk_file_list_get_files",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_file_list_get_files",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

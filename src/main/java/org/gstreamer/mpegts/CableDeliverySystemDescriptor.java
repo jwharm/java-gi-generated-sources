@@ -38,8 +38,8 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return A new, uninitialized @{link CableDeliverySystemDescriptor}
      */
     public static CableDeliverySystemDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CableDeliverySystemDescriptor newInstance = new CableDeliverySystemDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CableDeliverySystemDescriptor newInstance = new CableDeliverySystemDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code frequency}
      */
     public int getFrequency() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @param frequency The new value of the field {@code frequency}
      */
     public void setFrequency(int frequency) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frequency);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frequency);
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code outer_fec}
      */
     public org.gstreamer.mpegts.CableOuterFECScheme getOuterFec() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.CableOuterFECScheme.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.CableOuterFECScheme.of(RESULT);
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @param outerFec The new value of the field {@code outer_fec}
      */
     public void setOuterFec(org.gstreamer.mpegts.CableOuterFECScheme outerFec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outerFec == null ? MemoryAddress.NULL : outerFec.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outerFec == null ? MemoryAddress.NULL : outerFec.getValue()));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code modulation}
      */
     public org.gstreamer.mpegts.ModulationType getModulation() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.ModulationType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.ModulationType.of(RESULT);
+        }
     }
     
     /**
@@ -102,9 +112,11 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @param modulation The new value of the field {@code modulation}
      */
     public void setModulation(org.gstreamer.mpegts.ModulationType modulation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulation == null ? MemoryAddress.NULL : modulation.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulation == null ? MemoryAddress.NULL : modulation.getValue()));
+        }
     }
     
     /**
@@ -112,10 +124,12 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code symbol_rate}
      */
     public int getSymbolRate() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -123,9 +137,11 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @param symbolRate The new value of the field {@code symbol_rate}
      */
     public void setSymbolRate(int symbolRate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbolRate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), symbolRate);
+        }
     }
     
     /**
@@ -133,10 +149,12 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code fec_inner}
      */
     public org.gstreamer.mpegts.DVBCodeRate getFecInner() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.DVBCodeRate.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.DVBCodeRate.of(RESULT);
+        }
     }
     
     /**
@@ -144,27 +162,30 @@ public class CableDeliverySystemDescriptor extends Struct {
      * @param fecInner The new value of the field {@code fec_inner}
      */
     public void setFecInner(org.gstreamer.mpegts.DVBCodeRate fecInner) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+        }
     }
     
     /**
      * Create a CableDeliverySystemDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CableDeliverySystemDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CableDeliverySystemDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CableDeliverySystemDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CableDeliverySystemDescriptor(input, ownership);
+    public static final Marshal<Addressable, CableDeliverySystemDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CableDeliverySystemDescriptor(input);
     
     public void free() {
         try {
-            DowncallHandles.gst_mpegts_dvb_cable_delivery_system_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_dvb_cable_delivery_system_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,9 +194,9 @@ public class CableDeliverySystemDescriptor extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_dvb_cable_delivery_system_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_dvb_cable_delivery_system_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_dvb_cable_delivery_system_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -201,7 +222,7 @@ public class CableDeliverySystemDescriptor extends Struct {
             struct = CableDeliverySystemDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CableDeliverySystemDescriptor} struct.
          * @return A new instance of {@code CableDeliverySystemDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -216,10 +237,12 @@ public class CableDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrequency(int frequency) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frequency);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frequency"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frequency);
+                return this;
+            }
         }
         
         /**
@@ -228,10 +251,12 @@ public class CableDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOuterFec(org.gstreamer.mpegts.CableOuterFECScheme outerFec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outerFec == null ? MemoryAddress.NULL : outerFec.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("outer_fec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outerFec == null ? MemoryAddress.NULL : outerFec.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -240,10 +265,12 @@ public class CableDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModulation(org.gstreamer.mpegts.ModulationType modulation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulation == null ? MemoryAddress.NULL : modulation.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("modulation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulation == null ? MemoryAddress.NULL : modulation.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -252,10 +279,12 @@ public class CableDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSymbolRate(int symbolRate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbolRate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("symbol_rate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), symbolRate);
+                return this;
+            }
         }
         
         /**
@@ -264,10 +293,12 @@ public class CableDeliverySystemDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFecInner(org.gstreamer.mpegts.DVBCodeRate fecInner) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fec_inner"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fecInner == null ? MemoryAddress.NULL : fecInner.getValue()));
+                return this;
+            }
         }
     }
 }

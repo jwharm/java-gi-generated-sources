@@ -29,8 +29,8 @@ public class PipelineViewportShadingRateImageStateCreateInfoNV extends Struct {
      * @return A new, uninitialized @{link PipelineViewportShadingRateImageStateCreateInfoNV}
      */
     public static PipelineViewportShadingRateImageStateCreateInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineViewportShadingRateImageStateCreateInfoNV newInstance = new PipelineViewportShadingRateImageStateCreateInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineViewportShadingRateImageStateCreateInfoNV newInstance = new PipelineViewportShadingRateImageStateCreateInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineViewportShadingRateImageStateCreateInfoNV extends Struct {
     /**
      * Create a PipelineViewportShadingRateImageStateCreateInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineViewportShadingRateImageStateCreateInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineViewportShadingRateImageStateCreateInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineViewportShadingRateImageStateCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineViewportShadingRateImageStateCreateInfoNV(input, ownership);
+    public static final Marshal<Addressable, PipelineViewportShadingRateImageStateCreateInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineViewportShadingRateImageStateCreateInfoNV(input);
 }

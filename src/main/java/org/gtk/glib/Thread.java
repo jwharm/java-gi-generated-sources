@@ -44,8 +44,8 @@ public class Thread extends Struct {
      * @return A new, uninitialized @{link Thread}
      */
     public static Thread allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Thread newInstance = new Thread(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Thread newInstance = new Thread(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,26 +53,30 @@ public class Thread extends Struct {
     /**
      * Create a Thread proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Thread(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Thread(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Thread> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Thread(input, ownership);
+    public static final Marshal<Addressable, Thread> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Thread(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_thread_new.invokeExact(
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -107,27 +111,30 @@ public class Thread extends Struct {
      * @param func a function to execute in the new thread
      */
     public Thread(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) {
-        super(constructNew(name, func), Ownership.FULL);
+        super(constructNew(name, func));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructTryNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * This function is the same as g_thread_new() except that
      * it allows for the possibility of failure.
@@ -141,7 +148,9 @@ public class Thread extends Struct {
      */
     public static Thread tryNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) throws GErrorException {
         var RESULT = constructTryNew(name, func);
-        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Thread.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -166,8 +175,7 @@ public class Thread extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress join() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_join.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_join.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,12 +190,13 @@ public class Thread extends Struct {
     public org.gtk.glib.Thread ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Thread.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -200,8 +209,7 @@ public class Thread extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_thread_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_thread_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +244,7 @@ public class Thread extends Struct {
      */
     public static void exit(@Nullable java.lang.foreign.MemoryAddress retval) {
         try {
-            DowncallHandles.g_thread_exit.invokeExact(
-                    (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
+            DowncallHandles.g_thread_exit.invokeExact((Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,7 +269,7 @@ public class Thread extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -282,57 +289,57 @@ public class Thread extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_thread_new = Interop.downcallHandle(
-            "g_thread_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_try_new = Interop.downcallHandle(
-            "g_thread_try_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_try_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_join = Interop.downcallHandle(
-            "g_thread_join",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_join",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_ref = Interop.downcallHandle(
-            "g_thread_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_unref = Interop.downcallHandle(
-            "g_thread_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
-            "g_thread_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_thread_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_thread_exit = Interop.downcallHandle(
-            "g_thread_exit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_exit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_self = Interop.downcallHandle(
-            "g_thread_self",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_thread_self",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_thread_yield = Interop.downcallHandle(
-            "g_thread_yield",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_thread_yield",
+                FunctionDescriptor.ofVoid(),
+                false
         );
     }
 }

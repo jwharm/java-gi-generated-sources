@@ -43,8 +43,8 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return A new, uninitialized @{link DVBLinkageExtendedEvent}
      */
     public static DVBLinkageExtendedEvent allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DVBLinkageExtendedEvent newInstance = new DVBLinkageExtendedEvent(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DVBLinkageExtendedEvent newInstance = new DVBLinkageExtendedEvent(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_event_id}
      */
     public short getTargetEventId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetEventId The new value of the field {@code target_event_id}
      */
     public void setTargetEventId(short targetEventId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetEventId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), targetEventId);
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_listed}
      */
     public boolean getTargetListed() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetListed The new value of the field {@code target_listed}
      */
     public void setTargetListed(boolean targetListed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(targetListed, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(targetListed, null).intValue());
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code event_simulcast}
      */
     public boolean getEventSimulcast() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -107,9 +117,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param eventSimulcast The new value of the field {@code event_simulcast}
      */
     public void setEventSimulcast(boolean eventSimulcast) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(eventSimulcast, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(eventSimulcast, null).intValue());
+        }
     }
     
     /**
@@ -117,10 +129,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code link_type}
      */
     public byte getLinkType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -128,9 +142,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param linkType The new value of the field {@code link_type}
      */
     public void setLinkType(byte linkType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), linkType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), linkType);
+        }
     }
     
     /**
@@ -138,10 +154,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_id_type}
      */
     public byte getTargetIdType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -149,9 +167,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetIdType The new value of the field {@code target_id_type}
      */
     public void setTargetIdType(byte targetIdType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetIdType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), targetIdType);
+        }
     }
     
     /**
@@ -159,10 +179,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code original_network_id_flag}
      */
     public boolean getOriginalNetworkIdFlag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -170,9 +192,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param originalNetworkIdFlag The new value of the field {@code original_network_id_flag}
      */
     public void setOriginalNetworkIdFlag(boolean originalNetworkIdFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(originalNetworkIdFlag, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(originalNetworkIdFlag, null).intValue());
+        }
     }
     
     /**
@@ -180,10 +204,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code service_id_flag}
      */
     public boolean getServiceIdFlag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -191,9 +217,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param serviceIdFlag The new value of the field {@code service_id_flag}
      */
     public void setServiceIdFlag(boolean serviceIdFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(serviceIdFlag, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(serviceIdFlag, null).intValue());
+        }
     }
     
     /**
@@ -201,10 +229,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code user_defined_id}
      */
     public short getUserDefinedId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -212,9 +242,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param userDefinedId The new value of the field {@code user_defined_id}
      */
     public void setUserDefinedId(short userDefinedId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), userDefinedId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), userDefinedId);
+        }
     }
     
     /**
@@ -222,10 +254,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_transport_stream_id}
      */
     public short getTargetTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -233,9 +267,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetTransportStreamId The new value of the field {@code target_transport_stream_id}
      */
     public void setTargetTransportStreamId(short targetTransportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetTransportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), targetTransportStreamId);
+        }
     }
     
     /**
@@ -243,10 +279,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_original_network_id}
      */
     public short getTargetOriginalNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -254,9 +292,11 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetOriginalNetworkId The new value of the field {@code target_original_network_id}
      */
     public void setTargetOriginalNetworkId(short targetOriginalNetworkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetOriginalNetworkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), targetOriginalNetworkId);
+        }
     }
     
     /**
@@ -264,10 +304,12 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @return The value of the field {@code target_service_id}
      */
     public short getTargetServiceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -275,22 +317,26 @@ public class DVBLinkageExtendedEvent extends Struct {
      * @param targetServiceId The new value of the field {@code target_service_id}
      */
     public void setTargetServiceId(short targetServiceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetServiceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), targetServiceId);
+        }
     }
     
     /**
      * Create a DVBLinkageExtendedEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DVBLinkageExtendedEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DVBLinkageExtendedEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DVBLinkageExtendedEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageExtendedEvent(input, ownership);
+    public static final Marshal<Addressable, DVBLinkageExtendedEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageExtendedEvent(input);
     
     /**
      * A {@link DVBLinkageExtendedEvent.Builder} object constructs a {@link DVBLinkageExtendedEvent} 
@@ -314,7 +360,7 @@ public class DVBLinkageExtendedEvent extends Struct {
             struct = DVBLinkageExtendedEvent.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DVBLinkageExtendedEvent} struct.
          * @return A new instance of {@code DVBLinkageExtendedEvent} with the fields 
          *         that were set in the Builder object.
@@ -324,80 +370,102 @@ public class DVBLinkageExtendedEvent extends Struct {
         }
         
         public Builder setTargetEventId(short targetEventId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetEventId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_event_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), targetEventId);
+                return this;
+            }
         }
         
         public Builder setTargetListed(boolean targetListed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(targetListed, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_listed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(targetListed, null).intValue());
+                return this;
+            }
         }
         
         public Builder setEventSimulcast(boolean eventSimulcast) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(eventSimulcast, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("event_simulcast"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(eventSimulcast, null).intValue());
+                return this;
+            }
         }
         
         public Builder setLinkType(byte linkType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), linkType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("link_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), linkType);
+                return this;
+            }
         }
         
         public Builder setTargetIdType(byte targetIdType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetIdType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_id_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), targetIdType);
+                return this;
+            }
         }
         
         public Builder setOriginalNetworkIdFlag(boolean originalNetworkIdFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(originalNetworkIdFlag, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("original_network_id_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(originalNetworkIdFlag, null).intValue());
+                return this;
+            }
         }
         
         public Builder setServiceIdFlag(boolean serviceIdFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(serviceIdFlag, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("service_id_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(serviceIdFlag, null).intValue());
+                return this;
+            }
         }
         
         public Builder setUserDefinedId(short userDefinedId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), userDefinedId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_defined_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), userDefinedId);
+                return this;
+            }
         }
         
         public Builder setTargetTransportStreamId(short targetTransportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetTransportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), targetTransportStreamId);
+                return this;
+            }
         }
         
         public Builder setTargetOriginalNetworkId(short targetOriginalNetworkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetOriginalNetworkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_original_network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), targetOriginalNetworkId);
+                return this;
+            }
         }
         
         public Builder setTargetServiceId(short targetServiceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), targetServiceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("target_service_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), targetServiceId);
+                return this;
+            }
         }
     }
 }

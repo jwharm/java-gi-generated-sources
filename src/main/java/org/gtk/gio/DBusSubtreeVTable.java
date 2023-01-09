@@ -38,8 +38,8 @@ public class DBusSubtreeVTable extends Struct {
      * @return A new, uninitialized @{link DBusSubtreeVTable}
      */
     public static DBusSubtreeVTable allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusSubtreeVTable newInstance = new DBusSubtreeVTable(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusSubtreeVTable newInstance = new DBusSubtreeVTable(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class DBusSubtreeVTable extends Struct {
      * @return The value of the field {@code enumerate}
      */
     public org.gtk.gio.DBusSubtreeEnumerateFunc getEnumerate() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class DBusSubtreeVTable extends Struct {
      * @param enumerate The new value of the field {@code enumerate}
      */
     public void setEnumerate(org.gtk.gio.DBusSubtreeEnumerateFunc enumerate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class DBusSubtreeVTable extends Struct {
      * @return The value of the field {@code introspect}
      */
     public org.gtk.gio.DBusSubtreeIntrospectFunc getIntrospect() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class DBusSubtreeVTable extends Struct {
      * @param introspect The new value of the field {@code introspect}
      */
     public void setIntrospect(org.gtk.gio.DBusSubtreeIntrospectFunc introspect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class DBusSubtreeVTable extends Struct {
      * @return The value of the field {@code dispatch}
      */
     public org.gtk.gio.DBusSubtreeDispatchFunc getDispatch() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -102,22 +112,26 @@ public class DBusSubtreeVTable extends Struct {
      * @param dispatch The new value of the field {@code dispatch}
      */
     public void setDispatch(org.gtk.gio.DBusSubtreeDispatchFunc dispatch) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
+        }
     }
     
     /**
      * Create a DBusSubtreeVTable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusSubtreeVTable(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusSubtreeVTable(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusSubtreeVTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusSubtreeVTable(input, ownership);
+    public static final Marshal<Addressable, DBusSubtreeVTable> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusSubtreeVTable(input);
     
     /**
      * A {@link DBusSubtreeVTable.Builder} object constructs a {@link DBusSubtreeVTable} 
@@ -141,7 +155,7 @@ public class DBusSubtreeVTable extends Struct {
             struct = DBusSubtreeVTable.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusSubtreeVTable} struct.
          * @return A new instance of {@code DBusSubtreeVTable} with the fields 
          *         that were set in the Builder object.
@@ -156,10 +170,12 @@ public class DBusSubtreeVTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEnumerate(org.gtk.gio.DBusSubtreeEnumerateFunc enumerate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -168,10 +184,12 @@ public class DBusSubtreeVTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIntrospect(org.gtk.gio.DBusSubtreeIntrospectFunc introspect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -180,17 +198,21 @@ public class DBusSubtreeVTable extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDispatch(org.gtk.gio.DBusSubtreeDispatchFunc dispatch) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -37,8 +37,8 @@ public class NetAddressMeta extends Struct {
      * @return A new, uninitialized @{link NetAddressMeta}
      */
     public static NetAddressMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NetAddressMeta newInstance = new NetAddressMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NetAddressMeta newInstance = new NetAddressMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class NetAddressMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,9 +57,11 @@ public class NetAddressMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -67,10 +69,12 @@ public class NetAddressMeta extends Struct {
      * @return The value of the field {@code addr}
      */
     public org.gtk.gio.SocketAddress getAddr() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("addr"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("addr"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -78,22 +82,26 @@ public class NetAddressMeta extends Struct {
      * @param addr The new value of the field {@code addr}
      */
     public void setAddr(org.gtk.gio.SocketAddress addr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("addr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addr == null ? MemoryAddress.NULL : addr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("addr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addr == null ? MemoryAddress.NULL : addr.handle()));
+        }
     }
     
     /**
      * Create a NetAddressMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetAddressMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NetAddressMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetAddressMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetAddressMeta(input, ownership);
+    public static final Marshal<Addressable, NetAddressMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetAddressMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -102,15 +110,15 @@ public class NetAddressMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_net_address_meta_get_info = Interop.downcallHandle(
-            "gst_net_address_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_net_address_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -136,7 +144,7 @@ public class NetAddressMeta extends Struct {
             struct = NetAddressMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link NetAddressMeta} struct.
          * @return A new instance of {@code NetAddressMeta} with the fields 
          *         that were set in the Builder object.
@@ -151,10 +159,12 @@ public class NetAddressMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -163,10 +173,12 @@ public class NetAddressMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAddr(org.gtk.gio.SocketAddress addr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("addr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addr == null ? MemoryAddress.NULL : addr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("addr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addr == null ? MemoryAddress.NULL : addr.handle()));
+                return this;
+            }
         }
     }
 }

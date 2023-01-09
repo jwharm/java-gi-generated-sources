@@ -70,26 +70,17 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a FlowBox proxy instance for the provided memory address.
-     * <p>
-     * Because FlowBox is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FlowBox(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected FlowBox(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FlowBox> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlowBox(input, ownership);
+    public static final Marshal<Addressable, FlowBox> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FlowBox(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -105,7 +96,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Creates a {@code GtkFlowBox}.
      */
     public FlowBox() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -168,8 +161,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_activate_on_single_click.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_activate_on_single_click.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,7 +184,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.FlowBoxChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.FlowBoxChild.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.FlowBoxChild) Interop.register(RESULT, org.gtk.gtk.FlowBoxChild.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -215,7 +207,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.FlowBoxChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.FlowBoxChild.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.FlowBoxChild) Interop.register(RESULT, org.gtk.gtk.FlowBoxChild.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -225,8 +217,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_column_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_column_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,8 +231,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_homogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,8 +245,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getMaxChildrenPerLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_max_children_per_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_max_children_per_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,8 +259,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getMinChildrenPerLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_min_children_per_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_min_children_per_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,8 +273,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_row_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_row_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,12 +288,11 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.glib.List getSelectedChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_selected_children.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_get_selected_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -316,8 +302,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_flow_box_get_selection_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_get_selection_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,8 +342,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateFilter() {
         try {
-            DowncallHandles.gtk_flow_box_invalidate_filter.invokeExact(
-                    handle());
+            DowncallHandles.gtk_flow_box_invalidate_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,8 +356,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateSort() {
         try {
-            DowncallHandles.gtk_flow_box_invalidate_sort.invokeExact(
-                    handle());
+            DowncallHandles.gtk_flow_box_invalidate_sort.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,8 +401,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_flow_box_select_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_flow_box_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,8 +660,7 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_flow_box_unselect_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_flow_box_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -714,19 +695,39 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCursorChild} callback.
+     */
     @FunctionalInterface
     public interface ActivateCursorChild {
+    
+        /**
+         * Emitted when the user activates the {@code box}.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCursorChild.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCursorChild.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -738,28 +739,47 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.ActivateCursorChild> onActivateCursorChild(FlowBox.ActivateCursorChild handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate-cursor-child"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate-cursor-child", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChildActivated} callback.
+     */
     @FunctionalInterface
     public interface ChildActivated {
+    
+        /**
+         * Emitted when a child has been activated by the user.
+         */
         void run(org.gtk.gtk.FlowBoxChild child);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox, MemoryAddress child) {
-            run((org.gtk.gtk.FlowBoxChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.FlowBoxChild.fromAddress).marshal(child, Ownership.NONE));
+            run((org.gtk.gtk.FlowBoxChild) Interop.register(child, org.gtk.gtk.FlowBoxChild.fromAddress).marshal(child, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChildActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -769,29 +789,64 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.ChildActivated> onChildActivated(FlowBox.ChildActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("child-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("child-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MoveCursor} callback.
+     */
     @FunctionalInterface
     public interface MoveCursor {
+    
+        /**
+         * Emitted when the user initiates a cursor movement.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * Applications should not connect to it, but may emit it with
+         * g_signal_emit_by_name() if they need to control the cursor
+         * programmatically.
+         * <p>
+         * The default bindings for this signal come in two variants,
+         * the variant with the Shift modifier extends the selection,
+         * the variant without the Shift modifier does not.
+         * There are too many key combinations to list them all here.
+         * <ul>
+         * <li>&lt;kbd&gt;←&lt;/kbd&gt;, &lt;kbd&gt;→&lt;/kbd&gt;, &lt;kbd&gt;↑&lt;/kbd&gt;, &lt;kbd&gt;↓&lt;/kbd&gt;
+         *   move by individual children
+         * <li>&lt;kbd&gt;Home&lt;/kbd&gt;, &lt;kbd&gt;End&lt;/kbd&gt; move to the ends of the box
+         * <li>&lt;kbd&gt;PgUp&lt;/kbd&gt;, &lt;kbd&gt;PgDn&lt;/kbd&gt; move vertically by pages
+         * </ul>
+         */
         boolean run(org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceFlowBox, int step, int count, int extend, int modify) {
             var RESULT = run(org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extend, null).booleanValue(), Marshal.integerToBoolean.marshal(modify, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MoveCursor.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -817,28 +872,52 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.MoveCursor> onMoveCursor(FlowBox.MoveCursor handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("move-cursor", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectAll} callback.
+     */
     @FunctionalInterface
     public interface SelectAll {
+    
+        /**
+         * Emitted to select all children of the box,
+         * if the selection mode permits it.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default bindings for this signal is &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -853,28 +932,51 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.SelectAll> onSelectAll(FlowBox.SelectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("select-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("select-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectedChildrenChanged} callback.
+     */
     @FunctionalInterface
     public interface SelectedChildrenChanged {
+    
+        /**
+         * Emitted when the set of selected children changes.
+         * <p>
+         * Use {@link FlowBox#selectedForeach} or
+         * {@link FlowBox#getSelectedChildren} to obtain the
+         * selected children.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectedChildrenChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectedChildrenChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -888,28 +990,51 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.SelectedChildrenChanged> onSelectedChildrenChanged(FlowBox.SelectedChildrenChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("selected-children-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("selected-children-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToggleCursorChild} callback.
+     */
     @FunctionalInterface
     public interface ToggleCursorChild {
+    
+        /**
+         * Emitted to toggle the selection of the child that has the focus.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default binding for this signal is &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Space&lt;/kbd&gt;.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorChild.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToggleCursorChild.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -923,28 +1048,52 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.ToggleCursorChild> onToggleCursorChild(FlowBox.ToggleCursorChild handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("toggle-cursor-child"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("toggle-cursor-child", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectAll} callback.
+     */
     @FunctionalInterface
     public interface UnselectAll {
+    
+        /**
+         * Emitted to unselect all children of the box,
+         * if the selection mode permits it.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default bindings for this signal is &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -959,9 +1108,10 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<FlowBox.UnselectAll> onUnselectAll(FlowBox.UnselectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("unselect-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("unselect-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -984,6 +1134,9 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1099,213 +1252,221 @@ public class FlowBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_flow_box_new = Interop.downcallHandle(
-            "gtk_flow_box_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_append = Interop.downcallHandle(
-            "gtk_flow_box_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_bind_model = Interop.downcallHandle(
-            "gtk_flow_box_bind_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_bind_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_activate_on_single_click = Interop.downcallHandle(
-            "gtk_flow_box_get_activate_on_single_click",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_activate_on_single_click",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_child_at_index = Interop.downcallHandle(
-            "gtk_flow_box_get_child_at_index",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_get_child_at_index",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_child_at_pos = Interop.downcallHandle(
-            "gtk_flow_box_get_child_at_pos",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_get_child_at_pos",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_column_spacing = Interop.downcallHandle(
-            "gtk_flow_box_get_column_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_column_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_homogeneous = Interop.downcallHandle(
-            "gtk_flow_box_get_homogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_homogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_max_children_per_line = Interop.downcallHandle(
-            "gtk_flow_box_get_max_children_per_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_max_children_per_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_min_children_per_line = Interop.downcallHandle(
-            "gtk_flow_box_get_min_children_per_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_min_children_per_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_row_spacing = Interop.downcallHandle(
-            "gtk_flow_box_get_row_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_row_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_selected_children = Interop.downcallHandle(
-            "gtk_flow_box_get_selected_children",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_selected_children",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_selection_mode = Interop.downcallHandle(
-            "gtk_flow_box_get_selection_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_get_selection_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_insert = Interop.downcallHandle(
-            "gtk_flow_box_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_invalidate_filter = Interop.downcallHandle(
-            "gtk_flow_box_invalidate_filter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_invalidate_filter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_invalidate_sort = Interop.downcallHandle(
-            "gtk_flow_box_invalidate_sort",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_invalidate_sort",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_prepend = Interop.downcallHandle(
-            "gtk_flow_box_prepend",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_prepend",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_remove = Interop.downcallHandle(
-            "gtk_flow_box_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_select_all = Interop.downcallHandle(
-            "gtk_flow_box_select_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_select_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_select_child = Interop.downcallHandle(
-            "gtk_flow_box_select_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_select_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_selected_foreach = Interop.downcallHandle(
-            "gtk_flow_box_selected_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_selected_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_activate_on_single_click = Interop.downcallHandle(
-            "gtk_flow_box_set_activate_on_single_click",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_activate_on_single_click",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_column_spacing = Interop.downcallHandle(
-            "gtk_flow_box_set_column_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_column_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_filter_func = Interop.downcallHandle(
-            "gtk_flow_box_set_filter_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_set_filter_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_hadjustment = Interop.downcallHandle(
-            "gtk_flow_box_set_hadjustment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_set_hadjustment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_homogeneous = Interop.downcallHandle(
-            "gtk_flow_box_set_homogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_homogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_max_children_per_line = Interop.downcallHandle(
-            "gtk_flow_box_set_max_children_per_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_max_children_per_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_min_children_per_line = Interop.downcallHandle(
-            "gtk_flow_box_set_min_children_per_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_min_children_per_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_row_spacing = Interop.downcallHandle(
-            "gtk_flow_box_set_row_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_row_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_selection_mode = Interop.downcallHandle(
-            "gtk_flow_box_set_selection_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_flow_box_set_selection_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_sort_func = Interop.downcallHandle(
-            "gtk_flow_box_set_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_set_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_set_vadjustment = Interop.downcallHandle(
-            "gtk_flow_box_set_vadjustment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_set_vadjustment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_unselect_all = Interop.downcallHandle(
-            "gtk_flow_box_unselect_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_unselect_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_unselect_child = Interop.downcallHandle(
-            "gtk_flow_box_unselect_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_flow_box_unselect_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_flow_box_get_type = Interop.downcallHandle(
-            "gtk_flow_box_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_flow_box_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_flow_box_get_type != null;
     }
 }

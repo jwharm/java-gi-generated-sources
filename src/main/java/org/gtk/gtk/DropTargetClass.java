@@ -29,8 +29,8 @@ public class DropTargetClass extends Struct {
      * @return A new, uninitialized @{link DropTargetClass}
      */
     public static DropTargetClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DropTargetClass newInstance = new DropTargetClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DropTargetClass newInstance = new DropTargetClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DropTargetClass extends Struct {
     /**
      * Create a DropTargetClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DropTargetClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DropTargetClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DropTargetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DropTargetClass(input, ownership);
+    public static final Marshal<Addressable, DropTargetClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DropTargetClass(input);
 }

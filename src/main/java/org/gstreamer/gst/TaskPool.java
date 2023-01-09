@@ -34,26 +34,17 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a TaskPool proxy instance for the provided memory address.
-     * <p>
-     * Because TaskPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TaskPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TaskPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TaskPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TaskPool(input, ownership);
+    public static final Marshal<Addressable, TaskPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TaskPool(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -70,7 +61,8 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
      * GThreadPool for threads.
      */
     public TaskPool() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -81,8 +73,7 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
      */
     public void cleanup() {
         try {
-            DowncallHandles.gst_task_pool_cleanup.invokeExact(
-                    handle());
+            DowncallHandles.gst_task_pool_cleanup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,16 +127,16 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public void prepare() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_task_pool_prepare.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_task_pool_prepare.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
         }
     }
     
@@ -160,21 +151,23 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable java.lang.foreign.MemoryAddress push(org.gstreamer.gst.TaskPoolFunction func) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_task_pool_push.invokeExact(
-                    handle(),
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_task_pool_push.invokeExact(
+                        handle(),
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -207,6 +200,9 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -231,45 +227,53 @@ public class TaskPool extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_task_pool_new = Interop.downcallHandle(
-            "gst_task_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_cleanup = Interop.downcallHandle(
-            "gst_task_pool_cleanup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_cleanup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_dispose_handle = Interop.downcallHandle(
-            "gst_task_pool_dispose_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_dispose_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_join = Interop.downcallHandle(
-            "gst_task_pool_join",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_join",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_prepare = Interop.downcallHandle(
-            "gst_task_pool_prepare",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_prepare",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_push = Interop.downcallHandle(
-            "gst_task_pool_push",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pool_push",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pool_get_type = Interop.downcallHandle(
-            "gst_task_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_task_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_task_pool_get_type != null;
     }
 }

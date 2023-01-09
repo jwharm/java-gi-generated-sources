@@ -10,19 +10,39 @@ import org.jetbrains.annotations.*;
  * returned by g_cancellable_source_new().
  * @version 2.28
  */
+/**
+ * Functional interface declaration of the {@code CancellableSourceFunc} callback.
+ */
 @FunctionalInterface
 public interface CancellableSourceFunc {
-    boolean run(@Nullable org.gtk.gio.Cancellable cancellable);
 
+    /**
+     * This is the function type of the callback used for the {@link org.gtk.glib.Source}
+     * returned by g_cancellable_source_new().
+     * @version 2.28
+     */
+    boolean run(@Nullable org.gtk.gio.Cancellable cancellable);
+    
     @ApiStatus.Internal default int upcall(MemoryAddress cancellable, MemoryAddress userData) {
-        var RESULT = run((org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+        var RESULT = run((org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
         return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CancellableSourceFunc.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CancellableSourceFunc.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

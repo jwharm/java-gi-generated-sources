@@ -40,26 +40,17 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Viewport proxy instance for the provided memory address.
-     * <p>
-     * Because Viewport is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Viewport(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Viewport(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Viewport> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Viewport(input, ownership);
+    public static final Marshal<Addressable, Viewport> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Viewport(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Adjustment hadjustment, @Nullable org.gtk.gtk.Adjustment vadjustment) {
         MemoryAddress RESULT;
@@ -82,7 +73,9 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param vadjustment vertical adjustment
      */
     public Viewport(@Nullable org.gtk.gtk.Adjustment hadjustment, @Nullable org.gtk.gtk.Adjustment vadjustment) {
-        super(constructNew(hadjustment, vadjustment), Ownership.NONE);
+        super(constructNew(hadjustment, vadjustment));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -92,12 +85,11 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_viewport_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_viewport_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -108,8 +100,7 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getScrollToFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_viewport_get_scroll_to_focus.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_viewport_get_scroll_to_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,6 +166,9 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -225,39 +219,47 @@ public class Viewport extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_viewport_new = Interop.downcallHandle(
-            "gtk_viewport_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_viewport_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_viewport_get_child = Interop.downcallHandle(
-            "gtk_viewport_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_viewport_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_viewport_get_scroll_to_focus = Interop.downcallHandle(
-            "gtk_viewport_get_scroll_to_focus",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_viewport_get_scroll_to_focus",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_viewport_set_child = Interop.downcallHandle(
-            "gtk_viewport_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_viewport_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_viewport_set_scroll_to_focus = Interop.downcallHandle(
-            "gtk_viewport_set_scroll_to_focus",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_viewport_set_scroll_to_focus",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_viewport_get_type = Interop.downcallHandle(
-            "gtk_viewport_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_viewport_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_viewport_get_type != null;
     }
 }

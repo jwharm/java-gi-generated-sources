@@ -37,8 +37,8 @@ public class Error extends Struct {
      * @return A new, uninitialized @{link Error}
      */
     public static Error allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Error newInstance = new Error(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Error newInstance = new Error(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class Error extends Struct {
      * @return The value of the field {@code domain}
      */
     public org.gtk.glib.Quark getDomain() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Quark(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Quark(RESULT);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class Error extends Struct {
      * @param domain The new value of the field {@code domain}
      */
     public void setDomain(org.gtk.glib.Quark domain) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("domain"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : domain.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (domain == null ? MemoryAddress.NULL : domain.getValue().intValue()));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class Error extends Struct {
      * @return The value of the field {@code code}
      */
     public int getCode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("code"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("code"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class Error extends Struct {
      * @param code The new value of the field {@code code}
      */
     public void setCode(int code) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), code);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("code"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), code);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class Error extends Struct {
      * @return The value of the field {@code message}
      */
     public java.lang.String getMessage() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("message"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("message"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -101,35 +111,41 @@ public class Error extends Struct {
      * @param message The new value of the field {@code message}
      */
     public void setMessage(java.lang.String message) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("message"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (message == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(message, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("message"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (message == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(message, SCOPE)));
+        }
     }
     
     /**
      * Create a Error proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Error(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Error(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Error> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Error(input, ownership);
+    public static final Marshal<Addressable, Error> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Error(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_error_new.invokeExact(
-                    domain.getValue().intValue(),
-                    code,
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_error_new.invokeExact(
+                        domain.getValue().intValue(),
+                        code,
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -141,22 +157,25 @@ public class Error extends Struct {
      * @param varargs parameters for message format
      */
     public Error(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
-        super(constructNew(domain, code, format, varargs), Ownership.FULL);
+        super(constructNew(domain, code, format, varargs));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_error_new_literal.invokeExact(
-                    domain.getValue().intValue(),
-                    code,
-                    Marshal.stringToAddress.marshal(message, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_error_new_literal.invokeExact(
+                        domain.getValue().intValue(),
+                        code,
+                        Marshal.stringToAddress.marshal(message, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Error}; unlike g_error_new(), {@code message} is
      * not a printf()-style format string. Use this function if
@@ -169,23 +188,27 @@ public class Error extends Struct {
      */
     public static Error newLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
         var RESULT = constructNewLiteral(domain, code, message);
-        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Error.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_error_new_valist.invokeExact(
-                    domain.getValue().intValue(),
-                    code,
-                    Marshal.stringToAddress.marshal(format, null),
-                    args);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_error_new_valist.invokeExact(
+                        domain.getValue().intValue(),
+                        code,
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        args);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Error} with the given {@code domain} and {@code code},
      * and a message formatted with {@code format}.
@@ -197,7 +220,9 @@ public class Error extends Struct {
      */
     public static Error newValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
         var RESULT = constructNewValist(domain, code, format, args);
-        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Error.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -207,12 +232,13 @@ public class Error extends Struct {
     public org.gtk.glib.Error copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_error_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_error_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Error.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -220,8 +246,7 @@ public class Error extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_error_free.invokeExact(
-                    handle());
+            DowncallHandles.g_error_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,18 +292,20 @@ public class Error extends Struct {
      * @return {@link Quark} representing the error domain
      */
     public static org.gtk.glib.Quark domainRegister(java.lang.String errorTypeName, long errorTypePrivateSize, org.gtk.glib.ErrorInitFunc errorTypeInit, org.gtk.glib.ErrorCopyFunc errorTypeCopy, org.gtk.glib.ErrorClearFunc errorTypeClear) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_error_domain_register.invokeExact(
-                    Marshal.stringToAddress.marshal(errorTypeName, null),
-                    errorTypePrivateSize,
-                    (Addressable) errorTypeInit.toCallback(),
-                    (Addressable) errorTypeCopy.toCallback(),
-                    (Addressable) errorTypeClear.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_error_domain_register.invokeExact(
+                        Marshal.stringToAddress.marshal(errorTypeName, SCOPE),
+                        errorTypePrivateSize,
+                        (Addressable) errorTypeInit.toCallback(),
+                        (Addressable) errorTypeCopy.toCallback(),
+                        (Addressable) errorTypeClear.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Quark(RESULT);
         }
-        return new org.gtk.glib.Quark(RESULT);
     }
     
     /**
@@ -307,68 +334,70 @@ public class Error extends Struct {
      * @return {@link Quark} representing the error domain
      */
     public static org.gtk.glib.Quark domainRegisterStatic(java.lang.String errorTypeName, long errorTypePrivateSize, org.gtk.glib.ErrorInitFunc errorTypeInit, org.gtk.glib.ErrorCopyFunc errorTypeCopy, org.gtk.glib.ErrorClearFunc errorTypeClear) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_error_domain_register_static.invokeExact(
-                    Marshal.stringToAddress.marshal(errorTypeName, null),
-                    errorTypePrivateSize,
-                    (Addressable) errorTypeInit.toCallback(),
-                    (Addressable) errorTypeCopy.toCallback(),
-                    (Addressable) errorTypeClear.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_error_domain_register_static.invokeExact(
+                        Marshal.stringToAddress.marshal(errorTypeName, SCOPE),
+                        errorTypePrivateSize,
+                        (Addressable) errorTypeInit.toCallback(),
+                        (Addressable) errorTypeCopy.toCallback(),
+                        (Addressable) errorTypeClear.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Quark(RESULT);
         }
-        return new org.gtk.glib.Quark(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_error_new = Interop.downcallHandle(
-            "g_error_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "g_error_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_error_new_literal = Interop.downcallHandle(
-            "g_error_new_literal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_error_new_literal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_error_new_valist = Interop.downcallHandle(
-            "g_error_new_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_error_new_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_error_copy = Interop.downcallHandle(
-            "g_error_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_error_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_error_free = Interop.downcallHandle(
-            "g_error_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_error_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_error_matches = Interop.downcallHandle(
-            "g_error_matches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_error_matches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_error_domain_register = Interop.downcallHandle(
-            "g_error_domain_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_error_domain_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_error_domain_register_static = Interop.downcallHandle(
-            "g_error_domain_register_static",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_error_domain_register_static",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -394,7 +423,7 @@ public class Error extends Struct {
             struct = Error.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Error} struct.
          * @return A new instance of {@code Error} with the fields 
          *         that were set in the Builder object.
@@ -409,10 +438,12 @@ public class Error extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDomain(org.gtk.glib.Quark domain) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("domain"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : domain.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("domain"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (domain == null ? MemoryAddress.NULL : domain.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -421,10 +452,12 @@ public class Error extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCode(int code) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), code);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("code"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), code);
+                return this;
+            }
         }
         
         /**
@@ -433,10 +466,12 @@ public class Error extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMessage(java.lang.String message) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("message"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (message == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(message, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("message"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (message == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(message, SCOPE)));
+                return this;
+            }
         }
     }
 }

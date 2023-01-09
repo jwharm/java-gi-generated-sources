@@ -29,8 +29,8 @@ public class SharedPresentSurfaceCapabilitiesKHR extends Struct {
      * @return A new, uninitialized @{link SharedPresentSurfaceCapabilitiesKHR}
      */
     public static SharedPresentSurfaceCapabilitiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SharedPresentSurfaceCapabilitiesKHR newInstance = new SharedPresentSurfaceCapabilitiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SharedPresentSurfaceCapabilitiesKHR newInstance = new SharedPresentSurfaceCapabilitiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SharedPresentSurfaceCapabilitiesKHR extends Struct {
     /**
      * Create a SharedPresentSurfaceCapabilitiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SharedPresentSurfaceCapabilitiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SharedPresentSurfaceCapabilitiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SharedPresentSurfaceCapabilitiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SharedPresentSurfaceCapabilitiesKHR(input, ownership);
+    public static final Marshal<Addressable, SharedPresentSurfaceCapabilitiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SharedPresentSurfaceCapabilitiesKHR(input);
 }

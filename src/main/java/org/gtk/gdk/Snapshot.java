@@ -30,14 +30,16 @@ public class Snapshot extends org.gtk.gobject.GObject {
     /**
      * Create a Snapshot proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Snapshot(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Snapshot(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Snapshot> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Snapshot(input, ownership);
+    public static final Marshal<Addressable, Snapshot> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Snapshot(input);
     
     /**
      * Get the gtype
@@ -69,6 +71,9 @@ public class Snapshot extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -93,9 +98,17 @@ public class Snapshot extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_snapshot_get_type = Interop.downcallHandle(
-            "gdk_snapshot_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_snapshot_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_snapshot_get_type != null;
     }
 }

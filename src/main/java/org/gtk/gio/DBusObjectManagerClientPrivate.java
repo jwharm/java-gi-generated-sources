@@ -29,8 +29,8 @@ public class DBusObjectManagerClientPrivate extends Struct {
      * @return A new, uninitialized @{link DBusObjectManagerClientPrivate}
      */
     public static DBusObjectManagerClientPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusObjectManagerClientPrivate newInstance = new DBusObjectManagerClientPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusObjectManagerClientPrivate newInstance = new DBusObjectManagerClientPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DBusObjectManagerClientPrivate extends Struct {
     /**
      * Create a DBusObjectManagerClientPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusObjectManagerClientPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusObjectManagerClientPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusObjectManagerClientPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectManagerClientPrivate(input, ownership);
+    public static final Marshal<Addressable, DBusObjectManagerClientPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectManagerClientPrivate(input);
 }

@@ -29,8 +29,8 @@ public class DeviceAddress extends Struct {
      * @return A new, uninitialized @{link DeviceAddress}
      */
     public static DeviceAddress allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceAddress newInstance = new DeviceAddress(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceAddress newInstance = new DeviceAddress(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceAddress extends Struct {
     /**
      * Create a DeviceAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceAddress(input, ownership);
+    public static final Marshal<Addressable, DeviceAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceAddress(input);
 }

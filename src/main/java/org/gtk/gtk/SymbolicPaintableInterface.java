@@ -36,25 +36,42 @@ public class SymbolicPaintableInterface extends Struct {
      * @return A new, uninitialized @{link SymbolicPaintableInterface}
      */
     public static SymbolicPaintableInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SymbolicPaintableInterface newInstance = new SymbolicPaintableInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SymbolicPaintableInterface newInstance = new SymbolicPaintableInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code SnapshotSymbolicCallback} callback.
+     */
     @FunctionalInterface
     public interface SnapshotSymbolicCallback {
+    
         void run(org.gtk.gtk.SymbolicPaintable paintable, org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress paintable, MemoryAddress snapshot, double width, double height, MemoryAddress colors, long nColors) {
-            run((org.gtk.gtk.SymbolicPaintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gtk.SymbolicPaintable.fromAddress).marshal(paintable, Ownership.NONE), (org.gtk.gdk.Snapshot) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(snapshot)), org.gtk.gdk.Snapshot.fromAddress).marshal(snapshot, Ownership.NONE), width, height, new PointerProxy<org.gtk.gdk.RGBA>(colors, org.gtk.gdk.RGBA.fromAddress).toArray((int) nColors, org.gtk.gdk.RGBA.class), nColors);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gtk.SymbolicPaintable) Interop.register(paintable, org.gtk.gtk.SymbolicPaintable.fromAddress).marshal(paintable, null), (org.gtk.gdk.Snapshot) Interop.register(snapshot, org.gtk.gdk.Snapshot.fromAddress).marshal(snapshot, null), width, height, new PointerProxy<org.gtk.gdk.RGBA>(colors, org.gtk.gdk.RGBA.fromAddress).toArray((int) nColors, org.gtk.gdk.RGBA.class), nColors);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SnapshotSymbolicCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SnapshotSymbolicCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -63,22 +80,26 @@ public class SymbolicPaintableInterface extends Struct {
      * @param snapshotSymbolic The new value of the field {@code snapshot_symbolic}
      */
     public void setSnapshotSymbolic(SnapshotSymbolicCallback snapshotSymbolic) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("snapshot_symbolic"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshotSymbolic == null ? MemoryAddress.NULL : snapshotSymbolic.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("snapshot_symbolic"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshotSymbolic == null ? MemoryAddress.NULL : snapshotSymbolic.toCallback()));
+        }
     }
     
     /**
      * Create a SymbolicPaintableInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SymbolicPaintableInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SymbolicPaintableInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SymbolicPaintableInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SymbolicPaintableInterface(input, ownership);
+    public static final Marshal<Addressable, SymbolicPaintableInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SymbolicPaintableInterface(input);
     
     /**
      * A {@link SymbolicPaintableInterface.Builder} object constructs a {@link SymbolicPaintableInterface} 
@@ -102,7 +123,7 @@ public class SymbolicPaintableInterface extends Struct {
             struct = SymbolicPaintableInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SymbolicPaintableInterface} struct.
          * @return A new instance of {@code SymbolicPaintableInterface} with the fields 
          *         that were set in the Builder object.
@@ -112,17 +133,21 @@ public class SymbolicPaintableInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setSnapshotSymbolic(SnapshotSymbolicCallback snapshotSymbolic) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("snapshot_symbolic"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshotSymbolic == null ? MemoryAddress.NULL : snapshotSymbolic.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("snapshot_symbolic"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshotSymbolic == null ? MemoryAddress.NULL : snapshotSymbolic.toCallback()));
+                return this;
+            }
         }
     }
 }

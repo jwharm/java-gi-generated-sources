@@ -40,8 +40,8 @@ public class PixbufAnimationClass extends Struct {
      * @return A new, uninitialized @{link PixbufAnimationClass}
      */
     public static PixbufAnimationClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufAnimationClass newInstance = new PixbufAnimationClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PixbufAnimationClass newInstance = new PixbufAnimationClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class PixbufAnimationClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,25 +60,42 @@ public class PixbufAnimationClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IsStaticImageCallback} callback.
+     */
     @FunctionalInterface
     public interface IsStaticImageCallback {
+    
         boolean run(org.gtk.gdkpixbuf.PixbufAnimation animation);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress animation) {
-            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(animation)), org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, Ownership.NONE));
+            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) Interop.register(animation, org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsStaticImageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IsStaticImageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -87,25 +104,42 @@ public class PixbufAnimationClass extends Struct {
      * @param isStaticImage The new value of the field {@code is_static_image}
      */
     public void setIsStaticImage(IsStaticImageCallback isStaticImage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_static_image"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isStaticImage == null ? MemoryAddress.NULL : isStaticImage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_static_image"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isStaticImage == null ? MemoryAddress.NULL : isStaticImage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetStaticImageCallback} callback.
+     */
     @FunctionalInterface
     public interface GetStaticImageCallback {
+    
         org.gtk.gdkpixbuf.Pixbuf run(org.gtk.gdkpixbuf.PixbufAnimation animation);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress animation) {
-            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(animation)), org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, Ownership.NONE));
+            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) Interop.register(animation, org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetStaticImageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetStaticImageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -114,24 +148,41 @@ public class PixbufAnimationClass extends Struct {
      * @param getStaticImage The new value of the field {@code get_static_image}
      */
     public void setGetStaticImage(GetStaticImageCallback getStaticImage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_static_image"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStaticImage == null ? MemoryAddress.NULL : getStaticImage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_static_image"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getStaticImage == null ? MemoryAddress.NULL : getStaticImage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSizeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSizeCallback {
+    
         void run(org.gtk.gdkpixbuf.PixbufAnimation animation, PointerInteger width, PointerInteger height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress animation, MemoryAddress width, MemoryAddress height) {
-            run((org.gtk.gdkpixbuf.PixbufAnimation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(animation)), org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, Ownership.NONE), new PointerInteger(width), new PointerInteger(height));
+            run((org.gtk.gdkpixbuf.PixbufAnimation) Interop.register(animation, org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, null), new PointerInteger(width), new PointerInteger(height));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSizeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSizeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,25 +191,43 @@ public class PixbufAnimationClass extends Struct {
      * @param getSize The new value of the field {@code get_size}
      */
     public void setGetSize(GetSizeCallback getSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSize == null ? MemoryAddress.NULL : getSize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSize == null ? MemoryAddress.NULL : getSize.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetIterCallback} callback.
+     */
     @FunctionalInterface
     public interface GetIterCallback {
+    
         org.gtk.gdkpixbuf.PixbufAnimationIter run(org.gtk.gdkpixbuf.PixbufAnimation animation, @Nullable org.gtk.glib.TimeVal startTime);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress animation, MemoryAddress startTime) {
-            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(animation)), org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, Ownership.NONE), org.gtk.glib.TimeVal.fromAddress.marshal(startTime, Ownership.NONE));
+            var RESULT = run((org.gtk.gdkpixbuf.PixbufAnimation) Interop.register(animation, org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(animation, null), org.gtk.glib.TimeVal.fromAddress.marshal(startTime, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetIterCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetIterCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,22 +236,26 @@ public class PixbufAnimationClass extends Struct {
      * @param getIter The new value of the field {@code get_iter}
      */
     public void setGetIter(GetIterCallback getIter) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter.toCallback()));
+        }
     }
     
     /**
      * Create a PixbufAnimationClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufAnimationClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufAnimationClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufAnimationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufAnimationClass(input, ownership);
+    public static final Marshal<Addressable, PixbufAnimationClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufAnimationClass(input);
     
     /**
      * A {@link PixbufAnimationClass.Builder} object constructs a {@link PixbufAnimationClass} 
@@ -206,7 +279,7 @@ public class PixbufAnimationClass extends Struct {
             struct = PixbufAnimationClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufAnimationClass} struct.
          * @return A new instance of {@code PixbufAnimationClass} with the fields 
          *         that were set in the Builder object.
@@ -221,38 +294,48 @@ public class PixbufAnimationClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setIsStaticImage(IsStaticImageCallback isStaticImage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_static_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isStaticImage == null ? MemoryAddress.NULL : isStaticImage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_static_image"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isStaticImage == null ? MemoryAddress.NULL : isStaticImage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetStaticImage(GetStaticImageCallback getStaticImage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_static_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getStaticImage == null ? MemoryAddress.NULL : getStaticImage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_static_image"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getStaticImage == null ? MemoryAddress.NULL : getStaticImage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSize(GetSizeCallback getSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSize == null ? MemoryAddress.NULL : getSize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSize == null ? MemoryAddress.NULL : getSize.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetIter(GetIterCallback getIter) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_iter"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIter == null ? MemoryAddress.NULL : getIter.toCallback()));
+                return this;
+            }
         }
     }
 }

@@ -6,11 +6,13 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum H264DecoderCompliance implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The decoder behavior is
      *     automatically choosen.
      */
     AUTO(0),
+    
     /**
      * The decoder behavior strictly
      *     conforms to the SPEC. All the decoder behaviors conform to the
@@ -18,6 +20,7 @@ public enum H264DecoderCompliance implements io.github.jwharm.javagi.Enumeration
      *     mentioned in the SPEC.
      */
     STRICT(1),
+    
     /**
      * The decoder behavior normally
      *     conforms to the SPEC. Most behaviors conform to the SPEC but
@@ -33,6 +36,7 @@ public enum H264DecoderCompliance implements io.github.jwharm.javagi.Enumeration
      *     ASO.
      */
     NORMAL(2),
+    
     /**
      * The decoder behavior
      *     flexibly conforms to the SPEC. It uses the nonstandard features
@@ -47,15 +51,29 @@ public enum H264DecoderCompliance implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "GstH264DecoderCompliance";
     
     private final int value;
+    
+    /**
+     * Create a new H264DecoderCompliance for the provided value
+     * @param numeric value the enum value
+     */
     H264DecoderCompliance(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new H264DecoderCompliance for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static H264DecoderCompliance of(int value) {
         return switch (value) {
             case 0 -> AUTO;

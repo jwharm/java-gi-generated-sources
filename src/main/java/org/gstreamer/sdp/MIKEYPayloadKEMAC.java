@@ -37,8 +37,8 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @return A new, uninitialized @{link MIKEYPayloadKEMAC}
      */
     public static MIKEYPayloadKEMAC allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MIKEYPayloadKEMAC newInstance = new MIKEYPayloadKEMAC(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MIKEYPayloadKEMAC newInstance = new MIKEYPayloadKEMAC(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class MIKEYPayloadKEMAC extends Struct {
      */
     public org.gstreamer.sdp.MIKEYPayload getPt() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pt"));
-        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,9 +57,11 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @param pt The new value of the field {@code pt}
      */
     public void setPt(org.gstreamer.sdp.MIKEYPayload pt) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pt"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pt"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
+        }
     }
     
     /**
@@ -67,10 +69,12 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @return The value of the field {@code enc_alg}
      */
     public org.gstreamer.sdp.MIKEYEncAlg getEncAlg() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.sdp.MIKEYEncAlg.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.sdp.MIKEYEncAlg.of(RESULT);
+        }
     }
     
     /**
@@ -78,9 +82,11 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @param encAlg The new value of the field {@code enc_alg}
      */
     public void setEncAlg(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
+        }
     }
     
     /**
@@ -88,10 +94,12 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @return The value of the field {@code mac_alg}
      */
     public org.gstreamer.sdp.MIKEYMacAlg getMacAlg() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.sdp.MIKEYMacAlg.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.sdp.MIKEYMacAlg.of(RESULT);
+        }
     }
     
     /**
@@ -99,9 +107,11 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @param macAlg The new value of the field {@code mac_alg}
      */
     public void setMacAlg(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
+        }
     }
     
     /**
@@ -109,10 +119,12 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @return The value of the field {@code subpayloads}
      */
     public PointerAddress getSubpayloads() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -120,22 +132,26 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @param subpayloads The new value of the field {@code subpayloads}
      */
     public void setSubpayloads(java.lang.foreign.MemoryAddress[] subpayloads) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false, SCOPE)));
+        }
     }
     
     /**
      * Create a MIKEYPayloadKEMAC proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MIKEYPayloadKEMAC(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MIKEYPayloadKEMAC(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MIKEYPayloadKEMAC> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadKEMAC(input, ownership);
+    public static final Marshal<Addressable, MIKEYPayloadKEMAC> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadKEMAC(input);
     
     /**
      * A {@link MIKEYPayloadKEMAC.Builder} object constructs a {@link MIKEYPayloadKEMAC} 
@@ -159,7 +175,7 @@ public class MIKEYPayloadKEMAC extends Struct {
             struct = MIKEYPayloadKEMAC.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MIKEYPayloadKEMAC} struct.
          * @return A new instance of {@code MIKEYPayloadKEMAC} with the fields 
          *         that were set in the Builder object.
@@ -174,10 +190,12 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPt(org.gstreamer.sdp.MIKEYPayload pt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pt"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pt"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
+                return this;
+            }
         }
         
         /**
@@ -186,10 +204,12 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEncAlg(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -198,10 +218,12 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMacAlg(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -210,10 +232,12 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSubpayloads(java.lang.foreign.MemoryAddress[] subpayloads) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

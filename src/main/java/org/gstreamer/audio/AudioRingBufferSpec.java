@@ -44,8 +44,8 @@ public class AudioRingBufferSpec extends Struct {
      * @return A new, uninitialized @{link AudioRingBufferSpec}
      */
     public static AudioRingBufferSpec allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioRingBufferSpec newInstance = new AudioRingBufferSpec(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioRingBufferSpec newInstance = new AudioRingBufferSpec(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code caps}
      */
     public org.gstreamer.gst.Caps getCaps() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("caps"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("caps"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param caps The new value of the field {@code caps}
      */
     public void setCaps(org.gstreamer.gst.Caps caps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.audio.AudioRingBufferFormatType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.audio.AudioRingBufferFormatType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.audio.AudioRingBufferFormatType.of(RESULT);
+        }
     }
     
     /**
@@ -87,9 +93,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.audio.AudioRingBufferFormatType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -98,7 +106,7 @@ public class AudioRingBufferSpec extends Struct {
      */
     public org.gstreamer.audio.AudioInfo getInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -106,9 +114,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param info The new value of the field {@code info}
      */
     public void setInfo(org.gstreamer.audio.AudioInfo info) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        }
     }
     
     /**
@@ -116,10 +126,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code latency_time}
      */
     public long getLatencyTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -127,9 +139,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param latencyTime The new value of the field {@code latency_time}
      */
     public void setLatencyTime(long latencyTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), latencyTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), latencyTime);
+        }
     }
     
     /**
@@ -137,10 +151,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code buffer_time}
      */
     public long getBufferTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -148,9 +164,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param bufferTime The new value of the field {@code buffer_time}
      */
     public void setBufferTime(long bufferTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufferTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bufferTime);
+        }
     }
     
     /**
@@ -158,10 +176,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code segsize}
      */
     public int getSegsize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -169,9 +189,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param segsize The new value of the field {@code segsize}
      */
     public void setSegsize(int segsize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segsize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), segsize);
+        }
     }
     
     /**
@@ -179,10 +201,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code segtotal}
      */
     public int getSegtotal() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -190,9 +214,11 @@ public class AudioRingBufferSpec extends Struct {
      * @param segtotal The new value of the field {@code segtotal}
      */
     public void setSegtotal(int segtotal) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segtotal);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), segtotal);
+        }
     }
     
     /**
@@ -200,10 +226,12 @@ public class AudioRingBufferSpec extends Struct {
      * @return The value of the field {@code seglatency}
      */
     public int getSeglatency() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -211,22 +239,26 @@ public class AudioRingBufferSpec extends Struct {
      * @param seglatency The new value of the field {@code seglatency}
      */
     public void setSeglatency(int seglatency) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seglatency);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), seglatency);
+        }
     }
     
     /**
      * Create a AudioRingBufferSpec proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioRingBufferSpec(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioRingBufferSpec(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioRingBufferSpec> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBufferSpec(input, ownership);
+    public static final Marshal<Addressable, AudioRingBufferSpec> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBufferSpec(input);
     
     /**
      * A {@link AudioRingBufferSpec.Builder} object constructs a {@link AudioRingBufferSpec} 
@@ -250,7 +282,7 @@ public class AudioRingBufferSpec extends Struct {
             struct = AudioRingBufferSpec.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioRingBufferSpec} struct.
          * @return A new instance of {@code AudioRingBufferSpec} with the fields 
          *         that were set in the Builder object.
@@ -265,10 +297,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCaps(org.gstreamer.gst.Caps caps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
+                return this;
+            }
         }
         
         /**
@@ -277,10 +311,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.audio.AudioRingBufferFormatType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -289,10 +325,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfo(org.gstreamer.audio.AudioInfo info) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+                return this;
+            }
         }
         
         /**
@@ -301,10 +339,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLatencyTime(long latencyTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), latencyTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), latencyTime);
+                return this;
+            }
         }
         
         /**
@@ -313,10 +353,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBufferTime(long bufferTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufferTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bufferTime);
+                return this;
+            }
         }
         
         /**
@@ -325,10 +367,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSegsize(int segsize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segsize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), segsize);
+                return this;
+            }
         }
         
         /**
@@ -337,10 +381,12 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSegtotal(int segtotal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segtotal);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), segtotal);
+                return this;
+            }
         }
         
         /**
@@ -350,17 +396,21 @@ public class AudioRingBufferSpec extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSeglatency(int seglatency) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seglatency);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), seglatency);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

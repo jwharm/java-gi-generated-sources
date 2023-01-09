@@ -29,8 +29,8 @@ public class ExternalImageFormatPropertiesKHR extends Struct {
      * @return A new, uninitialized @{link ExternalImageFormatPropertiesKHR}
      */
     public static ExternalImageFormatPropertiesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalImageFormatPropertiesKHR newInstance = new ExternalImageFormatPropertiesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalImageFormatPropertiesKHR newInstance = new ExternalImageFormatPropertiesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalImageFormatPropertiesKHR extends Struct {
     /**
      * Create a ExternalImageFormatPropertiesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalImageFormatPropertiesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalImageFormatPropertiesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalImageFormatPropertiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalImageFormatPropertiesKHR(input, ownership);
+    public static final Marshal<Addressable, ExternalImageFormatPropertiesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalImageFormatPropertiesKHR(input);
 }

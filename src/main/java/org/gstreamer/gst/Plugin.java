@@ -45,26 +45,17 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Plugin proxy instance for the provided memory address.
-     * <p>
-     * Because Plugin is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Plugin(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Plugin(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Plugin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Plugin(input, ownership);
+    public static final Marshal<Addressable, Plugin> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Plugin(input);
     
     /**
      * Make GStreamer aware of external dependencies which affect the feature
@@ -91,15 +82,17 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * @param flags optional flags, or {@code GST_PLUGIN_DEPENDENCY_FLAG_NONE}
      */
     public void addDependency(@Nullable java.lang.String[] envVars, @Nullable java.lang.String[] paths, @Nullable java.lang.String[] names, org.gstreamer.gst.PluginDependencyFlags flags) {
-        try {
-            DowncallHandles.gst_plugin_add_dependency.invokeExact(
-                    handle(),
-                    (Addressable) (envVars == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envVars, false)),
-                    (Addressable) (paths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(paths, false)),
-                    (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false)),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_plugin_add_dependency.invokeExact(
+                        handle(),
+                        (Addressable) (envVars == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envVars, false, SCOPE)),
+                        (Addressable) (paths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(paths, false, SCOPE)),
+                        (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false, SCOPE)),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -128,15 +121,17 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * @param flags optional flags, or {@code GST_PLUGIN_DEPENDENCY_FLAG_NONE}
      */
     public void addDependencySimple(@Nullable java.lang.String envVars, @Nullable java.lang.String paths, @Nullable java.lang.String names, org.gstreamer.gst.PluginDependencyFlags flags) {
-        try {
-            DowncallHandles.gst_plugin_add_dependency_simple.invokeExact(
-                    handle(),
-                    (Addressable) (envVars == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(envVars, null)),
-                    (Addressable) (paths == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(paths, null)),
-                    (Addressable) (names == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(names, null)),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_plugin_add_dependency_simple.invokeExact(
+                        handle(),
+                        (Addressable) (envVars == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(envVars, SCOPE)),
+                        (Addressable) (paths == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(paths, SCOPE)),
+                        (Addressable) (names == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(names, SCOPE)),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -149,12 +144,11 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Structure getCacheData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_cache_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_cache_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -164,8 +158,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,8 +172,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_filename.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,8 +186,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_license.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,8 +200,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,8 +214,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getOrigin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_origin.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_origin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,8 +228,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getPackage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_package.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_package.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,8 +250,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getReleaseDateString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_release_date_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_release_date_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,8 +264,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,8 +278,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_version.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,8 +292,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public boolean isLoaded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_plugin_is_loaded.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_plugin_is_loaded.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,12 +315,13 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Plugin load() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Plugin) Interop.register(RESULT, org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -377,8 +362,7 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      */
     public static void listFree(org.gtk.glib.List list) {
         try {
-            DowncallHandles.gst_plugin_list_free.invokeExact(
-                    list.handle());
+            DowncallHandles.gst_plugin_list_free.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,14 +376,17 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * {@code null} on error.
      */
     public static @Nullable org.gstreamer.gst.Plugin loadByName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_by_name.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_by_name.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Plugin) Interop.register(RESULT, org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -410,19 +397,21 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gstreamer.gst.Plugin loadFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_file.invokeExact(
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_file.invokeExact(Marshal.stringToAddress.marshal(filename, SCOPE),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gstreamer.gst.Plugin) Interop.register(RESULT, org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -450,23 +439,25 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the plugin was registered correctly, otherwise {@code false}.
      */
     public static boolean registerStatic(int majorVersion, int minorVersion, java.lang.String name, java.lang.String description, org.gstreamer.gst.PluginInitFunc initFunc, java.lang.String version, java.lang.String license, java.lang.String source, java.lang.String package_, java.lang.String origin) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_plugin_register_static.invokeExact(
-                    majorVersion,
-                    minorVersion,
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(description, null),
-                    (Addressable) initFunc.toCallback(),
-                    Marshal.stringToAddress.marshal(version, null),
-                    Marshal.stringToAddress.marshal(license, null),
-                    Marshal.stringToAddress.marshal(source, null),
-                    Marshal.stringToAddress.marshal(package_, null),
-                    Marshal.stringToAddress.marshal(origin, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_plugin_register_static.invokeExact(
+                        majorVersion,
+                        minorVersion,
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE),
+                        (Addressable) initFunc.toCallback(),
+                        Marshal.stringToAddress.marshal(version, SCOPE),
+                        Marshal.stringToAddress.marshal(license, SCOPE),
+                        Marshal.stringToAddress.marshal(source, SCOPE),
+                        Marshal.stringToAddress.marshal(package_, SCOPE),
+                        Marshal.stringToAddress.marshal(origin, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -497,24 +488,26 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the plugin was registered correctly, otherwise {@code false}.
      */
     public static boolean registerStaticFull(int majorVersion, int minorVersion, java.lang.String name, java.lang.String description, org.gstreamer.gst.PluginInitFullFunc initFullFunc, java.lang.String version, java.lang.String license, java.lang.String source, java.lang.String package_, java.lang.String origin) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_plugin_register_static_full.invokeExact(
-                    majorVersion,
-                    minorVersion,
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(description, null),
-                    (Addressable) initFullFunc.toCallback(),
-                    Marshal.stringToAddress.marshal(version, null),
-                    Marshal.stringToAddress.marshal(license, null),
-                    Marshal.stringToAddress.marshal(source, null),
-                    Marshal.stringToAddress.marshal(package_, null),
-                    Marshal.stringToAddress.marshal(origin, null),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_plugin_register_static_full.invokeExact(
+                        majorVersion,
+                        minorVersion,
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE),
+                        (Addressable) initFullFunc.toCallback(),
+                        Marshal.stringToAddress.marshal(version, SCOPE),
+                        Marshal.stringToAddress.marshal(license, SCOPE),
+                        Marshal.stringToAddress.marshal(source, SCOPE),
+                        Marshal.stringToAddress.marshal(package_, SCOPE),
+                        Marshal.stringToAddress.marshal(origin, SCOPE),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -533,6 +526,9 @@ public class Plugin extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -557,129 +553,137 @@ public class Plugin extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_plugin_add_dependency = Interop.downcallHandle(
-            "gst_plugin_add_dependency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_plugin_add_dependency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_plugin_add_dependency_simple = Interop.downcallHandle(
-            "gst_plugin_add_dependency_simple",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_plugin_add_dependency_simple",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_cache_data = Interop.downcallHandle(
-            "gst_plugin_get_cache_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_cache_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_description = Interop.downcallHandle(
-            "gst_plugin_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_filename = Interop.downcallHandle(
-            "gst_plugin_get_filename",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_filename",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_license = Interop.downcallHandle(
-            "gst_plugin_get_license",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_license",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_name = Interop.downcallHandle(
-            "gst_plugin_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_origin = Interop.downcallHandle(
-            "gst_plugin_get_origin",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_origin",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_package = Interop.downcallHandle(
-            "gst_plugin_get_package",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_package",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_release_date_string = Interop.downcallHandle(
-            "gst_plugin_get_release_date_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_release_date_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_source = Interop.downcallHandle(
-            "gst_plugin_get_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_version = Interop.downcallHandle(
-            "gst_plugin_get_version",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_get_version",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_is_loaded = Interop.downcallHandle(
-            "gst_plugin_is_loaded",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_is_loaded",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_load = Interop.downcallHandle(
-            "gst_plugin_load",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_load",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_set_cache_data = Interop.downcallHandle(
-            "gst_plugin_set_cache_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_set_cache_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_get_type = Interop.downcallHandle(
-            "gst_plugin_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_plugin_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_plugin_list_free = Interop.downcallHandle(
-            "gst_plugin_list_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_list_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_load_by_name = Interop.downcallHandle(
-            "gst_plugin_load_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_load_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_load_file = Interop.downcallHandle(
-            "gst_plugin_load_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_load_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_register_static = Interop.downcallHandle(
-            "gst_plugin_register_static",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_register_static",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_register_static_full = Interop.downcallHandle(
-            "gst_plugin_register_static_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_register_static_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_plugin_get_type != null;
     }
 }

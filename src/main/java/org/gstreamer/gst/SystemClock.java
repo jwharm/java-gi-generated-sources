@@ -39,26 +39,17 @@ public class SystemClock extends org.gstreamer.gst.Clock {
     
     /**
      * Create a SystemClock proxy instance for the provided memory address.
-     * <p>
-     * Because SystemClock is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SystemClock(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected SystemClock(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SystemClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SystemClock(input, ownership);
+    public static final Marshal<Addressable, SystemClock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SystemClock(input);
     
     /**
      * Get the gtype
@@ -89,7 +80,9 @@ public class SystemClock extends org.gstreamer.gst.Clock {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -105,8 +98,7 @@ public class SystemClock extends org.gstreamer.gst.Clock {
      */
     public static void setDefault(@Nullable org.gstreamer.gst.Clock newClock) {
         try {
-            DowncallHandles.gst_system_clock_set_default.invokeExact(
-                    (Addressable) (newClock == null ? MemoryAddress.NULL : newClock.handle()));
+            DowncallHandles.gst_system_clock_set_default.invokeExact((Addressable) (newClock == null ? MemoryAddress.NULL : newClock.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,6 +120,9 @@ public class SystemClock extends org.gstreamer.gst.Clock {
      */
     public static class Builder extends org.gstreamer.gst.Clock.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -158,21 +153,29 @@ public class SystemClock extends org.gstreamer.gst.Clock {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_system_clock_get_type = Interop.downcallHandle(
-            "gst_system_clock_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_system_clock_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_system_clock_obtain = Interop.downcallHandle(
-            "gst_system_clock_obtain",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_system_clock_obtain",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_system_clock_set_default = Interop.downcallHandle(
-            "gst_system_clock_set_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_system_clock_set_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_system_clock_get_type != null;
     }
 }

@@ -32,14 +32,16 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     /**
      * Create a GestureZoom proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureZoom(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureZoom(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureZoom> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureZoom(input, ownership);
+    public static final Marshal<Addressable, GestureZoom> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureZoom(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      * pinch/zoom gestures.
      */
     public GestureZoom() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -71,8 +74,7 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     public double getScaleDelta() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_zoom_get_scale_delta.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,19 +95,37 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ScaleChanged} callback.
+     */
     @FunctionalInterface
     public interface ScaleChanged {
+    
+        /**
+         * Emitted whenever the distance between both tracked sequences changes.
+         */
         void run(double scale);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureZoom, double scale) {
             run(scale);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScaleChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ScaleChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,9 +135,10 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureZoom.ScaleChanged> onScaleChanged(GestureZoom.ScaleChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("scale-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("scale-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -140,6 +161,9 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
      */
     public static class Builder extends org.gtk.gtk.Gesture.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -164,21 +188,29 @@ public class GestureZoom extends org.gtk.gtk.Gesture {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
-            "gtk_gesture_zoom_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_zoom_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
-            "gtk_gesture_zoom_get_scale_delta",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_zoom_get_scale_delta",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_zoom_get_type = Interop.downcallHandle(
-            "gtk_gesture_zoom_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_zoom_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_zoom_get_type != null;
     }
 }

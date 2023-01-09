@@ -30,26 +30,17 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
     
     /**
      * Create a CellRendererProgress proxy instance for the provided memory address.
-     * <p>
-     * Because CellRendererProgress is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellRendererProgress(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CellRendererProgress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellRendererProgress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererProgress(input, ownership);
+    public static final Marshal<Addressable, CellRendererProgress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererProgress(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,7 +56,9 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * Creates a new {@code GtkCellRendererProgress}.
      */
     public CellRendererProgress() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -98,6 +91,9 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      */
     public static class Builder extends org.gtk.gtk.CellRenderer.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -200,15 +196,23 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
-            "gtk_cell_renderer_progress_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_progress_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_progress_get_type = Interop.downcallHandle(
-            "gtk_cell_renderer_progress_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_renderer_progress_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_renderer_progress_get_type != null;
     }
 }

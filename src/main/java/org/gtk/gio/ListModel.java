@@ -71,8 +71,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListModelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListModelImpl(input, ownership);
+    public static final Marshal<Addressable, ListModelImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListModelImpl(input);
     
     /**
      * Gets the type of the items in {@code list}.
@@ -88,8 +91,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.Type getItemType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_list_model_get_item_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_list_model_get_item_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,8 +109,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     default int getNItems() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_list_model_get_n_items.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_list_model_get_n_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,7 +141,9 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -194,19 +197,42 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ItemsChanged} callback.
+     */
     @FunctionalInterface
     public interface ItemsChanged {
+    
+        /**
+         * This signal is emitted whenever items were added to or removed
+         * from {@code list}. At {@code position}, {@code removed} items were removed and {@code added}
+         * items were added in their place.
+         * <p>
+         * Note: If {@code removed != added}, the positions of all later items
+         * in the model change.
+         */
         void run(int position, int removed, int added);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListModel, int position, int removed, int added) {
             run(position, removed, added);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ItemsChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ItemsChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -221,9 +247,10 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ListModel.ItemsChanged> onItemsChanged(ListModel.ItemsChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("items-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("items-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -235,48 +262,63 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
-            "g_list_model_get_item_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_list_model_get_item_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
-            "g_list_model_get_n_items",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_list_model_get_n_items",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
-            "g_list_model_get_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_list_model_get_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
-            "g_list_model_items_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_list_model_items_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_type = Interop.downcallHandle(
-            "g_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ListModelImpl type represents a native instance of the ListModel interface.
+     */
     class ListModelImpl extends org.gtk.gobject.GObject implements ListModel {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public ListModelImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ListModel for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ListModelImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_list_model_get_type != null;
     }
 }

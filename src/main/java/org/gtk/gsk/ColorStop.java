@@ -36,8 +36,8 @@ public class ColorStop extends Struct {
      * @return A new, uninitialized @{link ColorStop}
      */
     public static ColorStop allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ColorStop newInstance = new ColorStop(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ColorStop newInstance = new ColorStop(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class ColorStop extends Struct {
      * @return The value of the field {@code offset}
      */
     public float getOffset() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class ColorStop extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(float offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -69,7 +73,7 @@ public class ColorStop extends Struct {
      */
     public org.gtk.gdk.RGBA getColor() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return org.gtk.gdk.RGBA.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gdk.RGBA.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -77,22 +81,26 @@ public class ColorStop extends Struct {
      * @param color The new value of the field {@code color}
      */
     public void setColor(org.gtk.gdk.RGBA color) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+        }
     }
     
     /**
      * Create a ColorStop proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorStop(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColorStop(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorStop> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorStop(input, ownership);
+    public static final Marshal<Addressable, ColorStop> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorStop(input);
     
     /**
      * A {@link ColorStop.Builder} object constructs a {@link ColorStop} 
@@ -116,7 +124,7 @@ public class ColorStop extends Struct {
             struct = ColorStop.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ColorStop} struct.
          * @return A new instance of {@code ColorStop} with the fields 
          *         that were set in the Builder object.
@@ -131,10 +139,12 @@ public class ColorStop extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(float offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -143,10 +153,12 @@ public class ColorStop extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setColor(org.gtk.gdk.RGBA color) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+                return this;
+            }
         }
     }
 }

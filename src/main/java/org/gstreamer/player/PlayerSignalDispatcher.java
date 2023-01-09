@@ -7,8 +7,11 @@ import org.jetbrains.annotations.*;
 
 public interface PlayerSignalDispatcher extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerSignalDispatcherImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSignalDispatcherImpl(input, ownership);
+    public static final Marshal<Addressable, PlayerSignalDispatcherImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSignalDispatcherImpl(input);
     
     /**
      * Get the gtype
@@ -29,20 +32,35 @@ public interface PlayerSignalDispatcher extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_player_signal_dispatcher_get_type = Interop.downcallHandle(
-            "gst_player_signal_dispatcher_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_player_signal_dispatcher_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The PlayerSignalDispatcherImpl type represents a native instance of the PlayerSignalDispatcher interface.
+     */
     class PlayerSignalDispatcherImpl extends org.gtk.gobject.GObject implements PlayerSignalDispatcher {
         
         static {
             GstPlayer.javagi$ensureInitialized();
         }
         
-        public PlayerSignalDispatcherImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of PlayerSignalDispatcher for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PlayerSignalDispatcherImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_player_signal_dispatcher_get_type != null;
     }
 }

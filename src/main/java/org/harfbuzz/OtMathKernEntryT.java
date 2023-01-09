@@ -36,8 +36,8 @@ public class OtMathKernEntryT extends Struct {
      * @return A new, uninitialized @{link OtMathKernEntryT}
      */
     public static OtMathKernEntryT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtMathKernEntryT newInstance = new OtMathKernEntryT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OtMathKernEntryT newInstance = new OtMathKernEntryT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class OtMathKernEntryT extends Struct {
      * @return The value of the field {@code max_correction_height}
      */
     public org.harfbuzz.PositionT getMaxCorrectionHeight() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class OtMathKernEntryT extends Struct {
      * @param maxCorrectionHeight The new value of the field {@code max_correction_height}
      */
     public void setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class OtMathKernEntryT extends Struct {
      * @return The value of the field {@code kern_value}
      */
     public org.harfbuzz.PositionT getKernValue() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class OtMathKernEntryT extends Struct {
      * @param kernValue The new value of the field {@code kern_value}
      */
     public void setKernValue(org.harfbuzz.PositionT kernValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
+        }
     }
     
     /**
      * Create a OtMathKernEntryT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OtMathKernEntryT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OtMathKernEntryT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OtMathKernEntryT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtMathKernEntryT(input, ownership);
+    public static final Marshal<Addressable, OtMathKernEntryT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OtMathKernEntryT(input);
     
     /**
      * A {@link OtMathKernEntryT.Builder} object constructs a {@link OtMathKernEntryT} 
@@ -118,7 +128,7 @@ public class OtMathKernEntryT extends Struct {
             struct = OtMathKernEntryT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OtMathKernEntryT} struct.
          * @return A new instance of {@code OtMathKernEntryT} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class OtMathKernEntryT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -145,10 +157,12 @@ public class OtMathKernEntryT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKernValue(org.harfbuzz.PositionT kernValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
+                return this;
+            }
         }
     }
 }

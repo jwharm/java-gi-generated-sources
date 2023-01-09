@@ -49,8 +49,8 @@ public class GLAsyncDebug extends Struct {
      * @return A new, uninitialized @{link GLAsyncDebug}
      */
     public static GLAsyncDebug allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLAsyncDebug newInstance = new GLAsyncDebug(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLAsyncDebug newInstance = new GLAsyncDebug(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,22 +58,23 @@ public class GLAsyncDebug extends Struct {
     /**
      * Create a GLAsyncDebug proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLAsyncDebug(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLAsyncDebug(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLAsyncDebug> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLAsyncDebug(input, ownership);
+    public static final Marshal<Addressable, GLAsyncDebug> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLAsyncDebug(input);
     
     /**
      * Frees {@code ad}
      */
     public void free() {
         try {
-            DowncallHandles.gst_gl_async_debug_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,8 +88,7 @@ public class GLAsyncDebug extends Struct {
      */
     public void freeze() {
         try {
-            DowncallHandles.gst_gl_async_debug_freeze.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_freeze.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +100,7 @@ public class GLAsyncDebug extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.gst_gl_async_debug_init.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,8 +111,7 @@ public class GLAsyncDebug extends Struct {
      */
     public void outputLogMsg() {
         try {
-            DowncallHandles.gst_gl_async_debug_output_log_msg.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_output_log_msg.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,19 +129,21 @@ public class GLAsyncDebug extends Struct {
      * @param varargs the list of arguments for {@code format}
      */
     public void storeLogMsg(org.gstreamer.gst.DebugCategory cat, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_gl_async_debug_store_log_msg.invokeExact(
-                    handle(),
-                    cat.handle(),
-                    level.getValue(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    Marshal.stringToAddress.marshal(function, null),
-                    line,
-                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_gl_async_debug_store_log_msg.invokeExact(
+                        handle(),
+                        cat.handle(),
+                        level.getValue(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        Marshal.stringToAddress.marshal(function, SCOPE),
+                        line,
+                        (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -159,19 +159,21 @@ public class GLAsyncDebug extends Struct {
      * @param varargs the list of arguments for {@code format}
      */
     public void storeLogMsgValist(org.gstreamer.gst.DebugCategory cat, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, VaList varargs) {
-        try {
-            DowncallHandles.gst_gl_async_debug_store_log_msg_valist.invokeExact(
-                    handle(),
-                    cat.handle(),
-                    level.getValue(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    Marshal.stringToAddress.marshal(function, null),
-                    line,
-                    (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_gl_async_debug_store_log_msg_valist.invokeExact(
+                        handle(),
+                        cat.handle(),
+                        level.getValue(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        Marshal.stringToAddress.marshal(function, SCOPE),
+                        line,
+                        (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -180,8 +182,7 @@ public class GLAsyncDebug extends Struct {
      */
     public void thaw() {
         try {
-            DowncallHandles.gst_gl_async_debug_thaw.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_thaw.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,8 +194,7 @@ public class GLAsyncDebug extends Struct {
      */
     public void unset() {
         try {
-            DowncallHandles.gst_gl_async_debug_unset.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_async_debug_unset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,63 +211,63 @@ public class GLAsyncDebug extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.GLAsyncDebug.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLAsyncDebug.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_async_debug_free = Interop.downcallHandle(
-            "gst_gl_async_debug_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_freeze = Interop.downcallHandle(
-            "gst_gl_async_debug_freeze",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_freeze",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_init = Interop.downcallHandle(
-            "gst_gl_async_debug_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_output_log_msg = Interop.downcallHandle(
-            "gst_gl_async_debug_output_log_msg",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_output_log_msg",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_store_log_msg = Interop.downcallHandle(
-            "gst_gl_async_debug_store_log_msg",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_gl_async_debug_store_log_msg",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_gl_async_debug_store_log_msg_valist = Interop.downcallHandle(
-            "gst_gl_async_debug_store_log_msg_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_store_log_msg_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_thaw = Interop.downcallHandle(
-            "gst_gl_async_debug_thaw",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_thaw",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_unset = Interop.downcallHandle(
-            "gst_gl_async_debug_unset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_unset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_async_debug_new = Interop.downcallHandle(
-            "gst_gl_async_debug_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_async_debug_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -293,7 +293,7 @@ public class GLAsyncDebug extends Struct {
             struct = GLAsyncDebug.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLAsyncDebug} struct.
          * @return A new instance of {@code GLAsyncDebug} with the fields 
          *         that were set in the Builder object.
@@ -303,87 +303,111 @@ public class GLAsyncDebug extends Struct {
         }
         
         public Builder setStateFlags(int stateFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("state_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stateFlags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("state_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), stateFlags);
+                return this;
+            }
         }
         
         public Builder setCat(org.gstreamer.gst.DebugCategory cat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cat"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cat == null ? MemoryAddress.NULL : cat.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cat"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cat == null ? MemoryAddress.NULL : cat.handle()));
+                return this;
+            }
         }
         
         public Builder setLevel(org.gstreamer.gst.DebugLevel level) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (level == null ? MemoryAddress.NULL : level.getValue()));
+                return this;
+            }
         }
         
         public Builder setFile(java.lang.String file) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("file"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (file == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(file, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("file"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (file == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(file, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setFunction(java.lang.String function) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("function"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (function == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(function, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("function"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (function == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(function, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setLine(int line) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("line"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), line);
+                return this;
+            }
         }
         
         public Builder setObject(org.gtk.gobject.GObject object) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
+                return this;
+            }
         }
         
         public Builder setDebugMsg(java.lang.String debugMsg) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("debug_msg"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (debugMsg == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debugMsg, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("debug_msg"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (debugMsg == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debugMsg, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setCallback(org.gstreamer.gl.GLAsyncDebugLogGetMessage callback) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

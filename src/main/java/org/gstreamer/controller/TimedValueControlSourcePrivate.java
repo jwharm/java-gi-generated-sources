@@ -29,8 +29,8 @@ public class TimedValueControlSourcePrivate extends Struct {
      * @return A new, uninitialized @{link TimedValueControlSourcePrivate}
      */
     public static TimedValueControlSourcePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimedValueControlSourcePrivate newInstance = new TimedValueControlSourcePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimedValueControlSourcePrivate newInstance = new TimedValueControlSourcePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TimedValueControlSourcePrivate extends Struct {
     /**
      * Create a TimedValueControlSourcePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimedValueControlSourcePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimedValueControlSourcePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimedValueControlSourcePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedValueControlSourcePrivate(input, ownership);
+    public static final Marshal<Addressable, TimedValueControlSourcePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimedValueControlSourcePrivate(input);
 }

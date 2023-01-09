@@ -36,8 +36,8 @@ public class DiscovererClass extends Struct {
      * @return A new, uninitialized @{link DiscovererClass}
      */
     public static DiscovererClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DiscovererClass newInstance = new DiscovererClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DiscovererClass newInstance = new DiscovererClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class DiscovererClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentclass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parentclass"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,24 +56,41 @@ public class DiscovererClass extends Struct {
      * @param parentclass The new value of the field {@code parentclass}
      */
     public void setParentclass(org.gtk.gobject.ObjectClass parentclass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parentclass"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentclass == null ? MemoryAddress.NULL : parentclass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parentclass"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentclass == null ? MemoryAddress.NULL : parentclass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FinishedCallback} callback.
+     */
     @FunctionalInterface
     public interface FinishedCallback {
+    
         void run(org.gstreamer.pbutils.Discoverer discoverer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress discoverer) {
-            run((org.gstreamer.pbutils.Discoverer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(discoverer)), org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, Ownership.NONE));
+            run((org.gstreamer.pbutils.Discoverer) Interop.register(discoverer, org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FinishedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FinishedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -82,24 +99,41 @@ public class DiscovererClass extends Struct {
      * @param finished The new value of the field {@code finished}
      */
     public void setFinished(FinishedCallback finished) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finished"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finished == null ? MemoryAddress.NULL : finished.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finished"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finished == null ? MemoryAddress.NULL : finished.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartingCallback} callback.
+     */
     @FunctionalInterface
     public interface StartingCallback {
+    
         void run(org.gstreamer.pbutils.Discoverer discoverer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress discoverer) {
-            run((org.gstreamer.pbutils.Discoverer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(discoverer)), org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, Ownership.NONE));
+            run((org.gstreamer.pbutils.Discoverer) Interop.register(discoverer, org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartingCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartingCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -108,24 +142,41 @@ public class DiscovererClass extends Struct {
      * @param starting The new value of the field {@code starting}
      */
     public void setStarting(StartingCallback starting) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("starting"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (starting == null ? MemoryAddress.NULL : starting.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("starting"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (starting == null ? MemoryAddress.NULL : starting.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DiscoveredCallback} callback.
+     */
     @FunctionalInterface
     public interface DiscoveredCallback {
+    
         void run(org.gstreamer.pbutils.Discoverer discoverer, org.gstreamer.pbutils.DiscovererInfo info, org.gtk.glib.Error err);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress discoverer, MemoryAddress info, MemoryAddress err) {
-            run((org.gstreamer.pbutils.Discoverer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(discoverer)), org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, Ownership.NONE), (org.gstreamer.pbutils.DiscovererInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(info)), org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(info, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(err, Ownership.NONE));
+            run((org.gstreamer.pbutils.Discoverer) Interop.register(discoverer, org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, null), (org.gstreamer.pbutils.DiscovererInfo) Interop.register(info, org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(info, null), org.gtk.glib.Error.fromAddress.marshal(err, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DiscoveredCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DiscoveredCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -134,24 +185,41 @@ public class DiscovererClass extends Struct {
      * @param discovered The new value of the field {@code discovered}
      */
     public void setDiscovered(DiscoveredCallback discovered) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("discovered"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (discovered == null ? MemoryAddress.NULL : discovered.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("discovered"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (discovered == null ? MemoryAddress.NULL : discovered.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SourceSetupCallback} callback.
+     */
     @FunctionalInterface
     public interface SourceSetupCallback {
+    
         void run(org.gstreamer.pbutils.Discoverer discoverer, org.gstreamer.gst.Element source);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress discoverer, MemoryAddress source) {
-            run((org.gstreamer.pbutils.Discoverer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(discoverer)), org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, Ownership.NONE), (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(source)), org.gstreamer.gst.Element.fromAddress).marshal(source, Ownership.NONE));
+            run((org.gstreamer.pbutils.Discoverer) Interop.register(discoverer, org.gstreamer.pbutils.Discoverer.fromAddress).marshal(discoverer, null), (org.gstreamer.gst.Element) Interop.register(source, org.gstreamer.gst.Element.fromAddress).marshal(source, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SourceSetupCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SourceSetupCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -160,9 +228,11 @@ public class DiscovererClass extends Struct {
      * @param sourceSetup The new value of the field {@code source_setup}
      */
     public void setSourceSetup(SourceSetupCallback sourceSetup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source_setup"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sourceSetup == null ? MemoryAddress.NULL : sourceSetup.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_setup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sourceSetup == null ? MemoryAddress.NULL : sourceSetup.toCallback()));
+        }
     }
     
     /**
@@ -170,10 +240,12 @@ public class DiscovererClass extends Struct {
      * @return The value of the field {@code _reserved}
      */
     public java.lang.foreign.MemoryAddress[] getReserved() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getAddressArrayFrom(RESULT, 4);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getAddressArrayFrom(RESULT, 4);
+        }
     }
     
     /**
@@ -181,22 +253,26 @@ public class DiscovererClass extends Struct {
      * @param Reserved The new value of the field {@code _reserved}
      */
     public void setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+        }
     }
     
     /**
      * Create a DiscovererClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererClass(input, ownership);
+    public static final Marshal<Addressable, DiscovererClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererClass(input);
     
     /**
      * A {@link DiscovererClass.Builder} object constructs a {@link DiscovererClass} 
@@ -220,7 +296,7 @@ public class DiscovererClass extends Struct {
             struct = DiscovererClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DiscovererClass} struct.
          * @return A new instance of {@code DiscovererClass} with the fields 
          *         that were set in the Builder object.
@@ -230,45 +306,57 @@ public class DiscovererClass extends Struct {
         }
         
         public Builder setParentclass(org.gtk.gobject.ObjectClass parentclass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parentclass"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentclass == null ? MemoryAddress.NULL : parentclass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parentclass"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentclass == null ? MemoryAddress.NULL : parentclass.handle()));
+                return this;
+            }
         }
         
         public Builder setFinished(FinishedCallback finished) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finished"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finished == null ? MemoryAddress.NULL : finished.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finished"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finished == null ? MemoryAddress.NULL : finished.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStarting(StartingCallback starting) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("starting"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (starting == null ? MemoryAddress.NULL : starting.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("starting"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (starting == null ? MemoryAddress.NULL : starting.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDiscovered(DiscoveredCallback discovered) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("discovered"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (discovered == null ? MemoryAddress.NULL : discovered.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("discovered"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (discovered == null ? MemoryAddress.NULL : discovered.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSourceSetup(SourceSetupCallback sourceSetup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source_setup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sourceSetup == null ? MemoryAddress.NULL : sourceSetup.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source_setup"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sourceSetup == null ? MemoryAddress.NULL : sourceSetup.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

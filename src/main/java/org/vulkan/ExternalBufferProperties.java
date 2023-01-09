@@ -29,8 +29,8 @@ public class ExternalBufferProperties extends Struct {
      * @return A new, uninitialized @{link ExternalBufferProperties}
      */
     public static ExternalBufferProperties allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalBufferProperties newInstance = new ExternalBufferProperties(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalBufferProperties newInstance = new ExternalBufferProperties(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalBufferProperties extends Struct {
     /**
      * Create a ExternalBufferProperties proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalBufferProperties(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalBufferProperties(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalBufferProperties> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalBufferProperties(input, ownership);
+    public static final Marshal<Addressable, ExternalBufferProperties> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalBufferProperties(input);
 }

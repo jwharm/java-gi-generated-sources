@@ -10,18 +10,38 @@ import org.jetbrains.annotations.*;
  * operation.
  * @version 4.0.0
  */
+/**
+ * Functional interface declaration of the {@code DrawClosePathFuncT} callback.
+ */
 @FunctionalInterface
 public interface DrawClosePathFuncT {
-    void run(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, @Nullable java.lang.foreign.MemoryAddress userData);
 
+    /**
+     * A virtual method for the {@link DrawFuncsT} to perform a "close-path" draw
+     * operation.
+     * @version 4.0.0
+     */
+    void run(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, @Nullable java.lang.foreign.MemoryAddress userData);
+    
     @ApiStatus.Internal default void upcall(MemoryAddress dfuncs, MemoryAddress drawData, MemoryAddress st, MemoryAddress userData) {
-        run(org.harfbuzz.DrawFuncsT.fromAddress.marshal(dfuncs, Ownership.NONE), drawData, org.harfbuzz.DrawStateT.fromAddress.marshal(st, Ownership.NONE), userData);
+        run(org.harfbuzz.DrawFuncsT.fromAddress.marshal(dfuncs, null), drawData, org.harfbuzz.DrawStateT.fromAddress.marshal(st, null), userData);
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DrawClosePathFuncT.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DrawClosePathFuncT.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

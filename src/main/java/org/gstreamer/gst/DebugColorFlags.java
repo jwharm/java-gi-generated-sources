@@ -103,6 +103,9 @@ public class DebugColorFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DebugColorFlags UNDERLINE = new DebugColorFlags(512);
     
+    /**
+     * Create a new DebugColorFlags with the provided value
+     */
     public DebugColorFlags(int value) {
         super(value);
     }

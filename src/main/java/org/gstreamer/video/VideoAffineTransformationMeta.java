@@ -45,8 +45,8 @@ public class VideoAffineTransformationMeta extends Struct {
      * @return A new, uninitialized @{link VideoAffineTransformationMeta}
      */
     public static VideoAffineTransformationMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAffineTransformationMeta newInstance = new VideoAffineTransformationMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAffineTransformationMeta newInstance = new VideoAffineTransformationMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,7 +57,7 @@ public class VideoAffineTransformationMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -65,9 +65,11 @@ public class VideoAffineTransformationMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -75,10 +77,12 @@ public class VideoAffineTransformationMeta extends Struct {
      * @return The value of the field {@code matrix}
      */
     public float[] getMatrix() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 16, Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 16, SCOPE).toArray(Interop.valueLayout.C_FLOAT);
+        }
     }
     
     /**
@@ -86,22 +90,26 @@ public class VideoAffineTransformationMeta extends Struct {
      * @param matrix The new value of the field {@code matrix}
      */
     public void setMatrix(float[] matrix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : Interop.allocateNativeArray(matrix, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : Interop.allocateNativeArray(matrix, false, SCOPE)));
+        }
     }
     
     /**
      * Create a VideoAffineTransformationMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAffineTransformationMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAffineTransformationMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAffineTransformationMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAffineTransformationMeta(input, ownership);
+    public static final Marshal<Addressable, VideoAffineTransformationMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAffineTransformationMeta(input);
     
     /**
      * Apply a transformation using the given 4x4 transformation matrix.
@@ -109,12 +117,14 @@ public class VideoAffineTransformationMeta extends Struct {
      * @param matrix a 4x4 transformation matrix to be applied
      */
     public void applyMatrix(float[] matrix) {
-        try {
-            DowncallHandles.gst_video_affine_transformation_meta_apply_matrix.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(matrix, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_video_affine_transformation_meta_apply_matrix.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(matrix, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -125,21 +135,21 @@ public class VideoAffineTransformationMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_affine_transformation_meta_apply_matrix = Interop.downcallHandle(
-            "gst_video_affine_transformation_meta_apply_matrix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_affine_transformation_meta_apply_matrix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_affine_transformation_meta_get_info = Interop.downcallHandle(
-            "gst_video_affine_transformation_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_affine_transformation_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -165,7 +175,7 @@ public class VideoAffineTransformationMeta extends Struct {
             struct = VideoAffineTransformationMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAffineTransformationMeta} struct.
          * @return A new instance of {@code VideoAffineTransformationMeta} with the fields 
          *         that were set in the Builder object.
@@ -180,10 +190,12 @@ public class VideoAffineTransformationMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -192,10 +204,12 @@ public class VideoAffineTransformationMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMatrix(float[] matrix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : Interop.allocateNativeArray(matrix, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : Interop.allocateNativeArray(matrix, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

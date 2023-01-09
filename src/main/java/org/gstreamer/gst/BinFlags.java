@@ -31,6 +31,9 @@ public class BinFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BinFlags LAST = new BinFlags(524288);
     
+    /**
+     * Create a new BinFlags with the provided value
+     */
     public BinFlags(int value) {
         super(value);
     }

@@ -57,6 +57,9 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoChromaSite DV = new VideoChromaSite(14);
     
+    /**
+     * Create a new VideoChromaSite with the provided value
+     */
     public VideoChromaSite(int value) {
         super(value);
     }
@@ -68,14 +71,15 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
      * not contain a valid chroma-site description.
      */
     public static org.gstreamer.video.VideoChromaSite fromString(java.lang.String s) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_chroma_site_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(s, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_chroma_site_from_string.invokeExact(Marshal.stringToAddress.marshal(s, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gstreamer.video.VideoChromaSite(RESULT);
         }
-        return new org.gstreamer.video.VideoChromaSite(RESULT);
     }
     
     /**
@@ -88,8 +92,7 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
     public static @Nullable java.lang.String toString(org.gstreamer.video.VideoChromaSite site) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_site_to_string.invokeExact(
-                    site.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_site_to_string.invokeExact(site.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,15 +129,15 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_chroma_site_from_string = Interop.downcallHandle(
-            "gst_video_chroma_site_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_chroma_site_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_chroma_site_to_string = Interop.downcallHandle(
-            "gst_video_chroma_site_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_chroma_site_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

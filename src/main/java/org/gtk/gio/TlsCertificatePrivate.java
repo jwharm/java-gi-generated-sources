@@ -29,8 +29,8 @@ public class TlsCertificatePrivate extends Struct {
      * @return A new, uninitialized @{link TlsCertificatePrivate}
      */
     public static TlsCertificatePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsCertificatePrivate newInstance = new TlsCertificatePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsCertificatePrivate newInstance = new TlsCertificatePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TlsCertificatePrivate extends Struct {
     /**
      * Create a TlsCertificatePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsCertificatePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsCertificatePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsCertificatePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsCertificatePrivate(input, ownership);
+    public static final Marshal<Addressable, TlsCertificatePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsCertificatePrivate(input);
 }

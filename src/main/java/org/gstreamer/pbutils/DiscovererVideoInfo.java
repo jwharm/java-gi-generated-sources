@@ -28,20 +28,21 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     /**
      * Create a DiscovererVideoInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererVideoInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererVideoInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererVideoInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererVideoInfo(input, ownership);
+    public static final Marshal<Addressable, DiscovererVideoInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererVideoInfo(input);
     
     public int getBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,8 +52,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getDepth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_depth.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,8 +62,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getFramerateDenom() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_framerate_denom.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_framerate_denom.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,8 +72,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getFramerateNum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_framerate_num.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_framerate_num.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +82,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,8 +92,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getMaxBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_max_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_max_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,8 +102,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getParDenom() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_par_denom.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_par_denom.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,8 +112,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getParNum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_par_num.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_par_num.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,8 +122,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,8 +132,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public boolean isImage() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_is_image.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_is_image.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,8 +142,7 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public boolean isInterlaced() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_video_info_is_interlaced.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_video_info_is_interlaced.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,6 +179,9 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
      */
     public static class Builder extends org.gstreamer.pbutils.DiscovererStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -212,75 +206,83 @@ public class DiscovererVideoInfo extends org.gstreamer.pbutils.DiscovererStreamI
     private static class DowncallHandles {
         
         private static final MethodHandle gst_discoverer_video_info_get_bitrate = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_depth = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_depth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_depth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_framerate_denom = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_framerate_denom",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_framerate_denom",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_framerate_num = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_framerate_num",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_framerate_num",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_height = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_max_bitrate = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_max_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_max_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_par_denom = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_par_denom",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_par_denom",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_par_num = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_par_num",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_par_num",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_width = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_is_image = Interop.downcallHandle(
-            "gst_discoverer_video_info_is_image",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_is_image",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_is_interlaced = Interop.downcallHandle(
-            "gst_discoverer_video_info_is_interlaced",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_video_info_is_interlaced",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_video_info_get_type = Interop.downcallHandle(
-            "gst_discoverer_video_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_discoverer_video_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_discoverer_video_info_get_type != null;
     }
 }

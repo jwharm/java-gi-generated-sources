@@ -37,6 +37,9 @@ public class StreamFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final StreamFlags UNSELECT = new StreamFlags(4);
     
+    /**
+     * Create a new StreamFlags with the provided value
+     */
     public StreamFlags(int value) {
         super(value);
     }

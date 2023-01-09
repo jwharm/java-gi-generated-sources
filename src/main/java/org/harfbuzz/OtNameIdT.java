@@ -15,6 +15,9 @@ import org.jetbrains.annotations.*;
  */
 public class OtNameIdT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new OtNameIdT with the provided value
+     */
     public OtNameIdT(int value) {
         super(value);
     }

@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class MaskT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new MaskT with the provided value
+     */
     public MaskT(int value) {
         super(value);
     }

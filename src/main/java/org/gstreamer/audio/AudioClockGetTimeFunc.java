@@ -10,19 +10,39 @@ import org.jetbrains.annotations.*;
  * calculated. If this function returns {@code GST_CLOCK_TIME_NONE}, the last reported
  * time will be returned by the clock.
  */
+/**
+ * Functional interface declaration of the {@code AudioClockGetTimeFunc} callback.
+ */
 @FunctionalInterface
 public interface AudioClockGetTimeFunc {
-    org.gstreamer.gst.ClockTime run(org.gstreamer.gst.Clock clock);
 
+    /**
+     * This function will be called whenever the current clock time needs to be
+     * calculated. If this function returns {@code GST_CLOCK_TIME_NONE}, the last reported
+     * time will be returned by the clock.
+     */
+    org.gstreamer.gst.ClockTime run(org.gstreamer.gst.Clock clock);
+    
     @ApiStatus.Internal default long upcall(MemoryAddress clock, MemoryAddress userData) {
-        var RESULT = run((org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clock)), org.gstreamer.gst.Clock.fromAddress).marshal(clock, Ownership.NONE));
+        var RESULT = run((org.gstreamer.gst.Clock) Interop.register(clock, org.gstreamer.gst.Clock.fromAddress).marshal(clock, null));
         return RESULT.getValue().longValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AudioClockGetTimeFunc.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AudioClockGetTimeFunc.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

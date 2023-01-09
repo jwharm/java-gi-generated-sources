@@ -42,7 +42,6 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
      * Treat the pointer as an array, and return the given element.
      * <p>
      * <strong>Warning: There is no bounds checking.</strong>
-     * <strong>Performance warning:</strong> This method uses reflection to instantiate the new object.
      * @param index the array index
      * @return the value stored at the given index
      */
@@ -53,6 +52,7 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
                 Interop.valueLayout.ADDRESS.byteSize() * index
         );
         // Call the constructor of the proxy object and return the created instance.
-        return make.marshal(ref, Ownership.UNKNOWN);
+        // TODO: What about ownership of the object?
+        return make.marshal(ref, null);
     }
 }

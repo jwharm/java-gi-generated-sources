@@ -46,6 +46,9 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VulkanDisplayType ANY = new VulkanDisplayType(-1);
     
+    /**
+     * Create a new VulkanDisplayType with the provided value
+     */
     public VulkanDisplayType(int value) {
         super(value);
     }
@@ -53,8 +56,7 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
     public static java.lang.String toExtensionString(org.gstreamer.vulkan.VulkanDisplayType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_type_to_extension_string.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_type_to_extension_string.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,9 +93,9 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_display_type_to_extension_string = Interop.downcallHandle(
-            "gst_vulkan_display_type_to_extension_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_vulkan_display_type_to_extension_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

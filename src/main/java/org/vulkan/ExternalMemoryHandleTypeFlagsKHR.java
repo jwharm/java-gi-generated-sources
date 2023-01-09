@@ -29,8 +29,8 @@ public class ExternalMemoryHandleTypeFlagsKHR extends Struct {
      * @return A new, uninitialized @{link ExternalMemoryHandleTypeFlagsKHR}
      */
     public static ExternalMemoryHandleTypeFlagsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalMemoryHandleTypeFlagsKHR newInstance = new ExternalMemoryHandleTypeFlagsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalMemoryHandleTypeFlagsKHR newInstance = new ExternalMemoryHandleTypeFlagsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalMemoryHandleTypeFlagsKHR extends Struct {
     /**
      * Create a ExternalMemoryHandleTypeFlagsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalMemoryHandleTypeFlagsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalMemoryHandleTypeFlagsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalMemoryHandleTypeFlagsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalMemoryHandleTypeFlagsKHR(input, ownership);
+    public static final Marshal<Addressable, ExternalMemoryHandleTypeFlagsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalMemoryHandleTypeFlagsKHR(input);
 }

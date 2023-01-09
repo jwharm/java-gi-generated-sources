@@ -48,6 +48,9 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
      */
     public static final CellRendererState EXPANDED = new CellRendererState(64);
     
+    /**
+     * Create a new CellRendererState with the provided value
+     */
     public CellRendererState(int value) {
         super(value);
     }

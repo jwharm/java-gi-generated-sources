@@ -29,8 +29,8 @@ public class SubgroupFeatureFlagBits extends Struct {
      * @return A new, uninitialized @{link SubgroupFeatureFlagBits}
      */
     public static SubgroupFeatureFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SubgroupFeatureFlagBits newInstance = new SubgroupFeatureFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SubgroupFeatureFlagBits newInstance = new SubgroupFeatureFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SubgroupFeatureFlagBits extends Struct {
     /**
      * Create a SubgroupFeatureFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SubgroupFeatureFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SubgroupFeatureFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SubgroupFeatureFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SubgroupFeatureFlagBits(input, ownership);
+    public static final Marshal<Addressable, SubgroupFeatureFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SubgroupFeatureFlagBits(input);
 }

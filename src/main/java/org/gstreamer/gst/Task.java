@@ -79,26 +79,17 @@ public class Task extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Task proxy instance for the provided memory address.
-     * <p>
-     * Because Task is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Task(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Task(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Task> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Task(input, ownership);
+    public static final Marshal<Addressable, Task> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Task(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gst.TaskFunction func, org.gtk.glib.DestroyNotify notify) {
         MemoryAddress RESULT;
@@ -131,7 +122,8 @@ public class Task extends org.gstreamer.gst.GstObject {
      * @param notify the function to call when {@code user_data} is no longer needed.
      */
     public Task(org.gstreamer.gst.TaskFunction func, org.gtk.glib.DestroyNotify notify) {
-        super(constructNew(func, notify), Ownership.FULL);
+        super(constructNew(func, notify));
+        this.takeOwnership();
     }
     
     /**
@@ -145,12 +137,13 @@ public class Task extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.TaskPool getPool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_task_get_pool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_task_get_pool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.TaskPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.TaskPool) Interop.register(RESULT, org.gstreamer.gst.TaskPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -162,8 +155,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.TaskState getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_get_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,8 +178,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public boolean join() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_join.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_join.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,8 +197,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public boolean pause() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_pause.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_pause.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,8 +214,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public boolean resume() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_resume.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_resume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -340,8 +329,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public boolean start() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_start.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,8 +347,7 @@ public class Task extends org.gstreamer.gst.GstObject {
     public boolean stop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_task_stop.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_task_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,6 +398,9 @@ public class Task extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -435,93 +425,101 @@ public class Task extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_task_new = Interop.downcallHandle(
-            "gst_task_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_get_pool = Interop.downcallHandle(
-            "gst_task_get_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_get_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_get_state = Interop.downcallHandle(
-            "gst_task_get_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_get_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_join = Interop.downcallHandle(
-            "gst_task_join",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_join",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_pause = Interop.downcallHandle(
-            "gst_task_pause",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_pause",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_resume = Interop.downcallHandle(
-            "gst_task_resume",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_resume",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_set_enter_callback = Interop.downcallHandle(
-            "gst_task_set_enter_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_set_enter_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_set_leave_callback = Interop.downcallHandle(
-            "gst_task_set_leave_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_set_leave_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_set_lock = Interop.downcallHandle(
-            "gst_task_set_lock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_set_lock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_set_pool = Interop.downcallHandle(
-            "gst_task_set_pool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_set_pool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_set_state = Interop.downcallHandle(
-            "gst_task_set_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_task_set_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_task_start = Interop.downcallHandle(
-            "gst_task_start",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_start",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_stop = Interop.downcallHandle(
-            "gst_task_stop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_task_stop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_task_get_type = Interop.downcallHandle(
-            "gst_task_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_task_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_task_cleanup_all = Interop.downcallHandle(
-            "gst_task_cleanup_all",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_task_cleanup_all",
+                FunctionDescriptor.ofVoid(),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_task_get_type != null;
     }
 }

@@ -18,34 +18,42 @@ import org.jetbrains.annotations.*;
  * @version 2.70
  */
 public enum TlsProtocolVersion implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No protocol version or unknown protocol version
      */
     UNKNOWN(0),
+    
     /**
      * SSL 3.0, which is insecure and should not be used
      */
     SSL_3_0(1),
+    
     /**
      * TLS 1.0, which is insecure and should not be used
      */
     TLS_1_0(2),
+    
     /**
      * TLS 1.1, which is insecure and should not be used
      */
     TLS_1_1(3),
+    
     /**
      * TLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc5246">RFC 5246</a>
      */
     TLS_1_2(4),
+    
     /**
      * TLS 1.3, defined by <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC 8446</a>
      */
     TLS_1_3(5),
+    
     /**
      * DTLS 1.0, which is insecure and should not be used
      */
     DTLS_1_0(201),
+    
     /**
      * DTLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc6347">RFC 6347</a>
      */
@@ -54,15 +62,29 @@ public enum TlsProtocolVersion implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTlsProtocolVersion";
     
     private final int value;
+    
+    /**
+     * Create a new TlsProtocolVersion for the provided value
+     * @param numeric value the enum value
+     */
     TlsProtocolVersion(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsProtocolVersion for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsProtocolVersion of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

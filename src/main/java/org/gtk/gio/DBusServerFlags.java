@@ -37,6 +37,9 @@ public class DBusServerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusServerFlags AUTHENTICATION_REQUIRE_SAME_USER = new DBusServerFlags(4);
     
+    /**
+     * Create a new DBusServerFlags with the provided value
+     */
     public DBusServerFlags(int value) {
         super(value);
     }

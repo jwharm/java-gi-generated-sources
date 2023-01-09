@@ -26,32 +26,39 @@ import org.jetbrains.annotations.*;
  * public apis.
  */
 public enum Direction implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * A strong left-to-right direction
      */
     LTR(0),
+    
     /**
      * A strong right-to-left direction
      */
     RTL(1),
+    
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_RTL}.
      */
     TTB_LTR(2),
+    
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_LTR}
      */
     TTB_RTL(3),
+    
     /**
      * A weak left-to-right direction
      */
     WEAK_LTR(4),
+    
     /**
      * A weak right-to-left direction
      */
     WEAK_RTL(5),
+    
     /**
      * No direction specified
      */
@@ -60,15 +67,29 @@ public enum Direction implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoDirection";
     
     private final int value;
+    
+    /**
+     * Create a new Direction for the provided value
+     * @param numeric value the enum value
+     */
     Direction(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Direction for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Direction of(int value) {
         return switch (value) {
             case 0 -> LTR;

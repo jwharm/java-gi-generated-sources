@@ -40,8 +40,8 @@ public class HookList extends Struct {
      * @return A new, uninitialized @{link HookList}
      */
     public static HookList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        HookList newInstance = new HookList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        HookList newInstance = new HookList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code seq_id}
      */
     public long getSeqId() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class HookList extends Struct {
      * @param seqId The new value of the field {@code seq_id}
      */
     public void setSeqId(long seqId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), seqId);
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code hook_size}
      */
     public int getHookSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class HookList extends Struct {
      * @param hookSize The new value of the field {@code hook_size}
      */
     public void setHookSize(int hookSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), hookSize);
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code is_setup}
      */
     public int getIsSetup() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class HookList extends Struct {
      * @param isSetup The new value of the field {@code is_setup}
      */
     public void setIsSetup(int isSetup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSetup);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isSetup);
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code hooks}
      */
     public org.gtk.glib.Hook getHooks() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Hook.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -125,9 +139,11 @@ public class HookList extends Struct {
      * @param hooks The new value of the field {@code hooks}
      */
     public void setHooks(org.gtk.glib.Hook hooks) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
+        }
     }
     
     /**
@@ -135,10 +151,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code dummy3}
      */
     public java.lang.foreign.MemoryAddress getDummy3() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -146,9 +164,11 @@ public class HookList extends Struct {
      * @param dummy3 The new value of the field {@code dummy3}
      */
     public void setDummy3(java.lang.foreign.MemoryAddress dummy3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+        }
     }
     
     /**
@@ -156,10 +176,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code finalize_hook}
      */
     public org.gtk.glib.HookFinalizeFunc getFinalizeHook() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -167,9 +189,11 @@ public class HookList extends Struct {
      * @param finalizeHook The new value of the field {@code finalize_hook}
      */
     public void setFinalizeHook(org.gtk.glib.HookFinalizeFunc finalizeHook) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
+        }
     }
     
     /**
@@ -177,10 +201,12 @@ public class HookList extends Struct {
      * @return The value of the field {@code dummy}
      */
     public java.lang.foreign.MemoryAddress[] getDummy() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getAddressArrayFrom(RESULT, 2);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getAddressArrayFrom(RESULT, 2);
+        }
     }
     
     /**
@@ -188,30 +214,33 @@ public class HookList extends Struct {
      * @param dummy The new value of the field {@code dummy}
      */
     public void setDummy(java.lang.foreign.MemoryAddress[] dummy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false, SCOPE)));
+        }
     }
     
     /**
      * Create a HookList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected HookList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected HookList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, HookList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HookList(input, ownership);
+    public static final Marshal<Addressable, HookList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new HookList(input);
     
     /**
      * Removes all the {@link Hook} elements from a {@link HookList}.
      */
     public void clear() {
         try {
-            DowncallHandles.g_hook_list_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_hook_list_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,39 +337,39 @@ public class HookList extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_hook_list_clear = Interop.downcallHandle(
-            "g_hook_list_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_hook_list_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hook_list_init = Interop.downcallHandle(
-            "g_hook_list_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_hook_list_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_hook_list_invoke = Interop.downcallHandle(
-            "g_hook_list_invoke",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_hook_list_invoke",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_hook_list_invoke_check = Interop.downcallHandle(
-            "g_hook_list_invoke_check",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_hook_list_invoke_check",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_hook_list_marshal = Interop.downcallHandle(
-            "g_hook_list_marshal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hook_list_marshal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hook_list_marshal_check = Interop.downcallHandle(
-            "g_hook_list_marshal_check",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hook_list_marshal_check",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -366,7 +395,7 @@ public class HookList extends Struct {
             struct = HookList.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link HookList} struct.
          * @return A new instance of {@code HookList} with the fields 
          *         that were set in the Builder object.
@@ -381,10 +410,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSeqId(long seqId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), seqId);
+                return this;
+            }
         }
         
         /**
@@ -393,10 +424,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHookSize(int hookSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), hookSize);
+                return this;
+            }
         }
         
         /**
@@ -405,10 +438,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsSetup(int isSetup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSetup);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isSetup);
+                return this;
+            }
         }
         
         /**
@@ -417,10 +452,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHooks(org.gtk.glib.Hook hooks) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
+                return this;
+            }
         }
         
         /**
@@ -429,10 +466,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDummy3(java.lang.foreign.MemoryAddress dummy3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+                return this;
+            }
         }
         
         /**
@@ -442,10 +481,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFinalizeHook(org.gtk.glib.HookFinalizeFunc finalizeHook) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -454,10 +495,12 @@ public class HookList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDummy(java.lang.foreign.MemoryAddress[] dummy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

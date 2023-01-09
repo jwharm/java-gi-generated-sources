@@ -18,6 +18,9 @@ public class OtVarAxisFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final OtVarAxisFlagsT HIDDEN = new OtVarAxisFlagsT(1);
     
+    /**
+     * Create a new OtVarAxisFlagsT with the provided value
+     */
     public OtVarAxisFlagsT(int value) {
         super(value);
     }

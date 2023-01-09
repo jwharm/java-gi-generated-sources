@@ -10,62 +10,75 @@ import org.jetbrains.annotations.*;
  * the CIE XYZ colorspace.
  */
 public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown color primaries
      */
     UNKNOWN(0),
+    
     /**
      * BT709 primaries, also ITU-R BT1361 / IEC
      * 61966-2-4 / SMPTE RP177 Annex B
      */
     BT709(1),
+    
     /**
      * BT470M primaries, also FCC Title 47 Code
      * of Federal Regulations 73.682 (a)(20)
      */
     BT470M(2),
+    
     /**
      * BT470BG primaries, also ITU-R BT601-6
      * 625 / ITU-R BT1358 625 / ITU-R BT1700 625 PAL &amp; SECAM
      */
     BT470BG(3),
+    
     /**
      * SMPTE170M primaries, also ITU-R
      * BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC
      */
     SMPTE170M(4),
+    
     /**
      * SMPTE240M primaries
      */
     SMPTE240M(5),
+    
     /**
      * Generic film (colour filters using
      * Illuminant C)
      */
     FILM(6),
+    
     /**
      * ITU-R BT2020 primaries. Since: 1.6
      */
     BT2020(7),
+    
     /**
      * Adobe RGB primaries. Since: 1.8
      */
     ADOBERGB(8),
+    
     /**
      * SMPTE ST 428 primaries (CIE 1931
      * XYZ). Since: 1.16
      */
     SMPTEST428(9),
+    
     /**
      * SMPTE RP 431 primaries (ST 431-2
      * (2011) / DCI P3). Since: 1.16
      */
     SMPTERP431(10),
+    
     /**
      * SMPTE EG 432 primaries (ST 432-1
      * (2010) / P3 D65). Since: 1.16
      */
     SMPTEEG432(11),
+    
     /**
      * EBU 3213 primaries (JEDEC P22
      * phosphors). Since: 1.16
@@ -75,15 +88,29 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoColorPrimaries";
     
     private final int value;
+    
+    /**
+     * Create a new VideoColorPrimaries for the provided value
+     * @param numeric value the enum value
+     */
     VideoColorPrimaries(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoColorPrimaries for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoColorPrimaries of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -114,8 +141,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.video.VideoColorPrimaries fromIso(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_color_primaries_from_iso.invokeExact(
-                    value);
+            RESULT = (int) DowncallHandles.gst_video_color_primaries_from_iso.invokeExact(value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,12 +156,11 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.video.VideoColorPrimariesInfo getInfo(org.gstreamer.video.VideoColorPrimaries primaries) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_color_primaries_get_info.invokeExact(
-                    primaries.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_color_primaries_get_info.invokeExact(primaries.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoColorPrimariesInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoColorPrimariesInfo.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -149,8 +174,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
     public static int toIso(org.gstreamer.video.VideoColorPrimaries primaries) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_color_primaries_to_iso.invokeExact(
-                    primaries.getValue());
+            RESULT = (int) DowncallHandles.gst_video_color_primaries_to_iso.invokeExact(primaries.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,21 +184,21 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_color_primaries_from_iso = Interop.downcallHandle(
-            "gst_video_color_primaries_from_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_color_primaries_from_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_color_primaries_get_info = Interop.downcallHandle(
-            "gst_video_color_primaries_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_color_primaries_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_color_primaries_to_iso = Interop.downcallHandle(
-            "gst_video_color_primaries_to_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_color_primaries_to_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

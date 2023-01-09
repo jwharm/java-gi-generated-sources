@@ -56,8 +56,8 @@ public class VolumeMonitorClass extends Struct {
      * @return A new, uninitialized @{link VolumeMonitorClass}
      */
     public static VolumeMonitorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VolumeMonitorClass newInstance = new VolumeMonitorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VolumeMonitorClass newInstance = new VolumeMonitorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -68,7 +68,7 @@ public class VolumeMonitorClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -76,24 +76,41 @@ public class VolumeMonitorClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeAddedCallback} callback.
+     */
     @FunctionalInterface
     public interface VolumeAddedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeAddedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeAddedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -102,24 +119,41 @@ public class VolumeMonitorClass extends Struct {
      * @param volumeAdded The new value of the field {@code volume_added}
      */
     public void setVolumeAdded(VolumeAddedCallback volumeAdded) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("volume_added"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeAdded == null ? MemoryAddress.NULL : volumeAdded.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("volume_added"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeAdded == null ? MemoryAddress.NULL : volumeAdded.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeRemovedCallback} callback.
+     */
     @FunctionalInterface
     public interface VolumeRemovedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeRemovedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeRemovedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -128,24 +162,41 @@ public class VolumeMonitorClass extends Struct {
      * @param volumeRemoved The new value of the field {@code volume_removed}
      */
     public void setVolumeRemoved(VolumeRemovedCallback volumeRemoved) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("volume_removed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeRemoved == null ? MemoryAddress.NULL : volumeRemoved.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("volume_removed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeRemoved == null ? MemoryAddress.NULL : volumeRemoved.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VolumeChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface VolumeChangedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Volume volume);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress volume) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Volume) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volume)), org.gtk.gio.Volume.fromAddress).marshal(volume, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Volume) Interop.register(volume, org.gtk.gio.Volume.fromAddress).marshal(volume, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VolumeChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -154,24 +205,41 @@ public class VolumeMonitorClass extends Struct {
      * @param volumeChanged The new value of the field {@code volume_changed}
      */
     public void setVolumeChanged(VolumeChangedCallback volumeChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("volume_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeChanged == null ? MemoryAddress.NULL : volumeChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("volume_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeChanged == null ? MemoryAddress.NULL : volumeChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountAddedCallback} callback.
+     */
     @FunctionalInterface
     public interface MountAddedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountAddedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountAddedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -180,24 +248,41 @@ public class VolumeMonitorClass extends Struct {
      * @param mountAdded The new value of the field {@code mount_added}
      */
     public void setMountAdded(MountAddedCallback mountAdded) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mount_added"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountAdded == null ? MemoryAddress.NULL : mountAdded.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mount_added"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountAdded == null ? MemoryAddress.NULL : mountAdded.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountRemovedCallback} callback.
+     */
     @FunctionalInterface
     public interface MountRemovedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountRemovedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountRemovedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -206,24 +291,41 @@ public class VolumeMonitorClass extends Struct {
      * @param mountRemoved The new value of the field {@code mount_removed}
      */
     public void setMountRemoved(MountRemovedCallback mountRemoved) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mount_removed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountRemoved == null ? MemoryAddress.NULL : mountRemoved.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mount_removed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountRemoved == null ? MemoryAddress.NULL : mountRemoved.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountPreUnmountCallback} callback.
+     */
     @FunctionalInterface
     public interface MountPreUnmountCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountPreUnmountCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountPreUnmountCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -232,24 +334,41 @@ public class VolumeMonitorClass extends Struct {
      * @param mountPreUnmount The new value of the field {@code mount_pre_unmount}
      */
     public void setMountPreUnmount(MountPreUnmountCallback mountPreUnmount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mount_pre_unmount"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountPreUnmount == null ? MemoryAddress.NULL : mountPreUnmount.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mount_pre_unmount"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountPreUnmount == null ? MemoryAddress.NULL : mountPreUnmount.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MountChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface MountChangedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Mount mount);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress mount) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MountChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MountChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -258,24 +377,41 @@ public class VolumeMonitorClass extends Struct {
      * @param mountChanged The new value of the field {@code mount_changed}
      */
     public void setMountChanged(MountChangedCallback mountChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mount_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountChanged == null ? MemoryAddress.NULL : mountChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mount_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountChanged == null ? MemoryAddress.NULL : mountChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveConnectedCallback} callback.
+     */
     @FunctionalInterface
     public interface DriveConnectedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveConnectedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveConnectedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -284,24 +420,41 @@ public class VolumeMonitorClass extends Struct {
      * @param driveConnected The new value of the field {@code drive_connected}
      */
     public void setDriveConnected(DriveConnectedCallback driveConnected) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("drive_connected"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveConnected == null ? MemoryAddress.NULL : driveConnected.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("drive_connected"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveConnected == null ? MemoryAddress.NULL : driveConnected.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveDisconnectedCallback} callback.
+     */
     @FunctionalInterface
     public interface DriveDisconnectedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveDisconnectedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveDisconnectedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -310,24 +463,41 @@ public class VolumeMonitorClass extends Struct {
      * @param driveDisconnected The new value of the field {@code drive_disconnected}
      */
     public void setDriveDisconnected(DriveDisconnectedCallback driveDisconnected) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("drive_disconnected"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveDisconnected == null ? MemoryAddress.NULL : driveDisconnected.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("drive_disconnected"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveDisconnected == null ? MemoryAddress.NULL : driveDisconnected.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface DriveChangedCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -336,25 +506,42 @@ public class VolumeMonitorClass extends Struct {
      * @param driveChanged The new value of the field {@code drive_changed}
      */
     public void setDriveChanged(DriveChangedCallback driveChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("drive_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveChanged == null ? MemoryAddress.NULL : driveChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("drive_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveChanged == null ? MemoryAddress.NULL : driveChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IsSupportedCallback} callback.
+     */
     @FunctionalInterface
     public interface IsSupportedCallback {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall() {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsSupportedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IsSupportedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -363,25 +550,43 @@ public class VolumeMonitorClass extends Struct {
      * @param isSupported The new value of the field {@code is_supported}
      */
     public void setIsSupported(IsSupportedCallback isSupported) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_supported"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSupported == null ? MemoryAddress.NULL : isSupported.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_supported"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSupported == null ? MemoryAddress.NULL : isSupported.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetConnectedDrivesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetConnectedDrivesCallback {
+    
         org.gtk.glib.List run(org.gtk.gio.VolumeMonitor volumeMonitor);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress volumeMonitor) {
-            var RESULT = run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetConnectedDrivesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetConnectedDrivesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -390,25 +595,43 @@ public class VolumeMonitorClass extends Struct {
      * @param getConnectedDrives The new value of the field {@code get_connected_drives}
      */
     public void setGetConnectedDrives(GetConnectedDrivesCallback getConnectedDrives) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_connected_drives"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getConnectedDrives == null ? MemoryAddress.NULL : getConnectedDrives.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_connected_drives"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getConnectedDrives == null ? MemoryAddress.NULL : getConnectedDrives.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetVolumesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetVolumesCallback {
+    
         org.gtk.glib.List run(org.gtk.gio.VolumeMonitor volumeMonitor);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress volumeMonitor) {
-            var RESULT = run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetVolumesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetVolumesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -417,25 +640,43 @@ public class VolumeMonitorClass extends Struct {
      * @param getVolumes The new value of the field {@code get_volumes}
      */
     public void setGetVolumes(GetVolumesCallback getVolumes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_volumes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getVolumes == null ? MemoryAddress.NULL : getVolumes.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_volumes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getVolumes == null ? MemoryAddress.NULL : getVolumes.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMountsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMountsCallback {
+    
         org.gtk.glib.List run(org.gtk.gio.VolumeMonitor volumeMonitor);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress volumeMonitor) {
-            var RESULT = run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMountsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMountsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -444,25 +685,45 @@ public class VolumeMonitorClass extends Struct {
      * @param getMounts The new value of the field {@code get_mounts}
      */
     public void setGetMounts(GetMountsCallback getMounts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_mounts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMounts == null ? MemoryAddress.NULL : getMounts.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_mounts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMounts == null ? MemoryAddress.NULL : getMounts.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetVolumeForUuidCallback} callback.
+     */
     @FunctionalInterface
     public interface GetVolumeForUuidCallback {
+    
         @Nullable org.gtk.gio.Volume run(org.gtk.gio.VolumeMonitor volumeMonitor, java.lang.String uuid);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress volumeMonitor, MemoryAddress uuid) {
-            var RESULT = run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), Marshal.addressToString.marshal(uuid, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), Marshal.addressToString.marshal(uuid, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetVolumeForUuidCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetVolumeForUuidCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -471,25 +732,45 @@ public class VolumeMonitorClass extends Struct {
      * @param getVolumeForUuid The new value of the field {@code get_volume_for_uuid}
      */
     public void setGetVolumeForUuid(GetVolumeForUuidCallback getVolumeForUuid) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_volume_for_uuid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getVolumeForUuid == null ? MemoryAddress.NULL : getVolumeForUuid.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_volume_for_uuid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getVolumeForUuid == null ? MemoryAddress.NULL : getVolumeForUuid.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMountForUuidCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMountForUuidCallback {
+    
         @Nullable org.gtk.gio.Mount run(org.gtk.gio.VolumeMonitor volumeMonitor, java.lang.String uuid);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress volumeMonitor, MemoryAddress uuid) {
-            var RESULT = run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), Marshal.addressToString.marshal(uuid, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), Marshal.addressToString.marshal(uuid, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMountForUuidCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMountForUuidCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -498,25 +779,42 @@ public class VolumeMonitorClass extends Struct {
      * @param getMountForUuid The new value of the field {@code get_mount_for_uuid}
      */
     public void setGetMountForUuid(GetMountForUuidCallback getMountForUuid) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_uuid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForUuid == null ? MemoryAddress.NULL : getMountForUuid.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_uuid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMountForUuid == null ? MemoryAddress.NULL : getMountForUuid.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AdoptOrphanMountCallback} callback.
+     */
     @FunctionalInterface
     public interface AdoptOrphanMountCallback {
+    
         org.gtk.gio.Volume run(org.gtk.gio.Mount mount, org.gtk.gio.VolumeMonitor volumeMonitor);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress mount, MemoryAddress volumeMonitor) {
-            var RESULT = run((org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mount)), org.gtk.gio.Mount.fromAddress).marshal(mount, Ownership.NONE), (org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Mount) Interop.register(mount, org.gtk.gio.Mount.fromAddress).marshal(mount, null), (org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AdoptOrphanMountCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AdoptOrphanMountCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -525,24 +823,41 @@ public class VolumeMonitorClass extends Struct {
      * @param adoptOrphanMount The new value of the field {@code adopt_orphan_mount}
      */
     public void setAdoptOrphanMount(AdoptOrphanMountCallback adoptOrphanMount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("adopt_orphan_mount"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (adoptOrphanMount == null ? MemoryAddress.NULL : adoptOrphanMount.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("adopt_orphan_mount"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (adoptOrphanMount == null ? MemoryAddress.NULL : adoptOrphanMount.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveEjectButtonCallback} callback.
+     */
     @FunctionalInterface
     public interface DriveEjectButtonCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveEjectButtonCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveEjectButtonCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -551,24 +866,41 @@ public class VolumeMonitorClass extends Struct {
      * @param driveEjectButton The new value of the field {@code drive_eject_button}
      */
     public void setDriveEjectButton(DriveEjectButtonCallback driveEjectButton) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("drive_eject_button"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveEjectButton == null ? MemoryAddress.NULL : driveEjectButton.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("drive_eject_button"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveEjectButton == null ? MemoryAddress.NULL : driveEjectButton.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DriveStopButtonCallback} callback.
+     */
     @FunctionalInterface
     public interface DriveStopButtonCallback {
+    
         void run(org.gtk.gio.VolumeMonitor volumeMonitor, org.gtk.gio.Drive drive);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress volumeMonitor, MemoryAddress drive) {
-            run((org.gtk.gio.VolumeMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(volumeMonitor)), org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, Ownership.NONE), (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drive)), org.gtk.gio.Drive.fromAddress).marshal(drive, Ownership.NONE));
+            run((org.gtk.gio.VolumeMonitor) Interop.register(volumeMonitor, org.gtk.gio.VolumeMonitor.fromAddress).marshal(volumeMonitor, null), (org.gtk.gio.Drive) Interop.register(drive, org.gtk.gio.Drive.fromAddress).marshal(drive, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DriveStopButtonCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DriveStopButtonCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -577,24 +909,41 @@ public class VolumeMonitorClass extends Struct {
      * @param driveStopButton The new value of the field {@code drive_stop_button}
      */
     public void setDriveStopButton(DriveStopButtonCallback driveStopButton) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("drive_stop_button"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveStopButton == null ? MemoryAddress.NULL : driveStopButton.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("drive_stop_button"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveStopButton == null ? MemoryAddress.NULL : driveStopButton.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved1Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved1Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved1Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved1Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -603,24 +952,41 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved1 The new value of the field {@code _g_reserved1}
      */
     public void setGReserved1(GReserved1Callback GReserved1) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved2Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved2Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved2Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved2Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -629,24 +995,41 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved2 The new value of the field {@code _g_reserved2}
      */
     public void setGReserved2(GReserved2Callback GReserved2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved3Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved3Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved3Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved3Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -655,24 +1038,41 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved3 The new value of the field {@code _g_reserved3}
      */
     public void setGReserved3(GReserved3Callback GReserved3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved4Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved4Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved4Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved4Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -681,24 +1081,41 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved4 The new value of the field {@code _g_reserved4}
      */
     public void setGReserved4(GReserved4Callback GReserved4) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved5Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved5Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved5Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved5Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -707,24 +1124,41 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved5 The new value of the field {@code _g_reserved5}
      */
     public void setGReserved5(GReserved5Callback GReserved5) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GReserved6Callback} callback.
+     */
     @FunctionalInterface
     public interface GReserved6Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved6Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GReserved6Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -733,22 +1167,26 @@ public class VolumeMonitorClass extends Struct {
      * @param GReserved6 The new value of the field {@code _g_reserved6}
      */
     public void setGReserved6(GReserved6Callback GReserved6) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved6 == null ? MemoryAddress.NULL : GReserved6.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved6 == null ? MemoryAddress.NULL : GReserved6.toCallback()));
+        }
     }
     
     /**
      * Create a VolumeMonitorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VolumeMonitorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VolumeMonitorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VolumeMonitorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VolumeMonitorClass(input, ownership);
+    public static final Marshal<Addressable, VolumeMonitorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VolumeMonitorClass(input);
     
     /**
      * A {@link VolumeMonitorClass.Builder} object constructs a {@link VolumeMonitorClass} 
@@ -772,7 +1210,7 @@ public class VolumeMonitorClass extends Struct {
             struct = VolumeMonitorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VolumeMonitorClass} struct.
          * @return A new instance of {@code VolumeMonitorClass} with the fields 
          *         that were set in the Builder object.
@@ -782,185 +1220,237 @@ public class VolumeMonitorClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setVolumeAdded(VolumeAddedCallback volumeAdded) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("volume_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeAdded == null ? MemoryAddress.NULL : volumeAdded.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("volume_added"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeAdded == null ? MemoryAddress.NULL : volumeAdded.toCallback()));
+                return this;
+            }
         }
         
         public Builder setVolumeRemoved(VolumeRemovedCallback volumeRemoved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("volume_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeRemoved == null ? MemoryAddress.NULL : volumeRemoved.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("volume_removed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeRemoved == null ? MemoryAddress.NULL : volumeRemoved.toCallback()));
+                return this;
+            }
         }
         
         public Builder setVolumeChanged(VolumeChangedCallback volumeChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("volume_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (volumeChanged == null ? MemoryAddress.NULL : volumeChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("volume_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (volumeChanged == null ? MemoryAddress.NULL : volumeChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMountAdded(MountAddedCallback mountAdded) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mount_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountAdded == null ? MemoryAddress.NULL : mountAdded.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mount_added"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountAdded == null ? MemoryAddress.NULL : mountAdded.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMountRemoved(MountRemovedCallback mountRemoved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mount_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountRemoved == null ? MemoryAddress.NULL : mountRemoved.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mount_removed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountRemoved == null ? MemoryAddress.NULL : mountRemoved.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMountPreUnmount(MountPreUnmountCallback mountPreUnmount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mount_pre_unmount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountPreUnmount == null ? MemoryAddress.NULL : mountPreUnmount.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mount_pre_unmount"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountPreUnmount == null ? MemoryAddress.NULL : mountPreUnmount.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMountChanged(MountChangedCallback mountChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mount_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mountChanged == null ? MemoryAddress.NULL : mountChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mount_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mountChanged == null ? MemoryAddress.NULL : mountChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDriveConnected(DriveConnectedCallback driveConnected) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("drive_connected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveConnected == null ? MemoryAddress.NULL : driveConnected.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("drive_connected"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveConnected == null ? MemoryAddress.NULL : driveConnected.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDriveDisconnected(DriveDisconnectedCallback driveDisconnected) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("drive_disconnected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveDisconnected == null ? MemoryAddress.NULL : driveDisconnected.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("drive_disconnected"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveDisconnected == null ? MemoryAddress.NULL : driveDisconnected.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDriveChanged(DriveChangedCallback driveChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("drive_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveChanged == null ? MemoryAddress.NULL : driveChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("drive_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveChanged == null ? MemoryAddress.NULL : driveChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIsSupported(IsSupportedCallback isSupported) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSupported == null ? MemoryAddress.NULL : isSupported.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_supported"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSupported == null ? MemoryAddress.NULL : isSupported.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetConnectedDrives(GetConnectedDrivesCallback getConnectedDrives) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_connected_drives"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getConnectedDrives == null ? MemoryAddress.NULL : getConnectedDrives.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_connected_drives"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getConnectedDrives == null ? MemoryAddress.NULL : getConnectedDrives.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetVolumes(GetVolumesCallback getVolumes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_volumes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getVolumes == null ? MemoryAddress.NULL : getVolumes.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_volumes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getVolumes == null ? MemoryAddress.NULL : getVolumes.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetMounts(GetMountsCallback getMounts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_mounts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMounts == null ? MemoryAddress.NULL : getMounts.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_mounts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMounts == null ? MemoryAddress.NULL : getMounts.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetVolumeForUuid(GetVolumeForUuidCallback getVolumeForUuid) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_volume_for_uuid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getVolumeForUuid == null ? MemoryAddress.NULL : getVolumeForUuid.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_volume_for_uuid"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getVolumeForUuid == null ? MemoryAddress.NULL : getVolumeForUuid.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetMountForUuid(GetMountForUuidCallback getMountForUuid) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_uuid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForUuid == null ? MemoryAddress.NULL : getMountForUuid.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_uuid"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMountForUuid == null ? MemoryAddress.NULL : getMountForUuid.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAdoptOrphanMount(AdoptOrphanMountCallback adoptOrphanMount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("adopt_orphan_mount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (adoptOrphanMount == null ? MemoryAddress.NULL : adoptOrphanMount.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("adopt_orphan_mount"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (adoptOrphanMount == null ? MemoryAddress.NULL : adoptOrphanMount.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDriveEjectButton(DriveEjectButtonCallback driveEjectButton) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("drive_eject_button"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveEjectButton == null ? MemoryAddress.NULL : driveEjectButton.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("drive_eject_button"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveEjectButton == null ? MemoryAddress.NULL : driveEjectButton.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDriveStopButton(DriveStopButtonCallback driveStopButton) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("drive_stop_button"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (driveStopButton == null ? MemoryAddress.NULL : driveStopButton.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("drive_stop_button"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (driveStopButton == null ? MemoryAddress.NULL : driveStopButton.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved1(GReserved1Callback GReserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved2(GReserved2Callback GReserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved3(GReserved3Callback GReserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved4(GReserved4Callback GReserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved5(GReserved5Callback GReserved5) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGReserved6(GReserved6Callback GReserved6) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved6 == null ? MemoryAddress.NULL : GReserved6.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved6"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GReserved6 == null ? MemoryAddress.NULL : GReserved6.toCallback()));
+                return this;
+            }
         }
     }
 }

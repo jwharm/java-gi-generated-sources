@@ -31,20 +31,21 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
     /**
      * Create a MnemonicTrigger proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MnemonicTrigger(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MnemonicTrigger(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MnemonicTrigger> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MnemonicTrigger(input, ownership);
+    public static final Marshal<Addressable, MnemonicTrigger> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MnemonicTrigger(input);
     
     private static MemoryAddress constructNew(int keyval) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mnemonic_trigger_new.invokeExact(
-                    keyval);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mnemonic_trigger_new.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +61,8 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @param keyval The keyval to trigger for
      */
     public MnemonicTrigger(int keyval) {
-        super(constructNew(keyval), Ownership.FULL);
+        super(constructNew(keyval));
+        this.takeOwnership();
     }
     
     /**
@@ -70,8 +72,7 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
     public int getKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_mnemonic_trigger_get_keyval.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_mnemonic_trigger_get_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,6 +109,9 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static class Builder extends org.gtk.gtk.ShortcutTrigger.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -143,21 +147,29 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_mnemonic_trigger_new = Interop.downcallHandle(
-            "gtk_mnemonic_trigger_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_mnemonic_trigger_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_mnemonic_trigger_get_keyval = Interop.downcallHandle(
-            "gtk_mnemonic_trigger_get_keyval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mnemonic_trigger_get_keyval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mnemonic_trigger_get_type = Interop.downcallHandle(
-            "gtk_mnemonic_trigger_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_mnemonic_trigger_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_mnemonic_trigger_get_type != null;
     }
 }

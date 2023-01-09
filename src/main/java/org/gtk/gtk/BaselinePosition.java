@@ -16,14 +16,17 @@ import org.jetbrains.annotations.*;
  * extra available space.
  */
 public enum BaselinePosition implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Align the baseline at the top
      */
     TOP(0),
+    
     /**
      * Center the baseline
      */
     CENTER(1),
+    
     /**
      * Align the baseline at the bottom
      */
@@ -32,15 +35,29 @@ public enum BaselinePosition implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkBaselinePosition";
     
     private final int value;
+    
+    /**
+     * Create a new BaselinePosition for the provided value
+     * @param numeric value the enum value
+     */
     BaselinePosition(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new BaselinePosition for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static BaselinePosition of(int value) {
         return switch (value) {
             case 0 -> TOP;

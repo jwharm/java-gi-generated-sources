@@ -32,8 +32,8 @@ public class NativeVolumeMonitorClass extends Struct {
      * @return A new, uninitialized @{link NativeVolumeMonitorClass}
      */
     public static NativeVolumeMonitorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NativeVolumeMonitorClass newInstance = new NativeVolumeMonitorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NativeVolumeMonitorClass newInstance = new NativeVolumeMonitorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class NativeVolumeMonitorClass extends Struct {
      */
     public org.gtk.gio.VolumeMonitorClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gio.VolumeMonitorClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gio.VolumeMonitorClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,25 +52,44 @@ public class NativeVolumeMonitorClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gio.VolumeMonitorClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMountForMountPathCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMountForMountPathCallback {
+    
         org.gtk.gio.Mount run(java.lang.String mountPath, org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress mountPath, MemoryAddress cancellable) {
-            var RESULT = run(Marshal.addressToString.marshal(mountPath, null), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(Marshal.addressToString.marshal(mountPath, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMountForMountPathCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMountForMountPathCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +98,26 @@ public class NativeVolumeMonitorClass extends Struct {
      * @param getMountForMountPath The new value of the field {@code get_mount_for_mount_path}
      */
     public void setGetMountForMountPath(GetMountForMountPathCallback getMountForMountPath) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
+        }
     }
     
     /**
      * Create a NativeVolumeMonitorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NativeVolumeMonitorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NativeVolumeMonitorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NativeVolumeMonitorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeVolumeMonitorClass(input, ownership);
+    public static final Marshal<Addressable, NativeVolumeMonitorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NativeVolumeMonitorClass(input);
     
     /**
      * A {@link NativeVolumeMonitorClass.Builder} object constructs a {@link NativeVolumeMonitorClass} 
@@ -118,7 +141,7 @@ public class NativeVolumeMonitorClass extends Struct {
             struct = NativeVolumeMonitorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link NativeVolumeMonitorClass} struct.
          * @return A new instance of {@code NativeVolumeMonitorClass} with the fields 
          *         that were set in the Builder object.
@@ -128,17 +151,21 @@ public class NativeVolumeMonitorClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gio.VolumeMonitorClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetMountForMountPath(GetMountForMountPathCallback getMountForMountPath) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
+                return this;
+            }
         }
     }
 }

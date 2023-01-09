@@ -14,8 +14,11 @@ import org.jetbrains.annotations.*;
  */
 public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PollableInputStreamImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PollableInputStreamImpl(input, ownership);
+    public static final Marshal<Addressable, PollableInputStreamImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PollableInputStreamImpl(input);
     
     /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
@@ -30,8 +33,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     default boolean canPoll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_input_stream_can_poll.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_pollable_input_stream_can_poll.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,7 +61,9 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -79,8 +83,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
     default boolean isReadable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_pollable_input_stream_is_readable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_pollable_input_stream_is_readable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,24 +111,26 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default long readNonblocking(Out<byte[]> buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_pollable_input_stream_read_nonblocking.invokeExact(
-                    handle(),
-                    (Addressable) bufferPOINTER.address(),
-                    count,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufferPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_pollable_input_stream_read_nonblocking.invokeExact(
+                        handle(),
+                        (Addressable) bufferPOINTER.address(),
+                        count,
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), count * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), count * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT;
     }
     
     /**
@@ -147,48 +152,63 @@ public interface PollableInputStream extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_input_stream_can_poll = Interop.downcallHandle(
-            "g_pollable_input_stream_can_poll",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_pollable_input_stream_can_poll",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_input_stream_create_source = Interop.downcallHandle(
-            "g_pollable_input_stream_create_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pollable_input_stream_create_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_input_stream_is_readable = Interop.downcallHandle(
-            "g_pollable_input_stream_is_readable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_pollable_input_stream_is_readable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_input_stream_read_nonblocking = Interop.downcallHandle(
-            "g_pollable_input_stream_read_nonblocking",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pollable_input_stream_read_nonblocking",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_pollable_input_stream_get_type = Interop.downcallHandle(
-            "g_pollable_input_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_pollable_input_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The PollableInputStreamImpl type represents a native instance of the PollableInputStream interface.
+     */
     class PollableInputStreamImpl extends org.gtk.gobject.GObject implements PollableInputStream {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public PollableInputStreamImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of PollableInputStream for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PollableInputStreamImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_pollable_input_stream_get_type != null;
     }
 }

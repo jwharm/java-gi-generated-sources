@@ -37,8 +37,8 @@ public class MIKEYPayloadSPParam extends Struct {
      * @return A new, uninitialized @{link MIKEYPayloadSPParam}
      */
     public static MIKEYPayloadSPParam allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MIKEYPayloadSPParam newInstance = new MIKEYPayloadSPParam(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MIKEYPayloadSPParam newInstance = new MIKEYPayloadSPParam(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class MIKEYPayloadSPParam extends Struct {
      * @return The value of the field {@code type}
      */
     public byte getType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class MIKEYPayloadSPParam extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(byte type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), type);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class MIKEYPayloadSPParam extends Struct {
      * @return The value of the field {@code len}
      */
     public byte getLen() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class MIKEYPayloadSPParam extends Struct {
      * @param len The new value of the field {@code len}
      */
     public void setLen(byte len) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), len);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class MIKEYPayloadSPParam extends Struct {
      * @return The value of the field {@code val}
      */
     public PointerByte getVal() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("val"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("val"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class MIKEYPayloadSPParam extends Struct {
      * @param val The new value of the field {@code val}
      */
     public void setVal(PointerByte val) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("val"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (val == null ? MemoryAddress.NULL : val.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("val"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (val == null ? MemoryAddress.NULL : val.handle()));
+        }
     }
     
     /**
      * Create a MIKEYPayloadSPParam proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MIKEYPayloadSPParam(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MIKEYPayloadSPParam(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MIKEYPayloadSPParam> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadSPParam(input, ownership);
+    public static final Marshal<Addressable, MIKEYPayloadSPParam> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadSPParam(input);
     
     /**
      * A {@link MIKEYPayloadSPParam.Builder} object constructs a {@link MIKEYPayloadSPParam} 
@@ -140,7 +154,7 @@ public class MIKEYPayloadSPParam extends Struct {
             struct = MIKEYPayloadSPParam.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MIKEYPayloadSPParam} struct.
          * @return A new instance of {@code MIKEYPayloadSPParam} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class MIKEYPayloadSPParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(byte type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), type);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), type);
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class MIKEYPayloadSPParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLen(byte len) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), len);
+                return this;
+            }
         }
         
         /**
@@ -179,10 +197,12 @@ public class MIKEYPayloadSPParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVal(PointerByte val) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("val"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (val == null ? MemoryAddress.NULL : val.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("val"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (val == null ? MemoryAddress.NULL : val.handle()));
+                return this;
+            }
         }
     }
 }

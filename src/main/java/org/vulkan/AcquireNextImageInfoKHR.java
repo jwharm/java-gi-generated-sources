@@ -29,8 +29,8 @@ public class AcquireNextImageInfoKHR extends Struct {
      * @return A new, uninitialized @{link AcquireNextImageInfoKHR}
      */
     public static AcquireNextImageInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AcquireNextImageInfoKHR newInstance = new AcquireNextImageInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AcquireNextImageInfoKHR newInstance = new AcquireNextImageInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AcquireNextImageInfoKHR extends Struct {
     /**
      * Create a AcquireNextImageInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AcquireNextImageInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AcquireNextImageInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AcquireNextImageInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AcquireNextImageInfoKHR(input, ownership);
+    public static final Marshal<Addressable, AcquireNextImageInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AcquireNextImageInfoKHR(input);
 }

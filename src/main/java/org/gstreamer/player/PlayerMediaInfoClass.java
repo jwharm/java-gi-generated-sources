@@ -29,8 +29,8 @@ public class PlayerMediaInfoClass extends Struct {
      * @return A new, uninitialized @{link PlayerMediaInfoClass}
      */
     public static PlayerMediaInfoClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayerMediaInfoClass newInstance = new PlayerMediaInfoClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayerMediaInfoClass newInstance = new PlayerMediaInfoClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PlayerMediaInfoClass extends Struct {
     /**
      * Create a PlayerMediaInfoClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerMediaInfoClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerMediaInfoClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerMediaInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerMediaInfoClass(input, ownership);
+    public static final Marshal<Addressable, PlayerMediaInfoClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerMediaInfoClass(input);
 }

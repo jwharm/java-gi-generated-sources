@@ -29,8 +29,8 @@ public class PhysicalDeviceImageDrmFormatModifierInfoEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceImageDrmFormatModifierInfoEXT}
      */
     public static PhysicalDeviceImageDrmFormatModifierInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceImageDrmFormatModifierInfoEXT newInstance = new PhysicalDeviceImageDrmFormatModifierInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceImageDrmFormatModifierInfoEXT newInstance = new PhysicalDeviceImageDrmFormatModifierInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceImageDrmFormatModifierInfoEXT extends Struct {
     /**
      * Create a PhysicalDeviceImageDrmFormatModifierInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceImageDrmFormatModifierInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceImageDrmFormatModifierInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceImageDrmFormatModifierInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceImageDrmFormatModifierInfoEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceImageDrmFormatModifierInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceImageDrmFormatModifierInfoEXT(input);
 }

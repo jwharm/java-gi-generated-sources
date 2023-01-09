@@ -44,20 +44,21 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     /**
      * Create a BufferedOutputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferedOutputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferedOutputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferedOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferedOutputStream(input, ownership);
+    public static final Marshal<Addressable, BufferedOutputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferedOutputStream(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.OutputStream baseStream) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(
-                    baseStream.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(baseStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +70,8 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @param baseStream a {@link OutputStream}.
      */
     public BufferedOutputStream(org.gtk.gio.OutputStream baseStream) {
-        super(constructNew(baseStream), Ownership.FULL);
+        super(constructNew(baseStream));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewSized(org.gtk.gio.OutputStream baseStream, long size) {
@@ -83,7 +85,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new buffered output stream with a given buffer size.
      * @param baseStream a {@link OutputStream}.
@@ -92,7 +94,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public static BufferedOutputStream newSized(org.gtk.gio.OutputStream baseStream, long size) {
         var RESULT = constructNewSized(baseStream, size);
-        return (org.gtk.gio.BufferedOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.BufferedOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.BufferedOutputStream) Interop.register(RESULT, org.gtk.gio.BufferedOutputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -103,8 +107,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     public boolean getAutoGrow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_buffered_output_stream_get_auto_grow.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_buffered_output_stream_get_auto_grow.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +121,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     public long getBufferSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_buffered_output_stream_get_buffer_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_buffered_output_stream_get_buffer_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,6 +189,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      */
     public static class Builder extends org.gtk.gio.FilterOutputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -223,45 +228,53 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     private static class DowncallHandles {
         
         private static final MethodHandle g_buffered_output_stream_new = Interop.downcallHandle(
-            "g_buffered_output_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_output_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_new_sized = Interop.downcallHandle(
-            "g_buffered_output_stream_new_sized",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_output_stream_new_sized",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_auto_grow = Interop.downcallHandle(
-            "g_buffered_output_stream_get_auto_grow",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_output_stream_get_auto_grow",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_buffer_size = Interop.downcallHandle(
-            "g_buffered_output_stream_get_buffer_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_output_stream_get_buffer_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_auto_grow = Interop.downcallHandle(
-            "g_buffered_output_stream_set_auto_grow",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_buffered_output_stream_set_auto_grow",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_set_buffer_size = Interop.downcallHandle(
-            "g_buffered_output_stream_set_buffer_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_output_stream_set_buffer_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_buffered_output_stream_get_type = Interop.downcallHandle(
-            "g_buffered_output_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_output_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_buffered_output_stream_get_type != null;
     }
 }

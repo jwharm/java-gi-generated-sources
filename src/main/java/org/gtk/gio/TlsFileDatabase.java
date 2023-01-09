@@ -13,8 +13,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsFileDatabaseImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsFileDatabaseImpl(input, ownership);
+    public static final Marshal<Addressable, TlsFileDatabaseImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsFileDatabaseImpl(input);
     
     /**
      * Get the gtype
@@ -41,19 +44,21 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.gio.TlsFileDatabase new_(java.lang.String anchors) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(
-                    Marshal.stringToAddress.marshal(anchors, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_file_database_new.invokeExact(Marshal.stringToAddress.marshal(anchors, SCOPE),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.TlsFileDatabase) Interop.register(RESULT, org.gtk.gio.TlsFileDatabase.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsFileDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsFileDatabase.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -61,27 +66,42 @@ public interface TlsFileDatabase extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_file_database_get_type = Interop.downcallHandle(
-            "g_tls_file_database_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tls_file_database_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_tls_file_database_new = Interop.downcallHandle(
-            "g_tls_file_database_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_file_database_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The TlsFileDatabaseImpl type represents a native instance of the TlsFileDatabase interface.
+     */
     class TlsFileDatabaseImpl extends org.gtk.gobject.GObject implements TlsFileDatabase {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public TlsFileDatabaseImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TlsFileDatabase for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TlsFileDatabaseImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tls_file_database_get_type != null;
     }
 }

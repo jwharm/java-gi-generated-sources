@@ -277,6 +277,9 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MessageType ANY = new MessageType(-1);
     
+    /**
+     * Create a new MessageType with the provided value
+     */
     public MessageType(int value) {
         super(value);
     }
@@ -289,8 +292,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
     public static java.lang.String getName(org.gstreamer.gst.MessageType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_message_type_get_name.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_message_type_get_name.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,8 +307,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
     public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.MessageType type) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_message_type_to_quark.invokeExact(
-                    type.getValue());
+            RESULT = (int) DowncallHandles.gst_message_type_to_quark.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,15 +344,15 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_message_type_get_name = Interop.downcallHandle(
-            "gst_message_type_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_message_type_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_message_type_to_quark = Interop.downcallHandle(
-            "gst_message_type_to_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_message_type_to_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

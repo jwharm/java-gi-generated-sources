@@ -39,8 +39,8 @@ public class StaticResource extends Struct {
      * @return A new, uninitialized @{link StaticResource}
      */
     public static StaticResource allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StaticResource newInstance = new StaticResource(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StaticResource newInstance = new StaticResource(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class StaticResource extends Struct {
     /**
      * Create a StaticResource proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StaticResource(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StaticResource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StaticResource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StaticResource(input, ownership);
+    public static final Marshal<Addressable, StaticResource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StaticResource(input);
     
     /**
      * Finalized a GResource initialized by g_static_resource_init().
@@ -66,8 +68,7 @@ public class StaticResource extends Struct {
      */
     public void fini() {
         try {
-            DowncallHandles.g_static_resource_fini.invokeExact(
-                    handle());
+            DowncallHandles.g_static_resource_fini.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,12 +85,11 @@ public class StaticResource extends Struct {
     public org.gtk.gio.Resource getResource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_static_resource_get_resource.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_static_resource_get_resource.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -102,8 +102,7 @@ public class StaticResource extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.g_static_resource_init.invokeExact(
-                    handle());
+            DowncallHandles.g_static_resource_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,21 +111,21 @@ public class StaticResource extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
-            "g_static_resource_fini",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_static_resource_fini",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
-            "g_static_resource_get_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_static_resource_get_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_static_resource_init = Interop.downcallHandle(
-            "g_static_resource_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_static_resource_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -152,7 +151,7 @@ public class StaticResource extends Struct {
             struct = StaticResource.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link StaticResource} struct.
          * @return A new instance of {@code StaticResource} with the fields 
          *         that were set in the Builder object.
@@ -162,38 +161,48 @@ public class StaticResource extends Struct {
         }
         
         public Builder setData(PointerByte data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+                return this;
+            }
         }
         
         public Builder setDataLen(long dataLen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data_len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataLen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data_len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dataLen);
+                return this;
+            }
         }
         
         public Builder setResource(org.gtk.gio.Resource resource) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("resource"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resource == null ? MemoryAddress.NULL : resource.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("resource"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resource == null ? MemoryAddress.NULL : resource.handle()));
+                return this;
+            }
         }
         
         public Builder setNext(org.gtk.gio.StaticResource next) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : (Addressable) padding));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : (Addressable) padding));
+                return this;
+            }
         }
     }
 }

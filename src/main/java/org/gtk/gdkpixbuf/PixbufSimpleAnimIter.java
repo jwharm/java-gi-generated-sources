@@ -25,14 +25,16 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
     /**
      * Create a PixbufSimpleAnimIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufSimpleAnimIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufSimpleAnimIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufSimpleAnimIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufSimpleAnimIter(input, ownership);
+    public static final Marshal<Addressable, PixbufSimpleAnimIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufSimpleAnimIter(input);
     
     /**
      * Get the gtype
@@ -64,6 +66,9 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
      */
     public static class Builder extends org.gtk.gdkpixbuf.PixbufAnimationIter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -88,9 +93,17 @@ public class PixbufSimpleAnimIter extends org.gtk.gdkpixbuf.PixbufAnimationIter 
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_simple_anim_iter_get_type = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_iter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_pixbuf_simple_anim_iter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_pixbuf_simple_anim_iter_get_type != null;
     }
 }

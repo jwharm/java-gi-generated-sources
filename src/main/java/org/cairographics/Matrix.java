@@ -29,8 +29,8 @@ public class Matrix extends Struct {
      * @return A new, uninitialized @{link Matrix}
      */
     public static Matrix allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Matrix newInstance = new Matrix(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Matrix newInstance = new Matrix(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Matrix extends Struct {
     /**
      * Create a Matrix proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Matrix(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Matrix(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Matrix> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input, ownership);
+    public static final Marshal<Addressable, Matrix> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input);
 }

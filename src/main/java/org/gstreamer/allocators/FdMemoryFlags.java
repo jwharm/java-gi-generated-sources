@@ -36,6 +36,9 @@ public class FdMemoryFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FdMemoryFlags DONT_CLOSE = new FdMemoryFlags(4);
     
+    /**
+     * Create a new FdMemoryFlags with the provided value
+     */
     public FdMemoryFlags(int value) {
         super(value);
     }

@@ -42,14 +42,16 @@ public class UnixFDList extends org.gtk.gobject.GObject {
     /**
      * Create a UnixFDList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UnixFDList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UnixFDList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UnixFDList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixFDList(input, ownership);
+    public static final Marshal<Addressable, UnixFDList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UnixFDList(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,21 +67,24 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      * Creates a new {@link UnixFDList} containing no file descriptors.
      */
     public UnixFDList() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromArray(int[] fds, int nFds) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(
-                    Interop.allocateNativeArray(fds, false),
-                    nFds);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_new_from_array.invokeExact(
+                        Interop.allocateNativeArray(fds, false, SCOPE),
+                        nFds);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link UnixFDList} containing the file descriptors given in
      * {@code fds}.  The file descriptors become the property of the new list and
@@ -95,7 +100,9 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      */
     public static UnixFDList newFromArray(int[] fds, int nFds) {
         var RESULT = constructNewFromArray(fds, nFds);
-        return (org.gtk.gio.UnixFDList) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixFDList.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.UnixFDList) Interop.register(RESULT, org.gtk.gio.UnixFDList.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -117,20 +124,22 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int append(int fd) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_append.invokeExact(
-                    handle(),
-                    fd,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_unix_fd_list_append.invokeExact(
+                        handle(),
+                        fd,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -151,20 +160,22 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int get(int index) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_get.invokeExact(
-                    handle(),
-                    index,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_unix_fd_list_get.invokeExact(
+                        handle(),
+                        index,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -175,8 +186,7 @@ public class UnixFDList extends org.gtk.gobject.GObject {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_fd_list_get_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_fd_list_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,17 +213,19 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      *     descriptors
      */
     public int[] peekFds(Out<Integer> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_peek_fds.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_peek_fds.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT);
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -241,17 +253,19 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      *     descriptors
      */
     public int[] stealFds(Out<Integer> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_steal_fds.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_list_steal_fds.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT);
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -284,6 +298,9 @@ public class UnixFDList extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -308,51 +325,59 @@ public class UnixFDList extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_fd_list_new = Interop.downcallHandle(
-            "g_unix_fd_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_new_from_array = Interop.downcallHandle(
-            "g_unix_fd_list_new_from_array",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_unix_fd_list_new_from_array",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_append = Interop.downcallHandle(
-            "g_unix_fd_list_append",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_append",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_get = Interop.downcallHandle(
-            "g_unix_fd_list_get",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_get",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_get_length = Interop.downcallHandle(
-            "g_unix_fd_list_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_peek_fds = Interop.downcallHandle(
-            "g_unix_fd_list_peek_fds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_peek_fds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_steal_fds = Interop.downcallHandle(
-            "g_unix_fd_list_steal_fds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_fd_list_steal_fds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_fd_list_get_type = Interop.downcallHandle(
-            "g_unix_fd_list_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_unix_fd_list_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_unix_fd_list_get_type != null;
     }
 }

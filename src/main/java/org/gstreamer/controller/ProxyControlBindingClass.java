@@ -35,8 +35,8 @@ public class ProxyControlBindingClass extends Struct {
      * @return A new, uninitialized @{link ProxyControlBindingClass}
      */
     public static ProxyControlBindingClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProxyControlBindingClass newInstance = new ProxyControlBindingClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ProxyControlBindingClass newInstance = new ProxyControlBindingClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class ProxyControlBindingClass extends Struct {
     /**
      * Create a ProxyControlBindingClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyControlBindingClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProxyControlBindingClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyControlBindingClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyControlBindingClass(input, ownership);
+    public static final Marshal<Addressable, ProxyControlBindingClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyControlBindingClass(input);
     
     /**
      * A {@link ProxyControlBindingClass.Builder} object constructs a {@link ProxyControlBindingClass} 
@@ -75,7 +77,7 @@ public class ProxyControlBindingClass extends Struct {
             struct = ProxyControlBindingClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ProxyControlBindingClass} struct.
          * @return A new instance of {@code ProxyControlBindingClass} with the fields 
          *         that were set in the Builder object.
@@ -85,17 +87,21 @@ public class ProxyControlBindingClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ControlBindingClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

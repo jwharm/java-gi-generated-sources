@@ -47,8 +47,8 @@ public class AudioRingBufferClass extends Struct {
      * @return A new, uninitialized @{link AudioRingBufferClass}
      */
     public static AudioRingBufferClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioRingBufferClass newInstance = new AudioRingBufferClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioRingBufferClass newInstance = new AudioRingBufferClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,7 +59,7 @@ public class AudioRingBufferClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -67,25 +67,42 @@ public class AudioRingBufferClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OpenDeviceCallback} callback.
+     */
     @FunctionalInterface
     public interface OpenDeviceCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OpenDeviceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OpenDeviceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -94,25 +111,42 @@ public class AudioRingBufferClass extends Struct {
      * @param openDevice The new value of the field {@code open_device}
      */
     public void setOpenDevice(OpenDeviceCallback openDevice) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("open_device"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (openDevice == null ? MemoryAddress.NULL : openDevice.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("open_device"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (openDevice == null ? MemoryAddress.NULL : openDevice.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AcquireCallback} callback.
+     */
     @FunctionalInterface
     public interface AcquireCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf, org.gstreamer.audio.AudioRingBufferSpec spec);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf, MemoryAddress spec) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE), org.gstreamer.audio.AudioRingBufferSpec.fromAddress.marshal(spec, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null), org.gstreamer.audio.AudioRingBufferSpec.fromAddress.marshal(spec, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcquireCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AcquireCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -121,25 +155,42 @@ public class AudioRingBufferClass extends Struct {
      * @param acquire The new value of the field {@code acquire}
      */
     public void setAcquire(AcquireCallback acquire) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("acquire"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquire == null ? MemoryAddress.NULL : acquire.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("acquire"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acquire == null ? MemoryAddress.NULL : acquire.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReleaseCallback} callback.
+     */
     @FunctionalInterface
     public interface ReleaseCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReleaseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReleaseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -148,25 +199,42 @@ public class AudioRingBufferClass extends Struct {
      * @param release The new value of the field {@code release}
      */
     public void setRelease(ReleaseCallback release) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("release"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (release == null ? MemoryAddress.NULL : release.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("release"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (release == null ? MemoryAddress.NULL : release.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CloseDeviceCallback} callback.
+     */
     @FunctionalInterface
     public interface CloseDeviceCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseDeviceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CloseDeviceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -175,25 +243,42 @@ public class AudioRingBufferClass extends Struct {
      * @param closeDevice The new value of the field {@code close_device}
      */
     public void setCloseDevice(CloseDeviceCallback closeDevice) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("close_device"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeDevice == null ? MemoryAddress.NULL : closeDevice.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close_device"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closeDevice == null ? MemoryAddress.NULL : closeDevice.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartCallback} callback.
+     */
     @FunctionalInterface
     public interface StartCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -202,25 +287,42 @@ public class AudioRingBufferClass extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(StartCallback start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PauseCallback} callback.
+     */
     @FunctionalInterface
     public interface PauseCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PauseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PauseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -229,25 +331,42 @@ public class AudioRingBufferClass extends Struct {
      * @param pause The new value of the field {@code pause}
      */
     public void setPause(PauseCallback pause) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pause"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pause == null ? MemoryAddress.NULL : pause.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pause"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pause == null ? MemoryAddress.NULL : pause.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ResumeCallback} callback.
+     */
     @FunctionalInterface
     public interface ResumeCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResumeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ResumeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -256,25 +375,42 @@ public class AudioRingBufferClass extends Struct {
      * @param resume The new value of the field {@code resume}
      */
     public void setResume(ResumeCallback resume) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resume"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resume == null ? MemoryAddress.NULL : resume.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resume"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resume == null ? MemoryAddress.NULL : resume.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StopCallback} callback.
+     */
     @FunctionalInterface
     public interface StopCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -283,25 +419,42 @@ public class AudioRingBufferClass extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(StopCallback stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DelayCallback} callback.
+     */
     @FunctionalInterface
     public interface DelayCallback {
+    
         int run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DelayCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DelayCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -310,25 +463,42 @@ public class AudioRingBufferClass extends Struct {
      * @param delay The new value of the field {@code delay}
      */
     public void setDelay(DelayCallback delay) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delay"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (delay == null ? MemoryAddress.NULL : delay.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delay"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (delay == null ? MemoryAddress.NULL : delay.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateCallback {
+    
         boolean run(org.gstreamer.audio.AudioRingBuffer buf, boolean active);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf, int active) {
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE), Marshal.integerToBoolean.marshal(active, null).booleanValue());
+            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null), Marshal.integerToBoolean.marshal(active, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -337,27 +507,46 @@ public class AudioRingBufferClass extends Struct {
      * @param activate The new value of the field {@code activate}
      */
     public void setActivate(ActivateCallback activate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CommitCallback} callback.
+     */
     @FunctionalInterface
     public interface CommitCallback {
+    
         int run(org.gstreamer.audio.AudioRingBuffer buf, PointerLong sample, byte[] data, int inSamples, int outSamples, Out<Integer> accum);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress buf, MemoryAddress sample, MemoryAddress data, int inSamples, int outSamples, MemoryAddress accum) {
-            Out<Integer> accumOUT = new Out<>(accum.get(Interop.valueLayout.C_INT, 0));
-            var RESULT = run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE), new PointerLong(sample), MemorySegment.ofAddress(data, inSamples, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE), inSamples, outSamples, accumOUT);
-            accum.set(Interop.valueLayout.C_INT, 0, accumOUT.get());
-            return RESULT;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> accumOUT = new Out<>(accum.get(Interop.valueLayout.C_INT, 0));
+                var RESULT = run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null), new PointerLong(sample), MemorySegment.ofAddress(data, inSamples, SCOPE).toArray(Interop.valueLayout.C_BYTE), inSamples, outSamples, accumOUT);
+                accum.set(Interop.valueLayout.C_INT, 0, accumOUT.get());
+                return RESULT;
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CommitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CommitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -366,24 +555,41 @@ public class AudioRingBufferClass extends Struct {
      * @param commit The new value of the field {@code commit}
      */
     public void setCommit(CommitCallback commit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("commit"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (commit == null ? MemoryAddress.NULL : commit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("commit"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (commit == null ? MemoryAddress.NULL : commit.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ClearAllCallback} callback.
+     */
     @FunctionalInterface
     public interface ClearAllCallback {
+    
         void run(org.gstreamer.audio.AudioRingBuffer buf);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buf) {
-            run((org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buf)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, Ownership.NONE));
+            run((org.gstreamer.audio.AudioRingBuffer) Interop.register(buf, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(buf, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClearAllCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClearAllCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -392,22 +598,26 @@ public class AudioRingBufferClass extends Struct {
      * @param clearAll The new value of the field {@code clear_all}
      */
     public void setClearAll(ClearAllCallback clearAll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("clear_all"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clearAll == null ? MemoryAddress.NULL : clearAll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("clear_all"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (clearAll == null ? MemoryAddress.NULL : clearAll.toCallback()));
+        }
     }
     
     /**
      * Create a AudioRingBufferClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioRingBufferClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioRingBufferClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioRingBufferClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBufferClass(input, ownership);
+    public static final Marshal<Addressable, AudioRingBufferClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBufferClass(input);
     
     /**
      * A {@link AudioRingBufferClass.Builder} object constructs a {@link AudioRingBufferClass} 
@@ -431,7 +641,7 @@ public class AudioRingBufferClass extends Struct {
             struct = AudioRingBufferClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioRingBufferClass} struct.
          * @return A new instance of {@code AudioRingBufferClass} with the fields 
          *         that were set in the Builder object.
@@ -446,101 +656,129 @@ public class AudioRingBufferClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setOpenDevice(OpenDeviceCallback openDevice) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("open_device"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (openDevice == null ? MemoryAddress.NULL : openDevice.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("open_device"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (openDevice == null ? MemoryAddress.NULL : openDevice.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAcquire(AcquireCallback acquire) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("acquire"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acquire == null ? MemoryAddress.NULL : acquire.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("acquire"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acquire == null ? MemoryAddress.NULL : acquire.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRelease(ReleaseCallback release) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("release"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (release == null ? MemoryAddress.NULL : release.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("release"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (release == null ? MemoryAddress.NULL : release.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCloseDevice(CloseDeviceCallback closeDevice) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("close_device"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeDevice == null ? MemoryAddress.NULL : closeDevice.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("close_device"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closeDevice == null ? MemoryAddress.NULL : closeDevice.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStart(StartCallback start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPause(PauseCallback pause) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pause"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pause == null ? MemoryAddress.NULL : pause.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pause"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pause == null ? MemoryAddress.NULL : pause.toCallback()));
+                return this;
+            }
         }
         
         public Builder setResume(ResumeCallback resume) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("resume"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resume == null ? MemoryAddress.NULL : resume.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("resume"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resume == null ? MemoryAddress.NULL : resume.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStop(StopCallback stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDelay(DelayCallback delay) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delay"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (delay == null ? MemoryAddress.NULL : delay.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delay"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (delay == null ? MemoryAddress.NULL : delay.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivate(ActivateCallback activate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCommit(CommitCallback commit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("commit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (commit == null ? MemoryAddress.NULL : commit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("commit"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (commit == null ? MemoryAddress.NULL : commit.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClearAll(ClearAllCallback clearAll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("clear_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clearAll == null ? MemoryAddress.NULL : clearAll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("clear_all"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (clearAll == null ? MemoryAddress.NULL : clearAll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

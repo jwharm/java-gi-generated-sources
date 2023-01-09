@@ -45,8 +45,8 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @return A new, uninitialized @{link VideoGLTextureUploadMeta}
      */
     public static VideoGLTextureUploadMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoGLTextureUploadMeta newInstance = new VideoGLTextureUploadMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoGLTextureUploadMeta newInstance = new VideoGLTextureUploadMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,7 +57,7 @@ public class VideoGLTextureUploadMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -65,9 +65,11 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -75,10 +77,12 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @return The value of the field {@code texture_orientation}
      */
     public org.gstreamer.video.VideoGLTextureOrientation getTextureOrientation() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoGLTextureOrientation.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoGLTextureOrientation.of(RESULT);
+        }
     }
     
     /**
@@ -86,9 +90,11 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @param textureOrientation The new value of the field {@code texture_orientation}
      */
     public void setTextureOrientation(org.gstreamer.video.VideoGLTextureOrientation textureOrientation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textureOrientation == null ? MemoryAddress.NULL : textureOrientation.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (textureOrientation == null ? MemoryAddress.NULL : textureOrientation.getValue()));
+        }
     }
     
     /**
@@ -96,10 +102,12 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @return The value of the field {@code n_textures}
      */
     public int getNTextures() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,9 +115,11 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @param nTextures The new value of the field {@code n_textures}
      */
     public void setNTextures(int nTextures) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nTextures);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nTextures);
+        }
     }
     
     /**
@@ -117,10 +127,12 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @return The value of the field {@code texture_type}
      */
     public org.gstreamer.video.VideoGLTextureType[] getTextureType() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerEnumeration<org.gstreamer.video.VideoGLTextureType>(RESULT, org.gstreamer.video.VideoGLTextureType::of).toArray((int) 4, org.gstreamer.video.VideoGLTextureType.class);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerEnumeration<org.gstreamer.video.VideoGLTextureType>(RESULT, org.gstreamer.video.VideoGLTextureType::of).toArray((int) 4, org.gstreamer.video.VideoGLTextureType.class);
+        }
     }
     
     /**
@@ -128,22 +140,26 @@ public class VideoGLTextureUploadMeta extends Struct {
      * @param textureType The new value of the field {@code texture_type}
      */
     public void setTextureType(org.gstreamer.video.VideoGLTextureType[] textureType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textureType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(textureType), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (textureType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(textureType), false, SCOPE)));
+        }
     }
     
     /**
      * Create a VideoGLTextureUploadMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoGLTextureUploadMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoGLTextureUploadMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoGLTextureUploadMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoGLTextureUploadMeta(input, ownership);
+    public static final Marshal<Addressable, VideoGLTextureUploadMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoGLTextureUploadMeta(input);
     
     /**
      * Uploads the buffer which owns the meta to a specific texture ID.
@@ -169,21 +185,21 @@ public class VideoGLTextureUploadMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_gl_texture_upload_meta_upload = Interop.downcallHandle(
-            "gst_video_gl_texture_upload_meta_upload",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_gl_texture_upload_meta_upload",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_gl_texture_upload_meta_get_info = Interop.downcallHandle(
-            "gst_video_gl_texture_upload_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_gl_texture_upload_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -209,7 +225,7 @@ public class VideoGLTextureUploadMeta extends Struct {
             struct = VideoGLTextureUploadMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoGLTextureUploadMeta} struct.
          * @return A new instance of {@code VideoGLTextureUploadMeta} with the fields 
          *         that were set in the Builder object.
@@ -224,10 +240,12 @@ public class VideoGLTextureUploadMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -236,10 +254,12 @@ public class VideoGLTextureUploadMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTextureOrientation(org.gstreamer.video.VideoGLTextureOrientation textureOrientation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textureOrientation == null ? MemoryAddress.NULL : textureOrientation.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("texture_orientation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (textureOrientation == null ? MemoryAddress.NULL : textureOrientation.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -248,10 +268,12 @@ public class VideoGLTextureUploadMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNTextures(int nTextures) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nTextures);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_textures"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nTextures);
+                return this;
+            }
         }
         
         /**
@@ -260,45 +282,57 @@ public class VideoGLTextureUploadMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTextureType(org.gstreamer.video.VideoGLTextureType[] textureType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textureType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(textureType), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("texture_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (textureType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(textureType), false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+                return this;
+            }
         }
         
         public Builder setUpload(org.gstreamer.video.VideoGLTextureUpload upload) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("upload"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (upload == null ? MemoryAddress.NULL : (Addressable) upload.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("upload"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (upload == null ? MemoryAddress.NULL : (Addressable) upload.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setUserDataCopy(org.gtk.gobject.BoxedCopyFunc userDataCopy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data_copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userDataCopy == null ? MemoryAddress.NULL : (Addressable) userDataCopy.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data_copy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userDataCopy == null ? MemoryAddress.NULL : (Addressable) userDataCopy.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUserDataFree(org.gtk.gobject.BoxedFreeFunc userDataFree) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data_free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userDataFree == null ? MemoryAddress.NULL : (Addressable) userDataFree.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data_free"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userDataFree == null ? MemoryAddress.NULL : (Addressable) userDataFree.toCallback()));
+                return this;
+            }
         }
     }
 }

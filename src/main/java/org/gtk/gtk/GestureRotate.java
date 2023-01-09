@@ -31,14 +31,16 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     /**
      * Create a GestureRotate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureRotate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureRotate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureRotate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureRotate(input, ownership);
+    public static final Marshal<Addressable, GestureRotate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureRotate(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -55,7 +57,8 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * rotation gestures.
      */
     public GestureRotate() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -69,8 +72,7 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     public double getAngleDelta() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_rotate_get_angle_delta.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,19 +93,37 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code AngleChanged} callback.
+     */
     @FunctionalInterface
     public interface AngleChanged {
+    
+        /**
+         * Emitted when the angle between both tracked points changes.
+         */
         void run(double angle, double angleDelta);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureRotate, double angle, double angleDelta) {
             run(angle, angleDelta);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AngleChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AngleChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,9 +133,10 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureRotate.AngleChanged> onAngleChanged(GestureRotate.AngleChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("angle-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("angle-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -138,6 +159,9 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
      */
     public static class Builder extends org.gtk.gtk.Gesture.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -162,21 +186,29 @@ public class GestureRotate extends org.gtk.gtk.Gesture {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
-            "gtk_gesture_rotate_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_rotate_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
-            "gtk_gesture_rotate_get_angle_delta",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_rotate_get_angle_delta",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_rotate_get_type = Interop.downcallHandle(
-            "gtk_gesture_rotate_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_rotate_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_rotate_get_type != null;
     }
 }

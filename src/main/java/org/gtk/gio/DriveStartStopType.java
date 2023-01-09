@@ -10,28 +10,33 @@ import org.jetbrains.annotations.*;
  * @version 2.22
  */
 public enum DriveStartStopType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Unknown or drive doesn't support
      *    start/stop.
      */
     UNKNOWN(0),
+    
     /**
      * The stop method will physically
      *    shut down the drive and e.g. power down the port the drive is
      *    attached to.
      */
     SHUTDOWN(1),
+    
     /**
      * The start/stop methods are used
      *    for connecting/disconnect to the drive over the network.
      */
     NETWORK(2),
+    
     /**
      * The start/stop methods will
      *    assemble/disassemble a virtual drive from several physical
      *    drives.
      */
     MULTIDISK(3),
+    
     /**
      * The start/stop methods will
      *    unlock/lock the disk (for example using the ATA &lt;quote&gt;SECURITY
@@ -42,15 +47,29 @@ public enum DriveStartStopType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GDriveStartStopType";
     
     private final int value;
+    
+    /**
+     * Create a new DriveStartStopType for the provided value
+     * @param numeric value the enum value
+     */
     DriveStartStopType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DriveStartStopType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DriveStartStopType of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

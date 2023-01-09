@@ -47,8 +47,8 @@ public class OtVarAxisInfoT extends Struct {
      * @return A new, uninitialized @{link OtVarAxisInfoT}
      */
     public static OtVarAxisInfoT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtVarAxisInfoT newInstance = new OtVarAxisInfoT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OtVarAxisInfoT newInstance = new OtVarAxisInfoT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,10 +58,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code axis_index}
      */
     public int getAxisIndex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -69,9 +71,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param axisIndex The new value of the field {@code axis_index}
      */
     public void setAxisIndex(int axisIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), axisIndex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), axisIndex);
+        }
     }
     
     /**
@@ -79,10 +83,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code tag}
      */
     public org.harfbuzz.TagT getTag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.TagT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.TagT(RESULT);
+        }
     }
     
     /**
@@ -90,9 +96,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param tag The new value of the field {@code tag}
      */
     public void setTag(org.harfbuzz.TagT tag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+        }
     }
     
     /**
@@ -100,10 +108,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code name_id}
      */
     public org.harfbuzz.OtNameIdT getNameId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.OtNameIdT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.OtNameIdT(RESULT);
+        }
     }
     
     /**
@@ -111,9 +121,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param nameId The new value of the field {@code name_id}
      */
     public void setNameId(org.harfbuzz.OtNameIdT nameId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
+        }
     }
     
     /**
@@ -121,10 +133,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.harfbuzz.OtVarAxisFlagsT getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.OtVarAxisFlagsT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.OtVarAxisFlagsT(RESULT);
+        }
     }
     
     /**
@@ -132,9 +146,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.harfbuzz.OtVarAxisFlagsT flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -142,10 +158,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code min_value}
      */
     public float getMinValue() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -153,9 +171,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param minValue The new value of the field {@code min_value}
      */
     public void setMinValue(float minValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minValue);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minValue);
+        }
     }
     
     /**
@@ -163,10 +183,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code default_value}
      */
     public float getDefaultValue() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -174,9 +196,11 @@ public class OtVarAxisInfoT extends Struct {
      * @param defaultValue The new value of the field {@code default_value}
      */
     public void setDefaultValue(float defaultValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defaultValue);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), defaultValue);
+        }
     }
     
     /**
@@ -184,10 +208,12 @@ public class OtVarAxisInfoT extends Struct {
      * @return The value of the field {@code max_value}
      */
     public float getMaxValue() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -195,22 +221,26 @@ public class OtVarAxisInfoT extends Struct {
      * @param maxValue The new value of the field {@code max_value}
      */
     public void setMaxValue(float maxValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxValue);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxValue);
+        }
     }
     
     /**
      * Create a OtVarAxisInfoT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OtVarAxisInfoT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OtVarAxisInfoT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OtVarAxisInfoT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtVarAxisInfoT(input, ownership);
+    public static final Marshal<Addressable, OtVarAxisInfoT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OtVarAxisInfoT(input);
     
     /**
      * A {@link OtVarAxisInfoT.Builder} object constructs a {@link OtVarAxisInfoT} 
@@ -234,7 +264,7 @@ public class OtVarAxisInfoT extends Struct {
             struct = OtVarAxisInfoT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OtVarAxisInfoT} struct.
          * @return A new instance of {@code OtVarAxisInfoT} with the fields 
          *         that were set in the Builder object.
@@ -249,10 +279,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAxisIndex(int axisIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), axisIndex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("axis_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), axisIndex);
+                return this;
+            }
         }
         
         /**
@@ -261,10 +293,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTag(org.harfbuzz.TagT tag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -273,10 +307,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNameId(org.harfbuzz.OtNameIdT nameId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -285,10 +321,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.harfbuzz.OtVarAxisFlagsT flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -297,10 +335,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinValue(float minValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minValue);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minValue);
+                return this;
+            }
         }
         
         /**
@@ -309,10 +349,12 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDefaultValue(float defaultValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defaultValue);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("default_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), defaultValue);
+                return this;
+            }
         }
         
         /**
@@ -321,17 +363,21 @@ public class OtVarAxisInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxValue(float maxValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxValue);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxValue);
+                return this;
+            }
         }
         
         public Builder setReserved(int reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), reserved);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), reserved);
+                return this;
+            }
         }
     }
 }

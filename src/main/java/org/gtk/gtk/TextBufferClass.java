@@ -53,8 +53,8 @@ public class TextBufferClass extends Struct {
      * @return A new, uninitialized @{link TextBufferClass}
      */
     public static TextBufferClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TextBufferClass newInstance = new TextBufferClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TextBufferClass newInstance = new TextBufferClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -65,7 +65,7 @@ public class TextBufferClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -73,24 +73,43 @@ public class TextBufferClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code InsertTextCallback} callback.
+     */
     @FunctionalInterface
     public interface InsertTextCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextIter pos, java.lang.String newText, int newTextLength);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress pos, MemoryAddress newText, int newTextLength) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(pos, Ownership.NONE), Marshal.addressToString.marshal(newText, null), newTextLength);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), org.gtk.gtk.TextIter.fromAddress.marshal(pos, null), Marshal.addressToString.marshal(newText, null), newTextLength);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertTextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InsertTextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -99,24 +118,41 @@ public class TextBufferClass extends Struct {
      * @param insertText The new value of the field {@code insert_text}
      */
     public void setInsertText(InsertTextCallback insertText) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("insert_text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertText == null ? MemoryAddress.NULL : insertText.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("insert_text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertText == null ? MemoryAddress.NULL : insertText.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code InsertPaintableCallback} callback.
+     */
     @FunctionalInterface
     public interface InsertPaintableCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextIter iter, org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress iter, MemoryAddress paintable) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(iter, Ownership.NONE), (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), org.gtk.gtk.TextIter.fromAddress.marshal(iter, null), (org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertPaintableCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InsertPaintableCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -125,24 +161,41 @@ public class TextBufferClass extends Struct {
      * @param insertPaintable The new value of the field {@code insert_paintable}
      */
     public void setInsertPaintable(InsertPaintableCallback insertPaintable) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("insert_paintable"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertPaintable == null ? MemoryAddress.NULL : insertPaintable.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("insert_paintable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertPaintable == null ? MemoryAddress.NULL : insertPaintable.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code InsertChildAnchorCallback} callback.
+     */
     @FunctionalInterface
     public interface InsertChildAnchorCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextIter iter, org.gtk.gtk.TextChildAnchor anchor);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress iter, MemoryAddress anchor) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(iter, Ownership.NONE), (org.gtk.gtk.TextChildAnchor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(anchor)), org.gtk.gtk.TextChildAnchor.fromAddress).marshal(anchor, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), org.gtk.gtk.TextIter.fromAddress.marshal(iter, null), (org.gtk.gtk.TextChildAnchor) Interop.register(anchor, org.gtk.gtk.TextChildAnchor.fromAddress).marshal(anchor, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertChildAnchorCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InsertChildAnchorCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -151,24 +204,41 @@ public class TextBufferClass extends Struct {
      * @param insertChildAnchor The new value of the field {@code insert_child_anchor}
      */
     public void setInsertChildAnchor(InsertChildAnchorCallback insertChildAnchor) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("insert_child_anchor"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertChildAnchor == null ? MemoryAddress.NULL : insertChildAnchor.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("insert_child_anchor"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertChildAnchor == null ? MemoryAddress.NULL : insertChildAnchor.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DeleteRangeCallback} callback.
+     */
     @FunctionalInterface
     public interface DeleteRangeCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress start, MemoryAddress end) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), org.gtk.gtk.TextIter.fromAddress.marshal(start, null), org.gtk.gtk.TextIter.fromAddress.marshal(end, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteRangeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DeleteRangeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -177,24 +247,41 @@ public class TextBufferClass extends Struct {
      * @param deleteRange The new value of the field {@code delete_range}
      */
     public void setDeleteRange(DeleteRangeCallback deleteRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delete_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deleteRange == null ? MemoryAddress.NULL : deleteRange.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delete_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deleteRange == null ? MemoryAddress.NULL : deleteRange.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ChangedCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -203,24 +290,41 @@ public class TextBufferClass extends Struct {
      * @param changed The new value of the field {@code changed}
      */
     public void setChanged(ChangedCallback changed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ModifiedChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ModifiedChangedCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ModifiedChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ModifiedChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -229,24 +333,41 @@ public class TextBufferClass extends Struct {
      * @param modifiedChanged The new value of the field {@code modified_changed}
      */
     public void setModifiedChanged(ModifiedChangedCallback modifiedChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modified_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modifiedChanged == null ? MemoryAddress.NULL : modifiedChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modified_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modifiedChanged == null ? MemoryAddress.NULL : modifiedChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MarkSetCallback} callback.
+     */
     @FunctionalInterface
     public interface MarkSetCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextIter location, org.gtk.gtk.TextMark mark);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress location, MemoryAddress mark) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mark)), org.gtk.gtk.TextMark.fromAddress).marshal(mark, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), org.gtk.gtk.TextIter.fromAddress.marshal(location, null), (org.gtk.gtk.TextMark) Interop.register(mark, org.gtk.gtk.TextMark.fromAddress).marshal(mark, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MarkSetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MarkSetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -255,24 +376,41 @@ public class TextBufferClass extends Struct {
      * @param markSet The new value of the field {@code mark_set}
      */
     public void setMarkSet(MarkSetCallback markSet) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mark_set"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (markSet == null ? MemoryAddress.NULL : markSet.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mark_set"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (markSet == null ? MemoryAddress.NULL : markSet.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MarkDeletedCallback} callback.
+     */
     @FunctionalInterface
     public interface MarkDeletedCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextMark mark);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress mark) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mark)), org.gtk.gtk.TextMark.fromAddress).marshal(mark, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), (org.gtk.gtk.TextMark) Interop.register(mark, org.gtk.gtk.TextMark.fromAddress).marshal(mark, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MarkDeletedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MarkDeletedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -281,24 +419,41 @@ public class TextBufferClass extends Struct {
      * @param markDeleted The new value of the field {@code mark_deleted}
      */
     public void setMarkDeleted(MarkDeletedCallback markDeleted) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mark_deleted"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (markDeleted == null ? MemoryAddress.NULL : markDeleted.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mark_deleted"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (markDeleted == null ? MemoryAddress.NULL : markDeleted.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ApplyTagCallback} callback.
+     */
     @FunctionalInterface
     public interface ApplyTagCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), (org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), (org.gtk.gtk.TextTag) Interop.register(tag, org.gtk.gtk.TextTag.fromAddress).marshal(tag, null), org.gtk.gtk.TextIter.fromAddress.marshal(start, null), org.gtk.gtk.TextIter.fromAddress.marshal(end, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplyTagCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ApplyTagCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -307,24 +462,41 @@ public class TextBufferClass extends Struct {
      * @param applyTag The new value of the field {@code apply_tag}
      */
     public void setApplyTag(ApplyTagCallback applyTag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("apply_tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (applyTag == null ? MemoryAddress.NULL : applyTag.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("apply_tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (applyTag == null ? MemoryAddress.NULL : applyTag.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RemoveTagCallback} callback.
+     */
     @FunctionalInterface
     public interface RemoveTagCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), (org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), (org.gtk.gtk.TextTag) Interop.register(tag, org.gtk.gtk.TextTag.fromAddress).marshal(tag, null), org.gtk.gtk.TextIter.fromAddress.marshal(start, null), org.gtk.gtk.TextIter.fromAddress.marshal(end, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveTagCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RemoveTagCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -333,24 +505,41 @@ public class TextBufferClass extends Struct {
      * @param removeTag The new value of the field {@code remove_tag}
      */
     public void setRemoveTag(RemoveTagCallback removeTag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("remove_tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeTag == null ? MemoryAddress.NULL : removeTag.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("remove_tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (removeTag == null ? MemoryAddress.NULL : removeTag.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code BeginUserActionCallback} callback.
+     */
     @FunctionalInterface
     public interface BeginUserActionCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginUserActionCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), BeginUserActionCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -359,24 +548,41 @@ public class TextBufferClass extends Struct {
      * @param beginUserAction The new value of the field {@code begin_user_action}
      */
     public void setBeginUserAction(BeginUserActionCallback beginUserAction) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("begin_user_action"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginUserAction == null ? MemoryAddress.NULL : beginUserAction.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("begin_user_action"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginUserAction == null ? MemoryAddress.NULL : beginUserAction.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndUserActionCallback} callback.
+     */
     @FunctionalInterface
     public interface EndUserActionCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndUserActionCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndUserActionCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -385,24 +591,41 @@ public class TextBufferClass extends Struct {
      * @param endUserAction The new value of the field {@code end_user_action}
      */
     public void setEndUserAction(EndUserActionCallback endUserAction) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_user_action"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endUserAction == null ? MemoryAddress.NULL : endUserAction.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_user_action"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endUserAction == null ? MemoryAddress.NULL : endUserAction.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PasteDoneCallback} callback.
+     */
     @FunctionalInterface
     public interface PasteDoneCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer, org.gtk.gdk.Clipboard clipboard);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer, MemoryAddress clipboard) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE), (org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clipboard)), org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null), (org.gtk.gdk.Clipboard) Interop.register(clipboard, org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PasteDoneCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PasteDoneCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -411,24 +634,41 @@ public class TextBufferClass extends Struct {
      * @param pasteDone The new value of the field {@code paste_done}
      */
     public void setPasteDone(PasteDoneCallback pasteDone) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("paste_done"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pasteDone == null ? MemoryAddress.NULL : pasteDone.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("paste_done"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pasteDone == null ? MemoryAddress.NULL : pasteDone.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UndoCallback} callback.
+     */
     @FunctionalInterface
     public interface UndoCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UndoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UndoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -437,24 +677,41 @@ public class TextBufferClass extends Struct {
      * @param undo The new value of the field {@code undo}
      */
     public void setUndo(UndoCallback undo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("undo"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (undo == null ? MemoryAddress.NULL : undo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("undo"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (undo == null ? MemoryAddress.NULL : undo.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RedoCallback} callback.
+     */
     @FunctionalInterface
     public interface RedoCallback {
+    
         void run(org.gtk.gtk.TextBuffer buffer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress buffer) {
-            run((org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(buffer)), org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, Ownership.NONE));
+            run((org.gtk.gtk.TextBuffer) Interop.register(buffer, org.gtk.gtk.TextBuffer.fromAddress).marshal(buffer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RedoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RedoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -463,24 +720,41 @@ public class TextBufferClass extends Struct {
      * @param redo The new value of the field {@code redo}
      */
     public void setRedo(RedoCallback redo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("redo"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (redo == null ? MemoryAddress.NULL : redo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("redo"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (redo == null ? MemoryAddress.NULL : redo.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkReserved1Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkReserved1Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved1Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkReserved1Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -489,24 +763,41 @@ public class TextBufferClass extends Struct {
      * @param GtkReserved1 The new value of the field {@code _gtk_reserved1}
      */
     public void setGtkReserved1(GtkReserved1Callback GtkReserved1) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkReserved2Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkReserved2Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved2Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkReserved2Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -515,24 +806,41 @@ public class TextBufferClass extends Struct {
      * @param GtkReserved2 The new value of the field {@code _gtk_reserved2}
      */
     public void setGtkReserved2(GtkReserved2Callback GtkReserved2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkReserved3Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkReserved3Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved3Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkReserved3Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -541,24 +849,41 @@ public class TextBufferClass extends Struct {
      * @param GtkReserved3 The new value of the field {@code _gtk_reserved3}
      */
     public void setGtkReserved3(GtkReserved3Callback GtkReserved3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GtkReserved4Callback} callback.
+     */
     @FunctionalInterface
     public interface GtkReserved4Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved4Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GtkReserved4Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -567,22 +892,26 @@ public class TextBufferClass extends Struct {
      * @param GtkReserved4 The new value of the field {@code _gtk_reserved4}
      */
     public void setGtkReserved4(GtkReserved4Callback GtkReserved4) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
+        }
     }
     
     /**
      * Create a TextBufferClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextBufferClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextBufferClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextBufferClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextBufferClass(input, ownership);
+    public static final Marshal<Addressable, TextBufferClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextBufferClass(input);
     
     /**
      * A {@link TextBufferClass.Builder} object constructs a {@link TextBufferClass} 
@@ -606,7 +935,7 @@ public class TextBufferClass extends Struct {
             struct = TextBufferClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TextBufferClass} struct.
          * @return A new instance of {@code TextBufferClass} with the fields 
          *         that were set in the Builder object.
@@ -621,143 +950,183 @@ public class TextBufferClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setInsertText(InsertTextCallback insertText) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("insert_text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertText == null ? MemoryAddress.NULL : insertText.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("insert_text"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertText == null ? MemoryAddress.NULL : insertText.toCallback()));
+                return this;
+            }
         }
         
         public Builder setInsertPaintable(InsertPaintableCallback insertPaintable) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("insert_paintable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertPaintable == null ? MemoryAddress.NULL : insertPaintable.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("insert_paintable"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertPaintable == null ? MemoryAddress.NULL : insertPaintable.toCallback()));
+                return this;
+            }
         }
         
         public Builder setInsertChildAnchor(InsertChildAnchorCallback insertChildAnchor) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("insert_child_anchor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (insertChildAnchor == null ? MemoryAddress.NULL : insertChildAnchor.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("insert_child_anchor"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (insertChildAnchor == null ? MemoryAddress.NULL : insertChildAnchor.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDeleteRange(DeleteRangeCallback deleteRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delete_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deleteRange == null ? MemoryAddress.NULL : deleteRange.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delete_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deleteRange == null ? MemoryAddress.NULL : deleteRange.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChanged(ChangedCallback changed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changed == null ? MemoryAddress.NULL : changed.toCallback()));
+                return this;
+            }
         }
         
         public Builder setModifiedChanged(ModifiedChangedCallback modifiedChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("modified_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modifiedChanged == null ? MemoryAddress.NULL : modifiedChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("modified_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modifiedChanged == null ? MemoryAddress.NULL : modifiedChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMarkSet(MarkSetCallback markSet) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mark_set"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (markSet == null ? MemoryAddress.NULL : markSet.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mark_set"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (markSet == null ? MemoryAddress.NULL : markSet.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMarkDeleted(MarkDeletedCallback markDeleted) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mark_deleted"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (markDeleted == null ? MemoryAddress.NULL : markDeleted.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mark_deleted"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (markDeleted == null ? MemoryAddress.NULL : markDeleted.toCallback()));
+                return this;
+            }
         }
         
         public Builder setApplyTag(ApplyTagCallback applyTag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("apply_tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (applyTag == null ? MemoryAddress.NULL : applyTag.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("apply_tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (applyTag == null ? MemoryAddress.NULL : applyTag.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRemoveTag(RemoveTagCallback removeTag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("remove_tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeTag == null ? MemoryAddress.NULL : removeTag.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("remove_tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (removeTag == null ? MemoryAddress.NULL : removeTag.toCallback()));
+                return this;
+            }
         }
         
         public Builder setBeginUserAction(BeginUserActionCallback beginUserAction) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("begin_user_action"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginUserAction == null ? MemoryAddress.NULL : beginUserAction.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("begin_user_action"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginUserAction == null ? MemoryAddress.NULL : beginUserAction.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEndUserAction(EndUserActionCallback endUserAction) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_user_action"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endUserAction == null ? MemoryAddress.NULL : endUserAction.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_user_action"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endUserAction == null ? MemoryAddress.NULL : endUserAction.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPasteDone(PasteDoneCallback pasteDone) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("paste_done"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pasteDone == null ? MemoryAddress.NULL : pasteDone.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("paste_done"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pasteDone == null ? MemoryAddress.NULL : pasteDone.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUndo(UndoCallback undo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("undo"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (undo == null ? MemoryAddress.NULL : undo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("undo"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (undo == null ? MemoryAddress.NULL : undo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRedo(RedoCallback redo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("redo"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (redo == null ? MemoryAddress.NULL : redo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("redo"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (redo == null ? MemoryAddress.NULL : redo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkReserved1(GtkReserved1Callback GtkReserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkReserved2(GtkReserved2Callback GtkReserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkReserved3(GtkReserved3Callback GtkReserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGtkReserved4(GtkReserved4Callback GtkReserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
+                return this;
+            }
         }
     }
 }

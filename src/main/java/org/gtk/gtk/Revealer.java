@@ -45,26 +45,17 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a Revealer proxy instance for the provided memory address.
-     * <p>
-     * Because Revealer is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Revealer(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Revealer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Revealer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Revealer(input, ownership);
+    public static final Marshal<Addressable, Revealer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Revealer(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -80,7 +71,9 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new {@code GtkRevealer}.
      */
     public Revealer() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -90,12 +83,11 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_revealer_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_revealer_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -108,8 +100,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getChildRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_child_revealed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_child_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,8 +119,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getRevealChild() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_reveal_child.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_reveal_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,8 +134,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_duration.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,8 +149,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.RevealerTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_revealer_get_transition_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,6 +248,9 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -339,69 +330,77 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_revealer_new = Interop.downcallHandle(
-            "gtk_revealer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_child = Interop.downcallHandle(
-            "gtk_revealer_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_child_revealed = Interop.downcallHandle(
-            "gtk_revealer_get_child_revealed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_get_child_revealed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_reveal_child = Interop.downcallHandle(
-            "gtk_revealer_get_reveal_child",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_get_reveal_child",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_transition_duration = Interop.downcallHandle(
-            "gtk_revealer_get_transition_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_get_transition_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_transition_type = Interop.downcallHandle(
-            "gtk_revealer_get_transition_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_get_transition_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_set_child = Interop.downcallHandle(
-            "gtk_revealer_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_revealer_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_revealer_set_reveal_child = Interop.downcallHandle(
-            "gtk_revealer_set_reveal_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_revealer_set_reveal_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_revealer_set_transition_duration = Interop.downcallHandle(
-            "gtk_revealer_set_transition_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_revealer_set_transition_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_revealer_set_transition_type = Interop.downcallHandle(
-            "gtk_revealer_set_transition_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_revealer_set_transition_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_revealer_get_type = Interop.downcallHandle(
-            "gtk_revealer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_revealer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_revealer_get_type != null;
     }
 }

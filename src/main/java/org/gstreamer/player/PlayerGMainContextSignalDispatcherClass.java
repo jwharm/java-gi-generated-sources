@@ -29,8 +29,8 @@ public class PlayerGMainContextSignalDispatcherClass extends Struct {
      * @return A new, uninitialized @{link PlayerGMainContextSignalDispatcherClass}
      */
     public static PlayerGMainContextSignalDispatcherClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayerGMainContextSignalDispatcherClass newInstance = new PlayerGMainContextSignalDispatcherClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayerGMainContextSignalDispatcherClass newInstance = new PlayerGMainContextSignalDispatcherClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PlayerGMainContextSignalDispatcherClass extends Struct {
     /**
      * Create a PlayerGMainContextSignalDispatcherClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerGMainContextSignalDispatcherClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerGMainContextSignalDispatcherClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerGMainContextSignalDispatcherClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerGMainContextSignalDispatcherClass(input, ownership);
+    public static final Marshal<Addressable, PlayerGMainContextSignalDispatcherClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerGMainContextSignalDispatcherClass(input);
 }

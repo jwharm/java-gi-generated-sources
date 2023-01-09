@@ -9,10 +9,12 @@ import org.jetbrains.annotations.*;
  * Describes the stage at which events are fed into a {@link EventController}.
  */
 public enum PropagationPhase implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Events are not delivered.
      */
     NONE(0),
+    
     /**
      * Events are delivered in the capture phase. The
      *   capture phase happens before the bubble phase, runs from the toplevel down
@@ -20,12 +22,14 @@ public enum PropagationPhase implements io.github.jwharm.javagi.Enumeration {
      *   might possibly handle events before their children do.
      */
     CAPTURE(1),
+    
     /**
      * Events are delivered in the bubble phase. The bubble
      *   phase happens after the capture phase, and before the default handlers
      *   are run. This phase runs from the event widget, up to the toplevel.
      */
     BUBBLE(2),
+    
     /**
      * Events are delivered in the default widget event handlers,
      *   note that widget implementations must chain up on button, motion, touch and
@@ -36,15 +40,29 @@ public enum PropagationPhase implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkPropagationPhase";
     
     private final int value;
+    
+    /**
+     * Create a new PropagationPhase for the provided value
+     * @param numeric value the enum value
+     */
     PropagationPhase(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PropagationPhase for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PropagationPhase of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -120,8 +120,8 @@ public class SettingsSchema extends Struct {
      * @return A new, uninitialized @{link SettingsSchema}
      */
     public static SettingsSchema allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SettingsSchema newInstance = new SettingsSchema(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SettingsSchema newInstance = new SettingsSchema(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -129,14 +129,16 @@ public class SettingsSchema extends Struct {
     /**
      * Create a SettingsSchema proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SettingsSchema(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SettingsSchema(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SettingsSchema> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchema(input, ownership);
+    public static final Marshal<Addressable, SettingsSchema> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchema(input);
     
     /**
      * Get the ID of {@code schema}.
@@ -145,8 +147,7 @@ public class SettingsSchema extends Struct {
     public java.lang.String getId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,15 +163,19 @@ public class SettingsSchema extends Struct {
      * @return the {@link SettingsSchemaKey} for {@code name}
      */
     public org.gtk.gio.SettingsSchemaKey getKey(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.gio.SettingsSchemaKey.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.gio.SettingsSchemaKey.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -188,8 +193,7 @@ public class SettingsSchema extends Struct {
     public @Nullable java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,15 +206,17 @@ public class SettingsSchema extends Struct {
      * @return {@code true} if such a key exists
      */
     public boolean hasKey(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,14 +228,15 @@ public class SettingsSchema extends Struct {
      *    the children on {@code settings}, in no defined order
      */
     public PointerString listChildren() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -242,14 +249,15 @@ public class SettingsSchema extends Struct {
      *   of the keys on {@code schema}, in no defined order
      */
     public PointerString listKeys() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -259,12 +267,13 @@ public class SettingsSchema extends Struct {
     public org.gtk.gio.SettingsSchema ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -272,8 +281,7 @@ public class SettingsSchema extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_settings_schema_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_settings_schema_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,51 +290,51 @@ public class SettingsSchema extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
-            "g_settings_schema_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
-            "g_settings_schema_get_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_get_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
-            "g_settings_schema_get_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_get_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
-            "g_settings_schema_has_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_has_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
-            "g_settings_schema_list_children",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_list_children",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
-            "g_settings_schema_list_keys",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_list_keys",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
-            "g_settings_schema_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
-            "g_settings_schema_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

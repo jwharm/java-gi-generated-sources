@@ -39,26 +39,43 @@ public class BuilderScopeInterface extends Struct {
      * @return A new, uninitialized @{link BuilderScopeInterface}
      */
     public static BuilderScopeInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BuilderScopeInterface newInstance = new BuilderScopeInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BuilderScopeInterface newInstance = new BuilderScopeInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code GetTypeFromNameCallback} callback.
+     */
     @FunctionalInterface
     public interface GetTypeFromNameCallback {
+    
         org.gtk.glib.Type run(org.gtk.gtk.BuilderScope self, org.gtk.gtk.GtkBuilder builder, java.lang.String typeName);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress self, MemoryAddress builder, MemoryAddress typeName) {
-            var RESULT = run((org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gtk.BuilderScope.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(builder)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, Ownership.NONE), Marshal.addressToString.marshal(typeName, null));
-            return RESULT.getValue().longValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gtk.BuilderScope) Interop.register(self, org.gtk.gtk.BuilderScope.fromAddress).marshal(self, null), (org.gtk.gtk.GtkBuilder) Interop.register(builder, org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, null), Marshal.addressToString.marshal(typeName, null));
+                return RESULT.getValue().longValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetTypeFromNameCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetTypeFromNameCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -67,25 +84,44 @@ public class BuilderScopeInterface extends Struct {
      * @param getTypeFromName The new value of the field {@code get_type_from_name}
      */
     public void setGetTypeFromName(GetTypeFromNameCallback getTypeFromName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromName == null ? MemoryAddress.NULL : getTypeFromName.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getTypeFromName == null ? MemoryAddress.NULL : getTypeFromName.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetTypeFromFunctionCallback} callback.
+     */
     @FunctionalInterface
     public interface GetTypeFromFunctionCallback {
+    
         org.gtk.glib.Type run(org.gtk.gtk.BuilderScope self, org.gtk.gtk.GtkBuilder builder, java.lang.String functionName);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress self, MemoryAddress builder, MemoryAddress functionName) {
-            var RESULT = run((org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gtk.BuilderScope.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(builder)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, Ownership.NONE), Marshal.addressToString.marshal(functionName, null));
-            return RESULT.getValue().longValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gtk.BuilderScope) Interop.register(self, org.gtk.gtk.BuilderScope.fromAddress).marshal(self, null), (org.gtk.gtk.GtkBuilder) Interop.register(builder, org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, null), Marshal.addressToString.marshal(functionName, null));
+                return RESULT.getValue().longValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetTypeFromFunctionCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetTypeFromFunctionCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -94,25 +130,45 @@ public class BuilderScopeInterface extends Struct {
      * @param getTypeFromFunction The new value of the field {@code get_type_from_function}
      */
     public void setGetTypeFromFunction(GetTypeFromFunctionCallback getTypeFromFunction) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_function"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromFunction == null ? MemoryAddress.NULL : getTypeFromFunction.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_function"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getTypeFromFunction == null ? MemoryAddress.NULL : getTypeFromFunction.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateClosureCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateClosureCallback {
+    
         org.gtk.gobject.Closure run(org.gtk.gtk.BuilderScope self, org.gtk.gtk.GtkBuilder builder, java.lang.String functionName, org.gtk.gtk.BuilderClosureFlags flags, org.gtk.gobject.GObject object);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress builder, MemoryAddress functionName, int flags, MemoryAddress object) {
-            var RESULT = run((org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gtk.BuilderScope.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(builder)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, Ownership.NONE), Marshal.addressToString.marshal(functionName, null), new org.gtk.gtk.BuilderClosureFlags(flags), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gobject.GObject.fromAddress).marshal(object, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gtk.BuilderScope) Interop.register(self, org.gtk.gtk.BuilderScope.fromAddress).marshal(self, null), (org.gtk.gtk.GtkBuilder) Interop.register(builder, org.gtk.gtk.GtkBuilder.fromAddress).marshal(builder, null), Marshal.addressToString.marshal(functionName, null), new org.gtk.gtk.BuilderClosureFlags(flags), (org.gtk.gobject.GObject) Interop.register(object, org.gtk.gobject.GObject.fromAddress).marshal(object, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateClosureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateClosureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -121,22 +177,26 @@ public class BuilderScopeInterface extends Struct {
      * @param createClosure The new value of the field {@code create_closure}
      */
     public void setCreateClosure(CreateClosureCallback createClosure) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_closure"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createClosure == null ? MemoryAddress.NULL : createClosure.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_closure"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createClosure == null ? MemoryAddress.NULL : createClosure.toCallback()));
+        }
     }
     
     /**
      * Create a BuilderScopeInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BuilderScopeInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BuilderScopeInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuilderScopeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderScopeInterface(input, ownership);
+    public static final Marshal<Addressable, BuilderScopeInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuilderScopeInterface(input);
     
     /**
      * A {@link BuilderScopeInterface.Builder} object constructs a {@link BuilderScopeInterface} 
@@ -160,7 +220,7 @@ public class BuilderScopeInterface extends Struct {
             struct = BuilderScopeInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BuilderScopeInterface} struct.
          * @return A new instance of {@code BuilderScopeInterface} with the fields 
          *         that were set in the Builder object.
@@ -170,31 +230,39 @@ public class BuilderScopeInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setGetTypeFromName(GetTypeFromNameCallback getTypeFromName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromName == null ? MemoryAddress.NULL : getTypeFromName.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getTypeFromName == null ? MemoryAddress.NULL : getTypeFromName.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetTypeFromFunction(GetTypeFromFunctionCallback getTypeFromFunction) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_function"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getTypeFromFunction == null ? MemoryAddress.NULL : getTypeFromFunction.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_type_from_function"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getTypeFromFunction == null ? MemoryAddress.NULL : getTypeFromFunction.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateClosure(CreateClosureCallback createClosure) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_closure"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createClosure == null ? MemoryAddress.NULL : createClosure.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_closure"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createClosure == null ? MemoryAddress.NULL : createClosure.toCallback()));
+                return this;
+            }
         }
     }
 }

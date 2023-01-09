@@ -38,8 +38,8 @@ public class VideoOverlayInterface extends Struct {
      * @return A new, uninitialized @{link VideoOverlayInterface}
      */
     public static VideoOverlayInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoOverlayInterface newInstance = new VideoOverlayInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoOverlayInterface newInstance = new VideoOverlayInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class VideoOverlayInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,24 +58,41 @@ public class VideoOverlayInterface extends Struct {
      * @param iface The new value of the field {@code iface}
      */
     public void setIface(org.gtk.gobject.TypeInterface iface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ExposeCallback} callback.
+     */
     @FunctionalInterface
     public interface ExposeCallback {
+    
         void run(org.gstreamer.video.VideoOverlay overlay);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress overlay) {
-            run((org.gstreamer.video.VideoOverlay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(overlay)), org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, Ownership.NONE));
+            run((org.gstreamer.video.VideoOverlay) Interop.register(overlay, org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ExposeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ExposeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,24 +101,41 @@ public class VideoOverlayInterface extends Struct {
      * @param expose The new value of the field {@code expose}
      */
     public void setExpose(ExposeCallback expose) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("expose"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expose == null ? MemoryAddress.NULL : expose.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("expose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (expose == null ? MemoryAddress.NULL : expose.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandleEventsCallback} callback.
+     */
     @FunctionalInterface
     public interface HandleEventsCallback {
+    
         void run(org.gstreamer.video.VideoOverlay overlay, boolean handleEvents);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress overlay, int handleEvents) {
-            run((org.gstreamer.video.VideoOverlay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(overlay)), org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, Ownership.NONE), Marshal.integerToBoolean.marshal(handleEvents, null).booleanValue());
+            run((org.gstreamer.video.VideoOverlay) Interop.register(overlay, org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, null), Marshal.integerToBoolean.marshal(handleEvents, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandleEventsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandleEventsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -110,24 +144,41 @@ public class VideoOverlayInterface extends Struct {
      * @param handleEvents The new value of the field {@code handle_events}
      */
     public void setHandleEvents(HandleEventsCallback handleEvents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetRenderRectangleCallback} callback.
+     */
     @FunctionalInterface
     public interface SetRenderRectangleCallback {
+    
         void run(org.gstreamer.video.VideoOverlay overlay, int x, int y, int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress overlay, int x, int y, int width, int height) {
-            run((org.gstreamer.video.VideoOverlay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(overlay)), org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, Ownership.NONE), x, y, width, height);
+            run((org.gstreamer.video.VideoOverlay) Interop.register(overlay, org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, null), x, y, width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetRenderRectangleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetRenderRectangleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -136,24 +187,41 @@ public class VideoOverlayInterface extends Struct {
      * @param setRenderRectangle The new value of the field {@code set_render_rectangle}
      */
     public void setSetRenderRectangle(SetRenderRectangleCallback setRenderRectangle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_render_rectangle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setRenderRectangle == null ? MemoryAddress.NULL : setRenderRectangle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_render_rectangle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setRenderRectangle == null ? MemoryAddress.NULL : setRenderRectangle.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetWindowHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface SetWindowHandleCallback {
+    
         void run(org.gstreamer.video.VideoOverlay overlay, long handle);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress overlay, long handle) {
-            run((org.gstreamer.video.VideoOverlay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(overlay)), org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, Ownership.NONE), handle);
+            run((org.gstreamer.video.VideoOverlay) Interop.register(overlay, org.gstreamer.video.VideoOverlay.fromAddress).marshal(overlay, null), handle);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetWindowHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetWindowHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -162,22 +230,26 @@ public class VideoOverlayInterface extends Struct {
      * @param setWindowHandle The new value of the field {@code set_window_handle}
      */
     public void setSetWindowHandle(SetWindowHandleCallback setWindowHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+        }
     }
     
     /**
      * Create a VideoOverlayInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoOverlayInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoOverlayInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoOverlayInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayInterface(input, ownership);
+    public static final Marshal<Addressable, VideoOverlayInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayInterface(input);
     
     /**
      * A {@link VideoOverlayInterface.Builder} object constructs a {@link VideoOverlayInterface} 
@@ -201,7 +273,7 @@ public class VideoOverlayInterface extends Struct {
             struct = VideoOverlayInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoOverlayInterface} struct.
          * @return A new instance of {@code VideoOverlayInterface} with the fields 
          *         that were set in the Builder object.
@@ -216,38 +288,48 @@ public class VideoOverlayInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIface(org.gtk.gobject.TypeInterface iface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+                return this;
+            }
         }
         
         public Builder setExpose(ExposeCallback expose) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("expose"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expose == null ? MemoryAddress.NULL : expose.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("expose"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (expose == null ? MemoryAddress.NULL : expose.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandleEvents(HandleEventsCallback handleEvents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handle_events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleEvents == null ? MemoryAddress.NULL : handleEvents.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetRenderRectangle(SetRenderRectangleCallback setRenderRectangle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_render_rectangle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setRenderRectangle == null ? MemoryAddress.NULL : setRenderRectangle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_render_rectangle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setRenderRectangle == null ? MemoryAddress.NULL : setRenderRectangle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetWindowHandle(SetWindowHandleCallback setWindowHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_window_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setWindowHandle == null ? MemoryAddress.NULL : setWindowHandle.toCallback()));
+                return this;
+            }
         }
     }
 }

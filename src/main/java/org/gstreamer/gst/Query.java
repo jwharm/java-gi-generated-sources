@@ -57,8 +57,8 @@ public class Query extends Struct {
      * @return A new, uninitialized @{link Query}
      */
     public static Query allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Query newInstance = new Query(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Query newInstance = new Query(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -69,7 +69,7 @@ public class Query extends Struct {
      */
     public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -77,9 +77,11 @@ public class Query extends Struct {
      * @param miniObject The new value of the field {@code mini_object}
      */
     public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        }
     }
     
     /**
@@ -87,10 +89,12 @@ public class Query extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.gst.QueryType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.QueryType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.QueryType.of(RESULT);
+        }
     }
     
     /**
@@ -98,34 +102,37 @@ public class Query extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.gst.QueryType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
      * Create a Query proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Query(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Query(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Query> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Query(input, ownership);
+    public static final Marshal<Addressable, Query> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Query(input);
     
     private static MemoryAddress constructNewAcceptCaps(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_accept_caps.invokeExact(
-                    caps.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_accept_caps.invokeExact(caps.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying if {@code caps} are accepted.
      * <p>
@@ -135,7 +142,9 @@ public class Query extends Struct {
      */
     public static Query newAcceptCaps(org.gstreamer.gst.Caps caps) {
         var RESULT = constructNewAcceptCaps(caps);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewAllocation(org.gstreamer.gst.Caps caps, boolean needPool) {
@@ -149,7 +158,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the allocation properties.
      * <p>
@@ -160,7 +169,9 @@ public class Query extends Struct {
      */
     public static Query newAllocation(org.gstreamer.gst.Caps caps, boolean needPool) {
         var RESULT = constructNewAllocation(caps, needPool);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewBitrate() {
@@ -172,7 +183,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the bitrate.
      * <p>
@@ -181,20 +192,21 @@ public class Query extends Struct {
      */
     public static Query newBitrate() {
         var RESULT = constructNewBitrate();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewBuffering(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_buffering.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_buffering.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the buffering status of
      * a stream.
@@ -205,20 +217,21 @@ public class Query extends Struct {
      */
     public static Query newBuffering(org.gstreamer.gst.Format format) {
         var RESULT = constructNewBuffering(format);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewCaps(org.gstreamer.gst.Caps filter) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_caps.invokeExact(
-                    filter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_caps.invokeExact(filter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the caps.
      * <p>
@@ -245,20 +258,23 @@ public class Query extends Struct {
      */
     public static Query newCaps(org.gstreamer.gst.Caps filter) {
         var RESULT = constructNewCaps(filter);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewContext(java.lang.String contextType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_context.invokeExact(
-                    Marshal.stringToAddress.marshal(contextType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_query_new_context.invokeExact(Marshal.stringToAddress.marshal(contextType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the pipeline-local context.
      * <p>
@@ -268,7 +284,9 @@ public class Query extends Struct {
      */
     public static Query newContext(java.lang.String contextType) {
         var RESULT = constructNewContext(contextType);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewConvert(org.gstreamer.gst.Format srcFormat, long value, org.gstreamer.gst.Format destFormat) {
@@ -283,7 +301,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new convert query object. Use gst_query_unref()
      * when done with it. A convert query is used to ask for a conversion between
@@ -297,7 +315,9 @@ public class Query extends Struct {
      */
     public static Query newConvert(org.gstreamer.gst.Format srcFormat, long value, org.gstreamer.gst.Format destFormat) {
         var RESULT = constructNewConvert(srcFormat, value, destFormat);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewCustom(org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
@@ -312,7 +332,7 @@ public class Query extends Struct {
         structure.yieldOwnership();
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new custom query object. Use gst_query_unref()
      * when done with it.
@@ -324,7 +344,9 @@ public class Query extends Struct {
      */
     public static Query newCustom(org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
         var RESULT = constructNewCustom(type, structure);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewDrain() {
@@ -336,7 +358,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the drain state.
      * <p>
@@ -345,20 +367,21 @@ public class Query extends Struct {
      */
     public static Query newDrain() {
         var RESULT = constructNewDrain();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewDuration(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_duration.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_duration.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new stream duration query object to query in the given format.
      * Use gst_query_unref() when done with it. A duration query will give the
@@ -370,7 +393,9 @@ public class Query extends Struct {
      */
     public static Query newDuration(org.gstreamer.gst.Format format) {
         var RESULT = constructNewDuration(format);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFormats() {
@@ -382,7 +407,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying formats of
      * the stream.
@@ -392,7 +417,9 @@ public class Query extends Struct {
      */
     public static Query newFormats() {
         var RESULT = constructNewFormats();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewLatency() {
@@ -404,7 +431,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new latency query object.
      * Use gst_query_unref() when done with it. A latency query is usually performed
@@ -416,20 +443,21 @@ public class Query extends Struct {
      */
     public static Query newLatency() {
         var RESULT = constructNewLatency();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewPosition(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_position.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_position.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query stream position query object. Use gst_query_unref()
      * when done with it. A position query is used to query the current position
@@ -441,7 +469,9 @@ public class Query extends Struct {
      */
     public static Query newPosition(org.gstreamer.gst.Format format) {
         var RESULT = constructNewPosition(format);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewScheduling() {
@@ -453,7 +483,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying the scheduling properties.
      * <p>
@@ -462,20 +492,21 @@ public class Query extends Struct {
      */
     public static Query newScheduling() {
         var RESULT = constructNewScheduling();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSeeking(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_seeking.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_seeking.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query object for querying seeking properties of
      * the stream.
@@ -486,20 +517,21 @@ public class Query extends Struct {
      */
     public static Query newSeeking(org.gstreamer.gst.Format format) {
         var RESULT = constructNewSeeking(format);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSegment(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_segment.invokeExact(
-                    format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_new_segment.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new segment query object. Use gst_query_unref()
      * when done with it. A segment query is used to discover information about the
@@ -511,7 +543,9 @@ public class Query extends Struct {
      */
     public static Query newSegment(org.gstreamer.gst.Format format) {
         var RESULT = constructNewSegment(format);
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewUri() {
@@ -523,7 +557,7 @@ public class Query extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs a new query URI query object. Use gst_query_unref()
      * when done with it. An URI query is used to query the current URI
@@ -534,7 +568,9 @@ public class Query extends Struct {
      */
     public static Query newUri() {
         var RESULT = constructNewUri();
-        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Query.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -632,18 +668,20 @@ public class Query extends Struct {
      * @return {@code true} when {@code api} is in the list of metadata.
      */
     public boolean findAllocationMeta(org.gtk.glib.Type api, Out<Integer> index) {
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_query_find_allocation_meta.invokeExact(
-                    handle(),
-                    api.getValue().longValue(),
-                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment indexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_query_find_allocation_meta.invokeExact(
+                        handle(),
+                        api.getValue().longValue(),
+                        (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -654,8 +692,7 @@ public class Query extends Struct {
     public int getNAllocationMetas() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_metas.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_metas.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,8 +712,7 @@ public class Query extends Struct {
     public int getNAllocationParams() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_params.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -691,8 +727,7 @@ public class Query extends Struct {
     public int getNAllocationPools() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_pools.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_query_get_n_allocation_pools.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -707,8 +742,7 @@ public class Query extends Struct {
     public int getNBufferingRanges() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_query_get_n_buffering_ranges.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_query_get_n_buffering_ranges.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -723,8 +757,7 @@ public class Query extends Struct {
     public int getNSchedulingModes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_query_get_n_scheduling_modes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_query_get_n_scheduling_modes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -740,12 +773,11 @@ public class Query extends Struct {
     public @Nullable org.gstreamer.gst.Structure getStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_get_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_get_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -800,15 +832,17 @@ public class Query extends Struct {
      * @param caps A pointer to the caps
      */
     public void parseAcceptCaps(Out<org.gstreamer.gst.Caps> caps) {
-        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_accept_caps.invokeExact(
-                    handle(),
-                    (Addressable) capsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment capsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_accept_caps.invokeExact(
+                        handle(),
+                        (Addressable) capsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -816,15 +850,17 @@ public class Query extends Struct {
      * @param result location for the result
      */
     public void parseAcceptCapsResult(Out<Boolean> result) {
-        MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_accept_caps_result.invokeExact(
-                    handle(),
-                    (Addressable) (result == null ? MemoryAddress.NULL : (Addressable) resultPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resultPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_accept_caps_result.invokeExact(
+                        handle(),
+                        (Addressable) (result == null ? MemoryAddress.NULL : (Addressable) resultPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (result != null) result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        if (result != null) result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -838,18 +874,20 @@ public class Query extends Struct {
      * @param needPool Whether a {@link BufferPool} is needed
      */
     public void parseAllocation(@Nullable Out<org.gstreamer.gst.Caps> caps, Out<Boolean> needPool) {
-        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment needPoolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_allocation.invokeExact(
-                    handle(),
-                    (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
-                    (Addressable) (needPool == null ? MemoryAddress.NULL : (Addressable) needPoolPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment capsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment needPoolPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_allocation.invokeExact(
+                        handle(),
+                        (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
+                        (Addressable) (needPool == null ? MemoryAddress.NULL : (Addressable) needPoolPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (needPool != null) needPool.set(needPoolPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (needPool != null) needPool.set(needPoolPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -857,15 +895,17 @@ public class Query extends Struct {
      * @param nominalBitrate The resulting bitrate in bits per second
      */
     public void parseBitrate(Out<Integer> nominalBitrate) {
-        MemorySegment nominalBitratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_bitrate.invokeExact(
-                    handle(),
-                    (Addressable) (nominalBitrate == null ? MemoryAddress.NULL : (Addressable) nominalBitratePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nominalBitratePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_bitrate.invokeExact(
+                        handle(),
+                        (Addressable) (nominalBitrate == null ? MemoryAddress.NULL : (Addressable) nominalBitratePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nominalBitrate != null) nominalBitrate.set(nominalBitratePOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (nominalBitrate != null) nominalBitrate.set(nominalBitratePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -875,18 +915,20 @@ public class Query extends Struct {
      * @param percent a buffering percent, or {@code null}
      */
     public void parseBufferingPercent(Out<Boolean> busy, Out<Integer> percent) {
-        MemorySegment busyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment percentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_buffering_percent.invokeExact(
-                    handle(),
-                    (Addressable) (busy == null ? MemoryAddress.NULL : (Addressable) busyPOINTER.address()),
-                    (Addressable) (percent == null ? MemoryAddress.NULL : (Addressable) percentPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment busyPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment percentPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_buffering_percent.invokeExact(
+                        handle(),
+                        (Addressable) (busy == null ? MemoryAddress.NULL : (Addressable) busyPOINTER.address()),
+                        (Addressable) (percent == null ? MemoryAddress.NULL : (Addressable) percentPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (busy != null) busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (percent != null) percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (busy != null) busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (percent != null) percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -901,24 +943,26 @@ public class Query extends Struct {
      *     time remaining in milliseconds, or {@code null}
      */
     public void parseBufferingRange(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> start, Out<Long> stop, Out<Long> estimatedTotal) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment estimatedTotalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_buffering_range.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
-                    (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()),
-                    (Addressable) (estimatedTotal == null ? MemoryAddress.NULL : (Addressable) estimatedTotalPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment startPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment stopPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment estimatedTotalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_buffering_range.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                        (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()),
+                        (Addressable) (estimatedTotal == null ? MemoryAddress.NULL : (Addressable) estimatedTotalPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (estimatedTotal != null) estimatedTotal.set(estimatedTotalPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (estimatedTotal != null) estimatedTotal.set(estimatedTotalPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -930,24 +974,26 @@ public class Query extends Struct {
      *     milliseconds, or {@code null}
      */
     public void parseBufferingStats(@Nullable Out<org.gstreamer.gst.BufferingMode> mode, Out<Integer> avgIn, Out<Integer> avgOut, Out<Long> bufferingLeft) {
-        MemorySegment modePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment avgInPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment avgOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment bufferingLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_buffering_stats.invokeExact(
-                    handle(),
-                    (Addressable) (mode == null ? MemoryAddress.NULL : (Addressable) modePOINTER.address()),
-                    (Addressable) (avgIn == null ? MemoryAddress.NULL : (Addressable) avgInPOINTER.address()),
-                    (Addressable) (avgOut == null ? MemoryAddress.NULL : (Addressable) avgOutPOINTER.address()),
-                    (Addressable) (bufferingLeft == null ? MemoryAddress.NULL : (Addressable) bufferingLeftPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment modePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment avgInPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment avgOutPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment bufferingLeftPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_buffering_stats.invokeExact(
+                        handle(),
+                        (Addressable) (mode == null ? MemoryAddress.NULL : (Addressable) modePOINTER.address()),
+                        (Addressable) (avgIn == null ? MemoryAddress.NULL : (Addressable) avgInPOINTER.address()),
+                        (Addressable) (avgOut == null ? MemoryAddress.NULL : (Addressable) avgOutPOINTER.address()),
+                        (Addressable) (bufferingLeft == null ? MemoryAddress.NULL : (Addressable) bufferingLeftPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (mode != null) mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (avgIn != null) avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (avgOut != null) avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (bufferingLeft != null) bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (mode != null) mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (avgIn != null) avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (avgOut != null) avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (bufferingLeft != null) bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -956,15 +1002,17 @@ public class Query extends Struct {
      * @param filter A pointer to the caps filter
      */
     public void parseCaps(Out<org.gstreamer.gst.Caps> filter) {
-        MemorySegment filterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_caps.invokeExact(
-                    handle(),
-                    (Addressable) filterPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment filterPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_caps.invokeExact(
+                        handle(),
+                        (Addressable) filterPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    filter.set(org.gstreamer.gst.Caps.fromAddress.marshal(filterPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        filter.set(org.gstreamer.gst.Caps.fromAddress.marshal(filterPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -973,15 +1021,17 @@ public class Query extends Struct {
      * @param caps A pointer to the caps
      */
     public void parseCapsResult(Out<org.gstreamer.gst.Caps> caps) {
-        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_caps_result.invokeExact(
-                    handle(),
-                    (Addressable) capsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment capsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_caps_result.invokeExact(
+                        handle(),
+                        (Addressable) capsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -990,15 +1040,17 @@ public class Query extends Struct {
      * @param context A pointer to store the {@link Context}
      */
     public void parseContext(Out<org.gstreamer.gst.Context> context) {
-        MemorySegment contextPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_context.invokeExact(
-                    handle(),
-                    (Addressable) contextPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment contextPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_context.invokeExact(
+                        handle(),
+                        (Addressable) contextPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    context.set(org.gstreamer.gst.Context.fromAddress.marshal(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        context.set(org.gstreamer.gst.Context.fromAddress.marshal(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1007,17 +1059,19 @@ public class Query extends Struct {
      * @return a {@code gboolean} indicating if the parsing succeeded.
      */
     public boolean parseContextType(@Nullable Out<java.lang.String> contextType) {
-        MemorySegment contextTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_query_parse_context_type.invokeExact(
-                    handle(),
-                    (Addressable) (contextType == null ? MemoryAddress.NULL : (Addressable) contextTypePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment contextTypePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_query_parse_context_type.invokeExact(
+                        handle(),
+                        (Addressable) (contextType == null ? MemoryAddress.NULL : (Addressable) contextTypePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (contextType != null) contextType.set(Marshal.addressToString.marshal(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (contextType != null) contextType.set(Marshal.addressToString.marshal(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1032,24 +1086,26 @@ public class Query extends Struct {
      *     or {@code null}
      */
     public void parseConvert(@Nullable Out<org.gstreamer.gst.Format> srcFormat, Out<Long> srcValue, @Nullable Out<org.gstreamer.gst.Format> destFormat, Out<Long> destValue) {
-        MemorySegment srcFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment srcValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment destFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment destValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_convert.invokeExact(
-                    handle(),
-                    (Addressable) (srcFormat == null ? MemoryAddress.NULL : (Addressable) srcFormatPOINTER.address()),
-                    (Addressable) (srcValue == null ? MemoryAddress.NULL : (Addressable) srcValuePOINTER.address()),
-                    (Addressable) (destFormat == null ? MemoryAddress.NULL : (Addressable) destFormatPOINTER.address()),
-                    (Addressable) (destValue == null ? MemoryAddress.NULL : (Addressable) destValuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment srcFormatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment srcValuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment destFormatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment destValuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_convert.invokeExact(
+                        handle(),
+                        (Addressable) (srcFormat == null ? MemoryAddress.NULL : (Addressable) srcFormatPOINTER.address()),
+                        (Addressable) (srcValue == null ? MemoryAddress.NULL : (Addressable) srcValuePOINTER.address()),
+                        (Addressable) (destFormat == null ? MemoryAddress.NULL : (Addressable) destFormatPOINTER.address()),
+                        (Addressable) (destValue == null ? MemoryAddress.NULL : (Addressable) destValuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (srcFormat != null) srcFormat.set(org.gstreamer.gst.Format.of(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (srcValue != null) srcValue.set(srcValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (destFormat != null) destFormat.set(org.gstreamer.gst.Format.of(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (destValue != null) destValue.set(destValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (srcFormat != null) srcFormat.set(org.gstreamer.gst.Format.of(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (srcValue != null) srcValue.set(srcValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (destFormat != null) destFormat.set(org.gstreamer.gst.Format.of(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (destValue != null) destValue.set(destValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1060,18 +1116,20 @@ public class Query extends Struct {
      * @param duration the storage for the total duration, or {@code null}.
      */
     public void parseDuration(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> duration) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_duration.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment durationPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_duration.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1081,21 +1139,23 @@ public class Query extends Struct {
      * @param maxLatency the storage for the max latency or {@code null}
      */
     public void parseLatency(Out<Boolean> live, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
-        MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_latency.invokeExact(
-                    handle(),
-                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
-                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
-                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment livePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_latency.invokeExact(
+                        handle(),
+                        (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                        (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                        (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1103,15 +1163,17 @@ public class Query extends Struct {
      * @param nFormats the number of formats in this query.
      */
     public void parseNFormats(Out<Integer> nFormats) {
-        MemorySegment nFormatsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_n_formats.invokeExact(
-                    handle(),
-                    (Addressable) (nFormats == null ? MemoryAddress.NULL : (Addressable) nFormatsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nFormatsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_n_formats.invokeExact(
+                        handle(),
+                        (Addressable) (nFormats == null ? MemoryAddress.NULL : (Addressable) nFormatsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nFormats != null) nFormats.set(nFormatsPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (nFormats != null) nFormats.set(nFormatsPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1122,18 +1184,20 @@ public class Query extends Struct {
      * @return a {@link org.gtk.glib.Type} of the metadata API at {@code index}.
      */
     public org.gtk.glib.Type parseNthAllocationMeta(int index, @Nullable Out<org.gstreamer.gst.Structure> params) {
-        MemorySegment paramsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_query_parse_nth_allocation_meta.invokeExact(
-                    handle(),
-                    index,
-                    (Addressable) (params == null ? MemoryAddress.NULL : (Addressable) paramsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment paramsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_query_parse_nth_allocation_meta.invokeExact(
+                        handle(),
+                        index,
+                        (Addressable) (params == null ? MemoryAddress.NULL : (Addressable) paramsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (params != null) params.set(org.gstreamer.gst.Structure.fromAddress.marshal(paramsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return new org.gtk.glib.Type(RESULT);
         }
-        if (params != null) params.set(org.gstreamer.gst.Structure.fromAddress.marshal(paramsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -1144,17 +1208,19 @@ public class Query extends Struct {
      * @param params parameters for the allocator
      */
     public void parseNthAllocationParam(int index, @Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_nth_allocation_param.invokeExact(
-                    handle(),
-                    index,
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_nth_allocation_param.invokeExact(
+                        handle(),
+                        index,
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1168,25 +1234,27 @@ public class Query extends Struct {
      * @param maxBuffers the max buffers
      */
     public void parseNthAllocationPool(int index, @Nullable Out<org.gstreamer.gst.BufferPool> pool, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
-        MemorySegment poolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment maxBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_nth_allocation_pool.invokeExact(
-                    handle(),
-                    index,
-                    (Addressable) (pool == null ? MemoryAddress.NULL : (Addressable) poolPOINTER.address()),
-                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
-                    (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
-                    (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment poolPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minBuffersPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment maxBuffersPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_nth_allocation_pool.invokeExact(
+                        handle(),
+                        index,
+                        (Addressable) (pool == null ? MemoryAddress.NULL : (Addressable) poolPOINTER.address()),
+                        (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
+                        (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
+                        (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (pool != null) pool.set((org.gstreamer.gst.BufferPool) Interop.register(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.BufferPool.fromAddress).marshal(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (pool != null) pool.set((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.BufferPool.fromAddress).marshal(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1198,21 +1266,23 @@ public class Query extends Struct {
      * @return a {@code gboolean} indicating if the parsing succeeded.
      */
     public boolean parseNthBufferingRange(int index, Out<Long> start, Out<Long> stop) {
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_query_parse_nth_buffering_range.invokeExact(
-                    handle(),
-                    index,
-                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
-                    (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment stopPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_query_parse_nth_buffering_range.invokeExact(
+                        handle(),
+                        index,
+                        (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                        (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1223,16 +1293,18 @@ public class Query extends Struct {
      * @param format a pointer to store the nth format
      */
     public void parseNthFormat(int nth, @Nullable Out<org.gstreamer.gst.Format> format) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_nth_format.invokeExact(
-                    handle(),
-                    nth,
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_nth_format.invokeExact(
+                        handle(),
+                        nth,
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -1261,18 +1333,20 @@ public class Query extends Struct {
      * @param cur the storage for the current position (may be {@code null})
      */
     public void parsePosition(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> cur) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment curPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_position.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (cur == null ? MemoryAddress.NULL : (Addressable) curPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment curPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_position.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (cur == null ? MemoryAddress.NULL : (Addressable) curPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (cur != null) cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (cur != null) cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1283,24 +1357,26 @@ public class Query extends Struct {
      * @param align the suggested alignment of pull requests
      */
     public void parseScheduling(@Nullable Out<org.gstreamer.gst.SchedulingFlags> flags, Out<Integer> minsize, Out<Integer> maxsize, Out<Integer> align) {
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment alignPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_scheduling.invokeExact(
-                    handle(),
-                    (Addressable) (flags == null ? MemoryAddress.NULL : (Addressable) flagsPOINTER.address()),
-                    (Addressable) (minsize == null ? MemoryAddress.NULL : (Addressable) minsizePOINTER.address()),
-                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()),
-                    (Addressable) (align == null ? MemoryAddress.NULL : (Addressable) alignPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment flagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment maxsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment alignPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_scheduling.invokeExact(
+                        handle(),
+                        (Addressable) (flags == null ? MemoryAddress.NULL : (Addressable) flagsPOINTER.address()),
+                        (Addressable) (minsize == null ? MemoryAddress.NULL : (Addressable) minsizePOINTER.address()),
+                        (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()),
+                        (Addressable) (align == null ? MemoryAddress.NULL : (Addressable) alignPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (flags != null) flags.set(new org.gstreamer.gst.SchedulingFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (minsize != null) minsize.set(minsizePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (align != null) align.set(alignPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (flags != null) flags.set(new org.gstreamer.gst.SchedulingFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (minsize != null) minsize.set(minsizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (align != null) align.set(alignPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1314,24 +1390,26 @@ public class Query extends Struct {
      * @param segmentEnd the segment_end to set, or {@code null}
      */
     public void parseSeeking(@Nullable Out<org.gstreamer.gst.Format> format, Out<Boolean> seekable, Out<Long> segmentStart, Out<Long> segmentEnd) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment seekablePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment segmentStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment segmentEndPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_seeking.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (seekable == null ? MemoryAddress.NULL : (Addressable) seekablePOINTER.address()),
-                    (Addressable) (segmentStart == null ? MemoryAddress.NULL : (Addressable) segmentStartPOINTER.address()),
-                    (Addressable) (segmentEnd == null ? MemoryAddress.NULL : (Addressable) segmentEndPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment seekablePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment segmentStartPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment segmentEndPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_seeking.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (seekable == null ? MemoryAddress.NULL : (Addressable) seekablePOINTER.address()),
+                        (Addressable) (segmentStart == null ? MemoryAddress.NULL : (Addressable) segmentStartPOINTER.address()),
+                        (Addressable) (segmentEnd == null ? MemoryAddress.NULL : (Addressable) segmentEndPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (seekable != null) seekable.set(seekablePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (segmentStart != null) segmentStart.set(segmentStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (segmentEnd != null) segmentEnd.set(segmentEndPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (seekable != null) seekable.set(seekablePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (segmentStart != null) segmentStart.set(segmentStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (segmentEnd != null) segmentEnd.set(segmentEndPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1346,24 +1424,26 @@ public class Query extends Struct {
      * @param stopValue the storage for the stop value, or {@code null}
      */
     public void parseSegment(Out<Double> rate, @Nullable Out<org.gstreamer.gst.Format> format, Out<Long> startValue, Out<Long> stopValue) {
-        MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment startValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment stopValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_query_parse_segment.invokeExact(
-                    handle(),
-                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (startValue == null ? MemoryAddress.NULL : (Addressable) startValuePOINTER.address()),
-                    (Addressable) (stopValue == null ? MemoryAddress.NULL : (Addressable) stopValuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment ratePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment startValuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment stopValuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_query_parse_segment.invokeExact(
+                        handle(),
+                        (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (startValue == null ? MemoryAddress.NULL : (Addressable) startValuePOINTER.address()),
+                        (Addressable) (stopValue == null ? MemoryAddress.NULL : (Addressable) stopValuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (startValue != null) startValue.set(startValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (stopValue != null) stopValue.set(stopValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (startValue != null) startValue.set(startValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (stopValue != null) stopValue.set(stopValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1374,15 +1454,17 @@ public class Query extends Struct {
      *     (may be {@code null})
      */
     public void parseUri(@Nullable Out<java.lang.String> uri) {
-        MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_uri.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment uriPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_uri.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1393,15 +1475,17 @@ public class Query extends Struct {
      *     (may be {@code null})
      */
     public void parseUriRedirection(@Nullable Out<java.lang.String> uri) {
-        MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_query_parse_uri_redirection.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment uriPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_query_parse_uri_redirection.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1413,15 +1497,17 @@ public class Query extends Struct {
      *     (may be {@code null})
      */
     public void parseUriRedirectionPermanent(Out<Boolean> permanent) {
-        MemorySegment permanentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_query_parse_uri_redirection_permanent.invokeExact(
-                    handle(),
-                    (Addressable) (permanent == null ? MemoryAddress.NULL : (Addressable) permanentPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment permanentPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_query_parse_uri_redirection_permanent.invokeExact(
+                        handle(),
+                        (Addressable) (permanent == null ? MemoryAddress.NULL : (Addressable) permanentPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (permanent != null) permanent.set(permanentPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        if (permanent != null) permanent.set(permanentPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1643,13 +1729,15 @@ public class Query extends Struct {
      *     {@code GstFormat} values.
      */
     public void setFormatsv(int nFormats, org.gstreamer.gst.Format[] formats) {
-        try {
-            DowncallHandles.gst_query_set_formatsv.invokeExact(
-                    handle(),
-                    nFormats,
-                    Interop.allocateNativeArray(Enumeration.getValues(formats), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_query_set_formatsv.invokeExact(
+                        handle(),
+                        nFormats,
+                        Interop.allocateNativeArray(Enumeration.getValues(formats), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1803,12 +1891,14 @@ public class Query extends Struct {
      * @param uri the URI to set
      */
     public void setUri(java.lang.String uri) {
-        try {
-            DowncallHandles.gst_query_set_uri.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_query_set_uri.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1817,12 +1907,14 @@ public class Query extends Struct {
      * @param uri the URI to set
      */
     public void setUriRedirection(java.lang.String uri) {
-        try {
-            DowncallHandles.gst_query_set_uri_redirection.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_query_set_uri_redirection.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1851,518 +1943,517 @@ public class Query extends Struct {
     public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_query_writable_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_query_writable_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_query_new_accept_caps = Interop.downcallHandle(
-            "gst_query_new_accept_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_accept_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_allocation = Interop.downcallHandle(
-            "gst_query_new_allocation",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_allocation",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_bitrate = Interop.downcallHandle(
-            "gst_query_new_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_buffering = Interop.downcallHandle(
-            "gst_query_new_buffering",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_buffering",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_caps = Interop.downcallHandle(
-            "gst_query_new_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_context = Interop.downcallHandle(
-            "gst_query_new_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_convert = Interop.downcallHandle(
-            "gst_query_new_convert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_convert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_custom = Interop.downcallHandle(
-            "gst_query_new_custom",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_custom",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_drain = Interop.downcallHandle(
-            "gst_query_new_drain",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_drain",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_duration = Interop.downcallHandle(
-            "gst_query_new_duration",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_duration",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_formats = Interop.downcallHandle(
-            "gst_query_new_formats",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_formats",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_latency = Interop.downcallHandle(
-            "gst_query_new_latency",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_latency",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_position = Interop.downcallHandle(
-            "gst_query_new_position",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_position",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_scheduling = Interop.downcallHandle(
-            "gst_query_new_scheduling",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_scheduling",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_new_seeking = Interop.downcallHandle(
-            "gst_query_new_seeking",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_seeking",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_segment = Interop.downcallHandle(
-            "gst_query_new_segment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_new_segment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_new_uri = Interop.downcallHandle(
-            "gst_query_new_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_new_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_add_allocation_meta = Interop.downcallHandle(
-            "gst_query_add_allocation_meta",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_add_allocation_meta",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_add_allocation_param = Interop.downcallHandle(
-            "gst_query_add_allocation_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_add_allocation_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_add_allocation_pool = Interop.downcallHandle(
-            "gst_query_add_allocation_pool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_add_allocation_pool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_add_buffering_range = Interop.downcallHandle(
-            "gst_query_add_buffering_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_add_buffering_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_add_scheduling_mode = Interop.downcallHandle(
-            "gst_query_add_scheduling_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_add_scheduling_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_find_allocation_meta = Interop.downcallHandle(
-            "gst_query_find_allocation_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_find_allocation_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_n_allocation_metas = Interop.downcallHandle(
-            "gst_query_get_n_allocation_metas",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_n_allocation_metas",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_n_allocation_params = Interop.downcallHandle(
-            "gst_query_get_n_allocation_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_n_allocation_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_n_allocation_pools = Interop.downcallHandle(
-            "gst_query_get_n_allocation_pools",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_n_allocation_pools",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_n_buffering_ranges = Interop.downcallHandle(
-            "gst_query_get_n_buffering_ranges",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_n_buffering_ranges",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_n_scheduling_modes = Interop.downcallHandle(
-            "gst_query_get_n_scheduling_modes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_n_scheduling_modes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_get_structure = Interop.downcallHandle(
-            "gst_query_get_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_get_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_has_scheduling_mode = Interop.downcallHandle(
-            "gst_query_has_scheduling_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_has_scheduling_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_has_scheduling_mode_with_flags = Interop.downcallHandle(
-            "gst_query_has_scheduling_mode_with_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_has_scheduling_mode_with_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_parse_accept_caps = Interop.downcallHandle(
-            "gst_query_parse_accept_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_accept_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_accept_caps_result = Interop.downcallHandle(
-            "gst_query_parse_accept_caps_result",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_parse_accept_caps_result",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_parse_allocation = Interop.downcallHandle(
-            "gst_query_parse_allocation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_parse_allocation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_parse_bitrate = Interop.downcallHandle(
-            "gst_query_parse_bitrate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_bitrate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_buffering_percent = Interop.downcallHandle(
-            "gst_query_parse_buffering_percent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_buffering_percent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_buffering_range = Interop.downcallHandle(
-            "gst_query_parse_buffering_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_buffering_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_buffering_stats = Interop.downcallHandle(
-            "gst_query_parse_buffering_stats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_buffering_stats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_caps = Interop.downcallHandle(
-            "gst_query_parse_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_caps_result = Interop.downcallHandle(
-            "gst_query_parse_caps_result",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_caps_result",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_context = Interop.downcallHandle(
-            "gst_query_parse_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_context_type = Interop.downcallHandle(
-            "gst_query_parse_context_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_context_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_convert = Interop.downcallHandle(
-            "gst_query_parse_convert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_convert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_duration = Interop.downcallHandle(
-            "gst_query_parse_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_latency = Interop.downcallHandle(
-            "gst_query_parse_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_n_formats = Interop.downcallHandle(
-            "gst_query_parse_n_formats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_n_formats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_allocation_meta = Interop.downcallHandle(
-            "gst_query_parse_nth_allocation_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_nth_allocation_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_allocation_param = Interop.downcallHandle(
-            "gst_query_parse_nth_allocation_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_nth_allocation_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_allocation_pool = Interop.downcallHandle(
-            "gst_query_parse_nth_allocation_pool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_nth_allocation_pool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_buffering_range = Interop.downcallHandle(
-            "gst_query_parse_nth_buffering_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_nth_buffering_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_format = Interop.downcallHandle(
-            "gst_query_parse_nth_format",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_parse_nth_format",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_parse_nth_scheduling_mode = Interop.downcallHandle(
-            "gst_query_parse_nth_scheduling_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_parse_nth_scheduling_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_parse_position = Interop.downcallHandle(
-            "gst_query_parse_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_scheduling = Interop.downcallHandle(
-            "gst_query_parse_scheduling",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_scheduling",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_seeking = Interop.downcallHandle(
-            "gst_query_parse_seeking",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_seeking",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_segment = Interop.downcallHandle(
-            "gst_query_parse_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_uri = Interop.downcallHandle(
-            "gst_query_parse_uri",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_uri",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_uri_redirection = Interop.downcallHandle(
-            "gst_query_parse_uri_redirection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_parse_uri_redirection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_parse_uri_redirection_permanent = Interop.downcallHandle(
-            "gst_query_parse_uri_redirection_permanent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_parse_uri_redirection_permanent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_remove_nth_allocation_meta = Interop.downcallHandle(
-            "gst_query_remove_nth_allocation_meta",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_remove_nth_allocation_meta",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_remove_nth_allocation_param = Interop.downcallHandle(
-            "gst_query_remove_nth_allocation_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_remove_nth_allocation_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_remove_nth_allocation_pool = Interop.downcallHandle(
-            "gst_query_remove_nth_allocation_pool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_remove_nth_allocation_pool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_accept_caps_result = Interop.downcallHandle(
-            "gst_query_set_accept_caps_result",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_accept_caps_result",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_bitrate = Interop.downcallHandle(
-            "gst_query_set_bitrate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_bitrate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_buffering_percent = Interop.downcallHandle(
-            "gst_query_set_buffering_percent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_buffering_percent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_buffering_range = Interop.downcallHandle(
-            "gst_query_set_buffering_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_buffering_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_buffering_stats = Interop.downcallHandle(
-            "gst_query_set_buffering_stats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_buffering_stats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_caps_result = Interop.downcallHandle(
-            "gst_query_set_caps_result",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_caps_result",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_context = Interop.downcallHandle(
-            "gst_query_set_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_convert = Interop.downcallHandle(
-            "gst_query_set_convert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_convert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_duration = Interop.downcallHandle(
-            "gst_query_set_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_formats = Interop.downcallHandle(
-            "gst_query_set_formats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
+                "gst_query_set_formats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                true
         );
         
         private static final MethodHandle gst_query_set_formatsv = Interop.downcallHandle(
-            "gst_query_set_formatsv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_formatsv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_latency = Interop.downcallHandle(
-            "gst_query_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_nth_allocation_param = Interop.downcallHandle(
-            "gst_query_set_nth_allocation_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_nth_allocation_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_nth_allocation_pool = Interop.downcallHandle(
-            "gst_query_set_nth_allocation_pool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_nth_allocation_pool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_position = Interop.downcallHandle(
-            "gst_query_set_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_scheduling = Interop.downcallHandle(
-            "gst_query_set_scheduling",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_scheduling",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_set_seeking = Interop.downcallHandle(
-            "gst_query_set_seeking",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_seeking",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_segment = Interop.downcallHandle(
-            "gst_query_set_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_query_set_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_query_set_uri = Interop.downcallHandle(
-            "gst_query_set_uri",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_uri",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_uri_redirection = Interop.downcallHandle(
-            "gst_query_set_uri_redirection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_set_uri_redirection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_query_set_uri_redirection_permanent = Interop.downcallHandle(
-            "gst_query_set_uri_redirection_permanent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_query_set_uri_redirection_permanent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_query_writable_structure = Interop.downcallHandle(
-            "gst_query_writable_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_query_writable_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -2388,7 +2479,7 @@ public class Query extends Struct {
             struct = Query.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Query} struct.
          * @return A new instance of {@code Query} with the fields 
          *         that were set in the Builder object.
@@ -2403,10 +2494,12 @@ public class Query extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2415,10 +2508,12 @@ public class Query extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.gst.QueryType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
     }
 }

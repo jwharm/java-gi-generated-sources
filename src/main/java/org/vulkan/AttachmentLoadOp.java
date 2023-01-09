@@ -29,8 +29,8 @@ public class AttachmentLoadOp extends Struct {
      * @return A new, uninitialized @{link AttachmentLoadOp}
      */
     public static AttachmentLoadOp allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttachmentLoadOp newInstance = new AttachmentLoadOp(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttachmentLoadOp newInstance = new AttachmentLoadOp(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AttachmentLoadOp extends Struct {
     /**
      * Create a AttachmentLoadOp proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttachmentLoadOp(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttachmentLoadOp(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttachmentLoadOp> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttachmentLoadOp(input, ownership);
+    public static final Marshal<Addressable, AttachmentLoadOp> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttachmentLoadOp(input);
 }

@@ -29,8 +29,8 @@ public class SamplerReductionModeEXT extends Struct {
      * @return A new, uninitialized @{link SamplerReductionModeEXT}
      */
     public static SamplerReductionModeEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SamplerReductionModeEXT newInstance = new SamplerReductionModeEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SamplerReductionModeEXT newInstance = new SamplerReductionModeEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SamplerReductionModeEXT extends Struct {
     /**
      * Create a SamplerReductionModeEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SamplerReductionModeEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SamplerReductionModeEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SamplerReductionModeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerReductionModeEXT(input, ownership);
+    public static final Marshal<Addressable, SamplerReductionModeEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SamplerReductionModeEXT(input);
 }

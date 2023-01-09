@@ -39,37 +39,30 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a WindowTitle proxy instance for the provided memory address.
-     * <p>
-     * Because WindowTitle is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WindowTitle(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected WindowTitle(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WindowTitle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WindowTitle(input);
+    
+    private static MemoryAddress constructNew(java.lang.String title, java.lang.String subtitle) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.adw_window_title_new.invokeExact(
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        Marshal.stringToAddress.marshal(subtitle, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, WindowTitle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowTitle(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String title, java.lang.String subtitle) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_new.invokeExact(
-                    Marshal.stringToAddress.marshal(title, null),
-                    Marshal.stringToAddress.marshal(subtitle, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -78,7 +71,9 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param subtitle a subtitle
      */
     public WindowTitle(java.lang.String title, java.lang.String subtitle) {
-        super(constructNew(title, subtitle), Ownership.NONE);
+        super(constructNew(title, subtitle));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -88,8 +83,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_subtitle.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +97,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,12 +111,14 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param subtitle a subtitle
      */
     public void setSubtitle(java.lang.String subtitle) {
-        try {
-            DowncallHandles.adw_window_title_set_subtitle.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(subtitle, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_window_title_set_subtitle.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(subtitle, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -135,12 +130,14 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param title a title
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.adw_window_title_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_window_title_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -174,6 +171,9 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -225,39 +225,47 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     private static class DowncallHandles {
         
         private static final MethodHandle adw_window_title_new = Interop.downcallHandle(
-            "adw_window_title_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_window_title_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_window_title_get_subtitle = Interop.downcallHandle(
-            "adw_window_title_get_subtitle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_window_title_get_subtitle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_window_title_get_title = Interop.downcallHandle(
-            "adw_window_title_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_window_title_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_window_title_set_subtitle = Interop.downcallHandle(
-            "adw_window_title_set_subtitle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_window_title_set_subtitle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_window_title_set_title = Interop.downcallHandle(
-            "adw_window_title_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_window_title_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_window_title_get_type = Interop.downcallHandle(
-            "adw_window_title_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_window_title_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_window_title_get_type != null;
     }
 }

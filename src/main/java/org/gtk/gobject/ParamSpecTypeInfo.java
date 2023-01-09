@@ -49,8 +49,8 @@ public class ParamSpecTypeInfo extends Struct {
      * @return A new, uninitialized @{link ParamSpecTypeInfo}
      */
     public static ParamSpecTypeInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParamSpecTypeInfo newInstance = new ParamSpecTypeInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ParamSpecTypeInfo newInstance = new ParamSpecTypeInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -60,10 +60,12 @@ public class ParamSpecTypeInfo extends Struct {
      * @return The value of the field {@code instance_size}
      */
     public short getInstanceSize() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -71,9 +73,11 @@ public class ParamSpecTypeInfo extends Struct {
      * @param instanceSize The new value of the field {@code instance_size}
      */
     public void setInstanceSize(short instanceSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), instanceSize);
+        }
     }
     
     /**
@@ -81,10 +85,12 @@ public class ParamSpecTypeInfo extends Struct {
      * @return The value of the field {@code n_preallocs}
      */
     public short getNPreallocs() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -92,24 +98,41 @@ public class ParamSpecTypeInfo extends Struct {
      * @param nPreallocs The new value of the field {@code n_preallocs}
      */
     public void setNPreallocs(short nPreallocs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nPreallocs);
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code InstanceInitCallback} callback.
+     */
     @FunctionalInterface
     public interface InstanceInitCallback {
+    
         void run(org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pspec) {
-            run((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InstanceInitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InstanceInitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -118,9 +141,11 @@ public class ParamSpecTypeInfo extends Struct {
      * @param instanceInit The new value of the field {@code instance_init}
      */
     public void setInstanceInit(InstanceInitCallback instanceInit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit.toCallback()));
+        }
     }
     
     /**
@@ -128,10 +153,12 @@ public class ParamSpecTypeInfo extends Struct {
      * @return The value of the field {@code value_type}
      */
     public org.gtk.glib.Type getValueType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -139,24 +166,41 @@ public class ParamSpecTypeInfo extends Struct {
      * @param valueType The new value of the field {@code value_type}
      */
     public void setValueType(org.gtk.glib.Type valueType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FinalizeCallback} callback.
+     */
     @FunctionalInterface
     public interface FinalizeCallback {
+    
         void run(org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pspec) {
-            run((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FinalizeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FinalizeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -165,24 +209,41 @@ public class ParamSpecTypeInfo extends Struct {
      * @param finalize The new value of the field {@code finalize}
      */
     public void setFinalize(FinalizeCallback finalize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueSetDefaultCallback} callback.
+     */
     @FunctionalInterface
     public interface ValueSetDefaultCallback {
+    
         void run(org.gtk.gobject.ParamSpec pspec, org.gtk.gobject.Value value);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pspec, MemoryAddress value) {
-            run((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+            run((org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null), org.gtk.gobject.Value.fromAddress.marshal(value, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueSetDefaultCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueSetDefaultCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -191,25 +252,42 @@ public class ParamSpecTypeInfo extends Struct {
      * @param valueSetDefault The new value of the field {@code value_set_default}
      */
     public void setValueSetDefault(ValueSetDefaultCallback valueSetDefault) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueValidateCallback} callback.
+     */
     @FunctionalInterface
     public interface ValueValidateCallback {
+    
         boolean run(org.gtk.gobject.ParamSpec pspec, org.gtk.gobject.Value value);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pspec, MemoryAddress value) {
-            var RESULT = run((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+            var RESULT = run((org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null), org.gtk.gobject.Value.fromAddress.marshal(value, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueValidateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueValidateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -218,25 +296,42 @@ public class ParamSpecTypeInfo extends Struct {
      * @param valueValidate The new value of the field {@code value_validate}
      */
     public void setValueValidate(ValueValidateCallback valueValidate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValuesCmpCallback} callback.
+     */
     @FunctionalInterface
     public interface ValuesCmpCallback {
+    
         int run(org.gtk.gobject.ParamSpec pspec, org.gtk.gobject.Value value1, org.gtk.gobject.Value value2);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress pspec, MemoryAddress value1, MemoryAddress value2) {
-            var RESULT = run((org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value1, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value2, Ownership.NONE));
+            var RESULT = run((org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null), org.gtk.gobject.Value.fromAddress.marshal(value1, null), org.gtk.gobject.Value.fromAddress.marshal(value2, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValuesCmpCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValuesCmpCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -245,22 +340,26 @@ public class ParamSpecTypeInfo extends Struct {
      * @param valuesCmp The new value of the field {@code values_cmp}
      */
     public void setValuesCmp(ValuesCmpCallback valuesCmp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp.toCallback()));
+        }
     }
     
     /**
      * Create a ParamSpecTypeInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecTypeInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecTypeInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecTypeInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecTypeInfo(input, ownership);
+    public static final Marshal<Addressable, ParamSpecTypeInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecTypeInfo(input);
     
     /**
      * A {@link ParamSpecTypeInfo.Builder} object constructs a {@link ParamSpecTypeInfo} 
@@ -284,7 +383,7 @@ public class ParamSpecTypeInfo extends Struct {
             struct = ParamSpecTypeInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ParamSpecTypeInfo} struct.
          * @return A new instance of {@code ParamSpecTypeInfo} with the fields 
          *         that were set in the Builder object.
@@ -299,10 +398,12 @@ public class ParamSpecTypeInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInstanceSize(short instanceSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), instanceSize);
+                return this;
+            }
         }
         
         /**
@@ -311,17 +412,21 @@ public class ParamSpecTypeInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNPreallocs(short nPreallocs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nPreallocs);
+                return this;
+            }
         }
         
         public Builder setInstanceInit(InstanceInitCallback instanceInit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -330,38 +435,48 @@ public class ParamSpecTypeInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValueType(org.gtk.glib.Type valueType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueType == null ? MemoryAddress.NULL : valueType.getValue().longValue()));
+                return this;
+            }
         }
         
         public Builder setFinalize(FinalizeCallback finalize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finalize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finalize == null ? MemoryAddress.NULL : finalize.toCallback()));
+                return this;
+            }
         }
         
         public Builder setValueSetDefault(ValueSetDefaultCallback valueSetDefault) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_set_default"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueSetDefault == null ? MemoryAddress.NULL : valueSetDefault.toCallback()));
+                return this;
+            }
         }
         
         public Builder setValueValidate(ValueValidateCallback valueValidate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_validate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueValidate == null ? MemoryAddress.NULL : valueValidate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setValuesCmp(ValuesCmpCallback valuesCmp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("values_cmp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valuesCmp == null ? MemoryAddress.NULL : valuesCmp.toCallback()));
+                return this;
+            }
         }
     }
 }

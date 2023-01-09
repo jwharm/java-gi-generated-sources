@@ -29,8 +29,8 @@ public class MenuLinkIterPrivate extends Struct {
      * @return A new, uninitialized @{link MenuLinkIterPrivate}
      */
     public static MenuLinkIterPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MenuLinkIterPrivate newInstance = new MenuLinkIterPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MenuLinkIterPrivate newInstance = new MenuLinkIterPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MenuLinkIterPrivate extends Struct {
     /**
      * Create a MenuLinkIterPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MenuLinkIterPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MenuLinkIterPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MenuLinkIterPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuLinkIterPrivate(input, ownership);
+    public static final Marshal<Addressable, MenuLinkIterPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MenuLinkIterPrivate(input);
 }

@@ -29,8 +29,8 @@ public class IndexType extends Struct {
      * @return A new, uninitialized @{link IndexType}
      */
     public static IndexType allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IndexType newInstance = new IndexType(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IndexType newInstance = new IndexType(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class IndexType extends Struct {
     /**
      * Create a IndexType proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IndexType(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IndexType(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IndexType> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IndexType(input, ownership);
+    public static final Marshal<Addressable, IndexType> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IndexType(input);
 }

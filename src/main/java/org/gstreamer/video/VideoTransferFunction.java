@@ -10,66 +10,80 @@ import org.jetbrains.annotations.*;
  * non-linear RGB (R'G'B') and linear RGB
  */
 public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown transfer function
      */
     UNKNOWN(0),
+    
     /**
      * linear RGB, gamma 1.0 curve
      */
     GAMMA10(1),
+    
     /**
      * Gamma 1.8 curve
      */
     GAMMA18(2),
+    
     /**
      * Gamma 2.0 curve
      */
     GAMMA20(3),
+    
     /**
      * Gamma 2.2 curve
      */
     GAMMA22(4),
+    
     /**
      * Gamma 2.2 curve with a linear segment in the lower
      *                           range, also ITU-R BT470M / ITU-R BT1700 625 PAL &amp;
      *                           SECAM / ITU-R BT1361
      */
     BT709(5),
+    
     /**
      * Gamma 2.2 curve with a linear segment in the
      *                               lower range
      */
     SMPTE240M(6),
+    
     /**
      * Gamma 2.4 curve with a linear segment in the lower
      *                          range. IEC 61966-2-1 (sRGB or sYCC)
      */
     SRGB(7),
+    
     /**
      * Gamma 2.8 curve, also ITU-R BT470BG
      */
     GAMMA28(8),
+    
     /**
      * Logarithmic transfer characteristic
      *                             100:1 range
      */
     LOG100(9),
+    
     /**
      * Logarithmic transfer characteristic
      *                             316.22777:1 range (100 * sqrt(10) : 1)
      */
     LOG316(10),
+    
     /**
      * Gamma 2.2 curve with a linear segment in the lower
      *                                range. Used for BT.2020 with 12 bits per
      *                                component. Since: 1.6
      */
     BT2020_12(11),
+    
     /**
      * Gamma 2.19921875. Since: 1.8
      */
     ADOBERGB(12),
+    
     /**
      * Rec. ITU-R BT.2020-2 with 10 bits per component.
      *                                (functionally the same as the values
@@ -77,18 +91,21 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      *                                Since: 1.18
      */
     BT2020_10(13),
+    
     /**
      * SMPTE ST 2084 for 10, 12, 14, and 16-bit systems.
      *                                Known as perceptual quantization (PQ)
      *                                Since: 1.18
      */
     SMPTE2084(14),
+    
     /**
      * Association of Radio Industries and Businesses (ARIB)
      *                                   STD-B67 and Rec. ITU-R BT.2100-1 hybrid loggamma (HLG) system
      *                                   Since: 1.18
      */
     ARIB_STD_B67(15),
+    
     /**
      * also known as SMPTE170M / ITU-R BT1358 525 or 625 / ITU-R BT1700 NTSC
      */
@@ -97,15 +114,29 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "GstVideoTransferFunction";
     
     private final int value;
+    
+    /**
+     * Create a new VideoTransferFunction for the provided value
+     * @param numeric value the enum value
+     */
     VideoTransferFunction(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoTransferFunction for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoTransferFunction of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -196,8 +227,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
     public static org.gstreamer.video.VideoTransferFunction fromIso(int value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_transfer_function_from_iso.invokeExact(
-                    value);
+            RESULT = (int) DowncallHandles.gst_video_transfer_function_from_iso.invokeExact(value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,8 +271,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
     public static int toIso(org.gstreamer.video.VideoTransferFunction func) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_transfer_function_to_iso.invokeExact(
-                    func.getValue());
+            RESULT = (int) DowncallHandles.gst_video_transfer_function_to_iso.invokeExact(func.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,33 +281,33 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_transfer_function_decode = Interop.downcallHandle(
-            "gst_video_transfer_function_decode",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_video_transfer_function_decode",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_video_transfer_function_encode = Interop.downcallHandle(
-            "gst_video_transfer_function_encode",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_video_transfer_function_encode",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_video_transfer_function_from_iso = Interop.downcallHandle(
-            "gst_video_transfer_function_from_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_transfer_function_from_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_transfer_function_is_equivalent = Interop.downcallHandle(
-            "gst_video_transfer_function_is_equivalent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_transfer_function_is_equivalent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_transfer_function_to_iso = Interop.downcallHandle(
-            "gst_video_transfer_function_to_iso",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_transfer_function_to_iso",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

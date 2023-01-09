@@ -36,14 +36,16 @@ public class StyleManager extends org.gtk.gobject.GObject {
     /**
      * Create a StyleManager proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StyleManager(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StyleManager(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StyleManager> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StyleManager(input, ownership);
+    public static final Marshal<Addressable, StyleManager> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StyleManager(input);
     
     /**
      * Gets the requested application color scheme.
@@ -52,8 +54,7 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public org.gnome.adw.ColorScheme getColorScheme() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,8 +71,7 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public boolean getDark() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_dark.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_dark.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,12 +88,11 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -105,8 +104,7 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public boolean getHighContrast() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_high_contrast.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_high_contrast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +122,7 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public boolean getSystemSupportsColorSchemes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_style_manager_get_system_supports_color_schemes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +203,7 @@ public class StyleManager extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.StyleManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.StyleManager) Interop.register(RESULT, org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -222,12 +219,11 @@ public class StyleManager extends org.gtk.gobject.GObject {
     public static org.gnome.adw.StyleManager getForDisplay(org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(
-                    display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.StyleManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.StyleManager) Interop.register(RESULT, org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -246,6 +242,9 @@ public class StyleManager extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -369,57 +368,65 @@ public class StyleManager extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
-            "adw_style_manager_get_color_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_color_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
-            "adw_style_manager_get_dark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_dark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
-            "adw_style_manager_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
-            "adw_style_manager_get_high_contrast",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_high_contrast",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
-            "adw_style_manager_get_system_supports_color_schemes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_system_supports_color_schemes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
-            "adw_style_manager_set_color_scheme",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_style_manager_set_color_scheme",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_type = Interop.downcallHandle(
-            "adw_style_manager_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_style_manager_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
-            "adw_style_manager_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
-            "adw_style_manager_get_for_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_style_manager_get_for_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_style_manager_get_type != null;
     }
 }

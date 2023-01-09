@@ -29,8 +29,8 @@ public class BufferMemoryRequirementsInfo2 extends Struct {
      * @return A new, uninitialized @{link BufferMemoryRequirementsInfo2}
      */
     public static BufferMemoryRequirementsInfo2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferMemoryRequirementsInfo2 newInstance = new BufferMemoryRequirementsInfo2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferMemoryRequirementsInfo2 newInstance = new BufferMemoryRequirementsInfo2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BufferMemoryRequirementsInfo2 extends Struct {
     /**
      * Create a BufferMemoryRequirementsInfo2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferMemoryRequirementsInfo2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferMemoryRequirementsInfo2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferMemoryRequirementsInfo2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferMemoryRequirementsInfo2(input, ownership);
+    public static final Marshal<Addressable, BufferMemoryRequirementsInfo2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferMemoryRequirementsInfo2(input);
 }

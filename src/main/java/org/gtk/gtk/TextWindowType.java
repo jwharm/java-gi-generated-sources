@@ -9,26 +9,32 @@ import org.jetbrains.annotations.*;
  * Used to reference the parts of {@code GtkTextView}.
  */
 public enum TextWindowType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Window that floats over scrolling areas.
      */
     WIDGET(1),
+    
     /**
      * Scrollable text window.
      */
     TEXT(2),
+    
     /**
      * Left side border window.
      */
     LEFT(3),
+    
     /**
      * Right side border window.
      */
     RIGHT(4),
+    
     /**
      * Top border window.
      */
     TOP(5),
+    
     /**
      * Bottom border window.
      */
@@ -37,15 +43,29 @@ public enum TextWindowType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkTextWindowType";
     
     private final int value;
+    
+    /**
+     * Create a new TextWindowType for the provided value
+     * @param numeric value the enum value
+     */
     TextWindowType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TextWindowType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TextWindowType of(int value) {
         return switch (value) {
             case 1 -> WIDGET;

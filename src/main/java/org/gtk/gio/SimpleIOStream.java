@@ -36,14 +36,16 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
     /**
      * Create a SimpleIOStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SimpleIOStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SimpleIOStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SimpleIOStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleIOStream(input, ownership);
+    public static final Marshal<Addressable, SimpleIOStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SimpleIOStream(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.InputStream inputStream, org.gtk.gio.OutputStream outputStream) {
         MemoryAddress RESULT;
@@ -64,7 +66,8 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * @param outputStream a {@link OutputStream}.
      */
     public SimpleIOStream(org.gtk.gio.InputStream inputStream, org.gtk.gio.OutputStream outputStream) {
-        super(constructNew(inputStream, outputStream), Ownership.FULL);
+        super(constructNew(inputStream, outputStream));
+        this.takeOwnership();
     }
     
     /**
@@ -97,6 +100,9 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      */
     public static class Builder extends org.gtk.gio.IOStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -133,15 +139,23 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
-            "g_simple_io_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_io_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_io_stream_get_type = Interop.downcallHandle(
-            "g_simple_io_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_simple_io_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_simple_io_stream_get_type != null;
     }
 }

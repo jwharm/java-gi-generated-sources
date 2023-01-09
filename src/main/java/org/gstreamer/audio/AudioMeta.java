@@ -42,8 +42,8 @@ public class AudioMeta extends Struct {
      * @return A new, uninitialized @{link AudioMeta}
      */
     public static AudioMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioMeta newInstance = new AudioMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioMeta newInstance = new AudioMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,7 +54,7 @@ public class AudioMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -62,9 +62,11 @@ public class AudioMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -73,7 +75,7 @@ public class AudioMeta extends Struct {
      */
     public org.gstreamer.audio.AudioInfo getInfo_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -81,9 +83,11 @@ public class AudioMeta extends Struct {
      * @param info The new value of the field {@code info}
      */
     public void setInfo(org.gstreamer.audio.AudioInfo info) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        }
     }
     
     /**
@@ -91,10 +95,12 @@ public class AudioMeta extends Struct {
      * @return The value of the field {@code samples}
      */
     public long getSamples() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("samples"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("samples"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -102,9 +108,11 @@ public class AudioMeta extends Struct {
      * @param samples The new value of the field {@code samples}
      */
     public void setSamples(long samples) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("samples"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), samples);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("samples"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), samples);
+        }
     }
     
     /**
@@ -112,10 +120,12 @@ public class AudioMeta extends Struct {
      * @return The value of the field {@code offsets}
      */
     public PointerLong getOffsets() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerLong(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerLong(RESULT);
+        }
     }
     
     /**
@@ -123,22 +133,26 @@ public class AudioMeta extends Struct {
      * @param offsets The new value of the field {@code offsets}
      */
     public void setOffsets(PointerLong offsets) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
+        }
     }
     
     /**
      * Create a AudioMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioMeta(input, ownership);
+    public static final Marshal<Addressable, AudioMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -147,15 +161,15 @@ public class AudioMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_meta_get_info = Interop.downcallHandle(
-            "gst_audio_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -181,7 +195,7 @@ public class AudioMeta extends Struct {
             struct = AudioMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioMeta} struct.
          * @return A new instance of {@code AudioMeta} with the fields 
          *         that were set in the Builder object.
@@ -196,10 +210,12 @@ public class AudioMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -208,10 +224,12 @@ public class AudioMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfo(org.gstreamer.audio.AudioInfo info) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+                return this;
+            }
         }
         
         /**
@@ -220,10 +238,12 @@ public class AudioMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSamples(long samples) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("samples"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), samples);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("samples"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), samples);
+                return this;
+            }
         }
         
         /**
@@ -234,24 +254,30 @@ public class AudioMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffsets(PointerLong offsets) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
+                return this;
+            }
         }
         
         public Builder setPrivOffsetsArr(long[] privOffsetsArr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv_offsets_arr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privOffsetsArr == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privOffsetsArr, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv_offsets_arr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (privOffsetsArr == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privOffsetsArr, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

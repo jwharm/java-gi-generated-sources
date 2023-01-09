@@ -32,8 +32,8 @@ public class BuildableParseContext extends Struct {
      * @return A new, uninitialized @{link BuildableParseContext}
      */
     public static BuildableParseContext allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BuildableParseContext newInstance = new BuildableParseContext(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BuildableParseContext newInstance = new BuildableParseContext(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class BuildableParseContext extends Struct {
     /**
      * Create a BuildableParseContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BuildableParseContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BuildableParseContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuildableParseContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuildableParseContext(input, ownership);
+    public static final Marshal<Addressable, BuildableParseContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuildableParseContext(input);
     
     /**
      * Retrieves the name of the currently open element.
@@ -61,8 +63,7 @@ public class BuildableParseContext extends Struct {
     public @Nullable java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,14 +85,15 @@ public class BuildableParseContext extends Struct {
      * @return the element stack, which must not be modified
      */
     public PointerString getElementStack() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -103,18 +105,20 @@ public class BuildableParseContext extends Struct {
      * @param charNumber return location for a char-on-line number
      */
     public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
-        MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(
-                    handle(),
-                    (Addressable) (lineNumber == null ? MemoryAddress.NULL : (Addressable) lineNumberPOINTER.address()),
-                    (Addressable) (charNumber == null ? MemoryAddress.NULL : (Addressable) charNumberPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lineNumberPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment charNumberPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(
+                        handle(),
+                        (Addressable) (lineNumber == null ? MemoryAddress.NULL : (Addressable) lineNumberPOINTER.address()),
+                        (Addressable) (charNumber == null ? MemoryAddress.NULL : (Addressable) charNumberPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (lineNumber != null) lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (charNumber != null) charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (lineNumber != null) lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (charNumber != null) charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -136,8 +140,7 @@ public class BuildableParseContext extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_pop.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,33 +193,33 @@ public class BuildableParseContext extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_buildable_parse_context_get_element = Interop.downcallHandle(
-            "gtk_buildable_parse_context_get_element",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_parse_context_get_element",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_buildable_parse_context_get_element_stack = Interop.downcallHandle(
-            "gtk_buildable_parse_context_get_element_stack",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_parse_context_get_element_stack",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_buildable_parse_context_get_position = Interop.downcallHandle(
-            "gtk_buildable_parse_context_get_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_parse_context_get_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_buildable_parse_context_pop = Interop.downcallHandle(
-            "gtk_buildable_parse_context_pop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_parse_context_pop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_buildable_parse_context_push = Interop.downcallHandle(
-            "gtk_buildable_parse_context_push",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_parse_context_push",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

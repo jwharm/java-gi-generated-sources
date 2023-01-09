@@ -37,8 +37,8 @@ public class Mpeg2Slice extends Struct {
      * @return A new, uninitialized @{link Mpeg2Slice}
      */
     public static Mpeg2Slice allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Mpeg2Slice newInstance = new Mpeg2Slice(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Mpeg2Slice newInstance = new Mpeg2Slice(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class Mpeg2Slice extends Struct {
     /**
      * Create a Mpeg2Slice proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Mpeg2Slice(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Mpeg2Slice(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Mpeg2Slice> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2Slice(input, ownership);
+    public static final Marshal<Addressable, Mpeg2Slice> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2Slice(input);
     
     /**
      * A {@link Mpeg2Slice.Builder} object constructs a {@link Mpeg2Slice} 
@@ -77,7 +79,7 @@ public class Mpeg2Slice extends Struct {
             struct = Mpeg2Slice.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Mpeg2Slice} struct.
          * @return A new instance of {@code Mpeg2Slice} with the fields 
          *         that were set in the Builder object.
@@ -87,52 +89,66 @@ public class Mpeg2Slice extends Struct {
         }
         
         public Builder setQuantMatrix(java.lang.foreign.MemoryAddress quantMatrix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("quant_matrix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quantMatrix == null ? MemoryAddress.NULL : (Addressable) quantMatrix));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("quant_matrix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quantMatrix == null ? MemoryAddress.NULL : (Addressable) quantMatrix));
+                return this;
+            }
         }
         
         public Builder setPicHdr(java.lang.foreign.MemoryAddress picHdr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_hdr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picHdr == null ? MemoryAddress.NULL : (Addressable) picHdr));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_hdr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picHdr == null ? MemoryAddress.NULL : (Addressable) picHdr));
+                return this;
+            }
         }
         
         public Builder setPicExt(java.lang.foreign.MemoryAddress picExt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_ext"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picExt == null ? MemoryAddress.NULL : (Addressable) picExt));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_ext"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picExt == null ? MemoryAddress.NULL : (Addressable) picExt));
+                return this;
+            }
         }
         
         public Builder setHeader(java.lang.foreign.MemoryAddress header) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("header"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("header"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
+                return this;
+            }
         }
         
         public Builder setPacket(java.lang.foreign.MemoryAddress packet) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("packet"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packet == null ? MemoryAddress.NULL : (Addressable) packet));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("packet"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (packet == null ? MemoryAddress.NULL : (Addressable) packet));
+                return this;
+            }
         }
         
         public Builder setScOffset(int scOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sc_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sc_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scOffset);
+                return this;
+            }
         }
         
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
     }
 }

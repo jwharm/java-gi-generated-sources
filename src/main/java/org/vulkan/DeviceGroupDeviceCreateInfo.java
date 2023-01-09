@@ -29,8 +29,8 @@ public class DeviceGroupDeviceCreateInfo extends Struct {
      * @return A new, uninitialized @{link DeviceGroupDeviceCreateInfo}
      */
     public static DeviceGroupDeviceCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceGroupDeviceCreateInfo newInstance = new DeviceGroupDeviceCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceGroupDeviceCreateInfo newInstance = new DeviceGroupDeviceCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceGroupDeviceCreateInfo extends Struct {
     /**
      * Create a DeviceGroupDeviceCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceGroupDeviceCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceGroupDeviceCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceGroupDeviceCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupDeviceCreateInfo(input, ownership);
+    public static final Marshal<Addressable, DeviceGroupDeviceCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupDeviceCreateInfo(input);
 }

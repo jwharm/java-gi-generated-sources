@@ -40,8 +40,8 @@ public class TaskPoolClass extends Struct {
      * @return A new, uninitialized @{link TaskPoolClass}
      */
     public static TaskPoolClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TaskPoolClass newInstance = new TaskPoolClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TaskPoolClass newInstance = new TaskPoolClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class TaskPoolClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,24 +60,41 @@ public class TaskPoolClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PrepareCallback} callback.
+     */
     @FunctionalInterface
     public interface PrepareCallback {
+    
         void run(org.gstreamer.gst.TaskPool pool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool) {
-            run((org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, Ownership.NONE));
+            run((org.gstreamer.gst.TaskPool) Interop.register(pool, org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PrepareCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PrepareCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,24 +103,41 @@ public class TaskPoolClass extends Struct {
      * @param prepare The new value of the field {@code prepare}
      */
     public void setPrepare(PrepareCallback prepare) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CleanupCallback} callback.
+     */
     @FunctionalInterface
     public interface CleanupCallback {
+    
         void run(org.gstreamer.gst.TaskPool pool);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool) {
-            run((org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, Ownership.NONE));
+            run((org.gstreamer.gst.TaskPool) Interop.register(pool, org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CleanupCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CleanupCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,25 +146,42 @@ public class TaskPoolClass extends Struct {
      * @param cleanup The new value of the field {@code cleanup}
      */
     public void setCleanup(CleanupCallback cleanup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cleanup"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cleanup == null ? MemoryAddress.NULL : cleanup.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cleanup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cleanup == null ? MemoryAddress.NULL : cleanup.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PushCallback} callback.
+     */
     @FunctionalInterface
     public interface PushCallback {
+    
         @Nullable java.lang.foreign.MemoryAddress run(org.gstreamer.gst.TaskPool pool, org.gstreamer.gst.TaskPoolFunction func);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress pool, MemoryAddress func, MemoryAddress userData) {
-            var RESULT = run((org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, Ownership.NONE), null /* Unsupported parameter type */);
+            var RESULT = run((org.gstreamer.gst.TaskPool) Interop.register(pool, org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, null), null /* Unsupported parameter type */);
             return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PushCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,24 +190,41 @@ public class TaskPoolClass extends Struct {
      * @param push The new value of the field {@code push}
      */
     public void setPush(PushCallback push) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("push"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (push == null ? MemoryAddress.NULL : push.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("push"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (push == null ? MemoryAddress.NULL : push.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code JoinCallback} callback.
+     */
     @FunctionalInterface
     public interface JoinCallback {
+    
         void run(org.gstreamer.gst.TaskPool pool, @Nullable java.lang.foreign.MemoryAddress id);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool, MemoryAddress id) {
-            run((org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, Ownership.NONE), id);
+            run((org.gstreamer.gst.TaskPool) Interop.register(pool, org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, null), id);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(JoinCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), JoinCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -165,24 +233,41 @@ public class TaskPoolClass extends Struct {
      * @param join The new value of the field {@code join}
      */
     public void setJoin(JoinCallback join) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("join"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (join == null ? MemoryAddress.NULL : join.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("join"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (join == null ? MemoryAddress.NULL : join.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DisposeHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface DisposeHandleCallback {
+    
         void run(org.gstreamer.gst.TaskPool pool, @Nullable java.lang.foreign.MemoryAddress id);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pool, MemoryAddress id) {
-            run((org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pool)), org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, Ownership.NONE), id);
+            run((org.gstreamer.gst.TaskPool) Interop.register(pool, org.gstreamer.gst.TaskPool.fromAddress).marshal(pool, null), id);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DisposeHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DisposeHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -191,22 +276,26 @@ public class TaskPoolClass extends Struct {
      * @param disposeHandle The new value of the field {@code dispose_handle}
      */
     public void setDisposeHandle(DisposeHandleCallback disposeHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispose_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (disposeHandle == null ? MemoryAddress.NULL : disposeHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispose_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (disposeHandle == null ? MemoryAddress.NULL : disposeHandle.toCallback()));
+        }
     }
     
     /**
      * Create a TaskPoolClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TaskPoolClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TaskPoolClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TaskPoolClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TaskPoolClass(input, ownership);
+    public static final Marshal<Addressable, TaskPoolClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TaskPoolClass(input);
     
     /**
      * A {@link TaskPoolClass.Builder} object constructs a {@link TaskPoolClass} 
@@ -230,7 +319,7 @@ public class TaskPoolClass extends Struct {
             struct = TaskPoolClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TaskPoolClass} struct.
          * @return A new instance of {@code TaskPoolClass} with the fields 
          *         that were set in the Builder object.
@@ -245,52 +334,66 @@ public class TaskPoolClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPrepare(PrepareCallback prepare) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prepare"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prepare == null ? MemoryAddress.NULL : prepare.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCleanup(CleanupCallback cleanup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cleanup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cleanup == null ? MemoryAddress.NULL : cleanup.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cleanup"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cleanup == null ? MemoryAddress.NULL : cleanup.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPush(PushCallback push) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("push"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (push == null ? MemoryAddress.NULL : push.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("push"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (push == null ? MemoryAddress.NULL : push.toCallback()));
+                return this;
+            }
         }
         
         public Builder setJoin(JoinCallback join) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("join"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (join == null ? MemoryAddress.NULL : join.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("join"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (join == null ? MemoryAddress.NULL : join.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDisposeHandle(DisposeHandleCallback disposeHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dispose_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (disposeHandle == null ? MemoryAddress.NULL : disposeHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dispose_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (disposeHandle == null ? MemoryAddress.NULL : disposeHandle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

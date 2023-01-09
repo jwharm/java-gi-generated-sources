@@ -40,8 +40,8 @@ public class GlyphPositionT extends Struct {
      * @return A new, uninitialized @{link GlyphPositionT}
      */
     public static GlyphPositionT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphPositionT newInstance = new GlyphPositionT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GlyphPositionT newInstance = new GlyphPositionT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class GlyphPositionT extends Struct {
      * @return The value of the field {@code x_advance}
      */
     public org.harfbuzz.PositionT getXAdvance() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class GlyphPositionT extends Struct {
      * @param xAdvance The new value of the field {@code x_advance}
      */
     public void setXAdvance(org.harfbuzz.PositionT xAdvance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xAdvance == null ? MemoryAddress.NULL : xAdvance.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (xAdvance == null ? MemoryAddress.NULL : xAdvance.getValue().intValue()));
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class GlyphPositionT extends Struct {
      * @return The value of the field {@code y_advance}
      */
     public org.harfbuzz.PositionT getYAdvance() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class GlyphPositionT extends Struct {
      * @param yAdvance The new value of the field {@code y_advance}
      */
     public void setYAdvance(org.harfbuzz.PositionT yAdvance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yAdvance == null ? MemoryAddress.NULL : yAdvance.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (yAdvance == null ? MemoryAddress.NULL : yAdvance.getValue().intValue()));
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class GlyphPositionT extends Struct {
      * @return The value of the field {@code x_offset}
      */
     public org.harfbuzz.PositionT getXOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class GlyphPositionT extends Struct {
      * @param xOffset The new value of the field {@code x_offset}
      */
     public void setXOffset(org.harfbuzz.PositionT xOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class GlyphPositionT extends Struct {
      * @return The value of the field {@code y_offset}
      */
     public org.harfbuzz.PositionT getYOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -125,22 +139,26 @@ public class GlyphPositionT extends Struct {
      * @param yOffset The new value of the field {@code y_offset}
      */
     public void setYOffset(org.harfbuzz.PositionT yOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
+        }
     }
     
     /**
      * Create a GlyphPositionT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GlyphPositionT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GlyphPositionT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GlyphPositionT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphPositionT(input, ownership);
+    public static final Marshal<Addressable, GlyphPositionT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GlyphPositionT(input);
     
     /**
      * A {@link GlyphPositionT.Builder} object constructs a {@link GlyphPositionT} 
@@ -164,7 +182,7 @@ public class GlyphPositionT extends Struct {
             struct = GlyphPositionT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GlyphPositionT} struct.
          * @return A new instance of {@code GlyphPositionT} with the fields 
          *         that were set in the Builder object.
@@ -180,10 +198,12 @@ public class GlyphPositionT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setXAdvance(org.harfbuzz.PositionT xAdvance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xAdvance == null ? MemoryAddress.NULL : xAdvance.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x_advance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (xAdvance == null ? MemoryAddress.NULL : xAdvance.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -193,10 +213,12 @@ public class GlyphPositionT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYAdvance(org.harfbuzz.PositionT yAdvance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yAdvance == null ? MemoryAddress.NULL : yAdvance.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y_advance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (yAdvance == null ? MemoryAddress.NULL : yAdvance.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -206,10 +228,12 @@ public class GlyphPositionT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setXOffset(org.harfbuzz.PositionT xOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -219,17 +243,21 @@ public class GlyphPositionT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYOffset(org.harfbuzz.PositionT yOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setVar(org.harfbuzz.VarIntT var) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("var"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var == null ? MemoryAddress.NULL : var.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("var"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (var == null ? MemoryAddress.NULL : var.handle()));
+                return this;
+            }
         }
     }
 }

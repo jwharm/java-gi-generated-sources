@@ -18,6 +18,9 @@ public class DriveStartFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DriveStartFlags NONE = new DriveStartFlags(0);
     
+    /**
+     * Create a new DriveStartFlags with the provided value
+     */
     public DriveStartFlags(int value) {
         super(value);
     }

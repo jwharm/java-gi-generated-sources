@@ -32,129 +32,160 @@ import org.jetbrains.annotations.*;
  * channel.
  */
 public enum AudioChannelPosition implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * used for position-less channels, e.g.
      *     from a sound card that records 1024 channels; mutually exclusive with
      *     any other channel position
      */
     NONE(-3),
+    
     /**
      * Mono without direction;
      *     can only be used with 1 channel
      */
     MONO(-2),
+    
     /**
      * invalid position
      */
     INVALID(-1),
+    
     /**
      * Front left
      */
     FRONT_LEFT(0),
+    
     /**
      * Front right
      */
     FRONT_RIGHT(1),
+    
     /**
      * Front center
      */
     FRONT_CENTER(2),
+    
     /**
      * Low-frequency effects 1 (subwoofer)
      */
     LFE1(3),
+    
     /**
      * Rear left
      */
     REAR_LEFT(4),
+    
     /**
      * Rear right
      */
     REAR_RIGHT(5),
+    
     /**
      * Front left of center
      */
     FRONT_LEFT_OF_CENTER(6),
+    
     /**
      * Front right of center
      */
     FRONT_RIGHT_OF_CENTER(7),
+    
     /**
      * Rear center
      */
     REAR_CENTER(8),
+    
     /**
      * Low-frequency effects 2 (subwoofer)
      */
     LFE2(9),
+    
     /**
      * Side left
      */
     SIDE_LEFT(10),
+    
     /**
      * Side right
      */
     SIDE_RIGHT(11),
+    
     /**
      * Top front left
      */
     TOP_FRONT_LEFT(12),
+    
     /**
      * Top front right
      */
     TOP_FRONT_RIGHT(13),
+    
     /**
      * Top front center
      */
     TOP_FRONT_CENTER(14),
+    
     /**
      * Top center
      */
     TOP_CENTER(15),
+    
     /**
      * Top rear left
      */
     TOP_REAR_LEFT(16),
+    
     /**
      * Top rear right
      */
     TOP_REAR_RIGHT(17),
+    
     /**
      * Top side right
      */
     TOP_SIDE_LEFT(18),
+    
     /**
      * Top rear right
      */
     TOP_SIDE_RIGHT(19),
+    
     /**
      * Top rear center
      */
     TOP_REAR_CENTER(20),
+    
     /**
      * Bottom front center
      */
     BOTTOM_FRONT_CENTER(21),
+    
     /**
      * Bottom front left
      */
     BOTTOM_FRONT_LEFT(22),
+    
     /**
      * Bottom front right
      */
     BOTTOM_FRONT_RIGHT(23),
+    
     /**
      * Wide left (between front left and side left)
      */
     WIDE_LEFT(24),
+    
     /**
      * Wide right (between front right and side right)
      */
     WIDE_RIGHT(25),
+    
     /**
      * Surround left (between rear left and side left)
      */
     SURROUND_LEFT(26),
+    
     /**
      * Surround right (between rear right and side right)
      */
@@ -163,15 +194,29 @@ public enum AudioChannelPosition implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GstAudioChannelPosition";
     
     private final int value;
+    
+    /**
+     * Create a new AudioChannelPosition for the provided value
+     * @param numeric value the enum value
+     */
     AudioChannelPosition(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AudioChannelPosition for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AudioChannelPosition of(int value) {
         return switch (value) {
             case -3 -> NONE;

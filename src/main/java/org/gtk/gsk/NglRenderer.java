@@ -25,14 +25,16 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
     /**
      * Create a NglRenderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NglRenderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NglRenderer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NglRenderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NglRenderer(input, ownership);
+    public static final Marshal<Addressable, NglRenderer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NglRenderer(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -50,7 +52,8 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
      */
     @Deprecated
     public NglRenderer() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -83,6 +86,9 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
      */
     public static class Builder extends org.gtk.gsk.Renderer.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -107,15 +113,23 @@ public class NglRenderer extends org.gtk.gsk.Renderer {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_ngl_renderer_new = Interop.downcallHandle(
-            "gsk_ngl_renderer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_ngl_renderer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_ngl_renderer_get_type = Interop.downcallHandle(
-            "gsk_ngl_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_ngl_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_ngl_renderer_get_type != null;
     }
 }

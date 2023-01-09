@@ -41,8 +41,8 @@ public class TimeCoord extends Struct {
      * @return A new, uninitialized @{link TimeCoord}
      */
     public static TimeCoord allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimeCoord newInstance = new TimeCoord(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimeCoord newInstance = new TimeCoord(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class TimeCoord extends Struct {
      * @return The value of the field {@code time}
      */
     public int getTime() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class TimeCoord extends Struct {
      * @param time The new value of the field {@code time}
      */
     public void setTime(int time) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), time);
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class TimeCoord extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gtk.gdk.AxisFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gdk.AxisFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.gdk.AxisFlags(RESULT);
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class TimeCoord extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gtk.gdk.AxisFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class TimeCoord extends Struct {
      * @return The value of the field {@code axes}
      */
     public double[] getAxes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("axes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 12, Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("axes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 12, SCOPE).toArray(Interop.valueLayout.C_DOUBLE);
+        }
     }
     
     /**
@@ -105,22 +115,26 @@ public class TimeCoord extends Struct {
      * @param axes The new value of the field {@code axes}
      */
     public void setAxes(double[] axes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("axes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (axes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(axes, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("axes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (axes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(axes, false, SCOPE)));
+        }
     }
     
     /**
      * Create a TimeCoord proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimeCoord(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimeCoord(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimeCoord> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimeCoord(input, ownership);
+    public static final Marshal<Addressable, TimeCoord> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimeCoord(input);
     
     /**
      * A {@link TimeCoord.Builder} object constructs a {@link TimeCoord} 
@@ -144,7 +158,7 @@ public class TimeCoord extends Struct {
             struct = TimeCoord.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TimeCoord} struct.
          * @return A new instance of {@code TimeCoord} with the fields 
          *         that were set in the Builder object.
@@ -159,10 +173,12 @@ public class TimeCoord extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTime(int time) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), time);
+                return this;
+            }
         }
         
         /**
@@ -171,10 +187,12 @@ public class TimeCoord extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gtk.gdk.AxisFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -183,10 +201,12 @@ public class TimeCoord extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAxes(double[] axes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("axes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (axes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(axes, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("axes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (axes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(axes, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

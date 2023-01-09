@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TypeCValue extends ObjectBase {
+public class TypeCValue extends Struct {
     
     static {
         GObjects.javagi$ensureInitialized();
@@ -25,13 +25,14 @@ public class TypeCValue extends ObjectBase {
     /**
      * Create a TypeCValue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeCValue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeCValue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeCValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeCValue(input, ownership);
+    public static final Marshal<Addressable, TypeCValue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeCValue(input);
 }
-

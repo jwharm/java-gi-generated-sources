@@ -10,26 +10,31 @@ import org.jetbrains.annotations.*;
  * @version 1.0
  */
 public enum ColorScheme implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Inherit the parent color-scheme. When set on the
      *   {@code AdwStyleManager} returned by {@code StyleManager.StyleManager#getDefault}, it's
      *   equivalent to {@code ADW_COLOR_SCHEME_PREFER_LIGHT}.
      */
     DEFAULT(0),
+    
     /**
      * Always use light appearance.
      */
     FORCE_LIGHT(1),
+    
     /**
      * Use light appearance unless the system
      *   prefers dark colors.
      */
     PREFER_LIGHT(2),
+    
     /**
      * Use dark appearance unless the system prefers
      *   prefers light colors.
      */
     PREFER_DARK(3),
+    
     /**
      * Always use dark appearance.
      */
@@ -38,15 +43,29 @@ public enum ColorScheme implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "AdwColorScheme";
     
     private final int value;
+    
+    /**
+     * Create a new ColorScheme for the provided value
+     * @param numeric value the enum value
+     */
     ColorScheme(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ColorScheme for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ColorScheme of(int value) {
         return switch (value) {
             case 0 -> DEFAULT;

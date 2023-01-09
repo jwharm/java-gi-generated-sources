@@ -29,8 +29,8 @@ public class DescriptorBindingFlagsEXT extends Struct {
      * @return A new, uninitialized @{link DescriptorBindingFlagsEXT}
      */
     public static DescriptorBindingFlagsEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DescriptorBindingFlagsEXT newInstance = new DescriptorBindingFlagsEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DescriptorBindingFlagsEXT newInstance = new DescriptorBindingFlagsEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DescriptorBindingFlagsEXT extends Struct {
     /**
      * Create a DescriptorBindingFlagsEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DescriptorBindingFlagsEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DescriptorBindingFlagsEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DescriptorBindingFlagsEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorBindingFlagsEXT(input, ownership);
+    public static final Marshal<Addressable, DescriptorBindingFlagsEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorBindingFlagsEXT(input);
 }

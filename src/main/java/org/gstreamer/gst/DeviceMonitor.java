@@ -92,26 +92,17 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a DeviceMonitor proxy instance for the provided memory address.
-     * <p>
-     * Because DeviceMonitor is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceMonitor(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected DeviceMonitor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceMonitor(input, ownership);
+    public static final Marshal<Addressable, DeviceMonitor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceMonitor(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -127,7 +118,8 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
      * Create a new {@link DeviceMonitor}
      */
     public DeviceMonitor() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -148,16 +140,18 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
      *  classes.
      */
     public int addFilter(@Nullable java.lang.String classes, @Nullable org.gstreamer.gst.Caps caps) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_device_monitor_add_filter.invokeExact(
-                    handle(),
-                    (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, null)),
-                    (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_device_monitor_add_filter.invokeExact(
+                        handle(),
+                        (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, SCOPE)),
+                        (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -167,12 +161,13 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_bus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Bus) Interop.register(RESULT, org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -184,12 +179,13 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     public @Nullable org.gtk.glib.List getDevices() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_devices.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_devices.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -200,14 +196,15 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
      *     monitored by {@code monitor} or {@code null} when nothing is being monitored.
      */
     public PointerString getProviders() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_providers.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_providers.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -218,8 +215,7 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     public boolean getShowAllDevices() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_device_monitor_get_show_all_devices.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_device_monitor_get_show_all_devices.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,8 +265,7 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     public boolean start() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_device_monitor_start.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_device_monitor_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,8 +277,7 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
      */
     public void stop() {
         try {
-            DowncallHandles.gst_device_monitor_stop.invokeExact(
-                    handle());
+            DowncallHandles.gst_device_monitor_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,6 +313,9 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -349,69 +346,77 @@ public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_device_monitor_new = Interop.downcallHandle(
-            "gst_device_monitor_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_add_filter = Interop.downcallHandle(
-            "gst_device_monitor_add_filter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_add_filter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_get_bus = Interop.downcallHandle(
-            "gst_device_monitor_get_bus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_get_bus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_get_devices = Interop.downcallHandle(
-            "gst_device_monitor_get_devices",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_get_devices",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_get_providers = Interop.downcallHandle(
-            "gst_device_monitor_get_providers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_get_providers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_get_show_all_devices = Interop.downcallHandle(
-            "gst_device_monitor_get_show_all_devices",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_get_show_all_devices",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_remove_filter = Interop.downcallHandle(
-            "gst_device_monitor_remove_filter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_device_monitor_remove_filter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_set_show_all_devices = Interop.downcallHandle(
-            "gst_device_monitor_set_show_all_devices",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_device_monitor_set_show_all_devices",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_start = Interop.downcallHandle(
-            "gst_device_monitor_start",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_start",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_stop = Interop.downcallHandle(
-            "gst_device_monitor_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_monitor_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_monitor_get_type = Interop.downcallHandle(
-            "gst_device_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_device_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_device_monitor_get_type != null;
     }
 }

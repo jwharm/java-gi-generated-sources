@@ -22,6 +22,9 @@ public class VideoChromaFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoChromaFlags INTERLACED = new VideoChromaFlags(1);
     
+    /**
+     * Create a new VideoChromaFlags with the provided value
+     */
     public VideoChromaFlags(int value) {
         super(value);
     }

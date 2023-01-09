@@ -29,8 +29,8 @@ public class SamplerYcbcrRangeKHR extends Struct {
      * @return A new, uninitialized @{link SamplerYcbcrRangeKHR}
      */
     public static SamplerYcbcrRangeKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SamplerYcbcrRangeKHR newInstance = new SamplerYcbcrRangeKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SamplerYcbcrRangeKHR newInstance = new SamplerYcbcrRangeKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SamplerYcbcrRangeKHR extends Struct {
     /**
      * Create a SamplerYcbcrRangeKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SamplerYcbcrRangeKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SamplerYcbcrRangeKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SamplerYcbcrRangeKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerYcbcrRangeKHR(input, ownership);
+    public static final Marshal<Addressable, SamplerYcbcrRangeKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SamplerYcbcrRangeKHR(input);
 }

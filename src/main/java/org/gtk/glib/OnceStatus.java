@@ -11,14 +11,17 @@ import org.jetbrains.annotations.*;
  * @version 2.4
  */
 public enum OnceStatus implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the function has not been called yet.
      */
     NOTCALLED(0),
+    
     /**
      * the function call is currently in progress.
      */
     PROGRESS(1),
+    
     /**
      * the function has been called.
      */
@@ -27,15 +30,29 @@ public enum OnceStatus implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GOnceStatus";
     
     private final int value;
+    
+    /**
+     * Create a new OnceStatus for the provided value
+     * @param numeric value the enum value
+     */
     OnceStatus(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new OnceStatus for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static OnceStatus of(int value) {
         return switch (value) {
             case 0 -> NOTCALLED;

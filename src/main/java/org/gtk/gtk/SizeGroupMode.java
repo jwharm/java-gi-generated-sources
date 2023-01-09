@@ -10,18 +10,22 @@ import org.jetbrains.annotations.*;
  * group affects the requested sizes of its component widgets.
  */
 public enum SizeGroupMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * group has no effect
      */
     NONE(0),
+    
     /**
      * group affects horizontal requisition
      */
     HORIZONTAL(1),
+    
     /**
      * group affects vertical requisition
      */
     VERTICAL(2),
+    
     /**
      * group affects both horizontal and vertical requisition
      */
@@ -30,15 +34,29 @@ public enum SizeGroupMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkSizeGroupMode";
     
     private final int value;
+    
+    /**
+     * Create a new SizeGroupMode for the provided value
+     * @param numeric value the enum value
+     */
     SizeGroupMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SizeGroupMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SizeGroupMode of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -90,6 +90,9 @@ public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferFlagsT DEFINED = new BufferFlagsT(255);
     
+    /**
+     * Create a new BufferFlagsT with the provided value
+     */
     public BufferFlagsT(int value) {
         super(value);
     }

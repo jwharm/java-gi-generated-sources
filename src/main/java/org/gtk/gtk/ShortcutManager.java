@@ -21,8 +21,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutManagerImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutManagerImpl(input, ownership);
+    public static final Marshal<Addressable, ShortcutManagerImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutManagerImpl(input);
     
     /**
      * Get the gtype
@@ -43,20 +46,35 @@ public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_shortcut_manager_get_type = Interop.downcallHandle(
-            "gtk_shortcut_manager_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_shortcut_manager_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ShortcutManagerImpl type represents a native instance of the ShortcutManager interface.
+     */
     class ShortcutManagerImpl extends org.gtk.gobject.GObject implements ShortcutManager {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public ShortcutManagerImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ShortcutManager for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ShortcutManagerImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_shortcut_manager_get_type != null;
     }
 }

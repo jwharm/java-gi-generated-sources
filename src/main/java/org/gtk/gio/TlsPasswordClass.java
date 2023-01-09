@@ -38,8 +38,8 @@ public class TlsPasswordClass extends Struct {
      * @return A new, uninitialized @{link TlsPasswordClass}
      */
     public static TlsPasswordClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsPasswordClass newInstance = new TlsPasswordClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsPasswordClass newInstance = new TlsPasswordClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class TlsPasswordClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,26 +58,45 @@ public class TlsPasswordClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetValueCallback} callback.
+     */
     @FunctionalInterface
     public interface GetValueCallback {
+    
         byte[] run(org.gtk.gio.TlsPassword password, Out<Long> length);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress password, MemoryAddress length) {
-            Out<Long> lengthOUT = new Out<>(length.get(Interop.valueLayout.C_LONG, 0));
-            run((org.gtk.gio.TlsPassword) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(password)), org.gtk.gio.TlsPassword.fromAddress).marshal(password, Ownership.NONE), lengthOUT);
-            length.set(Interop.valueLayout.C_LONG, 0, lengthOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Long> lengthOUT = new Out<>(length.get(Interop.valueLayout.C_LONG, 0));
+                run((org.gtk.gio.TlsPassword) Interop.register(password, org.gtk.gio.TlsPassword.fromAddress).marshal(password, null), lengthOUT);
+                length.set(Interop.valueLayout.C_LONG, 0, lengthOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetValueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetValueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,24 +105,43 @@ public class TlsPasswordClass extends Struct {
      * @param getValue The new value of the field {@code get_value}
      */
     public void setGetValue(GetValueCallback getValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetValueCallback} callback.
+     */
     @FunctionalInterface
     public interface SetValueCallback {
+    
         void run(org.gtk.gio.TlsPassword password, byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress password, MemoryAddress value, long length, MemoryAddress destroy) {
-            run((org.gtk.gio.TlsPassword) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(password)), org.gtk.gio.TlsPassword.fromAddress).marshal(password, Ownership.NONE), MemorySegment.ofAddress(value, length, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE), length, null /* Unsupported parameter type */);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.TlsPassword) Interop.register(password, org.gtk.gio.TlsPassword.fromAddress).marshal(password, null), MemorySegment.ofAddress(value, length, SCOPE).toArray(Interop.valueLayout.C_BYTE), length, null /* Unsupported parameter type */);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetValueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetValueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,25 +150,44 @@ public class TlsPasswordClass extends Struct {
      * @param setValue The new value of the field {@code set_value}
      */
     public void setSetValue(SetValueCallback setValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setValue == null ? MemoryAddress.NULL : setValue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setValue == null ? MemoryAddress.NULL : setValue.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetDefaultWarningCallback} callback.
+     */
     @FunctionalInterface
     public interface GetDefaultWarningCallback {
+    
         java.lang.String run(org.gtk.gio.TlsPassword password);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress password) {
-            var RESULT = run((org.gtk.gio.TlsPassword) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(password)), org.gtk.gio.TlsPassword.fromAddress).marshal(password, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.TlsPassword) Interop.register(password, org.gtk.gio.TlsPassword.fromAddress).marshal(password, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetDefaultWarningCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetDefaultWarningCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,22 +196,26 @@ public class TlsPasswordClass extends Struct {
      * @param getDefaultWarning The new value of the field {@code get_default_warning}
      */
     public void setGetDefaultWarning(GetDefaultWarningCallback getDefaultWarning) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_default_warning"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultWarning == null ? MemoryAddress.NULL : getDefaultWarning.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_default_warning"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDefaultWarning == null ? MemoryAddress.NULL : getDefaultWarning.toCallback()));
+        }
     }
     
     /**
      * Create a TlsPasswordClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsPasswordClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsPasswordClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsPasswordClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsPasswordClass(input, ownership);
+    public static final Marshal<Addressable, TlsPasswordClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsPasswordClass(input);
     
     /**
      * A {@link TlsPasswordClass.Builder} object constructs a {@link TlsPasswordClass} 
@@ -178,7 +239,7 @@ public class TlsPasswordClass extends Struct {
             struct = TlsPasswordClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TlsPasswordClass} struct.
          * @return A new instance of {@code TlsPasswordClass} with the fields 
          *         that were set in the Builder object.
@@ -188,38 +249,48 @@ public class TlsPasswordClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetValue(GetValueCallback getValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetValue(SetValueCallback setValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setValue == null ? MemoryAddress.NULL : setValue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setValue == null ? MemoryAddress.NULL : setValue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetDefaultWarning(GetDefaultWarningCallback getDefaultWarning) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_default_warning"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultWarning == null ? MemoryAddress.NULL : getDefaultWarning.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_default_warning"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDefaultWarning == null ? MemoryAddress.NULL : getDefaultWarning.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

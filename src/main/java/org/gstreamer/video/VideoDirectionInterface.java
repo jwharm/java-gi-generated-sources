@@ -35,8 +35,8 @@ public class VideoDirectionInterface extends Struct {
      * @return A new, uninitialized @{link VideoDirectionInterface}
      */
     public static VideoDirectionInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoDirectionInterface newInstance = new VideoDirectionInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoDirectionInterface newInstance = new VideoDirectionInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class VideoDirectionInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,22 +55,26 @@ public class VideoDirectionInterface extends Struct {
      * @param iface The new value of the field {@code iface}
      */
     public void setIface(org.gtk.gobject.TypeInterface iface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        }
     }
     
     /**
      * Create a VideoDirectionInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoDirectionInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoDirectionInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoDirectionInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoDirectionInterface(input, ownership);
+    public static final Marshal<Addressable, VideoDirectionInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoDirectionInterface(input);
     
     /**
      * A {@link VideoDirectionInterface.Builder} object constructs a {@link VideoDirectionInterface} 
@@ -94,7 +98,7 @@ public class VideoDirectionInterface extends Struct {
             struct = VideoDirectionInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoDirectionInterface} struct.
          * @return A new instance of {@code VideoDirectionInterface} with the fields 
          *         that were set in the Builder object.
@@ -109,10 +113,12 @@ public class VideoDirectionInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIface(org.gtk.gobject.TypeInterface iface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+                return this;
+            }
         }
     }
 }

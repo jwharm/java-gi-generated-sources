@@ -47,14 +47,16 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
     /**
      * Create a TextTagTable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextTagTable(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextTagTable(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextTagTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextTagTable(input, ownership);
+    public static final Marshal<Addressable, TextTagTable> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextTagTable(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -72,7 +74,8 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      * The table contains no tags by default.
      */
     public TextTagTable() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -122,8 +125,7 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_tag_table_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_tag_table_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,15 +138,17 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return The tag
      */
     public @Nullable org.gtk.gtk.TextTag lookup(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_table_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_table_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.TextTag) Interop.register(RESULT, org.gtk.gtk.TextTag.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextTag.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -180,19 +184,37 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code TagAdded} callback.
+     */
     @FunctionalInterface
     public interface TagAdded {
+    
+        /**
+         * Emitted every time a new tag is added in the {@code GtkTextTagTable}.
+         */
         void run(org.gtk.gtk.TextTag tag);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTextTagTable, MemoryAddress tag) {
-            run((org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE));
+            run((org.gtk.gtk.TextTag) Interop.register(tag, org.gtk.gtk.TextTag.fromAddress).marshal(tag, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TagAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TagAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -202,28 +224,47 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextTagTable.TagAdded> onTagAdded(TextTagTable.TagAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("tag-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("tag-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TagChanged} callback.
+     */
     @FunctionalInterface
     public interface TagChanged {
+    
+        /**
+         * Emitted every time a tag in the {@code GtkTextTagTable} changes.
+         */
         void run(org.gtk.gtk.TextTag tag, boolean sizeChanged);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTextTagTable, MemoryAddress tag, int sizeChanged) {
-            run((org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE), Marshal.integerToBoolean.marshal(sizeChanged, null).booleanValue());
+            run((org.gtk.gtk.TextTag) Interop.register(tag, org.gtk.gtk.TextTag.fromAddress).marshal(tag, null), Marshal.integerToBoolean.marshal(sizeChanged, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TagChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TagChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -233,28 +274,50 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextTagTable.TagChanged> onTagChanged(TextTagTable.TagChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("tag-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("tag-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TagRemoved} callback.
+     */
     @FunctionalInterface
     public interface TagRemoved {
+    
+        /**
+         * Emitted every time a tag is removed from the {@code GtkTextTagTable}.
+         * <p>
+         * The {@code tag} is still valid by the time the signal is emitted, but
+         * it is not associated with a tag table any more.
+         */
         void run(org.gtk.gtk.TextTag tag);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTextTagTable, MemoryAddress tag) {
-            run((org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE));
+            run((org.gtk.gtk.TextTag) Interop.register(tag, org.gtk.gtk.TextTag.fromAddress).marshal(tag, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TagRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TagRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -267,9 +330,10 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TextTagTable.TagRemoved> onTagRemoved(TextTagTable.TagRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("tag-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("tag-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -292,6 +356,9 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -316,45 +383,53 @@ public class TextTagTable extends org.gtk.gobject.GObject implements org.gtk.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_tag_table_new = Interop.downcallHandle(
-            "gtk_text_tag_table_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_add = Interop.downcallHandle(
-            "gtk_text_tag_table_add",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_add",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_foreach = Interop.downcallHandle(
-            "gtk_text_tag_table_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_get_size = Interop.downcallHandle(
-            "gtk_text_tag_table_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_lookup = Interop.downcallHandle(
-            "gtk_text_tag_table_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_remove = Interop.downcallHandle(
-            "gtk_text_tag_table_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_table_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_table_get_type = Interop.downcallHandle(
-            "gtk_text_tag_table_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_text_tag_table_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_text_tag_table_get_type != null;
     }
 }

@@ -12,18 +12,22 @@ import org.jetbrains.annotations.*;
  * @version 2.22
  */
 public enum SocketFamily implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no address family
      */
     INVALID(0),
+    
     /**
      * the UNIX domain family
      */
     UNIX(1),
+    
     /**
      * the IPv4 family
      */
     IPV4(2),
+    
     /**
      * the IPv6 family
      */
@@ -32,15 +36,29 @@ public enum SocketFamily implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GSocketFamily";
     
     private final int value;
+    
+    /**
+     * Create a new SocketFamily for the provided value
+     * @param numeric value the enum value
+     */
     SocketFamily(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SocketFamily for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SocketFamily of(int value) {
         return switch (value) {
             case 0 -> INVALID;

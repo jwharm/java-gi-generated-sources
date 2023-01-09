@@ -35,14 +35,16 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     /**
      * Create a ConverterInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConverterInputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConverterInputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConverterInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterInputStream(input, ownership);
+    public static final Marshal<Addressable, ConverterInputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConverterInputStream(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.InputStream baseStream, org.gtk.gio.Converter converter) {
         MemoryAddress RESULT;
@@ -62,7 +64,8 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @param converter a {@link Converter}
      */
     public ConverterInputStream(org.gtk.gio.InputStream baseStream, org.gtk.gio.Converter converter) {
-        super(constructNew(baseStream, converter), Ownership.FULL);
+        super(constructNew(baseStream, converter));
+        this.takeOwnership();
     }
     
     /**
@@ -72,12 +75,11 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     public org.gtk.gio.Converter getConverter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_get_converter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_get_converter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Converter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Converter.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Converter) Interop.register(RESULT, org.gtk.gio.Converter.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -110,6 +112,9 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      */
     public static class Builder extends org.gtk.gio.FilterInputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -140,21 +145,29 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     private static class DowncallHandles {
         
         private static final MethodHandle g_converter_input_stream_new = Interop.downcallHandle(
-            "g_converter_input_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_converter_input_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_converter_input_stream_get_converter = Interop.downcallHandle(
-            "g_converter_input_stream_get_converter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_converter_input_stream_get_converter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_converter_input_stream_get_type = Interop.downcallHandle(
-            "g_converter_input_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_converter_input_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_converter_input_stream_get_type != null;
     }
 }

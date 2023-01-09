@@ -51,25 +51,40 @@ public class CellAreaClass extends Struct {
      * @return A new, uninitialized @{link CellAreaClass}
      */
     public static CellAreaClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CellAreaClass newInstance = new CellAreaClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CellAreaClass newInstance = new CellAreaClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code AddCallback} callback.
+     */
     @FunctionalInterface
     public interface AddCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellRenderer renderer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress renderer) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(renderer)), org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, Ownership.NONE));
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellRenderer) Interop.register(renderer, org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AddCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AddCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -78,24 +93,41 @@ public class CellAreaClass extends Struct {
      * @param add The new value of the field {@code add}
      */
     public void setAdd(AddCallback add) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("add"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add == null ? MemoryAddress.NULL : add.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("add"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (add == null ? MemoryAddress.NULL : add.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RemoveCallback} callback.
+     */
     @FunctionalInterface
     public interface RemoveCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellRenderer renderer);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress renderer) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(renderer)), org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, Ownership.NONE));
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellRenderer) Interop.register(renderer, org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RemoveCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -104,24 +136,41 @@ public class CellAreaClass extends Struct {
      * @param remove The new value of the field {@code remove}
      */
     public void setRemove(RemoveCallback remove) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("remove"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remove == null ? MemoryAddress.NULL : remove.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("remove"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (remove == null ? MemoryAddress.NULL : remove.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ForeachCallback} callback.
+     */
     @FunctionalInterface
     public interface ForeachCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress callback, MemoryAddress callbackData) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ForeachCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ForeachCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -130,24 +179,41 @@ public class CellAreaClass extends Struct {
      * @param foreach The new value of the field {@code foreach}
      */
     public void setForeach(ForeachCallback foreach) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("foreach"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreach == null ? MemoryAddress.NULL : foreach.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("foreach"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (foreach == null ? MemoryAddress.NULL : foreach.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ForeachAllocCallback} callback.
+     */
     @FunctionalInterface
     public interface ForeachAllocCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gtk.CellAllocCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress cellArea, MemoryAddress backgroundArea, MemoryAddress callback, MemoryAddress callbackData) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(backgroundArea, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, null), org.gtk.gdk.Rectangle.fromAddress.marshal(backgroundArea, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ForeachAllocCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ForeachAllocCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -156,25 +222,42 @@ public class CellAreaClass extends Struct {
      * @param foreachAlloc The new value of the field {@code foreach_alloc}
      */
     public void setForeachAlloc(ForeachAllocCallback foreachAlloc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("foreach_alloc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreachAlloc == null ? MemoryAddress.NULL : foreachAlloc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("foreach_alloc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (foreachAlloc == null ? MemoryAddress.NULL : foreachAlloc.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EventCallback} callback.
+     */
     @FunctionalInterface
     public interface EventCallback {
+    
         int run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, org.gtk.gtk.CellRendererState flags);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress event, MemoryAddress cellArea, int flags) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(event)), org.gtk.gdk.Event.fromAddress).marshal(event, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, Ownership.NONE), new org.gtk.gtk.CellRendererState(flags));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), (org.gtk.gdk.Event) Interop.register(event, org.gtk.gdk.Event.fromAddress).marshal(event, null), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, null), new org.gtk.gtk.CellRendererState(flags));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -183,24 +266,41 @@ public class CellAreaClass extends Struct {
      * @param event The new value of the field {@code event}
      */
     public void setEvent(EventCallback event) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (event == null ? MemoryAddress.NULL : event.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (event == null ? MemoryAddress.NULL : event.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SnapshotCallback} callback.
+     */
     @FunctionalInterface
     public interface SnapshotCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, org.gtk.gtk.Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, org.gtk.gtk.CellRendererState flags, boolean paintFocus);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress snapshot, MemoryAddress backgroundArea, MemoryAddress cellArea, int flags, int paintFocus) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gtk.Snapshot) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(snapshot)), org.gtk.gtk.Snapshot.fromAddress).marshal(snapshot, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(backgroundArea, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, Ownership.NONE), new org.gtk.gtk.CellRendererState(flags), Marshal.integerToBoolean.marshal(paintFocus, null).booleanValue());
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), (org.gtk.gtk.Snapshot) Interop.register(snapshot, org.gtk.gtk.Snapshot.fromAddress).marshal(snapshot, null), org.gtk.gdk.Rectangle.fromAddress.marshal(backgroundArea, null), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, null), new org.gtk.gtk.CellRendererState(flags), Marshal.integerToBoolean.marshal(paintFocus, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SnapshotCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SnapshotCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -209,24 +309,41 @@ public class CellAreaClass extends Struct {
      * @param snapshot The new value of the field {@code snapshot}
      */
     public void setSnapshot(SnapshotCallback snapshot) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ApplyAttributesCallback} callback.
+     */
     @FunctionalInterface
     public interface ApplyAttributesCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.TreeModel treeModel, org.gtk.gtk.TreeIter iter, boolean isExpander, boolean isExpanded);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress treeModel, MemoryAddress iter, int isExpander, int isExpanded) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeModel)), org.gtk.gtk.TreeModel.fromAddress).marshal(treeModel, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), Marshal.integerToBoolean.marshal(isExpander, null).booleanValue(), Marshal.integerToBoolean.marshal(isExpanded, null).booleanValue());
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.TreeModel) Interop.register(treeModel, org.gtk.gtk.TreeModel.fromAddress).marshal(treeModel, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), Marshal.integerToBoolean.marshal(isExpander, null).booleanValue(), Marshal.integerToBoolean.marshal(isExpanded, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplyAttributesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ApplyAttributesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -235,25 +352,43 @@ public class CellAreaClass extends Struct {
      * @param applyAttributes The new value of the field {@code apply_attributes}
      */
     public void setApplyAttributes(ApplyAttributesCallback applyAttributes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("apply_attributes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (applyAttributes == null ? MemoryAddress.NULL : applyAttributes.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("apply_attributes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (applyAttributes == null ? MemoryAddress.NULL : applyAttributes.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateContextCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateContextCallback {
+    
         org.gtk.gtk.CellAreaContext run(org.gtk.gtk.CellArea area);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress area) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -262,25 +397,43 @@ public class CellAreaClass extends Struct {
      * @param createContext The new value of the field {@code create_context}
      */
     public void setCreateContext(CreateContextCallback createContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CopyContextCallback} callback.
+     */
     @FunctionalInterface
     public interface CopyContextCallback {
+    
         org.gtk.gtk.CellAreaContext run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress area, MemoryAddress context) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CopyContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CopyContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -289,25 +442,42 @@ public class CellAreaClass extends Struct {
      * @param copyContext The new value of the field {@code copy_context}
      */
     public void setCopyContext(CopyContextCallback copyContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyContext == null ? MemoryAddress.NULL : copyContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copyContext == null ? MemoryAddress.NULL : copyContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetRequestModeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetRequestModeCallback {
+    
         org.gtk.gtk.SizeRequestMode run(org.gtk.gtk.CellArea area);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetRequestModeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetRequestModeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -316,28 +486,47 @@ public class CellAreaClass extends Struct {
      * @param getRequestMode The new value of the field {@code get_request_mode}
      */
     public void setGetRequestMode(GetRequestModeCallback getRequestMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredWidthCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredWidthCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, Out<Integer> minimumWidth, Out<Integer> naturalWidth);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress minimumWidth, MemoryAddress naturalWidth) {
-            Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), minimumWidthOUT, naturalWidthOUT);
-            minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
-            naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), minimumWidthOUT, naturalWidthOUT);
+                minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
+                naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredWidthCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredWidthCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -346,28 +535,47 @@ public class CellAreaClass extends Struct {
      * @param getPreferredWidth The new value of the field {@code get_preferred_width}
      */
     public void setGetPreferredWidth(GetPreferredWidthCallback getPreferredWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidth == null ? MemoryAddress.NULL : getPreferredWidth.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidth == null ? MemoryAddress.NULL : getPreferredWidth.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredHeightForWidthCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredHeightForWidthCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, int width, Out<Integer> minimumHeight, Out<Integer> naturalHeight);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, int width, MemoryAddress minimumHeight, MemoryAddress naturalHeight) {
-            Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), width, minimumHeightOUT, naturalHeightOUT);
-            minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
-            naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), width, minimumHeightOUT, naturalHeightOUT);
+                minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
+                naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredHeightForWidthCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredHeightForWidthCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -376,28 +584,47 @@ public class CellAreaClass extends Struct {
      * @param getPreferredHeightForWidth The new value of the field {@code get_preferred_height_for_width}
      */
     public void setGetPreferredHeightForWidth(GetPreferredHeightForWidthCallback getPreferredHeightForWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredHeightCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredHeightCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, Out<Integer> minimumHeight, Out<Integer> naturalHeight);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress minimumHeight, MemoryAddress naturalHeight) {
-            Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), minimumHeightOUT, naturalHeightOUT);
-            minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
-            naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumHeightOUT = new Out<>(minimumHeight.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalHeightOUT = new Out<>(naturalHeight.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), minimumHeightOUT, naturalHeightOUT);
+                minimumHeight.set(Interop.valueLayout.C_INT, 0, minimumHeightOUT.get());
+                naturalHeight.set(Interop.valueLayout.C_INT, 0, naturalHeightOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredHeightCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredHeightCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -406,28 +633,47 @@ public class CellAreaClass extends Struct {
      * @param getPreferredHeight The new value of the field {@code get_preferred_height}
      */
     public void setGetPreferredHeight(GetPreferredHeightCallback getPreferredHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeight == null ? MemoryAddress.NULL : getPreferredHeight.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeight == null ? MemoryAddress.NULL : getPreferredHeight.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredWidthForHeightCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredWidthForHeightCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, int height, Out<Integer> minimumWidth, Out<Integer> naturalWidth);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, int height, MemoryAddress minimumWidth, MemoryAddress naturalWidth) {
-            Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), height, minimumWidthOUT, naturalWidthOUT);
-            minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
-            naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> minimumWidthOUT = new Out<>(minimumWidth.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> naturalWidthOUT = new Out<>(naturalWidth.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), height, minimumWidthOUT, naturalWidthOUT);
+                minimumWidth.set(Interop.valueLayout.C_INT, 0, minimumWidthOUT.get());
+                naturalWidth.set(Interop.valueLayout.C_INT, 0, naturalWidthOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredWidthForHeightCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredWidthForHeightCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -436,24 +682,41 @@ public class CellAreaClass extends Struct {
      * @param getPreferredWidthForHeight The new value of the field {@code get_preferred_width_for_height}
      */
     public void setGetPreferredWidthForHeight(GetPreferredWidthForHeightCallback getPreferredWidthForHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetCellPropertyCallback} callback.
+     */
     @FunctionalInterface
     public interface SetCellPropertyCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellRenderer renderer, int propertyId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress renderer, int propertyId, MemoryAddress value, MemoryAddress pspec) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(renderer)), org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, Ownership.NONE), propertyId, org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellRenderer) Interop.register(renderer, org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, null), propertyId, org.gtk.gobject.Value.fromAddress.marshal(value, null), (org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetCellPropertyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetCellPropertyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -462,24 +725,41 @@ public class CellAreaClass extends Struct {
      * @param setCellProperty The new value of the field {@code set_cell_property}
      */
     public void setSetCellProperty(SetCellPropertyCallback setCellProperty) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_cell_property"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCellProperty == null ? MemoryAddress.NULL : setCellProperty.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_cell_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCellProperty == null ? MemoryAddress.NULL : setCellProperty.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCellPropertyCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCellPropertyCallback {
+    
         void run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellRenderer renderer, int propertyId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress area, MemoryAddress renderer, int propertyId, MemoryAddress value, MemoryAddress pspec) {
-            run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(renderer)), org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, Ownership.NONE), propertyId, org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellRenderer) Interop.register(renderer, org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, null), propertyId, org.gtk.gobject.Value.fromAddress.marshal(value, null), (org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCellPropertyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCellPropertyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -488,25 +768,42 @@ public class CellAreaClass extends Struct {
      * @param getCellProperty The new value of the field {@code get_cell_property}
      */
     public void setGetCellProperty(GetCellPropertyCallback getCellProperty) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_cell_property"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCellProperty == null ? MemoryAddress.NULL : getCellProperty.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_cell_property"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCellProperty == null ? MemoryAddress.NULL : getCellProperty.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FocusCallback} callback.
+     */
     @FunctionalInterface
     public interface FocusCallback {
+    
         boolean run(org.gtk.gtk.CellArea area, org.gtk.gtk.DirectionType direction);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area, int direction) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), org.gtk.gtk.DirectionType.of(direction));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FocusCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FocusCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -515,25 +812,42 @@ public class CellAreaClass extends Struct {
      * @param focus The new value of the field {@code focus}
      */
     public void setFocus(FocusCallback focus) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("focus"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("focus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IsActivatableCallback} callback.
+     */
     @FunctionalInterface
     public interface IsActivatableCallback {
+    
         boolean run(org.gtk.gtk.CellArea area);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsActivatableCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IsActivatableCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -542,25 +856,42 @@ public class CellAreaClass extends Struct {
      * @param isActivatable The new value of the field {@code is_activatable}
      */
     public void setIsActivatable(IsActivatableCallback isActivatable) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_activatable"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isActivatable == null ? MemoryAddress.NULL : isActivatable.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_activatable"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isActivatable == null ? MemoryAddress.NULL : isActivatable.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateCallback {
+    
         boolean run(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context, org.gtk.gtk.Widget widget, org.gtk.gdk.Rectangle cellArea, org.gtk.gtk.CellRendererState flags, boolean editOnly);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress area, MemoryAddress context, MemoryAddress widget, MemoryAddress cellArea, int flags, int editOnly) {
-            var RESULT = run((org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(area)), org.gtk.gtk.CellArea.fromAddress).marshal(area, Ownership.NONE), (org.gtk.gtk.CellAreaContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, Ownership.NONE), new org.gtk.gtk.CellRendererState(flags), Marshal.integerToBoolean.marshal(editOnly, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.CellArea) Interop.register(area, org.gtk.gtk.CellArea.fromAddress).marshal(area, null), (org.gtk.gtk.CellAreaContext) Interop.register(context, org.gtk.gtk.CellAreaContext.fromAddress).marshal(context, null), (org.gtk.gtk.Widget) Interop.register(widget, org.gtk.gtk.Widget.fromAddress).marshal(widget, null), org.gtk.gdk.Rectangle.fromAddress.marshal(cellArea, null), new org.gtk.gtk.CellRendererState(flags), Marshal.integerToBoolean.marshal(editOnly, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -569,22 +900,26 @@ public class CellAreaClass extends Struct {
      * @param activate The new value of the field {@code activate}
      */
     public void setActivate(ActivateCallback activate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        }
     }
     
     /**
      * Create a CellAreaClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellAreaClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CellAreaClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellAreaClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaClass(input, ownership);
+    public static final Marshal<Addressable, CellAreaClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaClass(input);
     
     /**
      * Finds a cell property of a cell area class by name.
@@ -592,15 +927,17 @@ public class CellAreaClass extends Struct {
      * @return the {@code GParamSpec} of the child property
      */
     public org.gtk.gobject.ParamSpec findCellProperty(java.lang.String propertyName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_find_cell_property.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_find_cell_property.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gobject.ParamSpec) Interop.register(RESULT, org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -627,42 +964,44 @@ public class CellAreaClass extends Struct {
      *     must be freed with g_free().
      */
     public org.gtk.gobject.ParamSpec[] listCellProperties(Out<Integer> nProperties) {
-        MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_list_cell_properties.invokeExact(
-                    handle(),
-                    (Addressable) nPropertiesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nPropertiesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_class_list_cell_properties.invokeExact(
+                        handle(),
+                        (Addressable) nPropertiesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nProperties.set(nPropertiesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
+            for (int I = 0; I < nProperties.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = (org.gtk.gobject.ParamSpec) Interop.register(OBJ, org.gtk.gobject.ParamSpec.fromAddress).marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        nProperties.set(nPropertiesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
-        for (int I = 0; I < nProperties.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.gtk.gobject.ParamSpec.fromAddress).marshal(OBJ, Ownership.CONTAINER);
-        }
-        return resultARRAY;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_area_class_find_cell_property = Interop.downcallHandle(
-            "gtk_cell_area_class_find_cell_property",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_class_find_cell_property",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_class_install_cell_property = Interop.downcallHandle(
-            "gtk_cell_area_class_install_cell_property",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_class_install_cell_property",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_area_class_list_cell_properties = Interop.downcallHandle(
-            "gtk_cell_area_class_list_cell_properties",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_area_class_list_cell_properties",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -688,7 +1027,7 @@ public class CellAreaClass extends Struct {
             struct = CellAreaClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CellAreaClass} struct.
          * @return A new instance of {@code CellAreaClass} with the fields 
          *         that were set in the Builder object.
@@ -698,150 +1037,192 @@ public class CellAreaClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setAdd(AddCallback add) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("add"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (add == null ? MemoryAddress.NULL : add.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("add"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (add == null ? MemoryAddress.NULL : add.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRemove(RemoveCallback remove) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("remove"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remove == null ? MemoryAddress.NULL : remove.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("remove"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (remove == null ? MemoryAddress.NULL : remove.toCallback()));
+                return this;
+            }
         }
         
         public Builder setForeach(ForeachCallback foreach) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("foreach"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreach == null ? MemoryAddress.NULL : foreach.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("foreach"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (foreach == null ? MemoryAddress.NULL : foreach.toCallback()));
+                return this;
+            }
         }
         
         public Builder setForeachAlloc(ForeachAllocCallback foreachAlloc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("foreach_alloc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (foreachAlloc == null ? MemoryAddress.NULL : foreachAlloc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("foreach_alloc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (foreachAlloc == null ? MemoryAddress.NULL : foreachAlloc.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEvent(EventCallback event) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (event == null ? MemoryAddress.NULL : event.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (event == null ? MemoryAddress.NULL : event.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSnapshot(SnapshotCallback snapshot) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+                return this;
+            }
         }
         
         public Builder setApplyAttributes(ApplyAttributesCallback applyAttributes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("apply_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (applyAttributes == null ? MemoryAddress.NULL : applyAttributes.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("apply_attributes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (applyAttributes == null ? MemoryAddress.NULL : applyAttributes.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateContext(CreateContextCallback createContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCopyContext(CopyContextCallback copyContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("copy_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyContext == null ? MemoryAddress.NULL : copyContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("copy_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copyContext == null ? MemoryAddress.NULL : copyContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetRequestMode(GetRequestModeCallback getRequestMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredWidth(GetPreferredWidthCallback getPreferredWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidth == null ? MemoryAddress.NULL : getPreferredWidth.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidth == null ? MemoryAddress.NULL : getPreferredWidth.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredHeightForWidth(GetPreferredHeightForWidthCallback getPreferredHeightForWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height_for_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeightForWidth == null ? MemoryAddress.NULL : getPreferredHeightForWidth.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredHeight(GetPreferredHeightCallback getPreferredHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredHeight == null ? MemoryAddress.NULL : getPreferredHeight.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredHeight == null ? MemoryAddress.NULL : getPreferredHeight.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredWidthForHeight(GetPreferredWidthForHeightCallback getPreferredWidthForHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_width_for_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredWidthForHeight == null ? MemoryAddress.NULL : getPreferredWidthForHeight.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetCellProperty(SetCellPropertyCallback setCellProperty) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_cell_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCellProperty == null ? MemoryAddress.NULL : setCellProperty.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_cell_property"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCellProperty == null ? MemoryAddress.NULL : setCellProperty.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetCellProperty(GetCellPropertyCallback getCellProperty) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_cell_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCellProperty == null ? MemoryAddress.NULL : getCellProperty.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_cell_property"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCellProperty == null ? MemoryAddress.NULL : getCellProperty.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFocus(FocusCallback focus) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("focus"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIsActivatable(IsActivatableCallback isActivatable) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_activatable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isActivatable == null ? MemoryAddress.NULL : isActivatable.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_activatable"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isActivatable == null ? MemoryAddress.NULL : isActivatable.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivate(ActivateCallback activate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

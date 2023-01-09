@@ -92,8 +92,11 @@ import org.jetbrains.annotations.*;
  */
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AsyncResultImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AsyncResultImpl(input, ownership);
+    public static final Marshal<Addressable, AsyncResultImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AsyncResultImpl(input);
     
     /**
      * Gets the source object from a {@link AsyncResult}.
@@ -103,12 +106,13 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gobject.GObject getSourceObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -118,8 +122,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,19 +164,19 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -195,48 +198,63 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
-            "g_async_result_get_source_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_result_get_source_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
-            "g_async_result_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_result_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
-            "g_async_result_is_tagged",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_result_is_tagged",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
-            "g_async_result_legacy_propagate_error",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_async_result_legacy_propagate_error",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_async_result_get_type = Interop.downcallHandle(
-            "g_async_result_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_async_result_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The AsyncResultImpl type represents a native instance of the AsyncResult interface.
+     */
     class AsyncResultImpl extends org.gtk.gobject.GObject implements AsyncResult {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public AsyncResultImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of AsyncResult for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public AsyncResultImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_async_result_get_type != null;
     }
 }

@@ -34,8 +34,8 @@ public class CheckButtonClass extends Struct {
      * @return A new, uninitialized @{link CheckButtonClass}
      */
     public static CheckButtonClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CheckButtonClass newInstance = new CheckButtonClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CheckButtonClass newInstance = new CheckButtonClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class CheckButtonClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,24 +54,41 @@ public class CheckButtonClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToggledCallback} callback.
+     */
     @FunctionalInterface
     public interface ToggledCallback {
+    
         void run(org.gtk.gtk.CheckButton checkButton);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress checkButton) {
-            run((org.gtk.gtk.CheckButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(checkButton)), org.gtk.gtk.CheckButton.fromAddress).marshal(checkButton, Ownership.NONE));
+            run((org.gtk.gtk.CheckButton) Interop.register(checkButton, org.gtk.gtk.CheckButton.fromAddress).marshal(checkButton, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggledCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToggledCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -80,24 +97,41 @@ public class CheckButtonClass extends Struct {
      * @param toggled The new value of the field {@code toggled}
      */
     public void setToggled(ToggledCallback toggled) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("toggled"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggled == null ? MemoryAddress.NULL : toggled.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("toggled"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toggled == null ? MemoryAddress.NULL : toggled.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateCallback {
+    
         void run(org.gtk.gtk.CheckButton checkButton);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress checkButton) {
-            run((org.gtk.gtk.CheckButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(checkButton)), org.gtk.gtk.CheckButton.fromAddress).marshal(checkButton, Ownership.NONE));
+            run((org.gtk.gtk.CheckButton) Interop.register(checkButton, org.gtk.gtk.CheckButton.fromAddress).marshal(checkButton, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -106,22 +140,26 @@ public class CheckButtonClass extends Struct {
      * @param activate The new value of the field {@code activate}
      */
     public void setActivate(ActivateCallback activate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        }
     }
     
     /**
      * Create a CheckButtonClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CheckButtonClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CheckButtonClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CheckButtonClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CheckButtonClass(input, ownership);
+    public static final Marshal<Addressable, CheckButtonClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CheckButtonClass(input);
     
     /**
      * A {@link CheckButtonClass.Builder} object constructs a {@link CheckButtonClass} 
@@ -145,7 +183,7 @@ public class CheckButtonClass extends Struct {
             struct = CheckButtonClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CheckButtonClass} struct.
          * @return A new instance of {@code CheckButtonClass} with the fields 
          *         that were set in the Builder object.
@@ -155,31 +193,39 @@ public class CheckButtonClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setToggled(ToggledCallback toggled) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("toggled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggled == null ? MemoryAddress.NULL : toggled.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("toggled"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toggled == null ? MemoryAddress.NULL : toggled.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivate(ActivateCallback activate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

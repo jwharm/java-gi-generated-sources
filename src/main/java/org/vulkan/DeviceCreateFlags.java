@@ -29,8 +29,8 @@ public class DeviceCreateFlags extends Struct {
      * @return A new, uninitialized @{link DeviceCreateFlags}
      */
     public static DeviceCreateFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceCreateFlags newInstance = new DeviceCreateFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceCreateFlags newInstance = new DeviceCreateFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceCreateFlags extends Struct {
     /**
      * Create a DeviceCreateFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceCreateFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceCreateFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceCreateFlags(input, ownership);
+    public static final Marshal<Addressable, DeviceCreateFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceCreateFlags(input);
 }

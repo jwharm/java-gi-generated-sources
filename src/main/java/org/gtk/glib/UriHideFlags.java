@@ -46,6 +46,9 @@ public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final UriHideFlags FRAGMENT = new UriHideFlags(16);
     
+    /**
+     * Create a new UriHideFlags with the provided value
+     */
     public UriHideFlags(int value) {
         super(value);
     }

@@ -48,36 +48,28 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a StreamCollection proxy instance for the provided memory address.
-     * <p>
-     * Because StreamCollection is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StreamCollection(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected StreamCollection(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StreamCollection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StreamCollection(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String upstreamId) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_stream_collection_new.invokeExact((Addressable) (upstreamId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(upstreamId, SCOPE)));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, StreamCollection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamCollection(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String upstreamId) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_collection_new.invokeExact(
-                    (Addressable) (upstreamId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(upstreamId, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -85,7 +77,8 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
      * @param upstreamId The stream id of the parent stream
      */
     public StreamCollection(@Nullable java.lang.String upstreamId) {
-        super(constructNew(upstreamId), Ownership.FULL);
+        super(constructNew(upstreamId));
+        this.takeOwnership();
     }
     
     /**
@@ -113,8 +106,7 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_stream_collection_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_stream_collection_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +129,7 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Stream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Stream.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Stream) Interop.register(RESULT, org.gstreamer.gst.Stream.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -147,8 +139,7 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getUpstreamId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_collection_get_upstream_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_stream_collection_get_upstream_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,26 +160,42 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code StreamNotify} callback.
+     */
     @FunctionalInterface
     public interface StreamNotify {
+    
         void run(org.gstreamer.gst.Stream object, org.gtk.gobject.ParamSpec p0);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceStreamCollection, MemoryAddress object, MemoryAddress p0) {
-            run((org.gstreamer.gst.Stream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gstreamer.gst.Stream.fromAddress).marshal(object, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(p0)), org.gtk.gobject.ParamSpec.fromAddress).marshal(p0, Ownership.NONE));
+            run((org.gstreamer.gst.Stream) Interop.register(object, org.gstreamer.gst.Stream.fromAddress).marshal(object, null), (org.gtk.gobject.ParamSpec) Interop.register(p0, org.gtk.gobject.ParamSpec.fromAddress).marshal(p0, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StreamNotify.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StreamNotify.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<StreamCollection.StreamNotify> onStreamNotify(@Nullable String detail, StreamCollection.StreamNotify handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("stream-notify" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("stream-notify" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -211,6 +218,9 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -241,39 +251,47 @@ public class StreamCollection extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_stream_collection_new = Interop.downcallHandle(
-            "gst_stream_collection_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_collection_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_collection_add_stream = Interop.downcallHandle(
-            "gst_stream_collection_add_stream",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_collection_add_stream",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_collection_get_size = Interop.downcallHandle(
-            "gst_stream_collection_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_collection_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_collection_get_stream = Interop.downcallHandle(
-            "gst_stream_collection_get_stream",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_collection_get_stream",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_stream_collection_get_upstream_id = Interop.downcallHandle(
-            "gst_stream_collection_get_upstream_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_stream_collection_get_upstream_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_stream_collection_get_type = Interop.downcallHandle(
-            "gst_stream_collection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_stream_collection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_stream_collection_get_type != null;
     }
 }

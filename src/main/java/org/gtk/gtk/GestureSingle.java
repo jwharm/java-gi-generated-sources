@@ -41,14 +41,16 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     /**
      * Create a GestureSingle proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureSingle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureSingle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureSingle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureSingle(input, ownership);
+    public static final Marshal<Addressable, GestureSingle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureSingle(input);
     
     /**
      * Returns the button number {@code gesture} listens for.
@@ -59,8 +61,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,8 +76,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public int getCurrentButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_current_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_current_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,12 +93,13 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public @Nullable org.gtk.gdk.EventSequence getCurrentSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_single_get_current_sequence.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_single_get_current_sequence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -110,8 +111,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public boolean getExclusive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_exclusive.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_exclusive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,8 +125,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     public boolean getTouchOnly() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_single_get_touch_only.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_single_get_touch_only.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,6 +216,9 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      */
     public static class Builder extends org.gtk.gtk.Gesture.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -276,57 +278,65 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_single_get_button = Interop.downcallHandle(
-            "gtk_gesture_single_get_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_single_get_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_button = Interop.downcallHandle(
-            "gtk_gesture_single_get_current_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_single_get_current_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_get_current_sequence = Interop.downcallHandle(
-            "gtk_gesture_single_get_current_sequence",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_single_get_current_sequence",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_get_exclusive = Interop.downcallHandle(
-            "gtk_gesture_single_get_exclusive",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_single_get_exclusive",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_get_touch_only = Interop.downcallHandle(
-            "gtk_gesture_single_get_touch_only",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_single_get_touch_only",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_set_button = Interop.downcallHandle(
-            "gtk_gesture_single_set_button",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_single_set_button",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_set_exclusive = Interop.downcallHandle(
-            "gtk_gesture_single_set_exclusive",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_single_set_exclusive",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_set_touch_only = Interop.downcallHandle(
-            "gtk_gesture_single_set_touch_only",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_single_set_touch_only",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_single_get_type = Interop.downcallHandle(
-            "gtk_gesture_single_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_single_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_single_get_type != null;
     }
 }

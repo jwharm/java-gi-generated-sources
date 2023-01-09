@@ -12,6 +12,7 @@ import org.jetbrains.annotations.*;
  * @version 2.40
  */
 public enum TlsCertificateRequestFlags implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No flags
      */
@@ -20,15 +21,29 @@ public enum TlsCertificateRequestFlags implements io.github.jwharm.javagi.Enumer
     private static final java.lang.String C_TYPE_NAME = "GTlsCertificateRequestFlags";
     
     private final int value;
+    
+    /**
+     * Create a new TlsCertificateRequestFlags for the provided value
+     * @param numeric value the enum value
+     */
     TlsCertificateRequestFlags(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsCertificateRequestFlags for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsCertificateRequestFlags of(int value) {
         return switch (value) {
             case 0 -> NONE;

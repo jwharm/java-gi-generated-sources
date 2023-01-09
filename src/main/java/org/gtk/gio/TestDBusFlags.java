@@ -18,6 +18,9 @@ public class TestDBusFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TestDBusFlags NONE = new TestDBusFlags(0);
     
+    /**
+     * Create a new TestDBusFlags with the provided value
+     */
     public TestDBusFlags(int value) {
         super(value);
     }

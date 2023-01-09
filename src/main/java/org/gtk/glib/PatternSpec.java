@@ -33,8 +33,8 @@ public class PatternSpec extends Struct {
      * @return A new, uninitialized @{link PatternSpec}
      */
     public static PatternSpec allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PatternSpec newInstance = new PatternSpec(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PatternSpec newInstance = new PatternSpec(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,24 +42,27 @@ public class PatternSpec extends Struct {
     /**
      * Create a PatternSpec proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PatternSpec(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PatternSpec(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PatternSpec> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PatternSpec(input, ownership);
+    public static final Marshal<Addressable, PatternSpec> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PatternSpec(input);
     
     private static MemoryAddress constructNew(java.lang.String pattern) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(
-                    Marshal.stringToAddress.marshal(pattern, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(Marshal.stringToAddress.marshal(pattern, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -67,7 +70,8 @@ public class PatternSpec extends Struct {
      * @param pattern a zero-terminated UTF-8 encoded string
      */
     public PatternSpec(java.lang.String pattern) {
-        super(constructNew(pattern), Ownership.FULL);
+        super(constructNew(pattern));
+        this.takeOwnership();
     }
     
     /**
@@ -77,12 +81,13 @@ public class PatternSpec extends Struct {
     public org.gtk.glib.PatternSpec copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.PatternSpec.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.PatternSpec.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -108,8 +113,7 @@ public class PatternSpec extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_pattern_spec_free.invokeExact(
-                    handle());
+            DowncallHandles.g_pattern_spec_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,17 +144,19 @@ public class PatternSpec extends Struct {
      * @return {@code true} if {@code string} matches {@code pspec}
      */
     public boolean match(long stringLength, java.lang.String string, @Nullable java.lang.String stringReversed) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(
-                    handle(),
-                    stringLength,
-                    Marshal.stringToAddress.marshal(string, null),
-                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stringReversed, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(
+                        handle(),
+                        stringLength,
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        (Addressable) (stringReversed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stringReversed, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,53 +167,55 @@ public class PatternSpec extends Struct {
      * @return {@code true} if {@code string} matches {@code pspec}
      */
     public boolean matchString(java.lang.String string) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
-            "g_pattern_spec_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
-            "g_pattern_spec_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
-            "g_pattern_spec_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
-            "g_pattern_spec_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
-            "g_pattern_spec_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
-            "g_pattern_spec_match_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_pattern_spec_match_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

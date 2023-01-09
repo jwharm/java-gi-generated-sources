@@ -27,6 +27,9 @@ public class FileAttributeInfoFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileAttributeInfoFlags COPY_WHEN_MOVED = new FileAttributeInfoFlags(2);
     
+    /**
+     * Create a new FileAttributeInfoFlags with the provided value
+     */
     public FileAttributeInfoFlags(int value) {
         super(value);
     }

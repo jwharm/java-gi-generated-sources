@@ -26,6 +26,9 @@ public class AudioPackFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioPackFlags TRUNCATE_RANGE = new AudioPackFlags(1);
     
+    /**
+     * Create a new AudioPackFlags with the provided value
+     */
     public AudioPackFlags(int value) {
         super(value);
     }

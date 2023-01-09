@@ -29,8 +29,8 @@ public class NamedActionClass extends Struct {
      * @return A new, uninitialized @{link NamedActionClass}
      */
     public static NamedActionClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NamedActionClass newInstance = new NamedActionClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NamedActionClass newInstance = new NamedActionClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class NamedActionClass extends Struct {
     /**
      * Create a NamedActionClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NamedActionClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NamedActionClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NamedActionClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NamedActionClass(input, ownership);
+    public static final Marshal<Addressable, NamedActionClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NamedActionClass(input);
 }

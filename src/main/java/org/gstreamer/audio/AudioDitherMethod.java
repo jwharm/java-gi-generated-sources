@@ -9,18 +9,22 @@ import org.jetbrains.annotations.*;
  * Set of available dithering methods.
  */
 public enum AudioDitherMethod implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No dithering
      */
     NONE(0),
+    
     /**
      * Rectangular dithering
      */
     RPDF(1),
+    
     /**
      * Triangular dithering (default)
      */
     TPDF(2),
+    
     /**
      * High frequency triangular dithering
      */
@@ -29,15 +33,29 @@ public enum AudioDitherMethod implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstAudioDitherMethod";
     
     private final int value;
+    
+    /**
+     * Create a new AudioDitherMethod for the provided value
+     * @param numeric value the enum value
+     */
     AudioDitherMethod(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AudioDitherMethod for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AudioDitherMethod of(int value) {
         return switch (value) {
             case 0 -> NONE;

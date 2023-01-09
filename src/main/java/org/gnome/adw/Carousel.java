@@ -42,26 +42,17 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     /**
      * Create a Carousel proxy instance for the provided memory address.
-     * <p>
-     * Because Carousel is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Carousel(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Carousel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Carousel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Carousel(input, ownership);
+    public static final Marshal<Addressable, Carousel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Carousel(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -77,7 +68,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Creates a new {@code AdwCarousel}.
      */
     public Carousel() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -101,8 +94,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowLongSwipes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_long_swipes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_long_swipes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,8 +108,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowMouseDrag() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_mouse_drag.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_mouse_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,8 +122,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getAllowScrollWheel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_allow_scroll_wheel.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_allow_scroll_wheel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,8 +136,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public boolean getInteractive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_interactive.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_interactive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,8 +150,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_n_pages.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +171,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -195,8 +183,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public double getPosition() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_carousel_get_position.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_carousel_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,8 +197,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public int getRevealDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_reveal_duration.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_reveal_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,12 +211,13 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public org.gnome.adw.SpringParams getScrollParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_scroll_params.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_scroll_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -240,8 +227,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_carousel_get_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_carousel_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -461,19 +447,40 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code PageChanged} callback.
+     */
     @FunctionalInterface
     public interface PageChanged {
+    
+        /**
+         * This signal is emitted after a page has been changed.
+         * <p>
+         * It can be used to implement "infinite scrolling" by amending the pages
+         * after every scroll.
+         */
         void run(int index);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceCarousel, int index) {
             run(index);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PageChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -486,9 +493,10 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Carousel.PageChanged> onPageChanged(Carousel.PageChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("page-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("page-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -511,6 +519,9 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -652,153 +663,161 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     private static class DowncallHandles {
         
         private static final MethodHandle adw_carousel_new = Interop.downcallHandle(
-            "adw_carousel_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_append = Interop.downcallHandle(
-            "adw_carousel_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
-            "adw_carousel_get_allow_long_swipes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_allow_long_swipes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
-            "adw_carousel_get_allow_mouse_drag",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_allow_mouse_drag",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
-            "adw_carousel_get_allow_scroll_wheel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_allow_scroll_wheel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
-            "adw_carousel_get_interactive",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_interactive",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
-            "adw_carousel_get_n_pages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_n_pages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
-            "adw_carousel_get_nth_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_get_nth_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
-            "adw_carousel_get_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
-            "adw_carousel_get_reveal_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_reveal_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
-            "adw_carousel_get_scroll_params",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_scroll_params",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
-            "adw_carousel_get_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_get_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
-            "adw_carousel_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
-            "adw_carousel_prepend",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_prepend",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
-            "adw_carousel_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
-            "adw_carousel_reorder",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_reorder",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
-            "adw_carousel_scroll_to",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_scroll_to",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
-            "adw_carousel_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_allow_long_swipes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
-            "adw_carousel_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_allow_mouse_drag",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
-            "adw_carousel_set_allow_scroll_wheel",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_allow_scroll_wheel",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
-            "adw_carousel_set_interactive",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_interactive",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
-            "adw_carousel_set_reveal_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_reveal_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
-            "adw_carousel_set_scroll_params",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_set_scroll_params",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
-            "adw_carousel_set_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_carousel_set_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_carousel_get_type = Interop.downcallHandle(
-            "adw_carousel_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_carousel_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_carousel_get_type != null;
     }
 }

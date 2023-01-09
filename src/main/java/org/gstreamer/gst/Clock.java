@@ -102,26 +102,17 @@ public class Clock extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Clock proxy instance for the provided memory address.
-     * <p>
-     * Because Clock is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Clock(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Clock(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Clock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Clock(input, ownership);
+    public static final Marshal<Addressable, Clock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Clock(input);
     
     /**
      * The time {@code master} of the master clock and the time {@code slave} of the slave
@@ -141,19 +132,21 @@ public class Clock extends org.gstreamer.gst.GstObject {
      * regression algorithm.
      */
     public boolean addObservation(org.gstreamer.gst.ClockTime slave, org.gstreamer.gst.ClockTime master, Out<Double> rSquared) {
-        MemorySegment rSquaredPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_clock_add_observation.invokeExact(
-                    handle(),
-                    slave.getValue().longValue(),
-                    master.getValue().longValue(),
-                    (Addressable) rSquaredPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rSquaredPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_clock_add_observation.invokeExact(
+                        handle(),
+                        slave.getValue().longValue(),
+                        master.getValue().longValue(),
+                        (Addressable) rSquaredPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -174,31 +167,33 @@ public class Clock extends org.gstreamer.gst.GstObject {
      * regression algorithm.
      */
     public boolean addObservationUnapplied(org.gstreamer.gst.ClockTime slave, org.gstreamer.gst.ClockTime master, Out<Double> rSquared, @Nullable org.gstreamer.gst.ClockTime internal, @Nullable org.gstreamer.gst.ClockTime external, @Nullable org.gstreamer.gst.ClockTime rateNum, @Nullable org.gstreamer.gst.ClockTime rateDenom) {
-        MemorySegment rSquaredPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment internalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment externalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment rateNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment rateDenomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_clock_add_observation_unapplied.invokeExact(
-                    handle(),
-                    slave.getValue().longValue(),
-                    master.getValue().longValue(),
-                    (Addressable) rSquaredPOINTER.address(),
-                    (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
-                    (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
-                    (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
-                    (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rSquaredPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment internalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment externalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment rateNumPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment rateDenomPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_clock_add_observation_unapplied.invokeExact(
+                        handle(),
+                        slave.getValue().longValue(),
+                        master.getValue().longValue(),
+                        (Addressable) rSquaredPOINTER.address(),
+                        (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
+                        (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
+                        (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
+                        (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -267,24 +262,26 @@ public class Clock extends org.gstreamer.gst.GstObject {
      * @param rateDenom a location to store the rate denominator
      */
     public void getCalibration(@Nullable org.gstreamer.gst.ClockTime internal, @Nullable org.gstreamer.gst.ClockTime external, @Nullable org.gstreamer.gst.ClockTime rateNum, @Nullable org.gstreamer.gst.ClockTime rateDenom) {
-        MemorySegment internalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment externalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment rateNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment rateDenomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_clock_get_calibration.invokeExact(
-                    handle(),
-                    (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
-                    (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
-                    (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
-                    (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment internalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment externalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment rateNumPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment rateDenomPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_clock_get_calibration.invokeExact(
+                        handle(),
+                        (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
+                        (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
+                        (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
+                        (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -296,8 +293,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getInternalTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_clock_get_internal_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_clock_get_internal_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,12 +309,13 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Clock getMaster() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_clock_get_master.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_clock_get_master.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -329,8 +326,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getResolution() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_clock_get_resolution.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_clock_get_resolution.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,8 +343,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_clock_get_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_clock_get_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,8 +357,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getTimeout() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_clock_get_timeout.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_clock_get_timeout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,8 +372,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public boolean isSynced() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_clock_is_synced.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_clock_is_synced.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -712,12 +705,13 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public static @Nullable org.gstreamer.gst.Clock idGetClock(org.gstreamer.gst.ClockID id) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_clock_id_get_clock.invokeExact(
-                    (Addressable) id.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_clock_id_get_clock.invokeExact((Addressable) id.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -728,8 +722,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public static org.gstreamer.gst.ClockTime idGetTime(org.gstreamer.gst.ClockID id) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_clock_id_get_time.invokeExact(
-                    (Addressable) id.getValue());
+            RESULT = (long) DowncallHandles.gst_clock_id_get_time.invokeExact((Addressable) id.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -744,8 +737,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
     public static org.gstreamer.gst.ClockID idRef(org.gstreamer.gst.ClockID id) {
         java.lang.foreign.MemoryAddress RESULT;
         try {
-            RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_clock_id_ref.invokeExact(
-                    (Addressable) id.getValue());
+            RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_clock_id_ref.invokeExact((Addressable) id.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -759,8 +751,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
      */
     public static void idUnref(org.gstreamer.gst.ClockID id) {
         try {
-            DowncallHandles.gst_clock_id_unref.invokeExact(
-                    (Addressable) id.getValue());
+            DowncallHandles.gst_clock_id_unref.invokeExact((Addressable) id.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -775,8 +766,7 @@ public class Clock extends org.gstreamer.gst.GstObject {
      */
     public static void idUnschedule(org.gstreamer.gst.ClockID id) {
         try {
-            DowncallHandles.gst_clock_id_unschedule.invokeExact(
-                    (Addressable) id.getValue());
+            DowncallHandles.gst_clock_id_unschedule.invokeExact((Addressable) id.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -826,17 +816,19 @@ public class Clock extends org.gstreamer.gst.GstObject {
      * unscheduled with gst_clock_id_unschedule().
      */
     public static org.gstreamer.gst.ClockReturn idWait(org.gstreamer.gst.ClockID id, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
-        MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_clock_id_wait.invokeExact(
-                    (Addressable) id.getValue(),
-                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment jitterPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_clock_id_wait.invokeExact(
+                        (Addressable) id.getValue(),
+                        (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return org.gstreamer.gst.ClockReturn.of(RESULT);
         }
-        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
     /**
@@ -867,19 +859,42 @@ public class Clock extends org.gstreamer.gst.GstObject {
         return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Synced} callback.
+     */
     @FunctionalInterface
     public interface Synced {
+    
+        /**
+         * Signaled on clocks with {@link ClockFlags#NEEDS_STARTUP_SYNC} set once
+         * the clock is synchronized, or when it completely lost synchronization.
+         * This signal will not be emitted on clocks without the flag.
+         * <p>
+         * This signal will be emitted from an arbitrary thread, most likely not
+         * the application's main thread.
+         */
         void run(boolean synced);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceClock, int synced) {
             run(Marshal.integerToBoolean.marshal(synced, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Synced.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Synced.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -894,9 +909,10 @@ public class Clock extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Clock.Synced> onSynced(Clock.Synced handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("synced"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("synced", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -919,6 +935,9 @@ public class Clock extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -961,201 +980,209 @@ public class Clock extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_clock_add_observation = Interop.downcallHandle(
-            "gst_clock_add_observation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_add_observation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_add_observation_unapplied = Interop.downcallHandle(
-            "gst_clock_add_observation_unapplied",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_add_observation_unapplied",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_adjust_unlocked = Interop.downcallHandle(
-            "gst_clock_adjust_unlocked",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_adjust_unlocked",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_adjust_with_calibration = Interop.downcallHandle(
-            "gst_clock_adjust_with_calibration",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_adjust_with_calibration",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_get_calibration = Interop.downcallHandle(
-            "gst_clock_get_calibration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_calibration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_get_internal_time = Interop.downcallHandle(
-            "gst_clock_get_internal_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_internal_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_get_master = Interop.downcallHandle(
-            "gst_clock_get_master",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_master",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_get_resolution = Interop.downcallHandle(
-            "gst_clock_get_resolution",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_resolution",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_get_time = Interop.downcallHandle(
-            "gst_clock_get_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_get_timeout = Interop.downcallHandle(
-            "gst_clock_get_timeout",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_get_timeout",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_is_synced = Interop.downcallHandle(
-            "gst_clock_is_synced",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_is_synced",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_new_periodic_id = Interop.downcallHandle(
-            "gst_clock_new_periodic_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_new_periodic_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_new_single_shot_id = Interop.downcallHandle(
-            "gst_clock_new_single_shot_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_new_single_shot_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_periodic_id_reinit = Interop.downcallHandle(
-            "gst_clock_periodic_id_reinit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_periodic_id_reinit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_set_calibration = Interop.downcallHandle(
-            "gst_clock_set_calibration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_set_calibration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_set_master = Interop.downcallHandle(
-            "gst_clock_set_master",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_set_master",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_set_resolution = Interop.downcallHandle(
-            "gst_clock_set_resolution",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_set_resolution",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_set_synced = Interop.downcallHandle(
-            "gst_clock_set_synced",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_clock_set_synced",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_clock_set_timeout = Interop.downcallHandle(
-            "gst_clock_set_timeout",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_set_timeout",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_single_shot_id_reinit = Interop.downcallHandle(
-            "gst_clock_single_shot_id_reinit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_single_shot_id_reinit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_unadjust_unlocked = Interop.downcallHandle(
-            "gst_clock_unadjust_unlocked",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_unadjust_unlocked",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_unadjust_with_calibration = Interop.downcallHandle(
-            "gst_clock_unadjust_with_calibration",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_unadjust_with_calibration",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_wait_for_sync = Interop.downcallHandle(
-            "gst_clock_wait_for_sync",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_wait_for_sync",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_get_type = Interop.downcallHandle(
-            "gst_clock_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_clock_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_clock_id_compare_func = Interop.downcallHandle(
-            "gst_clock_id_compare_func",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_compare_func",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_get_clock = Interop.downcallHandle(
-            "gst_clock_id_get_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_get_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_get_time = Interop.downcallHandle(
-            "gst_clock_id_get_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_get_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_ref = Interop.downcallHandle(
-            "gst_clock_id_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_unref = Interop.downcallHandle(
-            "gst_clock_id_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_unschedule = Interop.downcallHandle(
-            "gst_clock_id_unschedule",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_unschedule",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_uses_clock = Interop.downcallHandle(
-            "gst_clock_id_uses_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_uses_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_wait = Interop.downcallHandle(
-            "gst_clock_id_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_clock_id_wait_async = Interop.downcallHandle(
-            "gst_clock_id_wait_async",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_clock_id_wait_async",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_clock_get_type != null;
     }
 }

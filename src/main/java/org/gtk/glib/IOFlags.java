@@ -75,6 +75,9 @@ public class IOFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final IOFlags SET_MASK = new IOFlags(3);
     
+    /**
+     * Create a new IOFlags with the provided value
+     */
     public IOFlags(int value) {
         super(value);
     }

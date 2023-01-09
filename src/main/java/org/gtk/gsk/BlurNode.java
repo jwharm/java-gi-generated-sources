@@ -28,14 +28,16 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a BlurNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BlurNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BlurNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BlurNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BlurNode(input, ownership);
+    public static final Marshal<Addressable, BlurNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BlurNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, float radius) {
         MemoryAddress RESULT;
@@ -55,7 +57,8 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
      * @param radius the blur radius. Must be positive
      */
     public BlurNode(org.gtk.gsk.RenderNode child, float radius) {
-        super(constructNew(child, radius), Ownership.FULL);
+        super(constructNew(child, radius));
+        this.takeOwnership();
     }
     
     /**
@@ -65,12 +68,11 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_blur_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_blur_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -80,8 +82,7 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     public float getRadius() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gsk_blur_node_get_radius.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gsk_blur_node_get_radius.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,27 +106,35 @@ public class BlurNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_blur_node_new = Interop.downcallHandle(
-            "gsk_blur_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_blur_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_blur_node_get_child = Interop.downcallHandle(
-            "gsk_blur_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_blur_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_blur_node_get_radius = Interop.downcallHandle(
-            "gsk_blur_node_get_radius",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_blur_node_get_radius",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_blur_node_get_type = Interop.downcallHandle(
-            "gsk_blur_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_blur_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_blur_node_get_type != null;
     }
 }

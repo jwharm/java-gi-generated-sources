@@ -29,26 +29,17 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
     
     /**
      * Create a TracerFactory proxy instance for the provided memory address.
-     * <p>
-     * Because TracerFactory is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TracerFactory(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TracerFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TracerFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactory(input, ownership);
+    public static final Marshal<Addressable, TracerFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactory(input);
     
     /**
      * Get the {@link org.gtk.glib.Type} for elements managed by this factory. The type can
@@ -60,8 +51,7 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
     public org.gtk.glib.Type getTracerType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_tracer_factory_get_tracer_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_tracer_factory_get_tracer_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,7 +89,9 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -118,6 +110,9 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
      */
     public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -142,21 +137,29 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_tracer_factory_get_tracer_type = Interop.downcallHandle(
-            "gst_tracer_factory_get_tracer_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tracer_factory_get_tracer_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tracer_factory_get_type = Interop.downcallHandle(
-            "gst_tracer_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_tracer_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_tracer_factory_get_list = Interop.downcallHandle(
-            "gst_tracer_factory_get_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_tracer_factory_get_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_tracer_factory_get_type != null;
     }
 }

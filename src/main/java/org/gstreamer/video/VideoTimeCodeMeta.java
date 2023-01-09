@@ -39,8 +39,8 @@ public class VideoTimeCodeMeta extends Struct {
      * @return A new, uninitialized @{link VideoTimeCodeMeta}
      */
     public static VideoTimeCodeMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoTimeCodeMeta newInstance = new VideoTimeCodeMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoTimeCodeMeta newInstance = new VideoTimeCodeMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class VideoTimeCodeMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,9 +59,11 @@ public class VideoTimeCodeMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -70,7 +72,7 @@ public class VideoTimeCodeMeta extends Struct {
      */
     public org.gstreamer.video.VideoTimeCode getTc() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("tc"));
-        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -78,22 +80,26 @@ public class VideoTimeCodeMeta extends Struct {
      * @param tc The new value of the field {@code tc}
      */
     public void setTc(org.gstreamer.video.VideoTimeCode tc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tc == null ? MemoryAddress.NULL : tc.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tc == null ? MemoryAddress.NULL : tc.handle()));
+        }
     }
     
     /**
      * Create a VideoTimeCodeMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoTimeCodeMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoTimeCodeMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoTimeCodeMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeMeta(input, ownership);
+    public static final Marshal<Addressable, VideoTimeCodeMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -102,15 +108,15 @@ public class VideoTimeCodeMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_time_code_meta_get_info = Interop.downcallHandle(
-            "gst_video_time_code_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_time_code_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -136,7 +142,7 @@ public class VideoTimeCodeMeta extends Struct {
             struct = VideoTimeCodeMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoTimeCodeMeta} struct.
          * @return A new instance of {@code VideoTimeCodeMeta} with the fields 
          *         that were set in the Builder object.
@@ -151,10 +157,12 @@ public class VideoTimeCodeMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -163,10 +171,12 @@ public class VideoTimeCodeMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTc(org.gstreamer.video.VideoTimeCode tc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tc == null ? MemoryAddress.NULL : tc.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tc == null ? MemoryAddress.NULL : tc.handle()));
+                return this;
+            }
         }
     }
 }

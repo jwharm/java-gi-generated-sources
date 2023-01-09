@@ -29,8 +29,8 @@ public class CoarseSampleOrderCustomNV extends Struct {
      * @return A new, uninitialized @{link CoarseSampleOrderCustomNV}
      */
     public static CoarseSampleOrderCustomNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CoarseSampleOrderCustomNV newInstance = new CoarseSampleOrderCustomNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CoarseSampleOrderCustomNV newInstance = new CoarseSampleOrderCustomNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CoarseSampleOrderCustomNV extends Struct {
     /**
      * Create a CoarseSampleOrderCustomNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CoarseSampleOrderCustomNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CoarseSampleOrderCustomNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CoarseSampleOrderCustomNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CoarseSampleOrderCustomNV(input, ownership);
+    public static final Marshal<Addressable, CoarseSampleOrderCustomNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CoarseSampleOrderCustomNV(input);
 }

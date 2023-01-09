@@ -45,32 +45,22 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a GLFramebuffer proxy instance for the provided memory address.
-     * <p>
-     * Because GLFramebuffer is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLFramebuffer(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLFramebuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLFramebuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebuffer(input, ownership);
+    public static final Marshal<Addressable, GLFramebuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebuffer(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_framebuffer_new.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_framebuffer_new.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +73,8 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
      * @param context a {@link GLContext}
      */
     public GLFramebuffer(org.gstreamer.gl.GLContext context) {
-        super(constructNew(context), Ownership.FULL);
+        super(constructNew(context));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithDefaultDepth(org.gstreamer.gl.GLContext context, int width, int height) {
@@ -98,7 +89,7 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * This function will internally create an OpenGL framebuffer object and must
      * be called on {@code context}'s OpenGL thread.
@@ -109,7 +100,10 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
      */
     public static GLFramebuffer newWithDefaultDepth(org.gstreamer.gl.GLContext context, int width, int height) {
         var RESULT = constructNewWithDefaultDepth(context, width, height);
-        return (org.gstreamer.gl.GLFramebuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLFramebuffer.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.gl.GLFramebuffer) Interop.register(RESULT, org.gstreamer.gl.GLFramebuffer.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -139,8 +133,7 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
      */
     public void bind() {
         try {
-            DowncallHandles.gst_gl_framebuffer_bind.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_framebuffer_bind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,25 +174,26 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
      * @param height output height
      */
     public void getEffectiveDimensions(Out<Integer> width, Out<Integer> height) {
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_gl_framebuffer_get_effective_dimensions.invokeExact(
-                    handle(),
-                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_gl_framebuffer_get_effective_dimensions.invokeExact(
+                        handle(),
+                        (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_framebuffer_get_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_framebuffer_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,6 +230,9 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -260,51 +257,59 @@ public class GLFramebuffer extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_framebuffer_new = Interop.downcallHandle(
-            "gst_gl_framebuffer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_new_with_default_depth = Interop.downcallHandle(
-            "gst_gl_framebuffer_new_with_default_depth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_framebuffer_new_with_default_depth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_attach = Interop.downcallHandle(
-            "gst_gl_framebuffer_attach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_attach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_bind = Interop.downcallHandle(
-            "gst_gl_framebuffer_bind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_bind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_draw_to_texture = Interop.downcallHandle(
-            "gst_gl_framebuffer_draw_to_texture",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_draw_to_texture",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_get_effective_dimensions = Interop.downcallHandle(
-            "gst_gl_framebuffer_get_effective_dimensions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_get_effective_dimensions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_get_id = Interop.downcallHandle(
-            "gst_gl_framebuffer_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_framebuffer_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_framebuffer_get_type = Interop.downcallHandle(
-            "gst_gl_framebuffer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_framebuffer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_framebuffer_get_type != null;
     }
 }

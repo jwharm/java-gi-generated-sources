@@ -29,8 +29,8 @@ public class TextTagPrivate extends Struct {
      * @return A new, uninitialized @{link TextTagPrivate}
      */
     public static TextTagPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TextTagPrivate newInstance = new TextTagPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TextTagPrivate newInstance = new TextTagPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TextTagPrivate extends Struct {
     /**
      * Create a TextTagPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextTagPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextTagPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextTagPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextTagPrivate(input, ownership);
+    public static final Marshal<Addressable, TextTagPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextTagPrivate(input);
 }

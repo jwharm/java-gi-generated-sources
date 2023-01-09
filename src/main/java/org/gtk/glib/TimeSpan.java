@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class TimeSpan extends io.github.jwharm.javagi.Alias<Long> {
     
+    /**
+     * Create a new TimeSpan with the provided value
+     */
     public TimeSpan(long value) {
         super(value);
     }

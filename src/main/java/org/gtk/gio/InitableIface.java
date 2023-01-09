@@ -37,8 +37,8 @@ public class InitableIface extends Struct {
      * @return A new, uninitialized @{link InitableIface}
      */
     public static InitableIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InitableIface newInstance = new InitableIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InitableIface newInstance = new InitableIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class InitableIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,25 +57,42 @@ public class InitableIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code InitCallback} callback.
+     */
     @FunctionalInterface
     public interface InitCallback {
+    
         boolean run(org.gtk.gio.Initable initable, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress initable, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.Initable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(initable)), org.gtk.gio.Initable.fromAddress).marshal(initable, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Initable) Interop.register(initable, org.gtk.gio.Initable.fromAddress).marshal(initable, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,22 +101,26 @@ public class InitableIface extends Struct {
      * @param init The new value of the field {@code init}
      */
     public void setInit(InitCallback init) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("init"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (init == null ? MemoryAddress.NULL : init.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (init == null ? MemoryAddress.NULL : init.toCallback()));
+        }
     }
     
     /**
      * Create a InitableIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InitableIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InitableIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InitableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InitableIface(input, ownership);
+    public static final Marshal<Addressable, InitableIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InitableIface(input);
     
     /**
      * A {@link InitableIface.Builder} object constructs a {@link InitableIface} 
@@ -123,7 +144,7 @@ public class InitableIface extends Struct {
             struct = InitableIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link InitableIface} struct.
          * @return A new instance of {@code InitableIface} with the fields 
          *         that were set in the Builder object.
@@ -138,17 +159,21 @@ public class InitableIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setInit(InitCallback init) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (init == null ? MemoryAddress.NULL : init.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("init"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (init == null ? MemoryAddress.NULL : init.toCallback()));
+                return this;
+            }
         }
     }
 }

@@ -28,28 +28,32 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a LinearGradientNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LinearGradientNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LinearGradientNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LinearGradientNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LinearGradientNode(input, ownership);
+    public static final Marshal<Addressable, LinearGradientNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LinearGradientNode(input);
     
     private static MemoryAddress constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_new.invokeExact(
-                    bounds.handle(),
-                    start.handle(),
-                    end.handle(),
-                    Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false),
-                    nColorStops);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_new.invokeExact(
+                        bounds.handle(),
+                        start.handle(),
+                        end.handle(),
+                        Interop.allocateNativeArray(colorStops, org.gtk.gsk.ColorStop.getMemoryLayout(), false, SCOPE),
+                        nColorStops);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -65,7 +69,8 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      * @param nColorStops the number of elements in {@code color_stops}
      */
     public LinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, org.gtk.gsk.ColorStop[] colorStops, long nColorStops) {
-        super(constructNew(bounds, start, end, colorStops, nColorStops), Ownership.FULL);
+        super(constructNew(bounds, start, end, colorStops, nColorStops));
+        this.takeOwnership();
     }
     
     /**
@@ -74,22 +79,24 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
      * @return the color stops in the gradient
      */
     public org.gtk.gsk.ColorStop[] getColorStops(Out<Long> nStops) {
-        MemorySegment nStopsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_color_stops.invokeExact(
-                    handle(),
-                    (Addressable) (nStops == null ? MemoryAddress.NULL : (Addressable) nStopsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nStopsPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_color_stops.invokeExact(
+                        handle(),
+                        (Addressable) (nStops == null ? MemoryAddress.NULL : (Addressable) nStopsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nStops != null) nStops.set(nStopsPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
+            for (int I = 0; I < nStops.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = org.gtk.gsk.ColorStop.fromAddress.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (nStops != null) nStops.set(nStopsPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        org.gtk.gsk.ColorStop[] resultARRAY = new org.gtk.gsk.ColorStop[nStops.get().intValue()];
-        for (int I = 0; I < nStops.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = org.gtk.gsk.ColorStop.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -99,12 +106,11 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Point getEnd() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_end.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -114,8 +120,7 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
     public long getNColorStops() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_linear_gradient_node_get_n_color_stops.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gsk_linear_gradient_node_get_n_color_stops.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,12 +134,11 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Point getStart() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_start.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_linear_gradient_node_get_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -154,39 +158,47 @@ public class LinearGradientNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_linear_gradient_node_new = Interop.downcallHandle(
-            "gsk_linear_gradient_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_linear_gradient_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_color_stops = Interop.downcallHandle(
-            "gsk_linear_gradient_node_get_color_stops",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_linear_gradient_node_get_color_stops",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_end = Interop.downcallHandle(
-            "gsk_linear_gradient_node_get_end",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_linear_gradient_node_get_end",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_n_color_stops = Interop.downcallHandle(
-            "gsk_linear_gradient_node_get_n_color_stops",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_linear_gradient_node_get_n_color_stops",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_start = Interop.downcallHandle(
-            "gsk_linear_gradient_node_get_start",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_linear_gradient_node_get_start",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_linear_gradient_node_get_type = Interop.downcallHandle(
-            "gsk_linear_gradient_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_linear_gradient_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_linear_gradient_node_get_type != null;
     }
 }

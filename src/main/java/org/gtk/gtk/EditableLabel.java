@@ -53,36 +53,28 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Create a EditableLabel proxy instance for the provided memory address.
-     * <p>
-     * Because EditableLabel is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EditableLabel(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected EditableLabel(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EditableLabel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EditableLabel(input);
+    
+    private static MemoryAddress constructNew(java.lang.String str) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(Marshal.stringToAddress.marshal(str, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, EditableLabel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EditableLabel(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String str) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_editable_label_new.invokeExact(
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -90,7 +82,9 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param str the text for the label
      */
     public EditableLabel(java.lang.String str) {
-        super(constructNew(str), Ownership.NONE);
+        super(constructNew(str));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -100,8 +94,7 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getEditing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_editable_label_get_editing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_editable_label_get_editing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +106,7 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public void startEditing() {
         try {
-            DowncallHandles.gtk_editable_label_start_editing.invokeExact(
-                    handle());
+            DowncallHandles.gtk_editable_label_start_editing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,6 +161,9 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -204,33 +199,41 @@ public class EditableLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
-            "gtk_editable_label_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_editable_label_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
-            "gtk_editable_label_get_editing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_editable_label_get_editing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
-            "gtk_editable_label_start_editing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_editable_label_start_editing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
-            "gtk_editable_label_stop_editing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_editable_label_stop_editing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_editable_label_get_type = Interop.downcallHandle(
-            "gtk_editable_label_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_editable_label_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_editable_label_get_type != null;
     }
 }

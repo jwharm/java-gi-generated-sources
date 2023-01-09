@@ -6,25 +6,45 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum SliceConfig implements io.github.jwharm.javagi.Enumeration {
+    
     ALWAYS_MALLOC(1),
+    
     BYPASS_MAGAZINES(2),
+    
     WORKING_SET_MSECS(3),
+    
     COLOR_INCREMENT(4),
+    
     CHUNK_SIZES(5),
+    
     CONTENTION_COUNTER(6);
     
     private static final java.lang.String C_TYPE_NAME = "GSliceConfig";
     
     private final int value;
+    
+    /**
+     * Create a new SliceConfig for the provided value
+     * @param numeric value the enum value
+     */
     SliceConfig(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SliceConfig for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SliceConfig of(int value) {
         return switch (value) {
             case 1 -> ALWAYS_MALLOC;

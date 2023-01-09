@@ -27,26 +27,17 @@ public class VulkanTrashList extends org.gstreamer.vulkan.VulkanHandlePool {
     
     /**
      * Create a VulkanTrashList proxy instance for the provided memory address.
-     * <p>
-     * Because VulkanTrashList is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanTrashList(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VulkanTrashList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanTrashList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanTrashList(input, ownership);
+    public static final Marshal<Addressable, VulkanTrashList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanTrashList(input);
     
     public org.gstreamer.vulkan.VulkanTrash acquire(org.gstreamer.vulkan.VulkanFence fence, org.gstreamer.vulkan.VulkanTrashNotify notify) {
         MemoryAddress RESULT;
@@ -59,7 +50,9 @@ public class VulkanTrashList extends org.gstreamer.vulkan.VulkanHandlePool {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.vulkan.VulkanTrash.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.vulkan.VulkanTrash.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public boolean add(org.gstreamer.vulkan.VulkanTrash trash) {
@@ -80,8 +73,7 @@ public class VulkanTrashList extends org.gstreamer.vulkan.VulkanHandlePool {
      */
     public void gc() {
         try {
-            DowncallHandles.gst_vulkan_trash_list_gc.invokeExact(
-                    handle());
+            DowncallHandles.gst_vulkan_trash_list_gc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,6 +121,9 @@ public class VulkanTrashList extends org.gstreamer.vulkan.VulkanHandlePool {
      */
     public static class Builder extends org.gstreamer.vulkan.VulkanHandlePool.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -153,33 +148,41 @@ public class VulkanTrashList extends org.gstreamer.vulkan.VulkanHandlePool {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_trash_list_acquire = Interop.downcallHandle(
-            "gst_vulkan_trash_list_acquire",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_trash_list_acquire",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_trash_list_add = Interop.downcallHandle(
-            "gst_vulkan_trash_list_add",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_trash_list_add",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_trash_list_gc = Interop.downcallHandle(
-            "gst_vulkan_trash_list_gc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_trash_list_gc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_trash_list_wait = Interop.downcallHandle(
-            "gst_vulkan_trash_list_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_trash_list_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_vulkan_trash_list_get_type = Interop.downcallHandle(
-            "gst_vulkan_trash_list_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_trash_list_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_vulkan_trash_list_get_type != null;
     }
 }

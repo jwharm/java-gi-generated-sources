@@ -65,8 +65,8 @@ public class PixbufModulePattern extends Struct {
      * @return A new, uninitialized @{link PixbufModulePattern}
      */
     public static PixbufModulePattern allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufModulePattern newInstance = new PixbufModulePattern(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PixbufModulePattern newInstance = new PixbufModulePattern(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -76,10 +76,12 @@ public class PixbufModulePattern extends Struct {
      * @return The value of the field {@code prefix}
      */
     public java.lang.String getPrefix() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -87,9 +89,11 @@ public class PixbufModulePattern extends Struct {
      * @param prefix The new value of the field {@code prefix}
      */
     public void setPrefix(java.lang.String prefix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, SCOPE)));
+        }
     }
     
     /**
@@ -97,10 +101,12 @@ public class PixbufModulePattern extends Struct {
      * @return The value of the field {@code mask}
      */
     public java.lang.String getMask() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -108,9 +114,11 @@ public class PixbufModulePattern extends Struct {
      * @param mask The new value of the field {@code mask}
      */
     public void setMask(java.lang.String mask) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, SCOPE)));
+        }
     }
     
     /**
@@ -118,10 +126,12 @@ public class PixbufModulePattern extends Struct {
      * @return The value of the field {@code relevance}
      */
     public int getRelevance() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -129,22 +139,26 @@ public class PixbufModulePattern extends Struct {
      * @param relevance The new value of the field {@code relevance}
      */
     public void setRelevance(int relevance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), relevance);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), relevance);
+        }
     }
     
     /**
      * Create a PixbufModulePattern proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufModulePattern(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufModulePattern(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufModulePattern> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufModulePattern(input, ownership);
+    public static final Marshal<Addressable, PixbufModulePattern> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufModulePattern(input);
     
     /**
      * A {@link PixbufModulePattern.Builder} object constructs a {@link PixbufModulePattern} 
@@ -168,7 +182,7 @@ public class PixbufModulePattern extends Struct {
             struct = PixbufModulePattern.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufModulePattern} struct.
          * @return A new instance of {@code PixbufModulePattern} with the fields 
          *         that were set in the Builder object.
@@ -183,10 +197,12 @@ public class PixbufModulePattern extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrefix(java.lang.String prefix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -196,10 +212,12 @@ public class PixbufModulePattern extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMask(java.lang.String mask) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -208,10 +226,12 @@ public class PixbufModulePattern extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRelevance(int relevance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), relevance);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), relevance);
+                return this;
+            }
         }
     }
 }

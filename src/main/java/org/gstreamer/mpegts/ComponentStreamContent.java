@@ -6,27 +6,49 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum ComponentStreamContent implements io.github.jwharm.javagi.Enumeration {
+    
     MPEG2_VIDEO(1),
+    
     MPEG1_LAYER2_AUDIO(2),
+    
     TELETEXT_OR_SUBTITLE(3),
+    
     AC_3(4),
+    
     AVC(5),
+    
     AAC(6),
+    
     DTS(7),
+    
     SRM_CPCM(8);
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsComponentStreamContent";
     
     private final int value;
+    
+    /**
+     * Create a new ComponentStreamContent for the provided value
+     * @param numeric value the enum value
+     */
     ComponentStreamContent(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ComponentStreamContent for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ComponentStreamContent of(int value) {
         return switch (value) {
             case 1 -> MPEG2_VIDEO;

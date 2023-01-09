@@ -29,8 +29,8 @@ public class LayerProperties extends Struct {
      * @return A new, uninitialized @{link LayerProperties}
      */
     public static LayerProperties allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayerProperties newInstance = new LayerProperties(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LayerProperties newInstance = new LayerProperties(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class LayerProperties extends Struct {
     /**
      * Create a LayerProperties proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayerProperties(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayerProperties(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayerProperties> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayerProperties(input, ownership);
+    public static final Marshal<Addressable, LayerProperties> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayerProperties(input);
 }

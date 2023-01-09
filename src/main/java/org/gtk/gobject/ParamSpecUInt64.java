@@ -33,16 +33,22 @@ public class ParamSpecUInt64 extends org.gtk.gobject.ParamSpec {
     /**
      * Create a ParamSpecUInt64 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecUInt64(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecUInt64(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecUInt64> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecUInt64(input, ownership);
-
+    public static final Marshal<Addressable, ParamSpecUInt64> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecUInt64(input);
+    
     public static org.gtk.glib.Type getType() {
         return org.gtk.glib.Type.G_TYPE_PARAM;
+    }
+    
+    public static boolean isAvailable() {
+        return true;
     }
 }

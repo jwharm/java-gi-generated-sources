@@ -64,14 +64,16 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     /**
      * Create a IMContextSimple proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IMContextSimple(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IMContextSimple(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IMContextSimple> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMContextSimple(input, ownership);
+    public static final Marshal<Addressable, IMContextSimple> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IMContextSimple(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -87,7 +89,8 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * Creates a new {@code GtkIMContextSimple}.
      */
     public IMContextSimple() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -95,12 +98,14 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @param composeFile The path of compose file
      */
     public void addComposeFile(java.lang.String composeFile) {
-        try {
-            DowncallHandles.gtk_im_context_simple_add_compose_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(composeFile, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_im_context_simple_add_compose_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(composeFile, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -121,14 +126,16 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      */
     @Deprecated
     public void addTable(short[] data, int maxSeqLen, int nSeqs) {
-        try {
-            DowncallHandles.gtk_im_context_simple_add_table.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    maxSeqLen,
-                    nSeqs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_im_context_simple_add_table.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        maxSeqLen,
+                        nSeqs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -162,6 +169,9 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      */
     public static class Builder extends org.gtk.gtk.IMContext.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -186,27 +196,35 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_im_context_simple_new = Interop.downcallHandle(
-            "gtk_im_context_simple_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_simple_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_simple_add_compose_file = Interop.downcallHandle(
-            "gtk_im_context_simple_add_compose_file",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_context_simple_add_compose_file",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_context_simple_add_table = Interop.downcallHandle(
-            "gtk_im_context_simple_add_table",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_im_context_simple_add_table",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_im_context_simple_get_type = Interop.downcallHandle(
-            "gtk_im_context_simple_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_im_context_simple_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_im_context_simple_get_type != null;
     }
 }

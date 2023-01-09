@@ -29,8 +29,8 @@ public class AccessFlags extends Struct {
      * @return A new, uninitialized @{link AccessFlags}
      */
     public static AccessFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AccessFlags newInstance = new AccessFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AccessFlags newInstance = new AccessFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AccessFlags extends Struct {
     /**
      * Create a AccessFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AccessFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AccessFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AccessFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AccessFlags(input, ownership);
+    public static final Marshal<Addressable, AccessFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AccessFlags(input);
 }

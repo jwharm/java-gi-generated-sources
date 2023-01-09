@@ -30,26 +30,17 @@ public class GLMemoryAllocator extends org.gstreamer.gl.GLBaseMemoryAllocator {
     
     /**
      * Create a GLMemoryAllocator proxy instance for the provided memory address.
-     * <p>
-     * Because GLMemoryAllocator is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemoryAllocator(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLMemoryAllocator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemoryAllocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryAllocator(input, ownership);
+    public static final Marshal<Addressable, GLMemoryAllocator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryAllocator(input);
     
     /**
      * Get the gtype
@@ -68,12 +59,13 @@ public class GLMemoryAllocator extends org.gstreamer.gl.GLBaseMemoryAllocator {
     public static org.gstreamer.gl.GLMemoryAllocator getDefault(org.gstreamer.gl.GLContext context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_allocator_get_default.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_memory_allocator_get_default.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gl.GLMemoryAllocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLMemoryAllocator.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gl.GLMemoryAllocator) Interop.register(RESULT, org.gstreamer.gl.GLMemoryAllocator.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -92,6 +84,9 @@ public class GLMemoryAllocator extends org.gstreamer.gl.GLBaseMemoryAllocator {
      */
     public static class Builder extends org.gstreamer.gl.GLBaseMemoryAllocator.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -116,15 +111,23 @@ public class GLMemoryAllocator extends org.gstreamer.gl.GLBaseMemoryAllocator {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_memory_allocator_get_type = Interop.downcallHandle(
-            "gst_gl_memory_allocator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_memory_allocator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_allocator_get_default = Interop.downcallHandle(
-            "gst_gl_memory_allocator_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_allocator_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_memory_allocator_get_type != null;
     }
 }

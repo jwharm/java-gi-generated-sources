@@ -40,8 +40,8 @@ public class DVBLinkageDescriptor extends Struct {
      * @return A new, uninitialized @{link DVBLinkageDescriptor}
      */
     public static DVBLinkageDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DVBLinkageDescriptor newInstance = new DVBLinkageDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DVBLinkageDescriptor newInstance = new DVBLinkageDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code transport_stream_id}
      */
     public short getTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class DVBLinkageDescriptor extends Struct {
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
     public void setTransportStreamId(short transportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code original_network_id}
      */
     public short getOriginalNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class DVBLinkageDescriptor extends Struct {
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
     public void setOriginalNetworkId(short originalNetworkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code service_id}
      */
     public short getServiceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class DVBLinkageDescriptor extends Struct {
      * @param serviceId The new value of the field {@code service_id}
      */
     public void setServiceId(short serviceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code linkage_type}
      */
     public org.gstreamer.mpegts.DVBLinkageType getLinkageType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.DVBLinkageType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.DVBLinkageType.of(RESULT);
+        }
     }
     
     /**
@@ -125,9 +139,11 @@ public class DVBLinkageDescriptor extends Struct {
      * @param linkageType The new value of the field {@code linkage_type}
      */
     public void setLinkageType(org.gstreamer.mpegts.DVBLinkageType linkageType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (linkageType == null ? MemoryAddress.NULL : linkageType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (linkageType == null ? MemoryAddress.NULL : linkageType.getValue()));
+        }
     }
     
     /**
@@ -135,10 +151,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code private_data_length}
      */
     public byte getPrivateDataLength() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -146,9 +164,11 @@ public class DVBLinkageDescriptor extends Struct {
      * @param privateDataLength The new value of the field {@code private_data_length}
      */
     public void setPrivateDataLength(byte privateDataLength) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), privateDataLength);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), privateDataLength);
+        }
     }
     
     /**
@@ -156,10 +176,12 @@ public class DVBLinkageDescriptor extends Struct {
      * @return The value of the field {@code private_data_bytes}
      */
     public PointerByte getPrivateDataBytes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -167,27 +189,30 @@ public class DVBLinkageDescriptor extends Struct {
      * @param privateDataBytes The new value of the field {@code private_data_bytes}
      */
     public void setPrivateDataBytes(PointerByte privateDataBytes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privateDataBytes == null ? MemoryAddress.NULL : privateDataBytes.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (privateDataBytes == null ? MemoryAddress.NULL : privateDataBytes.handle()));
+        }
     }
     
     /**
      * Create a DVBLinkageDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DVBLinkageDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DVBLinkageDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DVBLinkageDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageDescriptor(input, ownership);
+    public static final Marshal<Addressable, DVBLinkageDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageDescriptor(input);
     
     public void free() {
         try {
-            DowncallHandles.gst_mpegts_dvb_linkage_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_dvb_linkage_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,60 +221,59 @@ public class DVBLinkageDescriptor extends Struct {
     public org.gstreamer.mpegts.DVBLinkageEvent getEvent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_event.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_event.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.DVBLinkageEvent.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.DVBLinkageEvent.fromAddress.marshal(RESULT, null);
     }
     
     public PointerProxy<org.gstreamer.mpegts.DVBLinkageExtendedEvent> getExtendedEvent() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_extended_event.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_extended_event.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.mpegts.DVBLinkageExtendedEvent>(RESULT, org.gstreamer.mpegts.DVBLinkageExtendedEvent.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.mpegts.DVBLinkageExtendedEvent>(RESULT, org.gstreamer.mpegts.DVBLinkageExtendedEvent.fromAddress);
     }
     
     public org.gstreamer.mpegts.DVBLinkageMobileHandOver getMobileHandOver() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_mobile_hand_over.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_dvb_linkage_descriptor_get_mobile_hand_over.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.DVBLinkageMobileHandOver.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.DVBLinkageMobileHandOver.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_dvb_linkage_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_dvb_linkage_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_dvb_linkage_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_dvb_linkage_descriptor_get_event = Interop.downcallHandle(
-            "gst_mpegts_dvb_linkage_descriptor_get_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_dvb_linkage_descriptor_get_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_dvb_linkage_descriptor_get_extended_event = Interop.downcallHandle(
-            "gst_mpegts_dvb_linkage_descriptor_get_extended_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_dvb_linkage_descriptor_get_extended_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_dvb_linkage_descriptor_get_mobile_hand_over = Interop.downcallHandle(
-            "gst_mpegts_dvb_linkage_descriptor_get_mobile_hand_over",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_dvb_linkage_descriptor_get_mobile_hand_over",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -275,7 +299,7 @@ public class DVBLinkageDescriptor extends Struct {
             struct = DVBLinkageDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DVBLinkageDescriptor} struct.
          * @return A new instance of {@code DVBLinkageDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -290,10 +314,12 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransportStreamId(short transportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+                return this;
+            }
         }
         
         /**
@@ -302,10 +328,12 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOriginalNetworkId(short originalNetworkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+                return this;
+            }
         }
         
         /**
@@ -314,10 +342,12 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setServiceId(short serviceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+                return this;
+            }
         }
         
         /**
@@ -326,17 +356,21 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLinkageType(org.gstreamer.mpegts.DVBLinkageType linkageType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (linkageType == null ? MemoryAddress.NULL : linkageType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("linkage_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (linkageType == null ? MemoryAddress.NULL : linkageType.getValue()));
+                return this;
+            }
         }
         
         public Builder setLinkageData(java.lang.foreign.MemoryAddress linkageData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("linkage_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (linkageData == null ? MemoryAddress.NULL : (Addressable) linkageData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("linkage_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (linkageData == null ? MemoryAddress.NULL : (Addressable) linkageData));
+                return this;
+            }
         }
         
         /**
@@ -345,10 +379,12 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrivateDataLength(byte privateDataLength) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), privateDataLength);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("private_data_length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), privateDataLength);
+                return this;
+            }
         }
         
         /**
@@ -357,10 +393,12 @@ public class DVBLinkageDescriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrivateDataBytes(PointerByte privateDataBytes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privateDataBytes == null ? MemoryAddress.NULL : privateDataBytes.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("private_data_bytes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (privateDataBytes == null ? MemoryAddress.NULL : privateDataBytes.handle()));
+                return this;
+            }
         }
     }
 }

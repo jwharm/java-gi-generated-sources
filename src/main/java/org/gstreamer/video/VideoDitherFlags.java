@@ -27,6 +27,9 @@ public class VideoDitherFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoDitherFlags QUANTIZE = new VideoDitherFlags(2);
     
+    /**
+     * Create a new VideoDitherFlags with the provided value
+     */
     public VideoDitherFlags(int value) {
         super(value);
     }

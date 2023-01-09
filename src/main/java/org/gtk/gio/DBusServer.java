@@ -46,35 +46,39 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     /**
      * Create a DBusServer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusServer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusServer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusServer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusServer(input, ownership);
+    public static final Marshal<Addressable, DBusServer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusServer(input);
     
     private static MemoryAddress constructNewSync(java.lang.String address, org.gtk.gio.DBusServerFlags flags, java.lang.String guid, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_new_sync.invokeExact(
-                    Marshal.stringToAddress.marshal(address, null),
-                    flags.getValue(),
-                    Marshal.stringToAddress.marshal(guid, null),
-                    (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_new_sync.invokeExact(
+                        Marshal.stringToAddress.marshal(address, SCOPE),
+                        flags.getValue(),
+                        Marshal.stringToAddress.marshal(guid, SCOPE),
+                        (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new D-Bus server that listens on the first address in
      * {@code address} that works.
@@ -107,7 +111,9 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public static DBusServer newSync(java.lang.String address, org.gtk.gio.DBusServerFlags flags, java.lang.String guid, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         var RESULT = constructNewSync(address, flags, guid, observer, cancellable);
-        return (org.gtk.gio.DBusServer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusServer.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.DBusServer) Interop.register(RESULT, org.gtk.gio.DBusServer.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -122,8 +128,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     public java.lang.String getClientAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_client_address.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_client_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,8 +142,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     public org.gtk.gio.DBusServerFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_server_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dbus_server_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +156,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     public java.lang.String getGuid() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_guid.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_server_get_guid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,8 +170,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dbus_server_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dbus_server_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +182,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public void start() {
         try {
-            DowncallHandles.g_dbus_server_start.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_server_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,8 +193,7 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public void stop() {
         try {
-            DowncallHandles.g_dbus_server_stop.invokeExact(
-                    handle());
+            DowncallHandles.g_dbus_server_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,20 +213,58 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code NewConnection} callback.
+     */
     @FunctionalInterface
     public interface NewConnection {
+    
+        /**
+         * Emitted when a new authenticated connection has been made. Use
+         * g_dbus_connection_get_peer_credentials() to figure out what
+         * identity (if any), was authenticated.
+         * <p>
+         * If you want to accept the connection, take a reference to the
+         * {@code connection} object and return {@code true}. When you are done with the
+         * connection call g_dbus_connection_close() and give up your
+         * reference. Note that the other peer may disconnect at any time -
+         * a typical thing to do when accepting a connection is to listen to
+         * the {@link DBusConnection}::closed signal.
+         * <p>
+         * If {@link DBusServer}:flags contains {@link DBusServerFlags#RUN_IN_THREAD}
+         * then the signal is emitted in a new thread dedicated to the
+         * connection. Otherwise the signal is emitted in the
+         * [thread-default main context][g-main-context-push-thread-default]
+         * of the thread that {@code server} was constructed in.
+         * <p>
+         * You are guaranteed that signal handlers for this signal runs
+         * before incoming messages on {@code connection} are processed. This means
+         * that it's suitable to call g_dbus_connection_register_object() or
+         * similar from the signal handler.
+         */
         boolean run(org.gtk.gio.DBusConnection connection);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDBusServer, MemoryAddress connection) {
-            var RESULT = run((org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.DBusConnection.fromAddress).marshal(connection, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusConnection) Interop.register(connection, org.gtk.gio.DBusConnection.fromAddress).marshal(connection, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewConnection.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewConnection.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -256,9 +294,10 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusServer.NewConnection> onNewConnection(DBusServer.NewConnection handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("new-connection"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("new-connection", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -281,6 +320,9 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -373,51 +415,59 @@ public class DBusServer extends org.gtk.gobject.GObject implements org.gtk.gio.I
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_server_new_sync = Interop.downcallHandle(
-            "g_dbus_server_new_sync",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_new_sync",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_get_client_address = Interop.downcallHandle(
-            "g_dbus_server_get_client_address",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_get_client_address",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_get_flags = Interop.downcallHandle(
-            "g_dbus_server_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_get_guid = Interop.downcallHandle(
-            "g_dbus_server_get_guid",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_get_guid",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_is_active = Interop.downcallHandle(
-            "g_dbus_server_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_start = Interop.downcallHandle(
-            "g_dbus_server_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_stop = Interop.downcallHandle(
-            "g_dbus_server_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_server_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_server_get_type = Interop.downcallHandle(
-            "g_dbus_server_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_server_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_server_get_type != null;
     }
 }

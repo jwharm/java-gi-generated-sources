@@ -14,174 +14,217 @@ import org.jetbrains.annotations.*;
  * See <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>.
  */
 public enum UnicodeBreakType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Mandatory Break (BK)
      */
     MANDATORY(0),
+    
     /**
      * Carriage Return (CR)
      */
     CARRIAGE_RETURN(1),
+    
     /**
      * Line Feed (LF)
      */
     LINE_FEED(2),
+    
     /**
      * Attached Characters and Combining Marks (CM)
      */
     COMBINING_MARK(3),
+    
     /**
      * Surrogates (SG)
      */
     SURROGATE(4),
+    
     /**
      * Zero Width Space (ZW)
      */
     ZERO_WIDTH_SPACE(5),
+    
     /**
      * Inseparable (IN)
      */
     INSEPARABLE(6),
+    
     /**
      * Non-breaking ("Glue") (GL)
      */
     NON_BREAKING_GLUE(7),
+    
     /**
      * Contingent Break Opportunity (CB)
      */
     CONTINGENT(8),
+    
     /**
      * Space (SP)
      */
     SPACE(9),
+    
     /**
      * Break Opportunity After (BA)
      */
     AFTER(10),
+    
     /**
      * Break Opportunity Before (BB)
      */
     BEFORE(11),
+    
     /**
      * Break Opportunity Before and After (B2)
      */
     BEFORE_AND_AFTER(12),
+    
     /**
      * Hyphen (HY)
      */
     HYPHEN(13),
+    
     /**
      * Nonstarter (NS)
      */
     NON_STARTER(14),
+    
     /**
      * Opening Punctuation (OP)
      */
     OPEN_PUNCTUATION(15),
+    
     /**
      * Closing Punctuation (CL)
      */
     CLOSE_PUNCTUATION(16),
+    
     /**
      * Ambiguous Quotation (QU)
      */
     QUOTATION(17),
+    
     /**
      * Exclamation/Interrogation (EX)
      */
     EXCLAMATION(18),
+    
     /**
      * Ideographic (ID)
      */
     IDEOGRAPHIC(19),
+    
     /**
      * Numeric (NU)
      */
     NUMERIC(20),
+    
     /**
      * Infix Separator (Numeric) (IS)
      */
     INFIX_SEPARATOR(21),
+    
     /**
      * Symbols Allowing Break After (SY)
      */
     SYMBOL(22),
+    
     /**
      * Ordinary Alphabetic and Symbol Characters (AL)
      */
     ALPHABETIC(23),
+    
     /**
      * Prefix (Numeric) (PR)
      */
     PREFIX(24),
+    
     /**
      * Postfix (Numeric) (PO)
      */
     POSTFIX(25),
+    
     /**
      * Complex Content Dependent (South East Asian) (SA)
      */
     COMPLEX_CONTEXT(26),
+    
     /**
      * Ambiguous (Alphabetic or Ideographic) (AI)
      */
     AMBIGUOUS(27),
+    
     /**
      * Unknown (XX)
      */
     UNKNOWN(28),
+    
     /**
      * Next Line (NL)
      */
     NEXT_LINE(29),
+    
     /**
      * Word Joiner (WJ)
      */
     WORD_JOINER(30),
+    
     /**
      * Hangul L Jamo (JL)
      */
     HANGUL_L_JAMO(31),
+    
     /**
      * Hangul V Jamo (JV)
      */
     HANGUL_V_JAMO(32),
+    
     /**
      * Hangul T Jamo (JT)
      */
     HANGUL_T_JAMO(33),
+    
     /**
      * Hangul LV Syllable (H2)
      */
     HANGUL_LV_SYLLABLE(34),
+    
     /**
      * Hangul LVT Syllable (H3)
      */
     HANGUL_LVT_SYLLABLE(35),
+    
     /**
      * Closing Parenthesis (CP). Since 2.70
      */
     CLOSE_PARENTHESIS(36),
+    
     /**
      * Conditional Japanese Starter (CJ). Since: 2.32
      */
     CONDITIONAL_JAPANESE_STARTER(37),
+    
     /**
      * Hebrew Letter (HL). Since: 2.32
      */
     HEBREW_LETTER(38),
+    
     /**
      * Regional Indicator (RI). Since: 2.36
      */
     REGIONAL_INDICATOR(39),
+    
     /**
      * Emoji Base (EB). Since: 2.50
      */
     EMOJI_BASE(40),
+    
     /**
      * Emoji Modifier (EM). Since: 2.50
      */
     EMOJI_MODIFIER(41),
+    
     /**
      * Zero Width Joiner (ZWJ). Since: 2.50
      */
@@ -190,15 +233,29 @@ public enum UnicodeBreakType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GUnicodeBreakType";
     
     private final int value;
+    
+    /**
+     * Create a new UnicodeBreakType for the provided value
+     * @param numeric value the enum value
+     */
     UnicodeBreakType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UnicodeBreakType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UnicodeBreakType of(int value) {
         return switch (value) {
             case 0 -> MANDATORY;

@@ -10,42 +10,52 @@ import org.jetbrains.annotations.*;
  * when the child of a {@code GtkRevealer} widget is shown or hidden.
  */
 public enum RevealerTransitionType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No transition
      */
     NONE(0),
+    
     /**
      * Fade in
      */
     CROSSFADE(1),
+    
     /**
      * Slide in from the left
      */
     SLIDE_RIGHT(2),
+    
     /**
      * Slide in from the right
      */
     SLIDE_LEFT(3),
+    
     /**
      * Slide in from the bottom
      */
     SLIDE_UP(4),
+    
     /**
      * Slide in from the top
      */
     SLIDE_DOWN(5),
+    
     /**
      * Floop in from the left
      */
     SWING_RIGHT(6),
+    
     /**
      * Floop in from the right
      */
     SWING_LEFT(7),
+    
     /**
      * Floop in from the bottom
      */
     SWING_UP(8),
+    
     /**
      * Floop in from the top
      */
@@ -54,15 +64,29 @@ public enum RevealerTransitionType implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "GtkRevealerTransitionType";
     
     private final int value;
+    
+    /**
+     * Create a new RevealerTransitionType for the provided value
+     * @param numeric value the enum value
+     */
     RevealerTransitionType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new RevealerTransitionType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static RevealerTransitionType of(int value) {
         return switch (value) {
             case 0 -> NONE;

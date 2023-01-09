@@ -52,6 +52,9 @@ public class BaseParseFrameFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BaseParseFrameFlags QUEUE = new BaseParseFrameFlags(16);
     
+    /**
+     * Create a new BaseParseFrameFlags with the provided value
+     */
     public BaseParseFrameFlags(int value) {
         super(value);
     }

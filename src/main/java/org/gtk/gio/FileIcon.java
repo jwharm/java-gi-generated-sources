@@ -29,20 +29,21 @@ public class FileIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ico
     /**
      * Create a FileIcon proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileIcon(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileIcon(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileIcon(input, ownership);
+    public static final Marshal<Addressable, FileIcon> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileIcon(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.File file) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_icon_new.invokeExact(
-                    file.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_icon_new.invokeExact(file.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -54,7 +55,8 @@ public class FileIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ico
      * @param file a {@link File}.
      */
     public FileIcon(org.gtk.gio.File file) {
-        super(constructNew(file), Ownership.FULL);
+        super(constructNew(file));
+        this.takeOwnership();
     }
     
     /**
@@ -64,12 +66,11 @@ public class FileIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ico
     public org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_icon_get_file.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_icon_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -102,6 +103,9 @@ public class FileIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ico
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -137,21 +141,29 @@ public class FileIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Ico
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_icon_new = Interop.downcallHandle(
-            "g_file_icon_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_icon_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
-            "g_file_icon_get_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_icon_get_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_icon_get_type = Interop.downcallHandle(
-            "g_file_icon_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_file_icon_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_file_icon_get_type != null;
     }
 }

@@ -29,8 +29,8 @@ public class BaseParsePrivate extends Struct {
      * @return A new, uninitialized @{link BaseParsePrivate}
      */
     public static BaseParsePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BaseParsePrivate newInstance = new BaseParsePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BaseParsePrivate newInstance = new BaseParsePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BaseParsePrivate extends Struct {
     /**
      * Create a BaseParsePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseParsePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BaseParsePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseParsePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseParsePrivate(input, ownership);
+    public static final Marshal<Addressable, BaseParsePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseParsePrivate(input);
 }

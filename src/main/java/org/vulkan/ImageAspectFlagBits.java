@@ -29,8 +29,8 @@ public class ImageAspectFlagBits extends Struct {
      * @return A new, uninitialized @{link ImageAspectFlagBits}
      */
     public static ImageAspectFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageAspectFlagBits newInstance = new ImageAspectFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageAspectFlagBits newInstance = new ImageAspectFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageAspectFlagBits extends Struct {
     /**
      * Create a ImageAspectFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageAspectFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageAspectFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageAspectFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageAspectFlagBits(input, ownership);
+    public static final Marshal<Addressable, ImageAspectFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageAspectFlagBits(input);
 }

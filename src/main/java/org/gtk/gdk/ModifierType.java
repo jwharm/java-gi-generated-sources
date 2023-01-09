@@ -83,6 +83,9 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ModifierType META_MASK = new ModifierType(268435456);
     
+    /**
+     * Create a new ModifierType with the provided value
+     */
     public ModifierType(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class PipelineVertexInputStateCreateInfo extends Struct {
      * @return A new, uninitialized @{link PipelineVertexInputStateCreateInfo}
      */
     public static PipelineVertexInputStateCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineVertexInputStateCreateInfo newInstance = new PipelineVertexInputStateCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineVertexInputStateCreateInfo newInstance = new PipelineVertexInputStateCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineVertexInputStateCreateInfo extends Struct {
     /**
      * Create a PipelineVertexInputStateCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineVertexInputStateCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineVertexInputStateCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineVertexInputStateCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineVertexInputStateCreateInfo(input, ownership);
+    public static final Marshal<Addressable, PipelineVertexInputStateCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineVertexInputStateCreateInfo(input);
 }

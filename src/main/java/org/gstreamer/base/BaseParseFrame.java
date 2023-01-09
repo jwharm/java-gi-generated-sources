@@ -49,8 +49,8 @@ public class BaseParseFrame extends Struct {
      * @return A new, uninitialized @{link BaseParseFrame}
      */
     public static BaseParseFrame allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BaseParseFrame newInstance = new BaseParseFrame(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BaseParseFrame newInstance = new BaseParseFrame(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -60,10 +60,12 @@ public class BaseParseFrame extends Struct {
      * @return The value of the field {@code buffer}
      */
     public org.gstreamer.gst.Buffer getBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -71,9 +73,11 @@ public class BaseParseFrame extends Struct {
      * @param buffer The new value of the field {@code buffer}
      */
     public void setBuffer(org.gstreamer.gst.Buffer buffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+        }
     }
     
     /**
@@ -81,10 +85,12 @@ public class BaseParseFrame extends Struct {
      * @return The value of the field {@code out_buffer}
      */
     public org.gstreamer.gst.Buffer getOutBuffer() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -92,9 +98,11 @@ public class BaseParseFrame extends Struct {
      * @param outBuffer The new value of the field {@code out_buffer}
      */
     public void setOutBuffer(org.gstreamer.gst.Buffer outBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
+        }
     }
     
     /**
@@ -102,10 +110,12 @@ public class BaseParseFrame extends Struct {
      * @return The value of the field {@code flags}
      */
     public int getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -113,9 +123,11 @@ public class BaseParseFrame extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(int flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+        }
     }
     
     /**
@@ -123,10 +135,12 @@ public class BaseParseFrame extends Struct {
      * @return The value of the field {@code offset}
      */
     public long getOffset() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -134,9 +148,11 @@ public class BaseParseFrame extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(long offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -144,10 +160,12 @@ public class BaseParseFrame extends Struct {
      * @return The value of the field {@code overhead}
      */
     public int getOverhead() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -155,22 +173,26 @@ public class BaseParseFrame extends Struct {
      * @param overhead The new value of the field {@code overhead}
      */
     public void setOverhead(int overhead) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), overhead);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), overhead);
+        }
     }
     
     /**
      * Create a BaseParseFrame proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseParseFrame(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BaseParseFrame(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseParseFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseParseFrame(input, ownership);
+    public static final Marshal<Addressable, BaseParseFrame> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseParseFrame(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gst.Buffer buffer, org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
         MemoryAddress RESULT;
@@ -196,7 +218,8 @@ public class BaseParseFrame extends Struct {
      *     Set to -1 to mark the entire frame as metadata. If in doubt, set to 0.
      */
     public BaseParseFrame(org.gstreamer.gst.Buffer buffer, org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
-        super(constructNew(buffer, flags, overhead), Ownership.FULL);
+        super(constructNew(buffer, flags, overhead));
+        this.takeOwnership();
     }
     
     /**
@@ -206,12 +229,13 @@ public class BaseParseFrame extends Struct {
     public org.gstreamer.base.BaseParseFrame copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_base_parse_frame_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_base_parse_frame_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.BaseParseFrame.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.base.BaseParseFrame.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -219,8 +243,7 @@ public class BaseParseFrame extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_base_parse_frame_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_base_parse_frame_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,8 +258,7 @@ public class BaseParseFrame extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.gst_base_parse_frame_init.invokeExact(
-                    handle());
+            DowncallHandles.gst_base_parse_frame_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,27 +267,27 @@ public class BaseParseFrame extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_base_parse_frame_new = Interop.downcallHandle(
-            "gst_base_parse_frame_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_base_parse_frame_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_parse_frame_copy = Interop.downcallHandle(
-            "gst_base_parse_frame_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_parse_frame_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_parse_frame_free = Interop.downcallHandle(
-            "gst_base_parse_frame_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_parse_frame_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_parse_frame_init = Interop.downcallHandle(
-            "gst_base_parse_frame_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_parse_frame_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -291,7 +313,7 @@ public class BaseParseFrame extends Struct {
             struct = BaseParseFrame.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BaseParseFrame} struct.
          * @return A new instance of {@code BaseParseFrame} with the fields 
          *         that were set in the Builder object.
@@ -306,10 +328,12 @@ public class BaseParseFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -318,10 +342,12 @@ public class BaseParseFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOutBuffer(org.gstreamer.gst.Buffer outBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
+                return this;
+            }
         }
         
         /**
@@ -332,10 +358,12 @@ public class BaseParseFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         /**
@@ -345,10 +373,12 @@ public class BaseParseFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(long offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -360,38 +390,48 @@ public class BaseParseFrame extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOverhead(int overhead) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), overhead);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), overhead);
+                return this;
+            }
         }
         
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         public Builder setGstReservedI(int[] GstReservedI) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_i"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReservedI == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedI, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_i"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReservedI == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedI, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReservedP(java.lang.foreign.MemoryAddress[] GstReservedP) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_p"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReservedP == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedP, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_p"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReservedP == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedP, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setPrivateFlags(int PrivateFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_private_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), PrivateFlags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_private_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), PrivateFlags);
+                return this;
+            }
         }
     }
 }

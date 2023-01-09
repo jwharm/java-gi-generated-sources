@@ -28,27 +28,31 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
     /**
      * Create a EncodingContainerProfile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EncodingContainerProfile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EncodingContainerProfile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EncodingContainerProfile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingContainerProfile(input, ownership);
+    public static final Marshal<Addressable, EncodingContainerProfile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EncodingContainerProfile(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String name, @Nullable java.lang.String description, org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)),
-                    format.handle(),
-                    (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_new.invokeExact(
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)),
+                        format.handle(),
+                        (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -60,7 +64,8 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      * @param preset The preset to use for this profile.
      */
     public EncodingContainerProfile(@Nullable java.lang.String name, @Nullable java.lang.String description, org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
-        super(constructNew(name, description, format, preset), Ownership.FULL);
+        super(constructNew(name, description, format, preset));
+        this.takeOwnership();
     }
     
     /**
@@ -106,12 +111,11 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
     public org.gtk.glib.List getProfiles() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_get_profiles.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_get_profiles.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -144,6 +148,9 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      */
     public static class Builder extends org.gstreamer.pbutils.EncodingProfile.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -168,33 +175,41 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
     private static class DowncallHandles {
         
         private static final MethodHandle gst_encoding_container_profile_new = Interop.downcallHandle(
-            "gst_encoding_container_profile_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_container_profile_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_container_profile_add_profile = Interop.downcallHandle(
-            "gst_encoding_container_profile_add_profile",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_container_profile_add_profile",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_container_profile_contains_profile = Interop.downcallHandle(
-            "gst_encoding_container_profile_contains_profile",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_container_profile_contains_profile",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_container_profile_get_profiles = Interop.downcallHandle(
-            "gst_encoding_container_profile_get_profiles",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_container_profile_get_profiles",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_container_profile_get_type = Interop.downcallHandle(
-            "gst_encoding_container_profile_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_encoding_container_profile_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_encoding_container_profile_get_type != null;
     }
 }

@@ -56,8 +56,11 @@ import org.jetbrains.annotations.*;
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryMonitorImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryMonitorImpl(input, ownership);
+    public static final Marshal<Addressable, MemoryMonitorImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryMonitorImpl(input);
     
     /**
      * Get the gtype
@@ -84,22 +87,45 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MemoryMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MemoryMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MemoryMonitor) Interop.register(RESULT, org.gtk.gio.MemoryMonitor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
+    /**
+     * Functional interface declaration of the {@code LowMemoryWarning} callback.
+     */
     @FunctionalInterface
     public interface LowMemoryWarning {
+    
+        /**
+         * Emitted when the system is running low on free memory. The signal
+         * handler should then take the appropriate action depending on the
+         * warning level. See the {@link MemoryMonitorWarningLevel} documentation for
+         * details.
+         */
         void run(org.gtk.gio.MemoryMonitorWarningLevel level);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceMemoryMonitor, int level) {
             run(org.gtk.gio.MemoryMonitorWarningLevel.of(level));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LowMemoryWarning.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LowMemoryWarning.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,9 +138,10 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<MemoryMonitor.LowMemoryWarning> onLowMemoryWarning(MemoryMonitor.LowMemoryWarning handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("low-memory-warning"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("low-memory-warning", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -126,27 +153,42 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_memory_monitor_get_type = Interop.downcallHandle(
-            "g_memory_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_memory_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
-            "g_memory_monitor_dup_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_monitor_dup_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The MemoryMonitorImpl type represents a native instance of the MemoryMonitor interface.
+     */
     class MemoryMonitorImpl extends org.gtk.gobject.GObject implements MemoryMonitor {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public MemoryMonitorImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of MemoryMonitor for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public MemoryMonitorImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_memory_monitor_get_type != null;
     }
 }

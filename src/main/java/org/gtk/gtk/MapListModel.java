@@ -54,14 +54,16 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
     /**
      * Create a MapListModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MapListModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MapListModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MapListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MapListModel(input, ownership);
+    public static final Marshal<Addressable, MapListModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MapListModel(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc, org.gtk.glib.DestroyNotify userDestroy) {
         MemoryAddress RESULT;
@@ -85,7 +87,8 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
      * @param userDestroy destroy notifier for {@code user_data}
      */
     public MapListModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc, org.gtk.glib.DestroyNotify userDestroy) {
-        super(constructNew(model, mapFunc, userDestroy), Ownership.FULL);
+        super(constructNew(model, mapFunc, userDestroy));
+        this.takeOwnership();
     }
     
     /**
@@ -95,12 +98,11 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_map_list_model_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_map_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -110,8 +112,7 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
     public boolean hasMap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_map_list_model_has_map.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_map_list_model_has_map.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,6 +194,9 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -261,39 +265,47 @@ public class MapListModel extends org.gtk.gobject.GObject implements org.gtk.gio
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
-            "gtk_map_list_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_map_list_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
-            "gtk_map_list_model_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_map_list_model_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
-            "gtk_map_list_model_has_map",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_map_list_model_has_map",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
-            "gtk_map_list_model_set_map_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_map_list_model_set_map_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
-            "gtk_map_list_model_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_map_list_model_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_map_list_model_get_type = Interop.downcallHandle(
-            "gtk_map_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_map_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_map_list_model_get_type != null;
     }
 }

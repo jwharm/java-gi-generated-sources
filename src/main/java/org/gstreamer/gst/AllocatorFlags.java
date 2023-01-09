@@ -22,6 +22,9 @@ public class AllocatorFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AllocatorFlags LAST = new AllocatorFlags(1048576);
     
+    /**
+     * Create a new AllocatorFlags with the provided value
+     */
     public AllocatorFlags(int value) {
         super(value);
     }

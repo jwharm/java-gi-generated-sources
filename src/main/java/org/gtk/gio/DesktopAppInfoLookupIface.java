@@ -36,8 +36,8 @@ public class DesktopAppInfoLookupIface extends Struct {
      * @return A new, uninitialized @{link DesktopAppInfoLookupIface}
      */
     public static DesktopAppInfoLookupIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DesktopAppInfoLookupIface newInstance = new DesktopAppInfoLookupIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DesktopAppInfoLookupIface newInstance = new DesktopAppInfoLookupIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class DesktopAppInfoLookupIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,25 +56,45 @@ public class DesktopAppInfoLookupIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetDefaultForUriSchemeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetDefaultForUriSchemeCallback {
+    
         @Nullable org.gtk.gio.AppInfo run(org.gtk.gio.DesktopAppInfoLookup lookup, java.lang.String uriScheme);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress lookup, MemoryAddress uriScheme) {
-            var RESULT = run((org.gtk.gio.DesktopAppInfoLookup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(lookup)), org.gtk.gio.DesktopAppInfoLookup.fromAddress).marshal(lookup, Ownership.NONE), Marshal.addressToString.marshal(uriScheme, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.DesktopAppInfoLookup) Interop.register(lookup, org.gtk.gio.DesktopAppInfoLookup.fromAddress).marshal(lookup, null), Marshal.addressToString.marshal(uriScheme, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetDefaultForUriSchemeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetDefaultForUriSchemeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,22 +103,26 @@ public class DesktopAppInfoLookupIface extends Struct {
      * @param getDefaultForUriScheme The new value of the field {@code get_default_for_uri_scheme}
      */
     public void setGetDefaultForUriScheme(GetDefaultForUriSchemeCallback getDefaultForUriScheme) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_default_for_uri_scheme"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultForUriScheme == null ? MemoryAddress.NULL : getDefaultForUriScheme.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_default_for_uri_scheme"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDefaultForUriScheme == null ? MemoryAddress.NULL : getDefaultForUriScheme.toCallback()));
+        }
     }
     
     /**
      * Create a DesktopAppInfoLookupIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DesktopAppInfoLookupIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DesktopAppInfoLookupIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DesktopAppInfoLookupIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DesktopAppInfoLookupIface(input, ownership);
+    public static final Marshal<Addressable, DesktopAppInfoLookupIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DesktopAppInfoLookupIface(input);
     
     /**
      * A {@link DesktopAppInfoLookupIface.Builder} object constructs a {@link DesktopAppInfoLookupIface} 
@@ -122,7 +146,7 @@ public class DesktopAppInfoLookupIface extends Struct {
             struct = DesktopAppInfoLookupIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DesktopAppInfoLookupIface} struct.
          * @return A new instance of {@code DesktopAppInfoLookupIface} with the fields 
          *         that were set in the Builder object.
@@ -132,17 +156,21 @@ public class DesktopAppInfoLookupIface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setGetDefaultForUriScheme(GetDefaultForUriSchemeCallback getDefaultForUriScheme) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_default_for_uri_scheme"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDefaultForUriScheme == null ? MemoryAddress.NULL : getDefaultForUriScheme.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_default_for_uri_scheme"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDefaultForUriScheme == null ? MemoryAddress.NULL : getDefaultForUriScheme.toCallback()));
+                return this;
+            }
         }
     }
 }

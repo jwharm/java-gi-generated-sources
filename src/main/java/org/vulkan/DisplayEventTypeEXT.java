@@ -29,8 +29,8 @@ public class DisplayEventTypeEXT extends Struct {
      * @return A new, uninitialized @{link DisplayEventTypeEXT}
      */
     public static DisplayEventTypeEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplayEventTypeEXT newInstance = new DisplayEventTypeEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplayEventTypeEXT newInstance = new DisplayEventTypeEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplayEventTypeEXT extends Struct {
     /**
      * Create a DisplayEventTypeEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplayEventTypeEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplayEventTypeEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplayEventTypeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayEventTypeEXT(input, ownership);
+    public static final Marshal<Addressable, DisplayEventTypeEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplayEventTypeEXT(input);
 }

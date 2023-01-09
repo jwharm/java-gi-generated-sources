@@ -28,14 +28,16 @@ public class ProximityEvent extends org.gtk.gdk.Event {
     /**
      * Create a ProximityEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProximityEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProximityEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProximityEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProximityEvent(input, ownership);
+    public static final Marshal<Addressable, ProximityEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProximityEvent(input);
     
     /**
      * Get the gtype
@@ -54,9 +56,17 @@ public class ProximityEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_proximity_event_get_type = Interop.downcallHandle(
-            "gdk_proximity_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_proximity_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_proximity_event_get_type != null;
     }
 }

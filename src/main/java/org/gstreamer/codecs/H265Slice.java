@@ -32,8 +32,8 @@ public class H265Slice extends Struct {
      * @return A new, uninitialized @{link H265Slice}
      */
     public static H265Slice allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H265Slice newInstance = new H265Slice(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H265Slice newInstance = new H265Slice(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,10 +43,12 @@ public class H265Slice extends Struct {
      * @return The value of the field {@code header}
      */
     public java.lang.foreign.MemoryAddress getHeader() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("header"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("header"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -54,9 +56,11 @@ public class H265Slice extends Struct {
      * @param header The new value of the field {@code header}
      */
     public void setHeader(java.lang.foreign.MemoryAddress header) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("header"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("header"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
+        }
     }
     
     /**
@@ -64,10 +68,12 @@ public class H265Slice extends Struct {
      * @return The value of the field {@code nalu}
      */
     public java.lang.foreign.MemoryAddress getNalu() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -75,22 +81,26 @@ public class H265Slice extends Struct {
      * @param nalu The new value of the field {@code nalu}
      */
     public void setNalu(java.lang.foreign.MemoryAddress nalu) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nalu == null ? MemoryAddress.NULL : (Addressable) nalu));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nalu == null ? MemoryAddress.NULL : (Addressable) nalu));
+        }
     }
     
     /**
      * Create a H265Slice proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H265Slice(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H265Slice(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H265Slice> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H265Slice(input, ownership);
+    public static final Marshal<Addressable, H265Slice> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H265Slice(input);
     
     /**
      * A {@link H265Slice.Builder} object constructs a {@link H265Slice} 
@@ -114,7 +124,7 @@ public class H265Slice extends Struct {
             struct = H265Slice.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link H265Slice} struct.
          * @return A new instance of {@code H265Slice} with the fields 
          *         that were set in the Builder object.
@@ -124,17 +134,21 @@ public class H265Slice extends Struct {
         }
         
         public Builder setHeader(java.lang.foreign.MemoryAddress header) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("header"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("header"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (header == null ? MemoryAddress.NULL : (Addressable) header));
+                return this;
+            }
         }
         
         public Builder setNalu(java.lang.foreign.MemoryAddress nalu) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nalu == null ? MemoryAddress.NULL : (Addressable) nalu));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nalu"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nalu == null ? MemoryAddress.NULL : (Addressable) nalu));
+                return this;
+            }
         }
     }
 }

@@ -9,26 +9,32 @@ import org.jetbrains.annotations.*;
  * Passed as argument to various keybinding signals.
  */
 public enum ScrollStep implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Scroll in steps.
      */
     STEPS(0),
+    
     /**
      * Scroll by pages.
      */
     PAGES(1),
+    
     /**
      * Scroll to ends.
      */
     ENDS(2),
+    
     /**
      * Scroll in horizontal steps.
      */
     HORIZONTAL_STEPS(3),
+    
     /**
      * Scroll by horizontal pages.
      */
     HORIZONTAL_PAGES(4),
+    
     /**
      * Scroll to the horizontal ends.
      */
@@ -37,15 +43,29 @@ public enum ScrollStep implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkScrollStep";
     
     private final int value;
+    
+    /**
+     * Create a new ScrollStep for the provided value
+     * @param numeric value the enum value
+     */
     ScrollStep(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ScrollStep for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ScrollStep of(int value) {
         return switch (value) {
             case 0 -> STEPS;

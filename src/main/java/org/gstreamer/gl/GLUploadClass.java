@@ -35,8 +35,8 @@ public class GLUploadClass extends Struct {
      * @return A new, uninitialized @{link GLUploadClass}
      */
     public static GLUploadClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLUploadClass newInstance = new GLUploadClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLUploadClass newInstance = new GLUploadClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class GLUploadClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,22 +55,26 @@ public class GLUploadClass extends Struct {
      * @param objectClass The new value of the field {@code object_class}
      */
     public void setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        }
     }
     
     /**
      * Create a GLUploadClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLUploadClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLUploadClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLUploadClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLUploadClass(input, ownership);
+    public static final Marshal<Addressable, GLUploadClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLUploadClass(input);
     
     /**
      * A {@link GLUploadClass.Builder} object constructs a {@link GLUploadClass} 
@@ -94,7 +98,7 @@ public class GLUploadClass extends Struct {
             struct = GLUploadClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLUploadClass} struct.
          * @return A new instance of {@code GLUploadClass} with the fields 
          *         that were set in the Builder object.
@@ -104,17 +108,21 @@ public class GLUploadClass extends Struct {
         }
         
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

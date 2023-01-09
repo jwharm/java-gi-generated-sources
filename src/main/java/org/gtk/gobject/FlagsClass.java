@@ -38,8 +38,8 @@ public class FlagsClass extends Struct {
      * @return A new, uninitialized @{link FlagsClass}
      */
     public static FlagsClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FlagsClass newInstance = new FlagsClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FlagsClass newInstance = new FlagsClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class FlagsClass extends Struct {
      */
     public org.gtk.gobject.TypeClass getGTypeClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,9 +58,11 @@ public class FlagsClass extends Struct {
      * @param gTypeClass The new value of the field {@code g_type_class}
      */
     public void setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+        }
     }
     
     /**
@@ -68,10 +70,12 @@ public class FlagsClass extends Struct {
      * @return The value of the field {@code mask}
      */
     public int getMask() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +83,11 @@ public class FlagsClass extends Struct {
      * @param mask The new value of the field {@code mask}
      */
     public void setMask(int mask) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mask);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), mask);
+        }
     }
     
     /**
@@ -89,10 +95,12 @@ public class FlagsClass extends Struct {
      * @return The value of the field {@code n_values}
      */
     public int getNValues() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -100,9 +108,11 @@ public class FlagsClass extends Struct {
      * @param nValues The new value of the field {@code n_values}
      */
     public void setNValues(int nValues) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nValues);
+        }
     }
     
     /**
@@ -110,10 +120,12 @@ public class FlagsClass extends Struct {
      * @return The value of the field {@code values}
      */
     public org.gtk.gobject.FlagsValue getValues() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gobject.FlagsValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gobject.FlagsValue.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -121,22 +133,26 @@ public class FlagsClass extends Struct {
      * @param values The new value of the field {@code values}
      */
     public void setValues(org.gtk.gobject.FlagsValue values) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+        }
     }
     
     /**
      * Create a FlagsClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FlagsClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FlagsClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FlagsClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlagsClass(input, ownership);
+    public static final Marshal<Addressable, FlagsClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FlagsClass(input);
     
     /**
      * A {@link FlagsClass.Builder} object constructs a {@link FlagsClass} 
@@ -160,7 +176,7 @@ public class FlagsClass extends Struct {
             struct = FlagsClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FlagsClass} struct.
          * @return A new instance of {@code FlagsClass} with the fields 
          *         that were set in the Builder object.
@@ -175,10 +191,12 @@ public class FlagsClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -187,10 +205,12 @@ public class FlagsClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMask(int mask) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mask);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), mask);
+                return this;
+            }
         }
         
         /**
@@ -199,10 +219,12 @@ public class FlagsClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNValues(int nValues) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nValues);
+                return this;
+            }
         }
         
         /**
@@ -212,10 +234,12 @@ public class FlagsClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValues(org.gtk.gobject.FlagsValue values) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+                return this;
+            }
         }
     }
 }

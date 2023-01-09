@@ -67,8 +67,8 @@ public class H264Picture extends Struct {
      * @return A new, uninitialized @{link H264Picture}
      */
     public static H264Picture allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H264Picture newInstance = new H264Picture(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H264Picture newInstance = new H264Picture(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -76,14 +76,16 @@ public class H264Picture extends Struct {
     /**
      * Create a H264Picture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H264Picture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H264Picture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H264Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264Picture(input, ownership);
+    public static final Marshal<Addressable, H264Picture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H264Picture(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -99,7 +101,8 @@ public class H264Picture extends Struct {
      * Create new {@link H264Picture}
      */
     public H264Picture() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -110,8 +113,7 @@ public class H264Picture extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_h264_picture_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_h264_picture_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,27 +159,27 @@ public class H264Picture extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_h264_picture_new = Interop.downcallHandle(
-            "gst_h264_picture_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_picture_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_picture_get_user_data = Interop.downcallHandle(
-            "gst_h264_picture_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_picture_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_picture_set_reference = Interop.downcallHandle(
-            "gst_h264_picture_set_reference",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_picture_set_reference",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_picture_set_user_data = Interop.downcallHandle(
-            "gst_h264_picture_set_user_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_picture_set_user_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -203,7 +205,7 @@ public class H264Picture extends Struct {
             struct = H264Picture.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link H264Picture} struct.
          * @return A new instance of {@code H264Picture} with the fields 
          *         that were set in the Builder object.
@@ -213,234 +215,300 @@ public class H264Picture extends Struct {
         }
         
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setType(java.lang.foreign.MemoryAddress type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) type));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) type));
+                return this;
+            }
         }
         
         public Builder setSystemFrameNumber(int systemFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+                return this;
+            }
         }
         
         public Builder setPicOrderCntType(byte picOrderCntType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picOrderCntType);
+                return this;
+            }
         }
         
         public Builder setTopFieldOrderCnt(int topFieldOrderCnt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("top_field_order_cnt"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), topFieldOrderCnt);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("top_field_order_cnt"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), topFieldOrderCnt);
+                return this;
+            }
         }
         
         public Builder setBottomFieldOrderCnt(int bottomFieldOrderCnt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bottom_field_order_cnt"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottomFieldOrderCnt);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bottom_field_order_cnt"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bottomFieldOrderCnt);
+                return this;
+            }
         }
         
         public Builder setPicOrderCnt(int picOrderCnt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCnt);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picOrderCnt);
+                return this;
+            }
         }
         
         public Builder setPicOrderCntMsb(int picOrderCntMsb) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_msb"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntMsb);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_msb"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picOrderCntMsb);
+                return this;
+            }
         }
         
         public Builder setPicOrderCntLsb(int picOrderCntLsb) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_lsb"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntLsb);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_lsb"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picOrderCntLsb);
+                return this;
+            }
         }
         
         public Builder setDeltaPicOrderCntBottom(int deltaPicOrderCntBottom) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt_bottom"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCntBottom);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt_bottom"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaPicOrderCntBottom);
+                return this;
+            }
         }
         
         public Builder setDeltaPicOrderCnt0(int deltaPicOrderCnt0) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt0"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCnt0);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt0"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaPicOrderCnt0);
+                return this;
+            }
         }
         
         public Builder setDeltaPicOrderCnt1(int deltaPicOrderCnt1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCnt1);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), deltaPicOrderCnt1);
+                return this;
+            }
         }
         
         public Builder setPicNum(int picNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picNum);
+                return this;
+            }
         }
         
         public Builder setLongTermPicNum(int longTermPicNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("long_term_pic_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), longTermPicNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("long_term_pic_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), longTermPicNum);
+                return this;
+            }
         }
         
         public Builder setFrameNum(int frameNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameNum);
+                return this;
+            }
         }
         
         public Builder setFrameNumOffset(int frameNumOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_num_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNumOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_num_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameNumOffset);
+                return this;
+            }
         }
         
         public Builder setFrameNumWrap(int frameNumWrap) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_num_wrap"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNumWrap);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_num_wrap"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameNumWrap);
+                return this;
+            }
         }
         
         public Builder setLongTermFrameIdx(int longTermFrameIdx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("long_term_frame_idx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), longTermFrameIdx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("long_term_frame_idx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), longTermFrameIdx);
+                return this;
+            }
         }
         
         public Builder setNalRefIdc(int nalRefIdc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nal_ref_idc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nalRefIdc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nal_ref_idc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nalRefIdc);
+                return this;
+            }
         }
         
         public Builder setIdr(boolean idr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("idr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(idr, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("idr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(idr, null).intValue());
+                return this;
+            }
         }
         
         public Builder setIdrPicId(int idrPicId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("idr_pic_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), idrPicId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("idr_pic_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), idrPicId);
+                return this;
+            }
         }
         
         public Builder setRef(org.gstreamer.codecs.H264PictureReference ref) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ref == null ? MemoryAddress.NULL : ref.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ref == null ? MemoryAddress.NULL : ref.getValue()));
+                return this;
+            }
         }
         
         public Builder setRefPic(boolean refPic) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_pic"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(refPic, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_pic"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(refPic, null).intValue());
+                return this;
+            }
         }
         
         public Builder setNeededForOutput(boolean neededForOutput) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("needed_for_output"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(neededForOutput, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("needed_for_output"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(neededForOutput, null).intValue());
+                return this;
+            }
         }
         
         public Builder setMemMgmt5(boolean memMgmt5) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mem_mgmt_5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(memMgmt5, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mem_mgmt_5"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(memMgmt5, null).intValue());
+                return this;
+            }
         }
         
         public Builder setNonexisting(boolean nonexisting) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nonexisting"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(nonexisting, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nonexisting"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(nonexisting, null).intValue());
+                return this;
+            }
         }
         
         public Builder setField(org.gstreamer.codecs.H264PictureField field) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (field == null ? MemoryAddress.NULL : field.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("field"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (field == null ? MemoryAddress.NULL : field.getValue()));
+                return this;
+            }
         }
         
         public Builder setDecRefPicMarking(java.lang.foreign.MemoryAddress decRefPicMarking) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dec_ref_pic_marking"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decRefPicMarking == null ? MemoryAddress.NULL : (Addressable) decRefPicMarking));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dec_ref_pic_marking"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decRefPicMarking == null ? MemoryAddress.NULL : (Addressable) decRefPicMarking));
+                return this;
+            }
         }
         
         public Builder setSecondField(boolean secondField) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("second_field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(secondField, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("second_field"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(secondField, null).intValue());
+                return this;
+            }
         }
         
         public Builder setOtherField(org.gstreamer.codecs.H264Picture otherField) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("other_field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (otherField == null ? MemoryAddress.NULL : otherField.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("other_field"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (otherField == null ? MemoryAddress.NULL : otherField.handle()));
+                return this;
+            }
         }
         
         public Builder setBufferFlags(org.gstreamer.video.VideoBufferFlags bufferFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bufferFlags == null ? MemoryAddress.NULL : bufferFlags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bufferFlags == null ? MemoryAddress.NULL : bufferFlags.getValue()));
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
     }
 }

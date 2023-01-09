@@ -34,6 +34,9 @@ public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TextSearchFlags CASE_INSENSITIVE = new TextSearchFlags(4);
     
+    /**
+     * Create a new TextSearchFlags with the provided value
+     */
     public TextSearchFlags(int value) {
         super(value);
     }

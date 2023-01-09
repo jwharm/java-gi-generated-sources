@@ -35,8 +35,8 @@ public class NavigationInterface extends Struct {
      * @return A new, uninitialized @{link NavigationInterface}
      */
     public static NavigationInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NavigationInterface newInstance = new NavigationInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NavigationInterface newInstance = new NavigationInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class NavigationInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,24 +55,41 @@ public class NavigationInterface extends Struct {
      * @param iface The new value of the field {@code iface}
      */
     public void setIface(org.gtk.gobject.TypeInterface iface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SendEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SendEventCallback {
+    
         void run(org.gstreamer.video.Navigation navigation, org.gstreamer.gst.Structure structure);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress navigation, MemoryAddress structure) {
-            run((org.gstreamer.video.Navigation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(navigation)), org.gstreamer.video.Navigation.fromAddress).marshal(navigation, Ownership.NONE), org.gstreamer.gst.Structure.fromAddress.marshal(structure, Ownership.NONE));
+            run((org.gstreamer.video.Navigation) Interop.register(navigation, org.gstreamer.video.Navigation.fromAddress).marshal(navigation, null), org.gstreamer.gst.Structure.fromAddress.marshal(structure, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SendEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SendEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,22 +98,26 @@ public class NavigationInterface extends Struct {
      * @param sendEvent The new value of the field {@code send_event}
      */
     public void setSendEvent(SendEventCallback sendEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+        }
     }
     
     /**
      * Create a NavigationInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NavigationInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NavigationInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NavigationInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NavigationInterface(input, ownership);
+    public static final Marshal<Addressable, NavigationInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NavigationInterface(input);
     
     /**
      * A {@link NavigationInterface.Builder} object constructs a {@link NavigationInterface} 
@@ -120,7 +141,7 @@ public class NavigationInterface extends Struct {
             struct = NavigationInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link NavigationInterface} struct.
          * @return A new instance of {@code NavigationInterface} with the fields 
          *         that were set in the Builder object.
@@ -135,17 +156,21 @@ public class NavigationInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIface(org.gtk.gobject.TypeInterface iface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (iface == null ? MemoryAddress.NULL : iface.handle()));
+                return this;
+            }
         }
         
         public Builder setSendEvent(SendEventCallback sendEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+                return this;
+            }
         }
     }
 }

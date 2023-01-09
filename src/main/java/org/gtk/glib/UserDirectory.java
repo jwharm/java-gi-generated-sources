@@ -16,38 +16,47 @@ import org.jetbrains.annotations.*;
  * @version 2.14
  */
 public enum UserDirectory implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the user's Desktop directory
      */
     DIRECTORY_DESKTOP(0),
+    
     /**
      * the user's Documents directory
      */
     DIRECTORY_DOCUMENTS(1),
+    
     /**
      * the user's Downloads directory
      */
     DIRECTORY_DOWNLOAD(2),
+    
     /**
      * the user's Music directory
      */
     DIRECTORY_MUSIC(3),
+    
     /**
      * the user's Pictures directory
      */
     DIRECTORY_PICTURES(4),
+    
     /**
      * the user's shared directory
      */
     DIRECTORY_PUBLIC_SHARE(5),
+    
     /**
      * the user's Templates directory
      */
     DIRECTORY_TEMPLATES(6),
+    
     /**
      * the user's Movies directory
      */
     DIRECTORY_VIDEOS(7),
+    
     /**
      * the number of enum values
      */
@@ -56,15 +65,29 @@ public enum UserDirectory implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GUserDirectory";
     
     private final int value;
+    
+    /**
+     * Create a new UserDirectory for the provided value
+     * @param numeric value the enum value
+     */
     UserDirectory(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UserDirectory for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UserDirectory of(int value) {
         return switch (value) {
             case 0 -> DIRECTORY_DESKTOP;

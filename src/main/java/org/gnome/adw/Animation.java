@@ -74,14 +74,16 @@ public class Animation extends org.gtk.gobject.GObject {
     /**
      * Create a Animation proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Animation(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Animation(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Animation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Animation(input, ownership);
+    public static final Marshal<Addressable, Animation> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Animation(input);
     
     /**
      * Gets the current value of {@code self}.
@@ -93,8 +95,7 @@ public class Animation extends org.gtk.gobject.GObject {
     public org.gnome.adw.AnimationState getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,12 +109,11 @@ public class Animation extends org.gtk.gobject.GObject {
     public org.gnome.adw.AnimationTarget getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.AnimationTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.AnimationTarget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.AnimationTarget) Interop.register(RESULT, org.gnome.adw.AnimationTarget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -123,8 +123,7 @@ public class Animation extends org.gtk.gobject.GObject {
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_animation_get_value.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_animation_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,12 +144,11 @@ public class Animation extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -162,8 +160,7 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public void pause() {
         try {
-            DowncallHandles.adw_animation_pause.invokeExact(
-                    handle());
+            DowncallHandles.adw_animation_pause.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,8 +185,7 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public void play() {
         try {
-            DowncallHandles.adw_animation_play.invokeExact(
-                    handle());
+            DowncallHandles.adw_animation_play.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,8 +198,7 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public void reset() {
         try {
-            DowncallHandles.adw_animation_reset.invokeExact(
-                    handle());
+            DowncallHandles.adw_animation_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,8 +214,7 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public void resume() {
         try {
-            DowncallHandles.adw_animation_resume.invokeExact(
-                    handle());
+            DowncallHandles.adw_animation_resume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,8 +245,7 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public void skip() {
         try {
-            DowncallHandles.adw_animation_skip.invokeExact(
-                    handle());
+            DowncallHandles.adw_animation_skip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,19 +265,38 @@ public class Animation extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Done} callback.
+     */
     @FunctionalInterface
     public interface Done {
+    
+        /**
+         * This signal is emitted when the animation has been completed, either on its
+         * own or via calling {@code Animation#skip}.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAnimation) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Done.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Done.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -295,9 +307,10 @@ public class Animation extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Animation.Done> onDone(Animation.Done handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("done", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -320,6 +333,9 @@ public class Animation extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -398,69 +414,77 @@ public class Animation extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
-            "adw_animation_get_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_get_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
-            "adw_animation_get_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_get_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
-            "adw_animation_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
-            "adw_animation_get_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_get_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_pause = Interop.downcallHandle(
-            "adw_animation_pause",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_pause",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_play = Interop.downcallHandle(
-            "adw_animation_play",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_play",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_reset = Interop.downcallHandle(
-            "adw_animation_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
-            "adw_animation_resume",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_resume",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_set_target = Interop.downcallHandle(
-            "adw_animation_set_target",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_set_target",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_skip = Interop.downcallHandle(
-            "adw_animation_skip",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_animation_skip",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_animation_get_type = Interop.downcallHandle(
-            "adw_animation_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_animation_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_animation_get_type != null;
     }
 }

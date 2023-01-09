@@ -43,8 +43,8 @@ public class ContentProviderClass extends Struct {
      * @return A new, uninitialized @{link ContentProviderClass}
      */
     public static ContentProviderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ContentProviderClass newInstance = new ContentProviderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ContentProviderClass newInstance = new ContentProviderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,7 +55,7 @@ public class ContentProviderClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -63,24 +63,41 @@ public class ContentProviderClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ContentChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ContentChangedCallback {
+    
         void run(org.gtk.gdk.ContentProvider provider);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress provider) {
-            run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE));
+            run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ContentChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ContentChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -89,24 +106,41 @@ public class ContentProviderClass extends Struct {
      * @param contentChanged The new value of the field {@code content_changed}
      */
     public void setContentChanged(ContentChangedCallback contentChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("content_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contentChanged == null ? MemoryAddress.NULL : contentChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("content_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (contentChanged == null ? MemoryAddress.NULL : contentChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AttachClipboardCallback} callback.
+     */
     @FunctionalInterface
     public interface AttachClipboardCallback {
+    
         void run(org.gtk.gdk.ContentProvider provider, org.gtk.gdk.Clipboard clipboard);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress provider, MemoryAddress clipboard) {
-            run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE), (org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clipboard)), org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, Ownership.NONE));
+            run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null), (org.gtk.gdk.Clipboard) Interop.register(clipboard, org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AttachClipboardCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AttachClipboardCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,24 +149,41 @@ public class ContentProviderClass extends Struct {
      * @param attachClipboard The new value of the field {@code attach_clipboard}
      */
     public void setAttachClipboard(AttachClipboardCallback attachClipboard) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attach_clipboard"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attachClipboard == null ? MemoryAddress.NULL : attachClipboard.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attach_clipboard"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attachClipboard == null ? MemoryAddress.NULL : attachClipboard.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DetachClipboardCallback} callback.
+     */
     @FunctionalInterface
     public interface DetachClipboardCallback {
+    
         void run(org.gtk.gdk.ContentProvider provider, org.gtk.gdk.Clipboard clipboard);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress provider, MemoryAddress clipboard) {
-            run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE), (org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clipboard)), org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, Ownership.NONE));
+            run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null), (org.gtk.gdk.Clipboard) Interop.register(clipboard, org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DetachClipboardCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DetachClipboardCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -141,25 +192,43 @@ public class ContentProviderClass extends Struct {
      * @param detachClipboard The new value of the field {@code detach_clipboard}
      */
     public void setDetachClipboard(DetachClipboardCallback detachClipboard) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("detach_clipboard"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detachClipboard == null ? MemoryAddress.NULL : detachClipboard.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("detach_clipboard"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (detachClipboard == null ? MemoryAddress.NULL : detachClipboard.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RefFormatsCallback} callback.
+     */
     @FunctionalInterface
     public interface RefFormatsCallback {
+    
         org.gtk.gdk.ContentFormats run(org.gtk.gdk.ContentProvider provider);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress provider) {
-            var RESULT = run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RefFormatsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RefFormatsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -168,25 +237,43 @@ public class ContentProviderClass extends Struct {
      * @param refFormats The new value of the field {@code ref_formats}
      */
     public void setRefFormats(RefFormatsCallback refFormats) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_formats"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFormats == null ? MemoryAddress.NULL : refFormats.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_formats"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFormats == null ? MemoryAddress.NULL : refFormats.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RefStorableFormatsCallback} callback.
+     */
     @FunctionalInterface
     public interface RefStorableFormatsCallback {
+    
         org.gtk.gdk.ContentFormats run(org.gtk.gdk.ContentProvider provider);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress provider) {
-            var RESULT = run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RefStorableFormatsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RefStorableFormatsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -195,24 +282,43 @@ public class ContentProviderClass extends Struct {
      * @param refStorableFormats The new value of the field {@code ref_storable_formats}
      */
     public void setRefStorableFormats(RefStorableFormatsCallback refStorableFormats) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_storable_formats"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refStorableFormats == null ? MemoryAddress.NULL : refStorableFormats.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_storable_formats"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refStorableFormats == null ? MemoryAddress.NULL : refStorableFormats.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code WriteMimeTypeAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface WriteMimeTypeAsyncCallback {
+    
         void run(org.gtk.gdk.ContentProvider provider, java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress provider, MemoryAddress mimeType, MemoryAddress stream, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE), Marshal.addressToString.marshal(mimeType, null), (org.gtk.gio.OutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.OutputStream.fromAddress).marshal(stream, Ownership.NONE), ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null), Marshal.addressToString.marshal(mimeType, null), (org.gtk.gio.OutputStream) Interop.register(stream, org.gtk.gio.OutputStream.fromAddress).marshal(stream, null), ioPriority, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WriteMimeTypeAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), WriteMimeTypeAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -221,25 +327,42 @@ public class ContentProviderClass extends Struct {
      * @param writeMimeTypeAsync The new value of the field {@code write_mime_type_async}
      */
     public void setWriteMimeTypeAsync(WriteMimeTypeAsyncCallback writeMimeTypeAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeAsync == null ? MemoryAddress.NULL : writeMimeTypeAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (writeMimeTypeAsync == null ? MemoryAddress.NULL : writeMimeTypeAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code WriteMimeTypeFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface WriteMimeTypeFinishCallback {
+    
         boolean run(org.gtk.gdk.ContentProvider provider, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress provider, MemoryAddress result) {
-            var RESULT = run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WriteMimeTypeFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), WriteMimeTypeFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -248,25 +371,42 @@ public class ContentProviderClass extends Struct {
      * @param writeMimeTypeFinish The new value of the field {@code write_mime_type_finish}
      */
     public void setWriteMimeTypeFinish(WriteMimeTypeFinishCallback writeMimeTypeFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeFinish == null ? MemoryAddress.NULL : writeMimeTypeFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (writeMimeTypeFinish == null ? MemoryAddress.NULL : writeMimeTypeFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetValueCallback} callback.
+     */
     @FunctionalInterface
     public interface GetValueCallback {
+    
         boolean run(org.gtk.gdk.ContentProvider provider, org.gtk.gobject.Value value);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress provider, MemoryAddress value) {
-            var RESULT = run((org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.ContentProvider) Interop.register(provider, org.gtk.gdk.ContentProvider.fromAddress).marshal(provider, null), org.gtk.gobject.Value.fromAddress.marshal(value, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetValueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetValueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -275,22 +415,26 @@ public class ContentProviderClass extends Struct {
      * @param getValue The new value of the field {@code get_value}
      */
     public void setGetValue(GetValueCallback getValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+        }
     }
     
     /**
      * Create a ContentProviderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ContentProviderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ContentProviderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ContentProviderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentProviderClass(input, ownership);
+    public static final Marshal<Addressable, ContentProviderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ContentProviderClass(input);
     
     /**
      * A {@link ContentProviderClass.Builder} object constructs a {@link ContentProviderClass} 
@@ -314,7 +458,7 @@ public class ContentProviderClass extends Struct {
             struct = ContentProviderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ContentProviderClass} struct.
          * @return A new instance of {@code ContentProviderClass} with the fields 
          *         that were set in the Builder object.
@@ -324,73 +468,93 @@ public class ContentProviderClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setContentChanged(ContentChangedCallback contentChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("content_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contentChanged == null ? MemoryAddress.NULL : contentChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("content_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (contentChanged == null ? MemoryAddress.NULL : contentChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAttachClipboard(AttachClipboardCallback attachClipboard) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attach_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attachClipboard == null ? MemoryAddress.NULL : attachClipboard.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attach_clipboard"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attachClipboard == null ? MemoryAddress.NULL : attachClipboard.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDetachClipboard(DetachClipboardCallback detachClipboard) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("detach_clipboard"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detachClipboard == null ? MemoryAddress.NULL : detachClipboard.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("detach_clipboard"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (detachClipboard == null ? MemoryAddress.NULL : detachClipboard.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRefFormats(RefFormatsCallback refFormats) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_formats"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFormats == null ? MemoryAddress.NULL : refFormats.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_formats"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFormats == null ? MemoryAddress.NULL : refFormats.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRefStorableFormats(RefStorableFormatsCallback refStorableFormats) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_storable_formats"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refStorableFormats == null ? MemoryAddress.NULL : refStorableFormats.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_storable_formats"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refStorableFormats == null ? MemoryAddress.NULL : refStorableFormats.toCallback()));
+                return this;
+            }
         }
         
         public Builder setWriteMimeTypeAsync(WriteMimeTypeAsyncCallback writeMimeTypeAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeAsync == null ? MemoryAddress.NULL : writeMimeTypeAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (writeMimeTypeAsync == null ? MemoryAddress.NULL : writeMimeTypeAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setWriteMimeTypeFinish(WriteMimeTypeFinishCallback writeMimeTypeFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeMimeTypeFinish == null ? MemoryAddress.NULL : writeMimeTypeFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("write_mime_type_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (writeMimeTypeFinish == null ? MemoryAddress.NULL : writeMimeTypeFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetValue(GetValueCallback getValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getValue == null ? MemoryAddress.NULL : getValue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

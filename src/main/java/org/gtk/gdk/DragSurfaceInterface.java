@@ -32,8 +32,8 @@ public class DragSurfaceInterface extends Struct {
      * @return A new, uninitialized @{link DragSurfaceInterface}
      */
     public static DragSurfaceInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DragSurfaceInterface newInstance = new DragSurfaceInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DragSurfaceInterface newInstance = new DragSurfaceInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,12 +41,14 @@ public class DragSurfaceInterface extends Struct {
     /**
      * Create a DragSurfaceInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DragSurfaceInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DragSurfaceInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DragSurfaceInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragSurfaceInterface(input, ownership);
+    public static final Marshal<Addressable, DragSurfaceInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DragSurfaceInterface(input);
 }

@@ -38,8 +38,8 @@ public class VideoSinkClass extends Struct {
      * @return A new, uninitialized @{link VideoSinkClass}
      */
     public static VideoSinkClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoSinkClass newInstance = new VideoSinkClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoSinkClass newInstance = new VideoSinkClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class VideoSinkClass extends Struct {
      */
     public org.gstreamer.base.BaseSinkClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,25 +58,42 @@ public class VideoSinkClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.base.BaseSinkClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ShowFrameCallback} callback.
+     */
     @FunctionalInterface
     public interface ShowFrameCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.video.VideoSink videoSink, org.gstreamer.gst.Buffer buf);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress videoSink, MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.video.VideoSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(videoSink)), org.gstreamer.video.VideoSink.fromAddress).marshal(videoSink, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.video.VideoSink) Interop.register(videoSink, org.gstreamer.video.VideoSink.fromAddress).marshal(videoSink, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buf, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShowFrameCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ShowFrameCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,25 +102,42 @@ public class VideoSinkClass extends Struct {
      * @param showFrame The new value of the field {@code show_frame}
      */
     public void setShowFrame(ShowFrameCallback showFrame) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (showFrame == null ? MemoryAddress.NULL : showFrame.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (showFrame == null ? MemoryAddress.NULL : showFrame.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetInfoCallback} callback.
+     */
     @FunctionalInterface
     public interface SetInfoCallback {
+    
         boolean run(org.gstreamer.video.VideoSink videoSink, org.gstreamer.gst.Caps caps, org.gstreamer.video.VideoInfo info);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress videoSink, MemoryAddress caps, MemoryAddress info) {
-            var RESULT = run((org.gstreamer.video.VideoSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(videoSink)), org.gstreamer.video.VideoSink.fromAddress).marshal(videoSink, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE), org.gstreamer.video.VideoInfo.fromAddress.marshal(info, Ownership.NONE));
+            var RESULT = run((org.gstreamer.video.VideoSink) Interop.register(videoSink, org.gstreamer.video.VideoSink.fromAddress).marshal(videoSink, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null), org.gstreamer.video.VideoInfo.fromAddress.marshal(info, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetInfoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetInfoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,22 +146,26 @@ public class VideoSinkClass extends Struct {
      * @param setInfo The new value of the field {@code set_info}
      */
     public void setSetInfo(SetInfoCallback setInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setInfo == null ? MemoryAddress.NULL : setInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setInfo == null ? MemoryAddress.NULL : setInfo.toCallback()));
+        }
     }
     
     /**
      * Create a VideoSinkClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoSinkClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoSinkClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoSinkClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoSinkClass(input, ownership);
+    public static final Marshal<Addressable, VideoSinkClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoSinkClass(input);
     
     /**
      * A {@link VideoSinkClass.Builder} object constructs a {@link VideoSinkClass} 
@@ -151,7 +189,7 @@ public class VideoSinkClass extends Struct {
             struct = VideoSinkClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoSinkClass} struct.
          * @return A new instance of {@code VideoSinkClass} with the fields 
          *         that were set in the Builder object.
@@ -166,31 +204,39 @@ public class VideoSinkClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.base.BaseSinkClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setShowFrame(ShowFrameCallback showFrame) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (showFrame == null ? MemoryAddress.NULL : showFrame.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (showFrame == null ? MemoryAddress.NULL : showFrame.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetInfo(SetInfoCallback setInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setInfo == null ? MemoryAddress.NULL : setInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setInfo == null ? MemoryAddress.NULL : setInfo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

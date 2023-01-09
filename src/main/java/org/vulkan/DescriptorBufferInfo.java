@@ -29,8 +29,8 @@ public class DescriptorBufferInfo extends Struct {
      * @return A new, uninitialized @{link DescriptorBufferInfo}
      */
     public static DescriptorBufferInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DescriptorBufferInfo newInstance = new DescriptorBufferInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DescriptorBufferInfo newInstance = new DescriptorBufferInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DescriptorBufferInfo extends Struct {
     /**
      * Create a DescriptorBufferInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DescriptorBufferInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DescriptorBufferInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DescriptorBufferInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorBufferInfo(input, ownership);
+    public static final Marshal<Addressable, DescriptorBufferInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorBufferInfo(input);
 }

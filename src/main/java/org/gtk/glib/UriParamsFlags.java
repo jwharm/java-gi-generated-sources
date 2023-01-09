@@ -35,6 +35,9 @@ public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final UriParamsFlags PARSE_RELAXED = new UriParamsFlags(4);
     
+    /**
+     * Create a new UriParamsFlags with the provided value
+     */
     public UriParamsFlags(int value) {
         super(value);
     }

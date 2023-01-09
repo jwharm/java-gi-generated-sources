@@ -29,8 +29,8 @@ public class MonitorClass extends Struct {
      * @return A new, uninitialized @{link MonitorClass}
      */
     public static MonitorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MonitorClass newInstance = new MonitorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MonitorClass newInstance = new MonitorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MonitorClass extends Struct {
     /**
      * Create a MonitorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MonitorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MonitorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MonitorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MonitorClass(input, ownership);
+    public static final Marshal<Addressable, MonitorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MonitorClass(input);
 }

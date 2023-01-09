@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VarIntT extends ObjectBase {
+public class VarIntT extends Struct {
     
     static {
         HarfBuzz.javagi$ensureInitialized();
@@ -32,13 +32,14 @@ public class VarIntT extends ObjectBase {
     /**
      * Create a VarIntT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VarIntT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VarIntT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VarIntT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VarIntT(input, ownership);
+    public static final Marshal<Addressable, VarIntT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VarIntT(input);
 }
-

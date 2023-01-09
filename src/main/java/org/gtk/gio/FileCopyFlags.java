@@ -47,6 +47,9 @@ public class FileCopyFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileCopyFlags TARGET_DEFAULT_PERMS = new FileCopyFlags(32);
     
+    /**
+     * Create a new FileCopyFlags with the provided value
+     */
     public FileCopyFlags(int value) {
         super(value);
     }

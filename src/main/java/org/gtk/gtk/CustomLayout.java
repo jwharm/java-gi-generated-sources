@@ -33,14 +33,16 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
     /**
      * Create a CustomLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CustomLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CustomLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CustomLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CustomLayout(input, ownership);
+    public static final Marshal<Addressable, CustomLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CustomLayout(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, org.gtk.gtk.CustomMeasureFunc measure, org.gtk.gtk.CustomAllocateFunc allocate) {
         MemoryAddress RESULT;
@@ -69,7 +71,8 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      *   the layout manager
      */
     public CustomLayout(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, org.gtk.gtk.CustomMeasureFunc measure, org.gtk.gtk.CustomAllocateFunc allocate) {
-        super(constructNew(requestMode, measure, allocate), Ownership.FULL);
+        super(constructNew(requestMode, measure, allocate));
+        this.takeOwnership();
     }
     
     /**
@@ -102,6 +105,9 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
      */
     public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -126,15 +132,23 @@ public class CustomLayout extends org.gtk.gtk.LayoutManager {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_custom_layout_new = Interop.downcallHandle(
-            "gtk_custom_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_custom_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_custom_layout_get_type = Interop.downcallHandle(
-            "gtk_custom_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_custom_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_custom_layout_get_type != null;
     }
 }

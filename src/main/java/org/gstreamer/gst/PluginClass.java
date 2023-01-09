@@ -29,8 +29,8 @@ public class PluginClass extends Struct {
      * @return A new, uninitialized @{link PluginClass}
      */
     public static PluginClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PluginClass newInstance = new PluginClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PluginClass newInstance = new PluginClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PluginClass extends Struct {
     /**
      * Create a PluginClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PluginClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PluginClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PluginClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PluginClass(input, ownership);
+    public static final Marshal<Addressable, PluginClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PluginClass(input);
 }

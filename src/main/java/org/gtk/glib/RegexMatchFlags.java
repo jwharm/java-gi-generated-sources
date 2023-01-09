@@ -137,6 +137,9 @@ public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RegexMatchFlags NOTEMPTY_ATSTART = new RegexMatchFlags(268435456);
     
+    /**
+     * Create a new RegexMatchFlags with the provided value
+     */
     public RegexMatchFlags(int value) {
         super(value);
     }

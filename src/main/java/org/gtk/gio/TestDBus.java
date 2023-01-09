@@ -99,20 +99,21 @@ public class TestDBus extends org.gtk.gobject.GObject {
     /**
      * Create a TestDBus proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestDBus(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TestDBus(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestDBus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestDBus(input, ownership);
+    public static final Marshal<Addressable, TestDBus> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestDBus(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.TestDBusFlags flags) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(
-                    flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,7 +125,8 @@ public class TestDBus extends org.gtk.gobject.GObject {
      * @param flags a {@link TestDBusFlags}
      */
     public TestDBus(org.gtk.gio.TestDBusFlags flags) {
-        super(constructNew(flags), Ownership.FULL);
+        super(constructNew(flags));
+        this.takeOwnership();
     }
     
     /**
@@ -133,12 +135,14 @@ public class TestDBus extends org.gtk.gobject.GObject {
      * @param path path to a directory containing .service files
      */
     public void addServiceDir(java.lang.String path) {
-        try {
-            DowncallHandles.g_test_dbus_add_service_dir.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_test_dbus_add_service_dir.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -151,8 +155,7 @@ public class TestDBus extends org.gtk.gobject.GObject {
      */
     public void down() {
         try {
-            DowncallHandles.g_test_dbus_down.invokeExact(
-                    handle());
+            DowncallHandles.g_test_dbus_down.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,8 +170,7 @@ public class TestDBus extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getBusAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_get_bus_address.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_get_bus_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,8 +184,7 @@ public class TestDBus extends org.gtk.gobject.GObject {
     public org.gtk.gio.TestDBusFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_test_dbus_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_test_dbus_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,8 +201,7 @@ public class TestDBus extends org.gtk.gobject.GObject {
      */
     public void stop() {
         try {
-            DowncallHandles.g_test_dbus_stop.invokeExact(
-                    handle());
+            DowncallHandles.g_test_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,8 +219,7 @@ public class TestDBus extends org.gtk.gobject.GObject {
      */
     public void up() {
         try {
-            DowncallHandles.g_test_dbus_up.invokeExact(
-                    handle());
+            DowncallHandles.g_test_dbus_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -272,6 +271,9 @@ public class TestDBus extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -307,57 +309,65 @@ public class TestDBus extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
-            "g_test_dbus_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_test_dbus_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
-            "g_test_dbus_add_service_dir",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_add_service_dir",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
-            "g_test_dbus_down",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_down",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
-            "g_test_dbus_get_bus_address",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_get_bus_address",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
-            "g_test_dbus_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
-            "g_test_dbus_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
-            "g_test_dbus_up",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_dbus_up",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_test_dbus_get_type = Interop.downcallHandle(
-            "g_test_dbus_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_test_dbus_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
-            "g_test_dbus_unset",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_test_dbus_unset",
+                FunctionDescriptor.ofVoid(),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_test_dbus_get_type != null;
     }
 }

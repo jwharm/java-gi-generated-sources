@@ -14,8 +14,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeSortableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeSortableImpl(input, ownership);
+    public static final Marshal<Addressable, TreeSortableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeSortableImpl(input);
     
     /**
      * Fills in {@code sort_column_id} and {@code order} with the current sort column and the
@@ -28,20 +31,22 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      *   column ids.
      */
     default boolean getSortColumnId(Out<Integer> sortColumnId, Out<org.gtk.gtk.SortType> order) {
-        MemorySegment sortColumnIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment orderPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_sortable_get_sort_column_id.invokeExact(
-                    handle(),
-                    (Addressable) sortColumnIdPOINTER.address(),
-                    (Addressable) orderPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment sortColumnIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment orderPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_sortable_get_sort_column_id.invokeExact(
+                        handle(),
+                        (Addressable) sortColumnIdPOINTER.address(),
+                        (Addressable) orderPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    sortColumnId.set(sortColumnIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    order.set(org.gtk.gtk.SortType.of(orderPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        sortColumnId.set(sortColumnIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        order.set(org.gtk.gtk.SortType.of(orderPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -53,8 +58,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     default boolean hasDefaultSortFunc() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_sortable_has_default_sort_func.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_sortable_has_default_sort_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,8 +142,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      */
     default void sortColumnChanged() {
         try {
-            DowncallHandles.gtk_tree_sortable_sort_column_changed.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_sortable_sort_column_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,19 +162,39 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code SortColumnChanged} callback.
+     */
     @FunctionalInterface
     public interface SortColumnChanged {
+    
+        /**
+         * The ::sort-column-changed signal is emitted when the sort column
+         * or sort order of {@code sortable} is changed. The signal is emitted before
+         * the contents of {@code sortable} are resorted.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeSortable) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SortColumnChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SortColumnChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -183,9 +206,10 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<TreeSortable.SortColumnChanged> onSortColumnChanged(TreeSortable.SortColumnChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("sort-column-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("sort-column-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -197,62 +221,77 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_get_sort_column_id = Interop.downcallHandle(
-            "gtk_tree_sortable_get_sort_column_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_sortable_get_sort_column_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_has_default_sort_func = Interop.downcallHandle(
-            "gtk_tree_sortable_has_default_sort_func",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_sortable_has_default_sort_func",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_default_sort_func = Interop.downcallHandle(
-            "gtk_tree_sortable_set_default_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_sortable_set_default_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_sort_column_id = Interop.downcallHandle(
-            "gtk_tree_sortable_set_sort_column_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_sortable_set_sort_column_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_set_sort_func = Interop.downcallHandle(
-            "gtk_tree_sortable_set_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_sortable_set_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_sort_column_changed = Interop.downcallHandle(
-            "gtk_tree_sortable_sort_column_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_sortable_sort_column_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_sortable_get_type = Interop.downcallHandle(
-            "gtk_tree_sortable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_sortable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TreeSortableImpl type represents a native instance of the TreeSortable interface.
+     */
     class TreeSortableImpl extends org.gtk.gobject.GObject implements TreeSortable {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeSortableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TreeSortable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TreeSortableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_sortable_get_type != null;
     }
 }

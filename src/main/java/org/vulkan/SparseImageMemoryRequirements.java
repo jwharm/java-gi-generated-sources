@@ -29,8 +29,8 @@ public class SparseImageMemoryRequirements extends Struct {
      * @return A new, uninitialized @{link SparseImageMemoryRequirements}
      */
     public static SparseImageMemoryRequirements allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SparseImageMemoryRequirements newInstance = new SparseImageMemoryRequirements(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SparseImageMemoryRequirements newInstance = new SparseImageMemoryRequirements(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SparseImageMemoryRequirements extends Struct {
     /**
      * Create a SparseImageMemoryRequirements proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SparseImageMemoryRequirements(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SparseImageMemoryRequirements(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SparseImageMemoryRequirements> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageMemoryRequirements(input, ownership);
+    public static final Marshal<Addressable, SparseImageMemoryRequirements> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageMemoryRequirements(input);
 }

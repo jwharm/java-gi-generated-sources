@@ -44,25 +44,42 @@ public class MarkupParser extends Struct {
      * @return A new, uninitialized @{link MarkupParser}
      */
     public static MarkupParser allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MarkupParser newInstance = new MarkupParser(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MarkupParser newInstance = new MarkupParser(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code StartElementCallback} callback.
+     */
     @FunctionalInterface
     public interface StartElementCallback {
+    
         void run(org.gtk.glib.MarkupParseContext context, java.lang.String elementName, PointerString attributeNames, PointerString attributeValues);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress elementName, MemoryAddress attributeNames, MemoryAddress attributeValues, MemoryAddress userData) {
-            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, Ownership.NONE), Marshal.addressToString.marshal(elementName, null), new PointerString(attributeNames), new PointerString(attributeValues));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, null), Marshal.addressToString.marshal(elementName, null), new PointerString(attributeNames), new PointerString(attributeValues));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartElementCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartElementCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -71,24 +88,43 @@ public class MarkupParser extends Struct {
      * @param startElement The new value of the field {@code start_element}
      */
     public void setStartElement(StartElementCallback startElement) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startElement == null ? MemoryAddress.NULL : startElement.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startElement == null ? MemoryAddress.NULL : startElement.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndElementCallback} callback.
+     */
     @FunctionalInterface
     public interface EndElementCallback {
+    
         void run(org.gtk.glib.MarkupParseContext context, java.lang.String elementName);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress elementName, MemoryAddress userData) {
-            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, Ownership.NONE), Marshal.addressToString.marshal(elementName, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, null), Marshal.addressToString.marshal(elementName, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndElementCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndElementCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -97,24 +133,43 @@ public class MarkupParser extends Struct {
      * @param endElement The new value of the field {@code end_element}
      */
     public void setEndElement(EndElementCallback endElement) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endElement == null ? MemoryAddress.NULL : endElement.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endElement == null ? MemoryAddress.NULL : endElement.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TextCallback} callback.
+     */
     @FunctionalInterface
     public interface TextCallback {
+    
         void run(org.gtk.glib.MarkupParseContext context, java.lang.String text, long textLen);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress text, long textLen, MemoryAddress userData) {
-            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, Ownership.NONE), Marshal.addressToString.marshal(text, null), textLen);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, null), Marshal.addressToString.marshal(text, null), textLen);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -123,24 +178,43 @@ public class MarkupParser extends Struct {
      * @param text The new value of the field {@code text}
      */
     public void setText(TextCallback text) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : text.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : text.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PassthroughCallback} callback.
+     */
     @FunctionalInterface
     public interface PassthroughCallback {
+    
         void run(org.gtk.glib.MarkupParseContext context, java.lang.String passthroughText, long textLen);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress passthroughText, long textLen, MemoryAddress userData) {
-            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, Ownership.NONE), Marshal.addressToString.marshal(passthroughText, null), textLen);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, null), Marshal.addressToString.marshal(passthroughText, null), textLen);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PassthroughCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PassthroughCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -149,24 +223,41 @@ public class MarkupParser extends Struct {
      * @param passthrough The new value of the field {@code passthrough}
      */
     public void setPassthrough(PassthroughCallback passthrough) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("passthrough"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (passthrough == null ? MemoryAddress.NULL : passthrough.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("passthrough"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (passthrough == null ? MemoryAddress.NULL : passthrough.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ErrorCallback} callback.
+     */
     @FunctionalInterface
     public interface ErrorCallback {
+    
         void run(org.gtk.glib.MarkupParseContext context, org.gtk.glib.Error error);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress error, MemoryAddress userData) {
-            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+            run(org.gtk.glib.MarkupParseContext.fromAddress.marshal(context, null), org.gtk.glib.Error.fromAddress.marshal(error, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ErrorCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ErrorCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -175,22 +266,26 @@ public class MarkupParser extends Struct {
      * @param error The new value of the field {@code error}
      */
     public void setError(ErrorCallback error) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("error"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (error == null ? MemoryAddress.NULL : error.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("error"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (error == null ? MemoryAddress.NULL : error.toCallback()));
+        }
     }
     
     /**
      * Create a MarkupParser proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MarkupParser(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MarkupParser(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MarkupParser> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MarkupParser(input, ownership);
+    public static final Marshal<Addressable, MarkupParser> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MarkupParser(input);
     
     /**
      * A {@link MarkupParser.Builder} object constructs a {@link MarkupParser} 
@@ -214,7 +309,7 @@ public class MarkupParser extends Struct {
             struct = MarkupParser.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MarkupParser} struct.
          * @return A new instance of {@code MarkupParser} with the fields 
          *         that were set in the Builder object.
@@ -224,38 +319,48 @@ public class MarkupParser extends Struct {
         }
         
         public Builder setStartElement(StartElementCallback startElement) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startElement == null ? MemoryAddress.NULL : startElement.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_element"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startElement == null ? MemoryAddress.NULL : startElement.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEndElement(EndElementCallback endElement) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endElement == null ? MemoryAddress.NULL : endElement.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_element"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endElement == null ? MemoryAddress.NULL : endElement.toCallback()));
+                return this;
+            }
         }
         
         public Builder setText(TextCallback text) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : text.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : text.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPassthrough(PassthroughCallback passthrough) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("passthrough"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (passthrough == null ? MemoryAddress.NULL : passthrough.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("passthrough"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (passthrough == null ? MemoryAddress.NULL : passthrough.toCallback()));
+                return this;
+            }
         }
         
         public Builder setError(ErrorCallback error) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("error"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (error == null ? MemoryAddress.NULL : error.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("error"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (error == null ? MemoryAddress.NULL : error.toCallback()));
+                return this;
+            }
         }
     }
 }

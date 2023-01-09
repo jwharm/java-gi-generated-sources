@@ -29,8 +29,8 @@ public class CommandPoolResetFlagBits extends Struct {
      * @return A new, uninitialized @{link CommandPoolResetFlagBits}
      */
     public static CommandPoolResetFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CommandPoolResetFlagBits newInstance = new CommandPoolResetFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CommandPoolResetFlagBits newInstance = new CommandPoolResetFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CommandPoolResetFlagBits extends Struct {
     /**
      * Create a CommandPoolResetFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CommandPoolResetFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CommandPoolResetFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CommandPoolResetFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandPoolResetFlagBits(input, ownership);
+    public static final Marshal<Addressable, CommandPoolResetFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CommandPoolResetFlagBits(input);
 }

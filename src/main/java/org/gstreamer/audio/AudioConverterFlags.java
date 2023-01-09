@@ -29,6 +29,9 @@ public class AudioConverterFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioConverterFlags VARIABLE_RATE = new AudioConverterFlags(2);
     
+    /**
+     * Create a new AudioConverterFlags with the provided value
+     */
     public AudioConverterFlags(int value) {
         super(value);
     }

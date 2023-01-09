@@ -35,8 +35,8 @@ public class VariantIter extends Struct {
      * @return A new, uninitialized @{link VariantIter}
      */
     public static VariantIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantIter newInstance = new VariantIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VariantIter newInstance = new VariantIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class VariantIter extends Struct {
     /**
      * Create a VariantIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VariantIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VariantIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VariantIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantIter(input, ownership);
+    public static final Marshal<Addressable, VariantIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VariantIter(input);
     
     /**
      * Creates a new heap-allocated {@link VariantIter} to iterate over the
@@ -69,12 +71,13 @@ public class VariantIter extends Struct {
     public org.gtk.glib.VariantIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantIter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantIter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -84,8 +87,7 @@ public class VariantIter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_variant_iter_free.invokeExact(
-                    handle());
+            DowncallHandles.g_variant_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,16 +185,18 @@ public class VariantIter extends Struct {
      *          value
      */
     public boolean loop(java.lang.String formatString, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_variant_iter_loop.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(formatString, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_variant_iter_loop.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(formatString, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,8 +210,7 @@ public class VariantIter extends Struct {
     public long nChildren() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_iter_n_children.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_variant_iter_n_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,16 +264,18 @@ public class VariantIter extends Struct {
      * @return {@code true} if a value was unpacked, or {@code false} if there as no value
      */
     public boolean next(java.lang.String formatString, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_variant_iter_next.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(formatString, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_variant_iter_next.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(formatString, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -306,56 +311,57 @@ public class VariantIter extends Struct {
     public @Nullable org.gtk.glib.Variant nextValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_next_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_next_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_variant_iter_copy = Interop.downcallHandle(
-            "g_variant_iter_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_iter_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_iter_free = Interop.downcallHandle(
-            "g_variant_iter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_iter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_iter_init = Interop.downcallHandle(
-            "g_variant_iter_init",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_iter_init",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_iter_loop = Interop.downcallHandle(
-            "g_variant_iter_loop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_variant_iter_loop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_variant_iter_n_children = Interop.downcallHandle(
-            "g_variant_iter_n_children",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_iter_n_children",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_iter_next = Interop.downcallHandle(
-            "g_variant_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_variant_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_variant_iter_next_value = Interop.downcallHandle(
-            "g_variant_iter_next_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_iter_next_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -381,7 +387,7 @@ public class VariantIter extends Struct {
             struct = VariantIter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VariantIter} struct.
          * @return A new instance of {@code VariantIter} with the fields 
          *         that were set in the Builder object.
@@ -391,10 +397,12 @@ public class VariantIter extends Struct {
         }
         
         public Builder setX(long[] x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x == null ? MemoryAddress.NULL : Interop.allocateNativeArray(x, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (x == null ? MemoryAddress.NULL : Interop.allocateNativeArray(x, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

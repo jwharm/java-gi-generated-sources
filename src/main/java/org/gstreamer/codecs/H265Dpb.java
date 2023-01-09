@@ -29,8 +29,8 @@ public class H265Dpb extends Struct {
      * @return A new, uninitialized @{link H265Dpb}
      */
     public static H265Dpb allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H265Dpb newInstance = new H265Dpb(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H265Dpb newInstance = new H265Dpb(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,14 +38,16 @@ public class H265Dpb extends Struct {
     /**
      * Create a H265Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H265Dpb(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H265Dpb(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H265Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H265Dpb(input, ownership);
+    public static final Marshal<Addressable, H265Dpb> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H265Dpb(input);
     
     /**
      * Store the {@code picture} and perform increase pic_latency_cnt as defined in
@@ -80,7 +82,9 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -88,8 +92,7 @@ public class H265Dpb extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_h265_dpb_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_h265_dpb_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +103,7 @@ public class H265Dpb extends Struct {
      */
     public void deleteUnused() {
         try {
-            DowncallHandles.gst_h265_dpb_delete_unused.invokeExact(
-                    handle());
+            DowncallHandles.gst_h265_dpb_delete_unused.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,8 +114,7 @@ public class H265Dpb extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_h265_dpb_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_h265_dpb_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,14 +134,15 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public int getMaxNumPics() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h265_dpb_get_max_num_pics.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h265_dpb_get_max_num_pics.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,18 +158,21 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public PointerProxy<org.gstreamer.codecs.H265Picture> getPicturesAll() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_get_pictures_all.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_get_pictures_all.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.codecs.H265Picture>(RESULT, org.gstreamer.codecs.H265Picture.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.codecs.H265Picture>(RESULT, org.gstreamer.codecs.H265Picture.fromAddress);
     }
     
     /**
@@ -184,7 +189,9 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -201,7 +208,9 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -218,14 +227,15 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h265_dpb_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h265_dpb_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,8 +247,7 @@ public class H265Dpb extends Struct {
      */
     public void markAllNonRef() {
         try {
-            DowncallHandles.gst_h265_dpb_mark_all_non_ref.invokeExact(
-                    handle());
+            DowncallHandles.gst_h265_dpb_mark_all_non_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,8 +270,7 @@ public class H265Dpb extends Struct {
     public int numRefPictures() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h265_dpb_num_ref_pictures.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h265_dpb_num_ref_pictures.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -294,117 +302,117 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H265Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.H265Dpb.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_h265_dpb_add = Interop.downcallHandle(
-            "gst_h265_dpb_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_bump = Interop.downcallHandle(
-            "gst_h265_dpb_bump",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_bump",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_clear = Interop.downcallHandle(
-            "gst_h265_dpb_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_delete_unused = Interop.downcallHandle(
-            "gst_h265_dpb_delete_unused",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_delete_unused",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_free = Interop.downcallHandle(
-            "gst_h265_dpb_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_long_ref_by_poc = Interop.downcallHandle(
-            "gst_h265_dpb_get_long_ref_by_poc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_get_long_ref_by_poc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_max_num_pics = Interop.downcallHandle(
-            "gst_h265_dpb_get_max_num_pics",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_get_max_num_pics",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_picture = Interop.downcallHandle(
-            "gst_h265_dpb_get_picture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_get_picture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_pictures_all = Interop.downcallHandle(
-            "gst_h265_dpb_get_pictures_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_get_pictures_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_ref_by_poc = Interop.downcallHandle(
-            "gst_h265_dpb_get_ref_by_poc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_get_ref_by_poc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_ref_by_poc_lsb = Interop.downcallHandle(
-            "gst_h265_dpb_get_ref_by_poc_lsb",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_get_ref_by_poc_lsb",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_short_ref_by_poc = Interop.downcallHandle(
-            "gst_h265_dpb_get_short_ref_by_poc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_get_short_ref_by_poc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_get_size = Interop.downcallHandle(
-            "gst_h265_dpb_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_mark_all_non_ref = Interop.downcallHandle(
-            "gst_h265_dpb_mark_all_non_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_mark_all_non_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_needs_bump = Interop.downcallHandle(
-            "gst_h265_dpb_needs_bump",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_needs_bump",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_num_ref_pictures = Interop.downcallHandle(
-            "gst_h265_dpb_num_ref_pictures",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_num_ref_pictures",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_set_max_num_pics = Interop.downcallHandle(
-            "gst_h265_dpb_set_max_num_pics",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h265_dpb_set_max_num_pics",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h265_dpb_new = Interop.downcallHandle(
-            "gst_h265_dpb_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h265_dpb_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class PhysicalDeviceShaderDrawParametersFeatures extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceShaderDrawParametersFeatures}
      */
     public static PhysicalDeviceShaderDrawParametersFeatures allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceShaderDrawParametersFeatures newInstance = new PhysicalDeviceShaderDrawParametersFeatures(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceShaderDrawParametersFeatures newInstance = new PhysicalDeviceShaderDrawParametersFeatures(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceShaderDrawParametersFeatures extends Struct {
     /**
      * Create a PhysicalDeviceShaderDrawParametersFeatures proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceShaderDrawParametersFeatures(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceShaderDrawParametersFeatures(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceShaderDrawParametersFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceShaderDrawParametersFeatures(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceShaderDrawParametersFeatures> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceShaderDrawParametersFeatures(input);
 }

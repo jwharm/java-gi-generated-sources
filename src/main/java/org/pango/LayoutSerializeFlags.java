@@ -30,6 +30,9 @@ public class LayoutSerializeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final LayoutSerializeFlags OUTPUT = new LayoutSerializeFlags(2);
     
+    /**
+     * Create a new LayoutSerializeFlags with the provided value
+     */
     public LayoutSerializeFlags(int value) {
         super(value);
     }

@@ -30,24 +30,27 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     /**
      * Create a IOModule proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOModule(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOModule(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOModule(input, ownership);
+    public static final Marshal<Addressable, IOModule> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOModule(input);
     
     private static MemoryAddress constructNew(java.lang.String filename) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(
-                    Marshal.stringToAddress.marshal(filename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(Marshal.stringToAddress.marshal(filename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -56,7 +59,8 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * @param filename filename of the shared library module.
      */
     public IOModule(java.lang.String filename) {
-        super(constructNew(filename), Ownership.FULL);
+        super(constructNew(filename));
+        this.takeOwnership();
     }
     
     /**
@@ -76,8 +80,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public void load() {
         try {
-            DowncallHandles.g_io_module_load.invokeExact(
-                    handle());
+            DowncallHandles.g_io_module_load.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +102,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public void unload() {
         try {
-            DowncallHandles.g_io_module_unload.invokeExact(
-                    handle());
+            DowncallHandles.g_io_module_unload.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,13 +159,15 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      *     must be suitable for freeing with g_strfreev().
      */
     public static PointerString query() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_io_module_query.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_io_module_query.invokeExact();
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -182,6 +186,9 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      */
     public static class Builder extends org.gtk.gobject.TypeModule.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -206,33 +213,41 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     private static class DowncallHandles {
         
         private static final MethodHandle g_io_module_new = Interop.downcallHandle(
-            "g_io_module_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_io_module_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_module_load = Interop.downcallHandle(
-            "g_io_module_load",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_io_module_load",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
-            "g_io_module_unload",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_io_module_unload",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_io_module_get_type = Interop.downcallHandle(
-            "g_io_module_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_io_module_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_io_module_query = Interop.downcallHandle(
-            "g_io_module_query",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_io_module_query",
+                FunctionDescriptor.ofVoid(),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_io_module_get_type != null;
     }
 }

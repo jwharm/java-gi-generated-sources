@@ -32,8 +32,8 @@ public class ShaderArgsBuilder extends Struct {
      * @return A new, uninitialized @{link ShaderArgsBuilder}
      */
     public static ShaderArgsBuilder allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShaderArgsBuilder newInstance = new ShaderArgsBuilder(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ShaderArgsBuilder newInstance = new ShaderArgsBuilder(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class ShaderArgsBuilder extends Struct {
     /**
      * Create a ShaderArgsBuilder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShaderArgsBuilder(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShaderArgsBuilder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShaderArgsBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShaderArgsBuilder(input, ownership);
+    public static final Marshal<Addressable, ShaderArgsBuilder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShaderArgsBuilder(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
         MemoryAddress RESULT;
@@ -69,7 +71,8 @@ public class ShaderArgsBuilder extends Struct {
      * @param initialValues optional {@code GBytes} with initial values
      */
     public ShaderArgsBuilder(org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
-        super(constructNew(shader, initialValues), Ownership.FULL);
+        super(constructNew(shader, initialValues));
+        this.takeOwnership();
     }
     
     /**
@@ -84,12 +87,13 @@ public class ShaderArgsBuilder extends Struct {
     public org.gtk.glib.Bytes freeToArgs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_free_to_args.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_free_to_args.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -99,12 +103,13 @@ public class ShaderArgsBuilder extends Struct {
     public org.gtk.gsk.ShaderArgsBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.ShaderArgsBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gsk.ShaderArgsBuilder.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -251,12 +256,13 @@ public class ShaderArgsBuilder extends Struct {
     public org.gtk.glib.Bytes toArgs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_to_args.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_to_args.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -266,8 +272,7 @@ public class ShaderArgsBuilder extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gsk_shader_args_builder_unref.invokeExact(
-                    handle());
+            DowncallHandles.gsk_shader_args_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,75 +281,75 @@ public class ShaderArgsBuilder extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_shader_args_builder_new = Interop.downcallHandle(
-            "gsk_shader_args_builder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_free_to_args = Interop.downcallHandle(
-            "gsk_shader_args_builder_free_to_args",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_free_to_args",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_ref = Interop.downcallHandle(
-            "gsk_shader_args_builder_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_bool = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_bool",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gsk_shader_args_builder_set_bool",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_float = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_float",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_shader_args_builder_set_float",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_int = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_int",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gsk_shader_args_builder_set_int",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_uint = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_uint",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gsk_shader_args_builder_set_uint",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec2 = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_vec2",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_set_vec2",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec3 = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_vec3",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_set_vec3",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_set_vec4 = Interop.downcallHandle(
-            "gsk_shader_args_builder_set_vec4",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_set_vec4",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_to_args = Interop.downcallHandle(
-            "gsk_shader_args_builder_to_args",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_to_args",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shader_args_builder_unref = Interop.downcallHandle(
-            "gsk_shader_args_builder_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shader_args_builder_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

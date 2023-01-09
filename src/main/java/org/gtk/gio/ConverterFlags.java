@@ -28,6 +28,9 @@ public class ConverterFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ConverterFlags FLUSH = new ConverterFlags(2);
     
+    /**
+     * Create a new ConverterFlags with the provided value
+     */
     public ConverterFlags(int value) {
         super(value);
     }

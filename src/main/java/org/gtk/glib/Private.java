@@ -52,8 +52,8 @@ public class Private extends Struct {
      * @return A new, uninitialized @{link Private}
      */
     public static Private allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Private newInstance = new Private(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Private newInstance = new Private(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -61,14 +61,16 @@ public class Private extends Struct {
     /**
      * Create a Private proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Private(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Private(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Private> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Private(input, ownership);
+    public static final Marshal<Addressable, Private> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Private(input);
     
     /**
      * Returns the current value of the thread local variable {@code key}.
@@ -81,8 +83,7 @@ public class Private extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_private_get.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_private_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,21 +130,21 @@ public class Private extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_private_get = Interop.downcallHandle(
-            "g_private_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_private_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_private_replace = Interop.downcallHandle(
-            "g_private_replace",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_private_replace",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_private_set = Interop.downcallHandle(
-            "g_private_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_private_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -169,7 +170,7 @@ public class Private extends Struct {
             struct = Private.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Private} struct.
          * @return A new instance of {@code Private} with the fields 
          *         that were set in the Builder object.
@@ -179,24 +180,30 @@ public class Private extends Struct {
         }
         
         public Builder setP(java.lang.foreign.MemoryAddress p) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("p"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFuture(java.lang.foreign.MemoryAddress[] future) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("future"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (future == null ? MemoryAddress.NULL : Interop.allocateNativeArray(future, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("future"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (future == null ? MemoryAddress.NULL : Interop.allocateNativeArray(future, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

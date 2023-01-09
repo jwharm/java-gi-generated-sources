@@ -29,8 +29,8 @@ public class AdapterClass extends Struct {
      * @return A new, uninitialized @{link AdapterClass}
      */
     public static AdapterClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AdapterClass newInstance = new AdapterClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AdapterClass newInstance = new AdapterClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AdapterClass extends Struct {
     /**
      * Create a AdapterClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AdapterClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AdapterClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AdapterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AdapterClass(input, ownership);
+    public static final Marshal<Addressable, AdapterClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AdapterClass(input);
 }

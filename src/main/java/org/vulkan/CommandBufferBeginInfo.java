@@ -29,8 +29,8 @@ public class CommandBufferBeginInfo extends Struct {
      * @return A new, uninitialized @{link CommandBufferBeginInfo}
      */
     public static CommandBufferBeginInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CommandBufferBeginInfo newInstance = new CommandBufferBeginInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CommandBufferBeginInfo newInstance = new CommandBufferBeginInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CommandBufferBeginInfo extends Struct {
     /**
      * Create a CommandBufferBeginInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CommandBufferBeginInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CommandBufferBeginInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CommandBufferBeginInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandBufferBeginInfo(input, ownership);
+    public static final Marshal<Addressable, CommandBufferBeginInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CommandBufferBeginInfo(input);
 }

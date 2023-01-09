@@ -57,14 +57,16 @@ public class Tooltip extends org.gtk.gobject.GObject {
     /**
      * Create a Tooltip proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Tooltip(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Tooltip(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Tooltip> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Tooltip(input, ownership);
+    public static final Marshal<Addressable, Tooltip> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Tooltip(input);
     
     /**
      * Replaces the widget packed into the tooltip with
@@ -123,12 +125,14 @@ public class Tooltip extends org.gtk.gobject.GObject {
      * @param iconName an icon name
      */
     public void setIconFromIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.gtk_tooltip_set_icon_from_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tooltip_set_icon_from_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -140,12 +144,14 @@ public class Tooltip extends org.gtk.gobject.GObject {
      * @param markup a string with Pango markup or {@code NLL}
      */
     public void setMarkup(@Nullable java.lang.String markup) {
-        try {
-            DowncallHandles.gtk_tooltip_set_markup.invokeExact(
-                    handle(),
-                    (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tooltip_set_markup.invokeExact(
+                        handle(),
+                        (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -157,12 +163,14 @@ public class Tooltip extends org.gtk.gobject.GObject {
      * @param text a text string
      */
     public void setText(@Nullable java.lang.String text) {
-        try {
-            DowncallHandles.gtk_tooltip_set_text.invokeExact(
-                    handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_tooltip_set_text.invokeExact(
+                        handle(),
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -217,6 +225,9 @@ public class Tooltip extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -241,51 +252,59 @@ public class Tooltip extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tooltip_set_custom = Interop.downcallHandle(
-            "gtk_tooltip_set_custom",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_custom",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon = Interop.downcallHandle(
-            "gtk_tooltip_set_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon_from_gicon = Interop.downcallHandle(
-            "gtk_tooltip_set_icon_from_gicon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_icon_from_gicon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_icon_from_icon_name = Interop.downcallHandle(
-            "gtk_tooltip_set_icon_from_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_icon_from_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_markup = Interop.downcallHandle(
-            "gtk_tooltip_set_markup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_markup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_text = Interop.downcallHandle(
-            "gtk_tooltip_set_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_set_tip_area = Interop.downcallHandle(
-            "gtk_tooltip_set_tip_area",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tooltip_set_tip_area",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tooltip_get_type = Interop.downcallHandle(
-            "gtk_tooltip_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tooltip_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tooltip_get_type != null;
     }
 }

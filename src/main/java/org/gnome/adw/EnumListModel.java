@@ -31,20 +31,21 @@ public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     /**
      * Create a EnumListModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EnumListModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EnumListModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EnumListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumListModel(input, ownership);
+    public static final Marshal<Addressable, EnumListModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EnumListModel(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type enumType) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_model_new.invokeExact(
-                    enumType.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_model_new.invokeExact(enumType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,7 +57,8 @@ public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gi
      * @param enumType the type of the enum to construct the model from
      */
     public EnumListModel(org.gtk.glib.Type enumType) {
-        super(constructNew(enumType), Ownership.FULL);
+        super(constructNew(enumType));
+        this.takeOwnership();
     }
     
     /**
@@ -82,8 +84,7 @@ public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     public org.gtk.glib.Type getEnumType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.adw_enum_list_model_get_enum_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.adw_enum_list_model_get_enum_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,6 +121,9 @@ public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gi
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -155,27 +159,35 @@ public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     private static class DowncallHandles {
         
         private static final MethodHandle adw_enum_list_model_new = Interop.downcallHandle(
-            "adw_enum_list_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "adw_enum_list_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle adw_enum_list_model_find_position = Interop.downcallHandle(
-            "adw_enum_list_model_find_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_enum_list_model_find_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_enum_list_model_get_enum_type = Interop.downcallHandle(
-            "adw_enum_list_model_get_enum_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "adw_enum_list_model_get_enum_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_enum_list_model_get_type = Interop.downcallHandle(
-            "adw_enum_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_enum_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_enum_list_model_get_type != null;
     }
 }

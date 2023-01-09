@@ -38,8 +38,8 @@ public class EnumValue extends Struct {
      * @return A new, uninitialized @{link EnumValue}
      */
     public static EnumValue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EnumValue newInstance = new EnumValue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EnumValue newInstance = new EnumValue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class EnumValue extends Struct {
      * @return The value of the field {@code value}
      */
     public int getValue() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class EnumValue extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(int value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class EnumValue extends Struct {
      * @return The value of the field {@code value_name}
      */
     public java.lang.String getValueName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class EnumValue extends Struct {
      * @param valueName The new value of the field {@code value_name}
      */
     public void setValueName(java.lang.String valueName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, SCOPE)));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class EnumValue extends Struct {
      * @return The value of the field {@code value_nick}
      */
     public java.lang.String getValueNick() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -102,22 +112,26 @@ public class EnumValue extends Struct {
      * @param valueNick The new value of the field {@code value_nick}
      */
     public void setValueNick(java.lang.String valueNick) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, SCOPE)));
+        }
     }
     
     /**
      * Create a EnumValue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EnumValue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EnumValue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EnumValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumValue(input, ownership);
+    public static final Marshal<Addressable, EnumValue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EnumValue(input);
     
     /**
      * A {@link EnumValue.Builder} object constructs a {@link EnumValue} 
@@ -141,7 +155,7 @@ public class EnumValue extends Struct {
             struct = EnumValue.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link EnumValue} struct.
          * @return A new instance of {@code EnumValue} with the fields 
          *         that were set in the Builder object.
@@ -156,10 +170,12 @@ public class EnumValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(int value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
         
         /**
@@ -168,10 +184,12 @@ public class EnumValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValueName(java.lang.String valueName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -180,10 +198,12 @@ public class EnumValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValueNick(java.lang.String valueNick) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, SCOPE)));
+                return this;
+            }
         }
     }
 }

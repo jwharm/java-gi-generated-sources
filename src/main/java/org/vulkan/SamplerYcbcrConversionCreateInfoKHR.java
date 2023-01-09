@@ -29,8 +29,8 @@ public class SamplerYcbcrConversionCreateInfoKHR extends Struct {
      * @return A new, uninitialized @{link SamplerYcbcrConversionCreateInfoKHR}
      */
     public static SamplerYcbcrConversionCreateInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SamplerYcbcrConversionCreateInfoKHR newInstance = new SamplerYcbcrConversionCreateInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SamplerYcbcrConversionCreateInfoKHR newInstance = new SamplerYcbcrConversionCreateInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SamplerYcbcrConversionCreateInfoKHR extends Struct {
     /**
      * Create a SamplerYcbcrConversionCreateInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SamplerYcbcrConversionCreateInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SamplerYcbcrConversionCreateInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SamplerYcbcrConversionCreateInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerYcbcrConversionCreateInfoKHR(input, ownership);
+    public static final Marshal<Addressable, SamplerYcbcrConversionCreateInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SamplerYcbcrConversionCreateInfoKHR(input);
 }

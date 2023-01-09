@@ -34,26 +34,17 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     /**
      * Create a ClampScrollable proxy instance for the provided memory address.
-     * <p>
-     * Because ClampScrollable is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ClampScrollable(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ClampScrollable(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ClampScrollable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClampScrollable(input, ownership);
+    public static final Marshal<Addressable, ClampScrollable> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ClampScrollable(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -69,7 +60,9 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Creates a new {@code AdwClampScrollable}.
      */
     public ClampScrollable() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -79,12 +72,11 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -94,8 +86,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_maximum_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_maximum_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,8 +100,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_tightening_threshold.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_tightening_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,6 +194,9 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -276,51 +269,59 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     private static class DowncallHandles {
         
         private static final MethodHandle adw_clamp_scrollable_new = Interop.downcallHandle(
-            "adw_clamp_scrollable_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_scrollable_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_child = Interop.downcallHandle(
-            "adw_clamp_scrollable_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_scrollable_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_maximum_size = Interop.downcallHandle(
-            "adw_clamp_scrollable_get_maximum_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_scrollable_get_maximum_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_tightening_threshold = Interop.downcallHandle(
-            "adw_clamp_scrollable_get_tightening_threshold",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_scrollable_get_tightening_threshold",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_child = Interop.downcallHandle(
-            "adw_clamp_scrollable_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_scrollable_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_maximum_size = Interop.downcallHandle(
-            "adw_clamp_scrollable_set_maximum_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_clamp_scrollable_set_maximum_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_set_tightening_threshold = Interop.downcallHandle(
-            "adw_clamp_scrollable_set_tightening_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_clamp_scrollable_set_tightening_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_clamp_scrollable_get_type = Interop.downcallHandle(
-            "adw_clamp_scrollable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_clamp_scrollable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_clamp_scrollable_get_type != null;
     }
 }

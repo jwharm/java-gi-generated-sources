@@ -69,8 +69,8 @@ public class MiniObject extends Struct {
      * @return A new, uninitialized @{link MiniObject}
      */
     public static MiniObject allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MiniObject newInstance = new MiniObject(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MiniObject newInstance = new MiniObject(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -80,10 +80,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -91,9 +93,11 @@ public class MiniObject extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
@@ -101,10 +105,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code refcount}
      */
     public int getRefcount() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -112,9 +118,11 @@ public class MiniObject extends Struct {
      * @param refcount The new value of the field {@code refcount}
      */
     public void setRefcount(int refcount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), refcount);
+        }
     }
     
     /**
@@ -122,10 +130,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code lockstate}
      */
     public int getLockstate() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -133,9 +143,11 @@ public class MiniObject extends Struct {
      * @param lockstate The new value of the field {@code lockstate}
      */
     public void setLockstate(int lockstate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lockstate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), lockstate);
+        }
     }
     
     /**
@@ -143,10 +155,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code flags}
      */
     public int getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -154,9 +168,11 @@ public class MiniObject extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(int flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+        }
     }
     
     /**
@@ -164,10 +180,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code copy}
      */
     public org.gstreamer.gst.MiniObjectCopyFunction getCopy() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -175,9 +193,11 @@ public class MiniObject extends Struct {
      * @param copy The new value of the field {@code copy}
      */
     public void setCopy(org.gstreamer.gst.MiniObjectCopyFunction copy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        }
     }
     
     /**
@@ -185,10 +205,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code dispose}
      */
     public org.gstreamer.gst.MiniObjectDisposeFunction getDispose() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -196,9 +218,11 @@ public class MiniObject extends Struct {
      * @param dispose The new value of the field {@code dispose}
      */
     public void setDispose(org.gstreamer.gst.MiniObjectDisposeFunction dispose) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
+        }
     }
     
     /**
@@ -206,10 +230,12 @@ public class MiniObject extends Struct {
      * @return The value of the field {@code free}
      */
     public org.gstreamer.gst.MiniObjectFreeFunction getFree() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -217,22 +243,26 @@ public class MiniObject extends Struct {
      * @param free The new value of the field {@code free}
      */
     public void setFree(org.gstreamer.gst.MiniObjectFreeFunction free) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+        }
     }
     
     /**
      * Create a MiniObject proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MiniObject(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MiniObject(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MiniObject> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MiniObject(input, ownership);
+    public static final Marshal<Addressable, MiniObject> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MiniObject(input);
     
     /**
      * This adds {@code parent} as a parent for {@code object}. Having one ore more parents affects the
@@ -265,12 +295,13 @@ public class MiniObject extends Struct {
     public @Nullable org.gstreamer.gst.MiniObject copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -331,8 +362,7 @@ public class MiniObject extends Struct {
     public boolean isWritable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mini_object_is_writable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mini_object_is_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,13 +398,14 @@ public class MiniObject extends Struct {
     public org.gstreamer.gst.MiniObject makeWritable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_make_writable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_make_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -391,12 +422,13 @@ public class MiniObject extends Struct {
     public org.gstreamer.gst.MiniObject ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -483,8 +515,7 @@ public class MiniObject extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_mini_object_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_mini_object_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,17 +568,19 @@ public class MiniObject extends Struct {
      * @return {@code true} if {@code newdata} was different from {@code olddata}
      */
     public static boolean replace(@Nullable Out<org.gstreamer.gst.MiniObject> olddata, @Nullable org.gstreamer.gst.MiniObject newdata) {
-        MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mini_object_replace.invokeExact(
-                    (Addressable) (olddata == null ? MemoryAddress.NULL : (Addressable) olddataPOINTER.address()),
-                    (Addressable) (newdata == null ? MemoryAddress.NULL : newdata.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment olddataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mini_object_replace.invokeExact(
+                        (Addressable) (olddata == null ? MemoryAddress.NULL : (Addressable) olddataPOINTER.address()),
+                        (Addressable) (newdata == null ? MemoryAddress.NULL : newdata.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (olddata != null) olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (olddata != null) olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -558,16 +591,19 @@ public class MiniObject extends Struct {
      * @return the {@link MiniObject} at {@code oldata}
      */
     public static @Nullable org.gstreamer.gst.MiniObject steal(Out<org.gstreamer.gst.MiniObject> olddata) {
-        MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_steal.invokeExact(
-                    (Addressable) olddataPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment olddataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_steal.invokeExact((Addressable) olddataPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -583,127 +619,129 @@ public class MiniObject extends Struct {
      * @return {@code true} if {@code newdata} was different from {@code olddata}
      */
     public static boolean take(Out<org.gstreamer.gst.MiniObject> olddata, org.gstreamer.gst.MiniObject newdata) {
-        MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mini_object_take.invokeExact(
-                    (Addressable) olddataPOINTER.address(),
-                    newdata.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment olddataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mini_object_take.invokeExact(
+                        (Addressable) olddataPOINTER.address(),
+                        newdata.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mini_object_add_parent = Interop.downcallHandle(
-            "gst_mini_object_add_parent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_add_parent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_copy = Interop.downcallHandle(
-            "gst_mini_object_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_get_qdata = Interop.downcallHandle(
-            "gst_mini_object_get_qdata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mini_object_get_qdata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mini_object_init = Interop.downcallHandle(
-            "gst_mini_object_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_is_writable = Interop.downcallHandle(
-            "gst_mini_object_is_writable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_is_writable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_lock = Interop.downcallHandle(
-            "gst_mini_object_lock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mini_object_lock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mini_object_make_writable = Interop.downcallHandle(
-            "gst_mini_object_make_writable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_make_writable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_ref = Interop.downcallHandle(
-            "gst_mini_object_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_remove_parent = Interop.downcallHandle(
-            "gst_mini_object_remove_parent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_remove_parent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_set_qdata = Interop.downcallHandle(
-            "gst_mini_object_set_qdata",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_set_qdata",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_steal_qdata = Interop.downcallHandle(
-            "gst_mini_object_steal_qdata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mini_object_steal_qdata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mini_object_unlock = Interop.downcallHandle(
-            "gst_mini_object_unlock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mini_object_unlock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mini_object_unref = Interop.downcallHandle(
-            "gst_mini_object_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_weak_ref = Interop.downcallHandle(
-            "gst_mini_object_weak_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_weak_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_weak_unref = Interop.downcallHandle(
-            "gst_mini_object_weak_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_weak_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_replace = Interop.downcallHandle(
-            "gst_mini_object_replace",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_replace",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_steal = Interop.downcallHandle(
-            "gst_mini_object_steal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_steal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mini_object_take = Interop.downcallHandle(
-            "gst_mini_object_take",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mini_object_take",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -729,7 +767,7 @@ public class MiniObject extends Struct {
             struct = MiniObject.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MiniObject} struct.
          * @return A new instance of {@code MiniObject} with the fields 
          *         that were set in the Builder object.
@@ -744,10 +782,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -756,10 +796,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefcount(int refcount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refcount);
+                return this;
+            }
         }
         
         /**
@@ -768,10 +810,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLockstate(int lockstate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lockstate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), lockstate);
+                return this;
+            }
         }
         
         /**
@@ -780,10 +824,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         /**
@@ -792,10 +838,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCopy(org.gstreamer.gst.MiniObjectCopyFunction copy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -804,10 +852,12 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDispose(org.gstreamer.gst.MiniObjectDisposeFunction dispose) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -816,24 +866,30 @@ public class MiniObject extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFree(org.gstreamer.gst.MiniObjectFreeFunction free) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPrivUint(int privUint) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv_uint"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), privUint);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv_uint"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), privUint);
+                return this;
+            }
         }
         
         public Builder setPrivPointer(java.lang.foreign.MemoryAddress privPointer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv_pointer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privPointer == null ? MemoryAddress.NULL : (Addressable) privPointer));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv_pointer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (privPointer == null ? MemoryAddress.NULL : (Addressable) privPointer));
+                return this;
+            }
         }
     }
 }

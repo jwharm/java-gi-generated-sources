@@ -9,34 +9,42 @@ import org.jetbrains.annotations.*;
  * Different MIKEY data types.
  */
 public enum MIKEYType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Invalid type
      */
     INVALID(-1),
+    
     /**
      * Initiator's pre-shared key message
      */
     PSK_INIT(0),
+    
     /**
      * Verification message of a Pre-shared key message
      */
     PSK_VERIFY(1),
+    
     /**
      * Initiator's public-key transport message
      */
     PK_INIT(2),
+    
     /**
      * Verification message of a public-key message
      */
     PK_VERIFY(3),
+    
     /**
      * Initiator's DH exchange message
      */
     DH_INIT(4),
+    
     /**
      * Responder's DH exchange message
      */
     DH_RESP(5),
+    
     /**
      * Error message
      */
@@ -45,15 +53,29 @@ public enum MIKEYType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYType";
     
     private final int value;
+    
+    /**
+     * Create a new MIKEYType for the provided value
+     * @param numeric value the enum value
+     */
     MIKEYType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new MIKEYType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static MIKEYType of(int value) {
         return switch (value) {
             case -1 -> INVALID;

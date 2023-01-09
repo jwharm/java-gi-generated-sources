@@ -29,8 +29,8 @@ public class ExternalSemaphoreFeatureFlagBits extends Struct {
      * @return A new, uninitialized @{link ExternalSemaphoreFeatureFlagBits}
      */
     public static ExternalSemaphoreFeatureFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalSemaphoreFeatureFlagBits newInstance = new ExternalSemaphoreFeatureFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalSemaphoreFeatureFlagBits newInstance = new ExternalSemaphoreFeatureFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalSemaphoreFeatureFlagBits extends Struct {
     /**
      * Create a ExternalSemaphoreFeatureFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalSemaphoreFeatureFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalSemaphoreFeatureFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalSemaphoreFeatureFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalSemaphoreFeatureFlagBits(input, ownership);
+    public static final Marshal<Addressable, ExternalSemaphoreFeatureFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalSemaphoreFeatureFlagBits(input);
 }

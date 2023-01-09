@@ -22,6 +22,9 @@ public class FileQueryInfoFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileQueryInfoFlags NOFOLLOW_SYMLINKS = new FileQueryInfoFlags(1);
     
+    /**
+     * Create a new FileQueryInfoFlags with the provided value
+     */
     public FileQueryInfoFlags(int value) {
         super(value);
     }

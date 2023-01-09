@@ -34,14 +34,16 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
     /**
      * Create a FontMap proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontMap(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontMap(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontMap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontMap(input, ownership);
+    public static final Marshal<Addressable, FontMap> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontMap(input);
     
     /**
      * Forces a change in the context, which will cause any {@code PangoContext}
@@ -54,8 +56,7 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
      */
     public void changed() {
         try {
-            DowncallHandles.pango_font_map_changed.invokeExact(
-                    handle());
+            DowncallHandles.pango_font_map_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,12 +78,13 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
     public org.pango.Context createContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_create_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_create_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Context) Interop.register(RESULT, org.pango.Context.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -91,15 +93,17 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
      * @return the {@code PangoFontFamily}
      */
     public org.pango.FontFamily getFamily(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_map_get_family.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_font_map_get_family.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.pango.FontFamily) Interop.register(RESULT, org.pango.FontFamily.fromAddress).marshal(RESULT, null);
         }
-        return (org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontFamily.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,8 +124,7 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
     public int getSerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_map_get_serial.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_map_get_serial.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,23 +144,25 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
      * @param nFamilies location to store the number of elements in {@code families}
      */
     public void listFamilies(Out<org.pango.FontFamily[]> families, Out<Integer> nFamilies) {
-        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_font_map_list_families.invokeExact(
-                    handle(),
-                    (Addressable) familiesPOINTER.address(),
-                    (Addressable) nFamiliesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment familiesPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment nFamiliesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_font_map_list_families.invokeExact(
+                        handle(),
+                        (Addressable) familiesPOINTER.address(),
+                        (Addressable) nFamiliesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nFamilies.set(nFamiliesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.pango.FontFamily[] familiesARRAY = new org.pango.FontFamily[nFamilies.get().intValue()];
+            for (int I = 0; I < nFamilies.get().intValue(); I++) {
+                var OBJ = familiesPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                familiesARRAY[I] = (org.pango.FontFamily) Interop.register(OBJ, org.pango.FontFamily.fromAddress).marshal(OBJ, null);
+                }
+            families.set(familiesARRAY);
         }
-        nFamilies.set(nFamiliesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.pango.FontFamily[] familiesARRAY = new org.pango.FontFamily[nFamilies.get().intValue()];
-        for (int I = 0; I < nFamilies.get().intValue(); I++) {
-            var OBJ = familiesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            familiesARRAY[I] = (org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.pango.FontFamily.fromAddress).marshal(OBJ, Ownership.CONTAINER);
-        }
-        families.set(familiesARRAY);
     }
     
     /**
@@ -177,7 +182,9 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Font.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Font) Interop.register(RESULT, org.pango.Font.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -200,7 +207,9 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Fontset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Fontset.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Fontset) Interop.register(RESULT, org.pango.Fontset.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -233,6 +242,9 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -279,51 +291,59 @@ public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.List
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_map_changed = Interop.downcallHandle(
-            "pango_font_map_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_create_context = Interop.downcallHandle(
-            "pango_font_map_create_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_create_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_get_family = Interop.downcallHandle(
-            "pango_font_map_get_family",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_get_family",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_get_serial = Interop.downcallHandle(
-            "pango_font_map_get_serial",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_get_serial",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_list_families = Interop.downcallHandle(
-            "pango_font_map_list_families",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_list_families",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_load_font = Interop.downcallHandle(
-            "pango_font_map_load_font",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_load_font",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_load_fontset = Interop.downcallHandle(
-            "pango_font_map_load_fontset",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_map_load_fontset",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_map_get_type = Interop.downcallHandle(
-            "pango_font_map_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_font_map_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_font_map_get_type != null;
     }
 }

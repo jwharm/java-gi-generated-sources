@@ -39,32 +39,22 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a VulkanDisplay proxy instance for the provided memory address.
-     * <p>
-     * Because VulkanDisplay is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanDisplay(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VulkanDisplay(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanDisplay> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDisplay(input, ownership);
+    public static final Marshal<Addressable, VulkanDisplay> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDisplay(input);
     
     private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanInstance instance) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_new.invokeExact(
-                    instance.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_new.invokeExact(instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +62,8 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     }
     
     public VulkanDisplay(org.gstreamer.vulkan.VulkanInstance instance) {
-        super(constructNew(instance), Ownership.FULL);
+        super(constructNew(instance));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithType(org.gstreamer.vulkan.VulkanInstance instance, org.gstreamer.vulkan.VulkanDisplayType type) {
@@ -86,21 +77,24 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
         }
         return RESULT;
     }
-    
+        
     public static VulkanDisplay newWithType(org.gstreamer.vulkan.VulkanInstance instance, org.gstreamer.vulkan.VulkanDisplayType type) {
         var RESULT = constructNewWithType(instance, type);
-        return (org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanDisplay) Interop.register(RESULT, org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.vulkan.VulkanWindow createWindow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_create_window.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_create_window.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanWindow) Interop.register(RESULT, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -121,14 +115,15 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanWindow) Interop.register(RESULT, org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public @Nullable java.lang.foreign.MemoryAddress getHandle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_get_handle.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_get_handle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,8 +133,7 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     public org.gstreamer.vulkan.VulkanDisplayType getHandleType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_vulkan_display_get_handle_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_vulkan_display_get_handle_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +178,7 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     public static org.gstreamer.vulkan.VulkanDisplayType chooseType(org.gstreamer.vulkan.VulkanInstance instance) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_vulkan_display_choose_type.invokeExact(
-                    instance.handle());
+            RESULT = (int) DowncallHandles.gst_vulkan_display_choose_type.invokeExact(instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,17 +216,19 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
      * @return whether {@code display} contains a valid {@link VulkanDisplay}
      */
     public static boolean runContextQuery(org.gstreamer.gst.Element element, Out<org.gstreamer.vulkan.VulkanDisplay> display) {
-        MemorySegment displayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_vulkan_display_run_context_query.invokeExact(
-                    element.handle(),
-                    (Addressable) displayPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment displayPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_vulkan_display_run_context_query.invokeExact(
+                        element.handle(),
+                        (Addressable) displayPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    display.set((org.gstreamer.vulkan.VulkanDisplay) Interop.register(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        display.set((org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -252,6 +247,9 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -276,69 +274,77 @@ public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_display_new = Interop.downcallHandle(
-            "gst_vulkan_display_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_new_with_type = Interop.downcallHandle(
-            "gst_vulkan_display_new_with_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_vulkan_display_new_with_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_create_window = Interop.downcallHandle(
-            "gst_vulkan_display_create_window",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_create_window",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_find_window = Interop.downcallHandle(
-            "gst_vulkan_display_find_window",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_find_window",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_get_handle = Interop.downcallHandle(
-            "gst_vulkan_display_get_handle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_get_handle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_get_handle_type = Interop.downcallHandle(
-            "gst_vulkan_display_get_handle_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_get_handle_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_remove_window = Interop.downcallHandle(
-            "gst_vulkan_display_remove_window",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_remove_window",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_get_type = Interop.downcallHandle(
-            "gst_vulkan_display_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_display_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_choose_type = Interop.downcallHandle(
-            "gst_vulkan_display_choose_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_choose_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_handle_context_query = Interop.downcallHandle(
-            "gst_vulkan_display_handle_context_query",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_handle_context_query",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_display_run_context_query = Interop.downcallHandle(
-            "gst_vulkan_display_run_context_query",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_display_run_context_query",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_vulkan_display_get_type != null;
     }
 }

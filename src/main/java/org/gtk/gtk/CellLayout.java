@@ -111,8 +111,11 @@ import org.jetbrains.annotations.*;
  */
 public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellLayoutImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellLayoutImpl(input, ownership);
+    public static final Marshal<Addressable, CellLayoutImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellLayoutImpl(input);
     
     /**
      * Adds an attribute mapping to the list in {@code cell_layout}.
@@ -127,14 +130,16 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * @param column the column position on the model to get the attribute from
      */
     default void addAttribute(org.gtk.gtk.CellRenderer cell, java.lang.String attribute, int column) {
-        try {
-            DowncallHandles.gtk_cell_layout_add_attribute.invokeExact(
-                    handle(),
-                    cell.handle(),
-                    Marshal.stringToAddress.marshal(attribute, null),
-                    column);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_cell_layout_add_attribute.invokeExact(
+                        handle(),
+                        cell.handle(),
+                        Marshal.stringToAddress.marshal(attribute, SCOPE),
+                        column);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -144,8 +149,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      */
     default void clear() {
         try {
-            DowncallHandles.gtk_cell_layout_clear.invokeExact(
-                    handle());
+            DowncallHandles.gtk_cell_layout_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,12 +179,11 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gtk.CellArea getArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_area.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellArea.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.CellArea) Interop.register(RESULT, org.gtk.gtk.CellArea.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -192,12 +195,11 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.List getCells() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_cells.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_cell_layout_get_cells.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -326,90 +328,105 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_add_attribute = Interop.downcallHandle(
-            "gtk_cell_layout_add_attribute",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_layout_add_attribute",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_clear = Interop.downcallHandle(
-            "gtk_cell_layout_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_layout_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_clear_attributes = Interop.downcallHandle(
-            "gtk_cell_layout_clear_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_layout_clear_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_get_area = Interop.downcallHandle(
-            "gtk_cell_layout_get_area",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_layout_get_area",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_get_cells = Interop.downcallHandle(
-            "gtk_cell_layout_get_cells",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_layout_get_cells",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_pack_end = Interop.downcallHandle(
-            "gtk_cell_layout_pack_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_layout_pack_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_pack_start = Interop.downcallHandle(
-            "gtk_cell_layout_pack_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_layout_pack_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_reorder = Interop.downcallHandle(
-            "gtk_cell_layout_reorder",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_layout_reorder",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_set_attributes = Interop.downcallHandle(
-            "gtk_cell_layout_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_cell_layout_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_set_cell_data_func = Interop.downcallHandle(
-            "gtk_cell_layout_set_cell_data_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_layout_set_cell_data_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_cell_layout_get_type = Interop.downcallHandle(
-            "gtk_cell_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The CellLayoutImpl type represents a native instance of the CellLayout interface.
+     */
     class CellLayoutImpl extends org.gtk.gobject.GObject implements CellLayout {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public CellLayoutImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of CellLayout for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public CellLayoutImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_layout_get_type != null;
     }
 }

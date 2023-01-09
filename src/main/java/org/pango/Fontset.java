@@ -35,14 +35,16 @@ public class Fontset extends org.gtk.gobject.GObject {
     /**
      * Create a Fontset proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Fontset(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Fontset(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Fontset> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Fontset(input, ownership);
+    public static final Marshal<Addressable, Fontset> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Fontset(input);
     
     /**
      * Iterates through all the fonts in a fontset, calling {@code func} for
@@ -77,7 +79,9 @@ public class Fontset extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Font.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Font) Interop.register(RESULT, org.pango.Font.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -87,12 +91,13 @@ public class Fontset extends org.gtk.gobject.GObject {
     public org.pango.FontMetrics getMetrics() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_metrics.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_metrics.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.FontMetrics.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.FontMetrics.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -125,6 +130,9 @@ public class Fontset extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -149,27 +157,35 @@ public class Fontset extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_fontset_foreach = Interop.downcallHandle(
-            "pango_fontset_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_fontset_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_fontset_get_font = Interop.downcallHandle(
-            "pango_fontset_get_font",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_fontset_get_font",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_fontset_get_metrics = Interop.downcallHandle(
-            "pango_fontset_get_metrics",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_fontset_get_metrics",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_fontset_get_type = Interop.downcallHandle(
-            "pango_fontset_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_fontset_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_fontset_get_type != null;
     }
 }

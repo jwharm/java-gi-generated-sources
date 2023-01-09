@@ -29,8 +29,8 @@ public class DisplayPowerStateEXT extends Struct {
      * @return A new, uninitialized @{link DisplayPowerStateEXT}
      */
     public static DisplayPowerStateEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplayPowerStateEXT newInstance = new DisplayPowerStateEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplayPowerStateEXT newInstance = new DisplayPowerStateEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplayPowerStateEXT extends Struct {
     /**
      * Create a DisplayPowerStateEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplayPowerStateEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplayPowerStateEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplayPowerStateEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPowerStateEXT(input, ownership);
+    public static final Marshal<Addressable, DisplayPowerStateEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPowerStateEXT(input);
 }

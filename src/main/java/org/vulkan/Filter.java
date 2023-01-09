@@ -29,8 +29,8 @@ public class Filter extends Struct {
      * @return A new, uninitialized @{link Filter}
      */
     public static Filter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Filter newInstance = new Filter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Filter newInstance = new Filter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Filter extends Struct {
     /**
      * Create a Filter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Filter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Filter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Filter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Filter(input, ownership);
+    public static final Marshal<Addressable, Filter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Filter(input);
 }

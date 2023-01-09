@@ -35,8 +35,8 @@ public class ExpressionWatch extends Struct {
      * @return A new, uninitialized @{link ExpressionWatch}
      */
     public static ExpressionWatch allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExpressionWatch newInstance = new ExpressionWatch(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExpressionWatch newInstance = new ExpressionWatch(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class ExpressionWatch extends Struct {
     /**
      * Create a ExpressionWatch proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExpressionWatch(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExpressionWatch(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExpressionWatch> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExpressionWatch(input, ownership);
+    public static final Marshal<Addressable, ExpressionWatch> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExpressionWatch(input);
     
     /**
      * Evaluates the watched expression and on success stores the result
@@ -81,12 +83,13 @@ public class ExpressionWatch extends Struct {
     public org.gtk.gtk.ExpressionWatch ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -97,8 +100,7 @@ public class ExpressionWatch extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_expression_watch_unref.invokeExact(
-                    handle());
+            DowncallHandles.gtk_expression_watch_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +115,7 @@ public class ExpressionWatch extends Struct {
      */
     public void unwatch() {
         try {
-            DowncallHandles.gtk_expression_watch_unwatch.invokeExact(
-                    handle());
+            DowncallHandles.gtk_expression_watch_unwatch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,27 +124,27 @@ public class ExpressionWatch extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_expression_watch_evaluate = Interop.downcallHandle(
-            "gtk_expression_watch_evaluate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_watch_evaluate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_watch_ref = Interop.downcallHandle(
-            "gtk_expression_watch_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_watch_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_watch_unref = Interop.downcallHandle(
-            "gtk_expression_watch_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_watch_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_expression_watch_unwatch = Interop.downcallHandle(
-            "gtk_expression_watch_unwatch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_expression_watch_unwatch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class SamplerCreateInfo extends Struct {
      * @return A new, uninitialized @{link SamplerCreateInfo}
      */
     public static SamplerCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SamplerCreateInfo newInstance = new SamplerCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SamplerCreateInfo newInstance = new SamplerCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SamplerCreateInfo extends Struct {
     /**
      * Create a SamplerCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SamplerCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SamplerCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SamplerCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerCreateInfo(input, ownership);
+    public static final Marshal<Addressable, SamplerCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SamplerCreateInfo(input);
 }

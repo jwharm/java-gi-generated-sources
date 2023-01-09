@@ -98,8 +98,8 @@ public class RWLock extends Struct {
      * @return A new, uninitialized @{link RWLock}
      */
     public static RWLock allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RWLock newInstance = new RWLock(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RWLock newInstance = new RWLock(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -107,14 +107,16 @@ public class RWLock extends Struct {
     /**
      * Create a RWLock proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RWLock(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RWLock(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RWLock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RWLock(input, ownership);
+    public static final Marshal<Addressable, RWLock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RWLock(input);
     
     /**
      * Frees the resources allocated to a lock with g_rw_lock_init().
@@ -127,8 +129,7 @@ public class RWLock extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_rw_lock_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,8 +162,7 @@ public class RWLock extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.g_rw_lock_init.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,8 +187,7 @@ public class RWLock extends Struct {
      */
     public void readerLock() {
         try {
-            DowncallHandles.g_rw_lock_reader_lock.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_reader_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,8 +202,7 @@ public class RWLock extends Struct {
     public boolean readerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rw_lock_reader_trylock.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_reader_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,8 +217,7 @@ public class RWLock extends Struct {
      */
     public void readerUnlock() {
         try {
-            DowncallHandles.g_rw_lock_reader_unlock.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_reader_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +233,7 @@ public class RWLock extends Struct {
      */
     public void writerLock() {
         try {
-            DowncallHandles.g_rw_lock_writer_lock.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_writer_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,8 +249,7 @@ public class RWLock extends Struct {
     public boolean writerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rw_lock_writer_trylock.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_writer_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,8 +264,7 @@ public class RWLock extends Struct {
      */
     public void writerUnlock() {
         try {
-            DowncallHandles.g_rw_lock_writer_unlock.invokeExact(
-                    handle());
+            DowncallHandles.g_rw_lock_writer_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,51 +273,51 @@ public class RWLock extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
-            "g_rw_lock_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
-            "g_rw_lock_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
-            "g_rw_lock_reader_lock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_reader_lock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
-            "g_rw_lock_reader_trylock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_reader_trylock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
-            "g_rw_lock_reader_unlock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_reader_unlock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
-            "g_rw_lock_writer_lock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_writer_lock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
-            "g_rw_lock_writer_trylock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_writer_trylock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
-            "g_rw_lock_writer_unlock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rw_lock_writer_unlock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -349,7 +343,7 @@ public class RWLock extends Struct {
             struct = RWLock.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RWLock} struct.
          * @return A new instance of {@code RWLock} with the fields 
          *         that were set in the Builder object.
@@ -359,17 +353,21 @@ public class RWLock extends Struct {
         }
         
         public Builder setP(java.lang.foreign.MemoryAddress p) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("p"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+                return this;
+            }
         }
         
         public Builder setI(int[] i) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("i"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

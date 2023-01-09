@@ -63,26 +63,17 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     /**
      * Create a TreeExpander proxy instance for the provided memory address.
-     * <p>
-     * Because TreeExpander is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeExpander(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TreeExpander(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeExpander> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeExpander(input, ownership);
+    public static final Marshal<Addressable, TreeExpander> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeExpander(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -98,7 +89,9 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Creates a new {@code GtkTreeExpander}
      */
     public TreeExpander() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -108,12 +101,11 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -123,8 +115,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public boolean getIndentForIcon() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_expander_get_indent_for_icon.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_expander_get_indent_for_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,12 +134,13 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gobject.GObject getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_item.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -158,12 +150,11 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.TreeListRow getListRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_list_row.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_list_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeListRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeListRow.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeListRow) Interop.register(RESULT, org.gtk.gtk.TreeListRow.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -238,6 +229,9 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -306,57 +300,65 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_expander_new = Interop.downcallHandle(
-            "gtk_tree_expander_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_get_child = Interop.downcallHandle(
-            "gtk_tree_expander_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_get_indent_for_icon = Interop.downcallHandle(
-            "gtk_tree_expander_get_indent_for_icon",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_get_indent_for_icon",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_get_item = Interop.downcallHandle(
-            "gtk_tree_expander_get_item",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_get_item",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_get_list_row = Interop.downcallHandle(
-            "gtk_tree_expander_get_list_row",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_get_list_row",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_set_child = Interop.downcallHandle(
-            "gtk_tree_expander_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_set_indent_for_icon = Interop.downcallHandle(
-            "gtk_tree_expander_set_indent_for_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_expander_set_indent_for_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_set_list_row = Interop.downcallHandle(
-            "gtk_tree_expander_set_list_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_expander_set_list_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_expander_get_type = Interop.downcallHandle(
-            "gtk_tree_expander_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_expander_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_expander_get_type != null;
     }
 }

@@ -156,6 +156,9 @@ public class SeekFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SeekFlags INSTANT_RATE_CHANGE = new SeekFlags(1024);
     
+    /**
+     * Create a new SeekFlags with the provided value
+     */
     public SeekFlags(int value) {
         super(value);
     }

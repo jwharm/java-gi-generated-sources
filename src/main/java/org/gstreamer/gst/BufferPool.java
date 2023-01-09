@@ -66,26 +66,17 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a BufferPool proxy instance for the provided memory address.
-     * <p>
-     * Because BufferPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected BufferPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferPool(input, ownership);
+    public static final Marshal<Addressable, BufferPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferPool(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -101,7 +92,8 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * Creates a new {@link BufferPool} instance.
      */
     public BufferPool() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -115,18 +107,20 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * inactive.
      */
     public org.gstreamer.gst.FlowReturn acquireBuffer(Out<org.gstreamer.gst.Buffer> buffer, @Nullable org.gstreamer.gst.BufferPoolAcquireParams params) {
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_acquire_buffer.invokeExact(
-                    handle(),
-                    (Addressable) bufferPOINTER.address(),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufferPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_pool_acquire_buffer.invokeExact(
+                        handle(),
+                        (Addressable) bufferPOINTER.address(),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -137,12 +131,13 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_config.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_config.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -153,14 +148,15 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      *          of strings.
      */
     public PointerString getOptions() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_options.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_options.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -169,15 +165,17 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the buffer pool contains {@code option}.
      */
     public boolean hasOption(java.lang.String option) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_has_option.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(option, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_pool_has_option.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(option, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -188,8 +186,7 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_buffer_pool_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,12 +309,14 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * @param option an option to add
      */
     public static void configAddOption(org.gstreamer.gst.Structure config, java.lang.String option) {
-        try {
-            DowncallHandles.gst_buffer_pool_config_add_option.invokeExact(
-                    config.handle(),
-                    Marshal.stringToAddress.marshal(option, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_buffer_pool_config_add_option.invokeExact(
+                        config.handle(),
+                        Marshal.stringToAddress.marshal(option, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -329,18 +328,20 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * @return {@code true}, if the values are set.
      */
     public static boolean configGetAllocator(org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_allocator.invokeExact(
-                    config.handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_allocator.invokeExact(
+                        config.handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -372,26 +373,28 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * @return {@code true} if all parameters could be fetched.
      */
     public static boolean configGetParams(org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Caps> caps, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
-        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment maxBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_params.invokeExact(
-                    config.handle(),
-                    (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
-                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
-                    (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
-                    (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment capsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minBuffersPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment maxBuffersPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_params.invokeExact(
+                        config.handle(),
+                        (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
+                        (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
+                        (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
+                        (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -401,15 +404,17 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the options array contains {@code option}.
      */
     public static boolean configHasOption(org.gstreamer.gst.Structure config, java.lang.String option) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_config_has_option.invokeExact(
-                    config.handle(),
-                    Marshal.stringToAddress.marshal(option, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_pool_config_has_option.invokeExact(
+                        config.handle(),
+                        Marshal.stringToAddress.marshal(option, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -421,8 +426,7 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
     public static int configNOptions(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_pool_config_n_options.invokeExact(
-                    config.handle());
+            RESULT = (int) DowncallHandles.gst_buffer_pool_config_n_options.invokeExact(config.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,6 +529,9 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -549,123 +556,131 @@ public class BufferPool extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_buffer_pool_new = Interop.downcallHandle(
-            "gst_buffer_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_acquire_buffer = Interop.downcallHandle(
-            "gst_buffer_pool_acquire_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_acquire_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_get_config = Interop.downcallHandle(
-            "gst_buffer_pool_get_config",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_get_config",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_get_options = Interop.downcallHandle(
-            "gst_buffer_pool_get_options",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_get_options",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_has_option = Interop.downcallHandle(
-            "gst_buffer_pool_has_option",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_has_option",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_is_active = Interop.downcallHandle(
-            "gst_buffer_pool_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_release_buffer = Interop.downcallHandle(
-            "gst_buffer_pool_release_buffer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_release_buffer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_set_active = Interop.downcallHandle(
-            "gst_buffer_pool_set_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_pool_set_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_set_config = Interop.downcallHandle(
-            "gst_buffer_pool_set_config",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_set_config",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_set_flushing = Interop.downcallHandle(
-            "gst_buffer_pool_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_pool_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_get_type = Interop.downcallHandle(
-            "gst_buffer_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_add_option = Interop.downcallHandle(
-            "gst_buffer_pool_config_add_option",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_add_option",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_get_allocator = Interop.downcallHandle(
-            "gst_buffer_pool_config_get_allocator",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_get_allocator",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_get_option = Interop.downcallHandle(
-            "gst_buffer_pool_config_get_option",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_pool_config_get_option",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_get_params = Interop.downcallHandle(
-            "gst_buffer_pool_config_get_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_get_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_has_option = Interop.downcallHandle(
-            "gst_buffer_pool_config_has_option",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_has_option",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_n_options = Interop.downcallHandle(
-            "gst_buffer_pool_config_n_options",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_n_options",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_set_allocator = Interop.downcallHandle(
-            "gst_buffer_pool_config_set_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_pool_config_set_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_set_params = Interop.downcallHandle(
-            "gst_buffer_pool_config_set_params",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_pool_config_set_params",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_pool_config_validate_params = Interop.downcallHandle(
-            "gst_buffer_pool_config_validate_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_pool_config_validate_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_buffer_pool_get_type != null;
     }
 }

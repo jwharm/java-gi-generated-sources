@@ -37,8 +37,8 @@ public class SignalInvocationHint extends Struct {
      * @return A new, uninitialized @{link SignalInvocationHint}
      */
     public static SignalInvocationHint allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SignalInvocationHint newInstance = new SignalInvocationHint(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SignalInvocationHint newInstance = new SignalInvocationHint(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class SignalInvocationHint extends Struct {
      * @return The value of the field {@code signal_id}
      */
     public int getSignalId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class SignalInvocationHint extends Struct {
      * @param signalId The new value of the field {@code signal_id}
      */
     public void setSignalId(int signalId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), signalId);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class SignalInvocationHint extends Struct {
      * @return The value of the field {@code detail}
      */
     public org.gtk.glib.Quark getDetail() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("detail"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Quark(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("detail"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Quark(RESULT);
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class SignalInvocationHint extends Struct {
      * @param detail The new value of the field {@code detail}
      */
     public void setDetail(org.gtk.glib.Quark detail) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("detail"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detail == null ? MemoryAddress.NULL : detail.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("detail"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (detail == null ? MemoryAddress.NULL : detail.getValue().intValue()));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class SignalInvocationHint extends Struct {
      * @return The value of the field {@code run_type}
      */
     public org.gtk.gobject.SignalFlags getRunType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.SignalFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.gobject.SignalFlags(RESULT);
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class SignalInvocationHint extends Struct {
      * @param runType The new value of the field {@code run_type}
      */
     public void setRunType(org.gtk.gobject.SignalFlags runType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runType == null ? MemoryAddress.NULL : runType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runType == null ? MemoryAddress.NULL : runType.getValue()));
+        }
     }
     
     /**
      * Create a SignalInvocationHint proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SignalInvocationHint(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SignalInvocationHint(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SignalInvocationHint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SignalInvocationHint(input, ownership);
+    public static final Marshal<Addressable, SignalInvocationHint> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SignalInvocationHint(input);
     
     /**
      * A {@link SignalInvocationHint.Builder} object constructs a {@link SignalInvocationHint} 
@@ -140,7 +154,7 @@ public class SignalInvocationHint extends Struct {
             struct = SignalInvocationHint.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SignalInvocationHint} struct.
          * @return A new instance of {@code SignalInvocationHint} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class SignalInvocationHint extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSignalId(int signalId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), signalId);
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class SignalInvocationHint extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDetail(org.gtk.glib.Quark detail) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("detail"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (detail == null ? MemoryAddress.NULL : detail.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("detail"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (detail == null ? MemoryAddress.NULL : detail.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -183,10 +201,12 @@ public class SignalInvocationHint extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRunType(org.gtk.gobject.SignalFlags runType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runType == null ? MemoryAddress.NULL : runType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("run_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runType == null ? MemoryAddress.NULL : runType.getValue()));
+                return this;
+            }
         }
     }
 }

@@ -35,6 +35,9 @@ public class ShowFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ShowFlags IGNORABLES = new ShowFlags(4);
     
+    /**
+     * Create a new ShowFlags with the provided value
+     */
     public ShowFlags(int value) {
         super(value);
     }

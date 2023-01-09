@@ -39,8 +39,8 @@ public class Once extends Struct {
      * @return A new, uninitialized @{link Once}
      */
     public static Once allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Once newInstance = new Once(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Once newInstance = new Once(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class Once extends Struct {
      * @return The value of the field {@code status}
      */
     public org.gtk.glib.OnceStatus getStatus() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("status"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.OnceStatus.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("status"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.OnceStatus.of(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class Once extends Struct {
      * @param status The new value of the field {@code status}
      */
     public void setStatus(org.gtk.glib.OnceStatus status) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("status"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class Once extends Struct {
      * @return The value of the field {@code retval}
      */
     public java.lang.foreign.MemoryAddress getRetval() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("retval"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,22 +88,26 @@ public class Once extends Struct {
      * @param retval The new value of the field {@code retval}
      */
     public void setRetval(java.lang.foreign.MemoryAddress retval) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("retval"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
+        }
     }
     
     /**
      * Create a Once proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Once(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Once(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Once> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Once(input, ownership);
+    public static final Marshal<Addressable, Once> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Once(input);
     
     public @Nullable java.lang.foreign.MemoryAddress impl(org.gtk.glib.ThreadFunc func, @Nullable java.lang.foreign.MemoryAddress arg) {
         MemoryAddress RESULT;
@@ -145,8 +155,7 @@ public class Once extends Struct {
     public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
-                    (Addressable) location);
+            RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact((Addressable) location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,21 +188,21 @@ public class Once extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_once_impl = Interop.downcallHandle(
-            "g_once_impl",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_once_impl",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_once_init_enter = Interop.downcallHandle(
-            "g_once_init_enter",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_once_init_enter",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_once_init_leave = Interop.downcallHandle(
-            "g_once_init_leave",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_once_init_leave",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -219,7 +228,7 @@ public class Once extends Struct {
             struct = Once.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Once} struct.
          * @return A new instance of {@code Once} with the fields 
          *         that were set in the Builder object.
@@ -234,10 +243,12 @@ public class Once extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStatus(org.gtk.glib.OnceStatus status) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("status"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("status"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -247,10 +258,12 @@ public class Once extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRetval(java.lang.foreign.MemoryAddress retval) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("retval"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("retval"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
+                return this;
+            }
         }
     }
 }

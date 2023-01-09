@@ -37,8 +37,8 @@ public class StaticPadTemplate extends Struct {
      * @return A new, uninitialized @{link StaticPadTemplate}
      */
     public static StaticPadTemplate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StaticPadTemplate newInstance = new StaticPadTemplate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StaticPadTemplate newInstance = new StaticPadTemplate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class StaticPadTemplate extends Struct {
      * @return The value of the field {@code name_template}
      */
     public java.lang.String getNameTemplate() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class StaticPadTemplate extends Struct {
      * @param nameTemplate The new value of the field {@code name_template}
      */
     public void setNameTemplate(java.lang.String nameTemplate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameTemplate == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nameTemplate, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameTemplate == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nameTemplate, SCOPE)));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class StaticPadTemplate extends Struct {
      * @return The value of the field {@code direction}
      */
     public org.gstreamer.gst.PadDirection getDirection() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("direction"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.PadDirection.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("direction"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.PadDirection.of(RESULT);
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class StaticPadTemplate extends Struct {
      * @param direction The new value of the field {@code direction}
      */
     public void setDirection(org.gstreamer.gst.PadDirection direction) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("direction"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("direction"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class StaticPadTemplate extends Struct {
      * @return The value of the field {@code presence}
      */
     public org.gstreamer.gst.PadPresence getPresence() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("presence"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.PadPresence.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("presence"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.PadPresence.of(RESULT);
+        }
     }
     
     /**
@@ -101,9 +111,11 @@ public class StaticPadTemplate extends Struct {
      * @param presence The new value of the field {@code presence}
      */
     public void setPresence(org.gstreamer.gst.PadPresence presence) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("presence"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (presence == null ? MemoryAddress.NULL : presence.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("presence"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (presence == null ? MemoryAddress.NULL : presence.getValue()));
+        }
     }
     
     /**
@@ -112,7 +124,7 @@ public class StaticPadTemplate extends Struct {
      */
     public org.gstreamer.gst.StaticCaps getStaticCaps() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("static_caps"));
-        return org.gstreamer.gst.StaticCaps.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.StaticCaps.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -120,22 +132,26 @@ public class StaticPadTemplate extends Struct {
      * @param staticCaps The new value of the field {@code static_caps}
      */
     public void setStaticCaps(org.gstreamer.gst.StaticCaps staticCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("static_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (staticCaps == null ? MemoryAddress.NULL : staticCaps.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("static_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (staticCaps == null ? MemoryAddress.NULL : staticCaps.handle()));
+        }
     }
     
     /**
      * Create a StaticPadTemplate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StaticPadTemplate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StaticPadTemplate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StaticPadTemplate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StaticPadTemplate(input, ownership);
+    public static final Marshal<Addressable, StaticPadTemplate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StaticPadTemplate(input);
     
     /**
      * Converts a {@link StaticPadTemplate} into a {@link PadTemplate}.
@@ -144,12 +160,11 @@ public class StaticPadTemplate extends Struct {
     public @Nullable org.gstreamer.gst.PadTemplate get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_static_pad_template_get.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_static_pad_template_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -162,26 +177,27 @@ public class StaticPadTemplate extends Struct {
     public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_static_pad_template_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_static_pad_template_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_static_pad_template_get = Interop.downcallHandle(
-            "gst_static_pad_template_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_static_pad_template_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_static_pad_template_get_caps = Interop.downcallHandle(
-            "gst_static_pad_template_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_static_pad_template_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -207,7 +223,7 @@ public class StaticPadTemplate extends Struct {
             struct = StaticPadTemplate.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link StaticPadTemplate} struct.
          * @return A new instance of {@code StaticPadTemplate} with the fields 
          *         that were set in the Builder object.
@@ -222,10 +238,12 @@ public class StaticPadTemplate extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNameTemplate(java.lang.String nameTemplate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameTemplate == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nameTemplate, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name_template"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameTemplate == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nameTemplate, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -234,10 +252,12 @@ public class StaticPadTemplate extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDirection(org.gstreamer.gst.PadDirection direction) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("direction"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("direction"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -246,10 +266,12 @@ public class StaticPadTemplate extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPresence(org.gstreamer.gst.PadPresence presence) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("presence"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (presence == null ? MemoryAddress.NULL : presence.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("presence"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (presence == null ? MemoryAddress.NULL : presence.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -258,10 +280,12 @@ public class StaticPadTemplate extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStaticCaps(org.gstreamer.gst.StaticCaps staticCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("static_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (staticCaps == null ? MemoryAddress.NULL : staticCaps.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("static_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (staticCaps == null ? MemoryAddress.NULL : staticCaps.handle()));
+                return this;
+            }
         }
     }
 }

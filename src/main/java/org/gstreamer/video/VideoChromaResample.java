@@ -29,8 +29,8 @@ public class VideoChromaResample extends Struct {
      * @return A new, uninitialized @{link VideoChromaResample}
      */
     public static VideoChromaResample allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoChromaResample newInstance = new VideoChromaResample(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoChromaResample newInstance = new VideoChromaResample(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,14 +38,16 @@ public class VideoChromaResample extends Struct {
     /**
      * Create a VideoChromaResample proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoChromaResample(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoChromaResample(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoChromaResample> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoChromaResample(input, ownership);
+    public static final Marshal<Addressable, VideoChromaResample> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoChromaResample(input);
     
     /**
      * Perform resampling of {@code width} chroma pixels in {@code lines}.
@@ -68,8 +70,7 @@ public class VideoChromaResample extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_chroma_resample_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_chroma_resample_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,33 +119,33 @@ public class VideoChromaResample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoChromaResample.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoChromaResample.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_chroma_resample = Interop.downcallHandle(
-            "gst_video_chroma_resample",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_chroma_resample",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_chroma_resample_free = Interop.downcallHandle(
-            "gst_video_chroma_resample_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_chroma_resample_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_chroma_resample_get_info = Interop.downcallHandle(
-            "gst_video_chroma_resample_get_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_chroma_resample_get_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_chroma_resample_new = Interop.downcallHandle(
-            "gst_video_chroma_resample_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_chroma_resample_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -35,8 +35,8 @@ public class CClosure extends Struct {
      * @return A new, uninitialized @{link CClosure}
      */
     public static CClosure allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CClosure newInstance = new CClosure(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CClosure newInstance = new CClosure(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class CClosure extends Struct {
      */
     public org.gtk.gobject.Closure getClosure() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("closure"));
-        return org.gtk.gobject.Closure.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.Closure.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,9 +55,11 @@ public class CClosure extends Struct {
      * @param closure The new value of the field {@code closure}
      */
     public void setClosure(org.gtk.gobject.Closure closure) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("closure"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closure"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
+        }
     }
     
     /**
@@ -65,10 +67,12 @@ public class CClosure extends Struct {
      * @return The value of the field {@code callback}
      */
     public java.lang.foreign.MemoryAddress getCallback() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -76,22 +80,26 @@ public class CClosure extends Struct {
      * @param callback The new value of the field {@code callback}
      */
     public void setCallback(java.lang.foreign.MemoryAddress callback) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
+        }
     }
     
     /**
      * Create a CClosure proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CClosure(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CClosure(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CClosure> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CClosure(input, ownership);
+    public static final Marshal<Addressable, CClosure> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CClosure(input);
     
     /**
      * A {@link ClosureMarshal} function for use with signals with handlers that
@@ -134,17 +142,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalBOOLEANBOXEDBOXEDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -186,17 +196,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalBOOLEANFLAGSv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGSv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGSv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -237,17 +249,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalSTRINGOBJECTPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTERv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTERv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -288,17 +302,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDBOOLEANv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOOLEANv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__BOOLEANv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -339,17 +355,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDBOXEDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__BOXEDv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__BOXEDv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -390,17 +408,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDCHARv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__CHARv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__CHARv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -441,17 +461,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDDOUBLEv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__DOUBLEv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__DOUBLEv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -492,17 +514,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDENUMv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__ENUMv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__ENUMv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -543,17 +567,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDFLAGSv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLAGSv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__FLAGSv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -594,17 +620,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDFLOATv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__FLOATv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__FLOATv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -645,17 +673,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDINTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__INTv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__INTv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -696,17 +726,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDLONGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__LONGv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__LONGv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -747,17 +779,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDOBJECTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__OBJECTv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__OBJECTv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -798,17 +832,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDPARAMv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__PARAMv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__PARAMv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -849,17 +885,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__POINTERv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__POINTERv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -900,17 +938,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDSTRINGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__STRINGv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__STRINGv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -951,17 +991,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDUCHARv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__UCHARv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__UCHARv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1026,17 +1068,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDUINTPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTERv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTERv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1053,17 +1097,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDUINTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__UINTv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__UINTv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1104,17 +1150,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDULONGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__ULONGv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__ULONGv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1155,17 +1203,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDVARIANTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__VARIANTv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__VARIANTv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1206,17 +1256,19 @@ public class CClosure extends Struct {
      *  {@code args}.
      */
     public static void marshalVOIDVOIDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_VOID__VOIDv.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    args,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_VOID__VOIDv.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        args,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1264,17 +1316,19 @@ public class CClosure extends Struct {
      *  {@code args_list}.
      */
     public static void marshalGenericVa(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList argsList, int nParams, org.gtk.glib.Type[] paramTypes) {
-        try {
-            DowncallHandles.g_cclosure_marshal_generic_va.invokeExact(
-                    closure.handle(),
-                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
-                    instance.handle(),
-                    argsList,
-                    (Addressable) MemoryAddress.NULL,
-                    nParams,
-                    Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_cclosure_marshal_generic_va.invokeExact(
+                        closure.handle(),
+                        (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
+                        instance.handle(),
+                        argsList,
+                        (Addressable) MemoryAddress.NULL,
+                        nParams,
+                        Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1297,7 +1351,7 @@ public class CClosure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1319,7 +1373,9 @@ public class CClosure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gobject.Closure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1341,7 +1397,9 @@ public class CClosure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gobject.Closure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1363,309 +1421,309 @@ public class CClosure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXED = Interop.downcallHandle(
-            "g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv = Interop.downcallHandle(
-            "g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGS = Interop.downcallHandle(
-            "g_cclosure_marshal_BOOLEAN__FLAGS",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_BOOLEAN__FLAGS",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGSv = Interop.downcallHandle(
-            "g_cclosure_marshal_BOOLEAN__FLAGSv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_BOOLEAN__FLAGSv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTER = Interop.downcallHandle(
-            "g_cclosure_marshal_STRING__OBJECT_POINTER",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_STRING__OBJECT_POINTER",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTERv = Interop.downcallHandle(
-            "g_cclosure_marshal_STRING__OBJECT_POINTERv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_STRING__OBJECT_POINTERv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEAN = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__BOOLEAN",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__BOOLEAN",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOOLEANv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__BOOLEANv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__BOOLEANv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXED = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__BOXED",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__BOXED",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__BOXEDv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__BOXEDv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__BOXEDv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHAR = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__CHAR",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__CHAR",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__CHARv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__CHARv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__CHARv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLE = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__DOUBLE",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__DOUBLE",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__DOUBLEv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__DOUBLEv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__DOUBLEv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUM = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__ENUM",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__ENUM",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ENUMv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__ENUMv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__ENUMv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGS = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__FLAGS",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__FLAGS",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLAGSv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__FLAGSv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__FLAGSv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOAT = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__FLOAT",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__FLOAT",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__FLOATv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__FLOATv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__FLOATv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INT = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__INT",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__INT",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__INTv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__INTv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__INTv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONG = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__LONG",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__LONG",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__LONGv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__LONGv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__LONGv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECT = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__OBJECT",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__OBJECT",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__OBJECTv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__OBJECTv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__OBJECTv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAM = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__PARAM",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__PARAM",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__PARAMv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__PARAMv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__PARAMv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTER = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__POINTER",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__POINTER",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__POINTERv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__POINTERv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__POINTERv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRING = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__STRING",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__STRING",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__STRINGv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__STRINGv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__STRINGv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHAR = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UCHAR",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UCHAR",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UCHARv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UCHARv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UCHARv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UINT",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UINT",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTER = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UINT_POINTER",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UINT_POINTER",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTERv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UINT_POINTERv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UINT_POINTERv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__UINTv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__UINTv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__UINTv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONG = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__ULONG",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__ULONG",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__ULONGv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__ULONGv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__ULONGv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANT = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__VARIANT",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__VARIANT",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VARIANTv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__VARIANTv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__VARIANTv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOID = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__VOID",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__VOID",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_VOID__VOIDv = Interop.downcallHandle(
-            "g_cclosure_marshal_VOID__VOIDv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_VOID__VOIDv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic = Interop.downcallHandle(
-            "g_cclosure_marshal_generic",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_generic",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_marshal_generic_va = Interop.downcallHandle(
-            "g_cclosure_marshal_generic_va",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_marshal_generic_va",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_new = Interop.downcallHandle(
-            "g_cclosure_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_new_object = Interop.downcallHandle(
-            "g_cclosure_new_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_new_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_new_object_swap = Interop.downcallHandle(
-            "g_cclosure_new_object_swap",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_new_object_swap",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_cclosure_new_swap = Interop.downcallHandle(
-            "g_cclosure_new_swap",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_cclosure_new_swap",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1691,7 +1749,7 @@ public class CClosure extends Struct {
             struct = CClosure.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link CClosure} struct.
          * @return A new instance of {@code CClosure} with the fields 
          *         that were set in the Builder object.
@@ -1706,10 +1764,12 @@ public class CClosure extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setClosure(org.gtk.gobject.Closure closure) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("closure"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("closure"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1718,10 +1778,12 @@ public class CClosure extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCallback(java.lang.foreign.MemoryAddress callback) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("callback"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
+                return this;
+            }
         }
     }
 }

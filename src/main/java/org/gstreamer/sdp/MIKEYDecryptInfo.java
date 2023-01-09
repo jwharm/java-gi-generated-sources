@@ -29,8 +29,8 @@ public class MIKEYDecryptInfo extends Struct {
      * @return A new, uninitialized @{link MIKEYDecryptInfo}
      */
     public static MIKEYDecryptInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MIKEYDecryptInfo newInstance = new MIKEYDecryptInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MIKEYDecryptInfo newInstance = new MIKEYDecryptInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MIKEYDecryptInfo extends Struct {
     /**
      * Create a MIKEYDecryptInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MIKEYDecryptInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MIKEYDecryptInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MIKEYDecryptInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYDecryptInfo(input, ownership);
+    public static final Marshal<Addressable, MIKEYDecryptInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYDecryptInfo(input);
 }

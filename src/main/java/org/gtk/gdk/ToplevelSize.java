@@ -33,8 +33,8 @@ public class ToplevelSize extends Struct {
      * @return A new, uninitialized @{link ToplevelSize}
      */
     public static ToplevelSize allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ToplevelSize newInstance = new ToplevelSize(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ToplevelSize newInstance = new ToplevelSize(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class ToplevelSize extends Struct {
     /**
      * Create a ToplevelSize proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ToplevelSize(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ToplevelSize(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ToplevelSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelSize(input, ownership);
+    public static final Marshal<Addressable, ToplevelSize> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelSize(input);
     
     /**
      * Retrieves the bounds the toplevel is placed within.
@@ -63,18 +65,20 @@ public class ToplevelSize extends Struct {
      * @param boundsHeight return location for height
      */
     public void getBounds(Out<Integer> boundsWidth, Out<Integer> boundsHeight) {
-        MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(
-                    handle(),
-                    (Addressable) boundsWidthPOINTER.address(),
-                    (Addressable) boundsHeightPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment boundsWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment boundsHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(
+                        handle(),
+                        (Addressable) boundsWidthPOINTER.address(),
+                        (Addressable) boundsHeightPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    boundsWidth.set(boundsWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    boundsHeight.set(boundsHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        boundsWidth.set(boundsWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        boundsHeight.set(boundsHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -149,27 +153,27 @@ public class ToplevelSize extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
-            "gdk_toplevel_size_get_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_size_get_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
-            "gdk_toplevel_size_set_min_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_size_set_min_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
-            "gdk_toplevel_size_set_shadow_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_size_set_shadow_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
-            "gdk_toplevel_size_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_size_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

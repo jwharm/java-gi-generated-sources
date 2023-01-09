@@ -29,8 +29,8 @@ public class ImageViewCreateFlagBits extends Struct {
      * @return A new, uninitialized @{link ImageViewCreateFlagBits}
      */
     public static ImageViewCreateFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageViewCreateFlagBits newInstance = new ImageViewCreateFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageViewCreateFlagBits newInstance = new ImageViewCreateFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageViewCreateFlagBits extends Struct {
     /**
      * Create a ImageViewCreateFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageViewCreateFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageViewCreateFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageViewCreateFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageViewCreateFlagBits(input, ownership);
+    public static final Marshal<Addressable, ImageViewCreateFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageViewCreateFlagBits(input);
 }

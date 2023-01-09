@@ -38,26 +38,17 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     
     /**
      * Create a AppChooserDialog proxy instance for the provided memory address.
-     * <p>
-     * Because AppChooserDialog is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppChooserDialog(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AppChooserDialog(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppChooserDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserDialog(input, ownership);
+    public static final Marshal<Addressable, AppChooserDialog> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserDialog(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gio.File file) {
         MemoryAddress RESULT;
@@ -81,22 +72,26 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * @param file a {@code GFile}
      */
     public AppChooserDialog(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gio.File file) {
-        super(constructNew(parent, flags, file), Ownership.NONE);
+        super(constructNew(parent, flags, file));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewForContentType(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, java.lang.String contentType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new_for_content_type.invokeExact(
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    flags.getValue(),
-                    Marshal.stringToAddress.marshal(contentType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new_for_content_type.invokeExact(
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                        flags.getValue(),
+                        Marshal.stringToAddress.marshal(contentType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkAppChooserDialog} for the provided content type.
      * <p>
@@ -108,7 +103,10 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      */
     public static AppChooserDialog newForContentType(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, java.lang.String contentType) {
         var RESULT = constructNewForContentType(parent, flags, contentType);
-        return (org.gtk.gtk.AppChooserDialog) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.AppChooserDialog.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.AppChooserDialog) Interop.register(RESULT, org.gtk.gtk.AppChooserDialog.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -119,8 +117,7 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     public @Nullable java.lang.String getHeading() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_heading.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_heading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,12 +131,11 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     public org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -149,12 +145,14 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * @param heading a string containing Pango markup
      */
     public void setHeading(java.lang.String heading) {
-        try {
-            DowncallHandles.gtk_app_chooser_dialog_set_heading.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(heading, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_app_chooser_dialog_set_heading.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(heading, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -188,6 +186,9 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      */
     public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -239,39 +240,47 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_app_chooser_dialog_new = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_dialog_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_dialog_new_for_content_type = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_new_for_content_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_dialog_new_for_content_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_dialog_get_heading = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_get_heading",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_dialog_get_heading",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_dialog_get_widget = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_get_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_dialog_get_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_dialog_set_heading = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_set_heading",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_dialog_set_heading",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_dialog_get_type = Interop.downcallHandle(
-            "gtk_app_chooser_dialog_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_app_chooser_dialog_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_app_chooser_dialog_get_type != null;
     }
 }

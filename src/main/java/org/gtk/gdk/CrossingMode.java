@@ -9,41 +9,50 @@ import org.jetbrains.annotations.*;
  * Specifies the crossing mode for enter and leave events.
  */
 public enum CrossingMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * crossing because of pointer motion.
      */
     NORMAL(0),
+    
     /**
      * crossing because a grab is activated.
      */
     GRAB(1),
+    
     /**
      * crossing because a grab is deactivated.
      */
     UNGRAB(2),
+    
     /**
      * crossing because a GTK grab is activated.
      */
     GTK_GRAB(3),
+    
     /**
      * crossing because a GTK grab is deactivated.
      */
     GTK_UNGRAB(4),
+    
     /**
      * crossing because a GTK widget changed
      *   state (e.g. sensitivity).
      */
     STATE_CHANGED(5),
+    
     /**
      * crossing because a touch sequence has begun,
      *   this event is synthetic as the pointer might have not left the surface.
      */
     TOUCH_BEGIN(6),
+    
     /**
      * crossing because a touch sequence has ended,
      *   this event is synthetic as the pointer might have not left the surface.
      */
     TOUCH_END(7),
+    
     /**
      * crossing because of a device switch (i.e.
      *   a mouse taking control of the pointer after a touch device), this event
@@ -54,15 +63,29 @@ public enum CrossingMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkCrossingMode";
     
     private final int value;
+    
+    /**
+     * Create a new CrossingMode for the provided value
+     * @param numeric value the enum value
+     */
     CrossingMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new CrossingMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static CrossingMode of(int value) {
         return switch (value) {
             case 0 -> NORMAL;

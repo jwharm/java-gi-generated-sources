@@ -33,8 +33,8 @@ public class VideoAggregatorConvertPadClass extends Struct {
      * @return A new, uninitialized @{link VideoAggregatorConvertPadClass}
      */
     public static VideoAggregatorConvertPadClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAggregatorConvertPadClass newInstance = new VideoAggregatorConvertPadClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAggregatorConvertPadClass newInstance = new VideoAggregatorConvertPadClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class VideoAggregatorConvertPadClass extends Struct {
      */
     public org.gstreamer.video.VideoAggregatorPadClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.video.VideoAggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoAggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,24 +53,41 @@ public class VideoAggregatorConvertPadClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.video.VideoAggregatorPadClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateConversionInfoCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateConversionInfoCallback {
+    
         void run(org.gstreamer.video.VideoAggregatorConvertPad pad, org.gstreamer.video.VideoAggregator agg, org.gstreamer.video.VideoInfo conversionInfo);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pad, MemoryAddress agg, MemoryAddress conversionInfo) {
-            run((org.gstreamer.video.VideoAggregatorConvertPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.video.VideoAggregatorConvertPad.fromAddress).marshal(pad, Ownership.NONE), (org.gstreamer.video.VideoAggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(agg)), org.gstreamer.video.VideoAggregator.fromAddress).marshal(agg, Ownership.NONE), org.gstreamer.video.VideoInfo.fromAddress.marshal(conversionInfo, Ownership.NONE));
+            run((org.gstreamer.video.VideoAggregatorConvertPad) Interop.register(pad, org.gstreamer.video.VideoAggregatorConvertPad.fromAddress).marshal(pad, null), (org.gstreamer.video.VideoAggregator) Interop.register(agg, org.gstreamer.video.VideoAggregator.fromAddress).marshal(agg, null), org.gstreamer.video.VideoInfo.fromAddress.marshal(conversionInfo, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateConversionInfoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateConversionInfoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +96,26 @@ public class VideoAggregatorConvertPadClass extends Struct {
      * @param createConversionInfo The new value of the field {@code create_conversion_info}
      */
     public void setCreateConversionInfo(CreateConversionInfoCallback createConversionInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_conversion_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createConversionInfo == null ? MemoryAddress.NULL : createConversionInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_conversion_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createConversionInfo == null ? MemoryAddress.NULL : createConversionInfo.toCallback()));
+        }
     }
     
     /**
      * Create a VideoAggregatorConvertPadClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAggregatorConvertPadClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAggregatorConvertPadClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAggregatorConvertPadClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorConvertPadClass(input, ownership);
+    public static final Marshal<Addressable, VideoAggregatorConvertPadClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorConvertPadClass(input);
     
     /**
      * A {@link VideoAggregatorConvertPadClass.Builder} object constructs a {@link VideoAggregatorConvertPadClass} 
@@ -118,7 +139,7 @@ public class VideoAggregatorConvertPadClass extends Struct {
             struct = VideoAggregatorConvertPadClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAggregatorConvertPadClass} struct.
          * @return A new instance of {@code VideoAggregatorConvertPadClass} with the fields 
          *         that were set in the Builder object.
@@ -128,24 +149,30 @@ public class VideoAggregatorConvertPadClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.video.VideoAggregatorPadClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setCreateConversionInfo(CreateConversionInfoCallback createConversionInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_conversion_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createConversionInfo == null ? MemoryAddress.NULL : createConversionInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_conversion_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createConversionInfo == null ? MemoryAddress.NULL : createConversionInfo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

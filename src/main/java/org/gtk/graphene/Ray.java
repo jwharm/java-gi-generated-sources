@@ -39,8 +39,8 @@ public class Ray extends Struct {
      * @return A new, uninitialized @{link Ray}
      */
     public static Ray allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Ray newInstance = new Ray(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Ray newInstance = new Ray(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class Ray extends Struct {
     /**
      * Create a Ray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Ray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Ray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Ray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Ray(input, ownership);
+    public static final Marshal<Addressable, Ray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Ray(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -66,7 +68,7 @@ public class Ray extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Ray} structure.
      * <p>
@@ -77,7 +79,9 @@ public class Ray extends Struct {
      */
     public static Ray alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Ray.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -102,8 +106,7 @@ public class Ray extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_ray_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_ray_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +233,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -248,7 +251,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -267,7 +270,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -278,18 +281,20 @@ public class Ray extends Struct {
      * @return the type of intersection
      */
     public org.gtk.graphene.RayIntersectionKind intersectBox(org.gtk.graphene.Box b, Out<Float> tOut) {
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_box.invokeExact(
-                    handle(),
-                    b.handle(),
-                    (Addressable) tOutPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment tOutPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.graphene_ray_intersect_box.invokeExact(
+                        handle(),
+                        b.handle(),
+                        (Addressable) tOutPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return org.gtk.graphene.RayIntersectionKind.of(RESULT);
         }
-        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**
@@ -300,18 +305,20 @@ public class Ray extends Struct {
      * @return the type of intersection
      */
     public org.gtk.graphene.RayIntersectionKind intersectSphere(org.gtk.graphene.Sphere s, Out<Float> tOut) {
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_sphere.invokeExact(
-                    handle(),
-                    s.handle(),
-                    (Addressable) tOutPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment tOutPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.graphene_ray_intersect_sphere.invokeExact(
+                        handle(),
+                        s.handle(),
+                        (Addressable) tOutPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return org.gtk.graphene.RayIntersectionKind.of(RESULT);
         }
-        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**
@@ -322,18 +329,20 @@ public class Ray extends Struct {
      * @return the type of intersection
      */
     public org.gtk.graphene.RayIntersectionKind intersectTriangle(org.gtk.graphene.Triangle t, Out<Float> tOut) {
-        MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.graphene_ray_intersect_triangle.invokeExact(
-                    handle(),
-                    t.handle(),
-                    (Addressable) tOutPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment tOutPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.graphene_ray_intersect_triangle.invokeExact(
+                        handle(),
+                        t.handle(),
+                        (Addressable) tOutPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return org.gtk.graphene.RayIntersectionKind.of(RESULT);
         }
-        tOut.set(tOutPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return org.gtk.graphene.RayIntersectionKind.of(RESULT);
     }
     
     /**
@@ -399,111 +408,111 @@ public class Ray extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_ray_alloc = Interop.downcallHandle(
-            "graphene_ray_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_equal = Interop.downcallHandle(
-            "graphene_ray_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_free = Interop.downcallHandle(
-            "graphene_ray_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_closest_point_to_point = Interop.downcallHandle(
-            "graphene_ray_get_closest_point_to_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_closest_point_to_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_direction = Interop.downcallHandle(
-            "graphene_ray_get_direction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_direction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_distance_to_plane = Interop.downcallHandle(
-            "graphene_ray_get_distance_to_plane",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_distance_to_plane",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_distance_to_point = Interop.downcallHandle(
-            "graphene_ray_get_distance_to_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_distance_to_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_origin = Interop.downcallHandle(
-            "graphene_ray_get_origin",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_origin",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_get_position_at = Interop.downcallHandle(
-            "graphene_ray_get_position_at",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_get_position_at",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_init = Interop.downcallHandle(
-            "graphene_ray_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_init_from_ray = Interop.downcallHandle(
-            "graphene_ray_init_from_ray",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_init_from_ray",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_init_from_vec3 = Interop.downcallHandle(
-            "graphene_ray_init_from_vec3",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_init_from_vec3",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersect_box = Interop.downcallHandle(
-            "graphene_ray_intersect_box",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersect_box",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersect_sphere = Interop.downcallHandle(
-            "graphene_ray_intersect_sphere",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersect_sphere",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersect_triangle = Interop.downcallHandle(
-            "graphene_ray_intersect_triangle",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersect_triangle",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersects_box = Interop.downcallHandle(
-            "graphene_ray_intersects_box",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersects_box",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersects_sphere = Interop.downcallHandle(
-            "graphene_ray_intersects_sphere",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersects_sphere",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_ray_intersects_triangle = Interop.downcallHandle(
-            "graphene_ray_intersects_triangle",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_ray_intersects_triangle",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -529,7 +538,7 @@ public class Ray extends Struct {
             struct = Ray.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Ray} struct.
          * @return A new instance of {@code Ray} with the fields 
          *         that were set in the Builder object.
@@ -539,17 +548,21 @@ public class Ray extends Struct {
         }
         
         public Builder setOrigin(org.gtk.graphene.Vec3 origin) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
+                return this;
+            }
         }
         
         public Builder setDirection(org.gtk.graphene.Vec3 direction) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("direction"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("direction"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));
+                return this;
+            }
         }
     }
 }

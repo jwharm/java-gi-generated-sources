@@ -37,8 +37,8 @@ public class Queue extends Struct {
      * @return A new, uninitialized @{link Queue}
      */
     public static Queue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Queue newInstance = new Queue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Queue newInstance = new Queue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class Queue extends Struct {
      * @return The value of the field {@code head}
      */
     public org.gtk.glib.List getHead() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("head"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("head"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class Queue extends Struct {
      * @param head The new value of the field {@code head}
      */
     public void setHead(org.gtk.glib.List head) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("head"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("head"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class Queue extends Struct {
      * @return The value of the field {@code tail}
      */
     public org.gtk.glib.List getTail() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tail"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tail"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class Queue extends Struct {
      * @param tail The new value of the field {@code tail}
      */
     public void setTail(org.gtk.glib.List tail) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tail"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tail"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class Queue extends Struct {
      * @return The value of the field {@code length}
      */
     public int getLength_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class Queue extends Struct {
      * @param length The new value of the field {@code length}
      */
     public void setLength(int length) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), length);
+        }
     }
     
     /**
      * Create a Queue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Queue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Queue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Queue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Queue(input, ownership);
+    public static final Marshal<Addressable, Queue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Queue(input);
     
     /**
      * Removes all the elements in {@code queue}. If queue elements contain
@@ -124,8 +138,7 @@ public class Queue extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_queue_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_queue_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,12 +168,11 @@ public class Queue extends Struct {
     public org.gtk.glib.Queue copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -192,7 +204,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -215,7 +227,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -247,8 +259,7 @@ public class Queue extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_queue_free.invokeExact(
-                    handle());
+            DowncallHandles.g_queue_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,8 +290,7 @@ public class Queue extends Struct {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_get_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_queue_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,8 +322,7 @@ public class Queue extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.g_queue_init.invokeExact(
-                    handle());
+            DowncallHandles.g_queue_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -422,8 +431,7 @@ public class Queue extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_queue_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_queue_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,8 +464,7 @@ public class Queue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,12 +478,11 @@ public class Queue extends Struct {
     public org.gtk.glib.List peekHeadLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head_link.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head_link.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -512,7 +518,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -523,8 +529,7 @@ public class Queue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peekTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -538,12 +543,11 @@ public class Queue extends Struct {
     public org.gtk.glib.List peekTailLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail_link.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail_link.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -554,8 +558,7 @@ public class Queue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popHead() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -570,12 +573,11 @@ public class Queue extends Struct {
     public org.gtk.glib.List popHeadLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head_link.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head_link.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -609,7 +611,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -620,8 +622,7 @@ public class Queue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress popTail() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -636,12 +637,11 @@ public class Queue extends Struct {
     public org.gtk.glib.List popTailLink() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail_link.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail_link.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -770,8 +770,7 @@ public class Queue extends Struct {
      */
     public void reverse() {
         try {
-            DowncallHandles.g_queue_reverse.invokeExact(
-                    handle());
+            DowncallHandles.g_queue_reverse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -823,267 +822,267 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_queue_clear = Interop.downcallHandle(
-            "g_queue_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_clear_full = Interop.downcallHandle(
-            "g_queue_clear_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_clear_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_copy = Interop.downcallHandle(
-            "g_queue_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_delete_link = Interop.downcallHandle(
-            "g_queue_delete_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_delete_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_find = Interop.downcallHandle(
-            "g_queue_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_find_custom = Interop.downcallHandle(
-            "g_queue_find_custom",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_find_custom",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_foreach = Interop.downcallHandle(
-            "g_queue_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_free = Interop.downcallHandle(
-            "g_queue_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_free_full = Interop.downcallHandle(
-            "g_queue_free_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_free_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_get_length = Interop.downcallHandle(
-            "g_queue_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_index = Interop.downcallHandle(
-            "g_queue_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_init = Interop.downcallHandle(
-            "g_queue_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_insert_after = Interop.downcallHandle(
-            "g_queue_insert_after",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_insert_after",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_insert_after_link = Interop.downcallHandle(
-            "g_queue_insert_after_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_insert_after_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_insert_before = Interop.downcallHandle(
-            "g_queue_insert_before",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_insert_before",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_insert_before_link = Interop.downcallHandle(
-            "g_queue_insert_before_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_insert_before_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_insert_sorted = Interop.downcallHandle(
-            "g_queue_insert_sorted",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_insert_sorted",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_is_empty = Interop.downcallHandle(
-            "g_queue_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_link_index = Interop.downcallHandle(
-            "g_queue_link_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_link_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_peek_head = Interop.downcallHandle(
-            "g_queue_peek_head",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_peek_head",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_peek_head_link = Interop.downcallHandle(
-            "g_queue_peek_head_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_peek_head_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_peek_nth = Interop.downcallHandle(
-            "g_queue_peek_nth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_queue_peek_nth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_queue_peek_nth_link = Interop.downcallHandle(
-            "g_queue_peek_nth_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_queue_peek_nth_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_queue_peek_tail = Interop.downcallHandle(
-            "g_queue_peek_tail",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_peek_tail",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_peek_tail_link = Interop.downcallHandle(
-            "g_queue_peek_tail_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_peek_tail_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_pop_head = Interop.downcallHandle(
-            "g_queue_pop_head",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_pop_head",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_pop_head_link = Interop.downcallHandle(
-            "g_queue_pop_head_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_pop_head_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_pop_nth = Interop.downcallHandle(
-            "g_queue_pop_nth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_queue_pop_nth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_queue_pop_nth_link = Interop.downcallHandle(
-            "g_queue_pop_nth_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_queue_pop_nth_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_queue_pop_tail = Interop.downcallHandle(
-            "g_queue_pop_tail",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_pop_tail",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_pop_tail_link = Interop.downcallHandle(
-            "g_queue_pop_tail_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_pop_tail_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_push_head = Interop.downcallHandle(
-            "g_queue_push_head",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_push_head",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_push_head_link = Interop.downcallHandle(
-            "g_queue_push_head_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_push_head_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_push_nth = Interop.downcallHandle(
-            "g_queue_push_nth",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_queue_push_nth",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_queue_push_nth_link = Interop.downcallHandle(
-            "g_queue_push_nth_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_push_nth_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_push_tail = Interop.downcallHandle(
-            "g_queue_push_tail",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_push_tail",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_push_tail_link = Interop.downcallHandle(
-            "g_queue_push_tail_link",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_push_tail_link",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_remove = Interop.downcallHandle(
-            "g_queue_remove",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_remove",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_remove_all = Interop.downcallHandle(
-            "g_queue_remove_all",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_remove_all",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_reverse = Interop.downcallHandle(
-            "g_queue_reverse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_reverse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_sort = Interop.downcallHandle(
-            "g_queue_sort",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_sort",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_unlink = Interop.downcallHandle(
-            "g_queue_unlink",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_unlink",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_queue_new = Interop.downcallHandle(
-            "g_queue_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_queue_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1109,7 +1108,7 @@ public class Queue extends Struct {
             struct = Queue.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Queue} struct.
          * @return A new instance of {@code Queue} with the fields 
          *         that were set in the Builder object.
@@ -1124,10 +1123,12 @@ public class Queue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHead(org.gtk.glib.List head) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("head"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("head"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1136,10 +1137,12 @@ public class Queue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTail(org.gtk.glib.List tail) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tail"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tail"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1148,10 +1151,12 @@ public class Queue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLength(int length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
     }
 }

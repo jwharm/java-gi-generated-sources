@@ -92,20 +92,21 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
     /**
      * Create a SizeGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SizeGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SizeGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SizeGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SizeGroup(input, ownership);
+    public static final Marshal<Addressable, SizeGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SizeGroup(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.SizeGroupMode mode) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(
-                    mode.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +118,8 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
      * @param mode the mode for the new size group.
      */
     public SizeGroup(org.gtk.gtk.SizeGroupMode mode) {
-        super(constructNew(mode), Ownership.FULL);
+        super(constructNew(mode));
+        this.takeOwnership();
     }
     
     /**
@@ -151,8 +153,7 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
     public org.gtk.gtk.SizeGroupMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_size_group_get_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_size_group_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,12 +168,11 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
     public org.gtk.glib.SList getWidgets() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_get_widgets.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_get_widgets.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -239,6 +239,9 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -274,45 +277,53 @@ public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Bu
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_size_group_new = Interop.downcallHandle(
-            "gtk_size_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_size_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_size_group_add_widget = Interop.downcallHandle(
-            "gtk_size_group_add_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_size_group_add_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_size_group_get_mode = Interop.downcallHandle(
-            "gtk_size_group_get_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_size_group_get_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_size_group_get_widgets = Interop.downcallHandle(
-            "gtk_size_group_get_widgets",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_size_group_get_widgets",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_size_group_remove_widget = Interop.downcallHandle(
-            "gtk_size_group_remove_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_size_group_remove_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_size_group_set_mode = Interop.downcallHandle(
-            "gtk_size_group_set_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_size_group_set_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_size_group_get_type = Interop.downcallHandle(
-            "gtk_size_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_size_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_size_group_get_type != null;
     }
 }

@@ -43,8 +43,8 @@ public class SDPMedia extends Struct {
      * @return A new, uninitialized @{link SDPMedia}
      */
     public static SDPMedia allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDPMedia newInstance = new SDPMedia(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDPMedia newInstance = new SDPMedia(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code media}
      */
     public java.lang.String getMedia_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class SDPMedia extends Struct {
      * @param media The new value of the field {@code media}
      */
     public void setMedia_(java.lang.String media) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, SCOPE)));
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code port}
      */
     public int getPort_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("port"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class SDPMedia extends Struct {
      * @param port The new value of the field {@code port}
      */
     public void setPort(int port) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("port"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), port);
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code num_ports}
      */
     public int getNumPorts_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,9 +117,11 @@ public class SDPMedia extends Struct {
      * @param numPorts The new value of the field {@code num_ports}
      */
     public void setNumPorts(int numPorts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numPorts);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), numPorts);
+        }
     }
     
     /**
@@ -117,10 +129,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code proto}
      */
     public java.lang.String getProto_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("proto"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("proto"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -128,9 +142,11 @@ public class SDPMedia extends Struct {
      * @param proto The new value of the field {@code proto}
      */
     public void setProto_(java.lang.String proto) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("proto"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("proto"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, SCOPE)));
+        }
     }
     
     /**
@@ -138,10 +154,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code fmts}
      */
     public PointerAddress getFmts() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -149,9 +167,11 @@ public class SDPMedia extends Struct {
      * @param fmts The new value of the field {@code fmts}
      */
     public void setFmts(java.lang.foreign.MemoryAddress[] fmts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false, SCOPE)));
+        }
     }
     
     /**
@@ -159,10 +179,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code information}
      */
     public java.lang.String getInformation_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -170,9 +192,11 @@ public class SDPMedia extends Struct {
      * @param information The new value of the field {@code information}
      */
     public void setInformation_(java.lang.String information) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, SCOPE)));
+        }
     }
     
     /**
@@ -180,10 +204,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code connections}
      */
     public PointerAddress getConnections() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connections"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connections"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -191,9 +217,11 @@ public class SDPMedia extends Struct {
      * @param connections The new value of the field {@code connections}
      */
     public void setConnections(java.lang.foreign.MemoryAddress[] connections) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connections"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connections"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false, SCOPE)));
+        }
     }
     
     /**
@@ -201,10 +229,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code bandwidths}
      */
     public PointerAddress getBandwidths() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -212,9 +242,11 @@ public class SDPMedia extends Struct {
      * @param bandwidths The new value of the field {@code bandwidths}
      */
     public void setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false, SCOPE)));
+        }
     }
     
     /**
@@ -223,7 +255,7 @@ public class SDPMedia extends Struct {
      */
     public org.gstreamer.sdp.SDPKey getKey_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("key"));
-        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -231,9 +263,11 @@ public class SDPMedia extends Struct {
      * @param key The new value of the field {@code key}
      */
     public void setKey_(org.gstreamer.sdp.SDPKey key) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+        }
     }
     
     /**
@@ -241,10 +275,12 @@ public class SDPMedia extends Struct {
      * @return The value of the field {@code attributes}
      */
     public PointerAddress getAttributes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -252,22 +288,26 @@ public class SDPMedia extends Struct {
      * @param attributes The new value of the field {@code attributes}
      */
     public void setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false, SCOPE)));
+        }
     }
     
     /**
      * Create a SDPMedia proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDPMedia(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDPMedia(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDPMedia> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPMedia(input, ownership);
+    public static final Marshal<Addressable, SDPMedia> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDPMedia(input);
     
     /**
      * Add the attribute with {@code key} and {@code value} to {@code media}.
@@ -276,16 +316,18 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult addAttribute(java.lang.String key, @Nullable java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_add_attribute.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_add_attribute.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -295,16 +337,18 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult addBandwidth(java.lang.String bwtype, int bandwidth) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_add_bandwidth.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(bwtype, null),
-                    bandwidth);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_add_bandwidth.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(bwtype, SCOPE),
+                        bandwidth);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -318,19 +362,21 @@ public class SDPMedia extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult addConnection(java.lang.String nettype, java.lang.String addrtype, java.lang.String address, int ttl, int addrNumber) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_add_connection.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(nettype, null),
-                    Marshal.stringToAddress.marshal(addrtype, null),
-                    Marshal.stringToAddress.marshal(address, null),
-                    ttl,
-                    addrNumber);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_add_connection.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(nettype, SCOPE),
+                        Marshal.stringToAddress.marshal(addrtype, SCOPE),
+                        Marshal.stringToAddress.marshal(address, SCOPE),
+                        ttl,
+                        addrNumber);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -339,15 +385,17 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult addFormat(java.lang.String format) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_add_format.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_add_format.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -357,8 +405,7 @@ public class SDPMedia extends Struct {
     public java.lang.String asText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_as_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_as_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,8 +419,7 @@ public class SDPMedia extends Struct {
     public int attributesLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_attributes_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_attributes_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,8 +450,7 @@ public class SDPMedia extends Struct {
     public int bandwidthsLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_bandwidths_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_bandwidths_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,8 +464,7 @@ public class SDPMedia extends Struct {
     public int connectionsLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_connections_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_connections_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,17 +478,19 @@ public class SDPMedia extends Struct {
      * @return a {@link SDPResult}
      */
     public org.gstreamer.sdp.SDPResult copy(Out<org.gstreamer.sdp.SDPMedia> copy) {
-        MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_copy.invokeExact(
-                    handle(),
-                    (Addressable) copyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment copyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_copy.invokeExact(
+                        handle(),
+                        (Addressable) copyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    copy.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        copy.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -454,8 +500,7 @@ public class SDPMedia extends Struct {
     public int formatsLen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_formats_len.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_formats_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -471,8 +516,7 @@ public class SDPMedia extends Struct {
     public org.gstreamer.sdp.SDPResult free() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_free.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +537,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -502,15 +546,17 @@ public class SDPMedia extends Struct {
      * @return the first attribute value for {@code key}.
      */
     public java.lang.String getAttributeVal(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -520,16 +566,18 @@ public class SDPMedia extends Struct {
      * @return the {@code nth} attribute value.
      */
     public java.lang.String getAttributeValN(java.lang.String key, int nth) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val_n.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    nth);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val_n.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        nth);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -546,7 +594,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -571,7 +619,9 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -588,7 +638,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -615,8 +665,7 @@ public class SDPMedia extends Struct {
     public java.lang.String getInformation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_information.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_information.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -630,12 +679,11 @@ public class SDPMedia extends Struct {
     public org.gstreamer.sdp.SDPKey getKey() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_key.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -645,8 +693,7 @@ public class SDPMedia extends Struct {
     public java.lang.String getMedia() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_media.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_media.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -660,8 +707,7 @@ public class SDPMedia extends Struct {
     public int getNumPorts() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_get_num_ports.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_get_num_ports.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,8 +721,7 @@ public class SDPMedia extends Struct {
     public int getPort() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_get_port.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,8 +735,7 @@ public class SDPMedia extends Struct {
     public java.lang.String getProto() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_proto.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_proto.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -710,8 +754,7 @@ public class SDPMedia extends Struct {
     public org.gstreamer.sdp.SDPResult init() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_init.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -786,16 +829,18 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult insertFormat(int idx, java.lang.String format) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_insert_format.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(format, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_insert_format.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(format, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -805,17 +850,19 @@ public class SDPMedia extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult parseKeymgmt(Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
-        MemorySegment mikeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_parse_keymgmt.invokeExact(
-                    handle(),
-                    (Addressable) mikeyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment mikeyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_parse_keymgmt.invokeExact(
+                        handle(),
+                        (Addressable) mikeyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -950,16 +997,18 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult replaceFormat(int idx, java.lang.String format) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_replace_format.invokeExact(
-                    handle(),
-                    idx,
-                    Marshal.stringToAddress.marshal(format, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_replace_format.invokeExact(
+                        handle(),
+                        idx,
+                        Marshal.stringToAddress.marshal(format, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -968,15 +1017,17 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult setInformation(java.lang.String information) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_set_information.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(information, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_set_information.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(information, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -986,16 +1037,18 @@ public class SDPMedia extends Struct {
      * @return a {@link SDPResult}.
      */
     public org.gstreamer.sdp.SDPResult setKey(java.lang.String type, java.lang.String data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_set_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(type, null),
-                    Marshal.stringToAddress.marshal(data, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_set_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(type, SCOPE),
+                        Marshal.stringToAddress.marshal(data, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1004,15 +1057,17 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult setMedia(java.lang.String med) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_set_media.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(med, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_set_media.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(med, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1040,15 +1095,17 @@ public class SDPMedia extends Struct {
      * @return {@code GST_SDP_OK}.
      */
     public org.gstreamer.sdp.SDPResult setProto(java.lang.String proto) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_set_proto.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(proto, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_set_proto.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(proto, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1060,8 +1117,7 @@ public class SDPMedia extends Struct {
     public org.gstreamer.sdp.SDPResult uninit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_uninit.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_sdp_media_uninit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1074,16 +1130,17 @@ public class SDPMedia extends Struct {
      * @return a {@link SDPResult}.
      */
     public static org.gstreamer.sdp.SDPResult new_(Out<org.gstreamer.sdp.SDPMedia> media) {
-        MemorySegment mediaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_sdp_media_new.invokeExact(
-                    (Addressable) mediaPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment mediaPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_sdp_media_new.invokeExact((Addressable) mediaPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    media.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.sdp.SDPResult.of(RESULT);
         }
-        media.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
     /**
@@ -1117,285 +1174,285 @@ public class SDPMedia extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_sdp_media_add_attribute = Interop.downcallHandle(
-            "gst_sdp_media_add_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_add_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_add_bandwidth = Interop.downcallHandle(
-            "gst_sdp_media_add_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_add_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_add_connection = Interop.downcallHandle(
-            "gst_sdp_media_add_connection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_add_connection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_add_format = Interop.downcallHandle(
-            "gst_sdp_media_add_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_add_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_as_text = Interop.downcallHandle(
-            "gst_sdp_media_as_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_as_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_attributes_len = Interop.downcallHandle(
-            "gst_sdp_media_attributes_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_attributes_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_attributes_to_caps = Interop.downcallHandle(
-            "gst_sdp_media_attributes_to_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_attributes_to_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_bandwidths_len = Interop.downcallHandle(
-            "gst_sdp_media_bandwidths_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_bandwidths_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_connections_len = Interop.downcallHandle(
-            "gst_sdp_media_connections_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_connections_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_copy = Interop.downcallHandle(
-            "gst_sdp_media_copy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_copy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_formats_len = Interop.downcallHandle(
-            "gst_sdp_media_formats_len",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_formats_len",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_free = Interop.downcallHandle(
-            "gst_sdp_media_free",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_free",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_attribute = Interop.downcallHandle(
-            "gst_sdp_media_get_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_attribute_val = Interop.downcallHandle(
-            "gst_sdp_media_get_attribute_val",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_attribute_val",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_attribute_val_n = Interop.downcallHandle(
-            "gst_sdp_media_get_attribute_val_n",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_attribute_val_n",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_bandwidth = Interop.downcallHandle(
-            "gst_sdp_media_get_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_caps_from_media = Interop.downcallHandle(
-            "gst_sdp_media_get_caps_from_media",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_caps_from_media",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_connection = Interop.downcallHandle(
-            "gst_sdp_media_get_connection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_connection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_format = Interop.downcallHandle(
-            "gst_sdp_media_get_format",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_get_format",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_information = Interop.downcallHandle(
-            "gst_sdp_media_get_information",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_information",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_key = Interop.downcallHandle(
-            "gst_sdp_media_get_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_media = Interop.downcallHandle(
-            "gst_sdp_media_get_media",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_media",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_num_ports = Interop.downcallHandle(
-            "gst_sdp_media_get_num_ports",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_num_ports",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_port = Interop.downcallHandle(
-            "gst_sdp_media_get_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_get_proto = Interop.downcallHandle(
-            "gst_sdp_media_get_proto",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_get_proto",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_init = Interop.downcallHandle(
-            "gst_sdp_media_init",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_init",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_insert_attribute = Interop.downcallHandle(
-            "gst_sdp_media_insert_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_insert_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_insert_bandwidth = Interop.downcallHandle(
-            "gst_sdp_media_insert_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_insert_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_insert_connection = Interop.downcallHandle(
-            "gst_sdp_media_insert_connection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_insert_connection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_insert_format = Interop.downcallHandle(
-            "gst_sdp_media_insert_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_insert_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_parse_keymgmt = Interop.downcallHandle(
-            "gst_sdp_media_parse_keymgmt",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_parse_keymgmt",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_remove_attribute = Interop.downcallHandle(
-            "gst_sdp_media_remove_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_remove_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_remove_bandwidth = Interop.downcallHandle(
-            "gst_sdp_media_remove_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_remove_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_remove_connection = Interop.downcallHandle(
-            "gst_sdp_media_remove_connection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_remove_connection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_remove_format = Interop.downcallHandle(
-            "gst_sdp_media_remove_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_remove_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_replace_attribute = Interop.downcallHandle(
-            "gst_sdp_media_replace_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_replace_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_replace_bandwidth = Interop.downcallHandle(
-            "gst_sdp_media_replace_bandwidth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_replace_bandwidth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_replace_connection = Interop.downcallHandle(
-            "gst_sdp_media_replace_connection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_replace_connection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_replace_format = Interop.downcallHandle(
-            "gst_sdp_media_replace_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_replace_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_information = Interop.downcallHandle(
-            "gst_sdp_media_set_information",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_set_information",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_key = Interop.downcallHandle(
-            "gst_sdp_media_set_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_set_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_media = Interop.downcallHandle(
-            "gst_sdp_media_set_media",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_set_media",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_port_info = Interop.downcallHandle(
-            "gst_sdp_media_set_port_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_sdp_media_set_port_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_proto = Interop.downcallHandle(
-            "gst_sdp_media_set_proto",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_set_proto",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_uninit = Interop.downcallHandle(
-            "gst_sdp_media_uninit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_uninit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_new = Interop.downcallHandle(
-            "gst_sdp_media_new",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_new",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sdp_media_set_media_from_caps = Interop.downcallHandle(
-            "gst_sdp_media_set_media_from_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sdp_media_set_media_from_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1421,7 +1478,7 @@ public class SDPMedia extends Struct {
             struct = SDPMedia.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDPMedia} struct.
          * @return A new instance of {@code SDPMedia} with the fields 
          *         that were set in the Builder object.
@@ -1436,10 +1493,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMedia(java.lang.String media) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("media"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("media"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1448,10 +1507,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPort(int port) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("port"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("port"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), port);
+                return this;
+            }
         }
         
         /**
@@ -1460,10 +1521,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumPorts(int numPorts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numPorts);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), numPorts);
+                return this;
+            }
         }
         
         /**
@@ -1472,10 +1535,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProto(java.lang.String proto) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("proto"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("proto"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1484,10 +1549,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFmts(java.lang.foreign.MemoryAddress[] fmts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1496,10 +1563,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInformation(java.lang.String information) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("information"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("information"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1508,10 +1577,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setConnections(java.lang.foreign.MemoryAddress[] connections) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("connections"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("connections"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1520,10 +1591,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1532,10 +1605,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKey(org.gstreamer.sdp.SDPKey key) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1544,10 +1619,12 @@ public class SDPMedia extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

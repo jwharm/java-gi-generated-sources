@@ -49,8 +49,8 @@ public class Date extends Struct {
      * @return A new, uninitialized @{link Date}
      */
     public static Date allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Date newInstance = new Date(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Date newInstance = new Date(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -60,10 +60,12 @@ public class Date extends Struct {
      * @return The value of the field {@code julian_days}
      */
     public int getJulianDays() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -71,9 +73,11 @@ public class Date extends Struct {
      * @param julianDays The new value of the field {@code julian_days}
      */
     public void setJulianDays(int julianDays) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), julianDays);
+        }
     }
     
     /**
@@ -81,10 +85,12 @@ public class Date extends Struct {
      * @return The value of the field {@code julian}
      */
     public int getJulian_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("julian"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -92,9 +98,11 @@ public class Date extends Struct {
      * @param julian The new value of the field {@code julian}
      */
     public void setJulian_(int julian) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("julian"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), julian);
+        }
     }
     
     /**
@@ -102,10 +110,12 @@ public class Date extends Struct {
      * @return The value of the field {@code dmy}
      */
     public int getDmy() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -113,9 +123,11 @@ public class Date extends Struct {
      * @param dmy The new value of the field {@code dmy}
      */
     public void setDmy_(int dmy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), dmy);
+        }
     }
     
     /**
@@ -123,10 +135,12 @@ public class Date extends Struct {
      * @return The value of the field {@code day}
      */
     public int getDay_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("day"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -134,9 +148,11 @@ public class Date extends Struct {
      * @param day The new value of the field {@code day}
      */
     public void setDay_(int day) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("day"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), day);
+        }
     }
     
     /**
@@ -144,10 +160,12 @@ public class Date extends Struct {
      * @return The value of the field {@code month}
      */
     public int getMonth_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("month"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -155,9 +173,11 @@ public class Date extends Struct {
      * @param month The new value of the field {@code month}
      */
     public void setMonth_(int month) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("month"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), month);
+        }
     }
     
     /**
@@ -165,10 +185,12 @@ public class Date extends Struct {
      * @return The value of the field {@code year}
      */
     public int getYear_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("year"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -176,22 +198,26 @@ public class Date extends Struct {
      * @param year The new value of the field {@code year}
      */
     public void setYear_(int year) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("year"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), year);
+        }
     }
     
     /**
      * Create a Date proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Date(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Date(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Date> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Date(input, ownership);
+    public static final Marshal<Addressable, Date> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Date(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -210,7 +236,8 @@ public class Date extends Struct {
      * represent an existing day). Free the return value with g_date_free().
      */
     public Date() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
@@ -225,7 +252,7 @@ public class Date extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new {@link Date} representing the given day-month-year triplet.
      * <p>
@@ -240,20 +267,21 @@ public class Date extends Struct {
      */
     public static Date newDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
         var RESULT = constructNewDmy(day, month, year);
-        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Date.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewJulian(int julianDay) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_new_julian.invokeExact(
-                    julianDay);
+            RESULT = (MemoryAddress) DowncallHandles.g_date_new_julian.invokeExact(julianDay);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new {@link Date} representing the given Julian date.
      * <p>
@@ -266,7 +294,9 @@ public class Date extends Struct {
      */
     public static Date newJulian(int julianDay) {
         var RESULT = constructNewJulian(julianDay);
-        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Date.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -385,12 +415,13 @@ public class Date extends Struct {
     public org.gtk.glib.Date copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_date_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_date_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Date.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -417,8 +448,7 @@ public class Date extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_date_free.invokeExact(
-                    handle());
+            DowncallHandles.g_date_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,8 +461,7 @@ public class Date extends Struct {
     public org.gtk.glib.DateDay getDay() {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_day.invokeExact(
-                    handle());
+            RESULT = (byte) DowncallHandles.g_date_get_day.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,8 +476,7 @@ public class Date extends Struct {
     public int getDayOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_day_of_year.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_day_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,8 +491,7 @@ public class Date extends Struct {
     public int getIso8601WeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_iso8601_week_of_year.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_iso8601_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,8 +508,7 @@ public class Date extends Struct {
     public int getJulian() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_julian.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_julian.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,8 +524,7 @@ public class Date extends Struct {
     public int getMondayWeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_monday_week_of_year.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_monday_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,8 +538,7 @@ public class Date extends Struct {
     public org.gtk.glib.DateMonth getMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_month.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -530,8 +554,7 @@ public class Date extends Struct {
     public int getSundayWeekOfYear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_sunday_week_of_year.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_sunday_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,8 +568,7 @@ public class Date extends Struct {
     public org.gtk.glib.DateWeekday getWeekday() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_get_weekday.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_get_weekday.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -560,8 +582,7 @@ public class Date extends Struct {
     public org.gtk.glib.DateYear getYear() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_date_get_year.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.g_date_get_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -576,8 +597,7 @@ public class Date extends Struct {
     public boolean isFirstOfMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_first_of_month.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_is_first_of_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -592,8 +612,7 @@ public class Date extends Struct {
     public boolean isLastOfMonth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_last_of_month.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_is_last_of_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -695,12 +714,14 @@ public class Date extends Struct {
      * @param str string to parse
      */
     public void setParse(java.lang.String str) {
-        try {
-            DowncallHandles.g_date_set_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_date_set_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -856,8 +877,7 @@ public class Date extends Struct {
     public boolean valid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_date_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -897,8 +917,7 @@ public class Date extends Struct {
     public static byte getMondayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(
-                    year.getValue().shortValue());
+            RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -919,8 +938,7 @@ public class Date extends Struct {
     public static byte getSundayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
-            RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(
-                    year.getValue().shortValue());
+            RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -940,8 +958,7 @@ public class Date extends Struct {
     public static boolean isLeapYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(
-                    year.getValue().shortValue());
+            RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -969,17 +986,19 @@ public class Date extends Struct {
      * @return number of characters written to the buffer, or 0 the buffer was too small
      */
     public static long strftime(java.lang.String s, long slen, java.lang.String format, org.gtk.glib.Date date) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(
-                    Marshal.stringToAddress.marshal(s, null),
-                    slen,
-                    Marshal.stringToAddress.marshal(format, null),
-                    date.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(
+                        Marshal.stringToAddress.marshal(s, SCOPE),
+                        slen,
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        date.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -991,8 +1010,7 @@ public class Date extends Struct {
     public static boolean validDay(org.gtk.glib.DateDay day) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(
-                    day.getValue().byteValue());
+            RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(day.getValue().byteValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1030,8 +1048,7 @@ public class Date extends Struct {
     public static boolean validJulian(int julianDate) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_julian.invokeExact(
-                    julianDate);
+            RESULT = (int) DowncallHandles.g_date_valid_julian.invokeExact(julianDate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1047,8 +1064,7 @@ public class Date extends Struct {
     public static boolean validMonth(org.gtk.glib.DateMonth month) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(
-                    month.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(month.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1064,8 +1080,7 @@ public class Date extends Struct {
     public static boolean validWeekday(org.gtk.glib.DateWeekday weekday) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(
-                    weekday.getValue());
+            RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(weekday.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1081,8 +1096,7 @@ public class Date extends Struct {
     public static boolean validYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(
-                    year.getValue().shortValue());
+            RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(year.getValue().shortValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1092,297 +1106,297 @@ public class Date extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_date_new = Interop.downcallHandle(
-            "g_date_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_date_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_new_dmy = Interop.downcallHandle(
-            "g_date_new_dmy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_new_dmy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_new_julian = Interop.downcallHandle(
-            "g_date_new_julian",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_new_julian",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_add_days = Interop.downcallHandle(
-            "g_date_add_days",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_add_days",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_add_months = Interop.downcallHandle(
-            "g_date_add_months",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_add_months",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_add_years = Interop.downcallHandle(
-            "g_date_add_years",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_add_years",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_clamp = Interop.downcallHandle(
-            "g_date_clamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_clamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_clear = Interop.downcallHandle(
-            "g_date_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_compare = Interop.downcallHandle(
-            "g_date_compare",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_compare",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_copy = Interop.downcallHandle(
-            "g_date_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_days_between = Interop.downcallHandle(
-            "g_date_days_between",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_days_between",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_free = Interop.downcallHandle(
-            "g_date_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_date_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_day = Interop.downcallHandle(
-            "g_date_get_day",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_day",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_day_of_year = Interop.downcallHandle(
-            "g_date_get_day_of_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_day_of_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_iso8601_week_of_year = Interop.downcallHandle(
-            "g_date_get_iso8601_week_of_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_iso8601_week_of_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_julian = Interop.downcallHandle(
-            "g_date_get_julian",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_julian",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_monday_week_of_year = Interop.downcallHandle(
-            "g_date_get_monday_week_of_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_monday_week_of_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_month = Interop.downcallHandle(
-            "g_date_get_month",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_month",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_sunday_week_of_year = Interop.downcallHandle(
-            "g_date_get_sunday_week_of_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_sunday_week_of_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_weekday = Interop.downcallHandle(
-            "g_date_get_weekday",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_weekday",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_year = Interop.downcallHandle(
-            "g_date_get_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_get_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_is_first_of_month = Interop.downcallHandle(
-            "g_date_is_first_of_month",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_is_first_of_month",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_is_last_of_month = Interop.downcallHandle(
-            "g_date_is_last_of_month",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_is_last_of_month",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_order = Interop.downcallHandle(
-            "g_date_order",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_order",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_set_day = Interop.downcallHandle(
-            "g_date_set_day",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "g_date_set_day",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_date_set_dmy = Interop.downcallHandle(
-            "g_date_set_dmy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_set_dmy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_set_julian = Interop.downcallHandle(
-            "g_date_set_julian",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_set_julian",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_set_month = Interop.downcallHandle(
-            "g_date_set_month",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_set_month",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_set_parse = Interop.downcallHandle(
-            "g_date_set_parse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_set_parse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_set_time = Interop.downcallHandle(
-            "g_date_set_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_set_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_set_time_t = Interop.downcallHandle(
-            "g_date_set_time_t",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_date_set_time_t",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_date_set_time_val = Interop.downcallHandle(
-            "g_date_set_time_val",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_set_time_val",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_set_year = Interop.downcallHandle(
-            "g_date_set_year",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_set_year",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_subtract_days = Interop.downcallHandle(
-            "g_date_subtract_days",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_subtract_days",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_subtract_months = Interop.downcallHandle(
-            "g_date_subtract_months",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_subtract_months",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_subtract_years = Interop.downcallHandle(
-            "g_date_subtract_years",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_date_subtract_years",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_to_struct_tm = Interop.downcallHandle(
-            "g_date_to_struct_tm",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_to_struct_tm",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_valid = Interop.downcallHandle(
-            "g_date_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
-            "g_date_get_days_in_month",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_get_days_in_month",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
-            "g_date_get_monday_weeks_in_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_get_monday_weeks_in_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
-            "g_date_get_sunday_weeks_in_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_get_sunday_weeks_in_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
-            "g_date_is_leap_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_is_leap_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_strftime = Interop.downcallHandle(
-            "g_date_strftime",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_date_strftime",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_date_valid_day = Interop.downcallHandle(
-            "g_date_valid_day",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
-            false
+                "g_date_valid_day",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
-            "g_date_valid_dmy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_valid_dmy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
-            "g_date_valid_julian",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_date_valid_julian",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_valid_month = Interop.downcallHandle(
-            "g_date_valid_month",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_date_valid_month",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
-            "g_date_valid_weekday",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_date_valid_weekday",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_date_valid_year = Interop.downcallHandle(
-            "g_date_valid_year",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "g_date_valid_year",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
     }
     
@@ -1408,7 +1422,7 @@ public class Date extends Struct {
             struct = Date.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Date} struct.
          * @return A new instance of {@code Date} with the fields 
          *         that were set in the Builder object.
@@ -1423,10 +1437,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setJulianDays(int julianDays) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), julianDays);
+                return this;
+            }
         }
         
         /**
@@ -1435,10 +1451,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setJulian(int julian) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("julian"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("julian"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), julian);
+                return this;
+            }
         }
         
         /**
@@ -1447,10 +1465,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDmy(int dmy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dmy);
+                return this;
+            }
         }
         
         /**
@@ -1460,10 +1480,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDay(int day) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("day"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), day);
+                return this;
+            }
         }
         
         /**
@@ -1473,10 +1495,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMonth(int month) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("month"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), month);
+                return this;
+            }
         }
         
         /**
@@ -1485,10 +1509,12 @@ public class Date extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYear(int year) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("year"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), year);
+                return this;
+            }
         }
     }
 }

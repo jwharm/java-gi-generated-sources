@@ -61,8 +61,8 @@ public class VideoFormatInfo extends Struct {
      * @return A new, uninitialized @{link VideoFormatInfo}
      */
     public static VideoFormatInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoFormatInfo newInstance = new VideoFormatInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoFormatInfo newInstance = new VideoFormatInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -72,10 +72,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code format}
      */
     public org.gstreamer.video.VideoFormat getFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoFormat.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoFormat.of(RESULT);
+        }
     }
     
     /**
@@ -83,9 +85,11 @@ public class VideoFormatInfo extends Struct {
      * @param format The new value of the field {@code format}
      */
     public void setFormat(org.gstreamer.video.VideoFormat format) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        }
     }
     
     /**
@@ -93,10 +97,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code name}
      */
     public java.lang.String getName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -104,9 +110,11 @@ public class VideoFormatInfo extends Struct {
      * @param name The new value of the field {@code name}
      */
     public void setName(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+        }
     }
     
     /**
@@ -114,10 +122,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code description}
      */
     public java.lang.String getDescription() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -125,9 +135,11 @@ public class VideoFormatInfo extends Struct {
      * @param description The new value of the field {@code description}
      */
     public void setDescription(java.lang.String description) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+        }
     }
     
     /**
@@ -135,10 +147,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.video.VideoFormatFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoFormatFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.video.VideoFormatFlags(RESULT);
+        }
     }
     
     /**
@@ -146,9 +160,11 @@ public class VideoFormatInfo extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.video.VideoFormatFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -156,10 +172,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code bits}
      */
     public int getBits() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -167,9 +185,11 @@ public class VideoFormatInfo extends Struct {
      * @param bits The new value of the field {@code bits}
      */
     public void setBits(int bits) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bits);
+        }
     }
     
     /**
@@ -177,10 +197,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code n_components}
      */
     public int getNComponents() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -188,9 +210,11 @@ public class VideoFormatInfo extends Struct {
      * @param nComponents The new value of the field {@code n_components}
      */
     public void setNComponents(int nComponents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nComponents);
+        }
     }
     
     /**
@@ -198,10 +222,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code shift}
      */
     public int[] getShift() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -209,9 +235,11 @@ public class VideoFormatInfo extends Struct {
      * @param shift The new value of the field {@code shift}
      */
     public void setShift(int[] shift) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false, SCOPE)));
+        }
     }
     
     /**
@@ -219,10 +247,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code depth}
      */
     public int[] getDepth() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -230,9 +260,11 @@ public class VideoFormatInfo extends Struct {
      * @param depth The new value of the field {@code depth}
      */
     public void setDepth(int[] depth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false, SCOPE)));
+        }
     }
     
     /**
@@ -240,10 +272,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code pixel_stride}
      */
     public int[] getPixelStride() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -251,9 +285,11 @@ public class VideoFormatInfo extends Struct {
      * @param pixelStride The new value of the field {@code pixel_stride}
      */
     public void setPixelStride(int[] pixelStride) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false, SCOPE)));
+        }
     }
     
     /**
@@ -261,10 +297,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code n_planes}
      */
     public int getNPlanes() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -272,9 +310,11 @@ public class VideoFormatInfo extends Struct {
      * @param nPlanes The new value of the field {@code n_planes}
      */
     public void setNPlanes(int nPlanes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nPlanes);
+        }
     }
     
     /**
@@ -282,10 +322,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code plane}
      */
     public int[] getPlane() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -293,9 +335,11 @@ public class VideoFormatInfo extends Struct {
      * @param plane The new value of the field {@code plane}
      */
     public void setPlane(int[] plane) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false, SCOPE)));
+        }
     }
     
     /**
@@ -303,10 +347,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code poffset}
      */
     public int[] getPoffset() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -314,9 +360,11 @@ public class VideoFormatInfo extends Struct {
      * @param poffset The new value of the field {@code poffset}
      */
     public void setPoffset(int[] poffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false, SCOPE)));
+        }
     }
     
     /**
@@ -324,10 +372,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code w_sub}
      */
     public int[] getWSub() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -335,9 +385,11 @@ public class VideoFormatInfo extends Struct {
      * @param wSub The new value of the field {@code w_sub}
      */
     public void setWSub(int[] wSub) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false, SCOPE)));
+        }
     }
     
     /**
@@ -345,10 +397,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code h_sub}
      */
     public int[] getHSub() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -356,9 +410,11 @@ public class VideoFormatInfo extends Struct {
      * @param hSub The new value of the field {@code h_sub}
      */
     public void setHSub(int[] hSub) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false, SCOPE)));
+        }
     }
     
     /**
@@ -366,10 +422,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code unpack_format}
      */
     public org.gstreamer.video.VideoFormat getUnpackFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoFormat.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoFormat.of(RESULT);
+        }
     }
     
     /**
@@ -377,9 +435,11 @@ public class VideoFormatInfo extends Struct {
      * @param unpackFormat The new value of the field {@code unpack_format}
      */
     public void setUnpackFormat(org.gstreamer.video.VideoFormat unpackFormat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
+        }
     }
     
     /**
@@ -387,10 +447,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code unpack_func}
      */
     public org.gstreamer.video.VideoFormatUnpack getUnpackFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -398,9 +460,11 @@ public class VideoFormatInfo extends Struct {
      * @param unpackFunc The new value of the field {@code unpack_func}
      */
     public void setUnpackFunc(org.gstreamer.video.VideoFormatUnpack unpackFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
+        }
     }
     
     /**
@@ -408,10 +472,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code pack_lines}
      */
     public int getPackLines() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -419,9 +485,11 @@ public class VideoFormatInfo extends Struct {
      * @param packLines The new value of the field {@code pack_lines}
      */
     public void setPackLines(int packLines) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), packLines);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), packLines);
+        }
     }
     
     /**
@@ -429,10 +497,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code pack_func}
      */
     public org.gstreamer.video.VideoFormatPack getPackFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -440,9 +510,11 @@ public class VideoFormatInfo extends Struct {
      * @param packFunc The new value of the field {@code pack_func}
      */
     public void setPackFunc(org.gstreamer.video.VideoFormatPack packFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
+        }
     }
     
     /**
@@ -450,10 +522,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code tile_mode}
      */
     public org.gstreamer.video.VideoTileMode getTileMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoTileMode.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoTileMode.of(RESULT);
+        }
     }
     
     /**
@@ -461,9 +535,11 @@ public class VideoFormatInfo extends Struct {
      * @param tileMode The new value of the field {@code tile_mode}
      */
     public void setTileMode(org.gstreamer.video.VideoTileMode tileMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
+        }
     }
     
     /**
@@ -471,10 +547,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code tile_ws}
      */
     public int getTileWs() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -482,9 +560,11 @@ public class VideoFormatInfo extends Struct {
      * @param tileWs The new value of the field {@code tile_ws}
      */
     public void setTileWs(int tileWs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileWs);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tileWs);
+        }
     }
     
     /**
@@ -492,10 +572,12 @@ public class VideoFormatInfo extends Struct {
      * @return The value of the field {@code tile_hs}
      */
     public int getTileHs() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -503,22 +585,26 @@ public class VideoFormatInfo extends Struct {
      * @param tileHs The new value of the field {@code tile_hs}
      */
     public void setTileHs(int tileHs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileHs);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tileHs);
+        }
     }
     
     /**
      * Create a VideoFormatInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoFormatInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoFormatInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoFormatInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoFormatInfo(input, ownership);
+    public static final Marshal<Addressable, VideoFormatInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoFormatInfo(input);
     
     /**
      * Fill {@code components} with the number of all the components packed in plane {@code p}
@@ -528,24 +614,26 @@ public class VideoFormatInfo extends Struct {
      * @param components array used to store component numbers
      */
     public void component(int plane, Out<Integer> components) {
-        MemorySegment componentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_video_format_info_component.invokeExact(
-                    handle(),
-                    plane,
-                    (Addressable) componentsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment componentsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_video_format_info_component.invokeExact(
+                        handle(),
+                        plane,
+                        (Addressable) componentsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    components.set(componentsPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        components.set(componentsPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_format_info_component = Interop.downcallHandle(
-            "gst_video_format_info_component",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_format_info_component",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -571,7 +659,7 @@ public class VideoFormatInfo extends Struct {
             struct = VideoFormatInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoFormatInfo} struct.
          * @return A new instance of {@code VideoFormatInfo} with the fields 
          *         that were set in the Builder object.
@@ -586,10 +674,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFormat(org.gstreamer.video.VideoFormat format) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -598,10 +688,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -610,10 +702,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescription(java.lang.String description) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -622,10 +716,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.video.VideoFormatFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -637,10 +733,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBits(int bits) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bits"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bits"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bits);
+                return this;
+            }
         }
         
         /**
@@ -649,10 +747,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNComponents(int nComponents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nComponents);
+                return this;
+            }
         }
         
         /**
@@ -661,10 +761,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShift(int[] shift) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shift"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -673,10 +775,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDepth(int[] depth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("depth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -688,10 +792,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPixelStride(int[] pixelStride) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -702,10 +808,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNPlanes(int nPlanes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nPlanes);
+                return this;
+            }
         }
         
         /**
@@ -714,10 +822,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPlane(int[] plane) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -727,10 +837,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPoffset(int[] poffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -740,10 +852,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWSub(int[] wSub) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -753,10 +867,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHSub(int[] hSub) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -766,10 +882,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUnpackFormat(org.gstreamer.video.VideoFormat unpackFormat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -778,10 +896,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUnpackFunc(org.gstreamer.video.VideoFormatUnpack unpackFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -790,10 +910,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPackLines(int packLines) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), packLines);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), packLines);
+                return this;
+            }
         }
         
         /**
@@ -802,10 +924,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPackFunc(org.gstreamer.video.VideoFormatPack packFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -814,10 +938,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTileMode(org.gstreamer.video.VideoTileMode tileMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -826,10 +952,12 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTileWs(int tileWs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileWs);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tileWs);
+                return this;
+            }
         }
         
         /**
@@ -838,17 +966,21 @@ public class VideoFormatInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTileHs(int tileHs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileHs);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tileHs);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

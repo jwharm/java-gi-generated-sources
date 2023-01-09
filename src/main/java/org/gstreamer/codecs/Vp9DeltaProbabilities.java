@@ -57,8 +57,8 @@ public class Vp9DeltaProbabilities extends Struct {
      * @return A new, uninitialized @{link Vp9DeltaProbabilities}
      */
     public static Vp9DeltaProbabilities allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp9DeltaProbabilities newInstance = new Vp9DeltaProbabilities(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp9DeltaProbabilities newInstance = new Vp9DeltaProbabilities(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -66,14 +66,16 @@ public class Vp9DeltaProbabilities extends Struct {
     /**
      * Create a Vp9DeltaProbabilities proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp9DeltaProbabilities(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp9DeltaProbabilities(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp9DeltaProbabilities> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9DeltaProbabilities(input, ownership);
+    public static final Marshal<Addressable, Vp9DeltaProbabilities> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp9DeltaProbabilities(input);
     
     /**
      * A {@link Vp9DeltaProbabilities.Builder} object constructs a {@link Vp9DeltaProbabilities} 
@@ -97,7 +99,7 @@ public class Vp9DeltaProbabilities extends Struct {
             struct = Vp9DeltaProbabilities.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp9DeltaProbabilities} struct.
          * @return A new instance of {@code Vp9DeltaProbabilities} with the fields 
          *         that were set in the Builder object.
@@ -107,101 +109,129 @@ public class Vp9DeltaProbabilities extends Struct {
         }
         
         public Builder setTxProbs8x8(byte[] txProbs8x8) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_8x8"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (txProbs8x8 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs8x8, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_8x8"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (txProbs8x8 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs8x8, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setTxProbs16x16(byte[] txProbs16x16) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_16x16"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (txProbs16x16 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs16x16, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_16x16"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (txProbs16x16 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs16x16, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setTxProbs32x32(byte[] txProbs32x32) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_32x32"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (txProbs32x32 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs32x32, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tx_probs_32x32"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (txProbs32x32 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(txProbs32x32, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setCoef(byte[] coef) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("coef"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (coef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(coef, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("coef"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (coef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(coef, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setSkip(byte[] skip) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("skip"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skip == null ? MemoryAddress.NULL : Interop.allocateNativeArray(skip, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("skip"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (skip == null ? MemoryAddress.NULL : Interop.allocateNativeArray(skip, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setInterMode(byte[] interMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("inter_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(interMode, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("inter_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(interMode, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setInterpFilter(byte[] interpFilter) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("interp_filter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interpFilter == null ? MemoryAddress.NULL : Interop.allocateNativeArray(interpFilter, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("interp_filter"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interpFilter == null ? MemoryAddress.NULL : Interop.allocateNativeArray(interpFilter, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setIsInter(byte[] isInter) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_inter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isInter == null ? MemoryAddress.NULL : Interop.allocateNativeArray(isInter, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_inter"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isInter == null ? MemoryAddress.NULL : Interop.allocateNativeArray(isInter, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setCompMode(byte[] compMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("comp_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(compMode, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("comp_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(compMode, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setSingleRef(byte[] singleRef) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("single_ref"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (singleRef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(singleRef, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("single_ref"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (singleRef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(singleRef, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setCompRef(byte[] compRef) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("comp_ref"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compRef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(compRef, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("comp_ref"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compRef == null ? MemoryAddress.NULL : Interop.allocateNativeArray(compRef, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setYMode(byte[] yMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(yMode, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (yMode == null ? MemoryAddress.NULL : Interop.allocateNativeArray(yMode, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setPartition(byte[] partition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("partition"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partition == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partition, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("partition"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (partition == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partition, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setMv(org.gstreamer.codecs.Vp9MvDeltaProbs mv) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mv"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mv == null ? MemoryAddress.NULL : mv.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mv"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mv == null ? MemoryAddress.NULL : mv.handle()));
+                return this;
+            }
         }
     }
 }

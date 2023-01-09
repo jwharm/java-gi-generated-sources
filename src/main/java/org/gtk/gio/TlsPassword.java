@@ -32,25 +32,29 @@ public class TlsPassword extends org.gtk.gobject.GObject {
     /**
      * Create a TlsPassword proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsPassword(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsPassword(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsPassword> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsPassword(input, ownership);
+    public static final Marshal<Addressable, TlsPassword> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsPassword(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.TlsPasswordFlags flags, java.lang.String description) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
-                    flags.getValue(),
-                    Marshal.stringToAddress.marshal(description, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
+                        flags.getValue(),
+                        Marshal.stringToAddress.marshal(description, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -59,7 +63,8 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @param description description of what the password is for
      */
     public TlsPassword(org.gtk.gio.TlsPasswordFlags flags, java.lang.String description) {
-        super(constructNew(flags, description), Ownership.FULL);
+        super(constructNew(flags, description));
+        this.takeOwnership();
     }
     
     /**
@@ -69,8 +74,7 @@ public class TlsPassword extends org.gtk.gobject.GObject {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +88,7 @@ public class TlsPassword extends org.gtk.gobject.GObject {
     public org.gtk.gio.TlsPasswordFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tls_password_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tls_password_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,17 +105,19 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @return The password value (owned by the password object).
      */
     public byte[] getValue(Out<Long> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_value.invokeExact(
-                    handle(),
-                    (Addressable) lengthPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_value.invokeExact(
+                        handle(),
+                        (Addressable) lengthPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -124,8 +129,7 @@ public class TlsPassword extends org.gtk.gobject.GObject {
     public java.lang.String getWarning() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_warning.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_warning.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,12 +141,14 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @param description The description of the password
      */
     public void setDescription(java.lang.String description) {
-        try {
-            DowncallHandles.g_tls_password_set_description.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(description, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_password_set_description.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(description, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -172,13 +178,15 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @param length the length of the password, or -1
      */
     public void setValue(byte[] value, long length) {
-        try {
-            DowncallHandles.g_tls_password_set_value.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(value, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_password_set_value.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(value, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -197,14 +205,16 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @param destroy a function to use to free the password.
      */
     public void setValueFull(byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        try {
-            DowncallHandles.g_tls_password_set_value_full.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(value, false),
-                    length,
-                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_password_set_value_full.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(value, false, SCOPE),
+                        length,
+                        (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -215,12 +225,14 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      * @param warning The user readable warning
      */
     public void setWarning(java.lang.String warning) {
-        try {
-            DowncallHandles.g_tls_password_set_warning.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(warning, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_tls_password_set_warning.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(warning, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -254,6 +266,9 @@ public class TlsPassword extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -296,69 +311,77 @@ public class TlsPassword extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tls_password_new = Interop.downcallHandle(
-            "g_tls_password_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_get_description = Interop.downcallHandle(
-            "g_tls_password_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_get_flags = Interop.downcallHandle(
-            "g_tls_password_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_get_value = Interop.downcallHandle(
-            "g_tls_password_get_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_get_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_get_warning = Interop.downcallHandle(
-            "g_tls_password_get_warning",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_get_warning",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_set_description = Interop.downcallHandle(
-            "g_tls_password_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_set_flags = Interop.downcallHandle(
-            "g_tls_password_set_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_tls_password_set_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_tls_password_set_value = Interop.downcallHandle(
-            "g_tls_password_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_tls_password_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_tls_password_set_value_full = Interop.downcallHandle(
-            "g_tls_password_set_value_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_set_value_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_set_warning = Interop.downcallHandle(
-            "g_tls_password_set_warning",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tls_password_set_warning",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tls_password_get_type = Interop.downcallHandle(
-            "g_tls_password_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tls_password_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tls_password_get_type != null;
     }
 }

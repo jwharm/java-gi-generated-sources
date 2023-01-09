@@ -62,26 +62,17 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a ActionBar proxy instance for the provided memory address.
-     * <p>
-     * Because ActionBar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ActionBar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ActionBar(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ActionBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActionBar(input, ownership);
+    public static final Marshal<Addressable, ActionBar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ActionBar(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -97,7 +88,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Creates a new {@code GtkActionBar} widget.
      */
     public ActionBar() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -107,12 +100,11 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_action_bar_get_center_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_action_bar_get_center_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -123,8 +115,7 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public boolean getRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_action_bar_get_revealed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_action_bar_get_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,6 +228,9 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -272,57 +266,65 @@ public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
-            "gtk_action_bar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
-            "gtk_action_bar_get_center_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_get_center_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
-            "gtk_action_bar_get_revealed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_get_revealed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
-            "gtk_action_bar_pack_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_pack_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
-            "gtk_action_bar_pack_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_pack_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
-            "gtk_action_bar_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
-            "gtk_action_bar_set_center_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_action_bar_set_center_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
-            "gtk_action_bar_set_revealed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_action_bar_set_revealed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_action_bar_get_type = Interop.downcallHandle(
-            "gtk_action_bar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_action_bar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_action_bar_get_type != null;
     }
 }

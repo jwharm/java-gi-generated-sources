@@ -53,6 +53,9 @@ public class FontMask extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FontMask VARIATIONS = new FontMask(128);
     
+    /**
+     * Create a new FontMask with the provided value
+     */
     public FontMask(int value) {
         super(value);
     }

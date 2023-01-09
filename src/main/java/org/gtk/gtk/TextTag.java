@@ -48,24 +48,27 @@ public class TextTag extends org.gtk.gobject.GObject {
     /**
      * Create a TextTag proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextTag(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextTag(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextTag> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextTag(input, ownership);
+    public static final Marshal<Addressable, TextTag> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextTag(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_text_tag_new.invokeExact((Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -73,7 +76,8 @@ public class TextTag extends org.gtk.gobject.GObject {
      * @param name tag name
      */
     public TextTag(@Nullable java.lang.String name) {
-        super(constructNew(name), Ownership.FULL);
+        super(constructNew(name));
+        this.takeOwnership();
     }
     
     /**
@@ -101,8 +105,7 @@ public class TextTag extends org.gtk.gobject.GObject {
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_tag_get_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_tag_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,6 +169,9 @@ public class TextTag extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1022,33 +1028,41 @@ public class TextTag extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_tag_new = Interop.downcallHandle(
-            "gtk_text_tag_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_changed = Interop.downcallHandle(
-            "gtk_text_tag_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_text_tag_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_get_priority = Interop.downcallHandle(
-            "gtk_text_tag_get_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_tag_get_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_set_priority = Interop.downcallHandle(
-            "gtk_text_tag_set_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_text_tag_set_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_text_tag_get_type = Interop.downcallHandle(
-            "gtk_text_tag_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_text_tag_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_text_tag_get_type != null;
     }
 }

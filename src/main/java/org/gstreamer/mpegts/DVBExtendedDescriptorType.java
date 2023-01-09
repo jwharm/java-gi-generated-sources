@@ -14,26 +14,47 @@ import org.jetbrains.annotations.*;
  * Consult the relevant specifications for more details.
  */
 public enum DVBExtendedDescriptorType implements io.github.jwharm.javagi.Enumeration {
+    
     IMAGE_ICON(0),
+    
     CPCM_DELIVERY_SIGNALLING(1),
+    
     CP(2),
+    
     CP_IDENTIFIER(3),
+    
     T2_DELIVERY_SYSTEM(4),
+    
     SH_DELIVERY_SYSTEM(5),
+    
     SUPPLEMENTARY_AUDIO(6),
+    
     NETWORK_CHANGE_NOTIFY(7),
+    
     MESSAGE(8),
+    
     TARGET_REGION(9),
+    
     TARGET_REGION_NAME(10),
+    
     SERVICE_RELOCATED(11),
+    
     XAIT_PID(12),
+    
     C2_DELIVERY_SYSTEM(13),
+    
     DTS_HD_AUDIO_STREAM(14),
+    
     DTS_NEUTRAL(15),
+    
     VIDEO_DEPTH_RANGE(16),
+    
     T2MI(17),
+    
     URI_LINKAGE(19),
+    
     AC4(21),
+    
     /**
      * Provide all avaliable audio programme for user selection
      */
@@ -42,15 +63,29 @@ public enum DVBExtendedDescriptorType implements io.github.jwharm.javagi.Enumera
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBExtendedDescriptorType";
     
     private final int value;
+    
+    /**
+     * Create a new DVBExtendedDescriptorType for the provided value
+     * @param numeric value the enum value
+     */
     DVBExtendedDescriptorType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DVBExtendedDescriptorType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DVBExtendedDescriptorType of(int value) {
         return switch (value) {
             case 0 -> IMAGE_ICON;

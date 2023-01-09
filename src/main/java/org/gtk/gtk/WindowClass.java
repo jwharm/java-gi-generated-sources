@@ -37,8 +37,8 @@ public class WindowClass extends Struct {
      * @return A new, uninitialized @{link WindowClass}
      */
     public static WindowClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WindowClass newInstance = new WindowClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WindowClass newInstance = new WindowClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class WindowClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,24 +57,41 @@ public class WindowClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateFocusCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateFocusCallback {
+    
         void run(org.gtk.gtk.Window window);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window) {
-            run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+            run((org.gtk.gtk.Window) Interop.register(window, org.gtk.gtk.Window.fromAddress).marshal(window, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateFocusCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateFocusCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,24 +100,41 @@ public class WindowClass extends Struct {
      * @param activateFocus The new value of the field {@code activate_focus}
      */
     public void setActivateFocus(ActivateFocusCallback activateFocus) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate_focus"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateFocus == null ? MemoryAddress.NULL : activateFocus.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate_focus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateFocus == null ? MemoryAddress.NULL : activateFocus.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateDefaultCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateDefaultCallback {
+    
         void run(org.gtk.gtk.Window window);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window) {
-            run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+            run((org.gtk.gtk.Window) Interop.register(window, org.gtk.gtk.Window.fromAddress).marshal(window, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateDefaultCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateDefaultCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -109,24 +143,41 @@ public class WindowClass extends Struct {
      * @param activateDefault The new value of the field {@code activate_default}
      */
     public void setActivateDefault(ActivateDefaultCallback activateDefault) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code KeysChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface KeysChangedCallback {
+    
         void run(org.gtk.gtk.Window window);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress window) {
-            run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+            run((org.gtk.gtk.Window) Interop.register(window, org.gtk.gtk.Window.fromAddress).marshal(window, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeysChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), KeysChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -135,25 +186,42 @@ public class WindowClass extends Struct {
      * @param keysChanged The new value of the field {@code keys_changed}
      */
     public void setKeysChanged(KeysChangedCallback keysChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("keys_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keysChanged == null ? MemoryAddress.NULL : keysChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("keys_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (keysChanged == null ? MemoryAddress.NULL : keysChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EnableDebuggingCallback} callback.
+     */
     @FunctionalInterface
     public interface EnableDebuggingCallback {
+    
         boolean run(org.gtk.gtk.Window window, boolean toggle);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress window, int toggle) {
-            var RESULT = run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE), Marshal.integerToBoolean.marshal(toggle, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.Window) Interop.register(window, org.gtk.gtk.Window.fromAddress).marshal(window, null), Marshal.integerToBoolean.marshal(toggle, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EnableDebuggingCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EnableDebuggingCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -162,25 +230,42 @@ public class WindowClass extends Struct {
      * @param enableDebugging The new value of the field {@code enable_debugging}
      */
     public void setEnableDebugging(EnableDebuggingCallback enableDebugging) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("enable_debugging"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enableDebugging == null ? MemoryAddress.NULL : enableDebugging.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("enable_debugging"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enableDebugging == null ? MemoryAddress.NULL : enableDebugging.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CloseRequestCallback} callback.
+     */
     @FunctionalInterface
     public interface CloseRequestCallback {
+    
         boolean run(org.gtk.gtk.Window window);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress window) {
-            var RESULT = run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.Window) Interop.register(window, org.gtk.gtk.Window.fromAddress).marshal(window, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseRequestCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CloseRequestCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -189,22 +274,26 @@ public class WindowClass extends Struct {
      * @param closeRequest The new value of the field {@code close_request}
      */
     public void setCloseRequest(CloseRequestCallback closeRequest) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("close_request"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeRequest == null ? MemoryAddress.NULL : closeRequest.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close_request"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closeRequest == null ? MemoryAddress.NULL : closeRequest.toCallback()));
+        }
     }
     
     /**
      * Create a WindowClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WindowClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WindowClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WindowClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowClass(input, ownership);
+    public static final Marshal<Addressable, WindowClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WindowClass(input);
     
     /**
      * A {@link WindowClass.Builder} object constructs a {@link WindowClass} 
@@ -228,7 +317,7 @@ public class WindowClass extends Struct {
             struct = WindowClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link WindowClass} struct.
          * @return A new instance of {@code WindowClass} with the fields 
          *         that were set in the Builder object.
@@ -243,52 +332,66 @@ public class WindowClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setActivateFocus(ActivateFocusCallback activateFocus) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateFocus == null ? MemoryAddress.NULL : activateFocus.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate_focus"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateFocus == null ? MemoryAddress.NULL : activateFocus.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivateDefault(ActivateDefaultCallback activateDefault) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+                return this;
+            }
         }
         
         public Builder setKeysChanged(KeysChangedCallback keysChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("keys_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keysChanged == null ? MemoryAddress.NULL : keysChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("keys_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (keysChanged == null ? MemoryAddress.NULL : keysChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEnableDebugging(EnableDebuggingCallback enableDebugging) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("enable_debugging"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enableDebugging == null ? MemoryAddress.NULL : enableDebugging.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("enable_debugging"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (enableDebugging == null ? MemoryAddress.NULL : enableDebugging.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCloseRequest(CloseRequestCallback closeRequest) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("close_request"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeRequest == null ? MemoryAddress.NULL : closeRequest.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("close_request"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closeRequest == null ? MemoryAddress.NULL : closeRequest.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

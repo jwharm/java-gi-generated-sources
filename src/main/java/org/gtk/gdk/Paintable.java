@@ -54,8 +54,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Paintable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PaintableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PaintableImpl(input, ownership);
+    public static final Marshal<Addressable, PaintableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PaintableImpl(input);
     
     /**
      * Compute a concrete size for the {@code GdkPaintable}.
@@ -80,22 +83,24 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * @param concreteHeight will be set to the concrete height computed
      */
     default void computeConcreteSize(double specifiedWidth, double specifiedHeight, double defaultWidth, double defaultHeight, Out<Double> concreteWidth, Out<Double> concreteHeight) {
-        MemorySegment concreteWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment concreteHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.gdk_paintable_compute_concrete_size.invokeExact(
-                    handle(),
-                    specifiedWidth,
-                    specifiedHeight,
-                    defaultWidth,
-                    defaultHeight,
-                    (Addressable) concreteWidthPOINTER.address(),
-                    (Addressable) concreteHeightPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment concreteWidthPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment concreteHeightPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.gdk_paintable_compute_concrete_size.invokeExact(
+                        handle(),
+                        specifiedWidth,
+                        specifiedHeight,
+                        defaultWidth,
+                        defaultHeight,
+                        (Addressable) concreteWidthPOINTER.address(),
+                        (Addressable) concreteHeightPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    concreteWidth.set(concreteWidthPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    concreteHeight.set(concreteHeightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        concreteWidth.set(concreteWidthPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        concreteHeight.set(concreteHeightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -111,12 +116,13 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gdk.Paintable getCurrentImage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_get_current_image.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_get_current_image.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -130,8 +136,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gdk.PaintableFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,8 +166,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default double getIntrinsicAspectRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gdk_paintable_get_intrinsic_aspect_ratio.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gdk_paintable_get_intrinsic_aspect_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,8 +189,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default int getIntrinsicHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,8 +212,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
     default int getIntrinsicWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_paintable_get_intrinsic_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,8 +233,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     default void invalidateContents() {
         try {
-            DowncallHandles.gdk_paintable_invalidate_contents.invokeExact(
-                    handle());
+            DowncallHandles.gdk_paintable_invalidate_contents.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,8 +253,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      */
     default void invalidateSize() {
         try {
-            DowncallHandles.gdk_paintable_invalidate_size.invokeExact(
-                    handle());
+            DowncallHandles.gdk_paintable_invalidate_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,22 +315,45 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
+    /**
+     * Functional interface declaration of the {@code InvalidateContents} callback.
+     */
     @FunctionalInterface
     public interface InvalidateContents {
+    
+        /**
+         * Emitted when the contents of the {@code paintable} change.
+         * <p>
+         * Examples for such an event would be videos changing to the next frame or
+         * the icon theme for an icon changing.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourcePaintable) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InvalidateContents.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InvalidateContents.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -343,28 +366,56 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Paintable.InvalidateContents> onInvalidateContents(Paintable.InvalidateContents handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("invalidate-contents"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("invalidate-contents", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code InvalidateSize} callback.
+     */
     @FunctionalInterface
     public interface InvalidateSize {
+    
+        /**
+         * Emitted when the intrinsic size of the {@code paintable} changes.
+         * <p>
+         * This means the values reported by at least one of
+         * {@link Paintable#getIntrinsicWidth},
+         * {@link Paintable#getIntrinsicHeight} or
+         * {@link Paintable#getIntrinsicAspectRatio}
+         * has changed.
+         * <p>
+         * Examples for such an event would be a paintable displaying
+         * the contents of a toplevel surface being resized.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourcePaintable) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InvalidateSize.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), InvalidateSize.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -383,9 +434,10 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Paintable.InvalidateSize> onInvalidateSize(Paintable.InvalidateSize handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("invalidate-size"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("invalidate-size", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -397,90 +449,105 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_compute_concrete_size = Interop.downcallHandle(
-            "gdk_paintable_compute_concrete_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_compute_concrete_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_current_image = Interop.downcallHandle(
-            "gdk_paintable_get_current_image",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_get_current_image",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_flags = Interop.downcallHandle(
-            "gdk_paintable_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_aspect_ratio = Interop.downcallHandle(
-            "gdk_paintable_get_intrinsic_aspect_ratio",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_get_intrinsic_aspect_ratio",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_height = Interop.downcallHandle(
-            "gdk_paintable_get_intrinsic_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_get_intrinsic_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_intrinsic_width = Interop.downcallHandle(
-            "gdk_paintable_get_intrinsic_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_get_intrinsic_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_invalidate_contents = Interop.downcallHandle(
-            "gdk_paintable_invalidate_contents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_invalidate_contents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_invalidate_size = Interop.downcallHandle(
-            "gdk_paintable_invalidate_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_paintable_invalidate_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_snapshot = Interop.downcallHandle(
-            "gdk_paintable_snapshot",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gdk_paintable_snapshot",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_get_type = Interop.downcallHandle(
-            "gdk_paintable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_paintable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_paintable_new_empty = Interop.downcallHandle(
-            "gdk_paintable_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_paintable_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
     
+    /**
+     * The PaintableImpl type represents a native instance of the Paintable interface.
+     */
     class PaintableImpl extends org.gtk.gobject.GObject implements Paintable {
         
         static {
             Gdk.javagi$ensureInitialized();
         }
         
-        public PaintableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Paintable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PaintableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_paintable_get_type != null;
     }
 }

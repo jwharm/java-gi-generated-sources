@@ -43,6 +43,9 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final StreamType TEXT = new StreamType(16);
     
+    /**
+     * Create a new StreamType with the provided value
+     */
     public StreamType(int value) {
         super(value);
     }
@@ -55,8 +58,7 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
     public static java.lang.String getName(org.gstreamer.gst.StreamType stype) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_stream_type_get_name.invokeExact(
-                    stype.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_stream_type_get_name.invokeExact(stype.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,9 +95,9 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_stream_type_get_name = Interop.downcallHandle(
-            "gst_stream_type_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_stream_type_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

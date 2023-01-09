@@ -10,10 +10,12 @@ import org.jetbrains.annotations.*;
  * @version 2.30
  */
 public enum IOModuleScopeFlags implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No module scan flags
      */
     NONE(0),
+    
     /**
      * When using this scope to load or
      *     scan modules, automatically block a modules which has the same base
@@ -24,15 +26,29 @@ public enum IOModuleScopeFlags implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GIOModuleScopeFlags";
     
     private final int value;
+    
+    /**
+     * Create a new IOModuleScopeFlags for the provided value
+     * @param numeric value the enum value
+     */
     IOModuleScopeFlags(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new IOModuleScopeFlags for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static IOModuleScopeFlags of(int value) {
         return switch (value) {
             case 0 -> NONE;

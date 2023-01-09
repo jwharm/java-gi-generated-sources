@@ -37,26 +37,17 @@ public class VideoSink extends org.gstreamer.base.BaseSink {
     
     /**
      * Create a VideoSink proxy instance for the provided memory address.
-     * <p>
-     * Because VideoSink is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoSink(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VideoSink(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoSink(input, ownership);
+    public static final Marshal<Addressable, VideoSink> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoSink(input);
     
     /**
      * Get the gtype
@@ -101,6 +92,9 @@ public class VideoSink extends org.gstreamer.base.BaseSink {
      */
     public static class Builder extends org.gstreamer.base.BaseSink.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -137,15 +131,23 @@ public class VideoSink extends org.gstreamer.base.BaseSink {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_sink_get_type = Interop.downcallHandle(
-            "gst_video_sink_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_sink_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_video_sink_center_rect = Interop.downcallHandle(
-            "gst_video_sink_center_rect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_sink_center_rect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_sink_get_type != null;
     }
 }

@@ -16,8 +16,11 @@ import org.jetbrains.annotations.*;
  */
 public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileDescriptorBasedImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileDescriptorBasedImpl(input, ownership);
+    public static final Marshal<Addressable, FileDescriptorBasedImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileDescriptorBasedImpl(input);
     
     /**
      * Gets the underlying file descriptor.
@@ -26,8 +29,7 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
     default int getFd() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_file_descriptor_based_get_fd.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_file_descriptor_based_get_fd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -53,27 +55,42 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_file_descriptor_based_get_fd = Interop.downcallHandle(
-            "g_file_descriptor_based_get_fd",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_descriptor_based_get_fd",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_file_descriptor_based_get_type = Interop.downcallHandle(
-            "g_file_descriptor_based_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_file_descriptor_based_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The FileDescriptorBasedImpl type represents a native instance of the FileDescriptorBased interface.
+     */
     class FileDescriptorBasedImpl extends org.gtk.gobject.GObject implements FileDescriptorBased {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public FileDescriptorBasedImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of FileDescriptorBased for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public FileDescriptorBasedImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_file_descriptor_based_get_type != null;
     }
 }

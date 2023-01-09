@@ -25,6 +25,9 @@ public class DBusSendMessageFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusSendMessageFlags PRESERVE_SERIAL = new DBusSendMessageFlags(1);
     
+    /**
+     * Create a new DBusSendMessageFlags with the provided value
+     */
     public DBusSendMessageFlags(int value) {
         super(value);
     }

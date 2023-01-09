@@ -9,42 +9,52 @@ import org.jetbrains.annotations.*;
  * The data types for file attributes.
  */
 public enum FileAttributeType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * indicates an invalid or uninitialized type.
      */
     INVALID(0),
+    
     /**
      * a null terminated UTF8 string.
      */
     STRING(1),
+    
     /**
      * a zero terminated string of non-zero bytes.
      */
     BYTE_STRING(2),
+    
     /**
      * a boolean value.
      */
     BOOLEAN(3),
+    
     /**
      * an unsigned 4-byte/32-bit integer.
      */
     UINT32(4),
+    
     /**
      * a signed 4-byte/32-bit integer.
      */
     INT32(5),
+    
     /**
      * an unsigned 8-byte/64-bit integer.
      */
     UINT64(6),
+    
     /**
      * a signed 8-byte/64-bit integer.
      */
     INT64(7),
+    
     /**
      * a {@link org.gtk.gobject.GObject}.
      */
     OBJECT(8),
+    
     /**
      * a {@code null} terminated char **. Since 2.22
      */
@@ -53,15 +63,29 @@ public enum FileAttributeType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GFileAttributeType";
     
     private final int value;
+    
+    /**
+     * Create a new FileAttributeType for the provided value
+     * @param numeric value the enum value
+     */
     FileAttributeType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new FileAttributeType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static FileAttributeType of(int value) {
         return switch (value) {
             case 0 -> INVALID;

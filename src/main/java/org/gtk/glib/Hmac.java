@@ -35,8 +35,8 @@ public class Hmac extends Struct {
      * @return A new, uninitialized @{link Hmac}
      */
     public static Hmac allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Hmac newInstance = new Hmac(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Hmac newInstance = new Hmac(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class Hmac extends Struct {
     /**
      * Create a Hmac proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Hmac(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Hmac(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Hmac> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Hmac(input, ownership);
+    public static final Marshal<Addressable, Hmac> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Hmac(input);
     
     /**
      * Copies a {@link Hmac}. If {@code hmac} has been closed, by calling
@@ -63,12 +65,11 @@ public class Hmac extends Struct {
     public org.gtk.glib.Hmac copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -82,16 +83,18 @@ public class Hmac extends Struct {
      *   size of {@code buffer}. After the call it contains the length of the digest
      */
     public void getDigest(byte[] buffer, Out<Long> digestLen) {
-        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.g_hmac_get_digest.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(buffer, false),
-                    (Addressable) digestLenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment digestLenPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.g_hmac_get_digest.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(buffer, false, SCOPE),
+                        (Addressable) digestLenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -108,8 +111,7 @@ public class Hmac extends Struct {
     public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_get_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,12 +127,11 @@ public class Hmac extends Struct {
     public org.gtk.glib.Hmac ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hmac_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -143,8 +144,7 @@ public class Hmac extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_hmac_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_hmac_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,13 +159,15 @@ public class Hmac extends Struct {
      * @param length size of the buffer, or -1 if it is a nul-terminated string
      */
     public void update(byte[] data, long length) {
-        try {
-            DowncallHandles.g_hmac_update.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_hmac_update.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -193,60 +195,62 @@ public class Hmac extends Struct {
      *   Use g_hmac_unref() to free the memory allocated by it.
      */
     public static org.gtk.glib.Hmac new_(org.gtk.glib.ChecksumType digestType, byte[] key, long keyLen) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hmac_new.invokeExact(
-                    digestType.getValue(),
-                    Interop.allocateNativeArray(key, false),
-                    keyLen);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_hmac_new.invokeExact(
+                        digestType.getValue(),
+                        Interop.allocateNativeArray(key, false, SCOPE),
+                        keyLen);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_hmac_copy = Interop.downcallHandle(
-            "g_hmac_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hmac_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
-            "g_hmac_get_digest",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hmac_get_digest",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
-            "g_hmac_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hmac_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hmac_ref = Interop.downcallHandle(
-            "g_hmac_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hmac_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hmac_unref = Interop.downcallHandle(
-            "g_hmac_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_hmac_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hmac_update = Interop.downcallHandle(
-            "g_hmac_update",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_hmac_update",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_hmac_new = Interop.downcallHandle(
-            "g_hmac_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_hmac_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
 }

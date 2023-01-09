@@ -55,8 +55,8 @@ public class WeakRef extends Struct {
      * @return A new, uninitialized @{link WeakRef}
      */
     public static WeakRef allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WeakRef newInstance = new WeakRef(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WeakRef newInstance = new WeakRef(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -64,14 +64,16 @@ public class WeakRef extends Struct {
     /**
      * Create a WeakRef proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WeakRef(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WeakRef(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WeakRef> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WeakRef(input, ownership);
+    public static final Marshal<Addressable, WeakRef> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WeakRef(input);
     
     /**
      * Frees resources associated with a non-statically-allocated {@link WeakRef}.
@@ -82,8 +84,7 @@ public class WeakRef extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_weak_ref_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_weak_ref_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,13 +107,14 @@ public class WeakRef extends Struct {
     public org.gtk.gobject.GObject get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -159,27 +161,27 @@ public class WeakRef extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
-            "g_weak_ref_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_weak_ref_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
-            "g_weak_ref_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_weak_ref_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
-            "g_weak_ref_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_weak_ref_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
-            "g_weak_ref_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_weak_ref_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

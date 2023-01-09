@@ -29,20 +29,21 @@ public class BoolFilter extends org.gtk.gtk.Filter {
     /**
      * Create a BoolFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BoolFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BoolFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BoolFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BoolFilter(input, ownership);
+    public static final Marshal<Addressable, BoolFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BoolFilter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Expression expression) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bool_filter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bool_filter_new.invokeExact((Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -55,7 +56,8 @@ public class BoolFilter extends org.gtk.gtk.Filter {
      * @param expression The expression to evaluate
      */
     public BoolFilter(@Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(expression), Ownership.FULL);
+        super(constructNew(expression));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +68,11 @@ public class BoolFilter extends org.gtk.gtk.Filter {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bool_filter_get_expression.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bool_filter_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -81,8 +82,7 @@ public class BoolFilter extends org.gtk.gtk.Filter {
     public boolean getInvert() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bool_filter_get_invert.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bool_filter_get_invert.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,6 +150,9 @@ public class BoolFilter extends org.gtk.gtk.Filter {
      */
     public static class Builder extends org.gtk.gtk.Filter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -196,39 +199,47 @@ public class BoolFilter extends org.gtk.gtk.Filter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_bool_filter_new = Interop.downcallHandle(
-            "gtk_bool_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bool_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bool_filter_get_expression = Interop.downcallHandle(
-            "gtk_bool_filter_get_expression",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bool_filter_get_expression",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bool_filter_get_invert = Interop.downcallHandle(
-            "gtk_bool_filter_get_invert",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bool_filter_get_invert",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bool_filter_set_expression = Interop.downcallHandle(
-            "gtk_bool_filter_set_expression",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bool_filter_set_expression",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bool_filter_set_invert = Interop.downcallHandle(
-            "gtk_bool_filter_set_invert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bool_filter_set_invert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bool_filter_get_type = Interop.downcallHandle(
-            "gtk_bool_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_bool_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_bool_filter_get_type != null;
     }
 }

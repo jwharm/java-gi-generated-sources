@@ -51,26 +51,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     
     /**
      * Create a ElementFactory proxy instance for the provided memory address.
-     * <p>
-     * Because ElementFactory is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ElementFactory(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ElementFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ElementFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ElementFactory(input, ownership);
+    public static final Marshal<Addressable, ElementFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ElementFactory(input);
     
     /**
      * Checks if the factory can sink all possible capabilities.
@@ -150,15 +141,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     if the element couldn't be created
      */
     public @Nullable org.gstreamer.gst.Element create(@Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,16 +163,18 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     if the element couldn't be created
      */
     public @Nullable org.gstreamer.gst.Element createFull(@Nullable java.lang.String first, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_full.invokeExact(
-                    handle(),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
-                    (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_full.invokeExact(
+                        handle(),
+                        (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, SCOPE)),
+                        (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -191,16 +186,18 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     if the element couldn't be created
      */
     public @Nullable org.gstreamer.gst.Element createValist(@Nullable java.lang.String first, @Nullable VaList properties) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_valist.invokeExact(
-                    handle(),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
-                    (Addressable) (properties == null ? MemoryAddress.NULL : properties));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_valist.invokeExact(
+                        handle(),
+                        (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, SCOPE)),
+                        (Addressable) (properties == null ? MemoryAddress.NULL : properties));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,17 +210,19 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     if the element couldn't be created
      */
     public @Nullable org.gstreamer.gst.Element createWithProperties(int n, @Nullable java.lang.String[] names, @Nullable org.gtk.gobject.Value[] values) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_with_properties.invokeExact(
-                    handle(),
-                    n,
-                    (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false)),
-                    (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_with_properties.invokeExact(
+                        handle(),
+                        n,
+                        (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false, SCOPE)),
+                        (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -236,8 +235,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     public org.gtk.glib.Type getElementType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_element_factory_get_element_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_element_factory_get_element_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,15 +249,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * when there was no metadata with the given {@code key}.
      */
     public @Nullable java.lang.String getMetadata(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -268,14 +268,15 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * metadata. Free with g_strfreev() when no longer needed.
      */
     public @Nullable PointerString getMetadataKeys() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_metadata_keys.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_metadata_keys.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -285,8 +286,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     public int getNumPadTemplates() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_element_factory_get_num_pad_templates.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_element_factory_get_num_pad_templates.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,8 +301,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     public boolean getSkipDocumentation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_element_factory_get_skip_documentation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_element_factory_get_skip_documentation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,12 +316,11 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     public org.gtk.glib.List getStaticPadTemplates() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_static_pad_templates.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_static_pad_templates.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -334,14 +332,15 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     or {@code null}
      */
     public PointerString getUriProtocols() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_uri_protocols.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_uri_protocols.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -351,8 +350,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     public org.gstreamer.gst.URIType getUriType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_element_factory_get_uri_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_element_factory_get_uri_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,15 +363,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return {@code true} when {@code factory} implement the interface.
      */
     public boolean hasInterface(java.lang.String interfacename) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_factory_has_interface.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(interfacename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_factory_has_interface.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(interfacename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -415,14 +415,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * {@code null} otherwise
      */
     public static @Nullable org.gstreamer.gst.ElementFactory find(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_find.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_find.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.ElementFactory) Interop.register(RESULT, org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.ElementFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -452,7 +455,9 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -474,7 +479,9 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -489,15 +496,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * if unable to create element
      */
     public static @Nullable org.gstreamer.gst.Element make(java.lang.String factoryname, @Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make.invokeExact(
+                        Marshal.stringToAddress.marshal(factoryname, SCOPE),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -510,16 +519,18 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * if unable to create element
      */
     public static @Nullable org.gstreamer.gst.Element makeFull(java.lang.String factoryname, @Nullable java.lang.String first, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_full.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
-                    (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_full.invokeExact(
+                        Marshal.stringToAddress.marshal(factoryname, SCOPE),
+                        (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, SCOPE)),
+                        (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -532,16 +543,18 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * if unable to create element
      */
     public static @Nullable org.gstreamer.gst.Element makeValist(java.lang.String factoryname, @Nullable java.lang.String first, @Nullable VaList properties) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_valist.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
-                    (Addressable) (properties == null ? MemoryAddress.NULL : properties));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_valist.invokeExact(
+                        Marshal.stringToAddress.marshal(factoryname, SCOPE),
+                        (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, SCOPE)),
+                        (Addressable) (properties == null ? MemoryAddress.NULL : properties));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -555,17 +568,19 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     if the element couldn't be created
      */
     public static @Nullable org.gstreamer.gst.Element makeWithProperties(java.lang.String factoryname, int n, @Nullable java.lang.String[] names, @Nullable org.gtk.gobject.Value[] values) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_with_properties.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null),
-                    n,
-                    (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false)),
-                    (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_with_properties.invokeExact(
+                        Marshal.stringToAddress.marshal(factoryname, SCOPE),
+                        n,
+                        (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false, SCOPE)),
+                        (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -584,6 +599,9 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      */
     public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -608,159 +626,167 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_element_factory_can_sink_all_caps = Interop.downcallHandle(
-            "gst_element_factory_can_sink_all_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_can_sink_all_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_can_sink_any_caps = Interop.downcallHandle(
-            "gst_element_factory_can_sink_any_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_can_sink_any_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_can_src_all_caps = Interop.downcallHandle(
-            "gst_element_factory_can_src_all_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_can_src_all_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_can_src_any_caps = Interop.downcallHandle(
-            "gst_element_factory_can_src_any_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_can_src_any_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_create = Interop.downcallHandle(
-            "gst_element_factory_create",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_create",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_create_full = Interop.downcallHandle(
-            "gst_element_factory_create_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_element_factory_create_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_element_factory_create_valist = Interop.downcallHandle(
-            "gst_element_factory_create_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_create_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_create_with_properties = Interop.downcallHandle(
-            "gst_element_factory_create_with_properties",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_create_with_properties",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_element_type = Interop.downcallHandle(
-            "gst_element_factory_get_element_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_element_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_metadata = Interop.downcallHandle(
-            "gst_element_factory_get_metadata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_metadata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_metadata_keys = Interop.downcallHandle(
-            "gst_element_factory_get_metadata_keys",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_metadata_keys",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_num_pad_templates = Interop.downcallHandle(
-            "gst_element_factory_get_num_pad_templates",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_num_pad_templates",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_skip_documentation = Interop.downcallHandle(
-            "gst_element_factory_get_skip_documentation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_skip_documentation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_static_pad_templates = Interop.downcallHandle(
-            "gst_element_factory_get_static_pad_templates",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_static_pad_templates",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_uri_protocols = Interop.downcallHandle(
-            "gst_element_factory_get_uri_protocols",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_uri_protocols",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_uri_type = Interop.downcallHandle(
-            "gst_element_factory_get_uri_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_get_uri_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_has_interface = Interop.downcallHandle(
-            "gst_element_factory_has_interface",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_has_interface",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_list_is_type = Interop.downcallHandle(
-            "gst_element_factory_list_is_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_factory_list_is_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_factory_get_type = Interop.downcallHandle(
-            "gst_element_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_element_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_factory_find = Interop.downcallHandle(
-            "gst_element_factory_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_list_filter = Interop.downcallHandle(
-            "gst_element_factory_list_filter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_element_factory_list_filter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_factory_list_get_elements = Interop.downcallHandle(
-            "gst_element_factory_list_get_elements",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_element_factory_list_get_elements",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_factory_make = Interop.downcallHandle(
-            "gst_element_factory_make",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_make",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_make_full = Interop.downcallHandle(
-            "gst_element_factory_make_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_element_factory_make_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_element_factory_make_valist = Interop.downcallHandle(
-            "gst_element_factory_make_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_make_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_factory_make_with_properties = Interop.downcallHandle(
-            "gst_element_factory_make_with_properties",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_factory_make_with_properties",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_element_factory_get_type != null;
     }
 }

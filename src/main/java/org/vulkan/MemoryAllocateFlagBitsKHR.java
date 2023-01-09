@@ -29,8 +29,8 @@ public class MemoryAllocateFlagBitsKHR extends Struct {
      * @return A new, uninitialized @{link MemoryAllocateFlagBitsKHR}
      */
     public static MemoryAllocateFlagBitsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryAllocateFlagBitsKHR newInstance = new MemoryAllocateFlagBitsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryAllocateFlagBitsKHR newInstance = new MemoryAllocateFlagBitsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryAllocateFlagBitsKHR extends Struct {
     /**
      * Create a MemoryAllocateFlagBitsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryAllocateFlagBitsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryAllocateFlagBitsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryAllocateFlagBitsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryAllocateFlagBitsKHR(input, ownership);
+    public static final Marshal<Addressable, MemoryAllocateFlagBitsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryAllocateFlagBitsKHR(input);
 }

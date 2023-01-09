@@ -9,66 +9,82 @@ import org.jetbrains.annotations.*;
  * Scrolling types.
  */
 public enum ScrollType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No scrolling.
      */
     NONE(0),
+    
     /**
      * Jump to new location.
      */
     JUMP(1),
+    
     /**
      * Step backward.
      */
     STEP_BACKWARD(2),
+    
     /**
      * Step forward.
      */
     STEP_FORWARD(3),
+    
     /**
      * Page backward.
      */
     PAGE_BACKWARD(4),
+    
     /**
      * Page forward.
      */
     PAGE_FORWARD(5),
+    
     /**
      * Step up.
      */
     STEP_UP(6),
+    
     /**
      * Step down.
      */
     STEP_DOWN(7),
+    
     /**
      * Page up.
      */
     PAGE_UP(8),
+    
     /**
      * Page down.
      */
     PAGE_DOWN(9),
+    
     /**
      * Step to the left.
      */
     STEP_LEFT(10),
+    
     /**
      * Step to the right.
      */
     STEP_RIGHT(11),
+    
     /**
      * Page to the left.
      */
     PAGE_LEFT(12),
+    
     /**
      * Page to the right.
      */
     PAGE_RIGHT(13),
+    
     /**
      * Scroll to start.
      */
     START(14),
+    
     /**
      * Scroll to end.
      */
@@ -77,15 +93,29 @@ public enum ScrollType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkScrollType";
     
     private final int value;
+    
+    /**
+     * Create a new ScrollType for the provided value
+     * @param numeric value the enum value
+     */
     ScrollType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ScrollType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ScrollType of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -42,8 +42,8 @@ public class Descriptor extends Struct {
      * @return A new, uninitialized @{link Descriptor}
      */
     public static Descriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Descriptor newInstance = new Descriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Descriptor newInstance = new Descriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class Descriptor extends Struct {
      * @return The value of the field {@code tag}
      */
     public byte getTag() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class Descriptor extends Struct {
      * @param tag The new value of the field {@code tag}
      */
     public void setTag(byte tag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tag);
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class Descriptor extends Struct {
      * @return The value of the field {@code tag_extension}
      */
     public byte getTagExtension() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class Descriptor extends Struct {
      * @param tagExtension The new value of the field {@code tag_extension}
      */
     public void setTagExtension(byte tagExtension) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tagExtension);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tagExtension);
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class Descriptor extends Struct {
      * @return The value of the field {@code length}
      */
     public byte getLength() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class Descriptor extends Struct {
      * @param length The new value of the field {@code length}
      */
     public void setLength(byte length) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), length);
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class Descriptor extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -127,30 +141,33 @@ public class Descriptor extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(PointerByte data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        }
     }
     
     /**
      * Create a Descriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Descriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Descriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Descriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Descriptor(input, ownership);
+    public static final Marshal<Addressable, Descriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Descriptor(input);
     
     /**
      * Frees {@code desc}
      */
     public void free() {
         try {
-            DowncallHandles.gst_mpegts_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,15 +179,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseAudioPreselectionList(org.gstreamer.mpegts.AudioPreselectionDescriptor[] list) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_list.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(list, org.gstreamer.mpegts.AudioPreselectionDescriptor.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_list.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(list, org.gstreamer.mpegts.AudioPreselectionDescriptor.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,26 +201,28 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseCa(Out<Short> caSystemId, Out<Short> caPid, Out<byte[]> privateData, Out<Long> privateDataSize) {
-        MemorySegment caSystemIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        MemorySegment caPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        MemorySegment privateDataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment privateDataSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_ca.invokeExact(
-                    handle(),
-                    (Addressable) caSystemIdPOINTER.address(),
-                    (Addressable) caPidPOINTER.address(),
-                    (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
-                    (Addressable) (privateDataSize == null ? MemoryAddress.NULL : (Addressable) privateDataSizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment caSystemIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            MemorySegment caPidPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            MemorySegment privateDataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment privateDataSizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_ca.invokeExact(
+                        handle(),
+                        (Addressable) caSystemIdPOINTER.address(),
+                        (Addressable) caPidPOINTER.address(),
+                        (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
+                        (Addressable) (privateDataSize == null ? MemoryAddress.NULL : (Addressable) privateDataSizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    caSystemId.set(caSystemIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+                    caPid.set(caPidPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+                    if (privateDataSize != null) privateDataSize.set(privateDataSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), privateDataSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        caSystemId.set(caSystemIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        caPid.set(caPidPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        if (privateDataSize != null) privateDataSize.set(privateDataSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), privateDataSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -227,17 +248,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbBouquetName(@Nullable Out<java.lang.String> bouquetName) {
-        MemorySegment bouquetNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_bouquet_name.invokeExact(
-                    handle(),
-                    (Addressable) (bouquetName == null ? MemoryAddress.NULL : (Addressable) bouquetNamePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bouquetNamePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_bouquet_name.invokeExact(
+                        handle(),
+                        (Addressable) (bouquetName == null ? MemoryAddress.NULL : (Addressable) bouquetNamePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (bouquetName != null) bouquetName.set(Marshal.addressToString.marshal(bouquetNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (bouquetName != null) bouquetName.set(Marshal.addressToString.marshal(bouquetNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,15 +271,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbCaIdentifier(short[] list) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_ca_identifier.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(list, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_ca_identifier.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(list, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -265,17 +290,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbComponent(Out<org.gstreamer.mpegts.ComponentDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_component.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_component.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.ComponentDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.ComponentDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -284,15 +311,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbContent(org.gstreamer.mpegts.Content[] content) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_content.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(content, org.gstreamer.mpegts.Content.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_content.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(content, org.gstreamer.mpegts.Content.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -301,17 +330,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbDataBroadcast(Out<org.gstreamer.mpegts.DataBroadcastDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_data_broadcast.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_data_broadcast.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.DataBroadcastDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.DataBroadcastDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -322,23 +353,25 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbDataBroadcastId(Out<Short> dataBroadcastId, Out<byte[]> idSelectorBytes, Out<Byte> len) {
-        MemorySegment dataBroadcastIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        MemorySegment idSelectorBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_data_broadcast_id.invokeExact(
-                    handle(),
-                    (Addressable) dataBroadcastIdPOINTER.address(),
-                    (Addressable) idSelectorBytesPOINTER.address(),
-                    (Addressable) lenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataBroadcastIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            MemorySegment idSelectorBytesPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_data_broadcast_id.invokeExact(
+                        handle(),
+                        (Addressable) dataBroadcastIdPOINTER.address(),
+                        (Addressable) idSelectorBytesPOINTER.address(),
+                        (Addressable) lenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    dataBroadcastId.set(dataBroadcastIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            idSelectorBytes.set(MemorySegment.ofAddress(idSelectorBytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        dataBroadcastId.set(dataBroadcastIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        idSelectorBytes.set(MemorySegment.ofAddress(idSelectorBytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -347,17 +380,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbExtendedEvent(Out<org.gstreamer.mpegts.ExtendedEventDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_extended_event.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_extended_event.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.ExtendedEventDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.ExtendedEventDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -368,18 +403,20 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbFrequencyList(Out<Boolean> offset, int[] list) {
-        MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_frequency_list.invokeExact(
-                    handle(),
-                    (Addressable) offsetPOINTER.address(),
-                    Interop.allocateNativeArray(list, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment offsetPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_frequency_list.invokeExact(
+                        handle(),
+                        (Addressable) offsetPOINTER.address(),
+                        Interop.allocateNativeArray(list, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    offset.set(offsetPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        offset.set(offsetPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -388,17 +425,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbLinkage(Out<org.gstreamer.mpegts.DVBLinkageDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_linkage.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_linkage.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.DVBLinkageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.DVBLinkageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -407,15 +446,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbMultilingualBouquetName(org.gstreamer.mpegts.DvbMultilingualBouquetNameItem[] bouquetNameItems) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(bouquetNameItems, org.gstreamer.mpegts.DvbMultilingualBouquetNameItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(bouquetNameItems, org.gstreamer.mpegts.DvbMultilingualBouquetNameItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -425,18 +466,20 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbMultilingualComponent(Out<Byte> componentTag, org.gstreamer.mpegts.DvbMultilingualComponentItem[] componentDescriptionItems) {
-        MemorySegment componentTagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_component.invokeExact(
-                    handle(),
-                    (Addressable) componentTagPOINTER.address(),
-                    Interop.allocateNativeArray(componentDescriptionItems, org.gstreamer.mpegts.DvbMultilingualComponentItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment componentTagPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_component.invokeExact(
+                        handle(),
+                        (Addressable) componentTagPOINTER.address(),
+                        Interop.allocateNativeArray(componentDescriptionItems, org.gstreamer.mpegts.DvbMultilingualComponentItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -445,15 +488,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbMultilingualNetworkName(org.gstreamer.mpegts.DvbMultilingualNetworkNameItem[] networkNameItems) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_network_name.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(networkNameItems, org.gstreamer.mpegts.DvbMultilingualNetworkNameItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_network_name.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(networkNameItems, org.gstreamer.mpegts.DvbMultilingualNetworkNameItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -462,15 +507,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbMultilingualServiceName(org.gstreamer.mpegts.DvbMultilingualServiceNameItem[] serviceNameItems) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_service_name.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(serviceNameItems, org.gstreamer.mpegts.DvbMultilingualServiceNameItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_service_name.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(serviceNameItems, org.gstreamer.mpegts.DvbMultilingualServiceNameItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -479,17 +526,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbNetworkName(Out<java.lang.String> name) {
-        MemorySegment namePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_network_name.invokeExact(
-                    handle(),
-                    (Addressable) namePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment namePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_network_name.invokeExact(
+                        handle(),
+                        (Addressable) namePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    name.set(Marshal.addressToString.marshal(namePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        name.set(Marshal.addressToString.marshal(namePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -498,15 +547,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbParentalRating(org.gstreamer.mpegts.DVBParentalRatingItem[] rating) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_parental_rating.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(rating, org.gstreamer.mpegts.DVBParentalRatingItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_parental_rating.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(rating, org.gstreamer.mpegts.DVBParentalRatingItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -518,23 +569,25 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbPrivateDataSpecifier(Out<Integer> privateDataSpecifier, Out<byte[]> privateData, Out<Byte> length) {
-        MemorySegment privateDataSpecifierPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment privateDataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_private_data_specifier.invokeExact(
-                    handle(),
-                    (Addressable) privateDataSpecifierPOINTER.address(),
-                    (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment privateDataSpecifierPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment privateDataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_private_data_specifier.invokeExact(
+                        handle(),
+                        (Addressable) privateDataSpecifierPOINTER.address(),
+                        (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    privateDataSpecifier.set(privateDataSpecifierPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        privateDataSpecifier.set(privateDataSpecifierPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -547,17 +600,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbScrambling(Out<org.gstreamer.mpegts.DVBScramblingModeType> scramblingMode) {
-        MemorySegment scramblingModePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_scrambling.invokeExact(
-                    handle(),
-                    (Addressable) scramblingModePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment scramblingModePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_scrambling.invokeExact(
+                        handle(),
+                        (Addressable) scramblingModePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    scramblingMode.set(org.gstreamer.mpegts.DVBScramblingModeType.of(scramblingModePOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        scramblingMode.set(org.gstreamer.mpegts.DVBScramblingModeType.of(scramblingModePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -568,23 +623,25 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbService(@Nullable Out<org.gstreamer.mpegts.DVBServiceType> serviceType, @Nullable Out<java.lang.String> serviceName, @Nullable Out<java.lang.String> providerName) {
-        MemorySegment serviceTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment serviceNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment providerNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service.invokeExact(
-                    handle(),
-                    (Addressable) (serviceType == null ? MemoryAddress.NULL : (Addressable) serviceTypePOINTER.address()),
-                    (Addressable) (serviceName == null ? MemoryAddress.NULL : (Addressable) serviceNamePOINTER.address()),
-                    (Addressable) (providerName == null ? MemoryAddress.NULL : (Addressable) providerNamePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment serviceTypePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment serviceNamePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment providerNamePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service.invokeExact(
+                        handle(),
+                        (Addressable) (serviceType == null ? MemoryAddress.NULL : (Addressable) serviceTypePOINTER.address()),
+                        (Addressable) (serviceName == null ? MemoryAddress.NULL : (Addressable) serviceNamePOINTER.address()),
+                        (Addressable) (providerName == null ? MemoryAddress.NULL : (Addressable) providerNamePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (serviceType != null) serviceType.set(org.gstreamer.mpegts.DVBServiceType.of(serviceTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (serviceName != null) serviceName.set(Marshal.addressToString.marshal(serviceNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (providerName != null) providerName.set(Marshal.addressToString.marshal(providerNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (serviceType != null) serviceType.set(org.gstreamer.mpegts.DVBServiceType.of(serviceTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (serviceName != null) serviceName.set(Marshal.addressToString.marshal(serviceNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (providerName != null) providerName.set(Marshal.addressToString.marshal(providerNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -593,15 +650,17 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbServiceList(org.gstreamer.mpegts.DVBServiceListItem[] list) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service_list.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(list, org.gstreamer.mpegts.DVBServiceListItem.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service_list.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(list, org.gstreamer.mpegts.DVBServiceListItem.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -612,23 +671,25 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbShortEvent(@Nullable Out<java.lang.String> languageCode, @Nullable Out<java.lang.String> eventName, @Nullable Out<java.lang.String> text) {
-        MemorySegment languageCodePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment eventNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_short_event.invokeExact(
-                    handle(),
-                    (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
-                    (Addressable) (eventName == null ? MemoryAddress.NULL : (Addressable) eventNamePOINTER.address()),
-                    (Addressable) (text == null ? MemoryAddress.NULL : (Addressable) textPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment languageCodePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment eventNamePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment textPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_short_event.invokeExact(
+                        handle(),
+                        (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
+                        (Addressable) (eventName == null ? MemoryAddress.NULL : (Addressable) eventNamePOINTER.address()),
+                        (Addressable) (text == null ? MemoryAddress.NULL : (Addressable) textPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (eventName != null) eventName.set(Marshal.addressToString.marshal(eventNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (text != null) text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (eventName != null) eventName.set(Marshal.addressToString.marshal(eventNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (text != null) text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -637,17 +698,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbStreamIdentifier(Out<Byte> componentTag) {
-        MemorySegment componentTagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_stream_identifier.invokeExact(
-                    handle(),
-                    (Addressable) componentTagPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment componentTagPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_stream_identifier.invokeExact(
+                        handle(),
+                        (Addressable) componentTagPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -656,17 +719,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbStuffing(Out<Byte> stuffingBytes) {
-        MemorySegment stuffingBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_stuffing.invokeExact(
-                    handle(),
-                    (Addressable) stuffingBytesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment stuffingBytesPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_stuffing.invokeExact(
+                        handle(),
+                        (Addressable) stuffingBytesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    stuffingBytes.set(stuffingBytesPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        stuffingBytes.set(stuffingBytesPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -682,34 +747,35 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseDvbSubtitlingIdx(int idx, Out<java.lang.String> lang, Out<Byte> type, Out<Short> compositionPageId, Out<Short> ancillaryPageId) {
-        MemorySegment langPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment compositionPageIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        MemorySegment ancillaryPageIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_subtitling_idx.invokeExact(
-                    handle(),
-                    idx,
-                    (Addressable) langPOINTER.address(),
-                    (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) typePOINTER.address()),
-                    (Addressable) (compositionPageId == null ? MemoryAddress.NULL : (Addressable) compositionPageIdPOINTER.address()),
-                    (Addressable) (ancillaryPageId == null ? MemoryAddress.NULL : (Addressable) ancillaryPageIdPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment langPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment typePOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment compositionPageIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            MemorySegment ancillaryPageIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_subtitling_idx.invokeExact(
+                        handle(),
+                        idx,
+                        (Addressable) langPOINTER.address(),
+                        (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) typePOINTER.address()),
+                        (Addressable) (compositionPageId == null ? MemoryAddress.NULL : (Addressable) compositionPageIdPOINTER.address()),
+                        (Addressable) (ancillaryPageId == null ? MemoryAddress.NULL : (Addressable) ancillaryPageIdPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (type != null) type.set(typePOINTER.get(Interop.valueLayout.C_BYTE, 0));
+                    if (compositionPageId != null) compositionPageId.set(compositionPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+                    if (ancillaryPageId != null) ancillaryPageId.set(ancillaryPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (type != null) type.set(typePOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        if (compositionPageId != null) compositionPageId.set(compositionPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        if (ancillaryPageId != null) ancillaryPageId.set(ancillaryPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int parseDvbSubtitlingNb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_subtitling_nb.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_subtitling_nb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -722,17 +788,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbT2DeliverySystem(Out<org.gstreamer.mpegts.T2DeliverySystemDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_t2_delivery_system.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_t2_delivery_system.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.T2DeliverySystemDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.T2DeliverySystemDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -743,27 +811,29 @@ public class Descriptor extends Struct {
      * @return FALSE on out-of-bounds and errors
      */
     public boolean parseDvbTeletextIdx(int idx, @Nullable Out<java.lang.String> languageCode, @Nullable Out<org.gstreamer.mpegts.DVBTeletextType> teletextType, Out<Byte> magazineNumber, Out<Byte> pageNumber) {
-        MemorySegment languageCodePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment teletextTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment magazineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        MemorySegment pageNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_teletext_idx.invokeExact(
-                    handle(),
-                    idx,
-                    (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
-                    (Addressable) (teletextType == null ? MemoryAddress.NULL : (Addressable) teletextTypePOINTER.address()),
-                    (Addressable) (magazineNumber == null ? MemoryAddress.NULL : (Addressable) magazineNumberPOINTER.address()),
-                    (Addressable) (pageNumber == null ? MemoryAddress.NULL : (Addressable) pageNumberPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment languageCodePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment teletextTypePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment magazineNumberPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            MemorySegment pageNumberPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_teletext_idx.invokeExact(
+                        handle(),
+                        idx,
+                        (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
+                        (Addressable) (teletextType == null ? MemoryAddress.NULL : (Addressable) teletextTypePOINTER.address()),
+                        (Addressable) (magazineNumber == null ? MemoryAddress.NULL : (Addressable) magazineNumberPOINTER.address()),
+                        (Addressable) (pageNumber == null ? MemoryAddress.NULL : (Addressable) pageNumberPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (teletextType != null) teletextType.set(org.gstreamer.mpegts.DVBTeletextType.of(teletextTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (magazineNumber != null) magazineNumber.set(magazineNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+                    if (pageNumber != null) pageNumber.set(pageNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (teletextType != null) teletextType.set(org.gstreamer.mpegts.DVBTeletextType.of(teletextTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (magazineNumber != null) magazineNumber.set(magazineNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        if (pageNumber != null) pageNumber.set(pageNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -773,8 +843,7 @@ public class Descriptor extends Struct {
     public int parseDvbTeletextNb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_teletext_nb.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_teletext_nb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -790,17 +859,19 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseIso639Language(Out<org.gstreamer.mpegts.ISO639LanguageDescriptor> res) {
-        MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language.invokeExact(
-                    handle(),
-                    (Addressable) resPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language.invokeExact(
+                        handle(),
+                        (Addressable) resPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    res.set(org.gstreamer.mpegts.ISO639LanguageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        res.set(org.gstreamer.mpegts.ISO639LanguageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -814,28 +885,29 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseIso639LanguageIdx(int idx, Out<java.lang.String> lang, @Nullable Out<org.gstreamer.mpegts.Iso639AudioType> audioType) {
-        MemorySegment langPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment audioTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language_idx.invokeExact(
-                    handle(),
-                    idx,
-                    (Addressable) langPOINTER.address(),
-                    (Addressable) (audioType == null ? MemoryAddress.NULL : (Addressable) audioTypePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment langPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment audioTypePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language_idx.invokeExact(
+                        handle(),
+                        idx,
+                        (Addressable) langPOINTER.address(),
+                        (Addressable) (audioType == null ? MemoryAddress.NULL : (Addressable) audioTypePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (audioType != null) audioType.set(org.gstreamer.mpegts.Iso639AudioType.of(audioTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (audioType != null) audioType.set(org.gstreamer.mpegts.Iso639AudioType.of(audioTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int parseIso639LanguageNb() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language_nb.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_iso_639_language_nb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -867,23 +939,25 @@ public class Descriptor extends Struct {
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
     public boolean parseRegistration(Out<Integer> registrationId, Out<byte[]> additionalInfo, Out<Long> additionalInfoLength) {
-        MemorySegment registrationIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment additionalInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment additionalInfoLengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_registration.invokeExact(
-                    handle(),
-                    (Addressable) registrationIdPOINTER.address(),
-                    (Addressable) (additionalInfo == null ? MemoryAddress.NULL : (Addressable) additionalInfoPOINTER.address()),
-                    (Addressable) (additionalInfoLength == null ? MemoryAddress.NULL : (Addressable) additionalInfoLengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment registrationIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment additionalInfoPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment additionalInfoLengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_registration.invokeExact(
+                        handle(),
+                        (Addressable) registrationIdPOINTER.address(),
+                        (Addressable) (additionalInfo == null ? MemoryAddress.NULL : (Addressable) additionalInfoPOINTER.address()),
+                        (Addressable) (additionalInfoLength == null ? MemoryAddress.NULL : (Addressable) additionalInfoLengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    registrationId.set(registrationIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (additionalInfoLength != null) additionalInfoLength.set(additionalInfoLengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            additionalInfo.set(MemorySegment.ofAddress(additionalInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), additionalInfoLength.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        registrationId.set(registrationIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (additionalInfoLength != null) additionalInfoLength.set(additionalInfoLengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        additionalInfo.set(MemorySegment.ofAddress(additionalInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), additionalInfoLength.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -928,16 +1002,20 @@ public class Descriptor extends Struct {
      * @return {@link Descriptor}
      */
     public static org.gstreamer.mpegts.Descriptor fromCustom(byte tag, byte[] data, long length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom.invokeExact(
-                    tag,
-                    Interop.allocateNativeArray(data, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom.invokeExact(
+                        tag,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -949,17 +1027,21 @@ public class Descriptor extends Struct {
      * @return {@link Descriptor}
      */
     public static org.gstreamer.mpegts.Descriptor fromCustomWithExtension(byte tag, byte tagExtension, byte[] data, long length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom_with_extension.invokeExact(
-                    tag,
-                    tagExtension,
-                    Interop.allocateNativeArray(data, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom_with_extension.invokeExact(
+                        tag,
+                        tagExtension,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -970,14 +1052,17 @@ public class Descriptor extends Struct {
      * @return the {@link Descriptor} or {@code null} on fail
      */
     public static org.gstreamer.mpegts.Descriptor fromDvbNetworkName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_network_name.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_network_name.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -990,30 +1075,38 @@ public class Descriptor extends Struct {
      * @return the {@link Descriptor} or {@code null} on fail
      */
     public static org.gstreamer.mpegts.Descriptor fromDvbService(org.gstreamer.mpegts.DVBServiceType serviceType, @Nullable java.lang.String serviceName, @Nullable java.lang.String serviceProvider) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_service.invokeExact(
-                    serviceType.getValue(),
-                    (Addressable) (serviceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceName, null)),
-                    (Addressable) (serviceProvider == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceProvider, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_service.invokeExact(
+                        serviceType.getValue(),
+                        (Addressable) (serviceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceName, SCOPE)),
+                        (Addressable) (serviceProvider == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceProvider, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public static org.gstreamer.mpegts.Descriptor fromDvbSubtitling(java.lang.String lang, byte type, short composition, short ancillary) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_subtitling.invokeExact(
-                    Marshal.stringToAddress.marshal(lang, null),
-                    type,
-                    composition,
-                    ancillary);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_subtitling.invokeExact(
+                        Marshal.stringToAddress.marshal(lang, SCOPE),
+                        type,
+                        composition,
+                        ancillary);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1023,14 +1116,17 @@ public class Descriptor extends Struct {
      * @return {@link Descriptor}, {@code null} on failure
      */
     public static org.gstreamer.mpegts.Descriptor fromIso639Language(java.lang.String language) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_iso_639_language.invokeExact(
-                    Marshal.stringToAddress.marshal(language, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_iso_639_language.invokeExact(Marshal.stringToAddress.marshal(language, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1041,22 +1137,25 @@ public class Descriptor extends Struct {
      * @return {@link Descriptor}, {@code null} on failure
      */
     public static org.gstreamer.mpegts.Descriptor fromRegistration(java.lang.String formatIdentifier, byte[] additionalInfo, long additionalInfoLength) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_registration.invokeExact(
-                    Marshal.stringToAddress.marshal(formatIdentifier, null),
-                    (Addressable) (additionalInfo == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additionalInfo, false)),
-                    additionalInfoLength);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_registration.invokeExact(
+                        Marshal.stringToAddress.marshal(formatIdentifier, SCOPE),
+                        (Addressable) (additionalInfo == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additionalInfo, false, SCOPE)),
+                        additionalInfoLength);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public static void parseAudioPreselectionDump(org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
         try {
-            DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_dump.invokeExact(
-                    source.handle());
+            DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_dump.invokeExact(source.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1064,8 +1163,7 @@ public class Descriptor extends Struct {
     
     public static void parseAudioPreselectionFree(org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
         try {
-            DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_free.invokeExact(
-                    source.handle());
+            DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_free.invokeExact(source.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1074,285 +1172,285 @@ public class Descriptor extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_audio_preselection_list = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_audio_preselection_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_audio_preselection_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_ca = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_ca",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_ca",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_cable_delivery_system = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_cable_delivery_system",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_cable_delivery_system",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_bouquet_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_bouquet_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_bouquet_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_ca_identifier = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_ca_identifier",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_ca_identifier",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_component = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_component",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_component",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_content = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_content",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_content",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_data_broadcast = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_data_broadcast",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_data_broadcast",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_data_broadcast_id = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_data_broadcast_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_data_broadcast_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_extended_event = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_extended_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_extended_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_frequency_list = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_frequency_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_frequency_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_linkage = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_linkage",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_linkage",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_multilingual_component = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_multilingual_component",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_multilingual_component",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_multilingual_network_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_multilingual_network_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_multilingual_network_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_multilingual_service_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_multilingual_service_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_multilingual_service_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_network_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_network_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_network_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_parental_rating = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_parental_rating",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_parental_rating",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_private_data_specifier = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_private_data_specifier",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_private_data_specifier",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_scrambling = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_scrambling",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mpegts_descriptor_parse_dvb_scrambling",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_service = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_service",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_service",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_service_list = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_service_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_service_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_short_event = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_short_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_short_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_stream_identifier = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_stream_identifier",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_stream_identifier",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_stuffing = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_stuffing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_stuffing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_subtitling_idx = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_subtitling_idx",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_subtitling_idx",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_subtitling_nb = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_subtitling_nb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_subtitling_nb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_t2_delivery_system = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_t2_delivery_system",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_t2_delivery_system",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_teletext_idx = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_teletext_idx",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_teletext_idx",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_dvb_teletext_nb = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_dvb_teletext_nb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_dvb_teletext_nb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_iso_639_language = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_iso_639_language",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_iso_639_language",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_iso_639_language_idx = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_iso_639_language_idx",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mpegts_descriptor_parse_iso_639_language_idx",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_iso_639_language_nb = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_iso_639_language_nb",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_iso_639_language_nb",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_logical_channel = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_logical_channel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_logical_channel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_registration = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_registration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_registration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_satellite_delivery_system = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_satellite_delivery_system",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_satellite_delivery_system",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_terrestrial_delivery_system = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_terrestrial_delivery_system",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_terrestrial_delivery_system",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_custom = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_custom",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_mpegts_descriptor_from_custom",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_custom_with_extension = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_custom_with_extension",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_mpegts_descriptor_from_custom_with_extension",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_dvb_network_name = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_dvb_network_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_from_dvb_network_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_dvb_service = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_dvb_service",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_from_dvb_service",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_dvb_subtitling = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_dvb_subtitling",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
-            false
+                "gst_mpegts_descriptor_from_dvb_subtitling",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_SHORT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_iso_639_language = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_iso_639_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_from_iso_639_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_from_registration = Interop.downcallHandle(
-            "gst_mpegts_descriptor_from_registration",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_mpegts_descriptor_from_registration",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_audio_preselection_dump = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_audio_preselection_dump",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_audio_preselection_dump",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_descriptor_parse_audio_preselection_free = Interop.downcallHandle(
-            "gst_mpegts_descriptor_parse_audio_preselection_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_descriptor_parse_audio_preselection_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1378,7 +1476,7 @@ public class Descriptor extends Struct {
             struct = Descriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Descriptor} struct.
          * @return A new instance of {@code Descriptor} with the fields 
          *         that were set in the Builder object.
@@ -1393,10 +1491,12 @@ public class Descriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTag(byte tag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tag);
+                return this;
+            }
         }
         
         /**
@@ -1405,10 +1505,12 @@ public class Descriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTagExtension(byte tagExtension) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tagExtension);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tagExtension);
+                return this;
+            }
         }
         
         /**
@@ -1417,10 +1519,12 @@ public class Descriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLength(byte length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
         
         /**
@@ -1430,17 +1534,21 @@ public class Descriptor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(PointerByte data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

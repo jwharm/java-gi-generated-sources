@@ -31,6 +31,9 @@ public class OtColorPaletteFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final OtColorPaletteFlagsT USABLE_WITH_DARK_BACKGROUND = new OtColorPaletteFlagsT(2);
     
+    /**
+     * Create a new OtColorPaletteFlagsT with the provided value
+     */
     public OtColorPaletteFlagsT(int value) {
         super(value);
     }

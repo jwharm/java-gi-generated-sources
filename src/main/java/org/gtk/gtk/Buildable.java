@@ -22,8 +22,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Buildable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuildableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuildableImpl(input, ownership);
+    public static final Marshal<Addressable, BuildableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuildableImpl(input);
     
     /**
      * Gets the ID of the {@code buildable} object.
@@ -35,8 +38,7 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getBuildableId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_get_buildable_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_get_buildable_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,27 +64,42 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_buildable_get_buildable_id = Interop.downcallHandle(
-            "gtk_buildable_get_buildable_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_buildable_get_buildable_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_buildable_get_type = Interop.downcallHandle(
-            "gtk_buildable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_buildable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The BuildableImpl type represents a native instance of the Buildable interface.
+     */
     class BuildableImpl extends org.gtk.gobject.GObject implements Buildable {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public BuildableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Buildable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public BuildableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_buildable_get_type != null;
     }
 }

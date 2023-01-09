@@ -51,25 +51,40 @@ public class ApplicationClass extends Struct {
      * @return A new, uninitialized @{link ApplicationClass}
      */
     public static ApplicationClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ApplicationClass newInstance = new ApplicationClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ApplicationClass newInstance = new ApplicationClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code StartupCallback} callback.
+     */
     @FunctionalInterface
     public interface StartupCallback {
+    
         void run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartupCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartupCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -78,24 +93,41 @@ public class ApplicationClass extends Struct {
      * @param startup The new value of the field {@code startup}
      */
     public void setStartup(StartupCallback startup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("startup"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startup == null ? MemoryAddress.NULL : startup.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("startup"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startup == null ? MemoryAddress.NULL : startup.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateCallback {
+    
         void run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -104,24 +136,43 @@ public class ApplicationClass extends Struct {
      * @param activate The new value of the field {@code activate}
      */
     public void setActivate(ActivateCallback activate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OpenCallback} callback.
+     */
     @FunctionalInterface
     public interface OpenCallback {
+    
         void run(org.gtk.gio.Application application, org.gtk.gio.File[] files, int nFiles, java.lang.String hint);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application, MemoryAddress files, int nFiles, MemoryAddress hint) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), new PointerProxy<org.gtk.gio.File>(files, org.gtk.gio.File.fromAddress).toArray((int) nFiles, org.gtk.gio.File.class), nFiles, Marshal.addressToString.marshal(hint, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), new PointerProxy<org.gtk.gio.File>(files, org.gtk.gio.File.fromAddress).toArray((int) nFiles, org.gtk.gio.File.class), nFiles, Marshal.addressToString.marshal(hint, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OpenCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OpenCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -130,25 +181,42 @@ public class ApplicationClass extends Struct {
      * @param open The new value of the field {@code open}
      */
     public void setOpen(OpenCallback open) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("open"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CommandLineCallback} callback.
+     */
     @FunctionalInterface
     public interface CommandLineCallback {
+    
         int run(org.gtk.gio.Application application, org.gtk.gio.ApplicationCommandLine commandLine);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress application, MemoryAddress commandLine) {
-            var RESULT = run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), (org.gtk.gio.ApplicationCommandLine) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(commandLine)), org.gtk.gio.ApplicationCommandLine.fromAddress).marshal(commandLine, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), (org.gtk.gio.ApplicationCommandLine) Interop.register(commandLine, org.gtk.gio.ApplicationCommandLine.fromAddress).marshal(commandLine, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CommandLineCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CommandLineCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -157,27 +225,46 @@ public class ApplicationClass extends Struct {
      * @param commandLine The new value of the field {@code command_line}
      */
     public void setCommandLine(CommandLineCallback commandLine) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("command_line"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (commandLine == null ? MemoryAddress.NULL : commandLine.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("command_line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (commandLine == null ? MemoryAddress.NULL : commandLine.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LocalCommandLineCallback} callback.
+     */
     @FunctionalInterface
     public interface LocalCommandLineCallback {
+    
         boolean run(org.gtk.gio.Application application, PointerString arguments, Out<Integer> exitStatus);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress application, MemoryAddress arguments, MemoryAddress exitStatus) {
-            Out<Integer> exitStatusOUT = new Out<>(exitStatus.get(Interop.valueLayout.C_INT, 0));
-            var RESULT = run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), new PointerString(arguments), exitStatusOUT);
-            exitStatus.set(Interop.valueLayout.C_INT, 0, exitStatusOUT.get());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> exitStatusOUT = new Out<>(exitStatus.get(Interop.valueLayout.C_INT, 0));
+                var RESULT = run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), new PointerString(arguments), exitStatusOUT);
+                exitStatus.set(Interop.valueLayout.C_INT, 0, exitStatusOUT.get());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LocalCommandLineCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LocalCommandLineCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -186,24 +273,41 @@ public class ApplicationClass extends Struct {
      * @param localCommandLine The new value of the field {@code local_command_line}
      */
     public void setLocalCommandLine(LocalCommandLineCallback localCommandLine) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("local_command_line"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (localCommandLine == null ? MemoryAddress.NULL : localCommandLine.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("local_command_line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (localCommandLine == null ? MemoryAddress.NULL : localCommandLine.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code BeforeEmitCallback} callback.
+     */
     @FunctionalInterface
     public interface BeforeEmitCallback {
+    
         void run(org.gtk.gio.Application application, org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application, MemoryAddress platformData) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeforeEmitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), BeforeEmitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -212,24 +316,41 @@ public class ApplicationClass extends Struct {
      * @param beforeEmit The new value of the field {@code before_emit}
      */
     public void setBeforeEmit(BeforeEmitCallback beforeEmit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("before_emit"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beforeEmit == null ? MemoryAddress.NULL : beforeEmit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("before_emit"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beforeEmit == null ? MemoryAddress.NULL : beforeEmit.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AfterEmitCallback} callback.
+     */
     @FunctionalInterface
     public interface AfterEmitCallback {
+    
         void run(org.gtk.gio.Application application, org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application, MemoryAddress platformData) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AfterEmitCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AfterEmitCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -238,24 +359,41 @@ public class ApplicationClass extends Struct {
      * @param afterEmit The new value of the field {@code after_emit}
      */
     public void setAfterEmit(AfterEmitCallback afterEmit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("after_emit"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (afterEmit == null ? MemoryAddress.NULL : afterEmit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("after_emit"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (afterEmit == null ? MemoryAddress.NULL : afterEmit.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AddPlatformDataCallback} callback.
+     */
     @FunctionalInterface
     public interface AddPlatformDataCallback {
+    
         void run(org.gtk.gio.Application application, org.gtk.glib.VariantBuilder builder);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application, MemoryAddress builder) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), org.gtk.glib.VariantBuilder.fromAddress.marshal(builder, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), org.gtk.glib.VariantBuilder.fromAddress.marshal(builder, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AddPlatformDataCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AddPlatformDataCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -264,24 +402,41 @@ public class ApplicationClass extends Struct {
      * @param addPlatformData The new value of the field {@code add_platform_data}
      */
     public void setAddPlatformData(AddPlatformDataCallback addPlatformData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("add_platform_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addPlatformData == null ? MemoryAddress.NULL : addPlatformData.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("add_platform_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addPlatformData == null ? MemoryAddress.NULL : addPlatformData.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code QuitMainloopCallback} callback.
+     */
     @FunctionalInterface
     public interface QuitMainloopCallback {
+    
         void run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QuitMainloopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), QuitMainloopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -290,24 +445,41 @@ public class ApplicationClass extends Struct {
      * @param quitMainloop The new value of the field {@code quit_mainloop}
      */
     public void setQuitMainloop(QuitMainloopCallback quitMainloop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("quit_mainloop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quitMainloop == null ? MemoryAddress.NULL : quitMainloop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("quit_mainloop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quitMainloop == null ? MemoryAddress.NULL : quitMainloop.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RunMainloopCallback} callback.
+     */
     @FunctionalInterface
     public interface RunMainloopCallback {
+    
         void run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RunMainloopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RunMainloopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -316,24 +488,41 @@ public class ApplicationClass extends Struct {
      * @param runMainloop The new value of the field {@code run_mainloop}
      */
     public void setRunMainloop(RunMainloopCallback runMainloop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("run_mainloop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runMainloop == null ? MemoryAddress.NULL : runMainloop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("run_mainloop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runMainloop == null ? MemoryAddress.NULL : runMainloop.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ShutdownCallback} callback.
+     */
     @FunctionalInterface
     public interface ShutdownCallback {
+    
         void run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShutdownCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ShutdownCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -342,25 +531,44 @@ public class ApplicationClass extends Struct {
      * @param shutdown The new value of the field {@code shutdown}
      */
     public void setShutdown(ShutdownCallback shutdown) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DbusRegisterCallback} callback.
+     */
     @FunctionalInterface
     public interface DbusRegisterCallback {
+    
         boolean run(org.gtk.gio.Application application, org.gtk.gio.DBusConnection connection, java.lang.String objectPath);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress application, MemoryAddress connection, MemoryAddress objectPath) {
-            var RESULT = run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.DBusConnection.fromAddress).marshal(connection, Ownership.NONE), Marshal.addressToString.marshal(objectPath, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), (org.gtk.gio.DBusConnection) Interop.register(connection, org.gtk.gio.DBusConnection.fromAddress).marshal(connection, null), Marshal.addressToString.marshal(objectPath, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DbusRegisterCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DbusRegisterCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -369,24 +577,43 @@ public class ApplicationClass extends Struct {
      * @param dbusRegister The new value of the field {@code dbus_register}
      */
     public void setDbusRegister(DbusRegisterCallback dbusRegister) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dbus_register"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusRegister == null ? MemoryAddress.NULL : dbusRegister.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dbus_register"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dbusRegister == null ? MemoryAddress.NULL : dbusRegister.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DbusUnregisterCallback} callback.
+     */
     @FunctionalInterface
     public interface DbusUnregisterCallback {
+    
         void run(org.gtk.gio.Application application, org.gtk.gio.DBusConnection connection, java.lang.String objectPath);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress application, MemoryAddress connection, MemoryAddress objectPath) {
-            run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.DBusConnection.fromAddress).marshal(connection, Ownership.NONE), Marshal.addressToString.marshal(objectPath, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), (org.gtk.gio.DBusConnection) Interop.register(connection, org.gtk.gio.DBusConnection.fromAddress).marshal(connection, null), Marshal.addressToString.marshal(objectPath, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DbusUnregisterCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DbusUnregisterCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -395,25 +622,42 @@ public class ApplicationClass extends Struct {
      * @param dbusUnregister The new value of the field {@code dbus_unregister}
      */
     public void setDbusUnregister(DbusUnregisterCallback dbusUnregister) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dbus_unregister"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusUnregister == null ? MemoryAddress.NULL : dbusUnregister.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dbus_unregister"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dbusUnregister == null ? MemoryAddress.NULL : dbusUnregister.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandleLocalOptionsCallback} callback.
+     */
     @FunctionalInterface
     public interface HandleLocalOptionsCallback {
+    
         int run(org.gtk.gio.Application application, org.gtk.glib.VariantDict options);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress application, MemoryAddress options) {
-            var RESULT = run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE), org.gtk.glib.VariantDict.fromAddress.marshal(options, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null), org.gtk.glib.VariantDict.fromAddress.marshal(options, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandleLocalOptionsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandleLocalOptionsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -422,25 +666,42 @@ public class ApplicationClass extends Struct {
      * @param handleLocalOptions The new value of the field {@code handle_local_options}
      */
     public void setHandleLocalOptions(HandleLocalOptionsCallback handleLocalOptions) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handle_local_options"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleLocalOptions == null ? MemoryAddress.NULL : handleLocalOptions.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handle_local_options"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleLocalOptions == null ? MemoryAddress.NULL : handleLocalOptions.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NameLostCallback} callback.
+     */
     @FunctionalInterface
     public interface NameLostCallback {
+    
         boolean run(org.gtk.gio.Application application);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress application) {
-            var RESULT = run((org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.Application.fromAddress).marshal(application, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Application) Interop.register(application, org.gtk.gio.Application.fromAddress).marshal(application, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NameLostCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NameLostCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -449,22 +710,26 @@ public class ApplicationClass extends Struct {
      * @param nameLost The new value of the field {@code name_lost}
      */
     public void setNameLost(NameLostCallback nameLost) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name_lost"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameLost == null ? MemoryAddress.NULL : nameLost.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name_lost"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameLost == null ? MemoryAddress.NULL : nameLost.toCallback()));
+        }
     }
     
     /**
      * Create a ApplicationClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ApplicationClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ApplicationClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ApplicationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationClass(input, ownership);
+    public static final Marshal<Addressable, ApplicationClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationClass(input);
     
     /**
      * A {@link ApplicationClass.Builder} object constructs a {@link ApplicationClass} 
@@ -488,7 +753,7 @@ public class ApplicationClass extends Struct {
             struct = ApplicationClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ApplicationClass} struct.
          * @return A new instance of {@code ApplicationClass} with the fields 
          *         that were set in the Builder object.
@@ -498,122 +763,156 @@ public class ApplicationClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setStartup(StartupCallback startup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("startup"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startup == null ? MemoryAddress.NULL : startup.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("startup"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startup == null ? MemoryAddress.NULL : startup.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivate(ActivateCallback activate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setOpen(OpenCallback open) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("open"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCommandLine(CommandLineCallback commandLine) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("command_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (commandLine == null ? MemoryAddress.NULL : commandLine.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("command_line"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (commandLine == null ? MemoryAddress.NULL : commandLine.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLocalCommandLine(LocalCommandLineCallback localCommandLine) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("local_command_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (localCommandLine == null ? MemoryAddress.NULL : localCommandLine.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("local_command_line"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (localCommandLine == null ? MemoryAddress.NULL : localCommandLine.toCallback()));
+                return this;
+            }
         }
         
         public Builder setBeforeEmit(BeforeEmitCallback beforeEmit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("before_emit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beforeEmit == null ? MemoryAddress.NULL : beforeEmit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("before_emit"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beforeEmit == null ? MemoryAddress.NULL : beforeEmit.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAfterEmit(AfterEmitCallback afterEmit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("after_emit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (afterEmit == null ? MemoryAddress.NULL : afterEmit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("after_emit"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (afterEmit == null ? MemoryAddress.NULL : afterEmit.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAddPlatformData(AddPlatformDataCallback addPlatformData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("add_platform_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addPlatformData == null ? MemoryAddress.NULL : addPlatformData.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("add_platform_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (addPlatformData == null ? MemoryAddress.NULL : addPlatformData.toCallback()));
+                return this;
+            }
         }
         
         public Builder setQuitMainloop(QuitMainloopCallback quitMainloop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("quit_mainloop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quitMainloop == null ? MemoryAddress.NULL : quitMainloop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("quit_mainloop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quitMainloop == null ? MemoryAddress.NULL : quitMainloop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRunMainloop(RunMainloopCallback runMainloop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("run_mainloop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runMainloop == null ? MemoryAddress.NULL : runMainloop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("run_mainloop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runMainloop == null ? MemoryAddress.NULL : runMainloop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setShutdown(ShutdownCallback shutdown) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDbusRegister(DbusRegisterCallback dbusRegister) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dbus_register"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusRegister == null ? MemoryAddress.NULL : dbusRegister.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dbus_register"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dbusRegister == null ? MemoryAddress.NULL : dbusRegister.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDbusUnregister(DbusUnregisterCallback dbusUnregister) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dbus_unregister"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusUnregister == null ? MemoryAddress.NULL : dbusUnregister.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dbus_unregister"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dbusUnregister == null ? MemoryAddress.NULL : dbusUnregister.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandleLocalOptions(HandleLocalOptionsCallback handleLocalOptions) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handle_local_options"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleLocalOptions == null ? MemoryAddress.NULL : handleLocalOptions.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handle_local_options"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleLocalOptions == null ? MemoryAddress.NULL : handleLocalOptions.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNameLost(NameLostCallback nameLost) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name_lost"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameLost == null ? MemoryAddress.NULL : nameLost.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name_lost"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nameLost == null ? MemoryAddress.NULL : nameLost.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -25,6 +25,9 @@ public class RTPBufferMapFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTPBufferMapFlags LAST = new RTPBufferMapFlags(16777216);
     
+    /**
+     * Create a new RTPBufferMapFlags with the provided value
+     */
     public RTPBufferMapFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class CommandPoolResetFlags extends Struct {
      * @return A new, uninitialized @{link CommandPoolResetFlags}
      */
     public static CommandPoolResetFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CommandPoolResetFlags newInstance = new CommandPoolResetFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CommandPoolResetFlags newInstance = new CommandPoolResetFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CommandPoolResetFlags extends Struct {
     /**
      * Create a CommandPoolResetFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CommandPoolResetFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CommandPoolResetFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CommandPoolResetFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandPoolResetFlags(input, ownership);
+    public static final Marshal<Addressable, CommandPoolResetFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CommandPoolResetFlags(input);
 }

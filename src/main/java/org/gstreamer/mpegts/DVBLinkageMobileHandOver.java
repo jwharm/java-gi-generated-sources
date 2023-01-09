@@ -34,8 +34,8 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @return A new, uninitialized @{link DVBLinkageMobileHandOver}
      */
     public static DVBLinkageMobileHandOver allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DVBLinkageMobileHandOver newInstance = new DVBLinkageMobileHandOver(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DVBLinkageMobileHandOver newInstance = new DVBLinkageMobileHandOver(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @return The value of the field {@code hand_over_type}
      */
     public org.gstreamer.mpegts.DVBLinkageHandOverType getHandOverType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.DVBLinkageHandOverType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.DVBLinkageHandOverType.of(RESULT);
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @param handOverType The new value of the field {@code hand_over_type}
      */
     public void setHandOverType(org.gstreamer.mpegts.DVBLinkageHandOverType handOverType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handOverType == null ? MemoryAddress.NULL : handOverType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handOverType == null ? MemoryAddress.NULL : handOverType.getValue()));
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @return The value of the field {@code origin_type}
      */
     public boolean getOriginType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @param originType The new value of the field {@code origin_type}
      */
     public void setOriginType(boolean originType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(originType, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(originType, null).intValue());
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @return The value of the field {@code network_id}
      */
     public short getNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -98,9 +108,11 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @param networkId The new value of the field {@code network_id}
      */
     public void setNetworkId(short networkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), networkId);
+        }
     }
     
     /**
@@ -108,10 +120,12 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @return The value of the field {@code initial_service_id}
      */
     public short getInitialServiceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -119,22 +133,26 @@ public class DVBLinkageMobileHandOver extends Struct {
      * @param initialServiceId The new value of the field {@code initial_service_id}
      */
     public void setInitialServiceId(short initialServiceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), initialServiceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), initialServiceId);
+        }
     }
     
     /**
      * Create a DVBLinkageMobileHandOver proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DVBLinkageMobileHandOver(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DVBLinkageMobileHandOver(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DVBLinkageMobileHandOver> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageMobileHandOver(input, ownership);
+    public static final Marshal<Addressable, DVBLinkageMobileHandOver> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DVBLinkageMobileHandOver(input);
     
     /**
      * A {@link DVBLinkageMobileHandOver.Builder} object constructs a {@link DVBLinkageMobileHandOver} 
@@ -158,7 +176,7 @@ public class DVBLinkageMobileHandOver extends Struct {
             struct = DVBLinkageMobileHandOver.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DVBLinkageMobileHandOver} struct.
          * @return A new instance of {@code DVBLinkageMobileHandOver} with the fields 
          *         that were set in the Builder object.
@@ -168,31 +186,39 @@ public class DVBLinkageMobileHandOver extends Struct {
         }
         
         public Builder setHandOverType(org.gstreamer.mpegts.DVBLinkageHandOverType handOverType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handOverType == null ? MemoryAddress.NULL : handOverType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hand_over_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handOverType == null ? MemoryAddress.NULL : handOverType.getValue()));
+                return this;
+            }
         }
         
         public Builder setOriginType(boolean originType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(originType, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("origin_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(originType, null).intValue());
+                return this;
+            }
         }
         
         public Builder setNetworkId(short networkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), networkId);
+                return this;
+            }
         }
         
         public Builder setInitialServiceId(short initialServiceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), initialServiceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("initial_service_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), initialServiceId);
+                return this;
+            }
         }
     }
 }

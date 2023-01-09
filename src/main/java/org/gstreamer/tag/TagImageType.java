@@ -10,84 +10,104 @@ import org.jetbrains.annotations.*;
  * the info structure in the image's {@link org.gstreamer.gst.Sample})
  */
 public enum TagImageType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No image type. Can be used to
      *      tell functions such as gst_tag_image_data_to_image_sample() that no
      *      image type should be set.
      */
     NONE(-1),
+    
     /**
      * Undefined/other image type
      */
     UNDEFINED(0),
+    
     /**
      * Cover (front)
      */
     FRONT_COVER(1),
+    
     /**
      * Cover (back)
      */
     BACK_COVER(2),
+    
     /**
      * Leaflet page
      */
     LEAFLET_PAGE(3),
+    
     /**
      * Medium (e.g. label side of CD)
      */
     MEDIUM(4),
+    
     /**
      * Lead artist/lead performer/soloist
      */
     LEAD_ARTIST(5),
+    
     /**
      * Artist/performer
      */
     ARTIST(6),
+    
     /**
      * Conductor
      */
     CONDUCTOR(7),
+    
     /**
      * Band/orchestra
      */
     BAND_ORCHESTRA(8),
+    
     /**
      * Composer
      */
     COMPOSER(9),
+    
     /**
      * Lyricist/text writer
      */
     LYRICIST(10),
+    
     /**
      * Recording location
      */
     RECORDING_LOCATION(11),
+    
     /**
      * During recording
      */
     DURING_RECORDING(12),
+    
     /**
      * During performance
      */
     DURING_PERFORMANCE(13),
+    
     /**
      * Movie/video screen capture
      */
     VIDEO_CAPTURE(14),
+    
     /**
      * A fish as funny as the ID3v2 spec
      */
     FISH(15),
+    
     /**
      * Illustration
      */
     ILLUSTRATION(16),
+    
     /**
      * Band/artist logotype
      */
     BAND_ARTIST_LOGO(17),
+    
     /**
      * Publisher/studio logotype
      */
@@ -96,15 +116,29 @@ public enum TagImageType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstTagImageType";
     
     private final int value;
+    
+    /**
+     * Create a new TagImageType for the provided value
+     * @param numeric value the enum value
+     */
     TagImageType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TagImageType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TagImageType of(int value) {
         return switch (value) {
             case -1 -> NONE;

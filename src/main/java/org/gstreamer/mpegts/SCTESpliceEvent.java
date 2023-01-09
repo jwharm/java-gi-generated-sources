@@ -48,8 +48,8 @@ public class SCTESpliceEvent extends Struct {
      * @return A new, uninitialized @{link SCTESpliceEvent}
      */
     public static SCTESpliceEvent allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SCTESpliceEvent newInstance = new SCTESpliceEvent(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SCTESpliceEvent newInstance = new SCTESpliceEvent(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,10 +59,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code insert_event}
      */
     public boolean getInsertEvent() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -70,9 +72,11 @@ public class SCTESpliceEvent extends Struct {
      * @param insertEvent The new value of the field {@code insert_event}
      */
     public void setInsertEvent(boolean insertEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(insertEvent, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(insertEvent, null).intValue());
+        }
     }
     
     /**
@@ -80,10 +84,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code splice_event_id}
      */
     public int getSpliceEventId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -91,9 +97,11 @@ public class SCTESpliceEvent extends Struct {
      * @param spliceEventId The new value of the field {@code splice_event_id}
      */
     public void setSpliceEventId(int spliceEventId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), spliceEventId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), spliceEventId);
+        }
     }
     
     /**
@@ -101,10 +109,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code splice_event_cancel_indicator}
      */
     public boolean getSpliceEventCancelIndicator() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -112,9 +122,11 @@ public class SCTESpliceEvent extends Struct {
      * @param spliceEventCancelIndicator The new value of the field {@code splice_event_cancel_indicator}
      */
     public void setSpliceEventCancelIndicator(boolean spliceEventCancelIndicator) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceEventCancelIndicator, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceEventCancelIndicator, null).intValue());
+        }
     }
     
     /**
@@ -122,10 +134,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code out_of_network_indicator}
      */
     public boolean getOutOfNetworkIndicator() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -133,9 +147,11 @@ public class SCTESpliceEvent extends Struct {
      * @param outOfNetworkIndicator The new value of the field {@code out_of_network_indicator}
      */
     public void setOutOfNetworkIndicator(boolean outOfNetworkIndicator) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfNetworkIndicator, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(outOfNetworkIndicator, null).intValue());
+        }
     }
     
     /**
@@ -143,10 +159,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code program_splice_flag}
      */
     public boolean getProgramSpliceFlag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -154,9 +172,11 @@ public class SCTESpliceEvent extends Struct {
      * @param programSpliceFlag The new value of the field {@code program_splice_flag}
      */
     public void setProgramSpliceFlag(boolean programSpliceFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(programSpliceFlag, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(programSpliceFlag, null).intValue());
+        }
     }
     
     /**
@@ -164,10 +184,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code duration_flag}
      */
     public boolean getDurationFlag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -175,9 +197,11 @@ public class SCTESpliceEvent extends Struct {
      * @param durationFlag The new value of the field {@code duration_flag}
      */
     public void setDurationFlag(boolean durationFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(durationFlag, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(durationFlag, null).intValue());
+        }
     }
     
     /**
@@ -185,10 +209,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code splice_immediate_flag}
      */
     public boolean getSpliceImmediateFlag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -196,9 +222,11 @@ public class SCTESpliceEvent extends Struct {
      * @param spliceImmediateFlag The new value of the field {@code splice_immediate_flag}
      */
     public void setSpliceImmediateFlag(boolean spliceImmediateFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceImmediateFlag, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceImmediateFlag, null).intValue());
+        }
     }
     
     /**
@@ -206,10 +234,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code program_splice_time_specified}
      */
     public boolean getProgramSpliceTimeSpecified() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -217,9 +247,11 @@ public class SCTESpliceEvent extends Struct {
      * @param programSpliceTimeSpecified The new value of the field {@code program_splice_time_specified}
      */
     public void setProgramSpliceTimeSpecified(boolean programSpliceTimeSpecified) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(programSpliceTimeSpecified, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(programSpliceTimeSpecified, null).intValue());
+        }
     }
     
     /**
@@ -227,10 +259,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code program_splice_time}
      */
     public long getProgramSpliceTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -238,9 +272,11 @@ public class SCTESpliceEvent extends Struct {
      * @param programSpliceTime The new value of the field {@code program_splice_time}
      */
     public void setProgramSpliceTime(long programSpliceTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), programSpliceTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), programSpliceTime);
+        }
     }
     
     /**
@@ -248,10 +284,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code utc_splice_time}
      */
     public int getUtcSpliceTime() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -259,9 +297,11 @@ public class SCTESpliceEvent extends Struct {
      * @param utcSpliceTime The new value of the field {@code utc_splice_time}
      */
     public void setUtcSpliceTime(int utcSpliceTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), utcSpliceTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), utcSpliceTime);
+        }
     }
     
     /**
@@ -269,10 +309,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code components}
      */
     public PointerAddress getComponents() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("components"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("components"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -280,9 +322,11 @@ public class SCTESpliceEvent extends Struct {
      * @param components The new value of the field {@code components}
      */
     public void setComponents(java.lang.foreign.MemoryAddress[] components) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("components"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (components == null ? MemoryAddress.NULL : Interop.allocateNativeArray(components, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("components"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (components == null ? MemoryAddress.NULL : Interop.allocateNativeArray(components, false, SCOPE)));
+        }
     }
     
     /**
@@ -290,10 +334,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code break_duration_auto_return}
      */
     public boolean getBreakDurationAutoReturn() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -301,9 +347,11 @@ public class SCTESpliceEvent extends Struct {
      * @param breakDurationAutoReturn The new value of the field {@code break_duration_auto_return}
      */
     public void setBreakDurationAutoReturn(boolean breakDurationAutoReturn) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(breakDurationAutoReturn, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(breakDurationAutoReturn, null).intValue());
+        }
     }
     
     /**
@@ -311,10 +359,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code break_duration}
      */
     public long getBreakDuration() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -322,9 +372,11 @@ public class SCTESpliceEvent extends Struct {
      * @param breakDuration The new value of the field {@code break_duration}
      */
     public void setBreakDuration(long breakDuration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakDuration);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), breakDuration);
+        }
     }
     
     /**
@@ -332,10 +384,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code unique_program_id}
      */
     public short getUniqueProgramId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -343,9 +397,11 @@ public class SCTESpliceEvent extends Struct {
      * @param uniqueProgramId The new value of the field {@code unique_program_id}
      */
     public void setUniqueProgramId(short uniqueProgramId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), uniqueProgramId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), uniqueProgramId);
+        }
     }
     
     /**
@@ -353,10 +409,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code avail_num}
      */
     public byte getAvailNum() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -364,9 +422,11 @@ public class SCTESpliceEvent extends Struct {
      * @param availNum The new value of the field {@code avail_num}
      */
     public void setAvailNum(byte availNum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), availNum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), availNum);
+        }
     }
     
     /**
@@ -374,10 +434,12 @@ public class SCTESpliceEvent extends Struct {
      * @return The value of the field {@code avails_expected}
      */
     public byte getAvailsExpected() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -385,22 +447,26 @@ public class SCTESpliceEvent extends Struct {
      * @param availsExpected The new value of the field {@code avails_expected}
      */
     public void setAvailsExpected(byte availsExpected) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), availsExpected);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), availsExpected);
+        }
     }
     
     /**
      * Create a SCTESpliceEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SCTESpliceEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SCTESpliceEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SCTESpliceEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SCTESpliceEvent(input, ownership);
+    public static final Marshal<Addressable, SCTESpliceEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SCTESpliceEvent(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -416,15 +482,16 @@ public class SCTESpliceEvent extends Struct {
      * Allocates and initializes a {@link SCTESpliceEvent}.
      */
     public SCTESpliceEvent() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_scte_splice_event_new = Interop.downcallHandle(
-            "gst_mpegts_scte_splice_event_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_scte_splice_event_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -450,7 +517,7 @@ public class SCTESpliceEvent extends Struct {
             struct = SCTESpliceEvent.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SCTESpliceEvent} struct.
          * @return A new instance of {@code SCTESpliceEvent} with the fields 
          *         that were set in the Builder object.
@@ -460,66 +527,84 @@ public class SCTESpliceEvent extends Struct {
         }
         
         public Builder setInsertEvent(boolean insertEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(insertEvent, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("insert_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(insertEvent, null).intValue());
+                return this;
+            }
         }
         
         public Builder setSpliceEventId(int spliceEventId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), spliceEventId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("splice_event_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), spliceEventId);
+                return this;
+            }
         }
         
         public Builder setSpliceEventCancelIndicator(boolean spliceEventCancelIndicator) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceEventCancelIndicator, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("splice_event_cancel_indicator"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceEventCancelIndicator, null).intValue());
+                return this;
+            }
         }
         
         public Builder setOutOfNetworkIndicator(boolean outOfNetworkIndicator) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfNetworkIndicator, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("out_of_network_indicator"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(outOfNetworkIndicator, null).intValue());
+                return this;
+            }
         }
         
         public Builder setProgramSpliceFlag(boolean programSpliceFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(programSpliceFlag, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("program_splice_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(programSpliceFlag, null).intValue());
+                return this;
+            }
         }
         
         public Builder setDurationFlag(boolean durationFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(durationFlag, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("duration_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(durationFlag, null).intValue());
+                return this;
+            }
         }
         
         public Builder setSpliceImmediateFlag(boolean spliceImmediateFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceImmediateFlag, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("splice_immediate_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceImmediateFlag, null).intValue());
+                return this;
+            }
         }
         
         public Builder setProgramSpliceTimeSpecified(boolean programSpliceTimeSpecified) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(programSpliceTimeSpecified, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time_specified"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(programSpliceTimeSpecified, null).intValue());
+                return this;
+            }
         }
         
         public Builder setProgramSpliceTime(long programSpliceTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), programSpliceTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("program_splice_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), programSpliceTime);
+                return this;
+            }
         }
         
         /**
@@ -528,10 +613,12 @@ public class SCTESpliceEvent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUtcSpliceTime(int utcSpliceTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), utcSpliceTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), utcSpliceTime);
+                return this;
+            }
         }
         
         /**
@@ -540,45 +627,57 @@ public class SCTESpliceEvent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setComponents(java.lang.foreign.MemoryAddress[] components) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("components"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (components == null ? MemoryAddress.NULL : Interop.allocateNativeArray(components, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("components"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (components == null ? MemoryAddress.NULL : Interop.allocateNativeArray(components, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setBreakDurationAutoReturn(boolean breakDurationAutoReturn) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(breakDurationAutoReturn, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("break_duration_auto_return"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(breakDurationAutoReturn, null).intValue());
+                return this;
+            }
         }
         
         public Builder setBreakDuration(long breakDuration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakDuration);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("break_duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), breakDuration);
+                return this;
+            }
         }
         
         public Builder setUniqueProgramId(short uniqueProgramId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), uniqueProgramId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unique_program_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), uniqueProgramId);
+                return this;
+            }
         }
         
         public Builder setAvailNum(byte availNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), availNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("avail_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), availNum);
+                return this;
+            }
         }
         
         public Builder setAvailsExpected(byte availsExpected) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), availsExpected);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("avails_expected"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), availsExpected);
+                return this;
+            }
         }
     }
 }

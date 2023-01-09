@@ -29,8 +29,8 @@ public class DisplayKHR extends Struct {
      * @return A new, uninitialized @{link DisplayKHR}
      */
     public static DisplayKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplayKHR newInstance = new DisplayKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplayKHR newInstance = new DisplayKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplayKHR extends Struct {
     /**
      * Create a DisplayKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplayKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplayKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplayKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayKHR(input, ownership);
+    public static final Marshal<Addressable, DisplayKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplayKHR(input);
 }

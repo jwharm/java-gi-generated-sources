@@ -29,8 +29,8 @@ public class SparseImageMemoryBind extends Struct {
      * @return A new, uninitialized @{link SparseImageMemoryBind}
      */
     public static SparseImageMemoryBind allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SparseImageMemoryBind newInstance = new SparseImageMemoryBind(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SparseImageMemoryBind newInstance = new SparseImageMemoryBind(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SparseImageMemoryBind extends Struct {
     /**
      * Create a SparseImageMemoryBind proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SparseImageMemoryBind(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SparseImageMemoryBind(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SparseImageMemoryBind> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageMemoryBind(input, ownership);
+    public static final Marshal<Addressable, SparseImageMemoryBind> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageMemoryBind(input);
 }

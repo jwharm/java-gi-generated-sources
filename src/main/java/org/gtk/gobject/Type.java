@@ -11,6 +11,9 @@ import org.jetbrains.annotations.*;
  */
 public class Type extends io.github.jwharm.javagi.Alias<Long> {
     
+    /**
+     * Create a new Type with the provided value
+     */
     public Type(long value) {
         super(value);
     }

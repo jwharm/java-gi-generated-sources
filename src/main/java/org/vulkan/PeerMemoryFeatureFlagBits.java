@@ -29,8 +29,8 @@ public class PeerMemoryFeatureFlagBits extends Struct {
      * @return A new, uninitialized @{link PeerMemoryFeatureFlagBits}
      */
     public static PeerMemoryFeatureFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PeerMemoryFeatureFlagBits newInstance = new PeerMemoryFeatureFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PeerMemoryFeatureFlagBits newInstance = new PeerMemoryFeatureFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PeerMemoryFeatureFlagBits extends Struct {
     /**
      * Create a PeerMemoryFeatureFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PeerMemoryFeatureFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PeerMemoryFeatureFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PeerMemoryFeatureFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PeerMemoryFeatureFlagBits(input, ownership);
+    public static final Marshal<Addressable, PeerMemoryFeatureFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PeerMemoryFeatureFlagBits(input);
 }

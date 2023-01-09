@@ -45,8 +45,8 @@ public class BufferPoolAcquireParams extends Struct {
      * @return A new, uninitialized @{link BufferPoolAcquireParams}
      */
     public static BufferPoolAcquireParams allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferPoolAcquireParams newInstance = new BufferPoolAcquireParams(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferPoolAcquireParams newInstance = new BufferPoolAcquireParams(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,10 +56,12 @@ public class BufferPoolAcquireParams extends Struct {
      * @return The value of the field {@code format}
      */
     public org.gstreamer.gst.Format getFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Format.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Format.of(RESULT);
+        }
     }
     
     /**
@@ -67,9 +69,11 @@ public class BufferPoolAcquireParams extends Struct {
      * @param format The new value of the field {@code format}
      */
     public void setFormat(org.gstreamer.gst.Format format) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        }
     }
     
     /**
@@ -77,10 +81,12 @@ public class BufferPoolAcquireParams extends Struct {
      * @return The value of the field {@code start}
      */
     public long getStart() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -88,9 +94,11 @@ public class BufferPoolAcquireParams extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(long start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), start);
+        }
     }
     
     /**
@@ -98,10 +106,12 @@ public class BufferPoolAcquireParams extends Struct {
      * @return The value of the field {@code stop}
      */
     public long getStop() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -109,9 +119,11 @@ public class BufferPoolAcquireParams extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(long stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), stop);
+        }
     }
     
     /**
@@ -119,10 +131,12 @@ public class BufferPoolAcquireParams extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.gst.BufferPoolAcquireFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.BufferPoolAcquireFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.BufferPoolAcquireFlags(RESULT);
+        }
     }
     
     /**
@@ -130,22 +144,26 @@ public class BufferPoolAcquireParams extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
      * Create a BufferPoolAcquireParams proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferPoolAcquireParams(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferPoolAcquireParams(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferPoolAcquireParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferPoolAcquireParams(input, ownership);
+    public static final Marshal<Addressable, BufferPoolAcquireParams> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferPoolAcquireParams(input);
     
     /**
      * A {@link BufferPoolAcquireParams.Builder} object constructs a {@link BufferPoolAcquireParams} 
@@ -169,7 +187,7 @@ public class BufferPoolAcquireParams extends Struct {
             struct = BufferPoolAcquireParams.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BufferPoolAcquireParams} struct.
          * @return A new instance of {@code BufferPoolAcquireParams} with the fields 
          *         that were set in the Builder object.
@@ -184,10 +202,12 @@ public class BufferPoolAcquireParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFormat(org.gstreamer.gst.Format format) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -196,10 +216,12 @@ public class BufferPoolAcquireParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(long start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), start);
+                return this;
+            }
         }
         
         /**
@@ -208,10 +230,12 @@ public class BufferPoolAcquireParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStop(long stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), stop);
+                return this;
+            }
         }
         
         /**
@@ -220,17 +244,21 @@ public class BufferPoolAcquireParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

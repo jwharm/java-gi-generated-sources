@@ -29,8 +29,8 @@ public class TagDemuxPrivate extends Struct {
      * @return A new, uninitialized @{link TagDemuxPrivate}
      */
     public static TagDemuxPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TagDemuxPrivate newInstance = new TagDemuxPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TagDemuxPrivate newInstance = new TagDemuxPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TagDemuxPrivate extends Struct {
     /**
      * Create a TagDemuxPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TagDemuxPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TagDemuxPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagDemuxPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagDemuxPrivate(input, ownership);
+    public static final Marshal<Addressable, TagDemuxPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagDemuxPrivate(input);
 }

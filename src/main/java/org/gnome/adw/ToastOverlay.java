@@ -62,26 +62,17 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     /**
      * Create a ToastOverlay proxy instance for the provided memory address.
-     * <p>
-     * Because ToastOverlay is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ToastOverlay(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ToastOverlay(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ToastOverlay> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToastOverlay(input, ownership);
+    public static final Marshal<Addressable, ToastOverlay> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ToastOverlay(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -97,7 +88,9 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Creates a new {@code AdwToastOverlay}.
      */
     public ToastOverlay() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -131,12 +124,11 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_toast_overlay_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_toast_overlay_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -183,6 +175,9 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -218,33 +213,41 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     private static class DowncallHandles {
         
         private static final MethodHandle adw_toast_overlay_new = Interop.downcallHandle(
-            "adw_toast_overlay_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_toast_overlay_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_toast_overlay_add_toast = Interop.downcallHandle(
-            "adw_toast_overlay_add_toast",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_toast_overlay_add_toast",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_toast_overlay_get_child = Interop.downcallHandle(
-            "adw_toast_overlay_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_toast_overlay_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_toast_overlay_set_child = Interop.downcallHandle(
-            "adw_toast_overlay_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_toast_overlay_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_toast_overlay_get_type = Interop.downcallHandle(
-            "adw_toast_overlay_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_toast_overlay_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_toast_overlay_get_type != null;
     }
 }

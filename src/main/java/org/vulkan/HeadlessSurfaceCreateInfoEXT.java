@@ -29,8 +29,8 @@ public class HeadlessSurfaceCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link HeadlessSurfaceCreateInfoEXT}
      */
     public static HeadlessSurfaceCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        HeadlessSurfaceCreateInfoEXT newInstance = new HeadlessSurfaceCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        HeadlessSurfaceCreateInfoEXT newInstance = new HeadlessSurfaceCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class HeadlessSurfaceCreateInfoEXT extends Struct {
     /**
      * Create a HeadlessSurfaceCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected HeadlessSurfaceCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected HeadlessSurfaceCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, HeadlessSurfaceCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HeadlessSurfaceCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, HeadlessSurfaceCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new HeadlessSurfaceCreateInfoEXT(input);
 }

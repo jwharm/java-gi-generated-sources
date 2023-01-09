@@ -29,8 +29,8 @@ public class CommandBufferUsageFlagBits extends Struct {
      * @return A new, uninitialized @{link CommandBufferUsageFlagBits}
      */
     public static CommandBufferUsageFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CommandBufferUsageFlagBits newInstance = new CommandBufferUsageFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CommandBufferUsageFlagBits newInstance = new CommandBufferUsageFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CommandBufferUsageFlagBits extends Struct {
     /**
      * Create a CommandBufferUsageFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CommandBufferUsageFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CommandBufferUsageFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CommandBufferUsageFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandBufferUsageFlagBits(input, ownership);
+    public static final Marshal<Addressable, CommandBufferUsageFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CommandBufferUsageFlagBits(input);
 }

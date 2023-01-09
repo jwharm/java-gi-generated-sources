@@ -33,26 +33,17 @@ public class AV1Decoder extends org.gstreamer.video.VideoDecoder {
     
     /**
      * Create a AV1Decoder proxy instance for the provided memory address.
-     * <p>
-     * Because AV1Decoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AV1Decoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AV1Decoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AV1Decoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AV1Decoder(input, ownership);
+    public static final Marshal<Addressable, AV1Decoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AV1Decoder(input);
     
     /**
      * Get the gtype
@@ -84,6 +75,9 @@ public class AV1Decoder extends org.gstreamer.video.VideoDecoder {
      */
     public static class Builder extends org.gstreamer.video.VideoDecoder.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -108,9 +102,17 @@ public class AV1Decoder extends org.gstreamer.video.VideoDecoder {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_av1_decoder_get_type = Interop.downcallHandle(
-            "gst_av1_decoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_av1_decoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_av1_decoder_get_type != null;
     }
 }

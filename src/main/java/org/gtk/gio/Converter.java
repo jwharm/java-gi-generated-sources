@@ -17,8 +17,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Converter extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConverterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterImpl(input, ownership);
+    public static final Marshal<Addressable, ConverterImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConverterImpl(input);
     
     /**
      * This is the main operation used when converting data. It is to be called
@@ -116,30 +119,32 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default org.gtk.gio.ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_converter_convert.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(inbuf, false),
-                    inbufSize,
-                    Interop.allocateNativeArray(outbuf, false),
-                    outbufSize,
-                    flags.getValue(),
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bytesReadPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment bytesWrittenPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_converter_convert.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(inbuf, false, SCOPE),
+                        inbufSize,
+                        Interop.allocateNativeArray(outbuf, false, SCOPE),
+                        outbufSize,
+                        flags.getValue(),
+                        (Addressable) bytesReadPOINTER.address(),
+                        (Addressable) bytesWrittenPOINTER.address(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return org.gtk.gio.ConverterResult.of(RESULT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return org.gtk.gio.ConverterResult.of(RESULT);
     }
     
     /**
@@ -149,8 +154,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      */
     default void reset() {
         try {
-            DowncallHandles.g_converter_reset.invokeExact(
-                    handle());
+            DowncallHandles.g_converter_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,34 +179,49 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_converter_convert = Interop.downcallHandle(
-            "g_converter_convert",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_converter_convert",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_converter_reset = Interop.downcallHandle(
-            "g_converter_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_converter_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_converter_get_type = Interop.downcallHandle(
-            "g_converter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_converter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ConverterImpl type represents a native instance of the Converter interface.
+     */
     class ConverterImpl extends org.gtk.gobject.GObject implements Converter {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public ConverterImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Converter for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ConverterImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_converter_get_type != null;
     }
 }

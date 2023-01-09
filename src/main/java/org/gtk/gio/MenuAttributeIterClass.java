@@ -32,8 +32,8 @@ public class MenuAttributeIterClass extends Struct {
      * @return A new, uninitialized @{link MenuAttributeIterClass}
      */
     public static MenuAttributeIterClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MenuAttributeIterClass newInstance = new MenuAttributeIterClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MenuAttributeIterClass newInstance = new MenuAttributeIterClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class MenuAttributeIterClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,29 +52,48 @@ public class MenuAttributeIterClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNextCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNextCallback {
+    
         boolean run(org.gtk.gio.MenuAttributeIter iter, @Nullable Out<java.lang.String> outName, @Nullable Out<org.gtk.glib.Variant> value);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress iter, MemoryAddress outName, MemoryAddress value) {
-            Out<java.lang.String> outNameOUT = new Out<>(Marshal.addressToString.marshal(outName, null));
-            Out<org.gtk.glib.Variant> valueOUT = new Out<>(org.gtk.glib.Variant.fromAddress.marshal(value, Ownership.FULL));
-            var RESULT = run((org.gtk.gio.MenuAttributeIter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(iter)), org.gtk.gio.MenuAttributeIter.fromAddress).marshal(iter, Ownership.NONE), outNameOUT, valueOUT);
-            outName.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(outNameOUT.get(), null));
-            value.set(Interop.valueLayout.ADDRESS, 0, valueOUT.get().handle());
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<java.lang.String> outNameOUT = new Out<>(Marshal.addressToString.marshal(outName, null));
+                Out<org.gtk.glib.Variant> valueOUT = new Out<>(org.gtk.glib.Variant.fromAddress.marshal(value, null));
+                var RESULT = run((org.gtk.gio.MenuAttributeIter) Interop.register(iter, org.gtk.gio.MenuAttributeIter.fromAddress).marshal(iter, null), outNameOUT, valueOUT);
+                outName.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(outNameOUT.get(), SCOPE));
+                value.set(Interop.valueLayout.ADDRESS, 0, valueOUT.get().handle());
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,22 +102,26 @@ public class MenuAttributeIterClass extends Struct {
      * @param getNext The new value of the field {@code get_next}
      */
     public void setGetNext(GetNextCallback getNext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNext == null ? MemoryAddress.NULL : getNext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNext == null ? MemoryAddress.NULL : getNext.toCallback()));
+        }
     }
     
     /**
      * Create a MenuAttributeIterClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MenuAttributeIterClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MenuAttributeIterClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MenuAttributeIterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuAttributeIterClass(input, ownership);
+    public static final Marshal<Addressable, MenuAttributeIterClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MenuAttributeIterClass(input);
     
     /**
      * A {@link MenuAttributeIterClass.Builder} object constructs a {@link MenuAttributeIterClass} 
@@ -122,7 +145,7 @@ public class MenuAttributeIterClass extends Struct {
             struct = MenuAttributeIterClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MenuAttributeIterClass} struct.
          * @return A new instance of {@code MenuAttributeIterClass} with the fields 
          *         that were set in the Builder object.
@@ -132,17 +155,21 @@ public class MenuAttributeIterClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetNext(GetNextCallback getNext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNext == null ? MemoryAddress.NULL : getNext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_next"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNext == null ? MemoryAddress.NULL : getNext.toCallback()));
+                return this;
+            }
         }
     }
 }

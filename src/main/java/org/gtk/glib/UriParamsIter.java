@@ -47,8 +47,8 @@ public class UriParamsIter extends Struct {
      * @return A new, uninitialized @{link UriParamsIter}
      */
     public static UriParamsIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UriParamsIter newInstance = new UriParamsIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        UriParamsIter newInstance = new UriParamsIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,14 +56,16 @@ public class UriParamsIter extends Struct {
     /**
      * Create a UriParamsIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UriParamsIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UriParamsIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UriParamsIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UriParamsIter(input, ownership);
+    public static final Marshal<Addressable, UriParamsIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UriParamsIter(input);
     
     /**
      * Initializes an attribute/value pair iterator.
@@ -109,15 +111,17 @@ public class UriParamsIter extends Struct {
      * @param flags flags to modify the way the parameters are handled.
      */
     public void init(java.lang.String params, long length, java.lang.String separators, org.gtk.glib.UriParamsFlags flags) {
-        try {
-            DowncallHandles.g_uri_params_iter_init.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(params, null),
-                    length,
-                    Marshal.stringToAddress.marshal(separators, null),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_uri_params_iter_init.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(params, SCOPE),
+                        length,
+                        Marshal.stringToAddress.marshal(separators, SCOPE),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -140,39 +144,41 @@ public class UriParamsIter extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next(@Nullable Out<java.lang.String> attribute, @Nullable Out<java.lang.String> value) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment attributePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(
-                    handle(),
-                    (Addressable) (attribute == null ? MemoryAddress.NULL : (Addressable) attributePOINTER.address()),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment attributePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_uri_params_iter_next.invokeExact(
+                        handle(),
+                        (Addressable) (attribute == null ? MemoryAddress.NULL : (Addressable) attributePOINTER.address()),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (attribute != null) attribute.set(Marshal.addressToString.marshal(attributePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (value != null) value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (attribute != null) attribute.set(Marshal.addressToString.marshal(attributePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (value != null) value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
-            "g_uri_params_iter_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_uri_params_iter_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
-            "g_uri_params_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_uri_params_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -198,7 +204,7 @@ public class UriParamsIter extends Struct {
             struct = UriParamsIter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link UriParamsIter} struct.
          * @return A new instance of {@code UriParamsIter} with the fields 
          *         that were set in the Builder object.
@@ -208,31 +214,39 @@ public class UriParamsIter extends Struct {
         }
         
         public Builder setDummy0(int dummy0) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy0"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy0);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy0"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dummy0);
+                return this;
+            }
         }
         
         public Builder setDummy1(java.lang.foreign.MemoryAddress dummy1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
+                return this;
+            }
         }
         
         public Builder setDummy2(java.lang.foreign.MemoryAddress dummy2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
+                return this;
+            }
         }
         
         public Builder setDummy3(byte[] dummy3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy3, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy3 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy3, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

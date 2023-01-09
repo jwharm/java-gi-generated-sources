@@ -43,8 +43,8 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return A new, uninitialized @{link VideoRegionOfInterestMeta}
      */
     public static VideoRegionOfInterestMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoRegionOfInterestMeta newInstance = new VideoRegionOfInterestMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoRegionOfInterestMeta newInstance = new VideoRegionOfInterestMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,7 +55,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -63,9 +63,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -73,10 +75,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code roi_type}
      */
     public org.gtk.glib.Quark getRoiType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Quark(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Quark(RESULT);
+        }
     }
     
     /**
@@ -84,9 +88,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param roiType The new value of the field {@code roi_type}
      */
     public void setRoiType(org.gtk.glib.Quark roiType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
+        }
     }
     
     /**
@@ -94,10 +100,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code id}
      */
     public int getId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +113,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param id The new value of the field {@code id}
      */
     public void setId(int id) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), id);
+        }
     }
     
     /**
@@ -115,10 +125,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code parent_id}
      */
     public int getParentId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -126,9 +138,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param parentId The new value of the field {@code parent_id}
      */
     public void setParentId(int parentId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parentId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), parentId);
+        }
     }
     
     /**
@@ -136,10 +150,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code x}
      */
     public int getX() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -147,9 +163,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(int x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -157,10 +175,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code y}
      */
     public int getY() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -168,9 +188,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(int y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
@@ -178,10 +200,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code w}
      */
     public int getW() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -189,9 +213,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param w The new value of the field {@code w}
      */
     public void setW(int w) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("w"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), w);
+        }
     }
     
     /**
@@ -199,10 +225,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code h}
      */
     public int getH() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -210,9 +238,11 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param h The new value of the field {@code h}
      */
     public void setH(int h) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("h"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), h);
+        }
     }
     
     /**
@@ -220,10 +250,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return The value of the field {@code params}
      */
     public org.gtk.glib.List getParams() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("params"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("params"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -231,22 +263,26 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param params The new value of the field {@code params}
      */
     public void setParams(org.gtk.glib.List params) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("params"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+        }
     }
     
     /**
      * Create a VideoRegionOfInterestMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoRegionOfInterestMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoRegionOfInterestMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoRegionOfInterestMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoRegionOfInterestMeta(input, ownership);
+    public static final Marshal<Addressable, VideoRegionOfInterestMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoRegionOfInterestMeta(input);
     
     /**
      * Attach element-specific parameters to {@code meta} meant to be used by downstream
@@ -278,15 +314,17 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @return a {@link org.gstreamer.gst.Structure}
      */
     public @Nullable org.gstreamer.gst.Structure getParam(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_region_of_interest_meta_get_param.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_video_region_of_interest_meta_get_param.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
@@ -296,27 +334,27 @@ public class VideoRegionOfInterestMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_region_of_interest_meta_add_param = Interop.downcallHandle(
-            "gst_video_region_of_interest_meta_add_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_region_of_interest_meta_add_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_region_of_interest_meta_get_param = Interop.downcallHandle(
-            "gst_video_region_of_interest_meta_get_param",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_region_of_interest_meta_get_param",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_region_of_interest_meta_get_info = Interop.downcallHandle(
-            "gst_video_region_of_interest_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_region_of_interest_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -342,7 +380,7 @@ public class VideoRegionOfInterestMeta extends Struct {
             struct = VideoRegionOfInterestMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoRegionOfInterestMeta} struct.
          * @return A new instance of {@code VideoRegionOfInterestMeta} with the fields 
          *         that were set in the Builder object.
@@ -357,10 +395,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -369,10 +409,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRoiType(org.gtk.glib.Quark roiType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -381,10 +423,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setId(int id) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), id);
+                return this;
+            }
         }
         
         /**
@@ -393,10 +437,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentId(int parentId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parentId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), parentId);
+                return this;
+            }
         }
         
         /**
@@ -405,10 +451,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(int x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -417,10 +465,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(int y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
         
         /**
@@ -429,10 +479,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setW(int w) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), w);
+                return this;
+            }
         }
         
         /**
@@ -441,10 +493,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setH(int h) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("h"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("h"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), h);
+                return this;
+            }
         }
         
         /**
@@ -454,10 +508,12 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParams(org.gtk.glib.List params) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("params"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+                return this;
+            }
         }
     }
 }

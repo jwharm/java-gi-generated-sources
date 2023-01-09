@@ -13,27 +13,34 @@ import org.jetbrains.annotations.*;
  * see also: {@link SectionTableID}
  */
 public enum SectionSCTETableID implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * SCTE-18 Emergency Alert System
      */
     EAS(216),
+    
     /**
      * CL-SP-ETV-AM 1.0.1 EBIF message
      */
     EBIF(224),
+    
     RESERVED(225),
+    
     /**
      * CL-SP-ETV-AM 1.0.1 EBIF Int. Signaling Sect.
      */
     EISS(226),
+    
     /**
      * CL-SP-ETV-AM 1.0.1 DSMCC DII message
      */
     DII(227),
+    
     /**
      * CL-SP-ETV-AM 1.0.1 DSMCC Data Download Block
      */
     DDB(228),
+    
     /**
      * SCTE-35 splice information is carried in a
      * section stream on a separate PID in the program’s Map Table (PMT) allowing
@@ -45,15 +52,29 @@ public enum SectionSCTETableID implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSectionSCTETableID";
     
     private final int value;
+    
+    /**
+     * Create a new SectionSCTETableID for the provided value
+     * @param numeric value the enum value
+     */
     SectionSCTETableID(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SectionSCTETableID for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SectionSCTETableID of(int value) {
         return switch (value) {
             case 216 -> EAS;

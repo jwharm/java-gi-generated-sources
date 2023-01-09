@@ -9,6 +9,7 @@ import org.jetbrains.annotations.*;
  * Identifies how the user can interact with a particular cell.
  */
 public enum CellRendererMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The cell is just for display
      *  and cannot be interacted with.  Note that this doesn’t mean that eg. the
@@ -16,10 +17,12 @@ public enum CellRendererMode implements io.github.jwharm.javagi.Enumeration {
      *  it cannot be individually modified.
      */
     INERT(0),
+    
     /**
      * The cell can be clicked.
      */
     ACTIVATABLE(1),
+    
     /**
      * The cell can be edited or otherwise modified.
      */
@@ -28,15 +31,29 @@ public enum CellRendererMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkCellRendererMode";
     
     private final int value;
+    
+    /**
+     * Create a new CellRendererMode for the provided value
+     * @param numeric value the enum value
+     */
     CellRendererMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new CellRendererMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static CellRendererMode of(int value) {
         return switch (value) {
             case 0 -> INERT;

@@ -45,8 +45,8 @@ public class HashTableIter extends Struct {
      * @return A new, uninitialized @{link HashTableIter}
      */
     public static HashTableIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        HashTableIter newInstance = new HashTableIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        HashTableIter newInstance = new HashTableIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,14 +54,16 @@ public class HashTableIter extends Struct {
     /**
      * Create a HashTableIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected HashTableIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected HashTableIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, HashTableIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HashTableIter(input, ownership);
+    public static final Marshal<Addressable, HashTableIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new HashTableIter(input);
     
     /**
      * Returns the {@link HashTable} associated with {@code iter}.
@@ -70,12 +72,11 @@ public class HashTableIter extends Struct {
     public org.gtk.glib.HashTable getHashTable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_iter_get_hash_table.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_hash_table_iter_get_hash_table.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -116,20 +117,22 @@ public class HashTableIter extends Struct {
      * @return {@code false} if the end of the {@link HashTable} has been reached.
      */
     public boolean next(@Nullable Out<java.lang.foreign.MemoryAddress> key, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_hash_table_iter_next.invokeExact(
-                    handle(),
-                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment keyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_hash_table_iter_next.invokeExact(
+                        handle(),
+                        (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (key != null) key.set(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (key != null) key.set(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -154,8 +157,7 @@ public class HashTableIter extends Struct {
      */
     public void remove() {
         try {
-            DowncallHandles.g_hash_table_iter_remove.invokeExact(
-                    handle());
+            DowncallHandles.g_hash_table_iter_remove.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,8 +191,7 @@ public class HashTableIter extends Struct {
      */
     public void steal() {
         try {
-            DowncallHandles.g_hash_table_iter_steal.invokeExact(
-                    handle());
+            DowncallHandles.g_hash_table_iter_steal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,39 +200,39 @@ public class HashTableIter extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
-            "g_hash_table_iter_get_hash_table",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_get_hash_table",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
-            "g_hash_table_iter_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
-            "g_hash_table_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
-            "g_hash_table_iter_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
-            "g_hash_table_iter_replace",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_replace",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
-            "g_hash_table_iter_steal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_hash_table_iter_steal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -257,7 +258,7 @@ public class HashTableIter extends Struct {
             struct = HashTableIter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link HashTableIter} struct.
          * @return A new instance of {@code HashTableIter} with the fields 
          *         that were set in the Builder object.
@@ -267,45 +268,57 @@ public class HashTableIter extends Struct {
         }
         
         public Builder setDummy1(java.lang.foreign.MemoryAddress dummy1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
+                return this;
+            }
         }
         
         public Builder setDummy2(java.lang.foreign.MemoryAddress dummy2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
+                return this;
+            }
         }
         
         public Builder setDummy3(java.lang.foreign.MemoryAddress dummy3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
+                return this;
+            }
         }
         
         public Builder setDummy4(int dummy4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy4);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dummy4);
+                return this;
+            }
         }
         
         public Builder setDummy5(boolean dummy5) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(dummy5, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(dummy5, null).intValue());
+                return this;
+            }
         }
         
         public Builder setDummy6(java.lang.foreign.MemoryAddress dummy6) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy6 == null ? MemoryAddress.NULL : (Addressable) dummy6));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dummy6 == null ? MemoryAddress.NULL : (Addressable) dummy6));
+                return this;
+            }
         }
     }
 }

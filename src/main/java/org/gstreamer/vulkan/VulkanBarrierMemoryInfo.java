@@ -36,8 +36,8 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @return A new, uninitialized @{link VulkanBarrierMemoryInfo}
      */
     public static VulkanBarrierMemoryInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanBarrierMemoryInfo newInstance = new VulkanBarrierMemoryInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanBarrierMemoryInfo newInstance = new VulkanBarrierMemoryInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.vulkan.VulkanBarrierType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.vulkan.VulkanBarrierType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.vulkan.VulkanBarrierType.of(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.vulkan.VulkanBarrierType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.vulkan.VulkanBarrierFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.vulkan.VulkanBarrierFlags.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.vulkan.VulkanBarrierFlags.of(RESULT);
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @return The value of the field {@code queue}
      */
     public org.gstreamer.vulkan.VulkanQueue getQueue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("queue"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.vulkan.VulkanQueue) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("queue"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.vulkan.VulkanQueue) Interop.register(RESULT, org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -100,9 +110,11 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param queue The new value of the field {@code queue}
      */
     public void setQueue(org.gstreamer.vulkan.VulkanQueue queue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("queue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("queue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
+        }
     }
     
     /**
@@ -111,7 +123,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
      */
     public org.vulkan.PipelineStageFlags getPipelineStages() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pipeline_stages"));
-        return org.vulkan.PipelineStageFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.PipelineStageFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -119,9 +131,11 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param pipelineStages The new value of the field {@code pipeline_stages}
      */
     public void setPipelineStages(org.vulkan.PipelineStageFlags pipelineStages) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
+        }
     }
     
     /**
@@ -130,7 +144,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
      */
     public org.vulkan.AccessFlags getAccessFlags() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("access_flags"));
-        return org.vulkan.AccessFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.AccessFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -138,22 +152,26 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param accessFlags The new value of the field {@code access_flags}
      */
     public void setAccessFlags(org.vulkan.AccessFlags accessFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
+        }
     }
     
     /**
      * Create a VulkanBarrierMemoryInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanBarrierMemoryInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanBarrierMemoryInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanBarrierMemoryInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierMemoryInfo(input, ownership);
+    public static final Marshal<Addressable, VulkanBarrierMemoryInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierMemoryInfo(input);
     
     /**
      * A {@link VulkanBarrierMemoryInfo.Builder} object constructs a {@link VulkanBarrierMemoryInfo} 
@@ -177,7 +195,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
             struct = VulkanBarrierMemoryInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanBarrierMemoryInfo} struct.
          * @return A new instance of {@code VulkanBarrierMemoryInfo} with the fields 
          *         that were set in the Builder object.
@@ -193,17 +211,21 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.vulkan.VulkanBarrierType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         public Builder setFlags(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -212,10 +234,12 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setQueue(org.gstreamer.vulkan.VulkanQueue queue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("queue"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("queue"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
+                return this;
+            }
         }
         
         /**
@@ -224,10 +248,12 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPipelineStages(org.vulkan.PipelineStageFlags pipelineStages) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
+                return this;
+            }
         }
         
         /**
@@ -236,17 +262,21 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAccessFlags(org.vulkan.AccessFlags accessFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

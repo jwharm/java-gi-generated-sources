@@ -49,8 +49,8 @@ public class PluginDesc extends Struct {
      * @return A new, uninitialized @{link PluginDesc}
      */
     public static PluginDesc allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PluginDesc newInstance = new PluginDesc(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PluginDesc newInstance = new PluginDesc(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -60,10 +60,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code major_version}
      */
     public int getMajorVersion() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -71,9 +73,11 @@ public class PluginDesc extends Struct {
      * @param majorVersion The new value of the field {@code major_version}
      */
     public void setMajorVersion(int majorVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorVersion);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), majorVersion);
+        }
     }
     
     /**
@@ -81,10 +85,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code minor_version}
      */
     public int getMinorVersion() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -92,9 +98,11 @@ public class PluginDesc extends Struct {
      * @param minorVersion The new value of the field {@code minor_version}
      */
     public void setMinorVersion(int minorVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorVersion);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minorVersion);
+        }
     }
     
     /**
@@ -102,10 +110,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code name}
      */
     public java.lang.String getName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -113,9 +123,11 @@ public class PluginDesc extends Struct {
      * @param name The new value of the field {@code name}
      */
     public void setName(java.lang.String name) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+        }
     }
     
     /**
@@ -123,10 +135,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code description}
      */
     public java.lang.String getDescription() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -134,9 +148,11 @@ public class PluginDesc extends Struct {
      * @param description The new value of the field {@code description}
      */
     public void setDescription(java.lang.String description) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+        }
     }
     
     /**
@@ -144,10 +160,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code plugin_init}
      */
     public org.gstreamer.gst.PluginInitFunc getPluginInit() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -155,9 +173,11 @@ public class PluginDesc extends Struct {
      * @param pluginInit The new value of the field {@code plugin_init}
      */
     public void setPluginInit(org.gstreamer.gst.PluginInitFunc pluginInit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pluginInit == null ? MemoryAddress.NULL : (Addressable) pluginInit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pluginInit == null ? MemoryAddress.NULL : (Addressable) pluginInit.toCallback()));
+        }
     }
     
     /**
@@ -165,10 +185,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code version}
      */
     public java.lang.String getVersion() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -176,9 +198,11 @@ public class PluginDesc extends Struct {
      * @param version The new value of the field {@code version}
      */
     public void setVersion(java.lang.String version) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, SCOPE)));
+        }
     }
     
     /**
@@ -186,10 +210,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code license}
      */
     public java.lang.String getLicense() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("license"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("license"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -197,9 +223,11 @@ public class PluginDesc extends Struct {
      * @param license The new value of the field {@code license}
      */
     public void setLicense(java.lang.String license) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("license"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("license"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, SCOPE)));
+        }
     }
     
     /**
@@ -207,10 +235,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code source}
      */
     public java.lang.String getSource() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -218,9 +248,11 @@ public class PluginDesc extends Struct {
      * @param source The new value of the field {@code source}
      */
     public void setSource(java.lang.String source) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, SCOPE)));
+        }
     }
     
     /**
@@ -228,10 +260,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code package}
      */
     public java.lang.String getPackage() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("package"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("package"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -239,9 +273,11 @@ public class PluginDesc extends Struct {
      * @param package_ The new value of the field {@code package}
      */
     public void setPackage(java.lang.String package_) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("package"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (package_ == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(package_, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("package"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (package_ == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(package_, SCOPE)));
+        }
     }
     
     /**
@@ -249,10 +285,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code origin}
      */
     public java.lang.String getOrigin() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -260,9 +298,11 @@ public class PluginDesc extends Struct {
      * @param origin The new value of the field {@code origin}
      */
     public void setOrigin(java.lang.String origin) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(origin, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (origin == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(origin, SCOPE)));
+        }
     }
     
     /**
@@ -270,10 +310,12 @@ public class PluginDesc extends Struct {
      * @return The value of the field {@code release_datetime}
      */
     public java.lang.String getReleaseDatetime() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -281,22 +323,26 @@ public class PluginDesc extends Struct {
      * @param releaseDatetime The new value of the field {@code release_datetime}
      */
     public void setReleaseDatetime(java.lang.String releaseDatetime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseDatetime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(releaseDatetime, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releaseDatetime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(releaseDatetime, SCOPE)));
+        }
     }
     
     /**
      * Create a PluginDesc proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PluginDesc(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PluginDesc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PluginDesc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PluginDesc(input, ownership);
+    public static final Marshal<Addressable, PluginDesc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PluginDesc(input);
     
     /**
      * A {@link PluginDesc.Builder} object constructs a {@link PluginDesc} 
@@ -320,7 +366,7 @@ public class PluginDesc extends Struct {
             struct = PluginDesc.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PluginDesc} struct.
          * @return A new instance of {@code PluginDesc} with the fields 
          *         that were set in the Builder object.
@@ -335,10 +381,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMajorVersion(int majorVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorVersion);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("major_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), majorVersion);
+                return this;
+            }
         }
         
         /**
@@ -347,10 +395,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinorVersion(int minorVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorVersion);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("minor_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minorVersion);
+                return this;
+            }
         }
         
         /**
@@ -359,10 +409,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -371,10 +423,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescription(java.lang.String description) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -383,10 +437,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPluginInit(org.gstreamer.gst.PluginInitFunc pluginInit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pluginInit == null ? MemoryAddress.NULL : (Addressable) pluginInit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("plugin_init"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pluginInit == null ? MemoryAddress.NULL : (Addressable) pluginInit.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -395,10 +451,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVersion(java.lang.String version) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -407,10 +465,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLicense(java.lang.String license) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("license"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("license"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -419,10 +479,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSource(java.lang.String source) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -431,10 +493,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPackage(java.lang.String package_) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("package"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (package_ == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(package_, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("package"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (package_ == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(package_, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -443,10 +507,12 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOrigin(java.lang.String origin) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("origin"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(origin, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (origin == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(origin, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -460,17 +526,21 @@ public class PluginDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setReleaseDatetime(java.lang.String releaseDatetime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releaseDatetime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(releaseDatetime, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("release_datetime"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releaseDatetime == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(releaseDatetime, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

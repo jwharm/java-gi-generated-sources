@@ -39,22 +39,27 @@ import org.jetbrains.annotations.*;
  * @version 2.34
  */
 public enum ResolverRecordType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * look up DNS SRV records for a domain
      */
     SRV(1),
+    
     /**
      * look up DNS MX records for a domain
      */
     MX(2),
+    
     /**
      * look up DNS TXT records for a name
      */
     TXT(3),
+    
     /**
      * look up DNS SOA records for a zone
      */
     SOA(4),
+    
     /**
      * look up DNS NS records for a domain
      */
@@ -63,15 +68,29 @@ public enum ResolverRecordType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GResolverRecordType";
     
     private final int value;
+    
+    /**
+     * Create a new ResolverRecordType for the provided value
+     * @param numeric value the enum value
+     */
     ResolverRecordType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ResolverRecordType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ResolverRecordType of(int value) {
         return switch (value) {
             case 1 -> SRV;

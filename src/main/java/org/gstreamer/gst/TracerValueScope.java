@@ -14,18 +14,22 @@ import org.jetbrains.annotations.*;
  * @version 1.8
  */
 public enum TracerValueScope implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the value is related to the process
      */
     PROCESS(0),
+    
     /**
      * the value is related to a thread
      */
     THREAD(1),
+    
     /**
      * the value is related to an {@link Element}
      */
     ELEMENT(2),
+    
     /**
      * the value is related to a {@link Pad}
      */
@@ -34,15 +38,29 @@ public enum TracerValueScope implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstTracerValueScope";
     
     private final int value;
+    
+    /**
+     * Create a new TracerValueScope for the provided value
+     * @param numeric value the enum value
+     */
     TracerValueScope(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TracerValueScope for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TracerValueScope of(int value) {
         return switch (value) {
             case 0 -> PROCESS;

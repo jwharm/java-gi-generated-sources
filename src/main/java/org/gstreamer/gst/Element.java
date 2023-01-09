@@ -102,26 +102,17 @@ public class Element extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Element proxy instance for the provided memory address.
-     * <p>
-     * Because Element is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Element(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Element(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Element> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Element(input, ownership);
+    public static final Marshal<Addressable, Element> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Element(input);
     
     /**
      * Abort the state change of the element. This function is used
@@ -134,8 +125,7 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public void abortState() {
         try {
-            DowncallHandles.gst_element_abort_state.invokeExact(
-                    handle());
+            DowncallHandles.gst_element_abort_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,29 +161,33 @@ public class Element extends org.gstreamer.gst.GstObject {
     }
     
     public long addPropertyDeepNotifyWatch(@Nullable java.lang.String propertyName, boolean includeValue) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_element_add_property_deep_notify_watch.invokeExact(
-                    handle(),
-                    (Addressable) (propertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(propertyName, null)),
-                    Marshal.booleanToInteger.marshal(includeValue, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_element_add_property_deep_notify_watch.invokeExact(
+                        handle(),
+                        (Addressable) (propertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(propertyName, SCOPE)),
+                        Marshal.booleanToInteger.marshal(includeValue, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     public long addPropertyNotifyWatch(@Nullable java.lang.String propertyName, boolean includeValue) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_element_add_property_notify_watch.invokeExact(
-                    handle(),
-                    (Addressable) (propertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(propertyName, null)),
-                    Marshal.booleanToInteger.marshal(includeValue, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_element_add_property_notify_watch.invokeExact(
+                        handle(),
+                        (Addressable) (propertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(propertyName, SCOPE)),
+                        Marshal.booleanToInteger.marshal(includeValue, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -280,8 +274,7 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public void createAllPads() {
         try {
-            DowncallHandles.gst_element_create_all_pads.invokeExact(
-                    handle());
+            DowncallHandles.gst_element_create_all_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,8 +364,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getBaseTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_element_get_base_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_element_get_base_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,12 +382,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_bus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Bus) Interop.register(RESULT, org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -411,12 +404,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Clock getClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_clock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -443,7 +437,9 @@ public class Element extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -463,7 +459,7 @@ public class Element extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -474,15 +470,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return A {@link Context} or NULL
      */
     public @Nullable org.gstreamer.gst.Context getContext(java.lang.String contextType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_context.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(contextType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_context.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(contextType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Context.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Context.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -491,15 +491,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return A {@link Context} or NULL
      */
     public @Nullable org.gstreamer.gst.Context getContextUnlocked(java.lang.String contextType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_context_unlocked.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(contextType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_context_unlocked.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(contextType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Context.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Context.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -511,12 +515,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gtk.glib.List getContexts() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_contexts.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_contexts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -528,8 +533,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getCurrentClockTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_element_get_current_clock_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_element_get_current_clock_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,8 +550,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getCurrentRunningTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_element_get_current_running_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_element_get_current_running_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,12 +565,11 @@ public class Element extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.ElementFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_factory.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.ElementFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.ElementFactory) Interop.register(RESULT, org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -576,15 +578,17 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return the metadata for {@code key}.
      */
     public java.lang.String getMetadata(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -595,15 +599,17 @@ public class Element extends org.gstreamer.gst.GstObject {
      *     necessary.
      */
     public @Nullable org.gstreamer.gst.PadTemplate getPadTemplate(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_pad_template.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_pad_template.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -615,12 +621,11 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gtk.glib.List getPadTemplateList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_pad_template_list.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_pad_template_list.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -635,15 +640,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     @Deprecated
     public @Nullable org.gstreamer.gst.Pad getRequestPad(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_request_pad.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_request_pad.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -659,8 +668,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getStartTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_element_get_start_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_element_get_start_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -702,21 +710,23 @@ public class Element extends org.gstreamer.gst.GstObject {
      * MT safe.
      */
     public org.gstreamer.gst.StateChangeReturn getState(@Nullable Out<org.gstreamer.gst.State> state, @Nullable Out<org.gstreamer.gst.State> pending, org.gstreamer.gst.ClockTime timeout) {
-        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment pendingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_get_state.invokeExact(
-                    handle(),
-                    (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()),
-                    (Addressable) (pending == null ? MemoryAddress.NULL : (Addressable) pendingPOINTER.address()),
-                    timeout.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment statePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment pendingPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_get_state.invokeExact(
+                        handle(),
+                        (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()),
+                        (Addressable) (pending == null ? MemoryAddress.NULL : (Addressable) pendingPOINTER.address()),
+                        timeout.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (state != null) state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (pending != null) pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return org.gstreamer.gst.StateChangeReturn.of(RESULT);
         }
-        if (state != null) state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (pending != null) pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return org.gstreamer.gst.StateChangeReturn.of(RESULT);
     }
     
     /**
@@ -729,15 +739,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      * MT safe.
      */
     public @Nullable org.gstreamer.gst.Pad getStaticPad(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_get_static_pad.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_get_static_pad.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -753,8 +767,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public boolean isLockedState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_element_is_locked_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_element_is_locked_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -775,12 +788,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Iterator iteratePads() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_pads.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -795,12 +809,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Iterator iterateSinkPads() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_sink_pads.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_sink_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -815,12 +830,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Iterator iterateSrcPads() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_src_pads.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_iterate_src_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -908,17 +924,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the pads could be linked, {@code false} otherwise.
      */
     public boolean linkPads(@Nullable java.lang.String srcpadname, org.gstreamer.gst.Element dest, @Nullable java.lang.String destpadname) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_link_pads.invokeExact(
-                    handle(),
-                    (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, null)),
-                    dest.handle(),
-                    (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_link_pads.invokeExact(
+                        handle(),
+                        (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, SCOPE)),
+                        dest.handle(),
+                        (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -936,18 +954,20 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the pads could be linked, {@code false} otherwise.
      */
     public boolean linkPadsFiltered(@Nullable java.lang.String srcpadname, org.gstreamer.gst.Element dest, @Nullable java.lang.String destpadname, @Nullable org.gstreamer.gst.Caps filter) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_link_pads_filtered.invokeExact(
-                    handle(),
-                    (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, null)),
-                    dest.handle(),
-                    (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, null)),
-                    (Addressable) (filter == null ? MemoryAddress.NULL : filter.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_link_pads_filtered.invokeExact(
+                        handle(),
+                        (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, SCOPE)),
+                        dest.handle(),
+                        (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, SCOPE)),
+                        (Addressable) (filter == null ? MemoryAddress.NULL : filter.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -970,18 +990,20 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the pads could be linked, {@code false} otherwise.
      */
     public boolean linkPadsFull(@Nullable java.lang.String srcpadname, org.gstreamer.gst.Element dest, @Nullable java.lang.String destpadname, org.gstreamer.gst.PadLinkCheck flags) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_link_pads_full.invokeExact(
-                    handle(),
-                    (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, null)),
-                    dest.handle(),
-                    (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, null)),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_link_pads_full.invokeExact(
+                        handle(),
+                        (Addressable) (srcpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(srcpadname, SCOPE)),
+                        dest.handle(),
+                        (Addressable) (destpadname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destpadname, SCOPE)),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1004,8 +1026,7 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public void lostState() {
         try {
-            DowncallHandles.gst_element_lost_state.invokeExact(
-                    handle());
+            DowncallHandles.gst_element_lost_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1032,19 +1053,21 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @param line the source code line where the error was generated
      */
     public void messageFull(org.gstreamer.gst.MessageType type, org.gtk.glib.Quark domain, int code, @Nullable java.lang.String text, @Nullable java.lang.String debug, java.lang.String file, java.lang.String function, int line) {
-        try {
-            DowncallHandles.gst_element_message_full.invokeExact(
-                    handle(),
-                    type.getValue(),
-                    domain.getValue().intValue(),
-                    code,
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)),
-                    (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, null)),
-                    Marshal.stringToAddress.marshal(file, null),
-                    Marshal.stringToAddress.marshal(function, null),
-                    line);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_message_full.invokeExact(
+                        handle(),
+                        type.getValue(),
+                        domain.getValue().intValue(),
+                        code,
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)),
+                        (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, SCOPE)),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        Marshal.stringToAddress.marshal(function, SCOPE),
+                        line);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1068,22 +1091,24 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @param structure optional details structure
      */
     public void messageFullWithDetails(org.gstreamer.gst.MessageType type, org.gtk.glib.Quark domain, int code, @Nullable java.lang.String text, @Nullable java.lang.String debug, java.lang.String file, java.lang.String function, int line, org.gstreamer.gst.Structure structure) {
-        try {
-            DowncallHandles.gst_element_message_full_with_details.invokeExact(
-                    handle(),
-                    type.getValue(),
-                    domain.getValue().intValue(),
-                    code,
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)),
-                    (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, null)),
-                    Marshal.stringToAddress.marshal(file, null),
-                    Marshal.stringToAddress.marshal(function, null),
-                    line,
-                    structure.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_message_full_with_details.invokeExact(
+                        handle(),
+                        type.getValue(),
+                        domain.getValue().intValue(),
+                        code,
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)),
+                        (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, SCOPE)),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        Marshal.stringToAddress.marshal(function, SCOPE),
+                        line,
+                        structure.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            structure.yieldOwnership();
         }
-        structure.yieldOwnership();
     }
     
     /**
@@ -1099,8 +1124,7 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public void noMorePads() {
         try {
-            DowncallHandles.gst_element_no_more_pads.invokeExact(
-                    handle());
+            DowncallHandles.gst_element_no_more_pads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1143,12 +1167,13 @@ public class Element extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Clock provideClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_provide_clock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_provide_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1185,20 +1210,22 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the query could be performed.
      */
     public boolean queryConvert(org.gstreamer.gst.Format srcFormat, long srcVal, org.gstreamer.gst.Format destFormat, Out<Long> destVal) {
-        MemorySegment destValPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_query_convert.invokeExact(
-                    handle(),
-                    srcFormat.getValue(),
-                    srcVal,
-                    destFormat.getValue(),
-                    (Addressable) destValPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment destValPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_query_convert.invokeExact(
+                        handle(),
+                        srcFormat.getValue(),
+                        srcVal,
+                        destFormat.getValue(),
+                        (Addressable) destValPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    destVal.set(destValPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        destVal.set(destValPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1215,18 +1242,20 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the query could be performed.
      */
     public boolean queryDuration(org.gstreamer.gst.Format format, Out<Long> duration) {
-        MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_query_duration.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment durationPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_query_duration.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1245,18 +1274,20 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the query could be performed.
      */
     public boolean queryPosition(org.gstreamer.gst.Format format, Out<Long> cur) {
-        MemorySegment curPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_query_position.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    (Addressable) (cur == null ? MemoryAddress.NULL : (Addressable) curPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment curPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_query_position.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        (Addressable) (cur == null ? MemoryAddress.NULL : (Addressable) curPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (cur != null) cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (cur != null) cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1340,17 +1371,21 @@ public class Element extends org.gstreamer.gst.GstObject {
      *     otherwise {@code null}.  Release after usage.
      */
     public @Nullable org.gstreamer.gst.Pad requestPad(org.gstreamer.gst.PadTemplate templ, @Nullable java.lang.String name, @Nullable org.gstreamer.gst.Caps caps) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_request_pad.invokeExact(
-                    handle(),
-                    templ.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_request_pad.invokeExact(
+                        handle(),
+                        templ.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1371,15 +1406,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      *     otherwise {@code null}.  Release after usage.
      */
     public @Nullable org.gstreamer.gst.Pad requestPadSimple(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_request_pad_simple.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_request_pad_simple.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Pad) Interop.register(RESULT, org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1644,8 +1683,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public boolean syncStateWithParent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_element_sync_state_with_parent.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_element_sync_state_with_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1695,14 +1733,16 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @param destpadname the name of the {@link Pad} in destination element.
      */
     public void unlinkPads(java.lang.String srcpadname, org.gstreamer.gst.Element dest, java.lang.String destpadname) {
-        try {
-            DowncallHandles.gst_element_unlink_pads.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(srcpadname, null),
-                    dest.handle(),
-                    Marshal.stringToAddress.marshal(destpadname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_unlink_pads.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(srcpadname, SCOPE),
+                        dest.handle(),
+                        Marshal.stringToAddress.marshal(destpadname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1730,21 +1770,23 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gstreamer.gst.Element makeFromUri(org.gstreamer.gst.URIType type, java.lang.String uri, @Nullable java.lang.String elementname) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_make_from_uri.invokeExact(
-                    type.getValue(),
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (elementname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementname, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_make_from_uri.invokeExact(
+                        type.getValue(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (elementname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementname, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1758,17 +1800,19 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return {@code true}, if the registering succeeded, {@code false} on error
      */
     public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, int rank, org.gtk.glib.Type type) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_element_register.invokeExact(
-                    (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Marshal.stringToAddress.marshal(name, null),
-                    rank,
-                    type.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_element_register.invokeExact(
+                        (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        rank,
+                        type.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1780,8 +1824,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public static java.lang.String stateChangeReturnGetName(org.gstreamer.gst.StateChangeReturn stateRet) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_state_change_return_get_name.invokeExact(
-                    stateRet.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_state_change_return_get_name.invokeExact(stateRet.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1796,8 +1839,7 @@ public class Element extends org.gstreamer.gst.GstObject {
     public static java.lang.String stateGetName(org.gstreamer.gst.State state) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_state_get_name.invokeExact(
-                    state.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_state_get_name.invokeExact(state.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1826,26 +1868,45 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public static void typeSetSkipDocumentation(org.gtk.glib.Type type) {
         try {
-            DowncallHandles.gst_element_type_set_skip_documentation.invokeExact(
-                    type.getValue().longValue());
+            DowncallHandles.gst_element_type_set_skip_documentation.invokeExact(type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code NoMorePads} callback.
+     */
     @FunctionalInterface
     public interface NoMorePads {
+    
+        /**
+         * This signals that the element will not generate more dynamic pads.
+         * Note that this signal will usually be emitted from the context of
+         * the streaming thread.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceElement) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NoMorePads.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NoMorePads.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1857,28 +1918,51 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Element.NoMorePads> onNoMorePads(Element.NoMorePads handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("no-more-pads"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("no-more-pads", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PadAdded} callback.
+     */
     @FunctionalInterface
     public interface PadAdded {
+    
+        /**
+         * a new {@link Pad} has been added to the element. Note that this signal will
+         * usually be emitted from the context of the streaming thread. Also keep in
+         * mind that if you add new elements to the pipeline in the signal handler
+         * you will need to set them to the desired target state with
+         * gst_element_set_state() or gst_element_sync_state_with_parent().
+         */
         void run(org.gstreamer.gst.Pad newPad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceElement, MemoryAddress newPad) {
-            run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(newPad)), org.gstreamer.gst.Pad.fromAddress).marshal(newPad, Ownership.NONE));
+            run((org.gstreamer.gst.Pad) Interop.register(newPad, org.gstreamer.gst.Pad.fromAddress).marshal(newPad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadAdded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadAdded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1892,28 +1976,47 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Element.PadAdded> onPadAdded(Element.PadAdded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pad-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pad-added", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PadRemoved} callback.
+     */
     @FunctionalInterface
     public interface PadRemoved {
+    
+        /**
+         * a {@link Pad} has been removed from the element
+         */
         void run(org.gstreamer.gst.Pad oldPad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceElement, MemoryAddress oldPad) {
-            run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(oldPad)), org.gstreamer.gst.Pad.fromAddress).marshal(oldPad, Ownership.NONE));
+            run((org.gstreamer.gst.Pad) Interop.register(oldPad, org.gstreamer.gst.Pad.fromAddress).marshal(oldPad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadRemoved.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadRemoved.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -1923,9 +2026,10 @@ public class Element extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Element.PadRemoved> onPadRemoved(Element.PadRemoved handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pad-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pad-removed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1948,6 +2052,9 @@ public class Element extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1972,447 +2079,455 @@ public class Element extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_element_abort_state = Interop.downcallHandle(
-            "gst_element_abort_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_abort_state",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_add_pad = Interop.downcallHandle(
-            "gst_element_add_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_add_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_add_property_deep_notify_watch = Interop.downcallHandle(
-            "gst_element_add_property_deep_notify_watch",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_add_property_deep_notify_watch",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_add_property_notify_watch = Interop.downcallHandle(
-            "gst_element_add_property_notify_watch",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_add_property_notify_watch",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_call_async = Interop.downcallHandle(
-            "gst_element_call_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_call_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_change_state = Interop.downcallHandle(
-            "gst_element_change_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_change_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_continue_state = Interop.downcallHandle(
-            "gst_element_continue_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_continue_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_create_all_pads = Interop.downcallHandle(
-            "gst_element_create_all_pads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_create_all_pads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_foreach_pad = Interop.downcallHandle(
-            "gst_element_foreach_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_foreach_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_foreach_sink_pad = Interop.downcallHandle(
-            "gst_element_foreach_sink_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_foreach_sink_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_foreach_src_pad = Interop.downcallHandle(
-            "gst_element_foreach_src_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_foreach_src_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_base_time = Interop.downcallHandle(
-            "gst_element_get_base_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_base_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_bus = Interop.downcallHandle(
-            "gst_element_get_bus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_bus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_clock = Interop.downcallHandle(
-            "gst_element_get_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_compatible_pad = Interop.downcallHandle(
-            "gst_element_get_compatible_pad",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_compatible_pad",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_compatible_pad_template = Interop.downcallHandle(
-            "gst_element_get_compatible_pad_template",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_compatible_pad_template",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_context = Interop.downcallHandle(
-            "gst_element_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_context_unlocked = Interop.downcallHandle(
-            "gst_element_get_context_unlocked",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_context_unlocked",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_contexts = Interop.downcallHandle(
-            "gst_element_get_contexts",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_contexts",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_current_clock_time = Interop.downcallHandle(
-            "gst_element_get_current_clock_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_current_clock_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_current_running_time = Interop.downcallHandle(
-            "gst_element_get_current_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_current_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_factory = Interop.downcallHandle(
-            "gst_element_get_factory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_factory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_metadata = Interop.downcallHandle(
-            "gst_element_get_metadata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_metadata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_pad_template = Interop.downcallHandle(
-            "gst_element_get_pad_template",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_pad_template",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_pad_template_list = Interop.downcallHandle(
-            "gst_element_get_pad_template_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_pad_template_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_request_pad = Interop.downcallHandle(
-            "gst_element_get_request_pad",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_request_pad",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_start_time = Interop.downcallHandle(
-            "gst_element_get_start_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_start_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_state = Interop.downcallHandle(
-            "gst_element_get_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_get_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_get_static_pad = Interop.downcallHandle(
-            "gst_element_get_static_pad",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_get_static_pad",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_is_locked_state = Interop.downcallHandle(
-            "gst_element_is_locked_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_is_locked_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_iterate_pads = Interop.downcallHandle(
-            "gst_element_iterate_pads",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_iterate_pads",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_iterate_sink_pads = Interop.downcallHandle(
-            "gst_element_iterate_sink_pads",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_iterate_sink_pads",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_iterate_src_pads = Interop.downcallHandle(
-            "gst_element_iterate_src_pads",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_iterate_src_pads",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_link = Interop.downcallHandle(
-            "gst_element_link",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_link",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_link_filtered = Interop.downcallHandle(
-            "gst_element_link_filtered",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_link_filtered",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_link_many = Interop.downcallHandle(
-            "gst_element_link_many",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_element_link_many",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_element_link_pads = Interop.downcallHandle(
-            "gst_element_link_pads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_link_pads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_link_pads_filtered = Interop.downcallHandle(
-            "gst_element_link_pads_filtered",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_link_pads_filtered",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_link_pads_full = Interop.downcallHandle(
-            "gst_element_link_pads_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_link_pads_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_lost_state = Interop.downcallHandle(
-            "gst_element_lost_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_lost_state",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_message_full = Interop.downcallHandle(
-            "gst_element_message_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_message_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_message_full_with_details = Interop.downcallHandle(
-            "gst_element_message_full_with_details",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_message_full_with_details",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_no_more_pads = Interop.downcallHandle(
-            "gst_element_no_more_pads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_no_more_pads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_post_message = Interop.downcallHandle(
-            "gst_element_post_message",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_post_message",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_provide_clock = Interop.downcallHandle(
-            "gst_element_provide_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_provide_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_query = Interop.downcallHandle(
-            "gst_element_query",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_query",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_query_convert = Interop.downcallHandle(
-            "gst_element_query_convert",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_query_convert",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_query_duration = Interop.downcallHandle(
-            "gst_element_query_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_query_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_query_position = Interop.downcallHandle(
-            "gst_element_query_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_query_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_release_request_pad = Interop.downcallHandle(
-            "gst_element_release_request_pad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_release_request_pad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_remove_pad = Interop.downcallHandle(
-            "gst_element_remove_pad",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_remove_pad",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_remove_property_notify_watch = Interop.downcallHandle(
-            "gst_element_remove_property_notify_watch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_remove_property_notify_watch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_request_pad = Interop.downcallHandle(
-            "gst_element_request_pad",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_request_pad",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_request_pad_simple = Interop.downcallHandle(
-            "gst_element_request_pad_simple",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_request_pad_simple",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_seek = Interop.downcallHandle(
-            "gst_element_seek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_seek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_seek_simple = Interop.downcallHandle(
-            "gst_element_seek_simple",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_seek_simple",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_send_event = Interop.downcallHandle(
-            "gst_element_send_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_send_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_set_base_time = Interop.downcallHandle(
-            "gst_element_set_base_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_set_base_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_set_bus = Interop.downcallHandle(
-            "gst_element_set_bus",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_set_bus",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_set_clock = Interop.downcallHandle(
-            "gst_element_set_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_set_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_set_context = Interop.downcallHandle(
-            "gst_element_set_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_set_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_set_locked_state = Interop.downcallHandle(
-            "gst_element_set_locked_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_set_locked_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_set_start_time = Interop.downcallHandle(
-            "gst_element_set_start_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_set_start_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_set_state = Interop.downcallHandle(
-            "gst_element_set_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_set_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_sync_state_with_parent = Interop.downcallHandle(
-            "gst_element_sync_state_with_parent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_sync_state_with_parent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_unlink = Interop.downcallHandle(
-            "gst_element_unlink",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_unlink",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_unlink_many = Interop.downcallHandle(
-            "gst_element_unlink_many",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_element_unlink_many",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_element_unlink_pads = Interop.downcallHandle(
-            "gst_element_unlink_pads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_unlink_pads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_get_type = Interop.downcallHandle(
-            "gst_element_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_element_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_make_from_uri = Interop.downcallHandle(
-            "gst_element_make_from_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_make_from_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_register = Interop.downcallHandle(
-            "gst_element_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_state_change_return_get_name = Interop.downcallHandle(
-            "gst_element_state_change_return_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_state_change_return_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_state_get_name = Interop.downcallHandle(
-            "gst_element_state_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_element_state_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_element_type_set_skip_documentation = Interop.downcallHandle(
-            "gst_element_type_set_skip_documentation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG),
-            false
+                "gst_element_type_set_skip_documentation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_element_get_type != null;
     }
 }

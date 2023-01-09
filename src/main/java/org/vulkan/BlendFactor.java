@@ -29,8 +29,8 @@ public class BlendFactor extends Struct {
      * @return A new, uninitialized @{link BlendFactor}
      */
     public static BlendFactor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BlendFactor newInstance = new BlendFactor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BlendFactor newInstance = new BlendFactor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BlendFactor extends Struct {
     /**
      * Create a BlendFactor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BlendFactor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BlendFactor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BlendFactor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BlendFactor(input, ownership);
+    public static final Marshal<Addressable, BlendFactor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BlendFactor(input);
 }

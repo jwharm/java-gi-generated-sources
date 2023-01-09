@@ -39,8 +39,8 @@ public class NetworkMonitorInterface extends Struct {
      * @return A new, uninitialized @{link NetworkMonitorInterface}
      */
     public static NetworkMonitorInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NetworkMonitorInterface newInstance = new NetworkMonitorInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NetworkMonitorInterface newInstance = new NetworkMonitorInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class NetworkMonitorInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,24 +59,41 @@ public class NetworkMonitorInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NetworkChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface NetworkChangedCallback {
+    
         void run(org.gtk.gio.NetworkMonitor monitor, boolean networkAvailable);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress monitor, int networkAvailable) {
-            run((org.gtk.gio.NetworkMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, Ownership.NONE), Marshal.integerToBoolean.marshal(networkAvailable, null).booleanValue());
+            run((org.gtk.gio.NetworkMonitor) Interop.register(monitor, org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, null), Marshal.integerToBoolean.marshal(networkAvailable, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NetworkChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NetworkChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,25 +102,42 @@ public class NetworkMonitorInterface extends Struct {
      * @param networkChanged The new value of the field {@code network_changed}
      */
     public void setNetworkChanged(NetworkChangedCallback networkChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("network_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkChanged == null ? MemoryAddress.NULL : networkChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("network_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (networkChanged == null ? MemoryAddress.NULL : networkChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanReachCallback} callback.
+     */
     @FunctionalInterface
     public interface CanReachCallback {
+    
         boolean run(org.gtk.gio.NetworkMonitor monitor, org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress monitor, MemoryAddress connectable, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.NetworkMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, Ownership.NONE), (org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connectable)), org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.NetworkMonitor) Interop.register(monitor, org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, null), (org.gtk.gio.SocketConnectable) Interop.register(connectable, org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanReachCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanReachCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,24 +146,41 @@ public class NetworkMonitorInterface extends Struct {
      * @param canReach The new value of the field {@code can_reach}
      */
     public void setCanReach(CanReachCallback canReach) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_reach"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReach == null ? MemoryAddress.NULL : canReach.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_reach"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReach == null ? MemoryAddress.NULL : canReach.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanReachAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface CanReachAsyncCallback {
+    
         void run(org.gtk.gio.NetworkMonitor monitor, org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress monitor, MemoryAddress connectable, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.NetworkMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, Ownership.NONE), (org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connectable)), org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.NetworkMonitor) Interop.register(monitor, org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, null), (org.gtk.gio.SocketConnectable) Interop.register(connectable, org.gtk.gio.SocketConnectable.fromAddress).marshal(connectable, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanReachAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanReachAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -138,25 +189,42 @@ public class NetworkMonitorInterface extends Struct {
      * @param canReachAsync The new value of the field {@code can_reach_async}
      */
     public void setCanReachAsync(CanReachAsyncCallback canReachAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_reach_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachAsync == null ? MemoryAddress.NULL : canReachAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_reach_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReachAsync == null ? MemoryAddress.NULL : canReachAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CanReachFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface CanReachFinishCallback {
+    
         boolean run(org.gtk.gio.NetworkMonitor monitor, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress monitor, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.NetworkMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.NetworkMonitor) Interop.register(monitor, org.gtk.gio.NetworkMonitor.fromAddress).marshal(monitor, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CanReachFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CanReachFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -165,22 +233,26 @@ public class NetworkMonitorInterface extends Struct {
      * @param canReachFinish The new value of the field {@code can_reach_finish}
      */
     public void setCanReachFinish(CanReachFinishCallback canReachFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("can_reach_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachFinish == null ? MemoryAddress.NULL : canReachFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("can_reach_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReachFinish == null ? MemoryAddress.NULL : canReachFinish.toCallback()));
+        }
     }
     
     /**
      * Create a NetworkMonitorInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetworkMonitorInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NetworkMonitorInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetworkMonitorInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkMonitorInterface(input, ownership);
+    public static final Marshal<Addressable, NetworkMonitorInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetworkMonitorInterface(input);
     
     /**
      * A {@link NetworkMonitorInterface.Builder} object constructs a {@link NetworkMonitorInterface} 
@@ -204,7 +276,7 @@ public class NetworkMonitorInterface extends Struct {
             struct = NetworkMonitorInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link NetworkMonitorInterface} struct.
          * @return A new instance of {@code NetworkMonitorInterface} with the fields 
          *         that were set in the Builder object.
@@ -219,38 +291,48 @@ public class NetworkMonitorInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setNetworkChanged(NetworkChangedCallback networkChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("network_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkChanged == null ? MemoryAddress.NULL : networkChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("network_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (networkChanged == null ? MemoryAddress.NULL : networkChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCanReach(CanReachCallback canReach) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_reach"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReach == null ? MemoryAddress.NULL : canReach.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_reach"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReach == null ? MemoryAddress.NULL : canReach.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCanReachAsync(CanReachAsyncCallback canReachAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_reach_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachAsync == null ? MemoryAddress.NULL : canReachAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_reach_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReachAsync == null ? MemoryAddress.NULL : canReachAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCanReachFinish(CanReachFinishCallback canReachFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("can_reach_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (canReachFinish == null ? MemoryAddress.NULL : canReachFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("can_reach_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (canReachFinish == null ? MemoryAddress.NULL : canReachFinish.toCallback()));
+                return this;
+            }
         }
     }
 }

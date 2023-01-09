@@ -97,26 +97,17 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a InfoBar proxy instance for the provided memory address.
-     * <p>
-     * Because InfoBar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InfoBar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected InfoBar(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InfoBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InfoBar(input, ownership);
+    public static final Marshal<Addressable, InfoBar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InfoBar(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -132,21 +123,25 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Creates a new {@code GtkInfoBar} object.
      */
     public InfoBar() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithButtons(@Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_new_with_buttons.invokeExact(
-                    (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstButtonText, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_new_with_buttons.invokeExact(
+                        (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstButtonText, SCOPE)),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkInfoBar} with buttons.
      * <p>
@@ -163,7 +158,10 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static InfoBar newWithButtons(@Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
         var RESULT = constructNewWithButtons(firstButtonText, varargs);
-        return (org.gtk.gtk.InfoBar) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.InfoBar.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.InfoBar) Interop.register(RESULT, org.gtk.gtk.InfoBar.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -200,16 +198,18 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * that was added
      */
     public org.gtk.gtk.Button addButton(java.lang.String buttonText, int responseId) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_add_button.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(buttonText, null),
-                    responseId);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_add_button.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(buttonText, SCOPE),
+                        responseId);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.Button) Interop.register(RESULT, org.gtk.gtk.Button.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.Button) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Button.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -224,13 +224,15 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      *   ending with {@code null}
      */
     public void addButtons(java.lang.String firstButtonText, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gtk_info_bar_add_buttons.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstButtonText, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_info_bar_add_buttons.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstButtonText, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -255,8 +257,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.gtk.MessageType getMessageType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_message_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_message_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,8 +271,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getRevealed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_revealed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,8 +285,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getShowCloseButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_info_bar_get_show_close_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_info_bar_get_show_close_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,19 +444,41 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Close} callback.
+     */
     @FunctionalInterface
     public interface Close {
+    
+        /**
+         * Gets emitted when the user uses a keybinding to dismiss the info bar.
+         * <p>
+         * The ::close signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default binding for this signal is the Escape key.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceInfoBar) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Close.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Close.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -471,28 +492,51 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<InfoBar.Close> onClose(InfoBar.Close handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("close", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Response} callback.
+     */
     @FunctionalInterface
     public interface Response {
+    
+        /**
+         * Emitted when an action widget is clicked.
+         * <p>
+         * The signal is also emitted when the application programmer
+         * calls {@link InfoBar#response}. The {@code response_id} depends
+         * on which action widget was clicked.
+         */
         void run(int responseId);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceInfoBar, int responseId) {
             run(responseId);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Response.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Response.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -506,9 +550,10 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<InfoBar.Response> onResponse(InfoBar.Response handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("response"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("response", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -531,6 +576,9 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -590,111 +638,119 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_info_bar_new = Interop.downcallHandle(
-            "gtk_info_bar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_new_with_buttons = Interop.downcallHandle(
-            "gtk_info_bar_new_with_buttons",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_info_bar_new_with_buttons",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_info_bar_add_action_widget = Interop.downcallHandle(
-            "gtk_info_bar_add_action_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_add_action_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_add_button = Interop.downcallHandle(
-            "gtk_info_bar_add_button",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_add_button",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_add_buttons = Interop.downcallHandle(
-            "gtk_info_bar_add_buttons",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_info_bar_add_buttons",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_info_bar_add_child = Interop.downcallHandle(
-            "gtk_info_bar_add_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_add_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_get_message_type = Interop.downcallHandle(
-            "gtk_info_bar_get_message_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_get_message_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_get_revealed = Interop.downcallHandle(
-            "gtk_info_bar_get_revealed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_get_revealed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_get_show_close_button = Interop.downcallHandle(
-            "gtk_info_bar_get_show_close_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_get_show_close_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_remove_action_widget = Interop.downcallHandle(
-            "gtk_info_bar_remove_action_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_remove_action_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_remove_child = Interop.downcallHandle(
-            "gtk_info_bar_remove_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_info_bar_remove_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_response = Interop.downcallHandle(
-            "gtk_info_bar_response",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_response",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_set_default_response = Interop.downcallHandle(
-            "gtk_info_bar_set_default_response",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_set_default_response",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_set_message_type = Interop.downcallHandle(
-            "gtk_info_bar_set_message_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_set_message_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_set_response_sensitive = Interop.downcallHandle(
-            "gtk_info_bar_set_response_sensitive",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_set_response_sensitive",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_set_revealed = Interop.downcallHandle(
-            "gtk_info_bar_set_revealed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_set_revealed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_set_show_close_button = Interop.downcallHandle(
-            "gtk_info_bar_set_show_close_button",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_info_bar_set_show_close_button",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_info_bar_get_type = Interop.downcallHandle(
-            "gtk_info_bar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_info_bar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_info_bar_get_type != null;
     }
 }

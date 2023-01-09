@@ -35,8 +35,8 @@ public class AtscRRTDimension extends Struct {
      * @return A new, uninitialized @{link AtscRRTDimension}
      */
     public static AtscRRTDimension allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscRRTDimension newInstance = new AtscRRTDimension(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscRRTDimension newInstance = new AtscRRTDimension(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class AtscRRTDimension extends Struct {
      * @return The value of the field {@code names}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscMultString> getNames() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("names"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("names"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class AtscRRTDimension extends Struct {
      * @param names The new value of the field {@code names}
      */
     public void setNames(org.gstreamer.mpegts.AtscMultString[] names) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("names"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("names"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class AtscRRTDimension extends Struct {
      * @return The value of the field {@code graduated_scale}
      */
     public boolean getGraduatedScale() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -78,9 +84,11 @@ public class AtscRRTDimension extends Struct {
      * @param graduatedScale The new value of the field {@code graduated_scale}
      */
     public void setGraduatedScale(boolean graduatedScale) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(graduatedScale, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(graduatedScale, null).intValue());
+        }
     }
     
     /**
@@ -88,10 +96,12 @@ public class AtscRRTDimension extends Struct {
      * @return The value of the field {@code values_defined}
      */
     public byte getValuesDefined() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -99,9 +109,11 @@ public class AtscRRTDimension extends Struct {
      * @param valuesDefined The new value of the field {@code values_defined}
      */
     public void setValuesDefined(byte valuesDefined) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), valuesDefined);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), valuesDefined);
+        }
     }
     
     /**
@@ -109,10 +121,12 @@ public class AtscRRTDimension extends Struct {
      * @return The value of the field {@code values}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscRRTDimensionValue> getValues() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscRRTDimensionValue>(RESULT, org.gstreamer.mpegts.AtscRRTDimensionValue.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscRRTDimensionValue>(RESULT, org.gstreamer.mpegts.AtscRRTDimensionValue.fromAddress);
+        }
     }
     
     /**
@@ -120,22 +134,26 @@ public class AtscRRTDimension extends Struct {
      * @param values The new value of the field {@code values}
      */
     public void setValues(org.gstreamer.mpegts.AtscRRTDimensionValue[] values) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gstreamer.mpegts.AtscRRTDimensionValue.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gstreamer.mpegts.AtscRRTDimensionValue.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscRRTDimension proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscRRTDimension(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscRRTDimension(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscRRTDimension> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscRRTDimension(input, ownership);
+    public static final Marshal<Addressable, AtscRRTDimension> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscRRTDimension(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -148,15 +166,16 @@ public class AtscRRTDimension extends Struct {
     }
     
     public AtscRRTDimension() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_atsc_rrt_dimension_new = Interop.downcallHandle(
-            "gst_mpegts_atsc_rrt_dimension_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_atsc_rrt_dimension_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -182,7 +201,7 @@ public class AtscRRTDimension extends Struct {
             struct = AtscRRTDimension.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscRRTDimension} struct.
          * @return A new instance of {@code AtscRRTDimension} with the fields 
          *         that were set in the Builder object.
@@ -197,10 +216,12 @@ public class AtscRRTDimension extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNames(org.gstreamer.mpegts.AtscMultString[] names) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("names"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("names"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -209,10 +230,12 @@ public class AtscRRTDimension extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGraduatedScale(boolean graduatedScale) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(graduatedScale, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("graduated_scale"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(graduatedScale, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -221,10 +244,12 @@ public class AtscRRTDimension extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValuesDefined(byte valuesDefined) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), valuesDefined);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("values_defined"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), valuesDefined);
+                return this;
+            }
         }
         
         /**
@@ -233,10 +258,12 @@ public class AtscRRTDimension extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValues(org.gstreamer.mpegts.AtscRRTDimensionValue[] values) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gstreamer.mpegts.AtscRRTDimensionValue.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gstreamer.mpegts.AtscRRTDimensionValue.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

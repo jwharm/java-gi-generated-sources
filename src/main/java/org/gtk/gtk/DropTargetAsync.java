@@ -61,14 +61,16 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     /**
      * Create a DropTargetAsync proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DropTargetAsync(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DropTargetAsync(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DropTargetAsync> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DropTargetAsync(input, ownership);
+    public static final Marshal<Addressable, DropTargetAsync> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DropTargetAsync(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
         MemoryAddress RESULT;
@@ -89,7 +91,8 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @param actions the supported actions
      */
     public DropTargetAsync(@Nullable org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
-        super(constructNew(formats, actions), Ownership.FULL);
+        super(constructNew(formats, actions));
+        this.takeOwnership();
     }
     
     /**
@@ -99,8 +102,7 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_drop_target_async_get_actions.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_async_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,12 +118,13 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_async_get_formats.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_async_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -184,20 +187,52 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Accept} callback.
+     */
     @FunctionalInterface
     public interface Accept {
+    
+        /**
+         * Emitted on the drop site when a drop operation is about to begin.
+         * <p>
+         * If the drop is not accepted, {@code false} will be returned and the drop target
+         * will ignore the drop. If {@code true} is returned, the drop is accepted for now
+         * but may be rejected later via a call to {@link DropTargetAsync#rejectDrop}
+         * or ultimately by returning {@code false} from a {@code Gtk.DropTargetAsync::drop}
+         * handler.
+         * <p>
+         * The default handler for this signal decides whether to accept the drop
+         * based on the formats provided by the {@code drop}.
+         * <p>
+         * If the decision whether the drop will be accepted or rejected needs
+         * further processing, such as inspecting the data, this function should
+         * return {@code true} and proceed as is {@code drop} was accepted and if it decides to
+         * reject the drop later, it should call {@link DropTargetAsync#rejectDrop}.
+         */
         boolean run(org.gtk.gdk.Drop drop);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDropTargetAsync, MemoryAddress drop) {
-            var RESULT = run((org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drop)), org.gtk.gdk.Drop.fromAddress).marshal(drop, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Drop) Interop.register(drop, org.gtk.gdk.Drop.fromAddress).marshal(drop, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Accept.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Accept.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -221,29 +256,50 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.Accept> onAccept(DropTargetAsync.Accept handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("accept"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("accept", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DragEnter} callback.
+     */
     @FunctionalInterface
     public interface DragEnter {
+    
+        /**
+         * Emitted on the drop site when the pointer enters the widget.
+         * <p>
+         * It can be used to set up custom highlighting.
+         */
         org.gtk.gdk.DragAction run(org.gtk.gdk.Drop drop, double x, double y);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y) {
-            var RESULT = run((org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drop)), org.gtk.gdk.Drop.fromAddress).marshal(drop, Ownership.NONE), x, y);
+            var RESULT = run((org.gtk.gdk.Drop) Interop.register(drop, org.gtk.gdk.Drop.fromAddress).marshal(drop, null), x, y);
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragEnter.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DragEnter.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -255,28 +311,50 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragEnter> onDragEnter(DropTargetAsync.DragEnter handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drag-enter"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drag-enter", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DragLeave} callback.
+     */
     @FunctionalInterface
     public interface DragLeave {
+    
+        /**
+         * Emitted on the drop site when the pointer leaves the widget.
+         * <p>
+         * Its main purpose it to undo things done in
+         * {@code GtkDropTargetAsync}::drag-enter.
+         */
         void run(org.gtk.gdk.Drop drop);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceDropTargetAsync, MemoryAddress drop) {
-            run((org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drop)), org.gtk.gdk.Drop.fromAddress).marshal(drop, Ownership.NONE));
+            run((org.gtk.gdk.Drop) Interop.register(drop, org.gtk.gdk.Drop.fromAddress).marshal(drop, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragLeave.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DragLeave.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -289,29 +367,48 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragLeave> onDragLeave(DropTargetAsync.DragLeave handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drag-leave"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drag-leave", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code DragMotion} callback.
+     */
     @FunctionalInterface
     public interface DragMotion {
+    
+        /**
+         * Emitted while the pointer is moving over the drop target.
+         */
         org.gtk.gdk.DragAction run(org.gtk.gdk.Drop drop, double x, double y);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y) {
-            var RESULT = run((org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drop)), org.gtk.gdk.Drop.fromAddress).marshal(drop, Ownership.NONE), x, y);
+            var RESULT = run((org.gtk.gdk.Drop) Interop.register(drop, org.gtk.gdk.Drop.fromAddress).marshal(drop, null), x, y);
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragMotion.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DragMotion.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -321,29 +418,61 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.DragMotion> onDragMotion(DropTargetAsync.DragMotion handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drag-motion"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drag-motion", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Drop} callback.
+     */
     @FunctionalInterface
     public interface Drop {
+    
+        /**
+         * Emitted on the drop site when the user drops the data onto the widget.
+         * <p>
+         * The signal handler must determine whether the pointer position is in a
+         * drop zone or not. If it is not in a drop zone, it returns {@code false} and no
+         * further processing is necessary.
+         * <p>
+         * Otherwise, the handler returns {@code true}. In this case, this handler will
+         * accept the drop. The handler must ensure that {@link org.gtk.gdk.Drop#finish}
+         * is called to let the source know that the drop is done. The call to
+         * {@link org.gtk.gdk.Drop#finish} must only be done when all data has been received.
+         * <p>
+         * To receive the data, use one of the read functions provided by
+         * {@link org.gtk.gdk.Drop} or
+         * {@link org.gtk.gdk.Drop#readValueAsync}.
+         */
         boolean run(org.gtk.gdk.Drop drop, double x, double y);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDropTargetAsync, MemoryAddress drop, double x, double y) {
-            var RESULT = run((org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drop)), org.gtk.gdk.Drop.fromAddress).marshal(drop, Ownership.NONE), x, y);
+            var RESULT = run((org.gtk.gdk.Drop) Interop.register(drop, org.gtk.gdk.Drop.fromAddress).marshal(drop, null), x, y);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Drop.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Drop.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -366,9 +495,10 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DropTargetAsync.Drop> onDrop(DropTargetAsync.Drop handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("drop"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("drop", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -391,6 +521,9 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
      */
     public static class Builder extends org.gtk.gtk.EventController.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -437,45 +570,53 @@ public class DropTargetAsync extends org.gtk.gtk.EventController {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_drop_target_async_new = Interop.downcallHandle(
-            "gtk_drop_target_async_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_drop_target_async_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_get_actions = Interop.downcallHandle(
-            "gtk_drop_target_async_get_actions",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drop_target_async_get_actions",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_get_formats = Interop.downcallHandle(
-            "gtk_drop_target_async_get_formats",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drop_target_async_get_formats",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_reject_drop = Interop.downcallHandle(
-            "gtk_drop_target_async_reject_drop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drop_target_async_reject_drop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_set_actions = Interop.downcallHandle(
-            "gtk_drop_target_async_set_actions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_drop_target_async_set_actions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_set_formats = Interop.downcallHandle(
-            "gtk_drop_target_async_set_formats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_drop_target_async_set_formats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_drop_target_async_get_type = Interop.downcallHandle(
-            "gtk_drop_target_async_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_drop_target_async_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_drop_target_async_get_type != null;
     }
 }

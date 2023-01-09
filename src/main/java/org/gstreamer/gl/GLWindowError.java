@@ -6,14 +6,17 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public enum GLWindowError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * failed for a unspecified reason
      */
     FAILED(0),
+    
     /**
      * the implementation is too old
      */
     OLD_LIBS(1),
+    
     /**
      * no such resource was found
      */
@@ -22,15 +25,29 @@ public enum GLWindowError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstGLWindowError";
     
     private final int value;
+    
+    /**
+     * Create a new GLWindowError for the provided value
+     * @param numeric value the enum value
+     */
     GLWindowError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new GLWindowError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static GLWindowError of(int value) {
         return switch (value) {
             case 0 -> FAILED;
@@ -53,9 +70,9 @@ public enum GLWindowError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_window_error_quark = Interop.downcallHandle(
-            "gst_gl_window_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_gl_window_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

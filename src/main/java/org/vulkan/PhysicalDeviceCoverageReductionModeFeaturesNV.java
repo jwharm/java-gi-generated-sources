@@ -29,8 +29,8 @@ public class PhysicalDeviceCoverageReductionModeFeaturesNV extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceCoverageReductionModeFeaturesNV}
      */
     public static PhysicalDeviceCoverageReductionModeFeaturesNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceCoverageReductionModeFeaturesNV newInstance = new PhysicalDeviceCoverageReductionModeFeaturesNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceCoverageReductionModeFeaturesNV newInstance = new PhysicalDeviceCoverageReductionModeFeaturesNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceCoverageReductionModeFeaturesNV extends Struct {
     /**
      * Create a PhysicalDeviceCoverageReductionModeFeaturesNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceCoverageReductionModeFeaturesNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceCoverageReductionModeFeaturesNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceCoverageReductionModeFeaturesNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceCoverageReductionModeFeaturesNV(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceCoverageReductionModeFeaturesNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceCoverageReductionModeFeaturesNV(input);
 }

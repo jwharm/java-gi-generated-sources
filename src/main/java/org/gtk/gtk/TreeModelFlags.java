@@ -29,6 +29,9 @@ public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TreeModelFlags LIST_ONLY = new TreeModelFlags(2);
     
+    /**
+     * Create a new TreeModelFlags with the provided value
+     */
     public TreeModelFlags(int value) {
         super(value);
     }

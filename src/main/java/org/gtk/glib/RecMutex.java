@@ -47,8 +47,8 @@ public class RecMutex extends Struct {
      * @return A new, uninitialized @{link RecMutex}
      */
     public static RecMutex allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RecMutex newInstance = new RecMutex(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RecMutex newInstance = new RecMutex(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,14 +56,16 @@ public class RecMutex extends Struct {
     /**
      * Create a RecMutex proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RecMutex(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RecMutex(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RecMutex> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecMutex(input, ownership);
+    public static final Marshal<Addressable, RecMutex> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RecMutex(input);
     
     /**
      * Frees the resources allocated to a recursive mutex with
@@ -77,8 +79,7 @@ public class RecMutex extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_rec_mutex_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_rec_mutex_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +114,7 @@ public class RecMutex extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.g_rec_mutex_init.invokeExact(
-                    handle());
+            DowncallHandles.g_rec_mutex_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,8 +130,7 @@ public class RecMutex extends Struct {
      */
     public void lock() {
         try {
-            DowncallHandles.g_rec_mutex_lock.invokeExact(
-                    handle());
+            DowncallHandles.g_rec_mutex_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,8 +145,7 @@ public class RecMutex extends Struct {
     public boolean trylock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rec_mutex_trylock.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_rec_mutex_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,8 +162,7 @@ public class RecMutex extends Struct {
      */
     public void unlock() {
         try {
-            DowncallHandles.g_rec_mutex_unlock.invokeExact(
-                    handle());
+            DowncallHandles.g_rec_mutex_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,33 +171,33 @@ public class RecMutex extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
-            "g_rec_mutex_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rec_mutex_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
-            "g_rec_mutex_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rec_mutex_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
-            "g_rec_mutex_lock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rec_mutex_lock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
-            "g_rec_mutex_trylock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_rec_mutex_trylock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
-            "g_rec_mutex_unlock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rec_mutex_unlock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -226,7 +223,7 @@ public class RecMutex extends Struct {
             struct = RecMutex.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RecMutex} struct.
          * @return A new instance of {@code RecMutex} with the fields 
          *         that were set in the Builder object.
@@ -236,17 +233,21 @@ public class RecMutex extends Struct {
         }
         
         public Builder setP(java.lang.foreign.MemoryAddress p) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("p"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("p"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
+                return this;
+            }
         }
         
         public Builder setI(int[] i) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("i"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("i"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

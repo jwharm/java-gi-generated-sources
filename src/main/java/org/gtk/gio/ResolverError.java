@@ -11,16 +11,19 @@ import org.jetbrains.annotations.*;
  * @version 2.22
  */
 public enum ResolverError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the requested name/address/service was not
      *     found
      */
     NOT_FOUND(0),
+    
     /**
      * the requested information could not
      *     be looked up due to a network error or similar problem
      */
     TEMPORARY_FAILURE(1),
+    
     /**
      * unknown error
      */
@@ -29,15 +32,29 @@ public enum ResolverError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GResolverError";
     
     private final int value;
+    
+    /**
+     * Create a new ResolverError for the provided value
+     * @param numeric value the enum value
+     */
     ResolverError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ResolverError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ResolverError of(int value) {
         return switch (value) {
             case 0 -> NOT_FOUND;
@@ -64,9 +81,9 @@ public enum ResolverError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle g_resolver_error_quark = Interop.downcallHandle(
-            "g_resolver_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_resolver_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

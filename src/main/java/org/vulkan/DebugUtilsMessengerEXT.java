@@ -29,8 +29,8 @@ public class DebugUtilsMessengerEXT extends Struct {
      * @return A new, uninitialized @{link DebugUtilsMessengerEXT}
      */
     public static DebugUtilsMessengerEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugUtilsMessengerEXT newInstance = new DebugUtilsMessengerEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugUtilsMessengerEXT newInstance = new DebugUtilsMessengerEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DebugUtilsMessengerEXT extends Struct {
     /**
      * Create a DebugUtilsMessengerEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugUtilsMessengerEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugUtilsMessengerEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugUtilsMessengerEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsMessengerEXT(input, ownership);
+    public static final Marshal<Addressable, DebugUtilsMessengerEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsMessengerEXT(input);
 }

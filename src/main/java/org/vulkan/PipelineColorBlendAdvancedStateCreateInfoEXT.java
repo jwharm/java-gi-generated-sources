@@ -29,8 +29,8 @@ public class PipelineColorBlendAdvancedStateCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link PipelineColorBlendAdvancedStateCreateInfoEXT}
      */
     public static PipelineColorBlendAdvancedStateCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineColorBlendAdvancedStateCreateInfoEXT newInstance = new PipelineColorBlendAdvancedStateCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineColorBlendAdvancedStateCreateInfoEXT newInstance = new PipelineColorBlendAdvancedStateCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineColorBlendAdvancedStateCreateInfoEXT extends Struct {
     /**
      * Create a PipelineColorBlendAdvancedStateCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineColorBlendAdvancedStateCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineColorBlendAdvancedStateCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineColorBlendAdvancedStateCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineColorBlendAdvancedStateCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, PipelineColorBlendAdvancedStateCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineColorBlendAdvancedStateCreateInfoEXT(input);
 }

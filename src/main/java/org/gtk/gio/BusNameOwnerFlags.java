@@ -35,6 +35,9 @@ public class BusNameOwnerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BusNameOwnerFlags DO_NOT_QUEUE = new BusNameOwnerFlags(4);
     
+    /**
+     * Create a new BusNameOwnerFlags with the provided value
+     */
     public BusNameOwnerFlags(int value) {
         super(value);
     }

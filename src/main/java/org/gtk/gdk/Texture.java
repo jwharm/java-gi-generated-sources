@@ -41,26 +41,27 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     /**
      * Create a Texture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Texture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Texture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Texture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Texture(input, ownership);
+    public static final Marshal<Addressable, Texture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Texture(input);
     
     private static MemoryAddress constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(
-                    pixbuf.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(pixbuf.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new texture object representing the {@code GdkPixbuf}.
      * <p>
@@ -72,25 +73,27 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static Texture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         var RESULT = constructNewForPixbuf(pixbuf);
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(
-                    bytes.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(bytes.handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new texture by loading an image from memory,
      * <p>
@@ -108,25 +111,27 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static Texture newFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         var RESULT = constructNewFromBytes(bytes);
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(
-                    file.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(file.handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new texture by loading an image from a file.
      * <p>
@@ -144,25 +149,27 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static Texture newFromFile(org.gtk.gio.File file) throws GErrorException {
         var RESULT = constructNewFromFile(file);
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromFilename(java.lang.String path) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(
-                    Marshal.stringToAddress.marshal(path, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(Marshal.stringToAddress.marshal(path, SCOPE),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new texture by loading an image from a file.
      * <p>
@@ -180,20 +187,23 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static Texture newFromFilename(java.lang.String path) throws GErrorException {
         var RESULT = constructNewFromFilename(path);
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromResource(java.lang.String resourcePath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(
-                    Marshal.stringToAddress.marshal(resourcePath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(Marshal.stringToAddress.marshal(resourcePath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new texture by loading an image from a resource.
      * <p>
@@ -213,7 +223,9 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
         var RESULT = constructNewFromResource(resourcePath);
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -241,13 +253,15 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      * @param stride rowstride in bytes
      */
     public void download(byte[] data, long stride) {
-        try {
-            DowncallHandles.gdk_texture_download.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    stride);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gdk_texture_download.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        stride);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -258,8 +272,7 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,8 +286,7 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_texture_get_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,15 +305,17 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      * @return {@code true} if saving succeeded, {@code false} on failure.
      */
     public boolean saveToPng(java.lang.String filename) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -324,12 +338,13 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     public org.gtk.glib.Bytes saveToPngBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -340,15 +355,17 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      * @return {@code true} if saving succeeded, {@code false} on failure.
      */
     public boolean saveToTiff(java.lang.String filename) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -369,12 +386,13 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     public org.gtk.glib.Bytes saveToTiffBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -407,6 +425,9 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -453,81 +474,89 @@ public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Pain
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_texture_new_for_pixbuf = Interop.downcallHandle(
-            "gdk_texture_new_for_pixbuf",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_new_for_pixbuf",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
-            "gdk_texture_new_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_new_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
-            "gdk_texture_new_from_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_new_from_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
-            "gdk_texture_new_from_filename",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_new_from_filename",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_new_from_resource = Interop.downcallHandle(
-            "gdk_texture_new_from_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_new_from_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_download = Interop.downcallHandle(
-            "gdk_texture_download",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gdk_texture_download",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gdk_texture_get_height = Interop.downcallHandle(
-            "gdk_texture_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_get_width = Interop.downcallHandle(
-            "gdk_texture_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_save_to_png = Interop.downcallHandle(
-            "gdk_texture_save_to_png",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_save_to_png",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_save_to_png_bytes = Interop.downcallHandle(
-            "gdk_texture_save_to_png_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_save_to_png_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_save_to_tiff = Interop.downcallHandle(
-            "gdk_texture_save_to_tiff",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_save_to_tiff",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_save_to_tiff_bytes = Interop.downcallHandle(
-            "gdk_texture_save_to_tiff_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_texture_save_to_tiff_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_texture_get_type = Interop.downcallHandle(
-            "gdk_texture_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_texture_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_texture_get_type != null;
     }
 }

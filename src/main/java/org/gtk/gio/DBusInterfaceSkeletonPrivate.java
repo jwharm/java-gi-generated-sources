@@ -29,8 +29,8 @@ public class DBusInterfaceSkeletonPrivate extends Struct {
      * @return A new, uninitialized @{link DBusInterfaceSkeletonPrivate}
      */
     public static DBusInterfaceSkeletonPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusInterfaceSkeletonPrivate newInstance = new DBusInterfaceSkeletonPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusInterfaceSkeletonPrivate newInstance = new DBusInterfaceSkeletonPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DBusInterfaceSkeletonPrivate extends Struct {
     /**
      * Create a DBusInterfaceSkeletonPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusInterfaceSkeletonPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusInterfaceSkeletonPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusInterfaceSkeletonPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceSkeletonPrivate(input, ownership);
+    public static final Marshal<Addressable, DBusInterfaceSkeletonPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceSkeletonPrivate(input);
 }

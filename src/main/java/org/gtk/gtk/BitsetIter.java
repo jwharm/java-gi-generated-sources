@@ -39,8 +39,8 @@ public class BitsetIter extends Struct {
      * @return A new, uninitialized @{link BitsetIter}
      */
     public static BitsetIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BitsetIter newInstance = new BitsetIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BitsetIter newInstance = new BitsetIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class BitsetIter extends Struct {
     /**
      * Create a BitsetIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BitsetIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BitsetIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BitsetIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BitsetIter(input, ownership);
+    public static final Marshal<Addressable, BitsetIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BitsetIter(input);
     
     /**
      * Gets the current value that {@code iter} points to.
@@ -67,8 +69,7 @@ public class BitsetIter extends Struct {
     public int getValue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_get_value.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,8 +83,7 @@ public class BitsetIter extends Struct {
     public boolean isValid() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_is_valid.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bitset_iter_is_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,17 +99,19 @@ public class BitsetIter extends Struct {
      * @return {@code true} if a next value existed
      */
     public boolean next(Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_next.invokeExact(
-                    handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_bitset_iter_next.invokeExact(
+                        handle(),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -121,17 +123,19 @@ public class BitsetIter extends Struct {
      * @return {@code true} if a previous value existed
      */
     public boolean previous(Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_previous.invokeExact(
-                    handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_bitset_iter_previous.invokeExact(
+                        handle(),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -146,19 +150,21 @@ public class BitsetIter extends Struct {
      * @return {@code true} if a value was found.
      */
     public static boolean initAt(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, int target, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_at.invokeExact(
-                    iter.handle(),
-                    set.handle(),
-                    target,
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_bitset_iter_init_at.invokeExact(
+                        iter.handle(),
+                        set.handle(),
+                        target,
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,18 +178,20 @@ public class BitsetIter extends Struct {
      * @return {@code true} if {@code set} isn't empty.
      */
     public static boolean initFirst(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact(
-                    iter.handle(),
-                    set.handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact(
+                        iter.handle(),
+                        set.handle(),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -197,62 +205,64 @@ public class BitsetIter extends Struct {
      * @return {@code true} if {@code set} isn't empty.
      */
     public static boolean initLast(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact(
-                    iter.handle(),
-                    set.handle(),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact(
+                        iter.handle(),
+                        set.handle(),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_bitset_iter_get_value = Interop.downcallHandle(
-            "gtk_bitset_iter_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_is_valid = Interop.downcallHandle(
-            "gtk_bitset_iter_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_next = Interop.downcallHandle(
-            "gtk_bitset_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_previous = Interop.downcallHandle(
-            "gtk_bitset_iter_previous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_previous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_at = Interop.downcallHandle(
-            "gtk_bitset_iter_init_at",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_init_at",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_first = Interop.downcallHandle(
-            "gtk_bitset_iter_init_first",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_init_first",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bitset_iter_init_last = Interop.downcallHandle(
-            "gtk_bitset_iter_init_last",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bitset_iter_init_last",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -278,7 +288,7 @@ public class BitsetIter extends Struct {
             struct = BitsetIter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BitsetIter} struct.
          * @return A new instance of {@code BitsetIter} with the fields 
          *         that were set in the Builder object.
@@ -288,10 +298,12 @@ public class BitsetIter extends Struct {
         }
         
         public Builder setPrivateData(java.lang.foreign.MemoryAddress[] privateData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("private_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privateData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privateData, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("private_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (privateData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privateData, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

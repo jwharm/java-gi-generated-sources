@@ -71,6 +71,9 @@ public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferDiffFlagsT POSITION_MISMATCH = new BufferDiffFlagsT(128);
     
+    /**
+     * Create a new BufferDiffFlagsT with the provided value
+     */
     public BufferDiffFlagsT(int value) {
         super(value);
     }

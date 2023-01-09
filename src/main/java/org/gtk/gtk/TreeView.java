@@ -113,26 +113,17 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     /**
      * Create a TreeView proxy instance for the provided memory address.
-     * <p>
-     * Because TreeView is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeView(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TreeView(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeView(input, ownership);
+    public static final Marshal<Addressable, TreeView> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeView(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -148,20 +139,21 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Creates a new {@code GtkTreeView} widget.
      */
     public TreeView() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithModel(org.gtk.gtk.TreeModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_new_with_model.invokeExact(
-                    model.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_new_with_model.invokeExact(model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkTreeView} widget with the model initialized to {@code model}.
      * @param model the model.
@@ -169,7 +161,10 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static TreeView newWithModel(org.gtk.gtk.TreeModel model) {
         var RESULT = constructNewWithModel(model);
-        return (org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeView.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.TreeView) Interop.register(RESULT, org.gtk.gtk.TreeView.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -196,8 +191,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void collapseAll() {
         try {
-            DowncallHandles.gtk_tree_view_collapse_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_view_collapse_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,8 +220,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void columnsAutosize() {
         try {
-            DowncallHandles.gtk_tree_view_columns_autosize.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_view_columns_autosize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,20 +235,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param ty return location for tree Y coordinate
      */
     public void convertBinWindowToTreeCoords(int bx, int by, Out<Integer> tx, Out<Integer> ty) {
-        MemorySegment txPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment tyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_bin_window_to_tree_coords.invokeExact(
-                    handle(),
-                    bx,
-                    by,
-                    (Addressable) txPOINTER.address(),
-                    (Addressable) tyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment txPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment tyPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_bin_window_to_tree_coords.invokeExact(
+                        handle(),
+                        bx,
+                        by,
+                        (Addressable) txPOINTER.address(),
+                        (Addressable) tyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    tx.set(txPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    ty.set(tyPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        tx.set(txPOINTER.get(Interop.valueLayout.C_INT, 0));
-        ty.set(tyPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -266,20 +261,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param wy return location for widget Y coordinate
      */
     public void convertBinWindowToWidgetCoords(int bx, int by, Out<Integer> wx, Out<Integer> wy) {
-        MemorySegment wxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment wyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_bin_window_to_widget_coords.invokeExact(
-                    handle(),
-                    bx,
-                    by,
-                    (Addressable) wxPOINTER.address(),
-                    (Addressable) wyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment wxPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment wyPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_bin_window_to_widget_coords.invokeExact(
+                        handle(),
+                        bx,
+                        by,
+                        (Addressable) wxPOINTER.address(),
+                        (Addressable) wyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    wx.set(wxPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    wy.set(wyPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        wx.set(wxPOINTER.get(Interop.valueLayout.C_INT, 0));
-        wy.set(wyPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -291,20 +288,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param by return location for Y coordinate relative to bin_window
      */
     public void convertTreeToBinWindowCoords(int tx, int ty, Out<Integer> bx, Out<Integer> by) {
-        MemorySegment bxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment byPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_tree_to_bin_window_coords.invokeExact(
-                    handle(),
-                    tx,
-                    ty,
-                    (Addressable) bxPOINTER.address(),
-                    (Addressable) byPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bxPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment byPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_tree_to_bin_window_coords.invokeExact(
+                        handle(),
+                        tx,
+                        ty,
+                        (Addressable) bxPOINTER.address(),
+                        (Addressable) byPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    bx.set(bxPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    by.set(byPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        bx.set(bxPOINTER.get(Interop.valueLayout.C_INT, 0));
-        by.set(byPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -316,20 +315,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param wy return location for widget Y coordinate
      */
     public void convertTreeToWidgetCoords(int tx, int ty, Out<Integer> wx, Out<Integer> wy) {
-        MemorySegment wxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment wyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_tree_to_widget_coords.invokeExact(
-                    handle(),
-                    tx,
-                    ty,
-                    (Addressable) wxPOINTER.address(),
-                    (Addressable) wyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment wxPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment wyPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_tree_to_widget_coords.invokeExact(
+                        handle(),
+                        tx,
+                        ty,
+                        (Addressable) wxPOINTER.address(),
+                        (Addressable) wyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    wx.set(wxPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    wy.set(wyPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        wx.set(wxPOINTER.get(Interop.valueLayout.C_INT, 0));
-        wy.set(wyPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -340,20 +341,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param by return location for bin_window Y coordinate
      */
     public void convertWidgetToBinWindowCoords(int wx, int wy, Out<Integer> bx, Out<Integer> by) {
-        MemorySegment bxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment byPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_widget_to_bin_window_coords.invokeExact(
-                    handle(),
-                    wx,
-                    wy,
-                    (Addressable) bxPOINTER.address(),
-                    (Addressable) byPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bxPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment byPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_widget_to_bin_window_coords.invokeExact(
+                        handle(),
+                        wx,
+                        wy,
+                        (Addressable) bxPOINTER.address(),
+                        (Addressable) byPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    bx.set(bxPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    by.set(byPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        bx.set(bxPOINTER.get(Interop.valueLayout.C_INT, 0));
-        by.set(byPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -365,20 +368,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param ty return location for tree Y coordinate
      */
     public void convertWidgetToTreeCoords(int wx, int wy, Out<Integer> tx, Out<Integer> ty) {
-        MemorySegment txPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment tyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_convert_widget_to_tree_coords.invokeExact(
-                    handle(),
-                    wx,
-                    wy,
-                    (Addressable) txPOINTER.address(),
-                    (Addressable) tyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment txPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment tyPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_convert_widget_to_tree_coords.invokeExact(
+                        handle(),
+                        wx,
+                        wy,
+                        (Addressable) txPOINTER.address(),
+                        (Addressable) tyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    tx.set(txPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    ty.set(tyPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        tx.set(txPOINTER.get(Interop.valueLayout.C_INT, 0));
-        ty.set(tyPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -396,7 +401,9 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -442,8 +449,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void expandAll() {
         try {
-            DowncallHandles.gtk_tree_view_expand_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_view_expand_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -490,8 +496,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_activate_on_single_click.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_activate_on_single_click.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -565,7 +570,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeViewColumn) Interop.register(RESULT, org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -576,12 +581,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.glib.List getColumns() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_columns.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -597,18 +601,20 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   pointer to be filled with the current focus column
      */
     public void getCursor(@Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> focusColumn) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment focusColumnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gtk_tree_view_get_cursor.invokeExact(
-                    handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (focusColumn == null ? MemoryAddress.NULL : (Addressable) focusColumnPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment focusColumnPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gtk_tree_view_get_cursor.invokeExact(
+                        handle(),
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (focusColumn == null ? MemoryAddress.NULL : (Addressable) focusColumnPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (focusColumn != null) focusColumn.set((org.gtk.gtk.TreeViewColumn) Interop.register(focusColumnPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(focusColumnPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (focusColumn != null) focusColumn.set((org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(focusColumnPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(focusColumnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -626,22 +632,24 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * is indeed the case.
      */
     public boolean getDestRowAtPos(int dragX, int dragY, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewDropPosition> pos) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_dest_row_at_pos.invokeExact(
-                    handle(),
-                    dragX,
-                    dragY,
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment posPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_get_dest_row_at_pos.invokeExact(
+                        handle(),
+                        dragX,
+                        dragY,
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (pos != null) pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (pos != null) pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -650,18 +658,20 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param pos Return location for the drop position
      */
     public void getDragDestRow(@Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewDropPosition> pos) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_tree_view_get_drag_dest_row.invokeExact(
-                    handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment posPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_tree_view_get_drag_dest_row.invokeExact(
+                        handle(),
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (pos != null) pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (pos != null) pos.set(org.gtk.gtk.TreeViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -672,8 +682,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getEnableSearch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_enable_search.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_enable_search.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,8 +697,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getEnableTreeLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_enable_tree_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_enable_tree_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -705,12 +713,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeViewColumn getExpanderColumn() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_expander_column.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_expander_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeViewColumn) Interop.register(RESULT, org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -720,8 +727,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getFixedHeightMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_fixed_height_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_fixed_height_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -736,8 +742,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.TreeViewGridLines getGridLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_grid_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_grid_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -751,8 +756,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHeadersClickable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_headers_clickable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_headers_clickable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -766,8 +770,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHeadersVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_headers_visible.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_headers_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -781,8 +784,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHoverExpand() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_hover_expand.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_hover_expand.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -796,8 +798,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getHoverSelection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_hover_selection.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_hover_selection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -813,8 +814,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getLevelIndentation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_level_indentation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_level_indentation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -829,12 +829,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) Interop.register(RESULT, org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -844,8 +843,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getNColumns() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_n_columns.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_n_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -882,28 +880,30 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return {@code true} if a row exists at that coordinate.
      */
     public boolean getPathAtPos(int x, int y, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment columnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment cellXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment cellYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_path_at_pos.invokeExact(
-                    handle(),
-                    x,
-                    y,
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
-                    (Addressable) (cellX == null ? MemoryAddress.NULL : (Addressable) cellXPOINTER.address()),
-                    (Addressable) (cellY == null ? MemoryAddress.NULL : (Addressable) cellYPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment columnPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment cellXPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment cellYPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_get_path_at_pos.invokeExact(
+                        handle(),
+                        x,
+                        y,
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
+                        (Addressable) (cellX == null ? MemoryAddress.NULL : (Addressable) cellXPOINTER.address()),
+                        (Addressable) (cellY == null ? MemoryAddress.NULL : (Addressable) cellYPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (column != null) column.set((org.gtk.gtk.TreeViewColumn) Interop.register(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (cellX != null) cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (cellY != null) cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (column != null) column.set((org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (cellX != null) cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (cellY != null) cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -914,8 +914,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getReorderable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_reorderable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_reorderable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -929,8 +928,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.TreeViewRowSeparatorFunc getRowSeparatorFunc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_row_separator_func.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_row_separator_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -946,8 +944,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getRubberBanding() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_rubber_banding.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_rubber_banding.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -961,8 +958,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getSearchColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_search_column.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_search_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -978,12 +974,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public @Nullable org.gtk.gtk.Editable getSearchEntry() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_search_entry.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_search_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Editable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Editable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Editable) Interop.register(RESULT, org.gtk.gtk.Editable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -993,8 +988,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.TreeViewSearchEqualFunc getSearchEqualFunc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_search_equal_func.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_search_equal_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1008,12 +1002,11 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public org.gtk.gtk.TreeSelection getSelection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_selection.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_get_selection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TreeSelection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeSelection.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeSelection) Interop.register(RESULT, org.gtk.gtk.TreeSelection.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -1024,8 +1017,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean getShowExpanders() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_show_expanders.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_show_expanders.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1041,8 +1033,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public int getTooltipColumn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_tooltip_column.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_get_tooltip_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1071,24 +1062,26 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return whether or not the given tooltip context points to a row
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, @Nullable Out<org.gtk.gtk.TreeModel> model, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable org.gtk.gtk.TreeIter iter) {
-        MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_tooltip_context.invokeExact(
-                    handle(),
-                    x,
-                    y,
-                    Marshal.booleanToInteger.marshal(keyboardTip, null).intValue(),
-                    (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment modelPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_get_tooltip_context.invokeExact(
+                        handle(),
+                        x,
+                        y,
+                        Marshal.booleanToInteger.marshal(keyboardTip, null).intValue(),
+                        (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (model != null) model.set((org.gtk.gtk.TreeModel) Interop.register(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (model != null) model.set((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1101,20 +1094,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return {@code true}, if valid paths were placed in {@code start_path} and {@code end_path}.
      */
     public boolean getVisibleRange(@Nullable Out<org.gtk.gtk.TreePath> startPath, @Nullable Out<org.gtk.gtk.TreePath> endPath) {
-        MemorySegment startPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment endPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_get_visible_range.invokeExact(
-                    handle(),
-                    (Addressable) (startPath == null ? MemoryAddress.NULL : (Addressable) startPathPOINTER.address()),
-                    (Addressable) (endPath == null ? MemoryAddress.NULL : (Addressable) endPathPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment endPathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_get_visible_range.invokeExact(
+                        handle(),
+                        (Addressable) (startPath == null ? MemoryAddress.NULL : (Addressable) startPathPOINTER.address()),
+                        (Addressable) (endPath == null ? MemoryAddress.NULL : (Addressable) endPathPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (startPath != null) startPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (endPath != null) endPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (startPath != null) startPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (endPath != null) endPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1170,18 +1165,20 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return The number of columns in {@code tree_view} after insertion.
      */
     public int insertColumnWithAttributes(int position, java.lang.String title, org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_insert_column_with_attributes.invokeExact(
-                    handle(),
-                    position,
-                    Marshal.stringToAddress.marshal(title, null),
-                    cell.handle(),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_insert_column_with_attributes.invokeExact(
+                        handle(),
+                        position,
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        cell.handle(),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -1199,20 +1196,22 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return number of columns in the tree view post-insert
      */
     public int insertColumnWithDataFunc(int position, java.lang.String title, org.gtk.gtk.CellRenderer cell, org.gtk.gtk.TreeCellDataFunc func, org.gtk.glib.DestroyNotify dnotify) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_insert_column_with_data_func.invokeExact(
-                    handle(),
-                    position,
-                    Marshal.stringToAddress.marshal(title, null),
-                    cell.handle(),
-                    (Addressable) func.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) dnotify.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_insert_column_with_data_func.invokeExact(
+                        handle(),
+                        position,
+                        Marshal.stringToAddress.marshal(title, SCOPE),
+                        cell.handle(),
+                        (Addressable) func.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) dnotify.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -1247,28 +1246,30 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * {@code false} otherwise.
      */
     public boolean isBlankAtPos(int x, int y, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.TreeViewColumn> column, Out<Integer> cellX, Out<Integer> cellY) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment columnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment cellXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment cellYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_is_blank_at_pos.invokeExact(
-                    handle(),
-                    x,
-                    y,
-                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
-                    (Addressable) (cellX == null ? MemoryAddress.NULL : (Addressable) cellXPOINTER.address()),
-                    (Addressable) (cellY == null ? MemoryAddress.NULL : (Addressable) cellYPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment columnPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment cellXPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment cellYPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_tree_view_is_blank_at_pos.invokeExact(
+                        handle(),
+                        x,
+                        y,
+                        (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                        (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
+                        (Addressable) (cellX == null ? MemoryAddress.NULL : (Addressable) cellXPOINTER.address()),
+                        (Addressable) (cellY == null ? MemoryAddress.NULL : (Addressable) cellYPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (column != null) column.set((org.gtk.gtk.TreeViewColumn) Interop.register(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (cellX != null) cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (cellY != null) cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (column != null) column.set((org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(columnPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (cellX != null) cellX.set(cellXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (cellY != null) cellY.set(cellYPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1280,8 +1281,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public boolean isRubberBandingActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_view_is_rubber_banding_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_view_is_rubber_banding_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1946,8 +1946,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unsetRowsDragDest() {
         try {
-            DowncallHandles.gtk_tree_view_unset_rows_drag_dest.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_view_unset_rows_drag_dest.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1960,8 +1959,7 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public void unsetRowsDragSource() {
         try {
-            DowncallHandles.gtk_tree_view_unset_rows_drag_source.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_view_unset_rows_drag_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1981,19 +1979,37 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ColumnsChanged} callback.
+     */
     @FunctionalInterface
     public interface ColumnsChanged {
+    
+        /**
+         * The number of columns of the treeview has changed.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeView) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ColumnsChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ColumnsChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2003,28 +2019,47 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.ColumnsChanged> onColumnsChanged(TreeView.ColumnsChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("columns-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("columns-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code CursorChanged} callback.
+     */
     @FunctionalInterface
     public interface CursorChanged {
+    
+        /**
+         * The position of the cursor (focused cell) has changed.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeView) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CursorChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CursorChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2034,56 +2069,99 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.CursorChanged> onCursorChanged(TreeView.CursorChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("cursor-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("cursor-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ExpandCollapseCursorRow} callback.
+     */
     @FunctionalInterface
     public interface ExpandCollapseCursorRow {
+    
         boolean run(boolean object, boolean p0, boolean p1);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView, int object, int p0, int p1) {
             var RESULT = run(Marshal.integerToBoolean.marshal(object, null).booleanValue(), Marshal.integerToBoolean.marshal(p0, null).booleanValue(), Marshal.integerToBoolean.marshal(p1, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ExpandCollapseCursorRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ExpandCollapseCursorRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.ExpandCollapseCursorRow> onExpandCollapseCursorRow(TreeView.ExpandCollapseCursorRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("expand-collapse-cursor-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("expand-collapse-cursor-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MoveCursor} callback.
+     */
     @FunctionalInterface
     public interface MoveCursor {
+    
+        /**
+         * The {@code GtkTreeView}::move-cursor signal is a [keybinding
+         * signal]{@link SignalAction} which gets emitted when the user
+         * presses one of the cursor keys.
+         * <p>
+         * Applications should not connect to it, but may emit it with
+         * g_signal_emit_by_name() if they need to control the cursor
+         * programmatically. In contrast to gtk_tree_view_set_cursor() and
+         * gtk_tree_view_set_cursor_on_cell() when moving horizontally
+         * {@code GtkTreeView}::move-cursor does not reset the current selection.
+         */
         boolean run(org.gtk.gtk.MovementStep step, int direction, boolean extend, boolean modify);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView, int step, int direction, int extend, int modify) {
             var RESULT = run(org.gtk.gtk.MovementStep.of(step), direction, Marshal.integerToBoolean.marshal(extend, null).booleanValue(), Marshal.integerToBoolean.marshal(modify, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MoveCursor.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2101,28 +2179,60 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.MoveCursor> onMoveCursor(TreeView.MoveCursor handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("move-cursor", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowActivated} callback.
+     */
     @FunctionalInterface
     public interface RowActivated {
+    
+        /**
+         * The "row-activated" signal is emitted when the method
+         * {@code Gtk.TreeView.row_activated`} is called.
+         * <p>
+         * This signal is emitted when the user double-clicks a treeview row with the
+         * {@code Gtk.TreeView:activate-on-single-click} property set to {@code false},
+         * or when the user single-clicks a row when that property set to {@code true}.
+         * <p>
+         * This signal is also emitted when a non-editable row is selected and one
+         * of the keys: &lt;kbd&gt;Space&lt;/kbd&gt;, &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Space&lt;/kbd&gt;,
+         * &lt;kbd&gt;Return&lt;/kbd&gt; or &lt;kbd&gt;Enter&lt;/kbd&gt; is pressed.
+         * <p>
+         * For selection handling refer to the
+         * <a href="section-tree-widget.html">tree widget conceptual overview</a>
+         * as well as {@code GtkTreeSelection}.
+         */
         void run(org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeViewColumn column);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeView, MemoryAddress path, MemoryAddress column) {
-            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(column)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(column, Ownership.NONE));
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, null), (org.gtk.gtk.TreeViewColumn) Interop.register(column, org.gtk.gtk.TreeViewColumn.fromAddress).marshal(column, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2145,28 +2255,47 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.RowActivated> onRowActivated(TreeView.RowActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowCollapsed} callback.
+     */
     @FunctionalInterface
     public interface RowCollapsed {
+    
+        /**
+         * The given row has been collapsed (child nodes are hidden).
+         */
         void run(org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path) {
-            run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowCollapsed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowCollapsed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2176,28 +2305,47 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.RowCollapsed> onRowCollapsed(TreeView.RowCollapsed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-collapsed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-collapsed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowExpanded} callback.
+     */
     @FunctionalInterface
     public interface RowExpanded {
+    
+        /**
+         * The given row has been expanded (child nodes are shown).
+         */
         void run(org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path) {
-            run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowExpanded.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowExpanded.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2207,137 +2355,221 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.RowExpanded> onRowExpanded(TreeView.RowExpanded handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-expanded"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-expanded", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectAll} callback.
+     */
     @FunctionalInterface
     public interface SelectAll {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.SelectAll> onSelectAll(TreeView.SelectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("select-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("select-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectCursorParent} callback.
+     */
     @FunctionalInterface
     public interface SelectCursorParent {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectCursorParent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectCursorParent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.SelectCursorParent> onSelectCursorParent(TreeView.SelectCursorParent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("select-cursor-parent"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("select-cursor-parent", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectCursorRow} callback.
+     */
     @FunctionalInterface
     public interface SelectCursorRow {
+    
         boolean run(boolean object);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView, int object) {
             var RESULT = run(Marshal.integerToBoolean.marshal(object, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectCursorRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectCursorRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.SelectCursorRow> onSelectCursorRow(TreeView.SelectCursorRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("select-cursor-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("select-cursor-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartInteractiveSearch} callback.
+     */
     @FunctionalInterface
     public interface StartInteractiveSearch {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartInteractiveSearch.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartInteractiveSearch.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.StartInteractiveSearch> onStartInteractiveSearch(TreeView.StartInteractiveSearch handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("start-interactive-search"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("start-interactive-search", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TestCollapseRow} callback.
+     */
     @FunctionalInterface
     public interface TestCollapseRow {
+    
+        /**
+         * The given row is about to be collapsed (hide its children nodes). Use this
+         * signal if you need to control the collapsibility of individual rows.
+         */
         boolean run(org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path) {
-            var RESULT = run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            var RESULT = run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TestCollapseRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TestCollapseRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2348,29 +2580,49 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.TestCollapseRow> onTestCollapseRow(TreeView.TestCollapseRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("test-collapse-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("test-collapse-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TestExpandRow} callback.
+     */
     @FunctionalInterface
     public interface TestExpandRow {
+    
+        /**
+         * The given row is about to be expanded (show its children nodes). Use this
+         * signal if you need to control the expandability of individual rows.
+         */
         boolean run(org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView, MemoryAddress iter, MemoryAddress path) {
-            var RESULT = run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            var RESULT = run(org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TestExpandRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TestExpandRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -2381,63 +2633,96 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<TreeView.TestExpandRow> onTestExpandRow(TreeView.TestExpandRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("test-expand-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("test-expand-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToggleCursorRow} callback.
+     */
     @FunctionalInterface
     public interface ToggleCursorRow {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToggleCursorRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.ToggleCursorRow> onToggleCursorRow(TreeView.ToggleCursorRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("toggle-cursor-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("toggle-cursor-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectAll} callback.
+     */
     @FunctionalInterface
     public interface UnselectAll {
+    
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceTreeView) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<TreeView.UnselectAll> onUnselectAll(TreeView.UnselectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("unselect-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("unselect-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2460,6 +2745,9 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -2632,555 +2920,563 @@ public class TreeView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_view_new = Interop.downcallHandle(
-            "gtk_tree_view_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_new_with_model = Interop.downcallHandle(
-            "gtk_tree_view_new_with_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_new_with_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_append_column = Interop.downcallHandle(
-            "gtk_tree_view_append_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_append_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_collapse_all = Interop.downcallHandle(
-            "gtk_tree_view_collapse_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_collapse_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_collapse_row = Interop.downcallHandle(
-            "gtk_tree_view_collapse_row",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_collapse_row",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_columns_autosize = Interop.downcallHandle(
-            "gtk_tree_view_columns_autosize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_columns_autosize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_bin_window_to_tree_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_bin_window_to_tree_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_bin_window_to_tree_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_bin_window_to_widget_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_bin_window_to_widget_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_bin_window_to_widget_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_tree_to_bin_window_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_tree_to_bin_window_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_tree_to_bin_window_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_tree_to_widget_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_tree_to_widget_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_tree_to_widget_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_widget_to_bin_window_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_widget_to_bin_window_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_widget_to_bin_window_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_convert_widget_to_tree_coords = Interop.downcallHandle(
-            "gtk_tree_view_convert_widget_to_tree_coords",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_convert_widget_to_tree_coords",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_create_row_drag_icon = Interop.downcallHandle(
-            "gtk_tree_view_create_row_drag_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_create_row_drag_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_enable_model_drag_dest = Interop.downcallHandle(
-            "gtk_tree_view_enable_model_drag_dest",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_enable_model_drag_dest",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_enable_model_drag_source = Interop.downcallHandle(
-            "gtk_tree_view_enable_model_drag_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_enable_model_drag_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_expand_all = Interop.downcallHandle(
-            "gtk_tree_view_expand_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_expand_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_expand_row = Interop.downcallHandle(
-            "gtk_tree_view_expand_row",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_expand_row",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_expand_to_path = Interop.downcallHandle(
-            "gtk_tree_view_expand_to_path",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_expand_to_path",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_activate_on_single_click = Interop.downcallHandle(
-            "gtk_tree_view_get_activate_on_single_click",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_activate_on_single_click",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_background_area = Interop.downcallHandle(
-            "gtk_tree_view_get_background_area",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_background_area",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_cell_area = Interop.downcallHandle(
-            "gtk_tree_view_get_cell_area",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_cell_area",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_column = Interop.downcallHandle(
-            "gtk_tree_view_get_column",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_get_column",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_columns = Interop.downcallHandle(
-            "gtk_tree_view_get_columns",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_columns",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_cursor = Interop.downcallHandle(
-            "gtk_tree_view_get_cursor",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_cursor",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_dest_row_at_pos = Interop.downcallHandle(
-            "gtk_tree_view_get_dest_row_at_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_get_dest_row_at_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_drag_dest_row = Interop.downcallHandle(
-            "gtk_tree_view_get_drag_dest_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_get_drag_dest_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_enable_search = Interop.downcallHandle(
-            "gtk_tree_view_get_enable_search",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_enable_search",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_enable_tree_lines = Interop.downcallHandle(
-            "gtk_tree_view_get_enable_tree_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_enable_tree_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_expander_column = Interop.downcallHandle(
-            "gtk_tree_view_get_expander_column",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_expander_column",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_fixed_height_mode = Interop.downcallHandle(
-            "gtk_tree_view_get_fixed_height_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_fixed_height_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_grid_lines = Interop.downcallHandle(
-            "gtk_tree_view_get_grid_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_grid_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_headers_clickable = Interop.downcallHandle(
-            "gtk_tree_view_get_headers_clickable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_headers_clickable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_headers_visible = Interop.downcallHandle(
-            "gtk_tree_view_get_headers_visible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_headers_visible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_hover_expand = Interop.downcallHandle(
-            "gtk_tree_view_get_hover_expand",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_hover_expand",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_hover_selection = Interop.downcallHandle(
-            "gtk_tree_view_get_hover_selection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_hover_selection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_level_indentation = Interop.downcallHandle(
-            "gtk_tree_view_get_level_indentation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_level_indentation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_model = Interop.downcallHandle(
-            "gtk_tree_view_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_n_columns = Interop.downcallHandle(
-            "gtk_tree_view_get_n_columns",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_n_columns",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_path_at_pos = Interop.downcallHandle(
-            "gtk_tree_view_get_path_at_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_path_at_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_reorderable = Interop.downcallHandle(
-            "gtk_tree_view_get_reorderable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_reorderable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_row_separator_func = Interop.downcallHandle(
-            "gtk_tree_view_get_row_separator_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_row_separator_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_rubber_banding = Interop.downcallHandle(
-            "gtk_tree_view_get_rubber_banding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_rubber_banding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_search_column = Interop.downcallHandle(
-            "gtk_tree_view_get_search_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_search_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_search_entry = Interop.downcallHandle(
-            "gtk_tree_view_get_search_entry",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_search_entry",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_search_equal_func = Interop.downcallHandle(
-            "gtk_tree_view_get_search_equal_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_search_equal_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_selection = Interop.downcallHandle(
-            "gtk_tree_view_get_selection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_selection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_show_expanders = Interop.downcallHandle(
-            "gtk_tree_view_get_show_expanders",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_show_expanders",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_tooltip_column = Interop.downcallHandle(
-            "gtk_tree_view_get_tooltip_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_tooltip_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_tooltip_context = Interop.downcallHandle(
-            "gtk_tree_view_get_tooltip_context",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_tooltip_context",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_visible_range = Interop.downcallHandle(
-            "gtk_tree_view_get_visible_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_visible_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_visible_rect = Interop.downcallHandle(
-            "gtk_tree_view_get_visible_rect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_get_visible_rect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_insert_column = Interop.downcallHandle(
-            "gtk_tree_view_insert_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_insert_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_insert_column_with_attributes = Interop.downcallHandle(
-            "gtk_tree_view_insert_column_with_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_tree_view_insert_column_with_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_tree_view_insert_column_with_data_func = Interop.downcallHandle(
-            "gtk_tree_view_insert_column_with_data_func",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_insert_column_with_data_func",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_is_blank_at_pos = Interop.downcallHandle(
-            "gtk_tree_view_is_blank_at_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_is_blank_at_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_is_rubber_banding_active = Interop.downcallHandle(
-            "gtk_tree_view_is_rubber_banding_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_is_rubber_banding_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_map_expanded_rows = Interop.downcallHandle(
-            "gtk_tree_view_map_expanded_rows",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_map_expanded_rows",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_move_column_after = Interop.downcallHandle(
-            "gtk_tree_view_move_column_after",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_move_column_after",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_remove_column = Interop.downcallHandle(
-            "gtk_tree_view_remove_column",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_remove_column",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_row_activated = Interop.downcallHandle(
-            "gtk_tree_view_row_activated",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_row_activated",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_row_expanded = Interop.downcallHandle(
-            "gtk_tree_view_row_expanded",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_row_expanded",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_scroll_to_cell = Interop.downcallHandle(
-            "gtk_tree_view_scroll_to_cell",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gtk_tree_view_scroll_to_cell",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_scroll_to_point = Interop.downcallHandle(
-            "gtk_tree_view_scroll_to_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_scroll_to_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_activate_on_single_click = Interop.downcallHandle(
-            "gtk_tree_view_set_activate_on_single_click",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_activate_on_single_click",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_column_drag_function = Interop.downcallHandle(
-            "gtk_tree_view_set_column_drag_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_column_drag_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_cursor = Interop.downcallHandle(
-            "gtk_tree_view_set_cursor",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_cursor",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_cursor_on_cell = Interop.downcallHandle(
-            "gtk_tree_view_set_cursor_on_cell",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_cursor_on_cell",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_drag_dest_row = Interop.downcallHandle(
-            "gtk_tree_view_set_drag_dest_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_drag_dest_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_enable_search = Interop.downcallHandle(
-            "gtk_tree_view_set_enable_search",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_enable_search",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_enable_tree_lines = Interop.downcallHandle(
-            "gtk_tree_view_set_enable_tree_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_enable_tree_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_expander_column = Interop.downcallHandle(
-            "gtk_tree_view_set_expander_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_expander_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_fixed_height_mode = Interop.downcallHandle(
-            "gtk_tree_view_set_fixed_height_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_fixed_height_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_grid_lines = Interop.downcallHandle(
-            "gtk_tree_view_set_grid_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_grid_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_headers_clickable = Interop.downcallHandle(
-            "gtk_tree_view_set_headers_clickable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_headers_clickable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_headers_visible = Interop.downcallHandle(
-            "gtk_tree_view_set_headers_visible",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_headers_visible",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_hover_expand = Interop.downcallHandle(
-            "gtk_tree_view_set_hover_expand",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_hover_expand",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_hover_selection = Interop.downcallHandle(
-            "gtk_tree_view_set_hover_selection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_hover_selection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_level_indentation = Interop.downcallHandle(
-            "gtk_tree_view_set_level_indentation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_level_indentation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_model = Interop.downcallHandle(
-            "gtk_tree_view_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_reorderable = Interop.downcallHandle(
-            "gtk_tree_view_set_reorderable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_reorderable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_row_separator_func = Interop.downcallHandle(
-            "gtk_tree_view_set_row_separator_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_row_separator_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_rubber_banding = Interop.downcallHandle(
-            "gtk_tree_view_set_rubber_banding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_rubber_banding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_search_column = Interop.downcallHandle(
-            "gtk_tree_view_set_search_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_search_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_search_entry = Interop.downcallHandle(
-            "gtk_tree_view_set_search_entry",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_search_entry",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_search_equal_func = Interop.downcallHandle(
-            "gtk_tree_view_set_search_equal_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_search_equal_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_show_expanders = Interop.downcallHandle(
-            "gtk_tree_view_set_show_expanders",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_show_expanders",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_tooltip_cell = Interop.downcallHandle(
-            "gtk_tree_view_set_tooltip_cell",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_tooltip_cell",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_tooltip_column = Interop.downcallHandle(
-            "gtk_tree_view_set_tooltip_column",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_view_set_tooltip_column",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_set_tooltip_row = Interop.downcallHandle(
-            "gtk_tree_view_set_tooltip_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_set_tooltip_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_unset_rows_drag_dest = Interop.downcallHandle(
-            "gtk_tree_view_unset_rows_drag_dest",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_unset_rows_drag_dest",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_unset_rows_drag_source = Interop.downcallHandle(
-            "gtk_tree_view_unset_rows_drag_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_view_unset_rows_drag_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_view_get_type = Interop.downcallHandle(
-            "gtk_tree_view_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_view_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_view_get_type != null;
     }
 }

@@ -35,8 +35,8 @@ public class TimedValue extends Struct {
      * @return A new, uninitialized @{link TimedValue}
      */
     public static TimedValue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimedValue newInstance = new TimedValue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimedValue newInstance = new TimedValue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class TimedValue extends Struct {
      * @return The value of the field {@code timestamp}
      */
     public org.gstreamer.gst.ClockTime getTimestamp() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class TimedValue extends Struct {
      * @param timestamp The new value of the field {@code timestamp}
      */
     public void setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class TimedValue extends Struct {
      * @return The value of the field {@code value}
      */
     public double getValue() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -78,22 +84,26 @@ public class TimedValue extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(double value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
      * Create a TimedValue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimedValue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimedValue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimedValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedValue(input, ownership);
+    public static final Marshal<Addressable, TimedValue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimedValue(input);
     
     /**
      * A {@link TimedValue.Builder} object constructs a {@link TimedValue} 
@@ -117,7 +127,7 @@ public class TimedValue extends Struct {
             struct = TimedValue.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TimedValue} struct.
          * @return A new instance of {@code TimedValue} with the fields 
          *         that were set in the Builder object.
@@ -132,10 +142,12 @@ public class TimedValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -144,10 +156,12 @@ public class TimedValue extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(double value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
     }
 }

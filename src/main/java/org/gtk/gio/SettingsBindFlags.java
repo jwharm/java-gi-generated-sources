@@ -49,6 +49,9 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SettingsBindFlags INVERT_BOOLEAN = new SettingsBindFlags(16);
     
+    /**
+     * Create a new SettingsBindFlags with the provided value
+     */
     public SettingsBindFlags(int value) {
         super(value);
     }

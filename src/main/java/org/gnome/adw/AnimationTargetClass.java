@@ -29,8 +29,8 @@ public class AnimationTargetClass extends Struct {
      * @return A new, uninitialized @{link AnimationTargetClass}
      */
     public static AnimationTargetClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AnimationTargetClass newInstance = new AnimationTargetClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AnimationTargetClass newInstance = new AnimationTargetClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AnimationTargetClass extends Struct {
     /**
      * Create a AnimationTargetClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AnimationTargetClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AnimationTargetClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AnimationTargetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AnimationTargetClass(input, ownership);
+    public static final Marshal<Addressable, AnimationTargetClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AnimationTargetClass(input);
 }

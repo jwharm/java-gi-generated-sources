@@ -29,8 +29,8 @@ public class InetAddressPrivate extends Struct {
      * @return A new, uninitialized @{link InetAddressPrivate}
      */
     public static InetAddressPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InetAddressPrivate newInstance = new InetAddressPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InetAddressPrivate newInstance = new InetAddressPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class InetAddressPrivate extends Struct {
     /**
      * Create a InetAddressPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InetAddressPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InetAddressPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InetAddressPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetAddressPrivate(input, ownership);
+    public static final Marshal<Addressable, InetAddressPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InetAddressPrivate(input);
 }

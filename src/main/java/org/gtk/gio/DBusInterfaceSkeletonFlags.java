@@ -26,6 +26,9 @@ public class DBusInterfaceSkeletonFlags extends io.github.jwharm.javagi.Bitfield
      */
     public static final DBusInterfaceSkeletonFlags HANDLE_METHOD_INVOCATIONS_IN_THREAD = new DBusInterfaceSkeletonFlags(1);
     
+    /**
+     * Create a new DBusInterfaceSkeletonFlags with the provided value
+     */
     public DBusInterfaceSkeletonFlags(int value) {
         super(value);
     }

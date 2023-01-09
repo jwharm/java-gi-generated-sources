@@ -38,14 +38,16 @@ public class LayoutChild extends org.gtk.gobject.GObject {
     /**
      * Create a LayoutChild proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutChild(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutChild(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutChild(input, ownership);
+    public static final Marshal<Addressable, LayoutChild> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutChild(input);
     
     /**
      * Retrieves the {@code GtkWidget} associated to the given {@code layout_child}.
@@ -54,12 +56,11 @@ public class LayoutChild extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Widget getChildWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_child_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_child_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -70,12 +71,11 @@ public class LayoutChild extends org.gtk.gobject.GObject {
     public org.gtk.gtk.LayoutManager getLayoutManager() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_layout_manager.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_layout_manager.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.LayoutManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LayoutManager.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.LayoutManager) Interop.register(RESULT, org.gtk.gtk.LayoutManager.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -108,6 +108,9 @@ public class LayoutChild extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -154,21 +157,29 @@ public class LayoutChild extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_layout_child_get_child_widget = Interop.downcallHandle(
-            "gtk_layout_child_get_child_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_child_get_child_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_child_get_layout_manager = Interop.downcallHandle(
-            "gtk_layout_child_get_layout_manager",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_child_get_layout_manager",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_child_get_type = Interop.downcallHandle(
-            "gtk_layout_child_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_layout_child_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_layout_child_get_type != null;
     }
 }

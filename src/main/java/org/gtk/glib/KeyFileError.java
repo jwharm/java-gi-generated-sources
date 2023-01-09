@@ -9,27 +9,33 @@ import org.jetbrains.annotations.*;
  * Error codes returned by key file parsing.
  */
 public enum KeyFileError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the text being parsed was in
      *   an unknown encoding
      */
     UNKNOWN_ENCODING(0),
+    
     /**
      * document was ill-formed
      */
     PARSE(1),
+    
     /**
      * the file was not found
      */
     NOT_FOUND(2),
+    
     /**
      * a requested key was not found
      */
     KEY_NOT_FOUND(3),
+    
     /**
      * a requested group was not found
      */
     GROUP_NOT_FOUND(4),
+    
     /**
      * a value could not be parsed
      */
@@ -38,15 +44,29 @@ public enum KeyFileError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GKeyFileError";
     
     private final int value;
+    
+    /**
+     * Create a new KeyFileError for the provided value
+     * @param numeric value the enum value
+     */
     KeyFileError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new KeyFileError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static KeyFileError of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN_ENCODING;

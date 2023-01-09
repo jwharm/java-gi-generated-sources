@@ -29,8 +29,8 @@ public class PipelineRasterizationConservativeStateCreateFlagsEXT extends Struct
      * @return A new, uninitialized @{link PipelineRasterizationConservativeStateCreateFlagsEXT}
      */
     public static PipelineRasterizationConservativeStateCreateFlagsEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineRasterizationConservativeStateCreateFlagsEXT newInstance = new PipelineRasterizationConservativeStateCreateFlagsEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineRasterizationConservativeStateCreateFlagsEXT newInstance = new PipelineRasterizationConservativeStateCreateFlagsEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineRasterizationConservativeStateCreateFlagsEXT extends Struct
     /**
      * Create a PipelineRasterizationConservativeStateCreateFlagsEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineRasterizationConservativeStateCreateFlagsEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineRasterizationConservativeStateCreateFlagsEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineRasterizationConservativeStateCreateFlagsEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineRasterizationConservativeStateCreateFlagsEXT(input, ownership);
+    public static final Marshal<Addressable, PipelineRasterizationConservativeStateCreateFlagsEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineRasterizationConservativeStateCreateFlagsEXT(input);
 }

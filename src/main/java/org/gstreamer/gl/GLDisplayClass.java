@@ -34,8 +34,8 @@ public class GLDisplayClass extends Struct {
      * @return A new, uninitialized @{link GLDisplayClass}
      */
     public static GLDisplayClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLDisplayClass newInstance = new GLDisplayClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLDisplayClass newInstance = new GLDisplayClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class GLDisplayClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,25 +54,42 @@ public class GLDisplayClass extends Struct {
      * @param objectClass The new value of the field {@code object_class}
      */
     public void setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface GetHandleCallback {
+    
         long run(org.gstreamer.gl.GLDisplay display);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress display) {
-            var RESULT = run((org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(display)), org.gstreamer.gl.GLDisplay.fromAddress).marshal(display, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLDisplay) Interop.register(display, org.gstreamer.gl.GLDisplay.fromAddress).marshal(display, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,25 +98,43 @@ public class GLDisplayClass extends Struct {
      * @param getHandle The new value of the field {@code get_handle}
      */
     public void setGetHandle(GetHandleCallback getHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getHandle == null ? MemoryAddress.NULL : getHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getHandle == null ? MemoryAddress.NULL : getHandle.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateWindowCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateWindowCallback {
+    
         org.gstreamer.gl.GLWindow run(org.gstreamer.gl.GLDisplay display);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress display) {
-            var RESULT = run((org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(display)), org.gstreamer.gl.GLDisplay.fromAddress).marshal(display, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLDisplay) Interop.register(display, org.gstreamer.gl.GLDisplay.fromAddress).marshal(display, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateWindowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateWindowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -108,22 +143,26 @@ public class GLDisplayClass extends Struct {
      * @param createWindow The new value of the field {@code create_window}
      */
     public void setCreateWindow(CreateWindowCallback createWindow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_window"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createWindow == null ? MemoryAddress.NULL : createWindow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_window"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createWindow == null ? MemoryAddress.NULL : createWindow.toCallback()));
+        }
     }
     
     /**
      * Create a GLDisplayClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLDisplayClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLDisplayClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLDisplayClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayClass(input, ownership);
+    public static final Marshal<Addressable, GLDisplayClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayClass(input);
     
     /**
      * A {@link GLDisplayClass.Builder} object constructs a {@link GLDisplayClass} 
@@ -147,7 +186,7 @@ public class GLDisplayClass extends Struct {
             struct = GLDisplayClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLDisplayClass} struct.
          * @return A new instance of {@code GLDisplayClass} with the fields 
          *         that were set in the Builder object.
@@ -157,31 +196,39 @@ public class GLDisplayClass extends Struct {
         }
         
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetHandle(GetHandleCallback getHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getHandle == null ? MemoryAddress.NULL : getHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getHandle == null ? MemoryAddress.NULL : getHandle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateWindow(CreateWindowCallback createWindow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_window"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createWindow == null ? MemoryAddress.NULL : createWindow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_window"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createWindow == null ? MemoryAddress.NULL : createWindow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

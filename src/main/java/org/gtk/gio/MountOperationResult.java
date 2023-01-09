@@ -10,16 +10,19 @@ import org.jetbrains.annotations.*;
  * information is send by the mounting operation.
  */
 public enum MountOperationResult implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The request was fulfilled and the
      *     user specified data is now available
      */
     HANDLED(0),
+    
     /**
      * The user requested the mount operation
      *     to be aborted
      */
     ABORTED(1),
+    
     /**
      * The request was unhandled (i.e. not
      *     implemented)
@@ -29,15 +32,29 @@ public enum MountOperationResult implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GMountOperationResult";
     
     private final int value;
+    
+    /**
+     * Create a new MountOperationResult for the provided value
+     * @param numeric value the enum value
+     */
     MountOperationResult(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new MountOperationResult for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static MountOperationResult of(int value) {
         return switch (value) {
             case 0 -> HANDLED;

@@ -53,8 +53,8 @@ public class AtscVCTSource extends Struct {
      * @return A new, uninitialized @{link AtscVCTSource}
      */
     public static AtscVCTSource allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscVCTSource newInstance = new AtscVCTSource(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscVCTSource newInstance = new AtscVCTSource(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -64,10 +64,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code short_name}
      */
     public java.lang.String getShortName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -75,9 +77,11 @@ public class AtscVCTSource extends Struct {
      * @param shortName The new value of the field {@code short_name}
      */
     public void setShortName(java.lang.String shortName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, SCOPE)));
+        }
     }
     
     /**
@@ -85,10 +89,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code major_channel_number}
      */
     public short getMajorChannelNumber() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -96,9 +102,11 @@ public class AtscVCTSource extends Struct {
      * @param majorChannelNumber The new value of the field {@code major_channel_number}
      */
     public void setMajorChannelNumber(short majorChannelNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorChannelNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), majorChannelNumber);
+        }
     }
     
     /**
@@ -106,10 +114,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code minor_channel_number}
      */
     public short getMinorChannelNumber() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -117,9 +127,11 @@ public class AtscVCTSource extends Struct {
      * @param minorChannelNumber The new value of the field {@code minor_channel_number}
      */
     public void setMinorChannelNumber(short minorChannelNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorChannelNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minorChannelNumber);
+        }
     }
     
     /**
@@ -127,10 +139,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code modulation_mode}
      */
     public byte getModulationMode() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -138,9 +152,11 @@ public class AtscVCTSource extends Struct {
      * @param modulationMode The new value of the field {@code modulation_mode}
      */
     public void setModulationMode(byte modulationMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), modulationMode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), modulationMode);
+        }
     }
     
     /**
@@ -148,10 +164,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code carrier_frequency}
      */
     public int getCarrierFrequency() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -159,9 +177,11 @@ public class AtscVCTSource extends Struct {
      * @param carrierFrequency The new value of the field {@code carrier_frequency}
      */
     public void setCarrierFrequency(int carrierFrequency) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), carrierFrequency);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), carrierFrequency);
+        }
     }
     
     /**
@@ -169,10 +189,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code channel_TSID}
      */
     public short getChannelTSID() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -180,9 +202,11 @@ public class AtscVCTSource extends Struct {
      * @param channelTSID The new value of the field {@code channel_TSID}
      */
     public void setChannelTSID(short channelTSID) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), channelTSID);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), channelTSID);
+        }
     }
     
     /**
@@ -190,10 +214,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code program_number}
      */
     public short getProgramNumber() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -201,9 +227,11 @@ public class AtscVCTSource extends Struct {
      * @param programNumber The new value of the field {@code program_number}
      */
     public void setProgramNumber(short programNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), programNumber);
+        }
     }
     
     /**
@@ -211,10 +239,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code ETM_location}
      */
     public byte getETMLocation() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -222,9 +252,11 @@ public class AtscVCTSource extends Struct {
      * @param ETMLocation The new value of the field {@code ETM_location}
      */
     public void setETMLocation(byte ETMLocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ETMLocation);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), ETMLocation);
+        }
     }
     
     /**
@@ -232,10 +264,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code access_controlled}
      */
     public boolean getAccessControlled() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -243,9 +277,11 @@ public class AtscVCTSource extends Struct {
      * @param accessControlled The new value of the field {@code access_controlled}
      */
     public void setAccessControlled(boolean accessControlled) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
+        }
     }
     
     /**
@@ -253,10 +289,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code hidden}
      */
     public boolean getHidden() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -264,9 +302,11 @@ public class AtscVCTSource extends Struct {
      * @param hidden The new value of the field {@code hidden}
      */
     public void setHidden(boolean hidden) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hidden, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(hidden, null).intValue());
+        }
     }
     
     /**
@@ -274,10 +314,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code path_select}
      */
     public boolean getPathSelect() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -285,9 +327,11 @@ public class AtscVCTSource extends Struct {
      * @param pathSelect The new value of the field {@code path_select}
      */
     public void setPathSelect(boolean pathSelect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
+        }
     }
     
     /**
@@ -295,10 +339,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code out_of_band}
      */
     public boolean getOutOfBand() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -306,9 +352,11 @@ public class AtscVCTSource extends Struct {
      * @param outOfBand The new value of the field {@code out_of_band}
      */
     public void setOutOfBand(boolean outOfBand) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
+        }
     }
     
     /**
@@ -316,10 +364,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code hide_guide}
      */
     public boolean getHideGuide() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -327,9 +377,11 @@ public class AtscVCTSource extends Struct {
      * @param hideGuide The new value of the field {@code hide_guide}
      */
     public void setHideGuide(boolean hideGuide) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
+        }
     }
     
     /**
@@ -337,10 +389,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code service_type}
      */
     public byte getServiceType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -348,9 +402,11 @@ public class AtscVCTSource extends Struct {
      * @param serviceType The new value of the field {@code service_type}
      */
     public void setServiceType(byte serviceType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), serviceType);
+        }
     }
     
     /**
@@ -358,10 +414,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code source_id}
      */
     public short getSourceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -369,9 +427,11 @@ public class AtscVCTSource extends Struct {
      * @param sourceId The new value of the field {@code source_id}
      */
     public void setSourceId(short sourceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), sourceId);
+        }
     }
     
     /**
@@ -379,10 +439,12 @@ public class AtscVCTSource extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        }
     }
     
     /**
@@ -390,22 +452,26 @@ public class AtscVCTSource extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscVCTSource proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscVCTSource(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscVCTSource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscVCTSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscVCTSource(input, ownership);
+    public static final Marshal<Addressable, AtscVCTSource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscVCTSource(input);
     
     /**
      * A {@link AtscVCTSource.Builder} object constructs a {@link AtscVCTSource} 
@@ -429,7 +495,7 @@ public class AtscVCTSource extends Struct {
             struct = AtscVCTSource.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscVCTSource} struct.
          * @return A new instance of {@code AtscVCTSource} with the fields 
          *         that were set in the Builder object.
@@ -444,10 +510,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShortName(java.lang.String shortName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -456,10 +524,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMajorChannelNumber(short majorChannelNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorChannelNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), majorChannelNumber);
+                return this;
+            }
         }
         
         /**
@@ -468,10 +538,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinorChannelNumber(short minorChannelNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorChannelNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minorChannelNumber);
+                return this;
+            }
         }
         
         /**
@@ -480,10 +552,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModulationMode(byte modulationMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), modulationMode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), modulationMode);
+                return this;
+            }
         }
         
         /**
@@ -492,10 +566,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCarrierFrequency(int carrierFrequency) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), carrierFrequency);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), carrierFrequency);
+                return this;
+            }
         }
         
         /**
@@ -504,10 +580,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setChannelTSID(short channelTSID) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), channelTSID);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), channelTSID);
+                return this;
+            }
         }
         
         /**
@@ -516,10 +594,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProgramNumber(short programNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), programNumber);
+                return this;
+            }
         }
         
         /**
@@ -528,10 +608,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setETMLocation(byte ETMLocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ETMLocation);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), ETMLocation);
+                return this;
+            }
         }
         
         /**
@@ -540,10 +622,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAccessControlled(boolean accessControlled) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -552,10 +636,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHidden(boolean hidden) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hidden, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(hidden, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -564,10 +650,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPathSelect(boolean pathSelect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -576,10 +664,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOutOfBand(boolean outOfBand) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -588,10 +678,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHideGuide(boolean hideGuide) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -600,10 +692,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setServiceType(byte serviceType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), serviceType);
+                return this;
+            }
         }
         
         /**
@@ -612,10 +706,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSourceId(short sourceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sourceId);
+                return this;
+            }
         }
         
         /**
@@ -624,10 +720,12 @@ public class AtscVCTSource extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

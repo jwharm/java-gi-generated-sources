@@ -29,14 +29,16 @@ public class FlagSet extends io.github.jwharm.javagi.ObjectBase {
     /**
      * Create a FlagSet proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FlagSet(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FlagSet(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FlagSet> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlagSet(input, ownership);
+    public static final Marshal<Addressable, FlagSet> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FlagSet(input);
     
     /**
      * Get the gtype
@@ -61,8 +63,7 @@ public class FlagSet extends io.github.jwharm.javagi.ObjectBase {
     public static org.gtk.glib.Type register(org.gtk.glib.Type flagsType) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_flagset_register.invokeExact(
-                    flagsType.getValue().longValue());
+            RESULT = (long) DowncallHandles.gst_flagset_register.invokeExact(flagsType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,15 +73,23 @@ public class FlagSet extends io.github.jwharm.javagi.ObjectBase {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_flagset_get_type = Interop.downcallHandle(
-            "gst_flagset_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_flagset_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_flagset_register = Interop.downcallHandle(
-            "gst_flagset_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_flagset_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_flagset_get_type != null;
     }
 }

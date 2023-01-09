@@ -45,6 +45,9 @@ public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BindingFlags INVERT_BOOLEAN = new BindingFlags(4);
     
+    /**
+     * Create a new BindingFlags with the provided value
+     */
     public BindingFlags(int value) {
         super(value);
     }

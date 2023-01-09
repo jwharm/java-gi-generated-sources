@@ -37,6 +37,9 @@ public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final StyleContextPrintFlags SHOW_CHANGE = new StyleContextPrintFlags(4);
     
+    /**
+     * Create a new StyleContextPrintFlags with the provided value
+     */
     public StyleContextPrintFlags(int value) {
         super(value);
     }

@@ -35,8 +35,8 @@ public class VideoOverlayCompositionMeta extends Struct {
      * @return A new, uninitialized @{link VideoOverlayCompositionMeta}
      */
     public static VideoOverlayCompositionMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoOverlayCompositionMeta newInstance = new VideoOverlayCompositionMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoOverlayCompositionMeta newInstance = new VideoOverlayCompositionMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class VideoOverlayCompositionMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,9 +55,11 @@ public class VideoOverlayCompositionMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -65,10 +67,12 @@ public class VideoOverlayCompositionMeta extends Struct {
      * @return The value of the field {@code overlay}
      */
     public org.gstreamer.video.VideoOverlayComposition getOverlay() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -76,22 +80,26 @@ public class VideoOverlayCompositionMeta extends Struct {
      * @param overlay The new value of the field {@code overlay}
      */
     public void setOverlay(org.gstreamer.video.VideoOverlayComposition overlay) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));
+        }
     }
     
     /**
      * Create a VideoOverlayCompositionMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoOverlayCompositionMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoOverlayCompositionMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoOverlayCompositionMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayCompositionMeta(input, ownership);
+    public static final Marshal<Addressable, VideoOverlayCompositionMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayCompositionMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -100,15 +108,15 @@ public class VideoOverlayCompositionMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_overlay_composition_meta_get_info = Interop.downcallHandle(
-            "gst_video_overlay_composition_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -134,7 +142,7 @@ public class VideoOverlayCompositionMeta extends Struct {
             struct = VideoOverlayCompositionMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoOverlayCompositionMeta} struct.
          * @return A new instance of {@code VideoOverlayCompositionMeta} with the fields 
          *         that were set in the Builder object.
@@ -149,10 +157,12 @@ public class VideoOverlayCompositionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -161,10 +171,12 @@ public class VideoOverlayCompositionMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOverlay(org.gstreamer.video.VideoOverlayComposition overlay) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));
+                return this;
+            }
         }
     }
 }

@@ -33,8 +33,8 @@ public class LanguageT extends Struct {
      * @return A new, uninitialized @{link LanguageT}
      */
     public static LanguageT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LanguageT newInstance = new LanguageT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LanguageT newInstance = new LanguageT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class LanguageT extends Struct {
     /**
      * Create a LanguageT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LanguageT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LanguageT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LanguageT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LanguageT(input, ownership);
+    public static final Marshal<Addressable, LanguageT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LanguageT(input);
     
     /**
      * Converts an {@link LanguageT} to a string.
@@ -59,8 +61,7 @@ public class LanguageT extends Struct {
     public java.lang.String String() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,9 +71,9 @@ public class LanguageT extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
-            "hb_language_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "hb_language_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -38,8 +38,8 @@ public class VideoContentLightLevel extends Struct {
      * @return A new, uninitialized @{link VideoContentLightLevel}
      */
     public static VideoContentLightLevel allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoContentLightLevel newInstance = new VideoContentLightLevel(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoContentLightLevel newInstance = new VideoContentLightLevel(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class VideoContentLightLevel extends Struct {
      * @return The value of the field {@code max_content_light_level}
      */
     public short getMaxContentLightLevel() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class VideoContentLightLevel extends Struct {
      * @param maxContentLightLevel The new value of the field {@code max_content_light_level}
      */
     public void setMaxContentLightLevel(short maxContentLightLevel) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxContentLightLevel);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxContentLightLevel);
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class VideoContentLightLevel extends Struct {
      * @return The value of the field {@code max_frame_average_light_level}
      */
     public short getMaxFrameAverageLightLevel() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,22 +87,26 @@ public class VideoContentLightLevel extends Struct {
      * @param maxFrameAverageLightLevel The new value of the field {@code max_frame_average_light_level}
      */
     public void setMaxFrameAverageLightLevel(short maxFrameAverageLightLevel) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxFrameAverageLightLevel);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxFrameAverageLightLevel);
+        }
     }
     
     /**
      * Create a VideoContentLightLevel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoContentLightLevel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoContentLightLevel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoContentLightLevel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoContentLightLevel(input, ownership);
+    public static final Marshal<Addressable, VideoContentLightLevel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoContentLightLevel(input);
     
     /**
      * Parse {@code caps} and update {@code linfo}
@@ -139,15 +149,17 @@ public class VideoContentLightLevel extends Struct {
      * @return {@code true} if {@code linfo} points to valid {@link VideoContentLightLevel}.
      */
     public boolean fromString(java.lang.String level) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_content_light_level_from_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(level, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_content_light_level_from_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(level, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -155,8 +167,7 @@ public class VideoContentLightLevel extends Struct {
      */
     public void init() {
         try {
-            DowncallHandles.gst_video_content_light_level_init.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_content_light_level_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,8 +197,7 @@ public class VideoContentLightLevel extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_content_light_level_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_content_light_level_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,39 +207,39 @@ public class VideoContentLightLevel extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_content_light_level_add_to_caps = Interop.downcallHandle(
-            "gst_video_content_light_level_add_to_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_add_to_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_content_light_level_from_caps = Interop.downcallHandle(
-            "gst_video_content_light_level_from_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_from_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_content_light_level_from_string = Interop.downcallHandle(
-            "gst_video_content_light_level_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_content_light_level_init = Interop.downcallHandle(
-            "gst_video_content_light_level_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_content_light_level_is_equal = Interop.downcallHandle(
-            "gst_video_content_light_level_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_content_light_level_to_string = Interop.downcallHandle(
-            "gst_video_content_light_level_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_content_light_level_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -255,7 +265,7 @@ public class VideoContentLightLevel extends Struct {
             struct = VideoContentLightLevel.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoContentLightLevel} struct.
          * @return A new instance of {@code VideoContentLightLevel} with the fields 
          *         that were set in the Builder object.
@@ -271,10 +281,12 @@ public class VideoContentLightLevel extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxContentLightLevel(short maxContentLightLevel) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxContentLightLevel);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_content_light_level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxContentLightLevel);
+                return this;
+            }
         }
         
         /**
@@ -284,17 +296,21 @@ public class VideoContentLightLevel extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxFrameAverageLightLevel(short maxFrameAverageLightLevel) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxFrameAverageLightLevel);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_frame_average_light_level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxFrameAverageLightLevel);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -30,6 +30,9 @@ public class QueryTypeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final QueryTypeFlags SERIALIZED = new QueryTypeFlags(4);
     
+    /**
+     * Create a new QueryTypeFlags with the provided value
+     */
     public QueryTypeFlags(int value) {
         super(value);
     }

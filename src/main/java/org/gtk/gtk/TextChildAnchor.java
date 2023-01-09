@@ -34,14 +34,16 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
     /**
      * Create a TextChildAnchor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextChildAnchor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextChildAnchor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextChildAnchor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextChildAnchor(input, ownership);
+    public static final Marshal<Addressable, TextChildAnchor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextChildAnchor(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -62,20 +64,22 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
      * function {@link TextBuffer#createChildAnchor}.
      */
     public TextChildAnchor() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithReplacement(java.lang.String character) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(
-                    Marshal.stringToAddress.marshal(character, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_new_with_replacement.invokeExact(Marshal.stringToAddress.marshal(character, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkTextChildAnchor} with the given replacement character.
      * <p>
@@ -85,7 +89,9 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
      */
     public static TextChildAnchor newWithReplacement(java.lang.String character) {
         var RESULT = constructNewWithReplacement(character);
-        return (org.gtk.gtk.TextChildAnchor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextChildAnchor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.TextChildAnchor) Interop.register(RESULT, org.gtk.gtk.TextChildAnchor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -102,8 +108,7 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
     public boolean getDeleted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_child_anchor_get_deleted.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_child_anchor_get_deleted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,22 +124,24 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
      *   array of widgets anchored at {@code anchor}
      */
     public org.gtk.gtk.Widget[] getWidgets(Out<Integer> outLen) {
-        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_get_widgets.invokeExact(
-                    handle(),
-                    (Addressable) outLenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outLenPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_text_child_anchor_get_widgets.invokeExact(
+                        handle(),
+                        (Addressable) outLenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outLen.set(outLenPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.gtk.Widget[] resultARRAY = new org.gtk.gtk.Widget[outLen.get().intValue()];
+            for (int I = 0; I < outLen.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = (org.gtk.gtk.Widget) Interop.register(OBJ, org.gtk.gtk.Widget.fromAddress).marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        outLen.set(outLenPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.gtk.Widget[] resultARRAY = new org.gtk.gtk.Widget[outLen.get().intValue()];
-        for (int I = 0; I < outLen.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.gtk.gtk.Widget.fromAddress).marshal(OBJ, Ownership.CONTAINER);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -167,6 +174,9 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -191,33 +201,41 @@ public class TextChildAnchor extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_child_anchor_new = Interop.downcallHandle(
-            "gtk_text_child_anchor_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_child_anchor_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_child_anchor_new_with_replacement = Interop.downcallHandle(
-            "gtk_text_child_anchor_new_with_replacement",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_child_anchor_new_with_replacement",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_deleted = Interop.downcallHandle(
-            "gtk_text_child_anchor_get_deleted",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_child_anchor_get_deleted",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_widgets = Interop.downcallHandle(
-            "gtk_text_child_anchor_get_widgets",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_child_anchor_get_widgets",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_child_anchor_get_type = Interop.downcallHandle(
-            "gtk_text_child_anchor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_text_child_anchor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_text_child_anchor_get_type != null;
     }
 }

@@ -26,6 +26,9 @@ public class LayoutDeserializeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final LayoutDeserializeFlags CONTEXT = new LayoutDeserializeFlags(1);
     
+    /**
+     * Create a new LayoutDeserializeFlags with the provided value
+     */
     public LayoutDeserializeFlags(int value) {
         super(value);
     }

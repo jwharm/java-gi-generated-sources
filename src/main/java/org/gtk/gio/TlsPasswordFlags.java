@@ -53,6 +53,9 @@ public class TlsPasswordFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TlsPasswordFlags PKCS11_CONTEXT_SPECIFIC = new TlsPasswordFlags(64);
     
+    /**
+     * Create a new TlsPasswordFlags with the provided value
+     */
     public TlsPasswordFlags(int value) {
         super(value);
     }

@@ -27,46 +27,57 @@ import org.jetbrains.annotations.*;
  * interpret unknown values as “free form”.
  */
 public enum InputPurpose implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Allow any character
      */
     FREE_FORM(0),
+    
     /**
      * Allow only alphabetic characters
      */
     ALPHA(1),
+    
     /**
      * Allow only digits
      */
     DIGITS(2),
+    
     /**
      * Edited field expects numbers
      */
     NUMBER(3),
+    
     /**
      * Edited field expects phone number
      */
     PHONE(4),
+    
     /**
      * Edited field expects URL
      */
     URL(5),
+    
     /**
      * Edited field expects email address
      */
     EMAIL(6),
+    
     /**
      * Edited field expects the name of a person
      */
     NAME(7),
+    
     /**
      * Like {@link InputPurpose#FREE_FORM}, but characters are hidden
      */
     PASSWORD(8),
+    
     /**
      * Like {@link InputPurpose#DIGITS}, but characters are hidden
      */
     PIN(9),
+    
     /**
      * Allow any character, in addition to control codes
      */
@@ -75,15 +86,29 @@ public enum InputPurpose implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkInputPurpose";
     
     private final int value;
+    
+    /**
+     * Create a new InputPurpose for the provided value
+     * @param numeric value the enum value
+     */
     InputPurpose(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new InputPurpose for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static InputPurpose of(int value) {
         return switch (value) {
             case 0 -> FREE_FORM;

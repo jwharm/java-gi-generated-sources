@@ -19,6 +19,9 @@ public class OtMathGlyphPartFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final OtMathGlyphPartFlagsT EXTENDER = new OtMathGlyphPartFlagsT(1);
     
+    /**
+     * Create a new OtMathGlyphPartFlagsT with the provided value
+     */
     public OtMathGlyphPartFlagsT(int value) {
         super(value);
     }

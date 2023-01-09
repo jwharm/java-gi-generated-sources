@@ -29,6 +29,9 @@ public class VideoTimeCodeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoTimeCodeFlags INTERLACED = new VideoTimeCodeFlags(2);
     
+    /**
+     * Create a new VideoTimeCodeFlags with the provided value
+     */
     public VideoTimeCodeFlags(int value) {
         super(value);
     }

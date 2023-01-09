@@ -42,14 +42,16 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     /**
      * Create a GestureLongPress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureLongPress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureLongPress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureLongPress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureLongPress(input, ownership);
+    public static final Marshal<Addressable, GestureLongPress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureLongPress(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,7 +67,8 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * Returns a newly created {@code GtkGesture} that recognizes long presses.
      */
     public GestureLongPress() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -75,8 +78,7 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     public double getDelayFactor() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_gesture_long_press_get_delay_factor.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,19 +116,38 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Cancelled} callback.
+     */
     @FunctionalInterface
     public interface Cancelled {
+    
+        /**
+         * Emitted whenever a press moved too far, or was released
+         * before {@code Gtk.GestureLongPress::pressed} happened.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureLongPress) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Cancelled.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Cancelled.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -137,28 +158,48 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureLongPress.Cancelled> onCancelled(GestureLongPress.Cancelled handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("cancelled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("cancelled", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Pressed} callback.
+     */
     @FunctionalInterface
     public interface Pressed {
+    
+        /**
+         * Emitted whenever a press goes unmoved/unreleased longer than
+         * what the GTK defaults tell.
+         */
         void run(double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureLongPress, double x, double y) {
             run(x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Pressed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Pressed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -169,9 +210,10 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureLongPress.Pressed> onPressed(GestureLongPress.Pressed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pressed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pressed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -194,6 +236,9 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
      */
     public static class Builder extends org.gtk.gtk.GestureSingle.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -229,27 +274,35 @@ public class GestureLongPress extends org.gtk.gtk.GestureSingle {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
-            "gtk_gesture_long_press_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_long_press_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
-            "gtk_gesture_long_press_get_delay_factor",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_long_press_get_delay_factor",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
-            "gtk_gesture_long_press_set_delay_factor",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_gesture_long_press_set_delay_factor",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_gesture_long_press_get_type = Interop.downcallHandle(
-            "gtk_gesture_long_press_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_long_press_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_long_press_get_type != null;
     }
 }

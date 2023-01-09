@@ -41,6 +41,9 @@ public class TypeDebugFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TypeDebugFlags MASK = new TypeDebugFlags(7);
     
+    /**
+     * Create a new TypeDebugFlags with the provided value
+     */
     public TypeDebugFlags(int value) {
         super(value);
     }

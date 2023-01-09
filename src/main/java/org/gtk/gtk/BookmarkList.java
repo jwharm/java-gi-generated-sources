@@ -35,25 +35,29 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     /**
      * Create a BookmarkList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BookmarkList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BookmarkList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BookmarkList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkList(input, ownership);
+    public static final Marshal<Addressable, BookmarkList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkList(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_new.invokeExact(
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_new.invokeExact(
+                        (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, SCOPE)),
+                        (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -62,7 +66,8 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
      * @param attributes The attributes to query
      */
     public BookmarkList(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
-        super(constructNew(filename, attributes), Ownership.FULL);
+        super(constructNew(filename, attributes));
+        this.takeOwnership();
     }
     
     /**
@@ -72,8 +77,7 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     public @Nullable java.lang.String getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,8 +92,7 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     public java.lang.String getFilename() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_get_filename.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_get_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +106,7 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     public int getIoPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bookmark_list_get_io_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bookmark_list_get_io_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,8 +124,7 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     public boolean isLoading() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_bookmark_list_is_loading.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_bookmark_list_is_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,12 +139,14 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
      * @param attributes the attributes to enumerate
      */
     public void setAttributes(@Nullable java.lang.String attributes) {
-        try {
-            DowncallHandles.gtk_bookmark_list_set_attributes.invokeExact(
-                    handle(),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_bookmark_list_set_attributes.invokeExact(
+                        handle(),
+                        (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -193,6 +196,9 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -283,51 +289,59 @@ public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_bookmark_list_new = Interop.downcallHandle(
-            "gtk_bookmark_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_attributes = Interop.downcallHandle(
-            "gtk_bookmark_list_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_filename = Interop.downcallHandle(
-            "gtk_bookmark_list_get_filename",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_get_filename",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_io_priority = Interop.downcallHandle(
-            "gtk_bookmark_list_get_io_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_get_io_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_is_loading = Interop.downcallHandle(
-            "gtk_bookmark_list_is_loading",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_is_loading",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_attributes = Interop.downcallHandle(
-            "gtk_bookmark_list_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_bookmark_list_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_set_io_priority = Interop.downcallHandle(
-            "gtk_bookmark_list_set_io_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_bookmark_list_set_io_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_bookmark_list_get_type = Interop.downcallHandle(
-            "gtk_bookmark_list_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_bookmark_list_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_bookmark_list_get_type != null;
     }
 }

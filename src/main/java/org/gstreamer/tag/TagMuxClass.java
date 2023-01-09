@@ -38,8 +38,8 @@ public class TagMuxClass extends Struct {
      * @return A new, uninitialized @{link TagMuxClass}
      */
     public static TagMuxClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TagMuxClass newInstance = new TagMuxClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TagMuxClass newInstance = new TagMuxClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class TagMuxClass extends Struct {
      */
     public org.gstreamer.gst.ElementClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,25 +58,43 @@ public class TagMuxClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RenderStartTagCallback} callback.
+     */
     @FunctionalInterface
     public interface RenderStartTagCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.tag.TagMux mux, org.gstreamer.gst.TagList tagList);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress mux, MemoryAddress tagList) {
-            var RESULT = run((org.gstreamer.tag.TagMux) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mux)), org.gstreamer.tag.TagMux.fromAddress).marshal(mux, Ownership.NONE), org.gstreamer.gst.TagList.fromAddress.marshal(tagList, Ownership.NONE));
+            var RESULT = run((org.gstreamer.tag.TagMux) Interop.register(mux, org.gstreamer.tag.TagMux.fromAddress).marshal(mux, null), org.gstreamer.gst.TagList.fromAddress.marshal(tagList, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RenderStartTagCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RenderStartTagCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,25 +103,43 @@ public class TagMuxClass extends Struct {
      * @param renderStartTag The new value of the field {@code render_start_tag}
      */
     public void setRenderStartTag(RenderStartTagCallback renderStartTag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_start_tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderStartTag == null ? MemoryAddress.NULL : renderStartTag.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_start_tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderStartTag == null ? MemoryAddress.NULL : renderStartTag.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RenderEndTagCallback} callback.
+     */
     @FunctionalInterface
     public interface RenderEndTagCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.tag.TagMux mux, org.gstreamer.gst.TagList tagList);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress mux, MemoryAddress tagList) {
-            var RESULT = run((org.gstreamer.tag.TagMux) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mux)), org.gstreamer.tag.TagMux.fromAddress).marshal(mux, Ownership.NONE), org.gstreamer.gst.TagList.fromAddress.marshal(tagList, Ownership.NONE));
+            var RESULT = run((org.gstreamer.tag.TagMux) Interop.register(mux, org.gstreamer.tag.TagMux.fromAddress).marshal(mux, null), org.gstreamer.gst.TagList.fromAddress.marshal(tagList, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RenderEndTagCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RenderEndTagCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,22 +148,26 @@ public class TagMuxClass extends Struct {
      * @param renderEndTag The new value of the field {@code render_end_tag}
      */
     public void setRenderEndTag(RenderEndTagCallback renderEndTag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_end_tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderEndTag == null ? MemoryAddress.NULL : renderEndTag.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_end_tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderEndTag == null ? MemoryAddress.NULL : renderEndTag.toCallback()));
+        }
     }
     
     /**
      * Create a TagMuxClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TagMuxClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TagMuxClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagMuxClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagMuxClass(input, ownership);
+    public static final Marshal<Addressable, TagMuxClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagMuxClass(input);
     
     /**
      * A {@link TagMuxClass.Builder} object constructs a {@link TagMuxClass} 
@@ -151,7 +191,7 @@ public class TagMuxClass extends Struct {
             struct = TagMuxClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TagMuxClass} struct.
          * @return A new instance of {@code TagMuxClass} with the fields 
          *         that were set in the Builder object.
@@ -166,31 +206,39 @@ public class TagMuxClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setRenderStartTag(RenderStartTagCallback renderStartTag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render_start_tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderStartTag == null ? MemoryAddress.NULL : renderStartTag.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render_start_tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderStartTag == null ? MemoryAddress.NULL : renderStartTag.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRenderEndTag(RenderEndTagCallback renderEndTag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render_end_tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderEndTag == null ? MemoryAddress.NULL : renderEndTag.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render_end_tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renderEndTag == null ? MemoryAddress.NULL : renderEndTag.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -33,14 +33,16 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
     /**
      * Create a MenuLinkIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MenuLinkIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MenuLinkIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MenuLinkIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuLinkIter(input, ownership);
+    public static final Marshal<Addressable, MenuLinkIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MenuLinkIter(input);
     
     /**
      * Gets the name of the link at the current iterator position.
@@ -51,8 +53,7 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,20 +80,22 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
      * @return {@code true} on success, or {@code false} if there is no additional link
      */
     public boolean getNext(@Nullable Out<java.lang.String> outLink, @Nullable Out<org.gtk.gio.MenuModel> value) {
-        MemorySegment outLinkPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_menu_link_iter_get_next.invokeExact(
-                    handle(),
-                    (Addressable) (outLink == null ? MemoryAddress.NULL : (Addressable) outLinkPOINTER.address()),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outLinkPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_menu_link_iter_get_next.invokeExact(
+                        handle(),
+                        (Addressable) (outLink == null ? MemoryAddress.NULL : (Addressable) outLinkPOINTER.address()),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (outLink != null) outLink.set(Marshal.addressToString.marshal(outLinkPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (value != null) value.set((org.gtk.gio.MenuModel) Interop.register(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gtk.gio.MenuModel.fromAddress).marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (outLink != null) outLink.set(Marshal.addressToString.marshal(outLinkPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (value != null) value.set((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.MenuModel.fromAddress).marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -104,12 +107,13 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
     public org.gtk.gio.MenuModel getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_link_iter_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MenuModel) Interop.register(RESULT, org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -126,8 +130,7 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_link_iter_next.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_menu_link_iter_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,6 +167,9 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -188,33 +194,41 @@ public class MenuLinkIter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_menu_link_iter_get_name = Interop.downcallHandle(
-            "g_menu_link_iter_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_link_iter_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_link_iter_get_next = Interop.downcallHandle(
-            "g_menu_link_iter_get_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_link_iter_get_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_link_iter_get_value = Interop.downcallHandle(
-            "g_menu_link_iter_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_link_iter_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_link_iter_next = Interop.downcallHandle(
-            "g_menu_link_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_link_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_link_iter_get_type = Interop.downcallHandle(
-            "g_menu_link_iter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_menu_link_iter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_menu_link_iter_get_type != null;
     }
 }

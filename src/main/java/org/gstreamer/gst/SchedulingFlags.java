@@ -27,6 +27,9 @@ public class SchedulingFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SchedulingFlags BANDWIDTH_LIMITED = new SchedulingFlags(4);
     
+    /**
+     * Create a new SchedulingFlags with the provided value
+     */
     public SchedulingFlags(int value) {
         super(value);
     }

@@ -16,8 +16,11 @@ import org.jetbrains.annotations.*;
  */
 public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetworkMonitorImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkMonitorImpl(input, ownership);
+    public static final Marshal<Addressable, NetworkMonitorImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetworkMonitorImpl(input);
     
     /**
      * Attempts to determine whether or not the host pointed to by
@@ -43,21 +46,23 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean canReach(org.gtk.gio.SocketConnectable connectable, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_network_monitor_can_reach.invokeExact(
-                    handle(),
-                    connectable.handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_network_monitor_can_reach.invokeExact(
+                        handle(),
+                        connectable.handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -96,20 +101,22 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean canReachFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_network_monitor_can_reach_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_network_monitor_can_reach_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -137,8 +144,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.NetworkConnectivity getConnectivity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_network_monitor_get_connectivity.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_network_monitor_get_connectivity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,8 +161,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     default boolean getNetworkAvailable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_network_monitor_get_network_available.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_network_monitor_get_network_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,8 +176,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
     default boolean getNetworkMetered() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_network_monitor_get_network_metered.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_network_monitor_get_network_metered.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,22 +209,40 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.NetworkMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkMonitor.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.NetworkMonitor) Interop.register(RESULT, org.gtk.gio.NetworkMonitor.fromAddress).marshal(RESULT, null);
     }
     
+    /**
+     * Functional interface declaration of the {@code NetworkChanged} callback.
+     */
     @FunctionalInterface
     public interface NetworkChanged {
+    
+        /**
+         * Emitted when the network configuration changes.
+         */
         void run(boolean networkAvailable);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceNetworkMonitor, int networkAvailable) {
             run(Marshal.integerToBoolean.marshal(networkAvailable, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NetworkChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NetworkChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -230,9 +252,10 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<NetworkMonitor.NetworkChanged> onNetworkChanged(NetworkMonitor.NetworkChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("network-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("network-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -244,69 +267,84 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach = Interop.downcallHandle(
-            "g_network_monitor_can_reach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_can_reach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach_async = Interop.downcallHandle(
-            "g_network_monitor_can_reach_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_can_reach_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_can_reach_finish = Interop.downcallHandle(
-            "g_network_monitor_can_reach_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_can_reach_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_connectivity = Interop.downcallHandle(
-            "g_network_monitor_get_connectivity",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_get_connectivity",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_network_available = Interop.downcallHandle(
-            "g_network_monitor_get_network_available",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_get_network_available",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_network_metered = Interop.downcallHandle(
-            "g_network_monitor_get_network_metered",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_get_network_metered",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_type = Interop.downcallHandle(
-            "g_network_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_network_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_network_monitor_get_default = Interop.downcallHandle(
-            "g_network_monitor_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_network_monitor_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The NetworkMonitorImpl type represents a native instance of the NetworkMonitor interface.
+     */
     class NetworkMonitorImpl extends org.gtk.gobject.GObject implements NetworkMonitor {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public NetworkMonitorImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of NetworkMonitor for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public NetworkMonitorImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_network_monitor_get_type != null;
     }
 }

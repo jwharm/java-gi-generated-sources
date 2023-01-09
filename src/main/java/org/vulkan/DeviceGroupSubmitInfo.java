@@ -29,8 +29,8 @@ public class DeviceGroupSubmitInfo extends Struct {
      * @return A new, uninitialized @{link DeviceGroupSubmitInfo}
      */
     public static DeviceGroupSubmitInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceGroupSubmitInfo newInstance = new DeviceGroupSubmitInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceGroupSubmitInfo newInstance = new DeviceGroupSubmitInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceGroupSubmitInfo extends Struct {
     /**
      * Create a DeviceGroupSubmitInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceGroupSubmitInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceGroupSubmitInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceGroupSubmitInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupSubmitInfo(input, ownership);
+    public static final Marshal<Addressable, DeviceGroupSubmitInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupSubmitInfo(input);
 }

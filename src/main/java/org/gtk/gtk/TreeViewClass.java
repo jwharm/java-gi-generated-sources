@@ -47,8 +47,8 @@ public class TreeViewClass extends Struct {
      * @return A new, uninitialized @{link TreeViewClass}
      */
     public static TreeViewClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeViewClass newInstance = new TreeViewClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeViewClass newInstance = new TreeViewClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,7 +59,7 @@ public class TreeViewClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -67,24 +67,41 @@ public class TreeViewClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowActivatedCallback} callback.
+     */
     @FunctionalInterface
     public interface RowActivatedCallback {
+    
         void run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.TreeViewColumn column);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress treeView, MemoryAddress path, MemoryAddress column) {
-            run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE), (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(column)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(column, Ownership.NONE));
+            run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null), (org.gtk.gtk.TreeViewColumn) Interop.register(column, org.gtk.gtk.TreeViewColumn.fromAddress).marshal(column, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowActivatedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowActivatedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -93,25 +110,42 @@ public class TreeViewClass extends Struct {
      * @param rowActivated The new value of the field {@code row_activated}
      */
     public void setRowActivated(RowActivatedCallback rowActivated) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("row_activated"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowActivated == null ? MemoryAddress.NULL : rowActivated.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("row_activated"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowActivated == null ? MemoryAddress.NULL : rowActivated.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TestExpandRowCallback} callback.
+     */
     @FunctionalInterface
     public interface TestExpandRowCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView, MemoryAddress iter, MemoryAddress path) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TestExpandRowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TestExpandRowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -120,25 +154,42 @@ public class TreeViewClass extends Struct {
      * @param testExpandRow The new value of the field {@code test_expand_row}
      */
     public void setTestExpandRow(TestExpandRowCallback testExpandRow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_expand_row"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testExpandRow == null ? MemoryAddress.NULL : testExpandRow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_expand_row"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (testExpandRow == null ? MemoryAddress.NULL : testExpandRow.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TestCollapseRowCallback} callback.
+     */
     @FunctionalInterface
     public interface TestCollapseRowCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView, MemoryAddress iter, MemoryAddress path) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TestCollapseRowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TestCollapseRowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -147,24 +198,41 @@ public class TreeViewClass extends Struct {
      * @param testCollapseRow The new value of the field {@code test_collapse_row}
      */
     public void setTestCollapseRow(TestCollapseRowCallback testCollapseRow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_collapse_row"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testCollapseRow == null ? MemoryAddress.NULL : testCollapseRow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_collapse_row"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (testCollapseRow == null ? MemoryAddress.NULL : testCollapseRow.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowExpandedCallback} callback.
+     */
     @FunctionalInterface
     public interface RowExpandedCallback {
+    
         void run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress treeView, MemoryAddress iter, MemoryAddress path) {
-            run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowExpandedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowExpandedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -173,24 +241,41 @@ public class TreeViewClass extends Struct {
      * @param rowExpanded The new value of the field {@code row_expanded}
      */
     public void setRowExpanded(RowExpandedCallback rowExpanded) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("row_expanded"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowExpanded == null ? MemoryAddress.NULL : rowExpanded.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("row_expanded"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowExpanded == null ? MemoryAddress.NULL : rowExpanded.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowCollapsedCallback} callback.
+     */
     @FunctionalInterface
     public interface RowCollapsedCallback {
+    
         void run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreePath path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress treeView, MemoryAddress iter, MemoryAddress path) {
-            run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+            run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, null), org.gtk.gtk.TreePath.fromAddress.marshal(path, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowCollapsedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowCollapsedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -199,24 +284,41 @@ public class TreeViewClass extends Struct {
      * @param rowCollapsed The new value of the field {@code row_collapsed}
      */
     public void setRowCollapsed(RowCollapsedCallback rowCollapsed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("row_collapsed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowCollapsed == null ? MemoryAddress.NULL : rowCollapsed.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("row_collapsed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowCollapsed == null ? MemoryAddress.NULL : rowCollapsed.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ColumnsChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface ColumnsChangedCallback {
+    
         void run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress treeView) {
-            run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ColumnsChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ColumnsChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -225,24 +327,41 @@ public class TreeViewClass extends Struct {
      * @param columnsChanged The new value of the field {@code columns_changed}
      */
     public void setColumnsChanged(ColumnsChangedCallback columnsChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("columns_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (columnsChanged == null ? MemoryAddress.NULL : columnsChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("columns_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (columnsChanged == null ? MemoryAddress.NULL : columnsChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CursorChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface CursorChangedCallback {
+    
         void run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress treeView) {
-            run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CursorChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CursorChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -251,25 +370,42 @@ public class TreeViewClass extends Struct {
      * @param cursorChanged The new value of the field {@code cursor_changed}
      */
     public void setCursorChanged(CursorChangedCallback cursorChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cursor_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cursorChanged == null ? MemoryAddress.NULL : cursorChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cursor_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cursorChanged == null ? MemoryAddress.NULL : cursorChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code MoveCursorCallback} callback.
+     */
     @FunctionalInterface
     public interface MoveCursorCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView, int step, int count, int extend, int modify) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extend, null).booleanValue(), Marshal.integerToBoolean.marshal(modify, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extend, null).booleanValue(), Marshal.integerToBoolean.marshal(modify, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursorCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MoveCursorCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -278,25 +414,42 @@ public class TreeViewClass extends Struct {
      * @param moveCursor The new value of the field {@code move_cursor}
      */
     public void setMoveCursor(MoveCursorCallback moveCursor) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectAllCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectAllCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAllCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectAllCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -305,25 +458,42 @@ public class TreeViewClass extends Struct {
      * @param selectAll The new value of the field {@code select_all}
      */
     public void setSelectAll(SelectAllCallback selectAll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectAllCallback} callback.
+     */
     @FunctionalInterface
     public interface UnselectAllCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAllCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectAllCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -332,25 +502,42 @@ public class TreeViewClass extends Struct {
      * @param unselectAll The new value of the field {@code unselect_all}
      */
     public void setUnselectAll(UnselectAllCallback unselectAll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectCursorRowCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectCursorRowCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView, boolean startEditing);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView, int startEditing) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), Marshal.integerToBoolean.marshal(startEditing, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), Marshal.integerToBoolean.marshal(startEditing, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectCursorRowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectCursorRowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -359,25 +546,42 @@ public class TreeViewClass extends Struct {
      * @param selectCursorRow The new value of the field {@code select_cursor_row}
      */
     public void setSelectCursorRow(SelectCursorRowCallback selectCursorRow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_row"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorRow == null ? MemoryAddress.NULL : selectCursorRow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_row"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectCursorRow == null ? MemoryAddress.NULL : selectCursorRow.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToggleCursorRowCallback} callback.
+     */
     @FunctionalInterface
     public interface ToggleCursorRowCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorRowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToggleCursorRowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -386,25 +590,42 @@ public class TreeViewClass extends Struct {
      * @param toggleCursorRow The new value of the field {@code toggle_cursor_row}
      */
     public void setToggleCursorRow(ToggleCursorRowCallback toggleCursorRow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("toggle_cursor_row"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggleCursorRow == null ? MemoryAddress.NULL : toggleCursorRow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("toggle_cursor_row"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toggleCursorRow == null ? MemoryAddress.NULL : toggleCursorRow.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ExpandCollapseCursorRowCallback} callback.
+     */
     @FunctionalInterface
     public interface ExpandCollapseCursorRowCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView, boolean logical, boolean expand, boolean openAll);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView, int logical, int expand, int openAll) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), Marshal.integerToBoolean.marshal(logical, null).booleanValue(), Marshal.integerToBoolean.marshal(expand, null).booleanValue(), Marshal.integerToBoolean.marshal(openAll, null).booleanValue());
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null), Marshal.integerToBoolean.marshal(logical, null).booleanValue(), Marshal.integerToBoolean.marshal(expand, null).booleanValue(), Marshal.integerToBoolean.marshal(openAll, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ExpandCollapseCursorRowCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ExpandCollapseCursorRowCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -413,25 +634,42 @@ public class TreeViewClass extends Struct {
      * @param expandCollapseCursorRow The new value of the field {@code expand_collapse_cursor_row}
      */
     public void setExpandCollapseCursorRow(ExpandCollapseCursorRowCallback expandCollapseCursorRow) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("expand_collapse_cursor_row"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expandCollapseCursorRow == null ? MemoryAddress.NULL : expandCollapseCursorRow.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("expand_collapse_cursor_row"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (expandCollapseCursorRow == null ? MemoryAddress.NULL : expandCollapseCursorRow.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectCursorParentCallback} callback.
+     */
     @FunctionalInterface
     public interface SelectCursorParentCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectCursorParentCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectCursorParentCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -440,25 +678,42 @@ public class TreeViewClass extends Struct {
      * @param selectCursorParent The new value of the field {@code select_cursor_parent}
      */
     public void setSelectCursorParent(SelectCursorParentCallback selectCursorParent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorParent == null ? MemoryAddress.NULL : selectCursorParent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectCursorParent == null ? MemoryAddress.NULL : selectCursorParent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartInteractiveSearchCallback} callback.
+     */
     @FunctionalInterface
     public interface StartInteractiveSearchCallback {
+    
         boolean run(org.gtk.gtk.TreeView treeView);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress treeView) {
-            var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE));
+            var RESULT = run((org.gtk.gtk.TreeView) Interop.register(treeView, org.gtk.gtk.TreeView.fromAddress).marshal(treeView, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartInteractiveSearchCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartInteractiveSearchCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -467,22 +722,26 @@ public class TreeViewClass extends Struct {
      * @param startInteractiveSearch The new value of the field {@code start_interactive_search}
      */
     public void setStartInteractiveSearch(StartInteractiveSearchCallback startInteractiveSearch) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_interactive_search"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startInteractiveSearch == null ? MemoryAddress.NULL : startInteractiveSearch.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_interactive_search"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startInteractiveSearch == null ? MemoryAddress.NULL : startInteractiveSearch.toCallback()));
+        }
     }
     
     /**
      * Create a TreeViewClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeViewClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeViewClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeViewClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeViewClass(input, ownership);
+    public static final Marshal<Addressable, TreeViewClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeViewClass(input);
     
     /**
      * A {@link TreeViewClass.Builder} object constructs a {@link TreeViewClass} 
@@ -506,7 +765,7 @@ public class TreeViewClass extends Struct {
             struct = TreeViewClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TreeViewClass} struct.
          * @return A new instance of {@code TreeViewClass} with the fields 
          *         that were set in the Builder object.
@@ -516,122 +775,156 @@ public class TreeViewClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setRowActivated(RowActivatedCallback rowActivated) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("row_activated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowActivated == null ? MemoryAddress.NULL : rowActivated.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("row_activated"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowActivated == null ? MemoryAddress.NULL : rowActivated.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTestExpandRow(TestExpandRowCallback testExpandRow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_expand_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testExpandRow == null ? MemoryAddress.NULL : testExpandRow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_expand_row"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (testExpandRow == null ? MemoryAddress.NULL : testExpandRow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTestCollapseRow(TestCollapseRowCallback testCollapseRow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_collapse_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (testCollapseRow == null ? MemoryAddress.NULL : testCollapseRow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_collapse_row"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (testCollapseRow == null ? MemoryAddress.NULL : testCollapseRow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRowExpanded(RowExpandedCallback rowExpanded) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("row_expanded"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowExpanded == null ? MemoryAddress.NULL : rowExpanded.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("row_expanded"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowExpanded == null ? MemoryAddress.NULL : rowExpanded.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRowCollapsed(RowCollapsedCallback rowCollapsed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("row_collapsed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rowCollapsed == null ? MemoryAddress.NULL : rowCollapsed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("row_collapsed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (rowCollapsed == null ? MemoryAddress.NULL : rowCollapsed.toCallback()));
+                return this;
+            }
         }
         
         public Builder setColumnsChanged(ColumnsChangedCallback columnsChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("columns_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (columnsChanged == null ? MemoryAddress.NULL : columnsChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("columns_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (columnsChanged == null ? MemoryAddress.NULL : columnsChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCursorChanged(CursorChangedCallback cursorChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cursor_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cursorChanged == null ? MemoryAddress.NULL : cursorChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cursor_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cursorChanged == null ? MemoryAddress.NULL : cursorChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setMoveCursor(MoveCursorCallback moveCursor) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("move_cursor"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (moveCursor == null ? MemoryAddress.NULL : moveCursor.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectAll(SelectAllCallback selectAll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_all"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectAll == null ? MemoryAddress.NULL : selectAll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUnselectAll(UnselectAllCallback unselectAll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unselect_all"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unselectAll == null ? MemoryAddress.NULL : unselectAll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectCursorRow(SelectCursorRowCallback selectCursorRow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorRow == null ? MemoryAddress.NULL : selectCursorRow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_row"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectCursorRow == null ? MemoryAddress.NULL : selectCursorRow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setToggleCursorRow(ToggleCursorRowCallback toggleCursorRow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("toggle_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toggleCursorRow == null ? MemoryAddress.NULL : toggleCursorRow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("toggle_cursor_row"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toggleCursorRow == null ? MemoryAddress.NULL : toggleCursorRow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setExpandCollapseCursorRow(ExpandCollapseCursorRowCallback expandCollapseCursorRow) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("expand_collapse_cursor_row"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (expandCollapseCursorRow == null ? MemoryAddress.NULL : expandCollapseCursorRow.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("expand_collapse_cursor_row"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (expandCollapseCursorRow == null ? MemoryAddress.NULL : expandCollapseCursorRow.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSelectCursorParent(SelectCursorParentCallback selectCursorParent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (selectCursorParent == null ? MemoryAddress.NULL : selectCursorParent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("select_cursor_parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (selectCursorParent == null ? MemoryAddress.NULL : selectCursorParent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStartInteractiveSearch(StartInteractiveSearchCallback startInteractiveSearch) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_interactive_search"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startInteractiveSearch == null ? MemoryAddress.NULL : startInteractiveSearch.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_interactive_search"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startInteractiveSearch == null ? MemoryAddress.NULL : startInteractiveSearch.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

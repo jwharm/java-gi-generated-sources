@@ -75,26 +75,17 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
     
     /**
      * Create a TypeFindFactory proxy instance for the provided memory address.
-     * <p>
-     * Because TypeFindFactory is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeFindFactory(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TypeFindFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeFindFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeFindFactory(input, ownership);
+    public static final Marshal<Addressable, TypeFindFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeFindFactory(input);
     
     /**
      * Calls the {@link TypeFindFunction} associated with this factory.
@@ -118,12 +109,11 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
     public @Nullable org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_type_find_factory_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_type_find_factory_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -134,14 +124,15 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
      * @return a {@code null}-terminated array of extensions associated with this factory
      */
     public @Nullable PointerString getExtensions() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_type_find_factory_get_extensions.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_type_find_factory_get_extensions.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -153,8 +144,7 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
     public boolean hasFunction() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_type_find_factory_has_function.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_type_find_factory_has_function.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +183,9 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -212,6 +204,9 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
      */
     public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -236,39 +231,47 @@ public class TypeFindFactory extends org.gstreamer.gst.PluginFeature {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_type_find_factory_call_function = Interop.downcallHandle(
-            "gst_type_find_factory_call_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_type_find_factory_call_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_type_find_factory_get_caps = Interop.downcallHandle(
-            "gst_type_find_factory_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_type_find_factory_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_type_find_factory_get_extensions = Interop.downcallHandle(
-            "gst_type_find_factory_get_extensions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_type_find_factory_get_extensions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_type_find_factory_has_function = Interop.downcallHandle(
-            "gst_type_find_factory_has_function",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_type_find_factory_has_function",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_type_find_factory_get_type = Interop.downcallHandle(
-            "gst_type_find_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_type_find_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_type_find_factory_get_list = Interop.downcallHandle(
-            "gst_type_find_factory_get_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_type_find_factory_get_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_type_find_factory_get_type != null;
     }
 }

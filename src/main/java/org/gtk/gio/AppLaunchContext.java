@@ -33,14 +33,16 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
     /**
      * Create a AppLaunchContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppLaunchContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AppLaunchContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppLaunchContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppLaunchContext(input, ownership);
+    public static final Marshal<Addressable, AppLaunchContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppLaunchContext(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -57,7 +59,8 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * instead you instantiate a subclass of this, such as {@code GdkAppLaunchContext}.
      */
     public AppLaunchContext() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -89,14 +92,15 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @return the child's environment
      */
     public PointerString getEnvironment() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_environment.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_environment.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -129,12 +133,14 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @param startupNotifyId the startup notification id that was returned by g_app_launch_context_get_startup_notify_id().
      */
     public void launchFailed(java.lang.String startupNotifyId) {
-        try {
-            DowncallHandles.g_app_launch_context_launch_failed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(startupNotifyId, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_app_launch_context_launch_failed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(startupNotifyId, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -145,13 +151,15 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @param value the value for to set the variable to.
      */
     public void setenv(java.lang.String variable, java.lang.String value) {
-        try {
-            DowncallHandles.g_app_launch_context_setenv.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(variable, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_app_launch_context_setenv.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(variable, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -161,12 +169,14 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @param variable the environment variable to remove
      */
     public void unsetenv(java.lang.String variable) {
-        try {
-            DowncallHandles.g_app_launch_context_unsetenv.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(variable, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_app_launch_context_unsetenv.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(variable, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -184,19 +194,45 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code LaunchFailed} callback.
+     */
     @FunctionalInterface
     public interface LaunchFailed {
+    
+        /**
+         * The {@link AppLaunchContext}::launch-failed signal is emitted when a {@link AppInfo} launch
+         * fails. The startup notification id is provided, so that the launcher
+         * can cancel the startup notification.
+         * <p>
+         * Because a launch operation may involve spawning multiple instances of the
+         * target application, you should expect this signal to be emitted multiple
+         * times, one for each spawned instance.
+         */
         void run(java.lang.String startupNotifyId);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppLaunchContext, MemoryAddress startupNotifyId) {
-            run(Marshal.addressToString.marshal(startupNotifyId, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(startupNotifyId, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LaunchFailed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LaunchFailed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -212,28 +248,64 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.LaunchFailed> onLaunchFailed(AppLaunchContext.LaunchFailed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("launch-failed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("launch-failed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code LaunchStarted} callback.
+     */
     @FunctionalInterface
     public interface LaunchStarted {
+    
+        /**
+         * The {@link AppLaunchContext}::launch-started signal is emitted when a {@link AppInfo} is
+         * about to be launched. If non-null the {@code platform_data} is an
+         * GVariant dictionary mapping strings to variants (ie {@code a{sv}}), which
+         * contains additional, platform-specific data about this launch. On
+         * UNIX, at least the {@code startup-notification-id} keys will be
+         * present.
+         * <p>
+         * The value of the {@code startup-notification-id} key (type {@code s}) is a startup
+         * notification ID corresponding to the format from the [startup-notification
+         * specification](https://specifications.freedesktop.org/startup-notification-spec/startup-notification-0.1.txt).
+         * It allows tracking the progress of the launchee through startup.
+         * <p>
+         * It is guaranteed that this signal is followed by either a {@link AppLaunchContext}::launched or
+         * {@link AppLaunchContext}::launch-failed signal.
+         * <p>
+         * Because a launch operation may involve spawning multiple instances of the
+         * target application, you should expect this signal to be emitted multiple
+         * times, one for each spawned instance.
+         */
         void run(org.gtk.gio.AppInfo info, @Nullable org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppLaunchContext, MemoryAddress info, MemoryAddress platformData) {
-            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(info)), org.gtk.gio.AppInfo.fromAddress).marshal(info, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            run((org.gtk.gio.AppInfo) Interop.register(info, org.gtk.gio.AppInfo.fromAddress).marshal(info, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LaunchStarted.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LaunchStarted.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -260,28 +332,66 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.LaunchStarted> onLaunchStarted(AppLaunchContext.LaunchStarted handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("launch-started"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("launch-started", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Launched} callback.
+     */
     @FunctionalInterface
     public interface Launched {
+    
+        /**
+         * The {@link AppLaunchContext}::launched signal is emitted when a {@link AppInfo} is successfully
+         * launched.
+         * <p>
+         * Because a launch operation may involve spawning multiple instances of the
+         * target application, you should expect this signal to be emitted multiple
+         * times, one time for each spawned instance.
+         * <p>
+         * The {@code platform_data} is an GVariant dictionary mapping
+         * strings to variants (ie {@code a{sv}}), which contains additional,
+         * platform-specific data about this launch. On UNIX, at least the
+         * {@code pid} and {@code startup-notification-id} keys will be present.
+         * <p>
+         * Since 2.72 the {@code pid} may be 0 if the process id wasn't known (for
+         * example if the process was launched via D-Bus). The {@code pid} may not be
+         * set at all in subsequent releases.
+         * <p>
+         * On Windows, {@code pid} is guaranteed to be valid only for the duration of the
+         * {@link AppLaunchContext}::launched signal emission; after the signal is emitted,
+         * GLib will call g_spawn_close_pid(). If you need to keep the {@link org.gtk.glib.Pid} after the
+         * signal has been emitted, then you can duplicate {@code pid} using {@code DuplicateHandle()}.
+         */
         void run(org.gtk.gio.AppInfo info, org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppLaunchContext, MemoryAddress info, MemoryAddress platformData) {
-            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(info)), org.gtk.gio.AppInfo.fromAddress).marshal(info, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            run((org.gtk.gio.AppInfo) Interop.register(info, org.gtk.gio.AppInfo.fromAddress).marshal(info, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Launched.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Launched.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -310,9 +420,10 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppLaunchContext.Launched> onLaunched(AppLaunchContext.Launched handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("launched"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("launched", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -335,6 +446,9 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -359,51 +473,59 @@ public class AppLaunchContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
-            "g_app_launch_context_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
-            "g_app_launch_context_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
-            "g_app_launch_context_get_environment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_get_environment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
-            "g_app_launch_context_get_startup_notify_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_get_startup_notify_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
-            "g_app_launch_context_launch_failed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_launch_failed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
-            "g_app_launch_context_setenv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_setenv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
-            "g_app_launch_context_unsetenv",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_app_launch_context_unsetenv",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_app_launch_context_get_type = Interop.downcallHandle(
-            "g_app_launch_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_app_launch_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_app_launch_context_get_type != null;
     }
 }

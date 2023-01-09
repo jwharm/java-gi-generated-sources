@@ -50,14 +50,16 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     /**
      * Create a ClampLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ClampLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ClampLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ClampLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClampLayout(input, ownership);
+    public static final Marshal<Addressable, ClampLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ClampLayout(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -73,7 +75,8 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * Creates a new {@code AdwClampLayout}.
      */
     public ClampLayout() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -83,8 +86,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_layout_get_maximum_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_maximum_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,8 +100,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_clamp_layout_get_tightening_threshold.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_tightening_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,6 +180,9 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      */
     public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -241,39 +245,47 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
     private static class DowncallHandles {
         
         private static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
-            "adw_clamp_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
-            "adw_clamp_layout_get_maximum_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_layout_get_maximum_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
-            "adw_clamp_layout_get_tightening_threshold",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_clamp_layout_get_tightening_threshold",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
-            "adw_clamp_layout_set_maximum_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_clamp_layout_set_maximum_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
-            "adw_clamp_layout_set_tightening_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_clamp_layout_set_tightening_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_clamp_layout_get_type = Interop.downcallHandle(
-            "adw_clamp_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_clamp_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_clamp_layout_get_type != null;
     }
 }

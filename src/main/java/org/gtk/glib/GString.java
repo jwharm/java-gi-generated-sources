@@ -36,8 +36,8 @@ public class GString extends Struct {
      * @return A new, uninitialized @{link GString}
      */
     public static GString allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GString newInstance = new GString(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GString newInstance = new GString(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class GString extends Struct {
      * @return The value of the field {@code str}
      */
     public java.lang.String getStr() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("str"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("str"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class GString extends Struct {
      * @param str The new value of the field {@code str}
      */
     public void setStr(java.lang.String str) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("str"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("str"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, SCOPE)));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class GString extends Struct {
      * @return The value of the field {@code len}
      */
     public long getLen() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class GString extends Struct {
      * @param len The new value of the field {@code len}
      */
     public void setLen(long len) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), len);
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class GString extends Struct {
      * @return The value of the field {@code allocated_len}
      */
     public long getAllocatedLen() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -100,32 +110,37 @@ public class GString extends Struct {
      * @param allocatedLen The new value of the field {@code allocated_len}
      */
     public void setAllocatedLen(long allocatedLen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), allocatedLen);
+        }
     }
     
     /**
      * Create a GString proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GString(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GString(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GString> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GString(input, ownership);
+    public static final Marshal<Addressable, GString> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GString(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String init) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_new.invokeExact(
-                    (Addressable) (init == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(init, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_new.invokeExact((Addressable) (init == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(init, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -134,21 +149,24 @@ public class GString extends Struct {
      *   start with an empty string
      */
     public GString(@Nullable java.lang.String init) {
-        super(constructNew(init), Ownership.FULL);
+        super(constructNew(init));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewLen(java.lang.String init, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
-                    Marshal.stringToAddress.marshal(init, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
+                        Marshal.stringToAddress.marshal(init, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link GString} with {@code len} bytes of the {@code init} buffer.
      * Because a length is provided, {@code init} need not be nul-terminated,
@@ -163,20 +181,21 @@ public class GString extends Struct {
      */
     public static GString newLen(java.lang.String init, long len) {
         var RESULT = constructNewLen(init, len);
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructSizedNew(long dflSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(
-                    dflSize);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(dflSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link GString}, with enough space for {@code dfl_size}
      * bytes. This is useful if you are going to add a lot of
@@ -187,7 +206,9 @@ public class GString extends Struct {
      */
     public static GString sizedNew(long dflSize) {
         var RESULT = constructSizedNew(dflSize);
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -197,15 +218,17 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString append(java.lang.String val) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(val, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_append.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(val, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,7 +246,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -241,16 +264,18 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString appendLen(java.lang.String val, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_len.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(val, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_append_len.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(val, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -261,13 +286,15 @@ public class GString extends Struct {
      * @param varargs the parameters to insert into the format string
      */
     public void appendPrintf(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_string_append_printf.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_string_append_printf.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -286,7 +313,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -299,17 +326,19 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString appendUriEscaped(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_append_uri_escaped.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(unescaped, null),
-                    Marshal.stringToAddress.marshal(reservedCharsAllowed, null),
-                    Marshal.booleanToInteger.marshal(allowUtf8, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_append_uri_escaped.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(unescaped, SCOPE),
+                        Marshal.stringToAddress.marshal(reservedCharsAllowed, SCOPE),
+                        Marshal.booleanToInteger.marshal(allowUtf8, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -321,13 +350,15 @@ public class GString extends Struct {
      * @param args the list of arguments to insert in the output
      */
     public void appendVprintf(java.lang.String format, VaList args) {
-        try {
-            DowncallHandles.g_string_append_vprintf.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    args);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_string_append_vprintf.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        args);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -340,12 +371,11 @@ public class GString extends Struct {
     public org.gtk.glib.GString asciiDown() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_down.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_down.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -357,12 +387,11 @@ public class GString extends Struct {
     public org.gtk.glib.GString asciiUp() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_up.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -374,15 +403,17 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString assign(java.lang.String rval) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_assign.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(rval, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_assign.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(rval, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -396,12 +427,11 @@ public class GString extends Struct {
     public org.gtk.glib.GString down() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_down.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_down.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -441,7 +471,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -480,13 +510,14 @@ public class GString extends Struct {
     public org.gtk.glib.Bytes freeToBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_free_to_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_free_to_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -496,8 +527,7 @@ public class GString extends Struct {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_string_hash.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_string_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,16 +542,18 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString insert(long pos, java.lang.String val) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert.invokeExact(
-                    handle(),
-                    pos,
-                    Marshal.stringToAddress.marshal(val, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_insert.invokeExact(
+                        handle(),
+                        pos,
+                        Marshal.stringToAddress.marshal(val, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -540,7 +572,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -561,17 +593,19 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString insertLen(long pos, java.lang.String val, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_insert_len.invokeExact(
-                    handle(),
-                    pos,
-                    Marshal.stringToAddress.marshal(val, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_insert_len.invokeExact(
+                        handle(),
+                        pos,
+                        Marshal.stringToAddress.marshal(val, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -592,7 +626,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -602,16 +636,18 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString overwrite(long pos, java.lang.String val) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite.invokeExact(
-                    handle(),
-                    pos,
-                    Marshal.stringToAddress.marshal(val, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite.invokeExact(
+                        handle(),
+                        pos,
+                        Marshal.stringToAddress.marshal(val, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -623,17 +659,19 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString overwriteLen(long pos, java.lang.String val, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite_len.invokeExact(
-                    handle(),
-                    pos,
-                    Marshal.stringToAddress.marshal(val, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite_len.invokeExact(
+                        handle(),
+                        pos,
+                        Marshal.stringToAddress.marshal(val, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -643,15 +681,17 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString prepend(java.lang.String val) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(val, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_prepend.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(val, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -669,7 +709,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -687,16 +727,18 @@ public class GString extends Struct {
      * @return {@code string}
      */
     public org.gtk.glib.GString prependLen(java.lang.String val, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_len.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(val, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_len.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(val, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -714,7 +756,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -727,13 +769,15 @@ public class GString extends Struct {
      * @param varargs the parameters to insert into the format string
      */
     public void printf(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_string_printf.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_string_printf.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -754,17 +798,19 @@ public class GString extends Struct {
      * @return the number of find and replace operations performed.
      */
     public int replace(java.lang.String find, java.lang.String replace, int limit) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_string_replace.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(find, null),
-                    Marshal.stringToAddress.marshal(replace, null),
-                    limit);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_string_replace.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(find, SCOPE),
+                        Marshal.stringToAddress.marshal(replace, SCOPE),
+                        limit);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -785,7 +831,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -802,7 +848,7 @@ public class GString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -816,12 +862,11 @@ public class GString extends Struct {
     public org.gtk.glib.GString up() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_up.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_string_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -832,226 +877,228 @@ public class GString extends Struct {
      * @param args the parameters to insert into the format string
      */
     public void vprintf(java.lang.String format, VaList args) {
-        try {
-            DowncallHandles.g_string_vprintf.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    args);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_string_vprintf.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        args);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_string_new = Interop.downcallHandle(
-            "g_string_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_new_len = Interop.downcallHandle(
-            "g_string_new_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_new_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_sized_new = Interop.downcallHandle(
-            "g_string_sized_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_sized_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_append = Interop.downcallHandle(
-            "g_string_append",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_append",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_append_c = Interop.downcallHandle(
-            "g_string_append_c",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "g_string_append_c",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_string_append_len = Interop.downcallHandle(
-            "g_string_append_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_append_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_append_printf = Interop.downcallHandle(
-            "g_string_append_printf",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_string_append_printf",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_string_append_unichar = Interop.downcallHandle(
-            "g_string_append_unichar",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_string_append_unichar",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_append_uri_escaped = Interop.downcallHandle(
-            "g_string_append_uri_escaped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_string_append_uri_escaped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_append_vprintf = Interop.downcallHandle(
-            "g_string_append_vprintf",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_append_vprintf",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_ascii_down = Interop.downcallHandle(
-            "g_string_ascii_down",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_ascii_down",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_ascii_up = Interop.downcallHandle(
-            "g_string_ascii_up",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_ascii_up",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_assign = Interop.downcallHandle(
-            "g_string_assign",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_assign",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_down = Interop.downcallHandle(
-            "g_string_down",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_down",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_equal = Interop.downcallHandle(
-            "g_string_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_erase = Interop.downcallHandle(
-            "g_string_erase",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_string_erase",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_free = Interop.downcallHandle(
-            "g_string_free",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_string_free",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_free_to_bytes = Interop.downcallHandle(
-            "g_string_free_to_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_free_to_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_hash = Interop.downcallHandle(
-            "g_string_hash",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_hash",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_insert = Interop.downcallHandle(
-            "g_string_insert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_insert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_insert_c = Interop.downcallHandle(
-            "g_string_insert_c",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_BYTE),
-            false
+                "g_string_insert_c",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_string_insert_len = Interop.downcallHandle(
-            "g_string_insert_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_insert_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_insert_unichar = Interop.downcallHandle(
-            "g_string_insert_unichar",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "g_string_insert_unichar",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_overwrite = Interop.downcallHandle(
-            "g_string_overwrite",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_overwrite",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_overwrite_len = Interop.downcallHandle(
-            "g_string_overwrite_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_overwrite_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_prepend = Interop.downcallHandle(
-            "g_string_prepend",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_prepend",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_prepend_c = Interop.downcallHandle(
-            "g_string_prepend_c",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "g_string_prepend_c",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_string_prepend_len = Interop.downcallHandle(
-            "g_string_prepend_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_prepend_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_prepend_unichar = Interop.downcallHandle(
-            "g_string_prepend_unichar",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_string_prepend_unichar",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_printf = Interop.downcallHandle(
-            "g_string_printf",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_string_printf",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_string_replace = Interop.downcallHandle(
-            "g_string_replace",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_string_replace",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_string_set_size = Interop.downcallHandle(
-            "g_string_set_size",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_set_size",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_truncate = Interop.downcallHandle(
-            "g_string_truncate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_truncate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_up = Interop.downcallHandle(
-            "g_string_up",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_up",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_vprintf = Interop.downcallHandle(
-            "g_string_vprintf",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_vprintf",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1077,7 +1124,7 @@ public class GString extends Struct {
             struct = GString.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GString} struct.
          * @return A new instance of {@code GString} with the fields 
          *         that were set in the Builder object.
@@ -1094,10 +1141,12 @@ public class GString extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStr(java.lang.String str) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("str"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("str"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1107,10 +1156,12 @@ public class GString extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLen(long len) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), len);
+                return this;
+            }
         }
         
         /**
@@ -1120,10 +1171,12 @@ public class GString extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAllocatedLen(long allocatedLen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), allocatedLen);
+                return this;
+            }
         }
     }
 }

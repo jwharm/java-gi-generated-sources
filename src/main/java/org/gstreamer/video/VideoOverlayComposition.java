@@ -53,8 +53,8 @@ public class VideoOverlayComposition extends Struct {
      * @return A new, uninitialized @{link VideoOverlayComposition}
      */
     public static VideoOverlayComposition allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoOverlayComposition newInstance = new VideoOverlayComposition(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoOverlayComposition newInstance = new VideoOverlayComposition(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -62,20 +62,21 @@ public class VideoOverlayComposition extends Struct {
     /**
      * Create a VideoOverlayComposition proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoOverlayComposition(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoOverlayComposition(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoOverlayComposition> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayComposition(input, ownership);
+    public static final Marshal<Addressable, VideoOverlayComposition> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayComposition(input);
     
     private static MemoryAddress constructNew(@Nullable org.gstreamer.video.VideoOverlayRectangle rectangle) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_new.invokeExact(
-                    (Addressable) (rectangle == null ? MemoryAddress.NULL : rectangle.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_new.invokeExact((Addressable) (rectangle == null ? MemoryAddress.NULL : rectangle.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,7 +92,8 @@ public class VideoOverlayComposition extends Struct {
      *     composition
      */
     public VideoOverlayComposition(@Nullable org.gstreamer.video.VideoOverlayRectangle rectangle) {
-        super(constructNew(rectangle), Ownership.FULL);
+        super(constructNew(rectangle));
+        this.takeOwnership();
     }
     
     /**
@@ -144,12 +146,13 @@ public class VideoOverlayComposition extends Struct {
     public org.gstreamer.video.VideoOverlayComposition copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -169,7 +172,7 @@ public class VideoOverlayComposition extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -182,8 +185,7 @@ public class VideoOverlayComposition extends Struct {
     public int getSeqnum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_overlay_composition_get_seqnum.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_overlay_composition_get_seqnum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,13 +204,14 @@ public class VideoOverlayComposition extends Struct {
     public org.gstreamer.video.VideoOverlayComposition makeWritable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_make_writable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_make_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -218,8 +221,7 @@ public class VideoOverlayComposition extends Struct {
     public int nRectangles() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_overlay_composition_n_rectangles.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_overlay_composition_n_rectangles.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,51 +231,51 @@ public class VideoOverlayComposition extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_overlay_composition_new = Interop.downcallHandle(
-            "gst_video_overlay_composition_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_add_rectangle = Interop.downcallHandle(
-            "gst_video_overlay_composition_add_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_add_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_blend = Interop.downcallHandle(
-            "gst_video_overlay_composition_blend",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_blend",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_copy = Interop.downcallHandle(
-            "gst_video_overlay_composition_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_get_rectangle = Interop.downcallHandle(
-            "gst_video_overlay_composition_get_rectangle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_composition_get_rectangle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_get_seqnum = Interop.downcallHandle(
-            "gst_video_overlay_composition_get_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_get_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_make_writable = Interop.downcallHandle(
-            "gst_video_overlay_composition_make_writable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_make_writable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_overlay_composition_n_rectangles = Interop.downcallHandle(
-            "gst_video_overlay_composition_n_rectangles",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_composition_n_rectangles",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

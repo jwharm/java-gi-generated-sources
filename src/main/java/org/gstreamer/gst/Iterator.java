@@ -84,8 +84,8 @@ public class Iterator extends Struct {
      * @return A new, uninitialized @{link Iterator}
      */
     public static Iterator allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Iterator newInstance = new Iterator(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Iterator newInstance = new Iterator(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -95,10 +95,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code copy}
      */
     public org.gstreamer.gst.IteratorCopyFunction getCopy() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -106,9 +108,11 @@ public class Iterator extends Struct {
      * @param copy The new value of the field {@code copy}
      */
     public void setCopy(org.gstreamer.gst.IteratorCopyFunction copy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        }
     }
     
     /**
@@ -116,10 +120,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code next}
      */
     public org.gstreamer.gst.IteratorNextFunction getNext() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -127,9 +133,11 @@ public class Iterator extends Struct {
      * @param next The new value of the field {@code next}
      */
     public void setNext(org.gstreamer.gst.IteratorNextFunction next) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
+        }
     }
     
     /**
@@ -137,10 +145,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code item}
      */
     public org.gstreamer.gst.IteratorItemFunction getItem() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("item"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -148,9 +158,11 @@ public class Iterator extends Struct {
      * @param item The new value of the field {@code item}
      */
     public void setItem(org.gstreamer.gst.IteratorItemFunction item) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
+        }
     }
     
     /**
@@ -158,10 +170,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code resync}
      */
     public org.gstreamer.gst.IteratorResyncFunction getResync() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resync"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resync"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -169,9 +183,11 @@ public class Iterator extends Struct {
      * @param resync The new value of the field {@code resync}
      */
     public void setResync(org.gstreamer.gst.IteratorResyncFunction resync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resync"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resync"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
+        }
     }
     
     /**
@@ -179,10 +195,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code free}
      */
     public org.gstreamer.gst.IteratorFreeFunction getFree() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -190,9 +208,11 @@ public class Iterator extends Struct {
      * @param free The new value of the field {@code free}
      */
     public void setFree(org.gstreamer.gst.IteratorFreeFunction free) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+        }
     }
     
     /**
@@ -200,10 +220,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code pushed}
      */
     public org.gstreamer.gst.Iterator getPushed() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -211,9 +233,11 @@ public class Iterator extends Struct {
      * @param pushed The new value of the field {@code pushed}
      */
     public void setPushed(org.gstreamer.gst.Iterator pushed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
+        }
     }
     
     /**
@@ -221,10 +245,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -232,9 +258,11 @@ public class Iterator extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
@@ -242,10 +270,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code lock}
      */
     public org.gtk.glib.Mutex getLock() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Mutex.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lock"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Mutex.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -253,9 +283,11 @@ public class Iterator extends Struct {
      * @param lock The new value of the field {@code lock}
      */
     public void setLock(org.gtk.glib.Mutex lock) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lock"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
+        }
     }
     
     /**
@@ -263,10 +295,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code cookie}
      */
     public int getCookie() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -274,9 +308,11 @@ public class Iterator extends Struct {
      * @param cookie The new value of the field {@code cookie}
      */
     public void setCookie(int cookie) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cookie);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), cookie);
+        }
     }
     
     /**
@@ -284,10 +320,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code master_cookie}
      */
     public PointerInteger getMasterCookie() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -295,9 +333,11 @@ public class Iterator extends Struct {
      * @param masterCookie The new value of the field {@code master_cookie}
      */
     public void setMasterCookie(PointerInteger masterCookie) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
+        }
     }
     
     /**
@@ -305,10 +345,12 @@ public class Iterator extends Struct {
      * @return The value of the field {@code size}
      */
     public int getSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -316,22 +358,26 @@ public class Iterator extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(int size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
      * Create a Iterator proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Iterator(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Iterator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Iterator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Iterator(input, ownership);
+    public static final Marshal<Addressable, Iterator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Iterator(input);
     
     private static MemoryAddress constructNew(int size, org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, org.gstreamer.gst.IteratorCopyFunction copy, org.gstreamer.gst.IteratorNextFunction next, org.gstreamer.gst.IteratorItemFunction item, org.gstreamer.gst.IteratorResyncFunction resync, org.gstreamer.gst.IteratorFreeFunction free) {
         MemoryAddress RESULT;
@@ -370,7 +416,8 @@ public class Iterator extends Struct {
      * @param free function to free the iterator
      */
     public Iterator(int size, org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, org.gstreamer.gst.IteratorCopyFunction copy, org.gstreamer.gst.IteratorNextFunction next, org.gstreamer.gst.IteratorItemFunction item, org.gstreamer.gst.IteratorResyncFunction resync, org.gstreamer.gst.IteratorFreeFunction free) {
-        super(constructNew(size, type, lock, masterCookie, copy, next, item, resync, free), Ownership.FULL);
+        super(constructNew(size, type, lock, masterCookie, copy, next, item, resync, free));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewList(org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, PointerProxy<org.gtk.glib.List> list, org.gtk.gobject.GObject owner, org.gstreamer.gst.IteratorItemFunction item) {
@@ -388,7 +435,7 @@ public class Iterator extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new iterator designed for iterating {@code list}.
      * <p>
@@ -415,7 +462,9 @@ public class Iterator extends Struct {
      */
     public static Iterator newList(org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, PointerProxy<org.gtk.glib.List> list, org.gtk.gobject.GObject owner, org.gstreamer.gst.IteratorItemFunction item) {
         var RESULT = constructNewList(type, lock, masterCookie, list, owner, item);
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSingle(org.gtk.glib.Type type, org.gtk.gobject.Value object) {
@@ -429,7 +478,7 @@ public class Iterator extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * This {@link Iterator} is a convenient iterator for the common
      * case where a {@link Iterator} needs to be returned but only
@@ -441,7 +490,9 @@ public class Iterator extends Struct {
      */
     public static Iterator newSingle(org.gtk.glib.Type type, org.gtk.gobject.Value object) {
         var RESULT = constructNewSingle(type, object);
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -451,12 +502,13 @@ public class Iterator extends Struct {
     public org.gstreamer.gst.Iterator copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_iterator_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_iterator_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -483,7 +535,9 @@ public class Iterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -582,8 +636,7 @@ public class Iterator extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_iterator_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_iterator_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -658,8 +711,7 @@ public class Iterator extends Struct {
      */
     public void resync() {
         try {
-            DowncallHandles.gst_iterator_resync.invokeExact(
-                    handle());
+            DowncallHandles.gst_iterator_resync.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -668,75 +720,75 @@ public class Iterator extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_iterator_new = Interop.downcallHandle(
-            "gst_iterator_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_new_list = Interop.downcallHandle(
-            "gst_iterator_new_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_new_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_new_single = Interop.downcallHandle(
-            "gst_iterator_new_single",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_new_single",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_copy = Interop.downcallHandle(
-            "gst_iterator_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_filter = Interop.downcallHandle(
-            "gst_iterator_filter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_filter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_find_custom = Interop.downcallHandle(
-            "gst_iterator_find_custom",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_find_custom",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_fold = Interop.downcallHandle(
-            "gst_iterator_fold",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_fold",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_foreach = Interop.downcallHandle(
-            "gst_iterator_foreach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_foreach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_free = Interop.downcallHandle(
-            "gst_iterator_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_next = Interop.downcallHandle(
-            "gst_iterator_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_push = Interop.downcallHandle(
-            "gst_iterator_push",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_push",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_iterator_resync = Interop.downcallHandle(
-            "gst_iterator_resync",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_iterator_resync",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -762,7 +814,7 @@ public class Iterator extends Struct {
             struct = Iterator.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Iterator} struct.
          * @return A new instance of {@code Iterator} with the fields 
          *         that were set in the Builder object.
@@ -777,10 +829,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCopy(org.gstreamer.gst.IteratorCopyFunction copy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -789,10 +843,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNext(org.gstreamer.gst.IteratorNextFunction next) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -801,10 +857,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setItem(org.gstreamer.gst.IteratorItemFunction item) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -813,10 +871,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setResync(org.gstreamer.gst.IteratorResyncFunction resync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("resync"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("resync"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -825,10 +885,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFree(org.gstreamer.gst.IteratorFreeFunction free) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -837,10 +899,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPushed(org.gstreamer.gst.Iterator pushed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
+                return this;
+            }
         }
         
         /**
@@ -849,10 +913,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -861,10 +927,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLock(org.gtk.glib.Mutex lock) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lock"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
+                return this;
+            }
         }
         
         /**
@@ -874,10 +942,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCookie(int cookie) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cookie);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), cookie);
+                return this;
+            }
         }
         
         /**
@@ -886,10 +956,12 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMasterCookie(PointerInteger masterCookie) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
+                return this;
+            }
         }
         
         /**
@@ -898,17 +970,21 @@ public class Iterator extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

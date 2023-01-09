@@ -47,8 +47,8 @@ public class DrawStateT extends Struct {
      * @return A new, uninitialized @{link DrawStateT}
      */
     public static DrawStateT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DrawStateT newInstance = new DrawStateT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DrawStateT newInstance = new DrawStateT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,10 +58,12 @@ public class DrawStateT extends Struct {
      * @return The value of the field {@code path_open}
      */
     public org.harfbuzz.BoolT getPathOpen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.BoolT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.BoolT(RESULT);
+        }
     }
     
     /**
@@ -69,9 +71,11 @@ public class DrawStateT extends Struct {
      * @param pathOpen The new value of the field {@code path_open}
      */
     public void setPathOpen(org.harfbuzz.BoolT pathOpen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pathOpen == null ? MemoryAddress.NULL : pathOpen.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pathOpen == null ? MemoryAddress.NULL : pathOpen.getValue().intValue()));
+        }
     }
     
     /**
@@ -79,10 +83,12 @@ public class DrawStateT extends Struct {
      * @return The value of the field {@code path_start_x}
      */
     public float getPathStartX() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -90,9 +96,11 @@ public class DrawStateT extends Struct {
      * @param pathStartX The new value of the field {@code path_start_x}
      */
     public void setPathStartX(float pathStartX) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartX);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), pathStartX);
+        }
     }
     
     /**
@@ -100,10 +108,12 @@ public class DrawStateT extends Struct {
      * @return The value of the field {@code path_start_y}
      */
     public float getPathStartY() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -111,9 +121,11 @@ public class DrawStateT extends Struct {
      * @param pathStartY The new value of the field {@code path_start_y}
      */
     public void setPathStartY(float pathStartY) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartY);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), pathStartY);
+        }
     }
     
     /**
@@ -121,10 +133,12 @@ public class DrawStateT extends Struct {
      * @return The value of the field {@code current_x}
      */
     public float getCurrentX() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -132,9 +146,11 @@ public class DrawStateT extends Struct {
      * @param currentX The new value of the field {@code current_x}
      */
     public void setCurrentX(float currentX) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentX);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), currentX);
+        }
     }
     
     /**
@@ -142,10 +158,12 @@ public class DrawStateT extends Struct {
      * @return The value of the field {@code current_y}
      */
     public float getCurrentY() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -153,22 +171,26 @@ public class DrawStateT extends Struct {
      * @param currentY The new value of the field {@code current_y}
      */
     public void setCurrentY(float currentY) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentY);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), currentY);
+        }
     }
     
     /**
      * Create a DrawStateT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DrawStateT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DrawStateT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DrawStateT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DrawStateT(input, ownership);
+    public static final Marshal<Addressable, DrawStateT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DrawStateT(input);
     
     /**
      * A {@link DrawStateT.Builder} object constructs a {@link DrawStateT} 
@@ -192,7 +214,7 @@ public class DrawStateT extends Struct {
             struct = DrawStateT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DrawStateT} struct.
          * @return A new instance of {@code DrawStateT} with the fields 
          *         that were set in the Builder object.
@@ -207,10 +229,12 @@ public class DrawStateT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPathOpen(org.harfbuzz.BoolT pathOpen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pathOpen == null ? MemoryAddress.NULL : pathOpen.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("path_open"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pathOpen == null ? MemoryAddress.NULL : pathOpen.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -219,10 +243,12 @@ public class DrawStateT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPathStartX(float pathStartX) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartX);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("path_start_x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), pathStartX);
+                return this;
+            }
         }
         
         /**
@@ -231,10 +257,12 @@ public class DrawStateT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPathStartY(float pathStartY) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathStartY);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("path_start_y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), pathStartY);
+                return this;
+            }
         }
         
         /**
@@ -243,10 +271,12 @@ public class DrawStateT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCurrentX(float currentX) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentX);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("current_x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), currentX);
+                return this;
+            }
         }
         
         /**
@@ -255,59 +285,75 @@ public class DrawStateT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCurrentY(float currentY) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentY);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("current_y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), currentY);
+                return this;
+            }
         }
         
         public Builder setReserved1(org.harfbuzz.VarNumT reserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved1 == null ? MemoryAddress.NULL : reserved1.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved2(org.harfbuzz.VarNumT reserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved2 == null ? MemoryAddress.NULL : reserved2.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved3(org.harfbuzz.VarNumT reserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved3 == null ? MemoryAddress.NULL : reserved3.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved4(org.harfbuzz.VarNumT reserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved4 == null ? MemoryAddress.NULL : reserved4.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved5(org.harfbuzz.VarNumT reserved5) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved5 == null ? MemoryAddress.NULL : reserved5.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved5"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved5 == null ? MemoryAddress.NULL : reserved5.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved6(org.harfbuzz.VarNumT reserved6) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved6 == null ? MemoryAddress.NULL : reserved6.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved6"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved6 == null ? MemoryAddress.NULL : reserved6.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved7(org.harfbuzz.VarNumT reserved7) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved7"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved7 == null ? MemoryAddress.NULL : reserved7.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved7"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved7 == null ? MemoryAddress.NULL : reserved7.handle()));
+                return this;
+            }
         }
     }
 }

@@ -11,6 +11,9 @@ import org.jetbrains.annotations.*;
  */
 public class CodepointT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new CodepointT with the provided value
+     */
     public CodepointT(int value) {
         super(value);
     }

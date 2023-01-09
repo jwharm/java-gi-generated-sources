@@ -29,8 +29,8 @@ public class SpecializationMapEntry extends Struct {
      * @return A new, uninitialized @{link SpecializationMapEntry}
      */
     public static SpecializationMapEntry allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SpecializationMapEntry newInstance = new SpecializationMapEntry(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SpecializationMapEntry newInstance = new SpecializationMapEntry(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SpecializationMapEntry extends Struct {
     /**
      * Create a SpecializationMapEntry proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SpecializationMapEntry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SpecializationMapEntry(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SpecializationMapEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpecializationMapEntry(input, ownership);
+    public static final Marshal<Addressable, SpecializationMapEntry> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SpecializationMapEntry(input);
 }

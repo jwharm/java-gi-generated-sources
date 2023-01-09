@@ -39,8 +39,8 @@ public class ProxyInterface extends Struct {
      * @return A new, uninitialized @{link ProxyInterface}
      */
     public static ProxyInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProxyInterface newInstance = new ProxyInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ProxyInterface newInstance = new ProxyInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class ProxyInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,43 @@ public class ProxyInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConnectCallback} callback.
+     */
     @FunctionalInterface
     public interface ConnectCallback {
+    
         org.gtk.gio.IOStream run(org.gtk.gio.Proxy proxy, org.gtk.gio.IOStream connection, org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress proxy, MemoryAddress connection, MemoryAddress proxyAddress, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.Proxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.Proxy.fromAddress).marshal(proxy, Ownership.NONE), (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.IOStream.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gio.ProxyAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxyAddress)), org.gtk.gio.ProxyAddress.fromAddress).marshal(proxyAddress, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Proxy) Interop.register(proxy, org.gtk.gio.Proxy.fromAddress).marshal(proxy, null), (org.gtk.gio.IOStream) Interop.register(connection, org.gtk.gio.IOStream.fromAddress).marshal(connection, null), (org.gtk.gio.ProxyAddress) Interop.register(proxyAddress, org.gtk.gio.ProxyAddress.fromAddress).marshal(proxyAddress, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConnectCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConnectCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,24 +104,41 @@ public class ProxyInterface extends Struct {
      * @param connect The new value of the field {@code connect}
      */
     public void setConnect(ConnectCallback connect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connect == null ? MemoryAddress.NULL : connect.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connect == null ? MemoryAddress.NULL : connect.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConnectAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface ConnectAsyncCallback {
+    
         void run(org.gtk.gio.Proxy proxy, org.gtk.gio.IOStream connection, org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress proxy, MemoryAddress connection, MemoryAddress proxyAddress, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.Proxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.Proxy.fromAddress).marshal(proxy, Ownership.NONE), (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.IOStream.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gio.ProxyAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxyAddress)), org.gtk.gio.ProxyAddress.fromAddress).marshal(proxyAddress, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.Proxy) Interop.register(proxy, org.gtk.gio.Proxy.fromAddress).marshal(proxy, null), (org.gtk.gio.IOStream) Interop.register(connection, org.gtk.gio.IOStream.fromAddress).marshal(connection, null), (org.gtk.gio.ProxyAddress) Interop.register(proxyAddress, org.gtk.gio.ProxyAddress.fromAddress).marshal(proxyAddress, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConnectAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConnectAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,25 +147,43 @@ public class ProxyInterface extends Struct {
      * @param connectAsync The new value of the field {@code connect_async}
      */
     public void setConnectAsync(ConnectAsyncCallback connectAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connect_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connectAsync == null ? MemoryAddress.NULL : connectAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connect_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connectAsync == null ? MemoryAddress.NULL : connectAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConnectFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface ConnectFinishCallback {
+    
         org.gtk.gio.IOStream run(org.gtk.gio.Proxy proxy, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress proxy, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.Proxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.Proxy.fromAddress).marshal(proxy, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Proxy) Interop.register(proxy, org.gtk.gio.Proxy.fromAddress).marshal(proxy, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConnectFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConnectFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,25 +192,42 @@ public class ProxyInterface extends Struct {
      * @param connectFinish The new value of the field {@code connect_finish}
      */
     public void setConnectFinish(ConnectFinishCallback connectFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("connect_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connectFinish == null ? MemoryAddress.NULL : connectFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("connect_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connectFinish == null ? MemoryAddress.NULL : connectFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SupportsHostnameCallback} callback.
+     */
     @FunctionalInterface
     public interface SupportsHostnameCallback {
+    
         boolean run(org.gtk.gio.Proxy proxy);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress proxy) {
-            var RESULT = run((org.gtk.gio.Proxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.Proxy.fromAddress).marshal(proxy, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Proxy) Interop.register(proxy, org.gtk.gio.Proxy.fromAddress).marshal(proxy, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SupportsHostnameCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SupportsHostnameCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,22 +236,26 @@ public class ProxyInterface extends Struct {
      * @param supportsHostname The new value of the field {@code supports_hostname}
      */
     public void setSupportsHostname(SupportsHostnameCallback supportsHostname) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("supports_hostname"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supportsHostname == null ? MemoryAddress.NULL : supportsHostname.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("supports_hostname"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (supportsHostname == null ? MemoryAddress.NULL : supportsHostname.toCallback()));
+        }
     }
     
     /**
      * Create a ProxyInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProxyInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyInterface(input, ownership);
+    public static final Marshal<Addressable, ProxyInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyInterface(input);
     
     /**
      * A {@link ProxyInterface.Builder} object constructs a {@link ProxyInterface} 
@@ -205,7 +279,7 @@ public class ProxyInterface extends Struct {
             struct = ProxyInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ProxyInterface} struct.
          * @return A new instance of {@code ProxyInterface} with the fields 
          *         that were set in the Builder object.
@@ -220,38 +294,48 @@ public class ProxyInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setConnect(ConnectCallback connect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("connect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connect == null ? MemoryAddress.NULL : connect.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("connect"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connect == null ? MemoryAddress.NULL : connect.toCallback()));
+                return this;
+            }
         }
         
         public Builder setConnectAsync(ConnectAsyncCallback connectAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("connect_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connectAsync == null ? MemoryAddress.NULL : connectAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("connect_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connectAsync == null ? MemoryAddress.NULL : connectAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setConnectFinish(ConnectFinishCallback connectFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("connect_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connectFinish == null ? MemoryAddress.NULL : connectFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("connect_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (connectFinish == null ? MemoryAddress.NULL : connectFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSupportsHostname(SupportsHostnameCallback supportsHostname) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("supports_hostname"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (supportsHostname == null ? MemoryAddress.NULL : supportsHostname.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("supports_hostname"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (supportsHostname == null ? MemoryAddress.NULL : supportsHostname.toCallback()));
+                return this;
+            }
         }
     }
 }

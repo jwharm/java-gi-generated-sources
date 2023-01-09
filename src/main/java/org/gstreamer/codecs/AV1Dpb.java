@@ -31,8 +31,8 @@ public class AV1Dpb extends Struct {
      * @return A new, uninitialized @{link AV1Dpb}
      */
     public static AV1Dpb allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AV1Dpb newInstance = new AV1Dpb(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AV1Dpb newInstance = new AV1Dpb(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,10 +42,12 @@ public class AV1Dpb extends Struct {
      * @return The value of the field {@code pic_list}
      */
     public PointerProxy<org.gstreamer.codecs.AV1Picture> getPicList() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.codecs.AV1Picture>(RESULT, org.gstreamer.codecs.AV1Picture.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.codecs.AV1Picture>(RESULT, org.gstreamer.codecs.AV1Picture.fromAddress);
+        }
     }
     
     /**
@@ -53,22 +55,26 @@ public class AV1Dpb extends Struct {
      * @param picList The new value of the field {@code pic_list}
      */
     public void setPicList(org.gstreamer.codecs.AV1Picture[] picList) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AV1Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AV1Dpb(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AV1Dpb(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AV1Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AV1Dpb(input, ownership);
+    public static final Marshal<Addressable, AV1Dpb> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AV1Dpb(input);
     
     /**
      * Store the {@code picture}
@@ -90,8 +96,7 @@ public class AV1Dpb extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_av1_dpb_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_av1_dpb_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,8 +107,7 @@ public class AV1Dpb extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_av1_dpb_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_av1_dpb_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,33 +124,33 @@ public class AV1Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.AV1Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.AV1Dpb.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_av1_dpb_add = Interop.downcallHandle(
-            "gst_av1_dpb_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_av1_dpb_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_av1_dpb_clear = Interop.downcallHandle(
-            "gst_av1_dpb_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_av1_dpb_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_av1_dpb_free = Interop.downcallHandle(
-            "gst_av1_dpb_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_av1_dpb_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_av1_dpb_new = Interop.downcallHandle(
-            "gst_av1_dpb_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_av1_dpb_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -172,7 +176,7 @@ public class AV1Dpb extends Struct {
             struct = AV1Dpb.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AV1Dpb} struct.
          * @return A new instance of {@code AV1Dpb} with the fields 
          *         that were set in the Builder object.
@@ -182,10 +186,12 @@ public class AV1Dpb extends Struct {
         }
         
         public Builder setPicList(org.gstreamer.codecs.AV1Picture[] picList) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

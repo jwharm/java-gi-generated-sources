@@ -10,12 +10,14 @@ import org.jetbrains.annotations.*;
  * @version 2.6.0
  */
 public enum OtMetaTagT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Design languages. Text, using only
      * Basic Latin (ASCII) characters. Indicates languages and/or scripts
      * for the user audiences that the font was primarily designed for.
      */
     DESIGN_LANGUAGES(1684827751),
+    
     /**
      * Supported languages. Text, using
      * only Basic Latin (ASCII) characters. Indicates languages and/or scripts
@@ -26,15 +28,29 @@ public enum OtMetaTagT implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "hb_ot_meta_tag_t";
     
     private final int value;
+    
+    /**
+     * Create a new OtMetaTagT for the provided value
+     * @param numeric value the enum value
+     */
     OtMetaTagT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new OtMetaTagT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static OtMetaTagT of(int value) {
         return switch (value) {
             case 1684827751 -> DESIGN_LANGUAGES;

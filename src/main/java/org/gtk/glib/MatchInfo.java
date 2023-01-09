@@ -33,8 +33,8 @@ public class MatchInfo extends Struct {
      * @return A new, uninitialized @{link MatchInfo}
      */
     public static MatchInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MatchInfo newInstance = new MatchInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MatchInfo newInstance = new MatchInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class MatchInfo extends Struct {
     /**
      * Create a MatchInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MatchInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MatchInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MatchInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MatchInfo(input, ownership);
+    public static final Marshal<Addressable, MatchInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MatchInfo(input);
     
     /**
      * Returns a new string containing the text in {@code string_to_expand} with
@@ -74,20 +76,22 @@ public class MatchInfo extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(stringToExpand, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(stringToExpand, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -145,14 +149,15 @@ public class MatchInfo extends Struct {
      *     match failed {@code null} is returned
      */
     public PointerString fetchAll() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -169,15 +174,17 @@ public class MatchInfo extends Struct {
      *     occurred. You have to free the string yourself
      */
     public @Nullable java.lang.String fetchNamed(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -196,21 +203,23 @@ public class MatchInfo extends Struct {
      *     are left unchanged.
      */
     public boolean fetchNamedPos(java.lang.String name, Out<Integer> startPos, Out<Integer> endPos) {
-        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
-                    (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment endPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
+                        (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -237,21 +246,23 @@ public class MatchInfo extends Struct {
      *   unchanged
      */
     public boolean fetchPos(int matchNum, Out<Integer> startPos, Out<Integer> endPos) {
-        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(
-                    handle(),
-                    matchNum,
-                    (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
-                    (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment endPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(
+                        handle(),
+                        matchNum,
+                        (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
+                        (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -260,8 +271,7 @@ public class MatchInfo extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_match_info_free.invokeExact(
-                    handle());
+            DowncallHandles.g_match_info_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,8 +291,7 @@ public class MatchInfo extends Struct {
     public int getMatchCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_get_match_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_match_info_get_match_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,12 +307,11 @@ public class MatchInfo extends Struct {
     public org.gtk.glib.Regex getRegex() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Regex.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Regex.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -315,8 +323,7 @@ public class MatchInfo extends Struct {
     public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,8 +369,7 @@ public class MatchInfo extends Struct {
     public boolean isPartialMatch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_is_partial_match.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_match_info_is_partial_match.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,8 +384,7 @@ public class MatchInfo extends Struct {
     public boolean matches() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_match_info_matches.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_match_info_matches.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -397,19 +402,19 @@ public class MatchInfo extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -419,12 +424,13 @@ public class MatchInfo extends Struct {
     public org.gtk.glib.MatchInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MatchInfo.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MatchInfo.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -433,8 +439,7 @@ public class MatchInfo extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_match_info_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_match_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,93 +448,93 @@ public class MatchInfo extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
-            "g_match_info_expand_references",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_expand_references",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_fetch = Interop.downcallHandle(
-            "g_match_info_fetch",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_match_info_fetch",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_match_info_fetch_all = Interop.downcallHandle(
-            "g_match_info_fetch_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_fetch_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_fetch_named = Interop.downcallHandle(
-            "g_match_info_fetch_named",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_fetch_named",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_fetch_named_pos = Interop.downcallHandle(
-            "g_match_info_fetch_named_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_fetch_named_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_fetch_pos = Interop.downcallHandle(
-            "g_match_info_fetch_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_fetch_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_free = Interop.downcallHandle(
-            "g_match_info_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_get_match_count = Interop.downcallHandle(
-            "g_match_info_get_match_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_get_match_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_get_regex = Interop.downcallHandle(
-            "g_match_info_get_regex",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_get_regex",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_get_string = Interop.downcallHandle(
-            "g_match_info_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_is_partial_match = Interop.downcallHandle(
-            "g_match_info_is_partial_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_is_partial_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_matches = Interop.downcallHandle(
-            "g_match_info_matches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_matches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_next = Interop.downcallHandle(
-            "g_match_info_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_ref = Interop.downcallHandle(
-            "g_match_info_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_match_info_unref = Interop.downcallHandle(
-            "g_match_info_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_match_info_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -56,8 +56,8 @@ public class Bytes extends Struct {
      * @return A new, uninitialized @{link Bytes}
      */
     public static Bytes allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Bytes newInstance = new Bytes(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Bytes newInstance = new Bytes(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -65,25 +65,29 @@ public class Bytes extends Struct {
     /**
      * Create a Bytes proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Bytes(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Bytes(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Bytes> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bytes(input, ownership);
+    public static final Marshal<Addressable, Bytes> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Bytes(input);
     
     private static MemoryAddress constructNew(byte[] data, long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new.invokeExact(
-                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_new.invokeExact(
+                        (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -94,21 +98,24 @@ public class Bytes extends Struct {
      * @param size the size of {@code data}
      */
     public Bytes(byte[] data, long size) {
-        super(constructNew(data, size), Ownership.FULL);
+        super(constructNew(data, size));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewStatic(byte[] data, long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_static.invokeExact(
-                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_static.invokeExact(
+                        (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Bytes} from static data.
      * <p>
@@ -120,21 +127,25 @@ public class Bytes extends Struct {
      */
     public static Bytes newStatic(byte[] data, long size) {
         var RESULT = constructNewStatic(data, size);
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewTake(byte[] data, long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_take.invokeExact(
-                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_take.invokeExact(
+                        (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Bytes} from {@code data}.
      * <p>
@@ -154,23 +165,27 @@ public class Bytes extends Struct {
      */
     public static Bytes newTake(byte[] data, long size) {
         var RESULT = constructNewTake(data, size);
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithFreeFunc(byte[] data, long size, org.gtk.glib.DestroyNotify freeFunc) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_with_free_func.invokeExact(
-                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
-                    size,
-                    (Addressable) freeFunc.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_with_free_func.invokeExact(
+                        (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)),
+                        size,
+                        (Addressable) freeFunc.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a {@link Bytes} from {@code data}.
      * <p>
@@ -188,7 +203,9 @@ public class Bytes extends Struct {
      */
     public static Bytes newWithFreeFunc(byte[] data, long size, org.gtk.glib.DestroyNotify freeFunc) {
         var RESULT = constructNewWithFreeFunc(data, size, freeFunc);
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -251,18 +268,20 @@ public class Bytes extends Struct {
      * @return a pointer to the byte data, or {@code null}
      */
     public byte[] getData(Out<Long> size) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(
-                    handle(),
-                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(
+                        handle(),
+                        (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -314,8 +333,7 @@ public class Bytes extends Struct {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_bytes_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_bytes_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,8 +350,7 @@ public class Bytes extends Struct {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_bytes_hash.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_bytes_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,7 +383,9 @@ public class Bytes extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -376,12 +395,13 @@ public class Bytes extends Struct {
     public org.gtk.glib.Bytes ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -390,8 +410,7 @@ public class Bytes extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_bytes_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_bytes_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,15 +431,16 @@ public class Bytes extends Struct {
      * @return a new mutable {@link ByteArray} containing the same byte data
      */
     public PointerByte unrefToArray() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_array.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_array.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            this.yieldOwnership();
+            return new PointerByte(RESULT);
         }
-        this.yieldOwnership();
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -436,110 +456,112 @@ public class Bytes extends Struct {
      *          freed with g_free()
      */
     public byte[] unrefToData(Out<Long> size) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_data.invokeExact(
-                    handle(),
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_data.invokeExact(
+                        handle(),
+                        (Addressable) sizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            this.yieldOwnership();
+                    size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        this.yieldOwnership();
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_bytes_new = Interop.downcallHandle(
-            "g_bytes_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bytes_new_static = Interop.downcallHandle(
-            "g_bytes_new_static",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_new_static",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bytes_new_take = Interop.downcallHandle(
-            "g_bytes_new_take",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_new_take",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bytes_new_with_free_func = Interop.downcallHandle(
-            "g_bytes_new_with_free_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_new_with_free_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_compare = Interop.downcallHandle(
-            "g_bytes_compare",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_compare",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_equal = Interop.downcallHandle(
-            "g_bytes_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_get_data = Interop.downcallHandle(
-            "g_bytes_get_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_get_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_get_region = Interop.downcallHandle(
-            "g_bytes_get_region",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_get_region",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bytes_get_size = Interop.downcallHandle(
-            "g_bytes_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_hash = Interop.downcallHandle(
-            "g_bytes_hash",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_hash",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_new_from_bytes = Interop.downcallHandle(
-            "g_bytes_new_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_bytes_new_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_bytes_ref = Interop.downcallHandle(
-            "g_bytes_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_unref = Interop.downcallHandle(
-            "g_bytes_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_unref_to_array = Interop.downcallHandle(
-            "g_bytes_unref_to_array",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_unref_to_array",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_bytes_unref_to_data = Interop.downcallHandle(
-            "g_bytes_unref_to_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_bytes_unref_to_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

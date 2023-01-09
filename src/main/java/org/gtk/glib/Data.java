@@ -34,8 +34,8 @@ public class Data extends Struct {
      * @return A new, uninitialized @{link Data}
      */
     public static Data allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Data newInstance = new Data(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Data newInstance = new Data(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,12 +43,14 @@ public class Data extends Struct {
     /**
      * Create a Data proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Data(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Data(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Data> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Data(input, ownership);
+    public static final Marshal<Addressable, Data> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Data(input);
 }

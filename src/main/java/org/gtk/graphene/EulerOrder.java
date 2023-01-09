@@ -13,133 +13,164 @@ import org.jetbrains.annotations.*;
  * @version 1.2
  */
 public enum EulerOrder implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Rotate in the default order; the
      *   default order is one of the following enumeration values
      */
     DEFAULT(-1),
+    
     /**
      * Rotate in the X, Y, and Z order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SXYZ}
      */
     XYZ(0),
+    
     /**
      * Rotate in the Y, Z, and X order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SYZX}
      */
     YZX(1),
+    
     /**
      * Rotate in the Z, X, and Y order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SZXY}
      */
     ZXY(2),
+    
     /**
      * Rotate in the X, Z, and Y order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SXZY}
      */
     XZY(3),
+    
     /**
      * Rotate in the Y, X, and Z order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SYXZ}
      */
     YXZ(4),
+    
     /**
      * Rotate in the Z, Y, and X order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SZYX}
      */
     ZYX(5),
+    
     /**
      * Defines a static rotation along the X, Y, and Z axes (Since: 1.10)
      */
     SXYZ(6),
+    
     /**
      * Defines a static rotation along the X, Y, and X axes (Since: 1.10)
      */
     SXYX(7),
+    
     /**
      * Defines a static rotation along the X, Z, and Y axes (Since: 1.10)
      */
     SXZY(8),
+    
     /**
      * Defines a static rotation along the X, Z, and X axes (Since: 1.10)
      */
     SXZX(9),
+    
     /**
      * Defines a static rotation along the Y, Z, and X axes (Since: 1.10)
      */
     SYZX(10),
+    
     /**
      * Defines a static rotation along the Y, Z, and Y axes (Since: 1.10)
      */
     SYZY(11),
+    
     /**
      * Defines a static rotation along the Y, X, and Z axes (Since: 1.10)
      */
     SYXZ(12),
+    
     /**
      * Defines a static rotation along the Y, X, and Y axes (Since: 1.10)
      */
     SYXY(13),
+    
     /**
      * Defines a static rotation along the Z, X, and Y axes (Since: 1.10)
      */
     SZXY(14),
+    
     /**
      * Defines a static rotation along the Z, X, and Z axes (Since: 1.10)
      */
     SZXZ(15),
+    
     /**
      * Defines a static rotation along the Z, Y, and X axes (Since: 1.10)
      */
     SZYX(16),
+    
     /**
      * Defines a static rotation along the Z, Y, and Z axes (Since: 1.10)
      */
     SZYZ(17),
+    
     /**
      * Defines a relative rotation along the Z, Y, and X axes (Since: 1.10)
      */
     RZYX(18),
+    
     /**
      * Defines a relative rotation along the X, Y, and X axes (Since: 1.10)
      */
     RXYX(19),
+    
     /**
      * Defines a relative rotation along the Y, Z, and X axes (Since: 1.10)
      */
     RYZX(20),
+    
     /**
      * Defines a relative rotation along the X, Z, and X axes (Since: 1.10)
      */
     RXZX(21),
+    
     /**
      * Defines a relative rotation along the X, Z, and Y axes (Since: 1.10)
      */
     RXZY(22),
+    
     /**
      * Defines a relative rotation along the Y, Z, and Y axes (Since: 1.10)
      */
     RYZY(23),
+    
     /**
      * Defines a relative rotation along the Z, X, and Y axes (Since: 1.10)
      */
     RZXY(24),
+    
     /**
      * Defines a relative rotation along the Y, X, and Y axes (Since: 1.10)
      */
     RYXY(25),
+    
     /**
      * Defines a relative rotation along the Y, X, and Z axes (Since: 1.10)
      */
     RYXZ(26),
+    
     /**
      * Defines a relative rotation along the Z, X, and Z axes (Since: 1.10)
      */
     RZXZ(27),
+    
     /**
      * Defines a relative rotation along the X, Y, and Z axes (Since: 1.10)
      */
     RXYZ(28),
+    
     /**
      * Defines a relative rotation along the Z, Y, and Z axes (Since: 1.10)
      */
@@ -148,15 +179,29 @@ public enum EulerOrder implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "graphene_euler_order_t";
     
     private final int value;
+    
+    /**
+     * Create a new EulerOrder for the provided value
+     * @param numeric value the enum value
+     */
     EulerOrder(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new EulerOrder for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static EulerOrder of(int value) {
         return switch (value) {
             case -1 -> DEFAULT;

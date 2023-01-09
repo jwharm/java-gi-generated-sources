@@ -44,6 +44,9 @@ public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SignalMatchType UNBLOCKED = new SignalMatchType(32);
     
+    /**
+     * Create a new SignalMatchType with the provided value
+     */
     public SignalMatchType(int value) {
         super(value);
     }

@@ -52,6 +52,9 @@ public class ClockFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ClockFlags LAST = new ClockFlags(4096);
     
+    /**
+     * Create a new ClockFlags with the provided value
+     */
     public ClockFlags(int value) {
         super(value);
     }

@@ -54,6 +54,9 @@ public class BufferCopyFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferCopyFlags DEEP = new BufferCopyFlags(32);
     
+    /**
+     * Create a new BufferCopyFlags with the provided value
+     */
     public BufferCopyFlags(int value) {
         super(value);
     }

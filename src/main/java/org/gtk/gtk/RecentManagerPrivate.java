@@ -29,8 +29,8 @@ public class RecentManagerPrivate extends Struct {
      * @return A new, uninitialized @{link RecentManagerPrivate}
      */
     public static RecentManagerPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RecentManagerPrivate newInstance = new RecentManagerPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RecentManagerPrivate newInstance = new RecentManagerPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RecentManagerPrivate extends Struct {
     /**
      * Create a RecentManagerPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RecentManagerPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RecentManagerPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RecentManagerPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecentManagerPrivate(input, ownership);
+    public static final Marshal<Addressable, RecentManagerPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RecentManagerPrivate(input);
 }

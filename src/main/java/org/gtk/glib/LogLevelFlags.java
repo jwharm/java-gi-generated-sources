@@ -64,6 +64,9 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final LogLevelFlags LEVEL_MASK = new LogLevelFlags(-4);
     
+    /**
+     * Create a new LogLevelFlags with the provided value
+     */
     public LogLevelFlags(int value) {
         super(value);
     }

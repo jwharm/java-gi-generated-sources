@@ -74,26 +74,17 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     
     /**
      * Create a ComboRow proxy instance for the provided memory address.
-     * <p>
-     * Because ComboRow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ComboRow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ComboRow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ComboRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ComboRow(input, ownership);
+    public static final Marshal<Addressable, ComboRow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ComboRow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -109,7 +100,9 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      * Creates a new {@code AdwComboRow}.
      */
     public ComboRow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -119,12 +112,11 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_expression.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -134,12 +126,11 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_factory.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) Interop.register(RESULT, org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -149,12 +140,11 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gtk.ListItemFactory getListFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_list_factory.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_list_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) Interop.register(RESULT, org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -164,12 +154,11 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -180,8 +169,7 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public int getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_combo_row_get_selected.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_combo_row_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,12 +183,11 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gobject.GObject getSelectedItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_selected_item.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_combo_row_get_selected_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -210,8 +197,7 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     public boolean getUseSubtitle() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_combo_row_get_use_subtitle.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_combo_row_get_use_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,6 +338,9 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gnome.adw.ActionRow.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -475,93 +464,101 @@ public class ComboRow extends org.gnome.adw.ActionRow implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle adw_combo_row_new = Interop.downcallHandle(
-            "adw_combo_row_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_expression = Interop.downcallHandle(
-            "adw_combo_row_get_expression",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_expression",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_factory = Interop.downcallHandle(
-            "adw_combo_row_get_factory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_factory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_list_factory = Interop.downcallHandle(
-            "adw_combo_row_get_list_factory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_list_factory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_model = Interop.downcallHandle(
-            "adw_combo_row_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_selected = Interop.downcallHandle(
-            "adw_combo_row_get_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_selected_item = Interop.downcallHandle(
-            "adw_combo_row_get_selected_item",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_selected_item",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_use_subtitle = Interop.downcallHandle(
-            "adw_combo_row_get_use_subtitle",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_get_use_subtitle",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_expression = Interop.downcallHandle(
-            "adw_combo_row_set_expression",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_set_expression",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_factory = Interop.downcallHandle(
-            "adw_combo_row_set_factory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_set_factory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_list_factory = Interop.downcallHandle(
-            "adw_combo_row_set_list_factory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_set_list_factory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_model = Interop.downcallHandle(
-            "adw_combo_row_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_combo_row_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_selected = Interop.downcallHandle(
-            "adw_combo_row_set_selected",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_combo_row_set_selected",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_combo_row_set_use_subtitle = Interop.downcallHandle(
-            "adw_combo_row_set_use_subtitle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_combo_row_set_use_subtitle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_combo_row_get_type = Interop.downcallHandle(
-            "adw_combo_row_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_combo_row_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_combo_row_get_type != null;
     }
 }

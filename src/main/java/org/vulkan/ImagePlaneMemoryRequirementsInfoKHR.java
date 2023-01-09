@@ -29,8 +29,8 @@ public class ImagePlaneMemoryRequirementsInfoKHR extends Struct {
      * @return A new, uninitialized @{link ImagePlaneMemoryRequirementsInfoKHR}
      */
     public static ImagePlaneMemoryRequirementsInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImagePlaneMemoryRequirementsInfoKHR newInstance = new ImagePlaneMemoryRequirementsInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImagePlaneMemoryRequirementsInfoKHR newInstance = new ImagePlaneMemoryRequirementsInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImagePlaneMemoryRequirementsInfoKHR extends Struct {
     /**
      * Create a ImagePlaneMemoryRequirementsInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImagePlaneMemoryRequirementsInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImagePlaneMemoryRequirementsInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImagePlaneMemoryRequirementsInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImagePlaneMemoryRequirementsInfoKHR(input, ownership);
+    public static final Marshal<Addressable, ImagePlaneMemoryRequirementsInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImagePlaneMemoryRequirementsInfoKHR(input);
 }

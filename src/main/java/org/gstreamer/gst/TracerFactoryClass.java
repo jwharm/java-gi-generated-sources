@@ -29,8 +29,8 @@ public class TracerFactoryClass extends Struct {
      * @return A new, uninitialized @{link TracerFactoryClass}
      */
     public static TracerFactoryClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TracerFactoryClass newInstance = new TracerFactoryClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TracerFactoryClass newInstance = new TracerFactoryClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TracerFactoryClass extends Struct {
     /**
      * Create a TracerFactoryClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TracerFactoryClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TracerFactoryClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TracerFactoryClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactoryClass(input, ownership);
+    public static final Marshal<Addressable, TracerFactoryClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactoryClass(input);
 }

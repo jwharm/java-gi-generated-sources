@@ -35,14 +35,16 @@ public class Coverage extends org.gtk.gobject.GObject {
     /**
      * Create a Coverage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Coverage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Coverage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Coverage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Coverage(input, ownership);
+    public static final Marshal<Addressable, Coverage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Coverage(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -58,7 +60,8 @@ public class Coverage extends org.gtk.gobject.GObject {
      * Create a new {@code PangoCoverage}
      */
     public Coverage() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -70,12 +73,13 @@ public class Coverage extends org.gtk.gobject.GObject {
     public org.pango.Coverage copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Coverage) Interop.register(RESULT, org.pango.Coverage.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -122,12 +126,13 @@ public class Coverage extends org.gtk.gobject.GObject {
     public org.pango.Coverage ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Coverage) Interop.register(RESULT, org.pango.Coverage.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -154,18 +159,20 @@ public class Coverage extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public void toBytes(Out<byte[]> bytes, Out<Integer> nBytes) {
-        MemorySegment bytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment nBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_coverage_to_bytes.invokeExact(
-                    handle(),
-                    (Addressable) bytesPOINTER.address(),
-                    (Addressable) nBytesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bytesPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment nBytesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_coverage_to_bytes.invokeExact(
+                        handle(),
+                        (Addressable) bytesPOINTER.address(),
+                        (Addressable) nBytesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nBytes.set(nBytesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            bytes.set(MemorySegment.ofAddress(bytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nBytes.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
         }
-        nBytes.set(nBytesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        bytes.set(MemorySegment.ofAddress(bytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nBytes.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
     }
     
     /**
@@ -177,8 +184,7 @@ public class Coverage extends org.gtk.gobject.GObject {
     @Deprecated
     public void unref() {
         try {
-            DowncallHandles.pango_coverage_unref.invokeExact(
-                    handle());
+            DowncallHandles.pango_coverage_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,15 +216,19 @@ public class Coverage extends org.gtk.gobject.GObject {
      */
     @Deprecated
     public static @Nullable org.pango.Coverage fromBytes(byte[] bytes, int nBytes) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_coverage_from_bytes.invokeExact(
-                    Interop.allocateNativeArray(bytes, false),
-                    nBytes);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_coverage_from_bytes.invokeExact(
+                        Interop.allocateNativeArray(bytes, false, SCOPE),
+                        nBytes);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.pango.Coverage) Interop.register(RESULT, org.pango.Coverage.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -237,6 +247,9 @@ public class Coverage extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -261,63 +274,71 @@ public class Coverage extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_coverage_new = Interop.downcallHandle(
-            "pango_coverage_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_copy = Interop.downcallHandle(
-            "pango_coverage_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_get = Interop.downcallHandle(
-            "pango_coverage_get",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_coverage_get",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_coverage_max = Interop.downcallHandle(
-            "pango_coverage_max",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_max",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_ref = Interop.downcallHandle(
-            "pango_coverage_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_set = Interop.downcallHandle(
-            "pango_coverage_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_coverage_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_coverage_to_bytes = Interop.downcallHandle(
-            "pango_coverage_to_bytes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_to_bytes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_unref = Interop.downcallHandle(
-            "pango_coverage_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_coverage_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_coverage_get_type = Interop.downcallHandle(
-            "pango_coverage_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_coverage_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle pango_coverage_from_bytes = Interop.downcallHandle(
-            "pango_coverage_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_coverage_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_coverage_get_type != null;
     }
 }

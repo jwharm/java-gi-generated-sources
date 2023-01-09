@@ -11,6 +11,9 @@ import org.jetbrains.annotations.*;
  */
 public class Strv extends io.github.jwharm.javagi.Alias<java.lang.String> {
     
+    /**
+     * Create a new Strv with the provided value
+     */
     public Strv(java.lang.String value) {
         super(value);
     }

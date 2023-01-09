@@ -29,8 +29,8 @@ public class SparseImageFormatFlagBits extends Struct {
      * @return A new, uninitialized @{link SparseImageFormatFlagBits}
      */
     public static SparseImageFormatFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SparseImageFormatFlagBits newInstance = new SparseImageFormatFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SparseImageFormatFlagBits newInstance = new SparseImageFormatFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SparseImageFormatFlagBits extends Struct {
     /**
      * Create a SparseImageFormatFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SparseImageFormatFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SparseImageFormatFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SparseImageFormatFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageFormatFlagBits(input, ownership);
+    public static final Marshal<Addressable, SparseImageFormatFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageFormatFlagBits(input);
 }

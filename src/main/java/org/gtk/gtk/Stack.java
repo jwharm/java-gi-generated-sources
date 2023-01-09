@@ -69,26 +69,17 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     /**
      * Create a Stack proxy instance for the provided memory address.
-     * <p>
-     * Because Stack is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Stack(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Stack(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Stack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Stack(input, ownership);
+    public static final Marshal<Addressable, Stack> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Stack(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -104,7 +95,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Creates a new {@code GtkStack}.
      */
     public Stack() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -121,7 +114,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.StackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.StackPage) Interop.register(RESULT, org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -133,16 +126,18 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the {@code GtkStackPage} for {@code child}
      */
     public org.gtk.gtk.StackPage addNamed(org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_named.invokeExact(
-                    handle(),
-                    child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_named.invokeExact(
+                        handle(),
+                        child.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.StackPage) Interop.register(RESULT, org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.StackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,17 +152,19 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the {@code GtkStackPage} for {@code child}
      */
     public org.gtk.gtk.StackPage addTitled(org.gtk.gtk.Widget child, @Nullable java.lang.String name, java.lang.String title) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_titled.invokeExact(
-                    handle(),
-                    child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_titled.invokeExact(
+                        handle(),
+                        child.handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.StackPage) Interop.register(RESULT, org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.StackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -179,15 +176,17 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      *   of the {@code GtkStack}
      */
     public @Nullable org.gtk.gtk.Widget getChildByName(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_child_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_child_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,8 +196,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_hhomogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_hhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,8 +211,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getInterpolateSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_interpolate_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_interpolate_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,7 +232,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.StackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.StackPage) Interop.register(RESULT, org.gtk.gtk.StackPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -249,12 +246,13 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_pages.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.SelectionModel) Interop.register(RESULT, org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -265,8 +263,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_duration.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,8 +278,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getTransitionRunning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_running.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_running.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,8 +293,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public org.gtk.gtk.StackTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_transition_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,8 +307,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_get_vhomogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_vhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,12 +323,11 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -347,8 +340,7 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,13 +485,15 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param transition the transition type to use
      */
     public void setVisibleChildFull(java.lang.String name, org.gtk.gtk.StackTransitionType transition) {
-        try {
-            DowncallHandles.gtk_stack_set_visible_child_full.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    transition.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_stack_set_visible_child_full.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        transition.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -516,12 +510,14 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param name the name of the child to make visible
      */
     public void setVisibleChildName(java.lang.String name) {
-        try {
-            DowncallHandles.gtk_stack_set_visible_child_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_stack_set_visible_child_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -555,6 +551,9 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -678,153 +677,161 @@ public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_stack_new = Interop.downcallHandle(
-            "gtk_stack_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_add_child = Interop.downcallHandle(
-            "gtk_stack_add_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_add_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_add_named = Interop.downcallHandle(
-            "gtk_stack_add_named",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_add_named",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_add_titled = Interop.downcallHandle(
-            "gtk_stack_add_titled",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_add_titled",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_child_by_name = Interop.downcallHandle(
-            "gtk_stack_get_child_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_child_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_hhomogeneous = Interop.downcallHandle(
-            "gtk_stack_get_hhomogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_hhomogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_interpolate_size = Interop.downcallHandle(
-            "gtk_stack_get_interpolate_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_interpolate_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_page = Interop.downcallHandle(
-            "gtk_stack_get_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_pages = Interop.downcallHandle(
-            "gtk_stack_get_pages",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_pages",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_transition_duration = Interop.downcallHandle(
-            "gtk_stack_get_transition_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_transition_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_transition_running = Interop.downcallHandle(
-            "gtk_stack_get_transition_running",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_transition_running",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_transition_type = Interop.downcallHandle(
-            "gtk_stack_get_transition_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_transition_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_vhomogeneous = Interop.downcallHandle(
-            "gtk_stack_get_vhomogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_vhomogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_visible_child = Interop.downcallHandle(
-            "gtk_stack_get_visible_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_visible_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_visible_child_name = Interop.downcallHandle(
-            "gtk_stack_get_visible_child_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_get_visible_child_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_remove = Interop.downcallHandle(
-            "gtk_stack_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_hhomogeneous = Interop.downcallHandle(
-            "gtk_stack_set_hhomogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_hhomogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_interpolate_size = Interop.downcallHandle(
-            "gtk_stack_set_interpolate_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_interpolate_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_transition_duration = Interop.downcallHandle(
-            "gtk_stack_set_transition_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_transition_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_transition_type = Interop.downcallHandle(
-            "gtk_stack_set_transition_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_transition_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_vhomogeneous = Interop.downcallHandle(
-            "gtk_stack_set_vhomogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_vhomogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child = Interop.downcallHandle(
-            "gtk_stack_set_visible_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_set_visible_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child_full = Interop.downcallHandle(
-            "gtk_stack_set_visible_child_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_set_visible_child_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_set_visible_child_name = Interop.downcallHandle(
-            "gtk_stack_set_visible_child_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_set_visible_child_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_get_type = Interop.downcallHandle(
-            "gtk_stack_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_stack_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_stack_get_type != null;
     }
 }

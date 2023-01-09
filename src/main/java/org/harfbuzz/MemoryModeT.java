@@ -32,20 +32,24 @@ import org.jetbrains.annotations.*;
  * </ul>
  */
 public enum MemoryModeT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * HarfBuzz immediately makes a copy of the data.
      */
     DUPLICATE(0),
+    
     /**
      * HarfBuzz client will never modify the data,
      *     and HarfBuzz will never modify the data.
      */
     READONLY(1),
+    
     /**
      * HarfBuzz client made a copy of the data solely
      *     for HarfBuzz, so HarfBuzz may modify the data.
      */
     WRITABLE(2),
+    
     /**
      * See above
      */
@@ -54,15 +58,29 @@ public enum MemoryModeT implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "hb_memory_mode_t";
     
     private final int value;
+    
+    /**
+     * Create a new MemoryModeT for the provided value
+     * @param numeric value the enum value
+     */
     MemoryModeT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new MemoryModeT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static MemoryModeT of(int value) {
         return switch (value) {
             case 0 -> DUPLICATE;

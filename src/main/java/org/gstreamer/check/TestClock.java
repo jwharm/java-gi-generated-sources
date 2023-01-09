@@ -172,26 +172,17 @@ public class TestClock extends org.gstreamer.gst.Clock {
     
     /**
      * Create a TestClock proxy instance for the provided memory address.
-     * <p>
-     * Because TestClock is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestClock(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected TestClock(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestClock(input, ownership);
+    public static final Marshal<Addressable, TestClock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestClock(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -209,20 +200,20 @@ public class TestClock extends org.gstreamer.gst.Clock {
      * MT safe.
      */
     public TestClock() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithStartTime(org.gstreamer.gst.ClockTime startTime) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_test_clock_new_with_start_time.invokeExact(
-                    startTime.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_test_clock_new_with_start_time.invokeExact(startTime.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new test clock with its time set to the specified time.
      * <p>
@@ -232,7 +223,9 @@ public class TestClock extends org.gstreamer.gst.Clock {
      */
     public static TestClock newWithStartTime(org.gstreamer.gst.ClockTime startTime) {
         var RESULT = constructNewWithStartTime(startTime);
-        return (org.gstreamer.check.TestClock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.check.TestClock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.check.TestClock) Interop.register(RESULT, org.gstreamer.check.TestClock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -268,8 +261,7 @@ public class TestClock extends org.gstreamer.gst.Clock {
     public boolean crank() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_test_clock_crank.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_test_clock_crank.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,8 +279,7 @@ public class TestClock extends org.gstreamer.gst.Clock {
     public org.gstreamer.gst.ClockTime getNextEntryTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_test_clock_get_next_entry_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_test_clock_get_next_entry_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,8 +317,7 @@ public class TestClock extends org.gstreamer.gst.Clock {
     public int peekIdCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_test_clock_peek_id_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_test_clock_peek_id_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -345,17 +335,19 @@ public class TestClock extends org.gstreamer.gst.Clock {
      * triggered, {@code false} otherwise.
      */
     public boolean peekNextPendingId(@Nullable org.gstreamer.gst.ClockID pendingId) {
-        MemorySegment pendingIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_test_clock_peek_next_pending_id.invokeExact(
-                    handle(),
-                    (Addressable) (pendingId == null ? MemoryAddress.NULL : (Addressable) pendingIdPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pendingIdPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_test_clock_peek_next_pending_id.invokeExact(
+                        handle(),
+                        (Addressable) (pendingId == null ? MemoryAddress.NULL : (Addressable) pendingIdPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (pendingId != null) pendingId.setValue(pendingIdPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (pendingId != null) pendingId.setValue(pendingIdPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -403,8 +395,7 @@ public class TestClock extends org.gstreamer.gst.Clock {
     public @Nullable org.gstreamer.gst.ClockID processNextClockId() {
         java.lang.foreign.MemoryAddress RESULT;
         try {
-            RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_test_clock_process_next_clock_id.invokeExact(
-                    handle());
+            RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_test_clock_process_next_clock_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -444,19 +435,21 @@ public class TestClock extends org.gstreamer.gst.Clock {
      * (Could be that it timed out waiting or that more waits than waits was found)
      */
     public boolean timedWaitForMultiplePendingIds(int count, int timeoutMs, @Nullable Out<org.gtk.glib.List> pendingList) {
-        MemorySegment pendingListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_test_clock_timed_wait_for_multiple_pending_ids.invokeExact(
-                    handle(),
-                    count,
-                    timeoutMs,
-                    (Addressable) (pendingList == null ? MemoryAddress.NULL : (Addressable) pendingListPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pendingListPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_test_clock_timed_wait_for_multiple_pending_ids.invokeExact(
+                        handle(),
+                        count,
+                        timeoutMs,
+                        (Addressable) (pendingList == null ? MemoryAddress.NULL : (Addressable) pendingListPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (pendingList != null) pendingList.set(org.gtk.glib.List.fromAddress.marshal(pendingListPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (pendingList != null) pendingList.set(org.gtk.glib.List.fromAddress.marshal(pendingListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -471,16 +464,18 @@ public class TestClock extends org.gstreamer.gst.Clock {
      *     that expired, or {@code null}
      */
     public void waitForMultiplePendingIds(int count, @Nullable Out<org.gtk.glib.List> pendingList) {
-        MemorySegment pendingListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_test_clock_wait_for_multiple_pending_ids.invokeExact(
-                    handle(),
-                    count,
-                    (Addressable) (pendingList == null ? MemoryAddress.NULL : (Addressable) pendingListPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pendingListPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_test_clock_wait_for_multiple_pending_ids.invokeExact(
+                        handle(),
+                        count,
+                        (Addressable) (pendingList == null ? MemoryAddress.NULL : (Addressable) pendingListPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (pendingList != null) pendingList.set(org.gtk.glib.List.fromAddress.marshal(pendingListPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (pendingList != null) pendingList.set(org.gtk.glib.List.fromAddress.marshal(pendingListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -493,15 +488,17 @@ public class TestClock extends org.gstreamer.gst.Clock {
      * with information about the pending clock notification
      */
     public void waitForNextPendingId(@Nullable org.gstreamer.gst.ClockID pendingId) {
-        MemorySegment pendingIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_test_clock_wait_for_next_pending_id.invokeExact(
-                    handle(),
-                    (Addressable) (pendingId == null ? MemoryAddress.NULL : (Addressable) pendingIdPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pendingIdPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_test_clock_wait_for_next_pending_id.invokeExact(
+                        handle(),
+                        (Addressable) (pendingId == null ? MemoryAddress.NULL : (Addressable) pendingIdPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (pendingId != null) pendingId.setValue(pendingIdPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         }
-        if (pendingId != null) pendingId.setValue(pendingIdPOINTER.get(Interop.valueLayout.ADDRESS, 0));
     }
     
     /**
@@ -546,8 +543,7 @@ public class TestClock extends org.gstreamer.gst.Clock {
     public static org.gstreamer.gst.ClockTime idListGetLatestTime(@Nullable org.gtk.glib.List pendingList) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_test_clock_id_list_get_latest_time.invokeExact(
-                    (Addressable) (pendingList == null ? MemoryAddress.NULL : pendingList.handle()));
+            RESULT = (long) DowncallHandles.gst_test_clock_id_list_get_latest_time.invokeExact((Addressable) (pendingList == null ? MemoryAddress.NULL : pendingList.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -570,6 +566,9 @@ public class TestClock extends org.gstreamer.gst.Clock {
      */
     public static class Builder extends org.gstreamer.gst.Clock.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -615,111 +614,119 @@ public class TestClock extends org.gstreamer.gst.Clock {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_test_clock_new = Interop.downcallHandle(
-            "gst_test_clock_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_new_with_start_time = Interop.downcallHandle(
-            "gst_test_clock_new_with_start_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_test_clock_new_with_start_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_test_clock_advance_time = Interop.downcallHandle(
-            "gst_test_clock_advance_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_test_clock_advance_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_test_clock_crank = Interop.downcallHandle(
-            "gst_test_clock_crank",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_crank",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_get_next_entry_time = Interop.downcallHandle(
-            "gst_test_clock_get_next_entry_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_get_next_entry_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_has_id = Interop.downcallHandle(
-            "gst_test_clock_has_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_has_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_peek_id_count = Interop.downcallHandle(
-            "gst_test_clock_peek_id_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_peek_id_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_peek_next_pending_id = Interop.downcallHandle(
-            "gst_test_clock_peek_next_pending_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_peek_next_pending_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_process_id = Interop.downcallHandle(
-            "gst_test_clock_process_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_process_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_process_id_list = Interop.downcallHandle(
-            "gst_test_clock_process_id_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_process_id_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_process_next_clock_id = Interop.downcallHandle(
-            "gst_test_clock_process_next_clock_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_process_next_clock_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_set_time = Interop.downcallHandle(
-            "gst_test_clock_set_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_test_clock_set_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_test_clock_timed_wait_for_multiple_pending_ids = Interop.downcallHandle(
-            "gst_test_clock_timed_wait_for_multiple_pending_ids",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_timed_wait_for_multiple_pending_ids",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_wait_for_multiple_pending_ids = Interop.downcallHandle(
-            "gst_test_clock_wait_for_multiple_pending_ids",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_wait_for_multiple_pending_ids",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_wait_for_next_pending_id = Interop.downcallHandle(
-            "gst_test_clock_wait_for_next_pending_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_wait_for_next_pending_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_test_clock_wait_for_pending_id_count = Interop.downcallHandle(
-            "gst_test_clock_wait_for_pending_id_count",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_test_clock_wait_for_pending_id_count",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_test_clock_get_type = Interop.downcallHandle(
-            "gst_test_clock_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_test_clock_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_test_clock_id_list_get_latest_time = Interop.downcallHandle(
-            "gst_test_clock_id_list_get_latest_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_test_clock_id_list_get_latest_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_test_clock_get_type != null;
     }
 }

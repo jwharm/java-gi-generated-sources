@@ -29,8 +29,8 @@ public class GeometryNV extends Struct {
      * @return A new, uninitialized @{link GeometryNV}
      */
     public static GeometryNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GeometryNV newInstance = new GeometryNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GeometryNV newInstance = new GeometryNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GeometryNV extends Struct {
     /**
      * Create a GeometryNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GeometryNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GeometryNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GeometryNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GeometryNV(input, ownership);
+    public static final Marshal<Addressable, GeometryNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GeometryNV(input);
 }

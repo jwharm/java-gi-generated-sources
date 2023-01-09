@@ -43,8 +43,8 @@ public class Attribute extends Struct {
      * @return A new, uninitialized @{link Attribute}
      */
     public static Attribute allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Attribute newInstance = new Attribute(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Attribute newInstance = new Attribute(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class Attribute extends Struct {
      * @return The value of the field {@code klass}
      */
     public org.pango.AttrClass getKlass() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("klass"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.pango.AttrClass.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("klass"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.pango.AttrClass.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class Attribute extends Struct {
      * @param klass The new value of the field {@code klass}
      */
     public void setKlass(org.pango.AttrClass klass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("klass"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (klass == null ? MemoryAddress.NULL : klass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("klass"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (klass == null ? MemoryAddress.NULL : klass.handle()));
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class Attribute extends Struct {
      * @return The value of the field {@code start_index}
      */
     public int getStartIndex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class Attribute extends Struct {
      * @param startIndex The new value of the field {@code start_index}
      */
     public void setStartIndex(int startIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), startIndex);
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class Attribute extends Struct {
      * @return The value of the field {@code end_index}
      */
     public int getEndIndex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,22 +117,26 @@ public class Attribute extends Struct {
      * @param endIndex The new value of the field {@code end_index}
      */
     public void setEndIndex(int endIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), endIndex);
+        }
     }
     
     /**
      * Create a Attribute proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Attribute(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Attribute(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Attribute> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Attribute(input, ownership);
+    public static final Marshal<Addressable, Attribute> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Attribute(input);
     
     /**
      * Returns the attribute cast to {@code PangoAttrColor}.
@@ -134,12 +148,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrColor asColor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_color.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_color.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrColor.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrColor.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -152,12 +165,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrFloat asFloat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_float.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_float.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrFloat.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrFloat.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -170,12 +182,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrFontDesc asFontDesc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_font_desc.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_font_desc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrFontDesc.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrFontDesc.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -188,12 +199,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrFontFeatures asFontFeatures() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_font_features.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_font_features.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrFontFeatures.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrFontFeatures.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -206,12 +216,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrInt asInt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_int.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_int.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrInt.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrInt.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -224,12 +233,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrLanguage asLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_language.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrLanguage.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrLanguage.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -242,12 +250,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrShape asShape() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_shape.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_shape.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrShape.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrShape.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -260,12 +267,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrSize asSize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_size.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrSize.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrSize.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -278,12 +284,11 @@ public class Attribute extends Struct {
     public @Nullable org.pango.AttrString asString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_as_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrString.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrString.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -295,12 +300,13 @@ public class Attribute extends Struct {
     public org.pango.Attribute copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attribute_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -308,8 +314,7 @@ public class Attribute extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.pango_attribute_destroy.invokeExact(
-                    handle());
+            DowncallHandles.pango_attribute_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,81 +361,81 @@ public class Attribute extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attribute_as_color = Interop.downcallHandle(
-            "pango_attribute_as_color",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_color",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_float = Interop.downcallHandle(
-            "pango_attribute_as_float",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_float",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_font_desc = Interop.downcallHandle(
-            "pango_attribute_as_font_desc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_font_desc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_font_features = Interop.downcallHandle(
-            "pango_attribute_as_font_features",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_font_features",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_int = Interop.downcallHandle(
-            "pango_attribute_as_int",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_int",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_language = Interop.downcallHandle(
-            "pango_attribute_as_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_shape = Interop.downcallHandle(
-            "pango_attribute_as_shape",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_shape",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_size = Interop.downcallHandle(
-            "pango_attribute_as_size",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_size",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_as_string = Interop.downcallHandle(
-            "pango_attribute_as_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_as_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_copy = Interop.downcallHandle(
-            "pango_attribute_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_destroy = Interop.downcallHandle(
-            "pango_attribute_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_equal = Interop.downcallHandle(
-            "pango_attribute_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attribute_init = Interop.downcallHandle(
-            "pango_attribute_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attribute_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -456,7 +461,7 @@ public class Attribute extends Struct {
             struct = Attribute.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Attribute} struct.
          * @return A new instance of {@code Attribute} with the fields 
          *         that were set in the Builder object.
@@ -471,10 +476,12 @@ public class Attribute extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKlass(org.pango.AttrClass klass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("klass"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (klass == null ? MemoryAddress.NULL : klass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("klass"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (klass == null ? MemoryAddress.NULL : klass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -483,10 +490,12 @@ public class Attribute extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStartIndex(int startIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), startIndex);
+                return this;
+            }
         }
         
         /**
@@ -496,10 +505,12 @@ public class Attribute extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEndIndex(int endIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), endIndex);
+                return this;
+            }
         }
     }
 }

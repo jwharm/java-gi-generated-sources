@@ -9,26 +9,32 @@ import org.jetbrains.annotations.*;
  * See &lt;http://w3c.github.io/webrtc-pc/{@code dom}-rtcsignalingstate&gt;
  */
 public enum WebRTCSignalingState implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * stable
      */
     STABLE(0),
+    
     /**
      * closed
      */
     CLOSED(1),
+    
     /**
      * have-local-offer
      */
     HAVE_LOCAL_OFFER(2),
+    
     /**
      * have-remote-offer
      */
     HAVE_REMOTE_OFFER(3),
+    
     /**
      * have-local-pranswer
      */
     HAVE_LOCAL_PRANSWER(4),
+    
     /**
      * have-remote-pranswer
      */
@@ -37,15 +43,29 @@ public enum WebRTCSignalingState implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GstWebRTCSignalingState";
     
     private final int value;
+    
+    /**
+     * Create a new WebRTCSignalingState for the provided value
+     * @param numeric value the enum value
+     */
     WebRTCSignalingState(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new WebRTCSignalingState for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static WebRTCSignalingState of(int value) {
         return switch (value) {
             case 0 -> STABLE;

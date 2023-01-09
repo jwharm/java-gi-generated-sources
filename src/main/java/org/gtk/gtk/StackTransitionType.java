@@ -11,94 +11,117 @@ import org.jetbrains.annotations.*;
  * New values may be added to this enumeration over time.
  */
 public enum StackTransitionType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No transition
      */
     NONE(0),
+    
     /**
      * A cross-fade
      */
     CROSSFADE(1),
+    
     /**
      * Slide from left to right
      */
     SLIDE_RIGHT(2),
+    
     /**
      * Slide from right to left
      */
     SLIDE_LEFT(3),
+    
     /**
      * Slide from bottom up
      */
     SLIDE_UP(4),
+    
     /**
      * Slide from top down
      */
     SLIDE_DOWN(5),
+    
     /**
      * Slide from left or right according to the children order
      */
     SLIDE_LEFT_RIGHT(6),
+    
     /**
      * Slide from top down or bottom up according to the order
      */
     SLIDE_UP_DOWN(7),
+    
     /**
      * Cover the old page by sliding up
      */
     OVER_UP(8),
+    
     /**
      * Cover the old page by sliding down
      */
     OVER_DOWN(9),
+    
     /**
      * Cover the old page by sliding to the left
      */
     OVER_LEFT(10),
+    
     /**
      * Cover the old page by sliding to the right
      */
     OVER_RIGHT(11),
+    
     /**
      * Uncover the new page by sliding up
      */
     UNDER_UP(12),
+    
     /**
      * Uncover the new page by sliding down
      */
     UNDER_DOWN(13),
+    
     /**
      * Uncover the new page by sliding to the left
      */
     UNDER_LEFT(14),
+    
     /**
      * Uncover the new page by sliding to the right
      */
     UNDER_RIGHT(15),
+    
     /**
      * Cover the old page sliding up or uncover the new page sliding down, according to order
      */
     OVER_UP_DOWN(16),
+    
     /**
      * Cover the old page sliding down or uncover the new page sliding up, according to order
      */
     OVER_DOWN_UP(17),
+    
     /**
      * Cover the old page sliding left or uncover the new page sliding right, according to order
      */
     OVER_LEFT_RIGHT(18),
+    
     /**
      * Cover the old page sliding right or uncover the new page sliding left, according to order
      */
     OVER_RIGHT_LEFT(19),
+    
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the left
      */
     ROTATE_LEFT(20),
+    
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the right
      */
     ROTATE_RIGHT(21),
+    
     /**
      * Pretend the pages are sides of a cube and rotate that cube to the left or right according to the children order
      */
@@ -107,15 +130,29 @@ public enum StackTransitionType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkStackTransitionType";
     
     private final int value;
+    
+    /**
+     * Create a new StackTransitionType for the provided value
+     * @param numeric value the enum value
+     */
     StackTransitionType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new StackTransitionType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static StackTransitionType of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -41,8 +41,8 @@ public class IconIface extends Struct {
      * @return A new, uninitialized @{link IconIface}
      */
     public static IconIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IconIface newInstance = new IconIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IconIface newInstance = new IconIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,7 +53,7 @@ public class IconIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -61,25 +61,42 @@ public class IconIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HashCallback} callback.
+     */
     @FunctionalInterface
     public interface HashCallback {
+    
         int run(org.gtk.gio.Icon icon);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress icon) {
-            var RESULT = run((org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.Icon.fromAddress).marshal(icon, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Icon) Interop.register(icon, org.gtk.gio.Icon.fromAddress).marshal(icon, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HashCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HashCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -88,25 +105,42 @@ public class IconIface extends Struct {
      * @param hash The new value of the field {@code hash}
      */
     public void setHash(HashCallback hash) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hash"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hash == null ? MemoryAddress.NULL : hash.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hash"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hash == null ? MemoryAddress.NULL : hash.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EqualCallback} callback.
+     */
     @FunctionalInterface
     public interface EqualCallback {
+    
         boolean run(@Nullable org.gtk.gio.Icon icon1, @Nullable org.gtk.gio.Icon icon2);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress icon1, MemoryAddress icon2) {
-            var RESULT = run((org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon1)), org.gtk.gio.Icon.fromAddress).marshal(icon1, Ownership.NONE), (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon2)), org.gtk.gio.Icon.fromAddress).marshal(icon2, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Icon) Interop.register(icon1, org.gtk.gio.Icon.fromAddress).marshal(icon1, null), (org.gtk.gio.Icon) Interop.register(icon2, org.gtk.gio.Icon.fromAddress).marshal(icon2, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EqualCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EqualCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,25 +149,44 @@ public class IconIface extends Struct {
      * @param equal The new value of the field {@code equal}
      */
     public void setEqual(EqualCallback equal) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("equal"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (equal == null ? MemoryAddress.NULL : equal.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("equal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (equal == null ? MemoryAddress.NULL : equal.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToTokensCallback} callback.
+     */
     @FunctionalInterface
     public interface ToTokensCallback {
+    
         boolean run(org.gtk.gio.Icon icon, PointerAddress tokens, PointerInteger outVersion);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress icon, MemoryAddress tokens, MemoryAddress outVersion) {
-            var RESULT = run((org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.Icon.fromAddress).marshal(icon, Ownership.NONE), new PointerAddress(tokens), new PointerInteger(outVersion));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.Icon) Interop.register(icon, org.gtk.gio.Icon.fromAddress).marshal(icon, null), new PointerAddress(tokens), new PointerInteger(outVersion));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToTokensCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToTokensCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -142,25 +195,44 @@ public class IconIface extends Struct {
      * @param toTokens The new value of the field {@code to_tokens}
      */
     public void setToTokens(ToTokensCallback toTokens) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_tokens"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toTokens == null ? MemoryAddress.NULL : toTokens.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_tokens"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toTokens == null ? MemoryAddress.NULL : toTokens.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FromTokensCallback} callback.
+     */
     @FunctionalInterface
     public interface FromTokensCallback {
+    
         org.gtk.gio.Icon run(PointerString tokens, int numTokens, int version);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress tokens, int numTokens, int version) {
-            var RESULT = run(new PointerString(tokens), numTokens, version);
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(new PointerString(tokens), numTokens, version);
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FromTokensCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FromTokensCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -169,25 +241,43 @@ public class IconIface extends Struct {
      * @param fromTokens The new value of the field {@code from_tokens}
      */
     public void setFromTokens(FromTokensCallback fromTokens) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("from_tokens"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fromTokens == null ? MemoryAddress.NULL : fromTokens.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("from_tokens"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fromTokens == null ? MemoryAddress.NULL : fromTokens.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SerializeCallback} callback.
+     */
     @FunctionalInterface
     public interface SerializeCallback {
+    
         @Nullable org.gtk.glib.Variant run(org.gtk.gio.Icon icon);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress icon) {
-            var RESULT = run((org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.Icon.fromAddress).marshal(icon, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.Icon) Interop.register(icon, org.gtk.gio.Icon.fromAddress).marshal(icon, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SerializeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SerializeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -196,22 +286,26 @@ public class IconIface extends Struct {
      * @param serialize The new value of the field {@code serialize}
      */
     public void setSerialize(SerializeCallback serialize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serialize == null ? MemoryAddress.NULL : serialize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (serialize == null ? MemoryAddress.NULL : serialize.toCallback()));
+        }
     }
     
     /**
      * Create a IconIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IconIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IconIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IconIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IconIface(input, ownership);
+    public static final Marshal<Addressable, IconIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IconIface(input);
     
     /**
      * A {@link IconIface.Builder} object constructs a {@link IconIface} 
@@ -235,7 +329,7 @@ public class IconIface extends Struct {
             struct = IconIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link IconIface} struct.
          * @return A new instance of {@code IconIface} with the fields 
          *         that were set in the Builder object.
@@ -250,45 +344,57 @@ public class IconIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setHash(HashCallback hash) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hash"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hash == null ? MemoryAddress.NULL : hash.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hash"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hash == null ? MemoryAddress.NULL : hash.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEqual(EqualCallback equal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("equal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (equal == null ? MemoryAddress.NULL : equal.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("equal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (equal == null ? MemoryAddress.NULL : equal.toCallback()));
+                return this;
+            }
         }
         
         public Builder setToTokens(ToTokensCallback toTokens) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_tokens"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toTokens == null ? MemoryAddress.NULL : toTokens.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_tokens"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toTokens == null ? MemoryAddress.NULL : toTokens.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFromTokens(FromTokensCallback fromTokens) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("from_tokens"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fromTokens == null ? MemoryAddress.NULL : fromTokens.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("from_tokens"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fromTokens == null ? MemoryAddress.NULL : fromTokens.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSerialize(SerializeCallback serialize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serialize == null ? MemoryAddress.NULL : serialize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("serialize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (serialize == null ? MemoryAddress.NULL : serialize.toCallback()));
+                return this;
+            }
         }
     }
 }

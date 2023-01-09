@@ -36,6 +36,9 @@ public class DBusMessageFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusMessageFlags ALLOW_INTERACTIVE_AUTHORIZATION = new DBusMessageFlags(4);
     
+    /**
+     * Create a new DBusMessageFlags with the provided value
+     */
     public DBusMessageFlags(int value) {
         super(value);
     }

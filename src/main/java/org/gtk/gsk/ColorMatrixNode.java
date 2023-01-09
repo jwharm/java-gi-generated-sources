@@ -28,14 +28,16 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a ColorMatrixNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorMatrixNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColorMatrixNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorMatrixNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorMatrixNode(input, ownership);
+    public static final Marshal<Addressable, ColorMatrixNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorMatrixNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
         MemoryAddress RESULT;
@@ -64,7 +66,8 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
      * @param colorOffset Values to add to the color
      */
     public ColorMatrixNode(org.gtk.gsk.RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
-        super(constructNew(child, colorMatrix, colorOffset), Ownership.FULL);
+        super(constructNew(child, colorMatrix, colorOffset));
+        this.takeOwnership();
     }
     
     /**
@@ -74,12 +77,11 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -89,12 +91,11 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Matrix getColorMatrix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_matrix.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_matrix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -104,12 +105,11 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Vec4 getColorOffset() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_offset.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_color_matrix_node_get_color_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -129,33 +129,41 @@ public class ColorMatrixNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_color_matrix_node_new = Interop.downcallHandle(
-            "gsk_color_matrix_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_matrix_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_child = Interop.downcallHandle(
-            "gsk_color_matrix_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_matrix_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_color_matrix = Interop.downcallHandle(
-            "gsk_color_matrix_node_get_color_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_matrix_node_get_color_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_color_offset = Interop.downcallHandle(
-            "gsk_color_matrix_node_get_color_offset",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_color_matrix_node_get_color_offset",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_color_matrix_node_get_type = Interop.downcallHandle(
-            "gsk_color_matrix_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_color_matrix_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_color_matrix_node_get_type != null;
     }
 }

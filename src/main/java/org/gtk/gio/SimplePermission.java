@@ -32,20 +32,21 @@ public class SimplePermission extends org.gtk.gio.Permission {
     /**
      * Create a SimplePermission proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SimplePermission(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SimplePermission(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SimplePermission> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimplePermission(input, ownership);
+    public static final Marshal<Addressable, SimplePermission> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SimplePermission(input);
     
     private static MemoryAddress constructNew(boolean allowed) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_permission_new.invokeExact(
-                    Marshal.booleanToInteger.marshal(allowed, null).intValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_permission_new.invokeExact(Marshal.booleanToInteger.marshal(allowed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -58,7 +59,8 @@ public class SimplePermission extends org.gtk.gio.Permission {
      * @param allowed {@code true} if the action is allowed
      */
     public SimplePermission(boolean allowed) {
-        super(constructNew(allowed), Ownership.FULL);
+        super(constructNew(allowed));
+        this.takeOwnership();
     }
     
     /**
@@ -91,6 +93,9 @@ public class SimplePermission extends org.gtk.gio.Permission {
      */
     public static class Builder extends org.gtk.gio.Permission.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -115,15 +120,23 @@ public class SimplePermission extends org.gtk.gio.Permission {
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
-            "g_simple_permission_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_simple_permission_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_simple_permission_get_type = Interop.downcallHandle(
-            "g_simple_permission_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_simple_permission_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_simple_permission_get_type != null;
     }
 }

@@ -36,8 +36,8 @@ public class WebRTCSessionDescription extends Struct {
      * @return A new, uninitialized @{link WebRTCSessionDescription}
      */
     public static WebRTCSessionDescription allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WebRTCSessionDescription newInstance = new WebRTCSessionDescription(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WebRTCSessionDescription newInstance = new WebRTCSessionDescription(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class WebRTCSessionDescription extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.webrtc.WebRTCSDPType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.webrtc.WebRTCSDPType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.webrtc.WebRTCSDPType.of(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class WebRTCSessionDescription extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.webrtc.WebRTCSDPType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class WebRTCSessionDescription extends Struct {
      * @return The value of the field {@code sdp}
      */
     public org.gstreamer.sdp.SDPMessage getSdp() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.sdp.SDPMessage.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.sdp.SDPMessage.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class WebRTCSessionDescription extends Struct {
      * @param sdp The new value of the field {@code sdp}
      */
     public void setSdp(org.gstreamer.sdp.SDPMessage sdp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));
+        }
     }
     
     /**
      * Create a WebRTCSessionDescription proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WebRTCSessionDescription(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WebRTCSessionDescription(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WebRTCSessionDescription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCSessionDescription(input, ownership);
+    public static final Marshal<Addressable, WebRTCSessionDescription> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCSessionDescription(input);
     
     private static MemoryAddress constructNew(org.gstreamer.webrtc.WebRTCSDPType type, org.gstreamer.sdp.SDPMessage sdp) {
         MemoryAddress RESULT;
@@ -110,18 +120,20 @@ public class WebRTCSessionDescription extends Struct {
     }
     
     public WebRTCSessionDescription(org.gstreamer.webrtc.WebRTCSDPType type, org.gstreamer.sdp.SDPMessage sdp) {
-        super(constructNew(type, sdp), Ownership.FULL);
+        super(constructNew(type, sdp));
+        this.takeOwnership();
     }
     
     public org.gstreamer.webrtc.WebRTCSessionDescription copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_webrtc_session_description_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_webrtc_session_description_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.webrtc.WebRTCSessionDescription.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.webrtc.WebRTCSessionDescription.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -129,8 +141,7 @@ public class WebRTCSessionDescription extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_webrtc_session_description_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_webrtc_session_description_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,21 +151,21 @@ public class WebRTCSessionDescription extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_webrtc_session_description_new = Interop.downcallHandle(
-            "gst_webrtc_session_description_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_webrtc_session_description_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_webrtc_session_description_copy = Interop.downcallHandle(
-            "gst_webrtc_session_description_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_webrtc_session_description_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_webrtc_session_description_free = Interop.downcallHandle(
-            "gst_webrtc_session_description_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_webrtc_session_description_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -180,7 +191,7 @@ public class WebRTCSessionDescription extends Struct {
             struct = WebRTCSessionDescription.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link WebRTCSessionDescription} struct.
          * @return A new instance of {@code WebRTCSessionDescription} with the fields 
          *         that were set in the Builder object.
@@ -195,10 +206,12 @@ public class WebRTCSessionDescription extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.webrtc.WebRTCSDPType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -207,10 +220,12 @@ public class WebRTCSessionDescription extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSdp(org.gstreamer.sdp.SDPMessage sdp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));
+                return this;
+            }
         }
     }
 }

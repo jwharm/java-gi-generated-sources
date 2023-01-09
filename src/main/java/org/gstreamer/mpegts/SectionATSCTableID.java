@@ -14,65 +14,83 @@ import org.jetbrains.annotations.*;
  * see also: {@link SectionTableID} and other variants.
  */
 public enum SectionATSCTableID implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Master Guide Table (MGT)
      */
     MASTER_GUIDE(199),
+    
     /**
      * Terrestrial Virtual Channel Table (TVCT)
      */
     TERRESTRIAL_VIRTUAL_CHANNEL(200),
+    
     /**
      * Cable Virtual Channel Table (CVCT)
      */
     CABLE_VIRTUAL_CHANNEL(201),
+    
     /**
      * Rating Region Table (RRT)
      */
     RATING_REGION(202),
+    
     /**
      * Event Information Table (EIT)
      */
     EVENT_INFORMATION(203),
+    
     /**
      * Extended Text Table (ETT)
      */
     CHANNEL_OR_EVENT_EXTENDED_TEXT(204),
+    
     /**
      * System Time Table (STT)
      */
     SYSTEM_TIME(205),
+    
     /**
      * A/90: Data Event Table (DET)
      */
     DATA_EVENT(206),
+    
     /**
      * A/90: Data Service Table (DST)
      */
     DATA_SERVICE(207),
+    
     /**
      * A/57B: Program Identifier Table.
      */
     PROGRAM_IDENTIFIER(208),
+    
     /**
      * A/90: Network Resources Table (NRT)
      */
     NETWORK_RESOURCE(209),
+    
     /**
      * A/90: Long Term Service Table (LTST)
      */
     LONG_TERM_SERVICE(210),
+    
     /**
      * Directed Channel Change Table (DCCT)
      */
     DIRECTED_CHANNEL_CHANGE(211),
+    
     /**
      * Directed Channel Change Selection Code Table (DCCSCT)
      */
     DIRECTED_CHANNEL_CHANGE_SECTION_CODE(212),
+    
     AGGREGATE_EVENT_INFORMATION(214),
+    
     AGGREGATE_EXTENDED_TEXT(215),
+    
     AGGREGATE_DATA_EVENT(217),
+    
     /**
      * A/81: Satellite Virtual Channel Table
      */
@@ -81,15 +99,29 @@ public enum SectionATSCTableID implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSectionATSCTableID";
     
     private final int value;
+    
+    /**
+     * Create a new SectionATSCTableID for the provided value
+     * @param numeric value the enum value
+     */
     SectionATSCTableID(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SectionATSCTableID for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SectionATSCTableID of(int value) {
         return switch (value) {
             case 199 -> MASTER_GUIDE;

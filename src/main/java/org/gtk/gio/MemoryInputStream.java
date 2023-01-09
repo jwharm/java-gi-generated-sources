@@ -35,14 +35,16 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
     /**
      * Create a MemoryInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryInputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryInputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryInputStream(input, ownership);
+    public static final Marshal<Addressable, MemoryInputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryInputStream(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -58,20 +60,20 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      * Creates a new empty {@link MemoryInputStream}.
      */
     public MemoryInputStream() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes bytes) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_bytes.invokeExact(
-                    bytes.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_bytes.invokeExact(bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link MemoryInputStream} with data from the given {@code bytes}.
      * @param bytes a {@link org.gtk.glib.Bytes}
@@ -79,22 +81,26 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      */
     public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
         var RESULT = constructNewFromBytes(bytes);
-        return (org.gtk.gio.MemoryInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MemoryInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MemoryInputStream) Interop.register(RESULT, org.gtk.gio.MemoryInputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromData(byte[] data, long len, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_data.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len,
-                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_memory_input_stream_new_from_data.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len,
+                        (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link MemoryInputStream} with data in memory of a given size.
      * @param data input data
@@ -104,7 +110,9 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      */
     public static MemoryInputStream newFromData(byte[] data, long len, @Nullable org.gtk.glib.DestroyNotify destroy) {
         var RESULT = constructNewFromData(data, len, destroy);
-        return (org.gtk.gio.MemoryInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MemoryInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MemoryInputStream) Interop.register(RESULT, org.gtk.gio.MemoryInputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -128,14 +136,16 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      * @param destroy function that is called to free {@code data}, or {@code null}
      */
     public void addData(byte[] data, long len, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        try {
-            DowncallHandles.g_memory_input_stream_add_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    len,
-                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_memory_input_stream_add_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len,
+                        (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -169,6 +179,9 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
      */
     public static class Builder extends org.gtk.gio.InputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -193,39 +206,47 @@ public class MemoryInputStream extends org.gtk.gio.InputStream implements org.gt
     private static class DowncallHandles {
         
         private static final MethodHandle g_memory_input_stream_new = Interop.downcallHandle(
-            "g_memory_input_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_input_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_input_stream_new_from_bytes = Interop.downcallHandle(
-            "g_memory_input_stream_new_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_input_stream_new_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_input_stream_new_from_data = Interop.downcallHandle(
-            "g_memory_input_stream_new_from_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_input_stream_new_from_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_input_stream_add_bytes = Interop.downcallHandle(
-            "g_memory_input_stream_add_bytes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_input_stream_add_bytes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_input_stream_add_data = Interop.downcallHandle(
-            "g_memory_input_stream_add_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_memory_input_stream_add_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_memory_input_stream_get_type = Interop.downcallHandle(
-            "g_memory_input_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_memory_input_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_memory_input_stream_get_type != null;
     }
 }

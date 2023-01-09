@@ -35,8 +35,8 @@ public class GLFuncs extends Struct {
      * @return A new, uninitialized @{link GLFuncs}
      */
     public static GLFuncs allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLFuncs newInstance = new GLFuncs(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLFuncs newInstance = new GLFuncs(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,12 +44,14 @@ public class GLFuncs extends Struct {
     /**
      * Create a GLFuncs proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLFuncs(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLFuncs(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLFuncs> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFuncs(input, ownership);
+    public static final Marshal<Addressable, GLFuncs> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLFuncs(input);
 }

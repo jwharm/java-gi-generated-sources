@@ -34,8 +34,8 @@ public class Simd4X4F extends Struct {
      * @return A new, uninitialized @{link Simd4X4F}
      */
     public static Simd4X4F allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Simd4X4F newInstance = new Simd4X4F(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Simd4X4F newInstance = new Simd4X4F(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class Simd4X4F extends Struct {
     /**
      * Create a Simd4X4F proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Simd4X4F(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Simd4X4F(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Simd4X4F> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Simd4X4F(input, ownership);
+    public static final Marshal<Addressable, Simd4X4F> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Simd4X4F(input);
     
     /**
      * A {@link Simd4X4F.Builder} object constructs a {@link Simd4X4F} 
@@ -74,7 +76,7 @@ public class Simd4X4F extends Struct {
             struct = Simd4X4F.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Simd4X4F} struct.
          * @return A new instance of {@code Simd4X4F} with the fields 
          *         that were set in the Builder object.
@@ -84,31 +86,39 @@ public class Simd4X4F extends Struct {
         }
         
         public Builder setX(org.gtk.graphene.Simd4F x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x == null ? MemoryAddress.NULL : x.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (x == null ? MemoryAddress.NULL : x.handle()));
+                return this;
+            }
         }
         
         public Builder setY(org.gtk.graphene.Simd4F y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (y == null ? MemoryAddress.NULL : y.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (y == null ? MemoryAddress.NULL : y.handle()));
+                return this;
+            }
         }
         
         public Builder setZ(org.gtk.graphene.Simd4F z) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("z"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (z == null ? MemoryAddress.NULL : z.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("z"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (z == null ? MemoryAddress.NULL : z.handle()));
+                return this;
+            }
         }
         
         public Builder setW(org.gtk.graphene.Simd4F w) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("w"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (w == null ? MemoryAddress.NULL : w.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("w"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (w == null ? MemoryAddress.NULL : w.handle()));
+                return this;
+            }
         }
     }
 }

@@ -41,6 +41,9 @@ public class DiscovererSerializeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DiscovererSerializeFlags ALL = new DiscovererSerializeFlags(7);
     
+    /**
+     * Create a new DiscovererSerializeFlags with the provided value
+     */
     public DiscovererSerializeFlags(int value) {
         super(value);
     }

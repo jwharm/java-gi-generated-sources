@@ -29,8 +29,8 @@ public class CalibratedTimestampInfoEXT extends Struct {
      * @return A new, uninitialized @{link CalibratedTimestampInfoEXT}
      */
     public static CalibratedTimestampInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CalibratedTimestampInfoEXT newInstance = new CalibratedTimestampInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CalibratedTimestampInfoEXT newInstance = new CalibratedTimestampInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CalibratedTimestampInfoEXT extends Struct {
     /**
      * Create a CalibratedTimestampInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CalibratedTimestampInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CalibratedTimestampInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CalibratedTimestampInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CalibratedTimestampInfoEXT(input, ownership);
+    public static final Marshal<Addressable, CalibratedTimestampInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CalibratedTimestampInfoEXT(input);
 }

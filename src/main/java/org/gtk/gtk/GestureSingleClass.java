@@ -29,8 +29,8 @@ public class GestureSingleClass extends Struct {
      * @return A new, uninitialized @{link GestureSingleClass}
      */
     public static GestureSingleClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GestureSingleClass newInstance = new GestureSingleClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GestureSingleClass newInstance = new GestureSingleClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GestureSingleClass extends Struct {
     /**
      * Create a GestureSingleClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureSingleClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureSingleClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureSingleClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureSingleClass(input, ownership);
+    public static final Marshal<Addressable, GestureSingleClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureSingleClass(input);
 }

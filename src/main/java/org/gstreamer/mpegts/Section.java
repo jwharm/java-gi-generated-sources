@@ -99,8 +99,8 @@ public class Section extends Struct {
      * @return A new, uninitialized @{link Section}
      */
     public static Section allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Section newInstance = new Section(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Section newInstance = new Section(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -110,10 +110,12 @@ public class Section extends Struct {
      * @return The value of the field {@code section_type}
      */
     public org.gstreamer.mpegts.SectionType getSectionType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.SectionType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.SectionType.of(RESULT);
+        }
     }
     
     /**
@@ -121,9 +123,11 @@ public class Section extends Struct {
      * @param sectionType The new value of the field {@code section_type}
      */
     public void setSectionType(org.gstreamer.mpegts.SectionType sectionType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
+        }
     }
     
     /**
@@ -131,10 +135,12 @@ public class Section extends Struct {
      * @return The value of the field {@code pid}
      */
     public short getPid() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -142,9 +148,11 @@ public class Section extends Struct {
      * @param pid The new value of the field {@code pid}
      */
     public void setPid(short pid) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), pid);
+        }
     }
     
     /**
@@ -152,10 +160,12 @@ public class Section extends Struct {
      * @return The value of the field {@code table_id}
      */
     public byte getTableId() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -163,9 +173,11 @@ public class Section extends Struct {
      * @param tableId The new value of the field {@code table_id}
      */
     public void setTableId(byte tableId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tableId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tableId);
+        }
     }
     
     /**
@@ -173,10 +185,12 @@ public class Section extends Struct {
      * @return The value of the field {@code subtable_extension}
      */
     public short getSubtableExtension() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -184,9 +198,11 @@ public class Section extends Struct {
      * @param subtableExtension The new value of the field {@code subtable_extension}
      */
     public void setSubtableExtension(short subtableExtension) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), subtableExtension);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), subtableExtension);
+        }
     }
     
     /**
@@ -194,10 +210,12 @@ public class Section extends Struct {
      * @return The value of the field {@code version_number}
      */
     public byte getVersionNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -205,9 +223,11 @@ public class Section extends Struct {
      * @param versionNumber The new value of the field {@code version_number}
      */
     public void setVersionNumber(byte versionNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), versionNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), versionNumber);
+        }
     }
     
     /**
@@ -215,10 +235,12 @@ public class Section extends Struct {
      * @return The value of the field {@code current_next_indicator}
      */
     public boolean getCurrentNextIndicator() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -226,9 +248,11 @@ public class Section extends Struct {
      * @param currentNextIndicator The new value of the field {@code current_next_indicator}
      */
     public void setCurrentNextIndicator(boolean currentNextIndicator) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
+        }
     }
     
     /**
@@ -236,10 +260,12 @@ public class Section extends Struct {
      * @return The value of the field {@code section_number}
      */
     public byte getSectionNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -247,9 +273,11 @@ public class Section extends Struct {
      * @param sectionNumber The new value of the field {@code section_number}
      */
     public void setSectionNumber(byte sectionNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), sectionNumber);
+        }
     }
     
     /**
@@ -257,10 +285,12 @@ public class Section extends Struct {
      * @return The value of the field {@code last_section_number}
      */
     public byte getLastSectionNumber() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -268,9 +298,11 @@ public class Section extends Struct {
      * @param lastSectionNumber The new value of the field {@code last_section_number}
      */
     public void setLastSectionNumber(byte lastSectionNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastSectionNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), lastSectionNumber);
+        }
     }
     
     /**
@@ -278,10 +310,12 @@ public class Section extends Struct {
      * @return The value of the field {@code crc}
      */
     public int getCrc() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("crc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("crc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -289,34 +323,40 @@ public class Section extends Struct {
      * @param crc The new value of the field {@code crc}
      */
     public void setCrc(int crc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("crc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), crc);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("crc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), crc);
+        }
     }
     
     /**
      * Create a Section proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Section(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Section(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Section> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Section(input, ownership);
+    public static final Marshal<Addressable, Section> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Section(input);
     
     private static MemoryAddress constructNew(short pid, byte[] data, long dataSize) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_new.invokeExact(
-                    pid,
-                    Interop.allocateNativeArray(data, false),
-                    dataSize);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_new.invokeExact(
+                        pid,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        dataSize);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -334,7 +374,8 @@ public class Section extends Struct {
      * @param dataSize size of the {@code data} argument.
      */
     public Section(short pid, byte[] data, long dataSize) {
-        super(constructNew(pid, data, dataSize), Ownership.FULL);
+        super(constructNew(pid, data, dataSize));
+        this.takeOwnership();
     }
     
     /**
@@ -345,12 +386,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscVCT getAtscCvct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_cvct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_cvct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -361,12 +401,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscEIT getAtscEit() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_eit.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_eit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscEIT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscEIT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -377,12 +416,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscETT getAtscEtt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_ett.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_ett.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscETT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscETT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -393,12 +431,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscMGT getAtscMgt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_mgt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_mgt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscMGT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscMGT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -409,12 +446,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscRRT getAtscRrt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_rrt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_rrt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscRRT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscRRT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -425,12 +461,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscSTT getAtscStt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_stt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_stt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscSTT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscSTT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -441,12 +476,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.AtscVCT getAtscTvct() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_tvct.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_tvct.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -457,12 +491,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.BAT getBat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_bat.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_bat.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.BAT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.BAT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -475,14 +508,15 @@ public class Section extends Struct {
      * happened. Release with {@code g_array_unref} when done.
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getCat() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_cat.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_cat.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
     }
     
     /**
@@ -492,12 +526,13 @@ public class Section extends Struct {
     public org.gtk.glib.Bytes getData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -508,12 +543,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.EIT getEit() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_eit.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_eit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.EIT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.EIT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -524,12 +558,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.NIT getNit() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_nit.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_nit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.NIT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.NIT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -545,14 +578,15 @@ public class Section extends Struct {
      * when done.
      */
     public PointerProxy<org.gstreamer.mpegts.PatProgram> getPat() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pat.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pat.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.mpegts.PatProgram>(RESULT, org.gstreamer.mpegts.PatProgram.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.mpegts.PatProgram>(RESULT, org.gstreamer.mpegts.PatProgram.fromAddress);
     }
     
     /**
@@ -563,12 +597,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.PMT getPmt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pmt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pmt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.PMT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.PMT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -579,12 +612,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.SCTESIT getScteSit() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_scte_sit.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_scte_sit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.SCTESIT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SCTESIT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -595,12 +627,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.SDT getSdt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sdt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sdt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.SDT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SDT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -611,12 +642,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.SIT getSit() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sit.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.SIT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SIT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -627,12 +657,13 @@ public class Section extends Struct {
     public org.gstreamer.gst.DateTime getTdt() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tdt.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tdt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -643,12 +674,11 @@ public class Section extends Struct {
     public org.gstreamer.mpegts.TOT getTot() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tot.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tot.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.TOT.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.TOT.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -660,14 +690,15 @@ public class Section extends Struct {
      * happened. Release with {@code g_array_unref} when done.
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getTsdt() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tsdt.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tsdt.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
     }
     
     /**
@@ -678,17 +709,19 @@ public class Section extends Struct {
      * @return pointer to section data, or {@code null} on failure.
      */
     public PointerByte packetize(Out<Long> outputSize) {
-        MemorySegment outputSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_packetize.invokeExact(
-                    handle(),
-                    (Addressable) outputSizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outputSizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_packetize.invokeExact(
+                        handle(),
+                        (Addressable) outputSizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outputSize.set(outputSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new PointerByte(RESULT);
         }
-        outputSize.set(outputSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -712,35 +745,38 @@ public class Section extends Struct {
     public static org.gstreamer.mpegts.Section fromAtscMgt(org.gstreamer.mpegts.AtscMGT mgt) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_mgt.invokeExact(
-                    mgt.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_mgt.invokeExact(mgt.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         mgt.yieldOwnership();
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public static org.gstreamer.mpegts.Section fromAtscRrt(org.gstreamer.mpegts.AtscRRT rrt) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_rrt.invokeExact(
-                    rrt.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_rrt.invokeExact(rrt.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public static org.gstreamer.mpegts.Section fromAtscStt(org.gstreamer.mpegts.AtscSTT stt) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_stt.invokeExact(
-                    stt.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_stt.invokeExact(stt.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -751,13 +787,14 @@ public class Section extends Struct {
     public static org.gstreamer.mpegts.Section fromNit(org.gstreamer.mpegts.NIT nit) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_nit.invokeExact(
-                    nit.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_nit.invokeExact(nit.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         nit.yieldOwnership();
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -767,15 +804,19 @@ public class Section extends Struct {
      * @return a {@link Section}
      */
     public static org.gstreamer.mpegts.Section fromPat(org.gstreamer.mpegts.PatProgram[] programs, short tsId) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_pat.invokeExact(
-                    Interop.allocateNativeArray(programs, org.gstreamer.mpegts.PatProgram.getMemoryLayout(), false),
-                    tsId);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_pat.invokeExact(
+                        Interop.allocateNativeArray(programs, org.gstreamer.mpegts.PatProgram.getMemoryLayout(), false, SCOPE),
+                        tsId);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -794,7 +835,9 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         pmt.yieldOwnership();
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -812,7 +855,9 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         sit.yieldOwnership();
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -823,201 +868,202 @@ public class Section extends Struct {
     public static org.gstreamer.mpegts.Section fromSdt(org.gstreamer.mpegts.SDT sdt) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_sdt.invokeExact(
-                    sdt.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_sdt.invokeExact(sdt.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         sdt.yieldOwnership();
-        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_section_new = Interop.downcallHandle(
-            "gst_mpegts_section_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_mpegts_section_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_cvct = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_cvct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_cvct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_eit = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_eit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_eit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_ett = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_ett",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_ett",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_mgt = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_mgt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_mgt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_rrt = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_rrt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_rrt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_stt = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_stt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_stt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_atsc_tvct = Interop.downcallHandle(
-            "gst_mpegts_section_get_atsc_tvct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_atsc_tvct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_bat = Interop.downcallHandle(
-            "gst_mpegts_section_get_bat",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_bat",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_cat = Interop.downcallHandle(
-            "gst_mpegts_section_get_cat",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_cat",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_data = Interop.downcallHandle(
-            "gst_mpegts_section_get_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_eit = Interop.downcallHandle(
-            "gst_mpegts_section_get_eit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_eit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_nit = Interop.downcallHandle(
-            "gst_mpegts_section_get_nit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_nit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_pat = Interop.downcallHandle(
-            "gst_mpegts_section_get_pat",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_pat",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_pmt = Interop.downcallHandle(
-            "gst_mpegts_section_get_pmt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_pmt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_scte_sit = Interop.downcallHandle(
-            "gst_mpegts_section_get_scte_sit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_scte_sit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_sdt = Interop.downcallHandle(
-            "gst_mpegts_section_get_sdt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_sdt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_sit = Interop.downcallHandle(
-            "gst_mpegts_section_get_sit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_sit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_tdt = Interop.downcallHandle(
-            "gst_mpegts_section_get_tdt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_tdt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_tot = Interop.downcallHandle(
-            "gst_mpegts_section_get_tot",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_tot",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_get_tsdt = Interop.downcallHandle(
-            "gst_mpegts_section_get_tsdt",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_get_tsdt",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_packetize = Interop.downcallHandle(
-            "gst_mpegts_section_packetize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_packetize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_send_event = Interop.downcallHandle(
-            "gst_mpegts_section_send_event",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_send_event",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_atsc_mgt = Interop.downcallHandle(
-            "gst_mpegts_section_from_atsc_mgt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_from_atsc_mgt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_atsc_rrt = Interop.downcallHandle(
-            "gst_mpegts_section_from_atsc_rrt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_from_atsc_rrt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_atsc_stt = Interop.downcallHandle(
-            "gst_mpegts_section_from_atsc_stt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_from_atsc_stt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_nit = Interop.downcallHandle(
-            "gst_mpegts_section_from_nit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_from_nit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_pat = Interop.downcallHandle(
-            "gst_mpegts_section_from_pat",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_mpegts_section_from_pat",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_pmt = Interop.downcallHandle(
-            "gst_mpegts_section_from_pmt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_mpegts_section_from_pmt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_scte_sit = Interop.downcallHandle(
-            "gst_mpegts_section_from_scte_sit",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "gst_mpegts_section_from_scte_sit",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle gst_mpegts_section_from_sdt = Interop.downcallHandle(
-            "gst_mpegts_section_from_sdt",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_section_from_sdt",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1043,7 +1089,7 @@ public class Section extends Struct {
             struct = Section.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Section} struct.
          * @return A new instance of {@code Section} with the fields 
          *         that were set in the Builder object.
@@ -1053,10 +1099,12 @@ public class Section extends Struct {
         }
         
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1065,10 +1113,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSectionType(org.gstreamer.mpegts.SectionType sectionType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1077,10 +1127,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPid(short pid) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pid"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pid"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), pid);
+                return this;
+            }
         }
         
         /**
@@ -1090,10 +1142,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTableId(byte tableId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tableId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tableId);
+                return this;
+            }
         }
         
         /**
@@ -1103,10 +1157,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSubtableExtension(short subtableExtension) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), subtableExtension);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), subtableExtension);
+                return this;
+            }
         }
         
         /**
@@ -1115,10 +1171,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVersionNumber(byte versionNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), versionNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), versionNumber);
+                return this;
+            }
         }
         
         /**
@@ -1127,10 +1185,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCurrentNextIndicator(boolean currentNextIndicator) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -1139,10 +1199,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSectionNumber(byte sectionNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sectionNumber);
+                return this;
+            }
         }
         
         /**
@@ -1151,10 +1213,12 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLastSectionNumber(byte lastSectionNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastSectionNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), lastSectionNumber);
+                return this;
+            }
         }
         
         /**
@@ -1163,66 +1227,84 @@ public class Section extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCrc(int crc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("crc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), crc);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("crc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), crc);
+                return this;
+            }
         }
         
         public Builder setData(PointerByte data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+                return this;
+            }
         }
         
         public Builder setSectionLength(int sectionLength) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("section_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionLength);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("section_length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sectionLength);
+                return this;
+            }
         }
         
         public Builder setCachedParsed(java.lang.foreign.MemoryAddress cachedParsed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cached_parsed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cachedParsed == null ? MemoryAddress.NULL : (Addressable) cachedParsed));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cached_parsed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cachedParsed == null ? MemoryAddress.NULL : (Addressable) cachedParsed));
+                return this;
+            }
         }
         
         public Builder setDestroyParsed(org.gtk.glib.DestroyNotify destroyParsed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("destroy_parsed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyParsed == null ? MemoryAddress.NULL : (Addressable) destroyParsed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("destroy_parsed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyParsed == null ? MemoryAddress.NULL : (Addressable) destroyParsed.toCallback()));
+                return this;
+            }
         }
         
         public Builder setOffset(long offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         public Builder setShortSection(boolean shortSection) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("short_section"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(shortSection, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("short_section"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(shortSection, null).intValue());
+                return this;
+            }
         }
         
         public Builder setPacketizer(org.gstreamer.mpegts.PacketizeFunc packetizer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("packetizer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packetizer == null ? MemoryAddress.NULL : (Addressable) packetizer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("packetizer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (packetizer == null ? MemoryAddress.NULL : (Addressable) packetizer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

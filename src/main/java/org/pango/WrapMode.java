@@ -15,14 +15,17 @@ import org.jetbrains.annotations.*;
  * segmentation algorithm.
  */
 public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * wrap lines at word boundaries.
      */
     WORD(0),
+    
     /**
      * wrap lines at character boundaries.
      */
     CHAR(1),
+    
     /**
      * wrap lines at word boundaries, but fall back to
      *   character boundaries if there is not enough space for a full word.
@@ -32,15 +35,29 @@ public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoWrapMode";
     
     private final int value;
+    
+    /**
+     * Create a new WrapMode for the provided value
+     * @param numeric value the enum value
+     */
     WrapMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new WrapMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static WrapMode of(int value) {
         return switch (value) {
             case 0 -> WORD;

@@ -40,8 +40,8 @@ public class GlyphInfoT extends Struct {
      * @return A new, uninitialized @{link GlyphInfoT}
      */
     public static GlyphInfoT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphInfoT newInstance = new GlyphInfoT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GlyphInfoT newInstance = new GlyphInfoT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class GlyphInfoT extends Struct {
      * @return The value of the field {@code codepoint}
      */
     public org.harfbuzz.CodepointT getCodepoint() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.CodepointT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.CodepointT(RESULT);
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class GlyphInfoT extends Struct {
      * @param codepoint The new value of the field {@code codepoint}
      */
     public void setCodepoint(org.harfbuzz.CodepointT codepoint) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class GlyphInfoT extends Struct {
      * @return The value of the field {@code cluster}
      */
     public int getCluster() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,22 +89,26 @@ public class GlyphInfoT extends Struct {
      * @param cluster The new value of the field {@code cluster}
      */
     public void setCluster(int cluster) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cluster);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), cluster);
+        }
     }
     
     /**
      * Create a GlyphInfoT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GlyphInfoT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GlyphInfoT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GlyphInfoT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphInfoT(input, ownership);
+    public static final Marshal<Addressable, GlyphInfoT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GlyphInfoT(input);
     
     /**
      * A {@link GlyphInfoT.Builder} object constructs a {@link GlyphInfoT} 
@@ -122,7 +132,7 @@ public class GlyphInfoT extends Struct {
             struct = GlyphInfoT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GlyphInfoT} struct.
          * @return A new instance of {@code GlyphInfoT} with the fields 
          *         that were set in the Builder object.
@@ -138,17 +148,21 @@ public class GlyphInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCodepoint(org.harfbuzz.CodepointT codepoint) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
+                return this;
+            }
         }
         
         public Builder setMask(org.harfbuzz.MaskT mask) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : mask.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mask"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mask == null ? MemoryAddress.NULL : mask.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -167,24 +181,30 @@ public class GlyphInfoT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCluster(int cluster) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cluster);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), cluster);
+                return this;
+            }
         }
         
         public Builder setVar1(org.harfbuzz.VarIntT var1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("var1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var1 == null ? MemoryAddress.NULL : var1.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("var1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (var1 == null ? MemoryAddress.NULL : var1.handle()));
+                return this;
+            }
         }
         
         public Builder setVar2(org.harfbuzz.VarIntT var2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("var2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var2 == null ? MemoryAddress.NULL : var2.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("var2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (var2 == null ? MemoryAddress.NULL : var2.handle()));
+                return this;
+            }
         }
     }
 }

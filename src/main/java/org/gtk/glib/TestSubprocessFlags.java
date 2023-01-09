@@ -43,6 +43,9 @@ public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TestSubprocessFlags INHERIT_STDERR = new TestSubprocessFlags(4);
     
+    /**
+     * Create a new TestSubprocessFlags with the provided value
+     */
     public TestSubprocessFlags(int value) {
         super(value);
     }

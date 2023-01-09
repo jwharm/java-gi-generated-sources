@@ -10,14 +10,17 @@ import org.jetbrains.annotations.*;
  * @version 1.8
  */
 public enum GLSLError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Compilation error occurred
      */
     COMPILE(0),
+    
     /**
      * Link error occurred
      */
     LINK(1),
+    
     /**
      * General program error occurred
      */
@@ -26,15 +29,29 @@ public enum GLSLError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstGLSLError";
     
     private final int value;
+    
+    /**
+     * Create a new GLSLError for the provided value
+     * @param numeric value the enum value
+     */
     GLSLError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new GLSLError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static GLSLError of(int value) {
         return switch (value) {
             case 0 -> COMPILE;
@@ -57,9 +74,9 @@ public enum GLSLError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_glsl_error_quark = Interop.downcallHandle(
-            "gst_glsl_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_glsl_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

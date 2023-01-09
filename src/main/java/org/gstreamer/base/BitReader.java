@@ -41,8 +41,8 @@ public class BitReader extends Struct {
      * @return A new, uninitialized @{link BitReader}
      */
     public static BitReader allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BitReader newInstance = new BitReader(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BitReader newInstance = new BitReader(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class BitReader extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class BitReader extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(byte[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class BitReader extends Struct {
      * @return The value of the field {@code size}
      */
     public int getSize_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class BitReader extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(int size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class BitReader extends Struct {
      * @return The value of the field {@code byte}
      */
     public int getByte() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class BitReader extends Struct {
      * @param byte_ The new value of the field {@code byte}
      */
     public void setByte(int byte_) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), byte_);
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class BitReader extends Struct {
      * @return The value of the field {@code bit}
      */
     public int getBit() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bit"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bit"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -126,22 +140,26 @@ public class BitReader extends Struct {
      * @param bit The new value of the field {@code bit}
      */
     public void setBit(int bit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bit"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bit);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bit"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bit);
+        }
     }
     
     /**
      * Create a BitReader proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BitReader(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BitReader(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BitReader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BitReader(input, ownership);
+    public static final Marshal<Addressable, BitReader> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BitReader(input);
     
     /**
      * Frees a {@link BitReader} instance, which was previously allocated by
@@ -149,8 +167,7 @@ public class BitReader extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_bit_reader_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_bit_reader_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,18 +181,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint16(Out<Short> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint16.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint16.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -185,18 +204,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint32(Out<Integer> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint32.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint32.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,18 +227,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint64(Out<Long> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint64.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint64.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -227,18 +250,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint8(Out<Byte> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_get_bits_uint8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,8 +273,7 @@ public class BitReader extends Struct {
     public int getPos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_pos.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bit_reader_get_pos.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,8 +287,7 @@ public class BitReader extends Struct {
     public int getRemaining() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_remaining.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bit_reader_get_remaining.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,8 +301,7 @@ public class BitReader extends Struct {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bit_reader_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,13 +315,15 @@ public class BitReader extends Struct {
      * @param size Size of {@code data} in bytes
      */
     public void init(byte[] data, int size) {
-        try {
-            DowncallHandles.gst_bit_reader_init.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_bit_reader_init.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -310,18 +334,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint16(Out<Short> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint16.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint16.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -331,18 +357,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint32(Out<Integer> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint32.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint32.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -352,18 +380,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint64(Out<Long> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint64.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint64.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -373,18 +403,20 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint8(Out<Byte> val, int nbits) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address(),
-                    nbits);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_bit_reader_peek_bits_uint8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address(),
+                        nbits);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,8 +461,7 @@ public class BitReader extends Struct {
     public boolean skipToByte() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_bit_reader_skip_to_byte.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_bit_reader_skip_to_byte.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,119 +478,123 @@ public class BitReader extends Struct {
      * @return a new {@link BitReader} instance
      */
     public static org.gstreamer.base.BitReader new_(byte[] data, int size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_bit_reader_new.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_bit_reader_new.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.base.BitReader.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.base.BitReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_bit_reader_free = Interop.downcallHandle(
-            "gst_bit_reader_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_bit_reader_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_bits_uint16 = Interop.downcallHandle(
-            "gst_bit_reader_get_bits_uint16",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_get_bits_uint16",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_bits_uint32 = Interop.downcallHandle(
-            "gst_bit_reader_get_bits_uint32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_get_bits_uint32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_bits_uint64 = Interop.downcallHandle(
-            "gst_bit_reader_get_bits_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_get_bits_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_bits_uint8 = Interop.downcallHandle(
-            "gst_bit_reader_get_bits_uint8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_get_bits_uint8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_pos = Interop.downcallHandle(
-            "gst_bit_reader_get_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bit_reader_get_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_remaining = Interop.downcallHandle(
-            "gst_bit_reader_get_remaining",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bit_reader_get_remaining",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_get_size = Interop.downcallHandle(
-            "gst_bit_reader_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bit_reader_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_init = Interop.downcallHandle(
-            "gst_bit_reader_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_peek_bits_uint16 = Interop.downcallHandle(
-            "gst_bit_reader_peek_bits_uint16",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_peek_bits_uint16",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_peek_bits_uint32 = Interop.downcallHandle(
-            "gst_bit_reader_peek_bits_uint32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_peek_bits_uint32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_peek_bits_uint64 = Interop.downcallHandle(
-            "gst_bit_reader_peek_bits_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_peek_bits_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_peek_bits_uint8 = Interop.downcallHandle(
-            "gst_bit_reader_peek_bits_uint8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_peek_bits_uint8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_set_pos = Interop.downcallHandle(
-            "gst_bit_reader_set_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_set_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_skip = Interop.downcallHandle(
-            "gst_bit_reader_skip",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_skip",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_skip_to_byte = Interop.downcallHandle(
-            "gst_bit_reader_skip_to_byte",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_bit_reader_skip_to_byte",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_bit_reader_new = Interop.downcallHandle(
-            "gst_bit_reader_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_bit_reader_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -585,7 +620,7 @@ public class BitReader extends Struct {
             struct = BitReader.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BitReader} struct.
          * @return A new instance of {@code BitReader} with the fields 
          *         that were set in the Builder object.
@@ -601,10 +636,12 @@ public class BitReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(byte[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -613,10 +650,12 @@ public class BitReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         /**
@@ -625,10 +664,12 @@ public class BitReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setByte(int byte_) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), byte_);
+                return this;
+            }
         }
         
         /**
@@ -637,17 +678,21 @@ public class BitReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBit(int bit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bit"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bit);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bit"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bit);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

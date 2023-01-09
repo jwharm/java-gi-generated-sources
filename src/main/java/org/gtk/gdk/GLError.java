@@ -9,22 +9,27 @@ import org.jetbrains.annotations.*;
  * Error enumeration for {@code GdkGLContext}.
  */
 public enum GLError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * OpenGL support is not available
      */
     NOT_AVAILABLE(0),
+    
     /**
      * The requested visual format is not supported
      */
     UNSUPPORTED_FORMAT(1),
+    
     /**
      * The requested profile is not supported
      */
     UNSUPPORTED_PROFILE(2),
+    
     /**
      * The shader compilation failed
      */
     COMPILATION_FAILED(3),
+    
     /**
      * The shader linking failed
      */
@@ -33,15 +38,29 @@ public enum GLError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkGLError";
     
     private final int value;
+    
+    /**
+     * Create a new GLError for the provided value
+     * @param numeric value the enum value
+     */
     GLError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new GLError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static GLError of(int value) {
         return switch (value) {
             case 0 -> NOT_AVAILABLE;
@@ -66,9 +85,9 @@ public enum GLError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_gl_error_quark = Interop.downcallHandle(
-            "gdk_gl_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gdk_gl_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

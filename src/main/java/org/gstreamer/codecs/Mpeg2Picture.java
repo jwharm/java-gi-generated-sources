@@ -42,8 +42,8 @@ public class Mpeg2Picture extends Struct {
      * @return A new, uninitialized @{link Mpeg2Picture}
      */
     public static Mpeg2Picture allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Mpeg2Picture newInstance = new Mpeg2Picture(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Mpeg2Picture newInstance = new Mpeg2Picture(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,14 +51,16 @@ public class Mpeg2Picture extends Struct {
     /**
      * Create a Mpeg2Picture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Mpeg2Picture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Mpeg2Picture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Mpeg2Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2Picture(input, ownership);
+    public static final Marshal<Addressable, Mpeg2Picture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2Picture(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -74,7 +76,8 @@ public class Mpeg2Picture extends Struct {
      * Create new {@link Mpeg2Picture}
      */
     public Mpeg2Picture() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -85,8 +88,7 @@ public class Mpeg2Picture extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpeg2_picture_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpeg2_picture_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,21 +117,21 @@ public class Mpeg2Picture extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpeg2_picture_new = Interop.downcallHandle(
-            "gst_mpeg2_picture_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpeg2_picture_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpeg2_picture_get_user_data = Interop.downcallHandle(
-            "gst_mpeg2_picture_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpeg2_picture_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpeg2_picture_set_user_data = Interop.downcallHandle(
-            "gst_mpeg2_picture_set_user_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpeg2_picture_set_user_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -155,7 +157,7 @@ public class Mpeg2Picture extends Struct {
             struct = Mpeg2Picture.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Mpeg2Picture} struct.
          * @return A new instance of {@code Mpeg2Picture} with the fields 
          *         that were set in the Builder object.
@@ -165,80 +167,102 @@ public class Mpeg2Picture extends Struct {
         }
         
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setSystemFrameNumber(int systemFrameNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), systemFrameNumber);
+                return this;
+            }
         }
         
         public Builder setNeededForOutput(boolean neededForOutput) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("needed_for_output"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(neededForOutput, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("needed_for_output"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(neededForOutput, null).intValue());
+                return this;
+            }
         }
         
         public Builder setFirstField(org.gstreamer.codecs.Mpeg2Picture firstField) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("first_field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (firstField == null ? MemoryAddress.NULL : firstField.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("first_field"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (firstField == null ? MemoryAddress.NULL : firstField.handle()));
+                return this;
+            }
         }
         
         public Builder setBufferFlags(org.gstreamer.video.VideoBufferFlags bufferFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bufferFlags == null ? MemoryAddress.NULL : bufferFlags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bufferFlags == null ? MemoryAddress.NULL : bufferFlags.getValue()));
+                return this;
+            }
         }
         
         public Builder setPicOrderCnt(int picOrderCnt) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCnt);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), picOrderCnt);
+                return this;
+            }
         }
         
         public Builder setTsn(int tsn) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tsn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tsn);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tsn"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tsn);
+                return this;
+            }
         }
         
         public Builder setStructure(java.lang.foreign.MemoryAddress structure) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("structure"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (structure == null ? MemoryAddress.NULL : (Addressable) structure));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("structure"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (structure == null ? MemoryAddress.NULL : (Addressable) structure));
+                return this;
+            }
         }
         
         public Builder setType(java.lang.foreign.MemoryAddress type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) type));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) type));
+                return this;
+            }
         }
         
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
     }
 }

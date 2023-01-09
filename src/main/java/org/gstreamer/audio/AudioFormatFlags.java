@@ -38,6 +38,9 @@ public class AudioFormatFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioFormatFlags UNPACK = new AudioFormatFlags(32);
     
+    /**
+     * Create a new AudioFormatFlags with the provided value
+     */
     public AudioFormatFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class AccelerationStructureCreateInfoNV extends Struct {
      * @return A new, uninitialized @{link AccelerationStructureCreateInfoNV}
      */
     public static AccelerationStructureCreateInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AccelerationStructureCreateInfoNV newInstance = new AccelerationStructureCreateInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AccelerationStructureCreateInfoNV newInstance = new AccelerationStructureCreateInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AccelerationStructureCreateInfoNV extends Struct {
     /**
      * Create a AccelerationStructureCreateInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AccelerationStructureCreateInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AccelerationStructureCreateInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AccelerationStructureCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AccelerationStructureCreateInfoNV(input, ownership);
+    public static final Marshal<Addressable, AccelerationStructureCreateInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AccelerationStructureCreateInfoNV(input);
 }

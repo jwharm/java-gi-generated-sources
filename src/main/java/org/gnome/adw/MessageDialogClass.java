@@ -33,8 +33,8 @@ public class MessageDialogClass extends Struct {
      * @return A new, uninitialized @{link MessageDialogClass}
      */
     public static MessageDialogClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MessageDialogClass newInstance = new MessageDialogClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MessageDialogClass newInstance = new MessageDialogClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class MessageDialogClass extends Struct {
      */
     public org.gtk.gtk.WindowClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WindowClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WindowClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,24 +53,43 @@ public class MessageDialogClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WindowClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ResponseCallback} callback.
+     */
     @FunctionalInterface
     public interface ResponseCallback {
+    
         void run(org.gnome.adw.MessageDialog self, java.lang.String response);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress response) {
-            run((org.gnome.adw.MessageDialog) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.MessageDialog.fromAddress).marshal(self, Ownership.NONE), Marshal.addressToString.marshal(response, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gnome.adw.MessageDialog) Interop.register(self, org.gnome.adw.MessageDialog.fromAddress).marshal(self, null), Marshal.addressToString.marshal(response, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResponseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ResponseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +98,26 @@ public class MessageDialogClass extends Struct {
      * @param response The new value of the field {@code response}
      */
     public void setResponse(ResponseCallback response) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("response"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (response == null ? MemoryAddress.NULL : response.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("response"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (response == null ? MemoryAddress.NULL : response.toCallback()));
+        }
     }
     
     /**
      * Create a MessageDialogClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MessageDialogClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MessageDialogClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MessageDialogClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialogClass(input, ownership);
+    public static final Marshal<Addressable, MessageDialogClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialogClass(input);
     
     /**
      * A {@link MessageDialogClass.Builder} object constructs a {@link MessageDialogClass} 
@@ -118,7 +141,7 @@ public class MessageDialogClass extends Struct {
             struct = MessageDialogClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MessageDialogClass} struct.
          * @return A new instance of {@code MessageDialogClass} with the fields 
          *         that were set in the Builder object.
@@ -128,24 +151,30 @@ public class MessageDialogClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WindowClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setResponse(ResponseCallback response) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("response"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (response == null ? MemoryAddress.NULL : response.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("response"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (response == null ? MemoryAddress.NULL : response.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

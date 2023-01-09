@@ -139,8 +139,8 @@ public class Structure extends Struct {
      * @return A new, uninitialized @{link Structure}
      */
     public static Structure allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Structure newInstance = new Structure(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Structure newInstance = new Structure(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -150,10 +150,12 @@ public class Structure extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -161,37 +163,43 @@ public class Structure extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
      * Create a Structure proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Structure(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Structure(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Structure> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Structure(input, ownership);
+    public static final Marshal<Addressable, Structure> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Structure(input);
     
     private static MemoryAddress constructFromString(java.lang.String string, @Nullable Out<java.lang.String> end) {
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null),
-                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment endPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_from_string.invokeExact(
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return RESULT;
         }
-        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return RESULT;
     }
-    
+        
     /**
      * Creates a {@link Structure} from a string representation.
      * If end is not {@code null}, a pointer to the place inside the given string
@@ -206,20 +214,24 @@ public class Structure extends Struct {
      */
     public static Structure fromString(java.lang.String string, @Nullable Out<java.lang.String> end) {
         var RESULT = constructFromString(string, end);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNew(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(firstfield, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(firstfield, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -234,20 +246,22 @@ public class Structure extends Struct {
      * @param varargs additional arguments
      */
     public Structure(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
-        super(constructNew(name, firstfield, varargs), Ownership.FULL);
+        super(constructNew(name, firstfield, varargs));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewEmpty(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_empty.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_empty.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new, empty {@link Structure} with the given {@code name}.
      * <p>
@@ -259,20 +273,23 @@ public class Structure extends Struct {
      */
     public static Structure newEmpty(java.lang.String name) {
         var RESULT = constructNewEmpty(name);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromString(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_from_string.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a {@link Structure} from a string representation.
      * If end is not {@code null}, a pointer to the place inside the given string
@@ -291,7 +308,9 @@ public class Structure extends Struct {
      */
     public static Structure newFromString(java.lang.String string) {
         var RESULT = constructNewFromString(string);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewId(org.gtk.glib.Quark nameQuark, org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
@@ -306,7 +325,7 @@ public class Structure extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Structure} with the given name as a GQuark, followed by
      * fieldname quark, GType, argument(s) "triplets" in the same format as
@@ -323,20 +342,21 @@ public class Structure extends Struct {
      */
     public static Structure newId(org.gtk.glib.Quark nameQuark, org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
         var RESULT = constructNewId(nameQuark, fieldQuark, varargs);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewIdEmpty(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_id_empty.invokeExact(
-                    quark.getValue().intValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_id_empty.invokeExact(quark.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new, empty {@link Structure} with the given name as a GQuark.
      * <p>
@@ -346,22 +366,26 @@ public class Structure extends Struct {
      */
     public static Structure newIdEmpty(org.gtk.glib.Quark quark) {
         var RESULT = constructNewIdEmpty(quark);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewValist(java.lang.String name, java.lang.String firstfield, VaList varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_valist.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(firstfield, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_valist.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(firstfield, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Structure} with the given {@code name}.  Structure fields
      * are set according to the varargs in a manner similar to
@@ -377,7 +401,9 @@ public class Structure extends Struct {
      */
     public static Structure newValist(java.lang.String name, java.lang.String firstfield, VaList varargs) {
         var RESULT = constructNewValist(name, firstfield, varargs);
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -407,12 +433,13 @@ public class Structure extends Struct {
     public org.gstreamer.gst.Structure copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_structure_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -440,8 +467,7 @@ public class Structure extends Struct {
      */
     public void fixate() {
         try {
-            DowncallHandles.gst_structure_fixate.invokeExact(
-                    handle());
+            DowncallHandles.gst_structure_fixate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,15 +479,17 @@ public class Structure extends Struct {
      * @return {@code true} if the structure field could be fixated
      */
     public boolean fixateField(java.lang.String fieldName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -472,16 +500,18 @@ public class Structure extends Struct {
      * @return {@code true} if the structure could be fixated
      */
     public boolean fixateFieldBoolean(java.lang.String fieldName, boolean target) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null),
-                    Marshal.booleanToInteger.marshal(target, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE),
+                        Marshal.booleanToInteger.marshal(target, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -492,16 +522,18 @@ public class Structure extends Struct {
      * @return {@code true} if the structure could be fixated
      */
     public boolean fixateFieldNearestDouble(java.lang.String fieldName, double target) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null),
-                    target);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE),
+                        target);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -514,17 +546,19 @@ public class Structure extends Struct {
      * @return {@code true} if the structure could be fixated
      */
     public boolean fixateFieldNearestFraction(java.lang.String fieldName, int targetNumerator, int targetDenominator) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_fraction.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null),
-                    targetNumerator,
-                    targetDenominator);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_fraction.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE),
+                        targetNumerator,
+                        targetDenominator);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -535,16 +569,18 @@ public class Structure extends Struct {
      * @return {@code true} if the structure could be fixated
      */
     public boolean fixateFieldNearestInt(java.lang.String fieldName, int target) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_int.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null),
-                    target);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_int.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE),
+                        target);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -555,16 +591,18 @@ public class Structure extends Struct {
      * @return {@code true} if the structure could be fixated
      */
     public boolean fixateFieldString(java.lang.String fieldName, java.lang.String target) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_fixate_field_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldName, null),
-                    Marshal.stringToAddress.marshal(target, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_fixate_field_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldName, SCOPE),
+                        Marshal.stringToAddress.marshal(target, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -594,8 +632,7 @@ public class Structure extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_structure_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_structure_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,16 +656,18 @@ public class Structure extends Struct {
      *     than the type specified), otherwise {@code true}.
      */
     public boolean get(java.lang.String firstFieldname, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstFieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstFieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -643,18 +682,20 @@ public class Structure extends Struct {
      * this function returns {@code false}.
      */
     public boolean getArray(java.lang.String fieldname, Out<org.gtk.gobject.ValueArray> array) {
-        MemorySegment arrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_array.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) arrayPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment arrayPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_array.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) arrayPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -668,18 +709,20 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getBoolean(java.lang.String fieldname, Out<Boolean> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -693,18 +736,20 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getClockTime(java.lang.String fieldname, org.gstreamer.gst.ClockTime value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_clock_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_clock_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.setValue(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.setValue(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -723,18 +768,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getDate(java.lang.String fieldname, Out<org.gtk.glib.Date> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_date.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_date.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -753,18 +800,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getDateTime(java.lang.String fieldname, Out<org.gstreamer.gst.DateTime> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -778,18 +827,20 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getDouble(java.lang.String fieldname, Out<Double> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -804,19 +855,21 @@ public class Structure extends Struct {
      * type, this function returns {@code false}.
      */
     public boolean getEnum(java.lang.String fieldname, org.gtk.glib.Type enumtype, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_enum.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    enumtype.getValue().longValue(),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_enum.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        enumtype.getValue().longValue(),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -827,15 +880,17 @@ public class Structure extends Struct {
      * @return the {@link org.gtk.gobject.Value} of the field
      */
     public org.gtk.glib.Type getFieldType(java.lang.String fieldname) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_structure_get_field_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_structure_get_field_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -849,21 +904,23 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getFlagset(java.lang.String fieldname, Out<Integer> valueFlags, Out<Integer> valueMask) {
-        MemorySegment valueFlagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment valueMaskPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_flagset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) (valueFlags == null ? MemoryAddress.NULL : (Addressable) valueFlagsPOINTER.address()),
-                    (Addressable) (valueMask == null ? MemoryAddress.NULL : (Addressable) valueMaskPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valueFlagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment valueMaskPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_flagset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) (valueFlags == null ? MemoryAddress.NULL : (Addressable) valueFlagsPOINTER.address()),
+                        (Addressable) (valueMask == null ? MemoryAddress.NULL : (Addressable) valueMaskPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (valueFlags != null) valueFlags.set(valueFlagsPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (valueMask != null) valueMask.set(valueMaskPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (valueFlags != null) valueFlags.set(valueFlagsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (valueMask != null) valueMask.set(valueMaskPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -878,21 +935,23 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getFraction(java.lang.String fieldname, Out<Integer> valueNumerator, Out<Integer> valueDenominator) {
-        MemorySegment valueNumeratorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment valueDenominatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_fraction.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valueNumeratorPOINTER.address(),
-                    (Addressable) valueDenominatorPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valueNumeratorPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment valueDenominatorPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_fraction.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valueNumeratorPOINTER.address(),
+                        (Addressable) valueDenominatorPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    valueNumerator.set(valueNumeratorPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    valueDenominator.set(valueDenominatorPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        valueNumerator.set(valueNumeratorPOINTER.get(Interop.valueLayout.C_INT, 0));
-        valueDenominator.set(valueDenominatorPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -906,18 +965,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getInt(java.lang.String fieldname, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_int.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_int.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -931,18 +992,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getInt64(java.lang.String fieldname, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -957,18 +1020,20 @@ public class Structure extends Struct {
      * function returns {@code false}.
      */
     public boolean getList(java.lang.String fieldname, Out<org.gtk.gobject.ValueArray> array) {
-        MemorySegment arrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) arrayPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment arrayPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) arrayPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -978,8 +1043,7 @@ public class Structure extends Struct {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -993,8 +1057,7 @@ public class Structure extends Struct {
     public org.gtk.glib.Quark getNameId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_structure_get_name_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_structure_get_name_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1013,15 +1076,17 @@ public class Structure extends Struct {
      * field did not exist or did not contain a string.
      */
     public @Nullable java.lang.String getString(java.lang.String fieldname) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1035,18 +1100,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getUint(java.lang.String fieldname, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_uint.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_uint.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1060,18 +1127,20 @@ public class Structure extends Struct {
      * returns {@code false}.
      */
     public boolean getUint64(java.lang.String fieldname, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1083,16 +1152,18 @@ public class Structure extends Struct {
      * @return {@code true}, or {@code false} if there was a problem reading any of the fields
      */
     public boolean getValist(java.lang.String firstFieldname, VaList args) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_get_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstFieldname, null),
-                    args);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_get_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstFieldname, SCOPE),
+                        args);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1102,15 +1173,17 @@ public class Structure extends Struct {
      * name.
      */
     public @Nullable org.gtk.gobject.Value getValue(java.lang.String fieldname) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1119,15 +1192,17 @@ public class Structure extends Struct {
      * @return {@code true} if the structure contains a field with the given name
      */
     public boolean hasField(java.lang.String fieldname) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_has_field.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_has_field.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1137,16 +1212,18 @@ public class Structure extends Struct {
      * @return {@code true} if the structure contains a field with the given name and type
      */
     public boolean hasFieldTyped(java.lang.String fieldname, org.gtk.glib.Type type) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_has_field_typed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    type.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_has_field_typed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        type.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1155,15 +1232,17 @@ public class Structure extends Struct {
      * @return {@code true} if {@code name} matches the name of the structure.
      */
     public boolean hasName(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_has_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_has_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1237,7 +1316,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1363,7 +1442,9 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1430,8 +1511,7 @@ public class Structure extends Struct {
     public int nFields() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_structure_n_fields.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_structure_n_fields.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1460,8 +1540,7 @@ public class Structure extends Struct {
      */
     public void removeAllFields() {
         try {
-            DowncallHandles.gst_structure_remove_all_fields.invokeExact(
-                    handle());
+            DowncallHandles.gst_structure_remove_all_fields.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1473,12 +1552,14 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to remove
      */
     public void removeField(java.lang.String fieldname) {
-        try {
-            DowncallHandles.gst_structure_remove_field.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_remove_field.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1489,13 +1570,15 @@ public class Structure extends Struct {
      * @param varargs {@code null}-terminated list of more fieldnames to remove
      */
     public void removeFields(java.lang.String fieldname, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_structure_remove_fields.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_remove_fields.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1505,13 +1588,15 @@ public class Structure extends Struct {
      * @param varargs {@code null}-terminated list of more fieldnames to remove
      */
     public void removeFieldsValist(java.lang.String fieldname, VaList varargs) {
-        try {
-            DowncallHandles.gst_structure_remove_fields_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_remove_fields_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1549,13 +1634,15 @@ public class Structure extends Struct {
      * @param varargs variable arguments
      */
     public void set(java.lang.String fieldname, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_structure_set.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1568,13 +1655,15 @@ public class Structure extends Struct {
      * @param array a pointer to a {@link org.gtk.gobject.ValueArray}
      */
     public void setArray(java.lang.String fieldname, org.gtk.gobject.ValueArray array) {
-        try {
-            DowncallHandles.gst_structure_set_array.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    array.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set_array.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        array.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1587,13 +1676,15 @@ public class Structure extends Struct {
      * @param array a pointer to a {@link org.gtk.gobject.ValueArray}
      */
     public void setList(java.lang.String fieldname, org.gtk.gobject.ValueArray array) {
-        try {
-            DowncallHandles.gst_structure_set_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    array.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        array.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1604,12 +1695,14 @@ public class Structure extends Struct {
      * @param name the new name of the structure
      */
     public void setName(java.lang.String name) {
-        try {
-            DowncallHandles.gst_structure_set_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1639,13 +1732,15 @@ public class Structure extends Struct {
      * @param varargs variable arguments
      */
     public void setValist(java.lang.String fieldname, VaList varargs) {
-        try {
-            DowncallHandles.gst_structure_set_valist.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set_valist.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1657,13 +1752,15 @@ public class Structure extends Struct {
      * @param value the new value of the field
      */
     public void setValue(java.lang.String fieldname, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_structure_set_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_set_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1675,15 +1772,17 @@ public class Structure extends Struct {
      * @param value the new value of the field
      */
     public void takeValue(java.lang.String fieldname, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_structure_take_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(fieldname, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_structure_take_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(fieldname, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            value.yieldOwnership();
         }
-        value.yieldOwnership();
     }
     
     /**
@@ -1705,8 +1804,7 @@ public class Structure extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_structure_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_structure_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1728,458 +1826,460 @@ public class Structure extends Struct {
      * @return {@code true} if {@code newstr} was different from {@code oldstr_ptr}
      */
     public static boolean take(@Nullable Out<org.gstreamer.gst.Structure> oldstrPtr, @Nullable org.gstreamer.gst.Structure newstr) {
-        MemorySegment oldstrPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_structure_take.invokeExact(
-                    (Addressable) (oldstrPtr == null ? MemoryAddress.NULL : (Addressable) oldstrPtrPOINTER.address()),
-                    (Addressable) (newstr == null ? MemoryAddress.NULL : newstr.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment oldstrPtrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_structure_take.invokeExact(
+                        (Addressable) (oldstrPtr == null ? MemoryAddress.NULL : (Addressable) oldstrPtrPOINTER.address()),
+                        (Addressable) (newstr == null ? MemoryAddress.NULL : newstr.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (oldstrPtr != null) oldstrPtr.set(org.gstreamer.gst.Structure.fromAddress.marshal(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            newstr.yieldOwnership();
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (oldstrPtr != null) oldstrPtr.set(org.gstreamer.gst.Structure.fromAddress.marshal(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        newstr.yieldOwnership();
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_structure_from_string = Interop.downcallHandle(
-            "gst_structure_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_new = Interop.downcallHandle(
-            "gst_structure_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_structure_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_structure_new_empty = Interop.downcallHandle(
-            "gst_structure_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_new_from_string = Interop.downcallHandle(
-            "gst_structure_new_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_new_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_new_id = Interop.downcallHandle(
-            "gst_structure_new_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            true
+                "gst_structure_new_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                true
         );
         
         private static final MethodHandle gst_structure_new_id_empty = Interop.downcallHandle(
-            "gst_structure_new_id_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_new_id_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_new_valist = Interop.downcallHandle(
-            "gst_structure_new_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_new_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_can_intersect = Interop.downcallHandle(
-            "gst_structure_can_intersect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_can_intersect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_copy = Interop.downcallHandle(
-            "gst_structure_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_filter_and_map_in_place = Interop.downcallHandle(
-            "gst_structure_filter_and_map_in_place",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_filter_and_map_in_place",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate = Interop.downcallHandle(
-            "gst_structure_fixate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_fixate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field = Interop.downcallHandle(
-            "gst_structure_fixate_field",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_fixate_field",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field_boolean = Interop.downcallHandle(
-            "gst_structure_fixate_field_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_fixate_field_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field_nearest_double = Interop.downcallHandle(
-            "gst_structure_fixate_field_nearest_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_structure_fixate_field_nearest_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field_nearest_fraction = Interop.downcallHandle(
-            "gst_structure_fixate_field_nearest_fraction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_fixate_field_nearest_fraction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field_nearest_int = Interop.downcallHandle(
-            "gst_structure_fixate_field_nearest_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_fixate_field_nearest_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_fixate_field_string = Interop.downcallHandle(
-            "gst_structure_fixate_field_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_fixate_field_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_foreach = Interop.downcallHandle(
-            "gst_structure_foreach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_foreach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_free = Interop.downcallHandle(
-            "gst_structure_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get = Interop.downcallHandle(
-            "gst_structure_get",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_structure_get",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_structure_get_array = Interop.downcallHandle(
-            "gst_structure_get_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_boolean = Interop.downcallHandle(
-            "gst_structure_get_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_get_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_get_clock_time = Interop.downcallHandle(
-            "gst_structure_get_clock_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_clock_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_date = Interop.downcallHandle(
-            "gst_structure_get_date",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_date",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_date_time = Interop.downcallHandle(
-            "gst_structure_get_date_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_date_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_double = Interop.downcallHandle(
-            "gst_structure_get_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_enum = Interop.downcallHandle(
-            "gst_structure_get_enum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_enum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_field_type = Interop.downcallHandle(
-            "gst_structure_get_field_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_field_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_flagset = Interop.downcallHandle(
-            "gst_structure_get_flagset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_flagset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_fraction = Interop.downcallHandle(
-            "gst_structure_get_fraction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_fraction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_int = Interop.downcallHandle(
-            "gst_structure_get_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_int64 = Interop.downcallHandle(
-            "gst_structure_get_int64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_int64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_list = Interop.downcallHandle(
-            "gst_structure_get_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_name = Interop.downcallHandle(
-            "gst_structure_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_name_id = Interop.downcallHandle(
-            "gst_structure_get_name_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_name_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_string = Interop.downcallHandle(
-            "gst_structure_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_uint = Interop.downcallHandle(
-            "gst_structure_get_uint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_uint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_uint64 = Interop.downcallHandle(
-            "gst_structure_get_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_valist = Interop.downcallHandle(
-            "gst_structure_get_valist",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_valist",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_get_value = Interop.downcallHandle(
-            "gst_structure_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_has_field = Interop.downcallHandle(
-            "gst_structure_has_field",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_has_field",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_has_field_typed = Interop.downcallHandle(
-            "gst_structure_has_field_typed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_structure_has_field_typed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_structure_has_name = Interop.downcallHandle(
-            "gst_structure_has_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_has_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_id_get = Interop.downcallHandle(
-            "gst_structure_id_get",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
+                "gst_structure_id_get",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                true
         );
         
         private static final MethodHandle gst_structure_id_get_valist = Interop.downcallHandle(
-            "gst_structure_id_get_valist",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_id_get_valist",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_id_get_value = Interop.downcallHandle(
-            "gst_structure_id_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_id_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_id_has_field = Interop.downcallHandle(
-            "gst_structure_id_has_field",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_id_has_field",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_id_has_field_typed = Interop.downcallHandle(
-            "gst_structure_id_has_field_typed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_structure_id_has_field_typed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_structure_id_set = Interop.downcallHandle(
-            "gst_structure_id_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
+                "gst_structure_id_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                true
         );
         
         private static final MethodHandle gst_structure_id_set_valist = Interop.downcallHandle(
-            "gst_structure_id_set_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_id_set_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_id_set_value = Interop.downcallHandle(
-            "gst_structure_id_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_id_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_id_take_value = Interop.downcallHandle(
-            "gst_structure_id_take_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_id_take_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_intersect = Interop.downcallHandle(
-            "gst_structure_intersect",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_intersect",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_is_equal = Interop.downcallHandle(
-            "gst_structure_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_is_subset = Interop.downcallHandle(
-            "gst_structure_is_subset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_is_subset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_map_in_place = Interop.downcallHandle(
-            "gst_structure_map_in_place",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_map_in_place",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_n_fields = Interop.downcallHandle(
-            "gst_structure_n_fields",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_n_fields",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_nth_field_name = Interop.downcallHandle(
-            "gst_structure_nth_field_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_nth_field_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_remove_all_fields = Interop.downcallHandle(
-            "gst_structure_remove_all_fields",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_remove_all_fields",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_remove_field = Interop.downcallHandle(
-            "gst_structure_remove_field",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_remove_field",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_remove_fields = Interop.downcallHandle(
-            "gst_structure_remove_fields",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_structure_remove_fields",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_structure_remove_fields_valist = Interop.downcallHandle(
-            "gst_structure_remove_fields_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_remove_fields_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_serialize = Interop.downcallHandle(
-            "gst_structure_serialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_structure_serialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_structure_set = Interop.downcallHandle(
-            "gst_structure_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_structure_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_structure_set_array = Interop.downcallHandle(
-            "gst_structure_set_array",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_array",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_set_list = Interop.downcallHandle(
-            "gst_structure_set_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_set_name = Interop.downcallHandle(
-            "gst_structure_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_set_parent_refcount = Interop.downcallHandle(
-            "gst_structure_set_parent_refcount",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_parent_refcount",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_set_valist = Interop.downcallHandle(
-            "gst_structure_set_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_set_value = Interop.downcallHandle(
-            "gst_structure_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_take_value = Interop.downcallHandle(
-            "gst_structure_take_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_take_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_to_string = Interop.downcallHandle(
-            "gst_structure_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_structure_take = Interop.downcallHandle(
-            "gst_structure_take",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_structure_take",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -2205,7 +2305,7 @@ public class Structure extends Struct {
             struct = Structure.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Structure} struct.
          * @return A new instance of {@code Structure} with the fields 
          *         that were set in the Builder object.
@@ -2220,17 +2320,21 @@ public class Structure extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         public Builder setName(org.gtk.glib.Quark name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : name.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : name.getValue().intValue()));
+                return this;
+            }
         }
     }
 }

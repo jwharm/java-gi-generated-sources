@@ -29,8 +29,8 @@ public class H265DecoderPrivate extends Struct {
      * @return A new, uninitialized @{link H265DecoderPrivate}
      */
     public static H265DecoderPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H265DecoderPrivate newInstance = new H265DecoderPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H265DecoderPrivate newInstance = new H265DecoderPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class H265DecoderPrivate extends Struct {
     /**
      * Create a H265DecoderPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H265DecoderPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H265DecoderPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H265DecoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H265DecoderPrivate(input, ownership);
+    public static final Marshal<Addressable, H265DecoderPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H265DecoderPrivate(input);
 }

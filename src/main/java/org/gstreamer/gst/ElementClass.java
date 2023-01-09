@@ -57,8 +57,8 @@ public class ElementClass extends Struct {
      * @return A new, uninitialized @{link ElementClass}
      */
     public static ElementClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ElementClass newInstance = new ElementClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ElementClass newInstance = new ElementClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -69,7 +69,7 @@ public class ElementClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -77,9 +77,11 @@ public class ElementClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
@@ -87,10 +89,12 @@ public class ElementClass extends Struct {
      * @return The value of the field {@code metadata}
      */
     public java.lang.foreign.MemoryAddress getMetadata_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -98,9 +102,11 @@ public class ElementClass extends Struct {
      * @param metadata The new value of the field {@code metadata}
      */
     public void setMetadata_(java.lang.foreign.MemoryAddress metadata) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (metadata == null ? MemoryAddress.NULL : (Addressable) metadata));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (metadata == null ? MemoryAddress.NULL : (Addressable) metadata));
+        }
     }
     
     /**
@@ -108,10 +114,12 @@ public class ElementClass extends Struct {
      * @return The value of the field {@code elementfactory}
      */
     public org.gstreamer.gst.ElementFactory getElementfactory() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.ElementFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.ElementFactory) Interop.register(RESULT, org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -119,9 +127,11 @@ public class ElementClass extends Struct {
      * @param elementfactory The new value of the field {@code elementfactory}
      */
     public void setElementfactory(org.gstreamer.gst.ElementFactory elementfactory) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementfactory == null ? MemoryAddress.NULL : elementfactory.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementfactory == null ? MemoryAddress.NULL : elementfactory.handle()));
+        }
     }
     
     /**
@@ -129,10 +139,12 @@ public class ElementClass extends Struct {
      * @return The value of the field {@code padtemplates}
      */
     public org.gtk.glib.List getPadtemplates() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -140,9 +152,11 @@ public class ElementClass extends Struct {
      * @param padtemplates The new value of the field {@code padtemplates}
      */
     public void setPadtemplates(org.gtk.glib.List padtemplates) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padtemplates == null ? MemoryAddress.NULL : padtemplates.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padtemplates == null ? MemoryAddress.NULL : padtemplates.handle()));
+        }
     }
     
     /**
@@ -150,10 +164,12 @@ public class ElementClass extends Struct {
      * @return The value of the field {@code numpadtemplates}
      */
     public int getNumpadtemplates() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -161,9 +177,11 @@ public class ElementClass extends Struct {
      * @param numpadtemplates The new value of the field {@code numpadtemplates}
      */
     public void setNumpadtemplates(int numpadtemplates) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numpadtemplates);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), numpadtemplates);
+        }
     }
     
     /**
@@ -171,10 +189,12 @@ public class ElementClass extends Struct {
      * @return The value of the field {@code pad_templ_cookie}
      */
     public int getPadTemplCookie() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -182,24 +202,41 @@ public class ElementClass extends Struct {
      * @param padTemplCookie The new value of the field {@code pad_templ_cookie}
      */
     public void setPadTemplCookie(int padTemplCookie) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), padTemplCookie);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), padTemplCookie);
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PadAddedCallback} callback.
+     */
     @FunctionalInterface
     public interface PadAddedCallback {
+    
         void run(org.gstreamer.gst.Element element, org.gstreamer.gst.Pad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, MemoryAddress pad) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadAddedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadAddedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -208,24 +245,41 @@ public class ElementClass extends Struct {
      * @param padAdded The new value of the field {@code pad_added}
      */
     public void setPadAdded(PadAddedCallback padAdded) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad_added"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padAdded == null ? MemoryAddress.NULL : padAdded.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad_added"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padAdded == null ? MemoryAddress.NULL : padAdded.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PadRemovedCallback} callback.
+     */
     @FunctionalInterface
     public interface PadRemovedCallback {
+    
         void run(org.gstreamer.gst.Element element, org.gstreamer.gst.Pad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, MemoryAddress pad) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadRemovedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadRemovedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -234,24 +288,41 @@ public class ElementClass extends Struct {
      * @param padRemoved The new value of the field {@code pad_removed}
      */
     public void setPadRemoved(PadRemovedCallback padRemoved) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pad_removed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padRemoved == null ? MemoryAddress.NULL : padRemoved.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pad_removed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padRemoved == null ? MemoryAddress.NULL : padRemoved.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NoMorePadsCallback} callback.
+     */
     @FunctionalInterface
     public interface NoMorePadsCallback {
+    
         void run(org.gstreamer.gst.Element element);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NoMorePadsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NoMorePadsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -260,25 +331,45 @@ public class ElementClass extends Struct {
      * @param noMorePads The new value of the field {@code no_more_pads}
      */
     public void setNoMorePads(NoMorePadsCallback noMorePads) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("no_more_pads"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (noMorePads == null ? MemoryAddress.NULL : noMorePads.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("no_more_pads"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (noMorePads == null ? MemoryAddress.NULL : noMorePads.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestNewPadCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestNewPadCallback {
+    
         @Nullable org.gstreamer.gst.Pad run(org.gstreamer.gst.Element element, org.gstreamer.gst.PadTemplate templ, @Nullable java.lang.String name, @Nullable org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress element, MemoryAddress templ, MemoryAddress name, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(templ)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, Ownership.NONE), Marshal.addressToString.marshal(name, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.PadTemplate) Interop.register(templ, org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, null), Marshal.addressToString.marshal(name, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestNewPadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestNewPadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -287,24 +378,41 @@ public class ElementClass extends Struct {
      * @param requestNewPad The new value of the field {@code request_new_pad}
      */
     public void setRequestNewPad(RequestNewPadCallback requestNewPad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_new_pad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestNewPad == null ? MemoryAddress.NULL : requestNewPad.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_new_pad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestNewPad == null ? MemoryAddress.NULL : requestNewPad.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReleasePadCallback} callback.
+     */
     @FunctionalInterface
     public interface ReleasePadCallback {
+    
         void run(org.gstreamer.gst.Element element, org.gstreamer.gst.Pad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, MemoryAddress pad) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReleasePadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReleasePadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -313,29 +421,48 @@ public class ElementClass extends Struct {
      * @param releasePad The new value of the field {@code release_pad}
      */
     public void setReleasePad(ReleasePadCallback releasePad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("release_pad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releasePad == null ? MemoryAddress.NULL : releasePad.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("release_pad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releasePad == null ? MemoryAddress.NULL : releasePad.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetStateCallback} callback.
+     */
     @FunctionalInterface
     public interface GetStateCallback {
+    
         org.gstreamer.gst.StateChangeReturn run(org.gstreamer.gst.Element element, @Nullable Out<org.gstreamer.gst.State> state, @Nullable Out<org.gstreamer.gst.State> pending, org.gstreamer.gst.ClockTime timeout);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, MemoryAddress state, MemoryAddress pending, long timeout) {
-            Out<org.gstreamer.gst.State> stateOUT = new Out<>(org.gstreamer.gst.State.of(state.get(Interop.valueLayout.C_INT, 0)));
-            Out<org.gstreamer.gst.State> pendingOUT = new Out<>(org.gstreamer.gst.State.of(pending.get(Interop.valueLayout.C_INT, 0)));
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), stateOUT, pendingOUT, new org.gstreamer.gst.ClockTime(timeout));
-            state.set(Interop.valueLayout.C_INT, 0, stateOUT.get().getValue());
-            pending.set(Interop.valueLayout.C_INT, 0, pendingOUT.get().getValue());
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<org.gstreamer.gst.State> stateOUT = new Out<>(org.gstreamer.gst.State.of(state.get(Interop.valueLayout.C_INT, 0)));
+                Out<org.gstreamer.gst.State> pendingOUT = new Out<>(org.gstreamer.gst.State.of(pending.get(Interop.valueLayout.C_INT, 0)));
+                var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), stateOUT, pendingOUT, new org.gstreamer.gst.ClockTime(timeout));
+                state.set(Interop.valueLayout.C_INT, 0, stateOUT.get().getValue());
+                pending.set(Interop.valueLayout.C_INT, 0, pendingOUT.get().getValue());
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetStateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetStateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -344,25 +471,42 @@ public class ElementClass extends Struct {
      * @param getState The new value of the field {@code get_state}
      */
     public void setGetState(GetStateCallback getState) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_state"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getState == null ? MemoryAddress.NULL : getState.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_state"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getState == null ? MemoryAddress.NULL : getState.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetStateCallback} callback.
+     */
     @FunctionalInterface
     public interface SetStateCallback {
+    
         org.gstreamer.gst.StateChangeReturn run(org.gstreamer.gst.Element element, org.gstreamer.gst.State state);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, int state) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.State.of(state));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.State.of(state));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetStateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetStateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -371,25 +515,42 @@ public class ElementClass extends Struct {
      * @param setState The new value of the field {@code set_state}
      */
     public void setSetState(SetStateCallback setState) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_state"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setState == null ? MemoryAddress.NULL : setState.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_state"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setState == null ? MemoryAddress.NULL : setState.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangeStateCallback} callback.
+     */
     @FunctionalInterface
     public interface ChangeStateCallback {
+    
         org.gstreamer.gst.StateChangeReturn run(org.gstreamer.gst.Element element, org.gstreamer.gst.StateChange transition);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, int transition) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.StateChange.of(transition));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.StateChange.of(transition));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeStateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangeStateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -398,24 +559,41 @@ public class ElementClass extends Struct {
      * @param changeState The new value of the field {@code change_state}
      */
     public void setChangeState(ChangeStateCallback changeState) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StateChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface StateChangedCallback {
+    
         void run(org.gstreamer.gst.Element element, org.gstreamer.gst.State oldstate, org.gstreamer.gst.State newstate, org.gstreamer.gst.State pending);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, int oldstate, int newstate, int pending) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.State.of(oldstate), org.gstreamer.gst.State.of(newstate), org.gstreamer.gst.State.of(pending));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.State.of(oldstate), org.gstreamer.gst.State.of(newstate), org.gstreamer.gst.State.of(pending));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StateChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -424,24 +602,41 @@ public class ElementClass extends Struct {
      * @param stateChanged The new value of the field {@code state_changed}
      */
     public void setStateChanged(StateChangedCallback stateChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("state_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateChanged == null ? MemoryAddress.NULL : stateChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("state_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stateChanged == null ? MemoryAddress.NULL : stateChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetBusCallback} callback.
+     */
     @FunctionalInterface
     public interface SetBusCallback {
+    
         void run(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Bus bus);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, MemoryAddress bus) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(bus)), org.gstreamer.gst.Bus.fromAddress).marshal(bus, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.Bus) Interop.register(bus, org.gstreamer.gst.Bus.fromAddress).marshal(bus, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetBusCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetBusCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -450,25 +645,43 @@ public class ElementClass extends Struct {
      * @param setBus The new value of the field {@code set_bus}
      */
     public void setSetBus(SetBusCallback setBus) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_bus"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setBus == null ? MemoryAddress.NULL : setBus.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_bus"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setBus == null ? MemoryAddress.NULL : setBus.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ProvideClockCallback} callback.
+     */
     @FunctionalInterface
     public interface ProvideClockCallback {
+    
         @Nullable org.gstreamer.gst.Clock run(org.gstreamer.gst.Element element);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress element) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProvideClockCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ProvideClockCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -477,25 +690,42 @@ public class ElementClass extends Struct {
      * @param provideClock The new value of the field {@code provide_clock}
      */
     public void setProvideClock(ProvideClockCallback provideClock) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("provide_clock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (provideClock == null ? MemoryAddress.NULL : provideClock.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("provide_clock"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (provideClock == null ? MemoryAddress.NULL : provideClock.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetClockCallback} callback.
+     */
     @FunctionalInterface
     public interface SetClockCallback {
+    
         boolean run(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Clock clock);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, MemoryAddress clock) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clock)), org.gstreamer.gst.Clock.fromAddress).marshal(clock, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), (org.gstreamer.gst.Clock) Interop.register(clock, org.gstreamer.gst.Clock.fromAddress).marshal(clock, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetClockCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetClockCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -504,25 +734,42 @@ public class ElementClass extends Struct {
      * @param setClock The new value of the field {@code set_clock}
      */
     public void setSetClock(SetClockCallback setClock) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_clock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setClock == null ? MemoryAddress.NULL : setClock.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_clock"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setClock == null ? MemoryAddress.NULL : setClock.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SendEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SendEventCallback {
+    
         boolean run(org.gstreamer.gst.Element element, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.FULL));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SendEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SendEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -531,25 +778,42 @@ public class ElementClass extends Struct {
      * @param sendEvent The new value of the field {@code send_event}
      */
     public void setSendEvent(SendEventCallback sendEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code QueryCallback} callback.
+     */
     @FunctionalInterface
     public interface QueryCallback {
+    
         boolean run(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QueryCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), QueryCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -558,25 +822,42 @@ public class ElementClass extends Struct {
      * @param query The new value of the field {@code query}
      */
     public void setQuery(QueryCallback query) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PostMessageCallback} callback.
+     */
     @FunctionalInterface
     public interface PostMessageCallback {
+    
         boolean run(org.gstreamer.gst.Element element, org.gstreamer.gst.Message message);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress element, MemoryAddress message) {
-            var RESULT = run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.Message.fromAddress.marshal(message, Ownership.FULL));
+            var RESULT = run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.Message.fromAddress.marshal(message, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PostMessageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PostMessageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -585,24 +866,41 @@ public class ElementClass extends Struct {
      * @param postMessage The new value of the field {@code post_message}
      */
     public void setPostMessage(PostMessageCallback postMessage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("post_message"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (postMessage == null ? MemoryAddress.NULL : postMessage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("post_message"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (postMessage == null ? MemoryAddress.NULL : postMessage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetContextCallback} callback.
+     */
     @FunctionalInterface
     public interface SetContextCallback {
+    
         void run(org.gstreamer.gst.Element element, org.gstreamer.gst.Context context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress element, MemoryAddress context) {
-            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE), org.gstreamer.gst.Context.fromAddress.marshal(context, Ownership.NONE));
+            run((org.gstreamer.gst.Element) Interop.register(element, org.gstreamer.gst.Element.fromAddress).marshal(element, null), org.gstreamer.gst.Context.fromAddress.marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -611,22 +909,26 @@ public class ElementClass extends Struct {
      * @param setContext The new value of the field {@code set_context}
      */
     public void setSetContext(SetContextCallback setContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setContext == null ? MemoryAddress.NULL : setContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setContext == null ? MemoryAddress.NULL : setContext.toCallback()));
+        }
     }
     
     /**
      * Create a ElementClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ElementClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ElementClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ElementClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ElementClass(input, ownership);
+    public static final Marshal<Addressable, ElementClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ElementClass(input);
     
     /**
      * Set {@code key} with {@code value} as metadata in {@code klass}.
@@ -634,13 +936,15 @@ public class ElementClass extends Struct {
      * @param value the value to set
      */
     public void addMetadata(java.lang.String key, java.lang.String value) {
-        try {
-            DowncallHandles.gst_element_class_add_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_class_add_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -674,13 +978,15 @@ public class ElementClass extends Struct {
      * @param value the value to set
      */
     public void addStaticMetadata(java.lang.String key, java.lang.String value) {
-        try {
-            DowncallHandles.gst_element_class_add_static_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_class_add_static_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -726,15 +1032,17 @@ public class ElementClass extends Struct {
      * @return the metadata for {@code key}.
      */
     public java.lang.String getMetadata(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -750,15 +1058,17 @@ public class ElementClass extends Struct {
      *     necessary.
      */
     public @Nullable org.gstreamer.gst.PadTemplate getPadTemplate(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_pad_template.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_pad_template.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
         }
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -775,12 +1085,11 @@ public class ElementClass extends Struct {
     public org.gtk.glib.List getPadTemplateList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_pad_template_list.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_element_class_get_pad_template_list.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -798,15 +1107,17 @@ public class ElementClass extends Struct {
      * multiple author metadata. E.g: "Joe Bloggs &amp;lt;joe.blogs at foo.com&amp;gt;"
      */
     public void setMetadata(java.lang.String longname, java.lang.String classification, java.lang.String description, java.lang.String author) {
-        try {
-            DowncallHandles.gst_element_class_set_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(longname, null),
-                    Marshal.stringToAddress.marshal(classification, null),
-                    Marshal.stringToAddress.marshal(description, null),
-                    Marshal.stringToAddress.marshal(author, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_class_set_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(longname, SCOPE),
+                        Marshal.stringToAddress.marshal(classification, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE),
+                        Marshal.stringToAddress.marshal(author, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -830,78 +1141,80 @@ public class ElementClass extends Struct {
      * multiple author metadata. E.g: "Joe Bloggs &amp;lt;joe.blogs at foo.com&amp;gt;"
      */
     public void setStaticMetadata(java.lang.String longname, java.lang.String classification, java.lang.String description, java.lang.String author) {
-        try {
-            DowncallHandles.gst_element_class_set_static_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(longname, null),
-                    Marshal.stringToAddress.marshal(classification, null),
-                    Marshal.stringToAddress.marshal(description, null),
-                    Marshal.stringToAddress.marshal(author, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_element_class_set_static_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(longname, SCOPE),
+                        Marshal.stringToAddress.marshal(classification, SCOPE),
+                        Marshal.stringToAddress.marshal(description, SCOPE),
+                        Marshal.stringToAddress.marshal(author, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_element_class_add_metadata = Interop.downcallHandle(
-            "gst_element_class_add_metadata",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_add_metadata",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_add_pad_template = Interop.downcallHandle(
-            "gst_element_class_add_pad_template",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_add_pad_template",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_add_static_metadata = Interop.downcallHandle(
-            "gst_element_class_add_static_metadata",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_add_static_metadata",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_add_static_pad_template = Interop.downcallHandle(
-            "gst_element_class_add_static_pad_template",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_add_static_pad_template",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_add_static_pad_template_with_gtype = Interop.downcallHandle(
-            "gst_element_class_add_static_pad_template_with_gtype",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_element_class_add_static_pad_template_with_gtype",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_element_class_get_metadata = Interop.downcallHandle(
-            "gst_element_class_get_metadata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_get_metadata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_get_pad_template = Interop.downcallHandle(
-            "gst_element_class_get_pad_template",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_get_pad_template",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_get_pad_template_list = Interop.downcallHandle(
-            "gst_element_class_get_pad_template_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_get_pad_template_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_set_metadata = Interop.downcallHandle(
-            "gst_element_class_set_metadata",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_set_metadata",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_element_class_set_static_metadata = Interop.downcallHandle(
-            "gst_element_class_set_static_metadata",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_element_class_set_static_metadata",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -927,7 +1240,7 @@ public class ElementClass extends Struct {
             struct = ElementClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ElementClass} struct.
          * @return A new instance of {@code ElementClass} with the fields 
          *         that were set in the Builder object.
@@ -942,10 +1255,12 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -954,10 +1269,12 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMetadata(java.lang.foreign.MemoryAddress metadata) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (metadata == null ? MemoryAddress.NULL : (Addressable) metadata));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (metadata == null ? MemoryAddress.NULL : (Addressable) metadata));
+                return this;
+            }
         }
         
         /**
@@ -966,10 +1283,12 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setElementfactory(org.gstreamer.gst.ElementFactory elementfactory) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementfactory == null ? MemoryAddress.NULL : elementfactory.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("elementfactory"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementfactory == null ? MemoryAddress.NULL : elementfactory.handle()));
+                return this;
+            }
         }
         
         /**
@@ -978,10 +1297,12 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPadtemplates(org.gtk.glib.List padtemplates) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padtemplates == null ? MemoryAddress.NULL : padtemplates.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padtemplates"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padtemplates == null ? MemoryAddress.NULL : padtemplates.handle()));
+                return this;
+            }
         }
         
         /**
@@ -990,10 +1311,12 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumpadtemplates(int numpadtemplates) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numpadtemplates);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("numpadtemplates"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), numpadtemplates);
+                return this;
+            }
         }
         
         /**
@@ -1002,129 +1325,165 @@ public class ElementClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPadTemplCookie(int padTemplCookie) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), padTemplCookie);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pad_templ_cookie"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), padTemplCookie);
+                return this;
+            }
         }
         
         public Builder setPadAdded(PadAddedCallback padAdded) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pad_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padAdded == null ? MemoryAddress.NULL : padAdded.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pad_added"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padAdded == null ? MemoryAddress.NULL : padAdded.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadRemoved(PadRemovedCallback padRemoved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pad_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padRemoved == null ? MemoryAddress.NULL : padRemoved.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pad_removed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padRemoved == null ? MemoryAddress.NULL : padRemoved.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNoMorePads(NoMorePadsCallback noMorePads) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("no_more_pads"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (noMorePads == null ? MemoryAddress.NULL : noMorePads.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("no_more_pads"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (noMorePads == null ? MemoryAddress.NULL : noMorePads.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestNewPad(RequestNewPadCallback requestNewPad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_new_pad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestNewPad == null ? MemoryAddress.NULL : requestNewPad.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_new_pad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestNewPad == null ? MemoryAddress.NULL : requestNewPad.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReleasePad(ReleasePadCallback releasePad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("release_pad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (releasePad == null ? MemoryAddress.NULL : releasePad.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("release_pad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (releasePad == null ? MemoryAddress.NULL : releasePad.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetState(GetStateCallback getState) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getState == null ? MemoryAddress.NULL : getState.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_state"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getState == null ? MemoryAddress.NULL : getState.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetState(SetStateCallback setState) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setState == null ? MemoryAddress.NULL : setState.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_state"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setState == null ? MemoryAddress.NULL : setState.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChangeState(ChangeStateCallback changeState) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("change_state"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changeState == null ? MemoryAddress.NULL : changeState.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStateChanged(StateChangedCallback stateChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("state_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateChanged == null ? MemoryAddress.NULL : stateChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("state_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stateChanged == null ? MemoryAddress.NULL : stateChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetBus(SetBusCallback setBus) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_bus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setBus == null ? MemoryAddress.NULL : setBus.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_bus"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setBus == null ? MemoryAddress.NULL : setBus.toCallback()));
+                return this;
+            }
         }
         
         public Builder setProvideClock(ProvideClockCallback provideClock) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("provide_clock"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (provideClock == null ? MemoryAddress.NULL : provideClock.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("provide_clock"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (provideClock == null ? MemoryAddress.NULL : provideClock.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetClock(SetClockCallback setClock) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_clock"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setClock == null ? MemoryAddress.NULL : setClock.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_clock"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setClock == null ? MemoryAddress.NULL : setClock.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSendEvent(SendEventCallback sendEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("send_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sendEvent == null ? MemoryAddress.NULL : sendEvent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setQuery(QueryCallback query) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("query"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPostMessage(PostMessageCallback postMessage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("post_message"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (postMessage == null ? MemoryAddress.NULL : postMessage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("post_message"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (postMessage == null ? MemoryAddress.NULL : postMessage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetContext(SetContextCallback setContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setContext == null ? MemoryAddress.NULL : setContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setContext == null ? MemoryAddress.NULL : setContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -10,8 +10,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeDragDestImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeDragDestImpl(input, ownership);
+    public static final Marshal<Addressable, TreeDragDestImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeDragDestImpl(input);
     
     /**
      * Asks the {@code GtkTreeDragDest} to insert a row before the path {@code dest},
@@ -79,34 +82,49 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_dest_drag_data_received = Interop.downcallHandle(
-            "gtk_tree_drag_dest_drag_data_received",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_drag_dest_drag_data_received",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_dest_row_drop_possible = Interop.downcallHandle(
-            "gtk_tree_drag_dest_row_drop_possible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_drag_dest_row_drop_possible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_tree_drag_dest_get_type = Interop.downcallHandle(
-            "gtk_tree_drag_dest_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_drag_dest_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TreeDragDestImpl type represents a native instance of the TreeDragDest interface.
+     */
     class TreeDragDestImpl extends org.gtk.gobject.GObject implements TreeDragDest {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public TreeDragDestImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TreeDragDest for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TreeDragDestImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_drag_dest_get_type != null;
     }
 }

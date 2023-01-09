@@ -36,6 +36,9 @@ public class MiniObjectFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MiniObjectFlags LAST = new MiniObjectFlags(16);
     
+    /**
+     * Create a new MiniObjectFlags with the provided value
+     */
     public MiniObjectFlags(int value) {
         super(value);
     }

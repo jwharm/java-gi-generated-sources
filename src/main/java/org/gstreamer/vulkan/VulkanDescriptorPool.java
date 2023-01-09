@@ -29,26 +29,17 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a VulkanDescriptorPool proxy instance for the provided memory address.
-     * <p>
-     * Because VulkanDescriptorPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanDescriptorPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VulkanDescriptorPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanDescriptorPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorPool(input, ownership);
+    public static final Marshal<Addressable, VulkanDescriptorPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorPool(input);
     
     private static MemoryAddress constructNewWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.DescriptorPool pool, long maxSets) {
         MemoryAddress RESULT;
@@ -63,46 +54,52 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.GstObject {
         pool.yieldOwnership();
         return RESULT;
     }
-    
+        
     public static VulkanDescriptorPool newWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.DescriptorPool pool, long maxSets) {
         var RESULT = constructNewWrapped(device, pool, maxSets);
-        return (org.gstreamer.vulkan.VulkanDescriptorPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDescriptorPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanDescriptorPool) Interop.register(RESULT, org.gstreamer.vulkan.VulkanDescriptorPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.vulkan.VulkanDescriptorSet create(int nLayouts, PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_create.invokeExact(
-                    handle(),
-                    nLayouts,
-                    layouts.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_create.invokeExact(
+                        handle(),
+                        nLayouts,
+                        layouts.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public org.gstreamer.vulkan.VulkanDevice getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_get_device.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.vulkan.VulkanDevice) Interop.register(RESULT, org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public long getMaxSets() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_vulkan_descriptor_pool_get_max_sets.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_vulkan_descriptor_pool_get_max_sets.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,6 +136,9 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -163,33 +163,41 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_descriptor_pool_new_wrapped = Interop.downcallHandle(
-            "gst_vulkan_descriptor_pool_new_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_descriptor_pool_new_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_pool_create = Interop.downcallHandle(
-            "gst_vulkan_descriptor_pool_create",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_pool_create",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_pool_get_device = Interop.downcallHandle(
-            "gst_vulkan_descriptor_pool_get_device",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_pool_get_device",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_pool_get_max_sets = Interop.downcallHandle(
-            "gst_vulkan_descriptor_pool_get_max_sets",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_pool_get_max_sets",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_pool_get_type = Interop.downcallHandle(
-            "gst_vulkan_descriptor_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_descriptor_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_vulkan_descriptor_pool_get_type != null;
     }
 }

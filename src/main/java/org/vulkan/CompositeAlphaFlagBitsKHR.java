@@ -29,8 +29,8 @@ public class CompositeAlphaFlagBitsKHR extends Struct {
      * @return A new, uninitialized @{link CompositeAlphaFlagBitsKHR}
      */
     public static CompositeAlphaFlagBitsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CompositeAlphaFlagBitsKHR newInstance = new CompositeAlphaFlagBitsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CompositeAlphaFlagBitsKHR newInstance = new CompositeAlphaFlagBitsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CompositeAlphaFlagBitsKHR extends Struct {
     /**
      * Create a CompositeAlphaFlagBitsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CompositeAlphaFlagBitsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CompositeAlphaFlagBitsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CompositeAlphaFlagBitsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CompositeAlphaFlagBitsKHR(input, ownership);
+    public static final Marshal<Addressable, CompositeAlphaFlagBitsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CompositeAlphaFlagBitsKHR(input);
 }

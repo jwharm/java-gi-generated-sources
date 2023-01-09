@@ -44,26 +44,17 @@ public class ControlSource extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a ControlSource proxy instance for the provided memory address.
-     * <p>
-     * Because ControlSource is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ControlSource(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ControlSource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ControlSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ControlSource(input, ownership);
+    public static final Marshal<Addressable, ControlSource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ControlSource(input);
     
     /**
      * Gets the value for this {@link ControlSource} at a given timestamp.
@@ -72,18 +63,20 @@ public class ControlSource extends org.gstreamer.gst.GstObject {
      * @return {@code false} if the value couldn't be returned, {@code true} otherwise.
      */
     public boolean controlSourceGetValue(org.gstreamer.gst.ClockTime timestamp, Out<Double> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_control_source_get_value.invokeExact(
-                    handle(),
-                    timestamp.getValue().longValue(),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_control_source_get_value.invokeExact(
+                        handle(),
+                        timestamp.getValue().longValue(),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -96,18 +89,20 @@ public class ControlSource extends org.gstreamer.gst.GstObject {
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
     public boolean controlSourceGetValueArray(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, double[] values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_control_source_get_value_array.invokeExact(
-                    handle(),
-                    timestamp.getValue().longValue(),
-                    interval.getValue().longValue(),
-                    nValues,
-                    Interop.allocateNativeArray(values, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_control_source_get_value_array.invokeExact(
+                        handle(),
+                        timestamp.getValue().longValue(),
+                        interval.getValue().longValue(),
+                        nValues,
+                        Interop.allocateNativeArray(values, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -140,6 +135,9 @@ public class ControlSource extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -164,21 +162,29 @@ public class ControlSource extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_control_source_get_value = Interop.downcallHandle(
-            "gst_control_source_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_source_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_source_get_value_array = Interop.downcallHandle(
-            "gst_control_source_get_value_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_source_get_value_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_source_get_type = Interop.downcallHandle(
-            "gst_control_source_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_control_source_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_control_source_get_type != null;
     }
 }

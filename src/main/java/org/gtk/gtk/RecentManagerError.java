@@ -9,35 +9,42 @@ import org.jetbrains.annotations.*;
  * Error codes for {@code GtkRecentManager} operations
  */
 public enum RecentManagerError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the URI specified does not exists in
      *   the recently used resources list.
      */
     NOT_FOUND(0),
+    
     /**
      * the URI specified is not valid.
      */
     INVALID_URI(1),
+    
     /**
      * the supplied string is not
      *   UTF-8 encoded.
      */
     INVALID_ENCODING(2),
+    
     /**
      * no application has registered
      *   the specified item.
      */
     NOT_REGISTERED(3),
+    
     /**
      * failure while reading the recently used
      *   resources file.
      */
     READ(4),
+    
     /**
      * failure while writing the recently used
      *   resources file.
      */
     WRITE(5),
+    
     /**
      * unspecified error.
      */
@@ -46,15 +53,29 @@ public enum RecentManagerError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkRecentManagerError";
     
     private final int value;
+    
+    /**
+     * Create a new RecentManagerError for the provided value
+     * @param numeric value the enum value
+     */
     RecentManagerError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new RecentManagerError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static RecentManagerError of(int value) {
         return switch (value) {
             case 0 -> NOT_FOUND;
@@ -81,9 +102,9 @@ public enum RecentManagerError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_recent_manager_error_quark = Interop.downcallHandle(
-            "gtk_recent_manager_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gtk_recent_manager_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

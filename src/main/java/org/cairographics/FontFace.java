@@ -29,8 +29,8 @@ public class FontFace extends Struct {
      * @return A new, uninitialized @{link FontFace}
      */
     public static FontFace allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontFace newInstance = new FontFace(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontFace newInstance = new FontFace(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FontFace extends Struct {
     /**
      * Create a FontFace proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontFace(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontFace(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontFace> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontFace(input, ownership);
+    public static final Marshal<Addressable, FontFace> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontFace(input);
 }

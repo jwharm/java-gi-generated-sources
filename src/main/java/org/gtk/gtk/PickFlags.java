@@ -27,6 +27,9 @@ public class PickFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PickFlags NON_TARGETABLE = new PickFlags(2);
     
+    /**
+     * Create a new PickFlags with the provided value
+     */
     public PickFlags(int value) {
         super(value);
     }

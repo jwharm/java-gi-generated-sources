@@ -35,8 +35,8 @@ public class PatProgram extends Struct {
      * @return A new, uninitialized @{link PatProgram}
      */
     public static PatProgram allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PatProgram newInstance = new PatProgram(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PatProgram newInstance = new PatProgram(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class PatProgram extends Struct {
      * @return The value of the field {@code program_number}
      */
     public short getProgramNumber() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class PatProgram extends Struct {
      * @param programNumber The new value of the field {@code program_number}
      */
     public void setProgramNumber(short programNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), programNumber);
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class PatProgram extends Struct {
      * @return The value of the field {@code network_or_program_map_PID}
      */
     public short getNetworkOrProgramMapPID() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -78,22 +84,26 @@ public class PatProgram extends Struct {
      * @param networkOrProgramMapPID The new value of the field {@code network_or_program_map_PID}
      */
     public void setNetworkOrProgramMapPID(short networkOrProgramMapPID) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkOrProgramMapPID);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), networkOrProgramMapPID);
+        }
     }
     
     /**
      * Create a PatProgram proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PatProgram(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PatProgram(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PatProgram> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PatProgram(input, ownership);
+    public static final Marshal<Addressable, PatProgram> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PatProgram(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -109,15 +119,16 @@ public class PatProgram extends Struct {
      * Allocates a new {@link PatProgram}.
      */
     public PatProgram() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_pat_program_new = Interop.downcallHandle(
-            "gst_mpegts_pat_program_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_pat_program_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -143,7 +154,7 @@ public class PatProgram extends Struct {
             struct = PatProgram.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PatProgram} struct.
          * @return A new instance of {@code PatProgram} with the fields 
          *         that were set in the Builder object.
@@ -158,10 +169,12 @@ public class PatProgram extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProgramNumber(short programNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), programNumber);
+                return this;
+            }
         }
         
         /**
@@ -170,10 +183,12 @@ public class PatProgram extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNetworkOrProgramMapPID(short networkOrProgramMapPID) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkOrProgramMapPID);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), networkOrProgramMapPID);
+                return this;
+            }
         }
     }
 }

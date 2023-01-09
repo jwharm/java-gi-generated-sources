@@ -38,8 +38,8 @@ public class AudioLevelMeta extends Struct {
      * @return A new, uninitialized @{link AudioLevelMeta}
      */
     public static AudioLevelMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioLevelMeta newInstance = new AudioLevelMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioLevelMeta newInstance = new AudioLevelMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class AudioLevelMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,9 +58,11 @@ public class AudioLevelMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -68,10 +70,12 @@ public class AudioLevelMeta extends Struct {
      * @return The value of the field {@code level}
      */
     public byte getLevel() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("level"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +83,11 @@ public class AudioLevelMeta extends Struct {
      * @param level The new value of the field {@code level}
      */
     public void setLevel(byte level) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("level"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), level);
+        }
     }
     
     /**
@@ -89,10 +95,12 @@ public class AudioLevelMeta extends Struct {
      * @return The value of the field {@code voice_activity}
      */
     public boolean getVoiceActivity() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -100,22 +108,26 @@ public class AudioLevelMeta extends Struct {
      * @param voiceActivity The new value of the field {@code voice_activity}
      */
     public void setVoiceActivity(boolean voiceActivity) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(voiceActivity, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(voiceActivity, null).intValue());
+        }
     }
     
     /**
      * Create a AudioLevelMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioLevelMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioLevelMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioLevelMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioLevelMeta(input, ownership);
+    public static final Marshal<Addressable, AudioLevelMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioLevelMeta(input);
     
     /**
      * Return the {@link org.gstreamer.gst.MetaInfo} associated with {@link AudioLevelMeta}.
@@ -128,15 +140,15 @@ public class AudioLevelMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_level_meta_get_info = Interop.downcallHandle(
-            "gst_audio_level_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_level_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -162,7 +174,7 @@ public class AudioLevelMeta extends Struct {
             struct = AudioLevelMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioLevelMeta} struct.
          * @return A new instance of {@code AudioLevelMeta} with the fields 
          *         that were set in the Builder object.
@@ -177,10 +189,12 @@ public class AudioLevelMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -189,10 +203,12 @@ public class AudioLevelMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLevel(byte level) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), level);
+                return this;
+            }
         }
         
         /**
@@ -201,10 +217,12 @@ public class AudioLevelMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVoiceActivity(boolean voiceActivity) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(voiceActivity, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("voice_activity"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(voiceActivity, null).intValue());
+                return this;
+            }
         }
     }
 }

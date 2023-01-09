@@ -44,8 +44,8 @@ public class TimeVal extends Struct {
      * @return A new, uninitialized @{link TimeVal}
      */
     public static TimeVal allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimeVal newInstance = new TimeVal(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimeVal newInstance = new TimeVal(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class TimeVal extends Struct {
      * @return The value of the field {@code tv_sec}
      */
     public long getTvSec() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class TimeVal extends Struct {
      * @param tvSec The new value of the field {@code tv_sec}
      */
     public void setTvSec(long tvSec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tvSec);
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class TimeVal extends Struct {
      * @return The value of the field {@code tv_usec}
      */
     public long getTvUsec() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,22 +93,26 @@ public class TimeVal extends Struct {
      * @param tvUsec The new value of the field {@code tv_usec}
      */
     public void setTvUsec(long tvUsec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tvUsec);
+        }
     }
     
     /**
      * Create a TimeVal proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimeVal(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimeVal(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimeVal> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimeVal(input, ownership);
+    public static final Marshal<Addressable, TimeVal> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimeVal(input);
     
     /**
      * Adds the given number of microseconds to {@code time_}. {@code microseconds} can
@@ -166,8 +176,7 @@ public class TimeVal extends Struct {
     public @Nullable java.lang.String toIso8601() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_val_to_iso8601.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_val_to_iso8601.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,35 +209,37 @@ public class TimeVal extends Struct {
      */
     @Deprecated
     public static boolean fromIso8601(java.lang.String isoDate, org.gtk.glib.TimeVal time) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(
-                    Marshal.stringToAddress.marshal(isoDate, null),
-                    time.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(
+                        Marshal.stringToAddress.marshal(isoDate, SCOPE),
+                        time.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_time_val_add = Interop.downcallHandle(
-            "g_time_val_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_time_val_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_time_val_to_iso8601 = Interop.downcallHandle(
-            "g_time_val_to_iso8601",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_val_to_iso8601",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_val_from_iso8601 = Interop.downcallHandle(
-            "g_time_val_from_iso8601",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_val_from_iso8601",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -254,7 +265,7 @@ public class TimeVal extends Struct {
             struct = TimeVal.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TimeVal} struct.
          * @return A new instance of {@code TimeVal} with the fields 
          *         that were set in the Builder object.
@@ -269,10 +280,12 @@ public class TimeVal extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTvSec(long tvSec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tvSec);
+                return this;
+            }
         }
         
         /**
@@ -281,10 +294,12 @@ public class TimeVal extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTvUsec(long tvUsec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tvUsec);
+                return this;
+            }
         }
     }
 }

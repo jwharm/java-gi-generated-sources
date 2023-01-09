@@ -28,14 +28,16 @@ public class PadEvent extends org.gtk.gdk.Event {
     /**
      * Create a PadEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PadEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PadEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PadEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadEvent(input, ownership);
+    public static final Marshal<Addressable, PadEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PadEvent(input);
     
     /**
      * Extracts the information from a pad strip or ring event.
@@ -43,18 +45,20 @@ public class PadEvent extends org.gtk.gdk.Event {
      * @param value Return location for the axis value
      */
     public void getAxisValue(Out<Integer> index, Out<Double> value) {
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.gdk_pad_event_get_axis_value.invokeExact(
-                    handle(),
-                    (Addressable) indexPOINTER.address(),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment indexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.gdk_pad_event_get_axis_value.invokeExact(
+                        handle(),
+                        (Addressable) indexPOINTER.address(),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -65,8 +69,7 @@ public class PadEvent extends org.gtk.gdk.Event {
     public int getButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pad_event_get_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_pad_event_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,18 +82,20 @@ public class PadEvent extends org.gtk.gdk.Event {
      * @param mode return location for the mode
      */
     public void getGroupMode(Out<Integer> group, Out<Integer> mode) {
-        MemorySegment groupPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment modePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gdk_pad_event_get_group_mode.invokeExact(
-                    handle(),
-                    (Addressable) groupPOINTER.address(),
-                    (Addressable) modePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment groupPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment modePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gdk_pad_event_get_group_mode.invokeExact(
+                        handle(),
+                        (Addressable) groupPOINTER.address(),
+                        (Addressable) modePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    group.set(groupPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    mode.set(modePOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        group.set(groupPOINTER.get(Interop.valueLayout.C_INT, 0));
-        mode.set(modePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -110,27 +115,35 @@ public class PadEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pad_event_get_axis_value = Interop.downcallHandle(
-            "gdk_pad_event_get_axis_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pad_event_get_axis_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pad_event_get_button = Interop.downcallHandle(
-            "gdk_pad_event_get_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pad_event_get_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pad_event_get_group_mode = Interop.downcallHandle(
-            "gdk_pad_event_get_group_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pad_event_get_group_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pad_event_get_type = Interop.downcallHandle(
-            "gdk_pad_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_pad_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_pad_event_get_type != null;
     }
 }

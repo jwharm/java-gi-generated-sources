@@ -12,6 +12,9 @@ import org.jetbrains.annotations.*;
  */
 public class PositionT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new PositionT with the provided value
+     */
     public PositionT(int value) {
         super(value);
     }

@@ -24,6 +24,9 @@ public class DBusCapabilityFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusCapabilityFlags UNIX_FD_PASSING = new DBusCapabilityFlags(1);
     
+    /**
+     * Create a new DBusCapabilityFlags with the provided value
+     */
     public DBusCapabilityFlags(int value) {
         super(value);
     }

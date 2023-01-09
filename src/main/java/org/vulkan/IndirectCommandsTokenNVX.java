@@ -29,8 +29,8 @@ public class IndirectCommandsTokenNVX extends Struct {
      * @return A new, uninitialized @{link IndirectCommandsTokenNVX}
      */
     public static IndirectCommandsTokenNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IndirectCommandsTokenNVX newInstance = new IndirectCommandsTokenNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IndirectCommandsTokenNVX newInstance = new IndirectCommandsTokenNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class IndirectCommandsTokenNVX extends Struct {
     /**
      * Create a IndirectCommandsTokenNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IndirectCommandsTokenNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IndirectCommandsTokenNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IndirectCommandsTokenNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IndirectCommandsTokenNVX(input, ownership);
+    public static final Marshal<Addressable, IndirectCommandsTokenNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IndirectCommandsTokenNVX(input);
 }

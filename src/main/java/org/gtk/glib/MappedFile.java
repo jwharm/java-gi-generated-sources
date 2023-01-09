@@ -34,8 +34,8 @@ public class MappedFile extends Struct {
      * @return A new, uninitialized @{link MappedFile}
      */
     public static MappedFile allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MappedFile newInstance = new MappedFile(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MappedFile newInstance = new MappedFile(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,30 +43,34 @@ public class MappedFile extends Struct {
     /**
      * Create a MappedFile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MappedFile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MappedFile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MappedFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MappedFile(input, ownership);
+    public static final Marshal<Addressable, MappedFile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MappedFile(input);
     
     private static MemoryAddress constructNew(java.lang.String filename, boolean writable) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(
-                    Marshal.stringToAddress.marshal(filename, null),
-                    Marshal.booleanToInteger.marshal(writable, null).intValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        Marshal.booleanToInteger.marshal(writable, null).intValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -92,26 +96,29 @@ public class MappedFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
-        super(constructNew(filename, writable), Ownership.FULL);
+        super(constructNew(filename, writable));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromFd(int fd, boolean writable) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(
-                    fd,
-                    Marshal.booleanToInteger.marshal(writable, null).intValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(
+                        fd,
+                        Marshal.booleanToInteger.marshal(writable, null).intValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
      * <p>
@@ -132,7 +139,9 @@ public class MappedFile extends Struct {
      */
     public static MappedFile newFromFd(int fd, boolean writable) throws GErrorException {
         var RESULT = constructNewFromFd(fd, writable);
-        return org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -143,8 +152,7 @@ public class MappedFile extends Struct {
     @Deprecated
     public void free() {
         try {
-            DowncallHandles.g_mapped_file_free.invokeExact(
-                    handle());
+            DowncallHandles.g_mapped_file_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,12 +168,13 @@ public class MappedFile extends Struct {
     public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -180,8 +189,7 @@ public class MappedFile extends Struct {
     public java.lang.String getContents() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,8 +203,7 @@ public class MappedFile extends Struct {
     public long getLength() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_mapped_file_get_length.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_mapped_file_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,12 +218,13 @@ public class MappedFile extends Struct {
     public org.gtk.glib.MappedFile ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -229,8 +237,7 @@ public class MappedFile extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_mapped_file_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_mapped_file_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,51 +246,51 @@ public class MappedFile extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_mapped_file_new = Interop.downcallHandle(
-            "g_mapped_file_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_new_from_fd = Interop.downcallHandle(
-            "g_mapped_file_new_from_fd",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_new_from_fd",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_free = Interop.downcallHandle(
-            "g_mapped_file_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_get_bytes = Interop.downcallHandle(
-            "g_mapped_file_get_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_get_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_get_contents = Interop.downcallHandle(
-            "g_mapped_file_get_contents",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_get_contents",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_get_length = Interop.downcallHandle(
-            "g_mapped_file_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_ref = Interop.downcallHandle(
-            "g_mapped_file_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_mapped_file_unref = Interop.downcallHandle(
-            "g_mapped_file_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_mapped_file_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

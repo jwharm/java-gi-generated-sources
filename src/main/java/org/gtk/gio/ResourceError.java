@@ -11,10 +11,12 @@ import org.jetbrains.annotations.*;
  * @version 2.32
  */
 public enum ResourceError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no file was found at the requested path
      */
     NOT_FOUND(0),
+    
     /**
      * unknown error
      */
@@ -23,15 +25,29 @@ public enum ResourceError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GResourceError";
     
     private final int value;
+    
+    /**
+     * Create a new ResourceError for the provided value
+     * @param numeric value the enum value
+     */
     ResourceError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ResourceError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ResourceError of(int value) {
         return switch (value) {
             case 0 -> NOT_FOUND;
@@ -57,9 +73,9 @@ public enum ResourceError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle g_resource_error_quark = Interop.downcallHandle(
-            "g_resource_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_resource_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

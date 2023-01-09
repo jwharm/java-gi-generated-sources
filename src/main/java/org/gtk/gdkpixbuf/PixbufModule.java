@@ -93,8 +93,8 @@ public class PixbufModule extends Struct {
      * @return A new, uninitialized @{link PixbufModule}
      */
     public static PixbufModule allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufModule newInstance = new PixbufModule(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PixbufModule newInstance = new PixbufModule(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -104,10 +104,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code module_name}
      */
     public java.lang.String getModuleName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -115,9 +117,11 @@ public class PixbufModule extends Struct {
      * @param moduleName The new value of the field {@code module_name}
      */
     public void setModuleName(java.lang.String moduleName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moduleName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(moduleName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (moduleName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(moduleName, SCOPE)));
+        }
     }
     
     /**
@@ -125,10 +129,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code module_path}
      */
     public java.lang.String getModulePath() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -136,9 +142,11 @@ public class PixbufModule extends Struct {
      * @param modulePath The new value of the field {@code module_path}
      */
     public void setModulePath(java.lang.String modulePath) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(modulePath, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(modulePath, SCOPE)));
+        }
     }
     
     /**
@@ -146,10 +154,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code info}
      */
     public org.gtk.gdkpixbuf.PixbufFormat getInfo() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gdkpixbuf.PixbufFormat.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gdkpixbuf.PixbufFormat.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -157,9 +167,11 @@ public class PixbufModule extends Struct {
      * @param info The new value of the field {@code info}
      */
     public void setInfo(org.gtk.gdkpixbuf.PixbufFormat info) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        }
     }
     
     /**
@@ -167,10 +179,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code load}
      */
     public org.gtk.gdkpixbuf.PixbufModuleLoadFunc getLoad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -178,9 +192,11 @@ public class PixbufModule extends Struct {
      * @param load The new value of the field {@code load}
      */
     public void setLoad(org.gtk.gdkpixbuf.PixbufModuleLoadFunc load) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : (Addressable) load.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : (Addressable) load.toCallback()));
+        }
     }
     
     /**
@@ -188,10 +204,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code load_xpm_data}
      */
     public org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc getLoadXpmData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -199,9 +217,11 @@ public class PixbufModule extends Struct {
      * @param loadXpmData The new value of the field {@code load_xpm_data}
      */
     public void setLoadXpmData(org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc loadXpmData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadXpmData == null ? MemoryAddress.NULL : (Addressable) loadXpmData.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadXpmData == null ? MemoryAddress.NULL : (Addressable) loadXpmData.toCallback()));
+        }
     }
     
     /**
@@ -209,10 +229,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code begin_load}
      */
     public org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc getBeginLoad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -220,9 +242,11 @@ public class PixbufModule extends Struct {
      * @param beginLoad The new value of the field {@code begin_load}
      */
     public void setBeginLoad(org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc beginLoad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginLoad == null ? MemoryAddress.NULL : (Addressable) beginLoad.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginLoad == null ? MemoryAddress.NULL : (Addressable) beginLoad.toCallback()));
+        }
     }
     
     /**
@@ -230,10 +254,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code stop_load}
      */
     public org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc getStopLoad() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -241,9 +267,11 @@ public class PixbufModule extends Struct {
      * @param stopLoad The new value of the field {@code stop_load}
      */
     public void setStopLoad(org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc stopLoad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stopLoad == null ? MemoryAddress.NULL : (Addressable) stopLoad.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stopLoad == null ? MemoryAddress.NULL : (Addressable) stopLoad.toCallback()));
+        }
     }
     
     /**
@@ -251,10 +279,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code load_increment}
      */
     public org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc getLoadIncrement() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -262,9 +292,11 @@ public class PixbufModule extends Struct {
      * @param loadIncrement The new value of the field {@code load_increment}
      */
     public void setLoadIncrement(org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc loadIncrement) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadIncrement == null ? MemoryAddress.NULL : (Addressable) loadIncrement.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadIncrement == null ? MemoryAddress.NULL : (Addressable) loadIncrement.toCallback()));
+        }
     }
     
     /**
@@ -272,10 +304,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code load_animation}
      */
     public org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc getLoadAnimation() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -283,9 +317,11 @@ public class PixbufModule extends Struct {
      * @param loadAnimation The new value of the field {@code load_animation}
      */
     public void setLoadAnimation(org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc loadAnimation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadAnimation == null ? MemoryAddress.NULL : (Addressable) loadAnimation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadAnimation == null ? MemoryAddress.NULL : (Addressable) loadAnimation.toCallback()));
+        }
     }
     
     /**
@@ -293,10 +329,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code save}
      */
     public org.gtk.gdkpixbuf.PixbufModuleSaveFunc getSave() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("save"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("save"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -304,9 +342,11 @@ public class PixbufModule extends Struct {
      * @param save The new value of the field {@code save}
      */
     public void setSave(org.gtk.gdkpixbuf.PixbufModuleSaveFunc save) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("save"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (save == null ? MemoryAddress.NULL : (Addressable) save.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("save"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (save == null ? MemoryAddress.NULL : (Addressable) save.toCallback()));
+        }
     }
     
     /**
@@ -314,10 +354,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code save_to_callback}
      */
     public org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc getSaveToCallback() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -325,9 +367,11 @@ public class PixbufModule extends Struct {
      * @param saveToCallback The new value of the field {@code save_to_callback}
      */
     public void setSaveToCallback(org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc saveToCallback) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (saveToCallback == null ? MemoryAddress.NULL : (Addressable) saveToCallback.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (saveToCallback == null ? MemoryAddress.NULL : (Addressable) saveToCallback.toCallback()));
+        }
     }
     
     /**
@@ -335,10 +379,12 @@ public class PixbufModule extends Struct {
      * @return The value of the field {@code is_save_option_supported}
      */
     public org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc getIsSaveOptionSupported() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -346,24 +392,41 @@ public class PixbufModule extends Struct {
      * @param isSaveOptionSupported The new value of the field {@code is_save_option_supported}
      */
     public void setIsSaveOptionSupported(org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc isSaveOptionSupported) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSaveOptionSupported == null ? MemoryAddress.NULL : (Addressable) isSaveOptionSupported.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSaveOptionSupported == null ? MemoryAddress.NULL : (Addressable) isSaveOptionSupported.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved1Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved1Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved1Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved1Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -372,24 +435,41 @@ public class PixbufModule extends Struct {
      * @param Reserved1 The new value of the field {@code _reserved1}
      */
     public void setReserved1(Reserved1Callback Reserved1) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved1"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved1 == null ? MemoryAddress.NULL : Reserved1.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved1"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved1 == null ? MemoryAddress.NULL : Reserved1.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved2Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved2Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved2Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved2Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -398,24 +478,41 @@ public class PixbufModule extends Struct {
      * @param Reserved2 The new value of the field {@code _reserved2}
      */
     public void setReserved2(Reserved2Callback Reserved2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved2 == null ? MemoryAddress.NULL : Reserved2.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved2 == null ? MemoryAddress.NULL : Reserved2.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved3Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved3Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved3Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved3Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -424,24 +521,41 @@ public class PixbufModule extends Struct {
      * @param Reserved3 The new value of the field {@code _reserved3}
      */
     public void setReserved3(Reserved3Callback Reserved3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved3 == null ? MemoryAddress.NULL : Reserved3.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved3 == null ? MemoryAddress.NULL : Reserved3.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code Reserved4Callback} callback.
+     */
     @FunctionalInterface
     public interface Reserved4Callback {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall() {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reserved4Callback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Reserved4Callback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -450,22 +564,26 @@ public class PixbufModule extends Struct {
      * @param Reserved4 The new value of the field {@code _reserved4}
      */
     public void setReserved4(Reserved4Callback Reserved4) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_reserved4"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved4 == null ? MemoryAddress.NULL : Reserved4.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_reserved4"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved4 == null ? MemoryAddress.NULL : Reserved4.toCallback()));
+        }
     }
     
     /**
      * Create a PixbufModule proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufModule(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufModule(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufModule(input, ownership);
+    public static final Marshal<Addressable, PixbufModule> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufModule(input);
     
     /**
      * A {@link PixbufModule.Builder} object constructs a {@link PixbufModule} 
@@ -489,7 +607,7 @@ public class PixbufModule extends Struct {
             struct = PixbufModule.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufModule} struct.
          * @return A new instance of {@code PixbufModule} with the fields 
          *         that were set in the Builder object.
@@ -505,10 +623,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModuleName(java.lang.String moduleName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moduleName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(moduleName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("module_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (moduleName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(moduleName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -517,10 +637,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModulePath(java.lang.String modulePath) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (modulePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(modulePath, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("module_path"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (modulePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(modulePath, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -529,10 +651,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setModule(org.gtk.gmodule.Module module) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("module"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (module == null ? MemoryAddress.NULL : module.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("module"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (module == null ? MemoryAddress.NULL : module.handle()));
+                return this;
+            }
         }
         
         /**
@@ -541,10 +665,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfo(org.gtk.gdkpixbuf.PixbufFormat info) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+                return this;
+            }
         }
         
         /**
@@ -553,10 +679,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLoad(org.gtk.gdkpixbuf.PixbufModuleLoadFunc load) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : (Addressable) load.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : (Addressable) load.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -565,10 +693,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLoadXpmData(org.gtk.gdkpixbuf.PixbufModuleLoadXpmDataFunc loadXpmData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadXpmData == null ? MemoryAddress.NULL : (Addressable) loadXpmData.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_xpm_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadXpmData == null ? MemoryAddress.NULL : (Addressable) loadXpmData.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -577,10 +707,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBeginLoad(org.gtk.gdkpixbuf.PixbufModuleBeginLoadFunc beginLoad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (beginLoad == null ? MemoryAddress.NULL : (Addressable) beginLoad.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("begin_load"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (beginLoad == null ? MemoryAddress.NULL : (Addressable) beginLoad.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -589,10 +721,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStopLoad(org.gtk.gdkpixbuf.PixbufModuleStopLoadFunc stopLoad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stopLoad == null ? MemoryAddress.NULL : (Addressable) stopLoad.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop_load"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stopLoad == null ? MemoryAddress.NULL : (Addressable) stopLoad.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -601,10 +735,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLoadIncrement(org.gtk.gdkpixbuf.PixbufModuleIncrementLoadFunc loadIncrement) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadIncrement == null ? MemoryAddress.NULL : (Addressable) loadIncrement.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_increment"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadIncrement == null ? MemoryAddress.NULL : (Addressable) loadIncrement.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -613,10 +749,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLoadAnimation(org.gtk.gdkpixbuf.PixbufModuleLoadAnimationFunc loadAnimation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadAnimation == null ? MemoryAddress.NULL : (Addressable) loadAnimation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_animation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadAnimation == null ? MemoryAddress.NULL : (Addressable) loadAnimation.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -625,10 +763,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSave(org.gtk.gdkpixbuf.PixbufModuleSaveFunc save) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("save"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (save == null ? MemoryAddress.NULL : (Addressable) save.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("save"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (save == null ? MemoryAddress.NULL : (Addressable) save.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -637,10 +777,12 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSaveToCallback(org.gtk.gdkpixbuf.PixbufModuleSaveCallbackFunc saveToCallback) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (saveToCallback == null ? MemoryAddress.NULL : (Addressable) saveToCallback.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("save_to_callback"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (saveToCallback == null ? MemoryAddress.NULL : (Addressable) saveToCallback.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -649,38 +791,48 @@ public class PixbufModule extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsSaveOptionSupported(org.gtk.gdkpixbuf.PixbufModuleSaveOptionSupportedFunc isSaveOptionSupported) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSaveOptionSupported == null ? MemoryAddress.NULL : (Addressable) isSaveOptionSupported.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_save_option_supported"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (isSaveOptionSupported == null ? MemoryAddress.NULL : (Addressable) isSaveOptionSupported.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved1(Reserved1Callback Reserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved1 == null ? MemoryAddress.NULL : Reserved1.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved1 == null ? MemoryAddress.NULL : Reserved1.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved2(Reserved2Callback Reserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved2 == null ? MemoryAddress.NULL : Reserved2.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved2 == null ? MemoryAddress.NULL : Reserved2.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved3(Reserved3Callback Reserved3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved3 == null ? MemoryAddress.NULL : Reserved3.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved3 == null ? MemoryAddress.NULL : Reserved3.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved4(Reserved4Callback Reserved4) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved4 == null ? MemoryAddress.NULL : Reserved4.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved4"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved4 == null ? MemoryAddress.NULL : Reserved4.toCallback()));
+                return this;
+            }
         }
     }
 }

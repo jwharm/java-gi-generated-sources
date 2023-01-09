@@ -10,18 +10,22 @@ import org.jetbrains.annotations.*;
  * @version 1.6
  */
 public enum VideoChromaMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * do full chroma up and down sampling
      */
     FULL(0),
+    
     /**
      * only perform chroma upsampling
      */
     UPSAMPLE_ONLY(1),
+    
     /**
      * only perform chroma downsampling
      */
     DOWNSAMPLE_ONLY(2),
+    
     /**
      * disable chroma resampling
      */
@@ -30,15 +34,29 @@ public enum VideoChromaMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoChromaMode";
     
     private final int value;
+    
+    /**
+     * Create a new VideoChromaMode for the provided value
+     * @param numeric value the enum value
+     */
     VideoChromaMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoChromaMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoChromaMode of(int value) {
         return switch (value) {
             case 0 -> FULL;

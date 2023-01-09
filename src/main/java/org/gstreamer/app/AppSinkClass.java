@@ -40,8 +40,8 @@ public class AppSinkClass extends Struct {
      * @return A new, uninitialized @{link AppSinkClass}
      */
     public static AppSinkClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AppSinkClass newInstance = new AppSinkClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AppSinkClass newInstance = new AppSinkClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class AppSinkClass extends Struct {
      */
     public org.gstreamer.base.BaseSinkClass getBasesinkClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("basesink_class"));
-        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,24 +60,41 @@ public class AppSinkClass extends Struct {
      * @param basesinkClass The new value of the field {@code basesink_class}
      */
     public void setBasesinkClass(org.gstreamer.base.BaseSinkClass basesinkClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("basesink_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (basesinkClass == null ? MemoryAddress.NULL : basesinkClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("basesink_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (basesinkClass == null ? MemoryAddress.NULL : basesinkClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EosCallback} callback.
+     */
     @FunctionalInterface
     public interface EosCallback {
+    
         void run(org.gstreamer.app.AppSink appsink);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress appsink) {
-            run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE));
+            run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EosCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EosCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +103,42 @@ public class AppSinkClass extends Struct {
      * @param eos The new value of the field {@code eos}
      */
     public void setEos(EosCallback eos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("eos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (eos == null ? MemoryAddress.NULL : eos.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("eos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (eos == null ? MemoryAddress.NULL : eos.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewPrerollCallback} callback.
+     */
     @FunctionalInterface
     public interface NewPrerollCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.app.AppSink appsink);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress appsink) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewPrerollCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewPrerollCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,25 +147,42 @@ public class AppSinkClass extends Struct {
      * @param newPreroll The new value of the field {@code new_preroll}
      */
     public void setNewPreroll(NewPrerollCallback newPreroll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_preroll"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPreroll == null ? MemoryAddress.NULL : newPreroll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_preroll"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPreroll == null ? MemoryAddress.NULL : newPreroll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewSampleCallback} callback.
+     */
     @FunctionalInterface
     public interface NewSampleCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.app.AppSink appsink);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress appsink) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewSampleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewSampleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,25 +191,43 @@ public class AppSinkClass extends Struct {
      * @param newSample The new value of the field {@code new_sample}
      */
     public void setNewSample(NewSampleCallback newSample) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_sample"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSample == null ? MemoryAddress.NULL : newSample.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_sample"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSample == null ? MemoryAddress.NULL : newSample.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PullPrerollCallback} callback.
+     */
     @FunctionalInterface
     public interface PullPrerollCallback {
+    
         @Nullable org.gstreamer.gst.Sample run(org.gstreamer.app.AppSink appsink);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress appsink) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PullPrerollCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PullPrerollCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,25 +236,43 @@ public class AppSinkClass extends Struct {
      * @param pullPreroll The new value of the field {@code pull_preroll}
      */
     public void setPullPreroll(PullPrerollCallback pullPreroll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pull_preroll"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pullPreroll == null ? MemoryAddress.NULL : pullPreroll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pull_preroll"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pullPreroll == null ? MemoryAddress.NULL : pullPreroll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PullSampleCallback} callback.
+     */
     @FunctionalInterface
     public interface PullSampleCallback {
+    
         @Nullable org.gstreamer.gst.Sample run(org.gstreamer.app.AppSink appsink);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress appsink) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PullSampleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PullSampleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -194,25 +281,43 @@ public class AppSinkClass extends Struct {
      * @param pullSample The new value of the field {@code pull_sample}
      */
     public void setPullSample(PullSampleCallback pullSample) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pull_sample"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pullSample == null ? MemoryAddress.NULL : pullSample.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pull_sample"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pullSample == null ? MemoryAddress.NULL : pullSample.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullPrerollCallback} callback.
+     */
     @FunctionalInterface
     public interface TryPullPrerollCallback {
+    
         @Nullable org.gstreamer.gst.Sample run(org.gstreamer.app.AppSink appsink, org.gstreamer.gst.ClockTime timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress appsink, long timeout) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE), new org.gstreamer.gst.ClockTime(timeout));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null), new org.gstreamer.gst.ClockTime(timeout));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullPrerollCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullPrerollCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -221,25 +326,43 @@ public class AppSinkClass extends Struct {
      * @param tryPullPreroll The new value of the field {@code try_pull_preroll}
      */
     public void setTryPullPreroll(TryPullPrerollCallback tryPullPreroll) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("try_pull_preroll"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullPreroll == null ? MemoryAddress.NULL : tryPullPreroll.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_preroll"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullPreroll == null ? MemoryAddress.NULL : tryPullPreroll.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullSampleCallback} callback.
+     */
     @FunctionalInterface
     public interface TryPullSampleCallback {
+    
         @Nullable org.gstreamer.gst.Sample run(org.gstreamer.app.AppSink appsink, org.gstreamer.gst.ClockTime timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress appsink, long timeout) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE), new org.gstreamer.gst.ClockTime(timeout));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null), new org.gstreamer.gst.ClockTime(timeout));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullSampleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullSampleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -248,25 +371,43 @@ public class AppSinkClass extends Struct {
      * @param tryPullSample The new value of the field {@code try_pull_sample}
      */
     public void setTryPullSample(TryPullSampleCallback tryPullSample) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("try_pull_sample"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullSample == null ? MemoryAddress.NULL : tryPullSample.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_sample"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullSample == null ? MemoryAddress.NULL : tryPullSample.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullObjectCallback} callback.
+     */
     @FunctionalInterface
     public interface TryPullObjectCallback {
+    
         org.gstreamer.gst.MiniObject run(org.gstreamer.app.AppSink appsink, org.gstreamer.gst.ClockTime timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress appsink, long timeout) {
-            var RESULT = run((org.gstreamer.app.AppSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appsink)), org.gstreamer.app.AppSink.fromAddress).marshal(appsink, Ownership.NONE), new org.gstreamer.gst.ClockTime(timeout));
+            var RESULT = run((org.gstreamer.app.AppSink) Interop.register(appsink, org.gstreamer.app.AppSink.fromAddress).marshal(appsink, null), new org.gstreamer.gst.ClockTime(timeout));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullObjectCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullObjectCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -275,22 +416,26 @@ public class AppSinkClass extends Struct {
      * @param tryPullObject The new value of the field {@code try_pull_object}
      */
     public void setTryPullObject(TryPullObjectCallback tryPullObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("try_pull_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullObject == null ? MemoryAddress.NULL : tryPullObject.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullObject == null ? MemoryAddress.NULL : tryPullObject.toCallback()));
+        }
     }
     
     /**
      * Create a AppSinkClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppSinkClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AppSinkClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppSinkClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppSinkClass(input, ownership);
+    public static final Marshal<Addressable, AppSinkClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppSinkClass(input);
     
     /**
      * A {@link AppSinkClass.Builder} object constructs a {@link AppSinkClass} 
@@ -314,7 +459,7 @@ public class AppSinkClass extends Struct {
             struct = AppSinkClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AppSinkClass} struct.
          * @return A new instance of {@code AppSinkClass} with the fields 
          *         that were set in the Builder object.
@@ -324,73 +469,93 @@ public class AppSinkClass extends Struct {
         }
         
         public Builder setBasesinkClass(org.gstreamer.base.BaseSinkClass basesinkClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("basesink_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (basesinkClass == null ? MemoryAddress.NULL : basesinkClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("basesink_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (basesinkClass == null ? MemoryAddress.NULL : basesinkClass.handle()));
+                return this;
+            }
         }
         
         public Builder setEos(EosCallback eos) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("eos"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (eos == null ? MemoryAddress.NULL : eos.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("eos"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (eos == null ? MemoryAddress.NULL : eos.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNewPreroll(NewPrerollCallback newPreroll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_preroll"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPreroll == null ? MemoryAddress.NULL : newPreroll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_preroll"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPreroll == null ? MemoryAddress.NULL : newPreroll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNewSample(NewSampleCallback newSample) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_sample"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSample == null ? MemoryAddress.NULL : newSample.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_sample"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSample == null ? MemoryAddress.NULL : newSample.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPullPreroll(PullPrerollCallback pullPreroll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pull_preroll"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pullPreroll == null ? MemoryAddress.NULL : pullPreroll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pull_preroll"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pullPreroll == null ? MemoryAddress.NULL : pullPreroll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPullSample(PullSampleCallback pullSample) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pull_sample"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pullSample == null ? MemoryAddress.NULL : pullSample.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pull_sample"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pullSample == null ? MemoryAddress.NULL : pullSample.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTryPullPreroll(TryPullPrerollCallback tryPullPreroll) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_preroll"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullPreroll == null ? MemoryAddress.NULL : tryPullPreroll.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("try_pull_preroll"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullPreroll == null ? MemoryAddress.NULL : tryPullPreroll.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTryPullSample(TryPullSampleCallback tryPullSample) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_sample"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullSample == null ? MemoryAddress.NULL : tryPullSample.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("try_pull_sample"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullSample == null ? MemoryAddress.NULL : tryPullSample.toCallback()));
+                return this;
+            }
         }
         
         public Builder setTryPullObject(TryPullObjectCallback tryPullObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("try_pull_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tryPullObject == null ? MemoryAddress.NULL : tryPullObject.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("try_pull_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tryPullObject == null ? MemoryAddress.NULL : tryPullObject.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class FenceCreateFlagBits extends Struct {
      * @return A new, uninitialized @{link FenceCreateFlagBits}
      */
     public static FenceCreateFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FenceCreateFlagBits newInstance = new FenceCreateFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FenceCreateFlagBits newInstance = new FenceCreateFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FenceCreateFlagBits extends Struct {
     /**
      * Create a FenceCreateFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FenceCreateFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FenceCreateFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FenceCreateFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FenceCreateFlagBits(input, ownership);
+    public static final Marshal<Addressable, FenceCreateFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FenceCreateFlagBits(input);
 }

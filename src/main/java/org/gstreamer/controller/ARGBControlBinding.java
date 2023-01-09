@@ -39,41 +39,34 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a ARGBControlBinding proxy instance for the provided memory address.
-     * <p>
-     * Because ARGBControlBinding is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ARGBControlBinding(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected ARGBControlBinding(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ARGBControlBinding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ARGBControlBinding(input);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource csA, org.gstreamer.gst.ControlSource csR, org.gstreamer.gst.ControlSource csG, org.gstreamer.gst.ControlSource csB) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_argb_control_binding_new.invokeExact(
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        csA.handle(),
+                        csR.handle(),
+                        csG.handle(),
+                        csB.handle());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, ARGBControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ARGBControlBinding(input, ownership);
-    
-    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource csA, org.gstreamer.gst.ControlSource csR, org.gstreamer.gst.ControlSource csG, org.gstreamer.gst.ControlSource csB) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_argb_control_binding_new.invokeExact(
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    csA.handle(),
-                    csR.handle(),
-                    csG.handle(),
-                    csB.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -87,7 +80,9 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
      * @param csB the control source for the blue channel
      */
     public ARGBControlBinding(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource csA, org.gstreamer.gst.ControlSource csR, org.gstreamer.gst.ControlSource csG, org.gstreamer.gst.ControlSource csB) {
-        super(constructNew(object, propertyName, csA, csR, csG, csB), Ownership.NONE);
+        super(constructNew(object, propertyName, csA, csR, csG, csB));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -120,6 +115,9 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
      */
     public static class Builder extends org.gstreamer.gst.ControlBinding.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -168,15 +166,23 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_argb_control_binding_new = Interop.downcallHandle(
-            "gst_argb_control_binding_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_argb_control_binding_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_argb_control_binding_get_type = Interop.downcallHandle(
-            "gst_argb_control_binding_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_argb_control_binding_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_argb_control_binding_get_type != null;
     }
 }

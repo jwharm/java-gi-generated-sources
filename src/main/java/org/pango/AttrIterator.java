@@ -38,8 +38,8 @@ public class AttrIterator extends Struct {
      * @return A new, uninitialized @{link AttrIterator}
      */
     public static AttrIterator allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrIterator newInstance = new AttrIterator(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrIterator newInstance = new AttrIterator(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,14 +47,16 @@ public class AttrIterator extends Struct {
     /**
      * Create a AttrIterator proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrIterator(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrIterator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrIterator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrIterator(input, ownership);
+    public static final Marshal<Addressable, AttrIterator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrIterator(input);
     
     /**
      * Copy a {@code PangoAttrIterator}.
@@ -65,12 +67,13 @@ public class AttrIterator extends Struct {
     public org.pango.AttrIterator copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrIterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrIterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -78,8 +81,7 @@ public class AttrIterator extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.pango_attr_iterator_destroy.invokeExact(
-                    handle());
+            DowncallHandles.pango_attr_iterator_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,7 +108,7 @@ public class AttrIterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.Attribute.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -119,12 +121,13 @@ public class AttrIterator extends Struct {
     public org.gtk.glib.SList getAttrs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -146,19 +149,21 @@ public class AttrIterator extends Struct {
      *   {@link Attribute#destroy} on each member.
      */
     public void getFont(org.pango.FontDescription desc, @Nullable Out<org.pango.Language> language, @Nullable Out<org.gtk.glib.SList> extraAttrs) {
-        MemorySegment languagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.pango_attr_iterator_get_font.invokeExact(
-                    handle(),
-                    desc.handle(),
-                    (Addressable) (language == null ? MemoryAddress.NULL : (Addressable) languagePOINTER.address()),
-                    (Addressable) (extraAttrs == null ? MemoryAddress.NULL : (Addressable) extraAttrsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment languagePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment extraAttrsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.pango_attr_iterator_get_font.invokeExact(
+                        handle(),
+                        desc.handle(),
+                        (Addressable) (language == null ? MemoryAddress.NULL : (Addressable) languagePOINTER.address()),
+                        (Addressable) (extraAttrs == null ? MemoryAddress.NULL : (Addressable) extraAttrsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (language != null) language.set(org.pango.Language.fromAddress.marshal(languagePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (extraAttrs != null) extraAttrs.set(org.gtk.glib.SList.fromAddress.marshal(extraAttrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (language != null) language.set(org.pango.Language.fromAddress.marshal(languagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (extraAttrs != null) extraAttrs.set(org.gtk.glib.SList.fromAddress.marshal(extraAttrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -169,8 +174,7 @@ public class AttrIterator extends Struct {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_attr_iterator_next.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_attr_iterator_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,62 +192,64 @@ public class AttrIterator extends Struct {
      * @param end location to store the end of the range
      */
     public void range(Out<Integer> start, Out<Integer> end) {
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_attr_iterator_range.invokeExact(
-                    handle(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) endPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment endPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_attr_iterator_range.invokeExact(
+                        handle(),
+                        (Addressable) startPOINTER.address(),
+                        (Addressable) endPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    start.set(startPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    end.set(endPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        start.set(startPOINTER.get(Interop.valueLayout.C_INT, 0));
-        end.set(endPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
-            "pango_attr_iterator_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
-            "pango_attr_iterator_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
-            "pango_attr_iterator_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_attr_iterator_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
-            "pango_attr_iterator_get_attrs",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_get_attrs",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
-            "pango_attr_iterator_get_font",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_get_font",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
-            "pango_attr_iterator_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
-            "pango_attr_iterator_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_iterator_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

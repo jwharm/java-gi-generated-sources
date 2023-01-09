@@ -36,8 +36,8 @@ public class AttrColor extends Struct {
      * @return A new, uninitialized @{link AttrColor}
      */
     public static AttrColor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrColor newInstance = new AttrColor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrColor newInstance = new AttrColor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class AttrColor extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,9 +56,11 @@ public class AttrColor extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -67,7 +69,7 @@ public class AttrColor extends Struct {
      */
     public org.pango.Color getColor() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return org.pango.Color.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Color.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -75,22 +77,26 @@ public class AttrColor extends Struct {
      * @param color The new value of the field {@code color}
      */
     public void setColor(org.pango.Color color) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+        }
     }
     
     /**
      * Create a AttrColor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrColor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrColor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrColor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrColor(input, ownership);
+    public static final Marshal<Addressable, AttrColor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrColor(input);
     
     /**
      * A {@link AttrColor.Builder} object constructs a {@link AttrColor} 
@@ -114,7 +120,7 @@ public class AttrColor extends Struct {
             struct = AttrColor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrColor} struct.
          * @return A new instance of {@code AttrColor} with the fields 
          *         that were set in the Builder object.
@@ -129,10 +135,12 @@ public class AttrColor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -141,10 +149,12 @@ public class AttrColor extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setColor(org.pango.Color color) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
+                return this;
+            }
         }
     }
 }

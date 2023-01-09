@@ -9,19 +9,38 @@ import org.jetbrains.annotations.*;
  * A function that will be called in gst_structure_foreach(). The function may
  * not modify {@code value}.
  */
+/**
+ * Functional interface declaration of the {@code StructureForeachFunc} callback.
+ */
 @FunctionalInterface
 public interface StructureForeachFunc {
-    boolean run(org.gtk.glib.Quark fieldId, org.gtk.gobject.Value value);
 
+    /**
+     * A function that will be called in gst_structure_foreach(). The function may
+     * not modify {@code value}.
+     */
+    boolean run(org.gtk.glib.Quark fieldId, org.gtk.gobject.Value value);
+    
     @ApiStatus.Internal default int upcall(int fieldId, MemoryAddress value, MemoryAddress userData) {
-        var RESULT = run(new org.gtk.glib.Quark(fieldId), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+        var RESULT = run(new org.gtk.glib.Quark(fieldId), org.gtk.gobject.Value.fromAddress.marshal(value, null));
         return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StructureForeachFunc.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StructureForeachFunc.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

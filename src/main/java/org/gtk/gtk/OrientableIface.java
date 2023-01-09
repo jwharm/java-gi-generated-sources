@@ -31,8 +31,8 @@ public class OrientableIface extends Struct {
      * @return A new, uninitialized @{link OrientableIface}
      */
     public static OrientableIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OrientableIface newInstance = new OrientableIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OrientableIface newInstance = new OrientableIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class OrientableIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getBaseIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("base_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class OrientableIface extends Struct {
      * @param baseIface The new value of the field {@code base_iface}
      */
     public void setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+        }
     }
     
     /**
      * Create a OrientableIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OrientableIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OrientableIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OrientableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OrientableIface(input, ownership);
+    public static final Marshal<Addressable, OrientableIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OrientableIface(input);
     
     /**
      * A {@link OrientableIface.Builder} object constructs a {@link OrientableIface} 
@@ -90,7 +94,7 @@ public class OrientableIface extends Struct {
             struct = OrientableIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OrientableIface} struct.
          * @return A new instance of {@code OrientableIface} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class OrientableIface extends Struct {
         }
         
         public Builder setBaseIface(org.gtk.gobject.TypeInterface baseIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("base_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (baseIface == null ? MemoryAddress.NULL : baseIface.handle()));
+                return this;
+            }
         }
     }
 }

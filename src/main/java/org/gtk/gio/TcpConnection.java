@@ -33,14 +33,16 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     /**
      * Create a TcpConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TcpConnection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TcpConnection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TcpConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpConnection(input, ownership);
+    public static final Marshal<Addressable, TcpConnection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TcpConnection(input);
     
     /**
      * Checks if graceful disconnects are used. See
@@ -50,8 +52,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     public boolean getGracefulDisconnect() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tcp_connection_get_graceful_disconnect.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tcp_connection_get_graceful_disconnect.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,6 +111,9 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      */
     public static class Builder extends org.gtk.gio.SocketConnection.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -140,21 +144,29 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     private static class DowncallHandles {
         
         private static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
-            "g_tcp_connection_get_graceful_disconnect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tcp_connection_get_graceful_disconnect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
-            "g_tcp_connection_set_graceful_disconnect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_tcp_connection_set_graceful_disconnect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_tcp_connection_get_type = Interop.downcallHandle(
-            "g_tcp_connection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_tcp_connection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_tcp_connection_get_type != null;
     }
 }

@@ -64,20 +64,21 @@ public class Layout extends org.gtk.gobject.GObject {
     /**
      * Create a Layout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Layout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Layout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Layout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Layout(input, ownership);
+    public static final Marshal<Addressable, Layout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Layout(input);
     
     private static MemoryAddress constructNew(org.pango.Context context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_new.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_new.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,7 +91,8 @@ public class Layout extends org.gtk.gobject.GObject {
      * @param context a {@code PangoContext}
      */
     public Layout(org.pango.Context context) {
-        super(constructNew(context), Ownership.FULL);
+        super(constructNew(context));
+        this.takeOwnership();
     }
     
     /**
@@ -102,8 +104,7 @@ public class Layout extends org.gtk.gobject.GObject {
      */
     public void contextChanged() {
         try {
-            DowncallHandles.pango_layout_context_changed.invokeExact(
-                    handle());
+            DowncallHandles.pango_layout_context_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,12 +120,13 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.Layout copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -135,8 +137,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.Alignment getAlignment() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_alignment.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_alignment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,12 +151,11 @@ public class Layout extends org.gtk.gobject.GObject {
     public @Nullable org.pango.AttrList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -169,8 +169,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean getAutoDir() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_auto_dir.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_auto_dir.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +183,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getBaseline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_baseline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_baseline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,8 +227,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getCharacterCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_character_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_character_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,12 +241,11 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.Context getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.Context) Interop.register(RESULT, org.pango.Context.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -325,8 +321,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_ellipsize.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_ellipsize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,12 +364,11 @@ public class Layout extends org.gtk.gobject.GObject {
     public @Nullable org.pango.FontDescription getFontDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_font_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_font_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -387,8 +381,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,8 +397,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getIndent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_indent.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_indent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,12 +411,13 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.LayoutIter getIter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_iter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_iter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutIter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.LayoutIter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -435,8 +428,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean getJustify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_justify.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_justify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,8 +443,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean getJustifyLastLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_justify_last_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_justify_last_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,7 +471,7 @@ public class Layout extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -490,8 +481,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getLineCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_line_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_line_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,7 +510,7 @@ public class Layout extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -531,8 +521,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public float getLineSpacing() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.pango_layout_get_line_spacing.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.pango_layout_get_line_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,12 +541,11 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.gtk.glib.SList getLines() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -575,12 +563,11 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.gtk.glib.SList getLinesReadonly() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines_readonly.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines_readonly.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -595,23 +582,25 @@ public class Layout extends org.gtk.gobject.GObject {
      *   and the position after the last character.)
      */
     public void getLogAttrs(Out<org.pango.LogAttr[]> attrs, Out<Integer> nAttrs) {
-        MemorySegment attrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment nAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_get_log_attrs.invokeExact(
-                    handle(),
-                    (Addressable) attrsPOINTER.address(),
-                    (Addressable) nAttrsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment attrsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment nAttrsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_get_log_attrs.invokeExact(
+                        handle(),
+                        (Addressable) attrsPOINTER.address(),
+                        (Addressable) nAttrsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nAttrs.set(nAttrsPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.pango.LogAttr[] attrsARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
+            for (int I = 0; I < nAttrs.get().intValue(); I++) {
+                var OBJ = attrsPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                attrsARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, null);
+                }
+            attrs.set(attrsARRAY);
         }
-        nAttrs.set(nAttrsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.pango.LogAttr[] attrsARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
-        for (int I = 0; I < nAttrs.get().intValue(); I++) {
-            var OBJ = attrsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            attrsARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, Ownership.CONTAINER);
-        }
-        attrs.set(attrsARRAY);
     }
     
     /**
@@ -631,22 +620,24 @@ public class Layout extends org.gtk.gobject.GObject {
      * @return an array of logical attributes
      */
     public org.pango.LogAttr[] getLogAttrsReadonly(Out<Integer> nAttrs) {
-        MemorySegment nAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_log_attrs_readonly.invokeExact(
-                    handle(),
-                    (Addressable) nAttrsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nAttrsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_log_attrs_readonly.invokeExact(
+                        handle(),
+                        (Addressable) nAttrsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nAttrs.set(nAttrsPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.pango.LogAttr[] resultARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
+            for (int I = 0; I < nAttrs.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        nAttrs.set(nAttrsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.pango.LogAttr[] resultARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
-        for (int I = 0; I < nAttrs.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, Ownership.NONE);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -683,18 +674,20 @@ public class Layout extends org.gtk.gobject.GObject {
      * @param height location to store the logical height
      */
     public void getPixelSize(Out<Integer> width, Out<Integer> height) {
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_get_pixel_size.invokeExact(
-                    handle(),
-                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_get_pixel_size.invokeExact(
+                        handle(),
+                        (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -715,8 +708,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getSerial() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_serial.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_serial.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -733,8 +725,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean getSingleParagraphMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_single_paragraph_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_single_paragraph_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -750,18 +741,20 @@ public class Layout extends org.gtk.gobject.GObject {
      * @param height location to store the logical height
      */
     public void getSize(Out<Integer> width, Out<Integer> height) {
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_get_size.invokeExact(
-                    handle(),
-                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_get_size.invokeExact(
+                        handle(),
+                        (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -771,8 +764,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -791,12 +783,13 @@ public class Layout extends org.gtk.gobject.GObject {
     public @Nullable org.pango.TabArray getTabs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_tabs.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_tabs.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.TabArray.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -808,8 +801,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -828,8 +820,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getUnknownGlyphsCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_unknown_glyphs_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_unknown_glyphs_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -843,8 +834,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -861,8 +851,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public org.pango.WrapMode getWrap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_get_wrap.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_get_wrap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -883,20 +872,22 @@ public class Layout extends org.gtk.gobject.GObject {
      *   ({@code PANGO_SCALE} units per device unit)
      */
     public void indexToLineX(int index, boolean trailing, Out<Integer> line, Out<Integer> xPos) {
-        MemorySegment linePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_index_to_line_x.invokeExact(
-                    handle(),
-                    index,
-                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
-                    (Addressable) (line == null ? MemoryAddress.NULL : (Addressable) linePOINTER.address()),
-                    (Addressable) (xPos == null ? MemoryAddress.NULL : (Addressable) xPosPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment linePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment xPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_index_to_line_x.invokeExact(
+                        handle(),
+                        index,
+                        Marshal.booleanToInteger.marshal(trailing, null).intValue(),
+                        (Addressable) (line == null ? MemoryAddress.NULL : (Addressable) linePOINTER.address()),
+                        (Addressable) (xPos == null ? MemoryAddress.NULL : (Addressable) xPosPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (line != null) line.set(linePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (xPos != null) xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (line != null) line.set(linePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (xPos != null) xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -934,8 +925,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean isEllipsized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_is_ellipsized.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_is_ellipsized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -955,8 +945,7 @@ public class Layout extends org.gtk.gobject.GObject {
     public boolean isWrapped() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_is_wrapped.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_is_wrapped.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1000,22 +989,24 @@ public class Layout extends org.gtk.gobject.GObject {
      *   the cursor should be displayed.
      */
     public void moveCursorVisually(boolean strong, int oldIndex, int oldTrailing, int direction, Out<Integer> newIndex, Out<Integer> newTrailing) {
-        MemorySegment newIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment newTrailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_move_cursor_visually.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(strong, null).intValue(),
-                    oldIndex,
-                    oldTrailing,
-                    direction,
-                    (Addressable) newIndexPOINTER.address(),
-                    (Addressable) newTrailingPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment newIndexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment newTrailingPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_move_cursor_visually.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(strong, null).intValue(),
+                        oldIndex,
+                        oldTrailing,
+                        direction,
+                        (Addressable) newIndexPOINTER.address(),
+                        (Addressable) newTrailingPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    newIndex.set(newIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    newTrailing.set(newTrailingPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        newIndex.set(newIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        newTrailing.set(newTrailingPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1039,7 +1030,9 @@ public class Layout extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1306,13 +1299,15 @@ public class Layout extends org.gtk.gobject.GObject {
      *   {@code NUL}-terminated
      */
     public void setMarkup(java.lang.String markup, int length) {
-        try {
-            DowncallHandles.pango_layout_set_markup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(markup, null),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_layout_set_markup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(markup, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1338,18 +1333,20 @@ public class Layout extends org.gtk.gobject.GObject {
      *   for first located accelerator
      */
     public void setMarkupWithAccel(java.lang.String markup, int length, int accelMarker, Out<Integer> accelChar) {
-        MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_set_markup_with_accel.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(markup, null),
-                    length,
-                    accelMarker,
-                    (Addressable) (accelChar == null ? MemoryAddress.NULL : (Addressable) accelCharPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment accelCharPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_set_markup_with_accel.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(markup, SCOPE),
+                        length,
+                        accelMarker,
+                        (Addressable) (accelChar == null ? MemoryAddress.NULL : (Addressable) accelCharPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (accelChar != null) accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (accelChar != null) accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1446,13 +1443,15 @@ public class Layout extends org.gtk.gobject.GObject {
      *   even when {@code length} is positive.
      */
     public void setText(java.lang.String text, int length) {
-        try {
-            DowncallHandles.pango_layout_set_text.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_layout_set_text.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1510,21 +1509,23 @@ public class Layout extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean writeToFile(org.pango.LayoutSerializeFlags flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_layout_write_to_file.invokeExact(
-                    handle(),
-                    flags.getValue(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_layout_write_to_file.invokeExact(
+                        handle(),
+                        flags.getValue(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1547,22 +1548,24 @@ public class Layout extends org.gtk.gobject.GObject {
      * @return {@code true} if the coordinates were inside text, {@code false} otherwise
      */
     public boolean xyToIndex(int x, int y, Out<Integer> index, Out<Integer> trailing) {
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_layout_xy_to_index.invokeExact(
-                    handle(),
-                    x,
-                    y,
-                    (Addressable) indexPOINTER.address(),
-                    (Addressable) trailingPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment indexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment trailingPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_layout_xy_to_index.invokeExact(
+                        handle(),
+                        x,
+                        y,
+                        (Addressable) indexPOINTER.address(),
+                        (Addressable) trailingPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1594,21 +1597,25 @@ public class Layout extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @Nullable org.pango.Layout deserialize(org.pango.Context context, org.gtk.glib.Bytes bytes, org.pango.LayoutDeserializeFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_deserialize.invokeExact(
-                    context.handle(),
-                    bytes.handle(),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_layout_deserialize.invokeExact(
+                        context.handle(),
+                        bytes.handle(),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1627,6 +1634,9 @@ public class Layout extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1651,405 +1661,413 @@ public class Layout extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_layout_new = Interop.downcallHandle(
-            "pango_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_context_changed = Interop.downcallHandle(
-            "pango_layout_context_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_context_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_copy = Interop.downcallHandle(
-            "pango_layout_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_alignment = Interop.downcallHandle(
-            "pango_layout_get_alignment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_alignment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_attributes = Interop.downcallHandle(
-            "pango_layout_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_auto_dir = Interop.downcallHandle(
-            "pango_layout_get_auto_dir",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_auto_dir",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_baseline = Interop.downcallHandle(
-            "pango_layout_get_baseline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_baseline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_caret_pos = Interop.downcallHandle(
-            "pango_layout_get_caret_pos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_caret_pos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_character_count = Interop.downcallHandle(
-            "pango_layout_get_character_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_character_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_context = Interop.downcallHandle(
-            "pango_layout_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_cursor_pos = Interop.downcallHandle(
-            "pango_layout_get_cursor_pos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_cursor_pos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_direction = Interop.downcallHandle(
-            "pango_layout_get_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_get_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_get_ellipsize = Interop.downcallHandle(
-            "pango_layout_get_ellipsize",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_ellipsize",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_extents = Interop.downcallHandle(
-            "pango_layout_get_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_font_description = Interop.downcallHandle(
-            "pango_layout_get_font_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_font_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_height = Interop.downcallHandle(
-            "pango_layout_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_indent = Interop.downcallHandle(
-            "pango_layout_get_indent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_indent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_iter = Interop.downcallHandle(
-            "pango_layout_get_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_justify = Interop.downcallHandle(
-            "pango_layout_get_justify",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_justify",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_justify_last_line = Interop.downcallHandle(
-            "pango_layout_get_justify_last_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_justify_last_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_line = Interop.downcallHandle(
-            "pango_layout_get_line",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_get_line",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_get_line_count = Interop.downcallHandle(
-            "pango_layout_get_line_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_line_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_line_readonly = Interop.downcallHandle(
-            "pango_layout_get_line_readonly",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_get_line_readonly",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_get_line_spacing = Interop.downcallHandle(
-            "pango_layout_get_line_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_line_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_lines = Interop.downcallHandle(
-            "pango_layout_get_lines",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_lines",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_lines_readonly = Interop.downcallHandle(
-            "pango_layout_get_lines_readonly",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_lines_readonly",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_log_attrs = Interop.downcallHandle(
-            "pango_layout_get_log_attrs",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_log_attrs",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_log_attrs_readonly = Interop.downcallHandle(
-            "pango_layout_get_log_attrs_readonly",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_log_attrs_readonly",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_pixel_extents = Interop.downcallHandle(
-            "pango_layout_get_pixel_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_pixel_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_pixel_size = Interop.downcallHandle(
-            "pango_layout_get_pixel_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_pixel_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_serial = Interop.downcallHandle(
-            "pango_layout_get_serial",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_serial",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_single_paragraph_mode = Interop.downcallHandle(
-            "pango_layout_get_single_paragraph_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_single_paragraph_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_size = Interop.downcallHandle(
-            "pango_layout_get_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_spacing = Interop.downcallHandle(
-            "pango_layout_get_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_tabs = Interop.downcallHandle(
-            "pango_layout_get_tabs",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_tabs",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_text = Interop.downcallHandle(
-            "pango_layout_get_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_unknown_glyphs_count = Interop.downcallHandle(
-            "pango_layout_get_unknown_glyphs_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_unknown_glyphs_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_width = Interop.downcallHandle(
-            "pango_layout_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_wrap = Interop.downcallHandle(
-            "pango_layout_get_wrap",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_get_wrap",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_index_to_line_x = Interop.downcallHandle(
-            "pango_layout_index_to_line_x",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_index_to_line_x",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_index_to_pos = Interop.downcallHandle(
-            "pango_layout_index_to_pos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_index_to_pos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_is_ellipsized = Interop.downcallHandle(
-            "pango_layout_is_ellipsized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_is_ellipsized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_is_wrapped = Interop.downcallHandle(
-            "pango_layout_is_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_is_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_move_cursor_visually = Interop.downcallHandle(
-            "pango_layout_move_cursor_visually",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_move_cursor_visually",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_serialize = Interop.downcallHandle(
-            "pango_layout_serialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_serialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_alignment = Interop.downcallHandle(
-            "pango_layout_set_alignment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_alignment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_attributes = Interop.downcallHandle(
-            "pango_layout_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_set_auto_dir = Interop.downcallHandle(
-            "pango_layout_set_auto_dir",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_auto_dir",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_ellipsize = Interop.downcallHandle(
-            "pango_layout_set_ellipsize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_ellipsize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_font_description = Interop.downcallHandle(
-            "pango_layout_set_font_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_set_font_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_set_height = Interop.downcallHandle(
-            "pango_layout_set_height",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_height",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_indent = Interop.downcallHandle(
-            "pango_layout_set_indent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_indent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_justify = Interop.downcallHandle(
-            "pango_layout_set_justify",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_justify",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_justify_last_line = Interop.downcallHandle(
-            "pango_layout_set_justify_last_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_justify_last_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_line_spacing = Interop.downcallHandle(
-            "pango_layout_set_line_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "pango_layout_set_line_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_markup = Interop.downcallHandle(
-            "pango_layout_set_markup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_markup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_markup_with_accel = Interop.downcallHandle(
-            "pango_layout_set_markup_with_accel",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_set_markup_with_accel",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_set_single_paragraph_mode = Interop.downcallHandle(
-            "pango_layout_set_single_paragraph_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_single_paragraph_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_spacing = Interop.downcallHandle(
-            "pango_layout_set_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_tabs = Interop.downcallHandle(
-            "pango_layout_set_tabs",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_set_tabs",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_set_text = Interop.downcallHandle(
-            "pango_layout_set_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_width = Interop.downcallHandle(
-            "pango_layout_set_width",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_width",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_set_wrap = Interop.downcallHandle(
-            "pango_layout_set_wrap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_layout_set_wrap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_layout_write_to_file = Interop.downcallHandle(
-            "pango_layout_write_to_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_write_to_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_xy_to_index = Interop.downcallHandle(
-            "pango_layout_xy_to_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_xy_to_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_get_type = Interop.downcallHandle(
-            "pango_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle pango_layout_deserialize = Interop.downcallHandle(
-            "pango_layout_deserialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_deserialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_layout_get_type != null;
     }
 }

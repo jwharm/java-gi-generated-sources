@@ -27,26 +27,17 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
     
     /**
      * Create a ProxyPad proxy instance for the provided memory address.
-     * <p>
-     * Because ProxyPad is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyPad(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ProxyPad(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyPad(input, ownership);
+    public static final Marshal<Addressable, ProxyPad> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyPad(input);
     
     /**
      * Get the internal pad of {@code pad}. Unref target pad after usage.
@@ -59,12 +50,13 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
     public @Nullable org.gstreamer.gst.ProxyPad getInternal() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_proxy_pad_get_internal.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_proxy_pad_get_internal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.ProxyPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ProxyPad.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.ProxyPad) Interop.register(RESULT, org.gstreamer.gst.ProxyPad.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -136,20 +128,22 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      * @return a {@link FlowReturn} from the pad.
      */
     public static org.gstreamer.gst.FlowReturn getrangeDefault(org.gstreamer.gst.Pad pad, org.gstreamer.gst.GstObject parent, long offset, int size, Out<org.gstreamer.gst.Buffer> buffer) {
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_proxy_pad_getrange_default.invokeExact(
-                    pad.handle(),
-                    parent.handle(),
-                    offset,
-                    size,
-                    (Addressable) bufferPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufferPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_proxy_pad_getrange_default.invokeExact(
+                        pad.handle(),
+                        parent.handle(),
+                        offset,
+                        size,
+                        (Addressable) bufferPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -168,7 +162,9 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -187,6 +183,9 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      */
     public static class Builder extends org.gstreamer.gst.Pad.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -211,39 +210,47 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_proxy_pad_get_internal = Interop.downcallHandle(
-            "gst_proxy_pad_get_internal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_pad_get_internal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_proxy_pad_get_type = Interop.downcallHandle(
-            "gst_proxy_pad_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_proxy_pad_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_proxy_pad_chain_default = Interop.downcallHandle(
-            "gst_proxy_pad_chain_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_pad_chain_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_proxy_pad_chain_list_default = Interop.downcallHandle(
-            "gst_proxy_pad_chain_list_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_pad_chain_list_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_proxy_pad_getrange_default = Interop.downcallHandle(
-            "gst_proxy_pad_getrange_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_pad_getrange_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_proxy_pad_iterate_internal_links_default = Interop.downcallHandle(
-            "gst_proxy_pad_iterate_internal_links_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_pad_iterate_internal_links_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_proxy_pad_get_type != null;
     }
 }

@@ -31,26 +31,17 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     
     /**
      * Create a CellRendererAccel proxy instance for the provided memory address.
-     * <p>
-     * Because CellRendererAccel is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellRendererAccel(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CellRendererAccel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellRendererAccel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererAccel(input, ownership);
+    public static final Marshal<Addressable, CellRendererAccel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererAccel(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -66,7 +57,9 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      * Creates a new {@code GtkCellRendererAccel}.
      */
     public CellRendererAccel() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -83,19 +76,39 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code AccelCleared} callback.
+     */
     @FunctionalInterface
     public interface AccelCleared {
+    
+        /**
+         * Gets emitted when the user has removed the accelerator.
+         */
         void run(java.lang.String pathString);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceCellRendererAccel, MemoryAddress pathString) {
-            run(Marshal.addressToString.marshal(pathString, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(pathString, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AccelCleared.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AccelCleared.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -105,28 +118,49 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellRendererAccel.AccelCleared> onAccelCleared(CellRendererAccel.AccelCleared handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("accel-cleared"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("accel-cleared", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code AccelEdited} callback.
+     */
     @FunctionalInterface
     public interface AccelEdited {
+    
+        /**
+         * Gets emitted when the user has selected a new accelerator.
+         */
         void run(java.lang.String pathString, int accelKey, org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceCellRendererAccel, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode) {
-            run(Marshal.addressToString.marshal(pathString, null), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(pathString, null), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AccelEdited.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AccelEdited.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -136,9 +170,10 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellRendererAccel.AccelEdited> onAccelEdited(CellRendererAccel.AccelEdited handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("accel-edited"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("accel-edited", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -161,6 +196,9 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
      */
     public static class Builder extends org.gtk.gtk.CellRendererText.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -234,15 +272,23 @@ public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_accel_new = Interop.downcallHandle(
-            "gtk_cell_renderer_accel_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_accel_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_accel_get_type = Interop.downcallHandle(
-            "gtk_cell_renderer_accel_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_renderer_accel_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_renderer_accel_get_type != null;
     }
 }

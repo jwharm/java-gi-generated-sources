@@ -39,8 +39,8 @@ public class Border extends Struct {
      * @return A new, uninitialized @{link Border}
      */
     public static Border allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Border newInstance = new Border(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Border newInstance = new Border(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class Border extends Struct {
      * @return The value of the field {@code left}
      */
     public short getLeft() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("left"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("left"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class Border extends Struct {
      * @param left The new value of the field {@code left}
      */
     public void setLeft(short left) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("left"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), left);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("left"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), left);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class Border extends Struct {
      * @return The value of the field {@code right}
      */
     public short getRight() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("right"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("right"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class Border extends Struct {
      * @param right The new value of the field {@code right}
      */
     public void setRight(short right) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("right"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), right);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("right"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), right);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class Border extends Struct {
      * @return The value of the field {@code top}
      */
     public short getTop() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("top"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("top"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class Border extends Struct {
      * @param top The new value of the field {@code top}
      */
     public void setTop(short top) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("top"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), top);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("top"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), top);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class Border extends Struct {
      * @return The value of the field {@code bottom}
      */
     public short getBottom() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class Border extends Struct {
      * @param bottom The new value of the field {@code bottom}
      */
     public void setBottom(short bottom) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottom);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bottom);
+        }
     }
     
     /**
      * Create a Border proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Border(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Border(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Border> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Border(input, ownership);
+    public static final Marshal<Addressable, Border> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Border(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -155,7 +173,8 @@ public class Border extends Struct {
      * Allocates a new {@code GtkBorder} struct and initializes its elements to zero.
      */
     public Border() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -165,12 +184,13 @@ public class Border extends Struct {
     public org.gtk.gtk.Border copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.Border.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Border.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -178,8 +198,7 @@ public class Border extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_border_free.invokeExact(
-                    handle());
+            DowncallHandles.gtk_border_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,21 +207,21 @@ public class Border extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_border_new = Interop.downcallHandle(
-            "gtk_border_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_border_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_border_copy = Interop.downcallHandle(
-            "gtk_border_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_border_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_border_free = Interop.downcallHandle(
-            "gtk_border_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_border_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -228,7 +247,7 @@ public class Border extends Struct {
             struct = Border.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Border} struct.
          * @return A new instance of {@code Border} with the fields 
          *         that were set in the Builder object.
@@ -243,10 +262,12 @@ public class Border extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLeft(short left) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("left"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), left);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("left"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), left);
+                return this;
+            }
         }
         
         /**
@@ -255,10 +276,12 @@ public class Border extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRight(short right) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("right"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), right);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("right"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), right);
+                return this;
+            }
         }
         
         /**
@@ -267,10 +290,12 @@ public class Border extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTop(short top) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("top"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), top);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("top"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), top);
+                return this;
+            }
         }
         
         /**
@@ -279,10 +304,12 @@ public class Border extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBottom(short bottom) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottom);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bottom);
+                return this;
+            }
         }
     }
 }

@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class BoolT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new BoolT with the provided value
+     */
     public BoolT(int value) {
         super(value);
     }

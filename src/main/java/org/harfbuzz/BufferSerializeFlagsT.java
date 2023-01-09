@@ -54,6 +54,9 @@ public class BufferSerializeFlagsT extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferSerializeFlagsT DEFINED = new BufferSerializeFlagsT(63);
     
+    /**
+     * Create a new BufferSerializeFlagsT with the provided value
+     */
     public BufferSerializeFlagsT(int value) {
         super(value);
     }

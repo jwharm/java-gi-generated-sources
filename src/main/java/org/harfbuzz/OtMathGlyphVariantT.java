@@ -36,8 +36,8 @@ public class OtMathGlyphVariantT extends Struct {
      * @return A new, uninitialized @{link OtMathGlyphVariantT}
      */
     public static OtMathGlyphVariantT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtMathGlyphVariantT newInstance = new OtMathGlyphVariantT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OtMathGlyphVariantT newInstance = new OtMathGlyphVariantT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class OtMathGlyphVariantT extends Struct {
      * @return The value of the field {@code glyph}
      */
     public org.harfbuzz.CodepointT getGlyph() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.CodepointT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.CodepointT(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class OtMathGlyphVariantT extends Struct {
      * @param glyph The new value of the field {@code glyph}
      */
     public void setGlyph(org.harfbuzz.CodepointT glyph) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class OtMathGlyphVariantT extends Struct {
      * @return The value of the field {@code advance}
      */
     public org.harfbuzz.PositionT getAdvance() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("advance"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.PositionT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("advance"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.PositionT(RESULT);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class OtMathGlyphVariantT extends Struct {
      * @param advance The new value of the field {@code advance}
      */
     public void setAdvance(org.harfbuzz.PositionT advance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("advance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (advance == null ? MemoryAddress.NULL : advance.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("advance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (advance == null ? MemoryAddress.NULL : advance.getValue().intValue()));
+        }
     }
     
     /**
      * Create a OtMathGlyphVariantT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OtMathGlyphVariantT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OtMathGlyphVariantT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OtMathGlyphVariantT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtMathGlyphVariantT(input, ownership);
+    public static final Marshal<Addressable, OtMathGlyphVariantT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OtMathGlyphVariantT(input);
     
     /**
      * A {@link OtMathGlyphVariantT.Builder} object constructs a {@link OtMathGlyphVariantT} 
@@ -118,7 +128,7 @@ public class OtMathGlyphVariantT extends Struct {
             struct = OtMathGlyphVariantT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OtMathGlyphVariantT} struct.
          * @return A new instance of {@code OtMathGlyphVariantT} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class OtMathGlyphVariantT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlyph(org.harfbuzz.CodepointT glyph) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -145,10 +157,12 @@ public class OtMathGlyphVariantT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAdvance(org.harfbuzz.PositionT advance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("advance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (advance == null ? MemoryAddress.NULL : advance.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("advance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (advance == null ? MemoryAddress.NULL : advance.getValue().intValue()));
+                return this;
+            }
         }
     }
 }

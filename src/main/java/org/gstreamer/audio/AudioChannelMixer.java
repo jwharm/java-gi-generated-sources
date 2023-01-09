@@ -29,8 +29,8 @@ public class AudioChannelMixer extends Struct {
      * @return A new, uninitialized @{link AudioChannelMixer}
      */
     public static AudioChannelMixer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioChannelMixer newInstance = new AudioChannelMixer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioChannelMixer newInstance = new AudioChannelMixer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,22 +38,23 @@ public class AudioChannelMixer extends Struct {
     /**
      * Create a AudioChannelMixer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioChannelMixer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioChannelMixer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioChannelMixer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioChannelMixer(input, ownership);
+    public static final Marshal<Addressable, AudioChannelMixer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioChannelMixer(input);
     
     /**
      * Free memory allocated by {@code mix}.
      */
     public void free() {
         try {
-            DowncallHandles.gst_audio_channel_mixer_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_channel_mixer_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,8 +77,7 @@ public class AudioChannelMixer extends Struct {
     public boolean isPassthrough() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_channel_mixer_is_passthrough.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_channel_mixer_is_passthrough.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +132,7 @@ public class AudioChannelMixer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -159,39 +159,39 @@ public class AudioChannelMixer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_channel_mixer_free = Interop.downcallHandle(
-            "gst_audio_channel_mixer_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_channel_mixer_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_channel_mixer_is_passthrough = Interop.downcallHandle(
-            "gst_audio_channel_mixer_is_passthrough",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_channel_mixer_is_passthrough",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_channel_mixer_samples = Interop.downcallHandle(
-            "gst_audio_channel_mixer_samples",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_channel_mixer_samples",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_channel_mixer_new = Interop.downcallHandle(
-            "gst_audio_channel_mixer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_channel_mixer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_channel_mixer_new_with_matrix = Interop.downcallHandle(
-            "gst_audio_channel_mixer_new_with_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_channel_mixer_new_with_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

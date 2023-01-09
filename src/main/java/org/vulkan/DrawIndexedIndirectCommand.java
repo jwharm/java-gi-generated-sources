@@ -29,8 +29,8 @@ public class DrawIndexedIndirectCommand extends Struct {
      * @return A new, uninitialized @{link DrawIndexedIndirectCommand}
      */
     public static DrawIndexedIndirectCommand allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DrawIndexedIndirectCommand newInstance = new DrawIndexedIndirectCommand(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DrawIndexedIndirectCommand newInstance = new DrawIndexedIndirectCommand(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DrawIndexedIndirectCommand extends Struct {
     /**
      * Create a DrawIndexedIndirectCommand proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DrawIndexedIndirectCommand(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DrawIndexedIndirectCommand(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DrawIndexedIndirectCommand> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DrawIndexedIndirectCommand(input, ownership);
+    public static final Marshal<Addressable, DrawIndexedIndirectCommand> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DrawIndexedIndirectCommand(input);
 }

@@ -10,14 +10,17 @@ import org.jetbrains.annotations.*;
  * values and can be scaled for other bit depths.
  */
 public enum VideoColorRange implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown range
      */
     UNKNOWN(0),
+    
     /**
      * [0..255] for 8 bit components
      */
     _0_255(1),
+    
     /**
      * [16..235] for 8 bit components. Chroma has
      *                 [16..240] range.
@@ -27,15 +30,29 @@ public enum VideoColorRange implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoColorRange";
     
     private final int value;
+    
+    /**
+     * Create a new VideoColorRange for the provided value
+     * @param numeric value the enum value
+     */
     VideoColorRange(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoColorRange for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoColorRange of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -59,27 +76,29 @@ public enum VideoColorRange implements io.github.jwharm.javagi.Enumeration {
      * @param scale output scale
      */
     public static void offsets(org.gstreamer.video.VideoColorRange range, org.gstreamer.video.VideoFormatInfo info, Out<int[]> offset, Out<int[]> scale) {
-        MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment scalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_video_color_range_offsets.invokeExact(
-                    range.getValue(),
-                    info.handle(),
-                    (Addressable) offsetPOINTER.address(),
-                    (Addressable) scalePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment offsetPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment scalePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_video_color_range_offsets.invokeExact(
+                        range.getValue(),
+                        info.handle(),
+                        (Addressable) offsetPOINTER.address(),
+                        (Addressable) scalePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            offset.set(MemorySegment.ofAddress(offsetPOINTER.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT));
+            scale.set(MemorySegment.ofAddress(scalePOINTER.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT));
         }
-        offset.set(MemorySegment.ofAddress(offsetPOINTER.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
-        scale.set(MemorySegment.ofAddress(scalePOINTER.get(Interop.valueLayout.ADDRESS, 0), 4 * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_color_range_offsets = Interop.downcallHandle(
-            "gst_video_color_range_offsets",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_color_range_offsets",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

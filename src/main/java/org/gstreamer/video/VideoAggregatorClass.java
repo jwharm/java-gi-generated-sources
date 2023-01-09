@@ -36,26 +36,42 @@ public class VideoAggregatorClass extends Struct {
      * @return A new, uninitialized @{link VideoAggregatorClass}
      */
     public static VideoAggregatorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAggregatorClass newInstance = new VideoAggregatorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAggregatorClass newInstance = new VideoAggregatorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code UpdateCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface UpdateCapsCallback {
+    
         org.gstreamer.gst.Caps run(org.gstreamer.video.VideoAggregator videoaggregator, org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress videoaggregator, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.video.VideoAggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(videoaggregator)), org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
+            var RESULT = run((org.gstreamer.video.VideoAggregator) Interop.register(videoaggregator, org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UpdateCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -64,25 +80,42 @@ public class VideoAggregatorClass extends Struct {
      * @param updateCaps The new value of the field {@code update_caps}
      */
     public void setUpdateCaps(UpdateCapsCallback updateCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("update_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateCaps == null ? MemoryAddress.NULL : updateCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("update_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateCaps == null ? MemoryAddress.NULL : updateCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AggregateFramesCallback} callback.
+     */
     @FunctionalInterface
     public interface AggregateFramesCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.video.VideoAggregator videoaggregator, org.gstreamer.gst.Buffer outbuffer);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress videoaggregator, MemoryAddress outbuffer) {
-            var RESULT = run((org.gstreamer.video.VideoAggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(videoaggregator)), org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(outbuffer, Ownership.NONE));
+            var RESULT = run((org.gstreamer.video.VideoAggregator) Interop.register(videoaggregator, org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, null), org.gstreamer.gst.Buffer.fromAddress.marshal(outbuffer, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AggregateFramesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AggregateFramesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -91,25 +124,42 @@ public class VideoAggregatorClass extends Struct {
      * @param aggregateFrames The new value of the field {@code aggregate_frames}
      */
     public void setAggregateFrames(AggregateFramesCallback aggregateFrames) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("aggregate_frames"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (aggregateFrames == null ? MemoryAddress.NULL : aggregateFrames.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("aggregate_frames"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (aggregateFrames == null ? MemoryAddress.NULL : aggregateFrames.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateOutputBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateOutputBufferCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.video.VideoAggregator videoaggregator, PointerProxy<org.gstreamer.gst.Buffer> outbuffer);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress videoaggregator, MemoryAddress outbuffer) {
-            var RESULT = run((org.gstreamer.video.VideoAggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(videoaggregator)), org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, Ownership.NONE), new PointerProxy<org.gstreamer.gst.Buffer>(outbuffer, org.gstreamer.gst.Buffer.fromAddress));
+            var RESULT = run((org.gstreamer.video.VideoAggregator) Interop.register(videoaggregator, org.gstreamer.video.VideoAggregator.fromAddress).marshal(videoaggregator, null), new PointerProxy<org.gstreamer.gst.Buffer>(outbuffer, org.gstreamer.gst.Buffer.fromAddress));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateOutputBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateOutputBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -118,24 +168,41 @@ public class VideoAggregatorClass extends Struct {
      * @param createOutputBuffer The new value of the field {@code create_output_buffer}
      */
     public void setCreateOutputBuffer(CreateOutputBufferCallback createOutputBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_output_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createOutputBuffer == null ? MemoryAddress.NULL : createOutputBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_output_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createOutputBuffer == null ? MemoryAddress.NULL : createOutputBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FindBestFormatCallback} callback.
+     */
     @FunctionalInterface
     public interface FindBestFormatCallback {
+    
         void run(org.gstreamer.video.VideoAggregator vagg, org.gstreamer.gst.Caps downstreamCaps, org.gstreamer.video.VideoInfo bestInfo, PointerBoolean atLeastOneAlpha);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress vagg, MemoryAddress downstreamCaps, MemoryAddress bestInfo, MemoryAddress atLeastOneAlpha) {
-            run((org.gstreamer.video.VideoAggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(vagg)), org.gstreamer.video.VideoAggregator.fromAddress).marshal(vagg, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(downstreamCaps, Ownership.NONE), org.gstreamer.video.VideoInfo.fromAddress.marshal(bestInfo, Ownership.NONE), new PointerBoolean(atLeastOneAlpha));
+            run((org.gstreamer.video.VideoAggregator) Interop.register(vagg, org.gstreamer.video.VideoAggregator.fromAddress).marshal(vagg, null), org.gstreamer.gst.Caps.fromAddress.marshal(downstreamCaps, null), org.gstreamer.video.VideoInfo.fromAddress.marshal(bestInfo, null), new PointerBoolean(atLeastOneAlpha));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FindBestFormatCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FindBestFormatCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -144,22 +211,26 @@ public class VideoAggregatorClass extends Struct {
      * @param findBestFormat The new value of the field {@code find_best_format}
      */
     public void setFindBestFormat(FindBestFormatCallback findBestFormat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("find_best_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (findBestFormat == null ? MemoryAddress.NULL : findBestFormat.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("find_best_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (findBestFormat == null ? MemoryAddress.NULL : findBestFormat.toCallback()));
+        }
     }
     
     /**
      * Create a VideoAggregatorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAggregatorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAggregatorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAggregatorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorClass(input, ownership);
+    public static final Marshal<Addressable, VideoAggregatorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorClass(input);
     
     /**
      * A {@link VideoAggregatorClass.Builder} object constructs a {@link VideoAggregatorClass} 
@@ -183,7 +254,7 @@ public class VideoAggregatorClass extends Struct {
             struct = VideoAggregatorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAggregatorClass} struct.
          * @return A new instance of {@code VideoAggregatorClass} with the fields 
          *         that were set in the Builder object.
@@ -193,45 +264,57 @@ public class VideoAggregatorClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.base.AggregatorClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setUpdateCaps(UpdateCapsCallback updateCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("update_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateCaps == null ? MemoryAddress.NULL : updateCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("update_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateCaps == null ? MemoryAddress.NULL : updateCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAggregateFrames(AggregateFramesCallback aggregateFrames) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("aggregate_frames"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (aggregateFrames == null ? MemoryAddress.NULL : aggregateFrames.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("aggregate_frames"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (aggregateFrames == null ? MemoryAddress.NULL : aggregateFrames.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateOutputBuffer(CreateOutputBufferCallback createOutputBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_output_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createOutputBuffer == null ? MemoryAddress.NULL : createOutputBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_output_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createOutputBuffer == null ? MemoryAddress.NULL : createOutputBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFindBestFormat(FindBestFormatCallback findBestFormat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("find_best_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (findBestFormat == null ? MemoryAddress.NULL : findBestFormat.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("find_best_format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (findBestFormat == null ? MemoryAddress.NULL : findBestFormat.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -92,39 +92,32 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a PadTemplate proxy instance for the provided memory address.
-     * <p>
-     * Because PadTemplate is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PadTemplate(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected PadTemplate(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PadTemplate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PadTemplate(input);
+    
+    private static MemoryAddress constructNew(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new.invokeExact(
+                        Marshal.stringToAddress.marshal(nameTemplate, SCOPE),
+                        direction.getValue(),
+                        presence.getValue(),
+                        caps.handle());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, PadTemplate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadTemplate(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new.invokeExact(
-                    Marshal.stringToAddress.marshal(nameTemplate, null),
-                    direction.getValue(),
-                    presence.getValue(),
-                    caps.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -136,7 +129,9 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
      * @param caps a {@link Caps} set for the template.
      */
     public PadTemplate(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps) {
-        super(constructNew(nameTemplate, direction, presence, caps), Ownership.NONE);
+        super(constructNew(nameTemplate, direction, presence, caps));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromStaticPadTemplateWithGtype(org.gstreamer.gst.StaticPadTemplate padTemplate, org.gtk.glib.Type padType) {
@@ -150,7 +145,7 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * Converts a {@link StaticPadTemplate} into a {@link PadTemplate} with a type.
      * @param padTemplate the static pad template
@@ -159,24 +154,29 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
      */
     public static PadTemplate newFromStaticPadTemplateWithGtype(org.gstreamer.gst.StaticPadTemplate padTemplate, org.gtk.glib.Type padType) {
         var RESULT = constructNewFromStaticPadTemplateWithGtype(padTemplate, padType);
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithGtype(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps, org.gtk.glib.Type padType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new_with_gtype.invokeExact(
-                    Marshal.stringToAddress.marshal(nameTemplate, null),
-                    direction.getValue(),
-                    presence.getValue(),
-                    caps.handle(),
-                    padType.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new_with_gtype.invokeExact(
+                        Marshal.stringToAddress.marshal(nameTemplate, SCOPE),
+                        direction.getValue(),
+                        presence.getValue(),
+                        caps.handle(),
+                        padType.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new pad template with a name according to the given template
      * and with the given arguments.
@@ -189,7 +189,10 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
      */
     public static PadTemplate newWithGtype(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps, org.gtk.glib.Type padType) {
         var RESULT = constructNewWithGtype(nameTemplate, direction, presence, caps, padType);
-        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.gst.PadTemplate) Interop.register(RESULT, org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -200,12 +203,13 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -216,12 +220,13 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Caps getDocumentationCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_documentation_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_documentation_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -270,19 +275,37 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code PadCreated} callback.
+     */
     @FunctionalInterface
     public interface PadCreated {
+    
+        /**
+         * This signal is fired when an element creates a pad from this template.
+         */
         void run(org.gstreamer.gst.Pad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourcePadTemplate, MemoryAddress pad) {
-            run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadCreated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadCreated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -292,9 +315,10 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<PadTemplate.PadCreated> onPadCreated(PadTemplate.PadCreated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pad-created"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pad-created", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -317,6 +341,9 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -396,51 +423,59 @@ public class PadTemplate extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_pad_template_new = Interop.downcallHandle(
-            "gst_pad_template_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pad_template_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pad_template_new_from_static_pad_template_with_gtype = Interop.downcallHandle(
-            "gst_pad_template_new_from_static_pad_template_with_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_pad_template_new_from_static_pad_template_with_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_pad_template_new_with_gtype = Interop.downcallHandle(
-            "gst_pad_template_new_with_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_pad_template_new_with_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_pad_template_get_caps = Interop.downcallHandle(
-            "gst_pad_template_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pad_template_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pad_template_get_documentation_caps = Interop.downcallHandle(
-            "gst_pad_template_get_documentation_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pad_template_get_documentation_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pad_template_pad_created = Interop.downcallHandle(
-            "gst_pad_template_pad_created",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pad_template_pad_created",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pad_template_set_documentation_caps = Interop.downcallHandle(
-            "gst_pad_template_set_documentation_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pad_template_set_documentation_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pad_template_get_type = Interop.downcallHandle(
-            "gst_pad_template_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_pad_template_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_pad_template_get_type != null;
     }
 }

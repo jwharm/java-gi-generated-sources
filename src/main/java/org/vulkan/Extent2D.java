@@ -29,8 +29,8 @@ public class Extent2D extends Struct {
      * @return A new, uninitialized @{link Extent2D}
      */
     public static Extent2D allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Extent2D newInstance = new Extent2D(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Extent2D newInstance = new Extent2D(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Extent2D extends Struct {
     /**
      * Create a Extent2D proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Extent2D(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Extent2D(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Extent2D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Extent2D(input, ownership);
+    public static final Marshal<Addressable, Extent2D> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Extent2D(input);
 }

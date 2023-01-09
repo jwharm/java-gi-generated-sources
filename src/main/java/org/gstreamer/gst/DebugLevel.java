@@ -10,11 +10,13 @@ import org.jetbrains.annotations.*;
  * message is, the greater the probability that the debugging system outputs it.
  */
 public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No debugging level specified or desired. Used to deactivate
      *  debugging output.
      */
     NONE(0),
+    
     /**
      * Error messages are to be used only when an error occurred
      *  that stops the application from keeping working correctly.
@@ -22,6 +24,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  It does not mean that the application is terminating as with g_error.
      */
     ERROR(1),
+    
     /**
      * Warning messages are to inform about abnormal behaviour
      *  that could lead to problems or weird behaviour later on. An example of this
@@ -29,6 +32,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  data ("Can't synchronize to stream.")
      */
     WARNING(2),
+    
     /**
      * Fixme messages are messages that indicate that something
      *  in the executed code path is not fully implemented or handled yet. Note
@@ -37,6 +41,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  of code when reading the debug log.
      */
     FIXME(3),
+    
     /**
      * Informational messages should be used to keep the developer
      *  updated about what is happening.
@@ -45,6 +50,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  the format to be used. ("This file has mono sound.")
      */
     INFO(4),
+    
     /**
      * Debugging messages should be used when something common
      *  happens that is not the expected default behavior, or something that's
@@ -54,6 +60,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  of events.
      */
     DEBUG(5),
+    
     /**
      * Log messages are messages that are very common but might be
      *  useful to know. As a rule of thumb a pipeline that is running as expected
@@ -62,17 +69,20 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      *  loop functions, for example.
      */
     LOG(6),
+    
     /**
      * Tracing-related messages.
      *  Examples for this are referencing/dereferencing of objects.
      */
     TRACE(7),
+    
     /**
      * memory dump messages are used to log (small) chunks of
      *  data as memory dumps in the log. They will be displayed as hexdump with
      *  ASCII characters.
      */
     MEMDUMP(9),
+    
     /**
      * The number of defined debugging levels.
      */
@@ -81,15 +91,29 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstDebugLevel";
     
     private final int value;
+    
+    /**
+     * Create a new DebugLevel for the provided value
+     * @param numeric value the enum value
+     */
     DebugLevel(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DebugLevel for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DebugLevel of(int value) {
         return switch (value) {
             case 0 -> NONE;
@@ -114,8 +138,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String getName(org.gstreamer.gst.DebugLevel level) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_debug_level_get_name.invokeExact(
-                    level.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_debug_level_get_name.invokeExact(level.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,9 +148,9 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_debug_level_get_name = Interop.downcallHandle(
-            "gst_debug_level_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_debug_level_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -25,6 +25,9 @@ public class DBusSubtreeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusSubtreeFlags DISPATCH_TO_UNENUMERATED_NODES = new DBusSubtreeFlags(1);
     
+    /**
+     * Create a new DBusSubtreeFlags with the provided value
+     */
     public DBusSubtreeFlags(int value) {
         super(value);
     }

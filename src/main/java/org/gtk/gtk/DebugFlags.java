@@ -113,6 +113,9 @@ public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
     
     public static final DebugFlags INVERT_TEXT_DIR = new DebugFlags(524288);
     
+    /**
+     * Create a new DebugFlags with the provided value
+     */
     public DebugFlags(int value) {
         super(value);
     }

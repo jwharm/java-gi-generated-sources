@@ -98,6 +98,9 @@ public class ToplevelState extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ToplevelState LEFT_RESIZABLE = new ToplevelState(32768);
     
+    /**
+     * Create a new ToplevelState with the provided value
+     */
     public ToplevelState(int value) {
         super(value);
     }

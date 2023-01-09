@@ -29,8 +29,8 @@ public class CmdReserveSpaceForCommandsInfoNVX extends Struct {
      * @return A new, uninitialized @{link CmdReserveSpaceForCommandsInfoNVX}
      */
     public static CmdReserveSpaceForCommandsInfoNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CmdReserveSpaceForCommandsInfoNVX newInstance = new CmdReserveSpaceForCommandsInfoNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CmdReserveSpaceForCommandsInfoNVX newInstance = new CmdReserveSpaceForCommandsInfoNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CmdReserveSpaceForCommandsInfoNVX extends Struct {
     /**
      * Create a CmdReserveSpaceForCommandsInfoNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CmdReserveSpaceForCommandsInfoNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CmdReserveSpaceForCommandsInfoNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CmdReserveSpaceForCommandsInfoNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CmdReserveSpaceForCommandsInfoNVX(input, ownership);
+    public static final Marshal<Addressable, CmdReserveSpaceForCommandsInfoNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CmdReserveSpaceForCommandsInfoNVX(input);
 }

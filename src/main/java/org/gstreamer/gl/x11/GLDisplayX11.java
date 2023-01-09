@@ -36,36 +36,28 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
     
     /**
      * Create a GLDisplayX11 proxy instance for the provided memory address.
-     * <p>
-     * Because GLDisplayX11 is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLDisplayX11(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected GLDisplayX11(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLDisplayX11> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayX11(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new.invokeExact((Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, GLDisplayX11> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayX11(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -74,20 +66,20 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
      * @param name a display name
      */
     public GLDisplayX11(@Nullable java.lang.String name) {
-        super(constructNew(name), Ownership.FULL);
+        super(constructNew(name));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithDisplay(java.lang.foreign.MemoryAddress display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new_with_display.invokeExact(
-                    (Addressable) display);
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new_with_display.invokeExact((Addressable) display);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new display connection from a X11 Display.
      * @param display an existing, x11 display
@@ -95,7 +87,9 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
      */
     public static GLDisplayX11 newWithDisplay(java.lang.foreign.MemoryAddress display) {
         var RESULT = constructNewWithDisplay(display);
-        return (org.gstreamer.gl.x11.GLDisplayX11) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.x11.GLDisplayX11.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gl.x11.GLDisplayX11) Interop.register(RESULT, org.gstreamer.gl.x11.GLDisplayX11.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -128,6 +122,9 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
      */
     public static class Builder extends org.gstreamer.gl.GLDisplay.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -152,21 +149,29 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_display_x11_new = Interop.downcallHandle(
-            "gst_gl_display_x11_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_x11_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_x11_new_with_display = Interop.downcallHandle(
-            "gst_gl_display_x11_new_with_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_x11_new_with_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_x11_get_type = Interop.downcallHandle(
-            "gst_gl_display_x11_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_display_x11_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_display_x11_get_type != null;
     }
 }

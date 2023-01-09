@@ -40,20 +40,21 @@ public class StringFilter extends org.gtk.gtk.Filter {
     /**
      * Create a StringFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StringFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StringFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StringFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringFilter(input, ownership);
+    public static final Marshal<Addressable, StringFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StringFilter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Expression expression) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact((Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +70,8 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * @param expression The expression to evaluate
      */
     public StringFilter(@Nullable org.gtk.gtk.Expression expression) {
-        super(constructNew(expression), Ownership.FULL);
+        super(constructNew(expression));
+        this.takeOwnership();
     }
     
     /**
@@ -80,12 +82,11 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_expression.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -95,8 +96,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public boolean getIgnoreCase() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_filter_get_ignore_case.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_string_filter_get_ignore_case.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +110,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public org.gtk.gtk.StringFilterMatchMode getMatchMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_string_filter_get_match_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_string_filter_get_match_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,8 +124,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
     public @Nullable java.lang.String getSearch() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_search.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_get_search.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,12 +182,14 @@ public class StringFilter extends org.gtk.gtk.Filter {
      *   or {@code null} to clear the search
      */
     public void setSearch(@Nullable java.lang.String search) {
-        try {
-            DowncallHandles.gtk_string_filter_set_search.invokeExact(
-                    handle(),
-                    (Addressable) (search == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(search, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_string_filter_set_search.invokeExact(
+                        handle(),
+                        (Addressable) (search == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(search, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -223,6 +223,9 @@ public class StringFilter extends org.gtk.gtk.Filter {
      */
     public static class Builder extends org.gtk.gtk.Filter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -291,63 +294,71 @@ public class StringFilter extends org.gtk.gtk.Filter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_string_filter_new = Interop.downcallHandle(
-            "gtk_string_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_get_expression = Interop.downcallHandle(
-            "gtk_string_filter_get_expression",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_get_expression",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_get_ignore_case = Interop.downcallHandle(
-            "gtk_string_filter_get_ignore_case",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_get_ignore_case",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_get_match_mode = Interop.downcallHandle(
-            "gtk_string_filter_get_match_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_get_match_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_get_search = Interop.downcallHandle(
-            "gtk_string_filter_get_search",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_get_search",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_set_expression = Interop.downcallHandle(
-            "gtk_string_filter_set_expression",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_set_expression",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_set_ignore_case = Interop.downcallHandle(
-            "gtk_string_filter_set_ignore_case",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_string_filter_set_ignore_case",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_set_match_mode = Interop.downcallHandle(
-            "gtk_string_filter_set_match_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_string_filter_set_match_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_set_search = Interop.downcallHandle(
-            "gtk_string_filter_set_search",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_string_filter_set_search",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_string_filter_get_type = Interop.downcallHandle(
-            "gtk_string_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_string_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_string_filter_get_type != null;
     }
 }

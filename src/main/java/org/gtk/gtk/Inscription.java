@@ -39,36 +39,28 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a Inscription proxy instance for the provided memory address.
-     * <p>
-     * Because Inscription is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Inscription(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Inscription(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Inscription> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Inscription(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String text) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_new.invokeExact((Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Inscription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Inscription(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String text) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_new.invokeExact(
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -76,7 +68,9 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param text The text to display.
      */
     public Inscription(@Nullable java.lang.String text) {
-        super(constructNew(text), Ownership.NONE);
+        super(constructNew(text));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -86,12 +80,11 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable org.pango.AttrList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -103,8 +96,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getMinChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_min_chars.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_min_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,8 +112,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getMinLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_min_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_min_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,8 +128,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getNatChars() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_nat_chars.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_nat_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +144,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public int getNatLines() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_nat_lines.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_nat_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,8 +158,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_get_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +172,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public org.gtk.gtk.InscriptionOverflow getTextOverflow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_text_overflow.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_text_overflow.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +188,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public org.pango.WrapMode getWrapMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_inscription_get_wrap_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_inscription_get_wrap_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,8 +204,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public float getXalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_inscription_get_xalign.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gtk_inscription_get_xalign.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,8 +220,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public float getYalign() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.gtk_inscription_get_yalign.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.gtk_inscription_get_yalign.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,12 +250,14 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param markup The markup to display
      */
     public void setMarkup(@Nullable java.lang.String markup) {
-        try {
-            DowncallHandles.gtk_inscription_set_markup.invokeExact(
-                    handle(),
-                    (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_inscription_set_markup.invokeExact(
+                        handle(),
+                        (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -344,12 +330,14 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param text The text to display
      */
     public void setText(@Nullable java.lang.String text) {
-        try {
-            DowncallHandles.gtk_inscription_set_text.invokeExact(
-                    handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_inscription_set_text.invokeExact(
+                        handle(),
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -443,6 +431,9 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -635,141 +626,149 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_inscription_new = Interop.downcallHandle(
-            "gtk_inscription_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_attributes = Interop.downcallHandle(
-            "gtk_inscription_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_min_chars = Interop.downcallHandle(
-            "gtk_inscription_get_min_chars",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_min_chars",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_min_lines = Interop.downcallHandle(
-            "gtk_inscription_get_min_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_min_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_nat_chars = Interop.downcallHandle(
-            "gtk_inscription_get_nat_chars",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_nat_chars",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_nat_lines = Interop.downcallHandle(
-            "gtk_inscription_get_nat_lines",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_nat_lines",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_text = Interop.downcallHandle(
-            "gtk_inscription_get_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_text_overflow = Interop.downcallHandle(
-            "gtk_inscription_get_text_overflow",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_text_overflow",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_wrap_mode = Interop.downcallHandle(
-            "gtk_inscription_get_wrap_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_wrap_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_xalign = Interop.downcallHandle(
-            "gtk_inscription_get_xalign",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_xalign",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_yalign = Interop.downcallHandle(
-            "gtk_inscription_get_yalign",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_get_yalign",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_attributes = Interop.downcallHandle(
-            "gtk_inscription_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_markup = Interop.downcallHandle(
-            "gtk_inscription_set_markup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_set_markup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_min_chars = Interop.downcallHandle(
-            "gtk_inscription_set_min_chars",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_min_chars",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_min_lines = Interop.downcallHandle(
-            "gtk_inscription_set_min_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_min_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_nat_chars = Interop.downcallHandle(
-            "gtk_inscription_set_nat_chars",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_nat_chars",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_nat_lines = Interop.downcallHandle(
-            "gtk_inscription_set_nat_lines",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_nat_lines",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_text = Interop.downcallHandle(
-            "gtk_inscription_set_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_inscription_set_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_text_overflow = Interop.downcallHandle(
-            "gtk_inscription_set_text_overflow",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_text_overflow",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_wrap_mode = Interop.downcallHandle(
-            "gtk_inscription_set_wrap_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_inscription_set_wrap_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_xalign = Interop.downcallHandle(
-            "gtk_inscription_set_xalign",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gtk_inscription_set_xalign",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_set_yalign = Interop.downcallHandle(
-            "gtk_inscription_set_yalign",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gtk_inscription_set_yalign",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gtk_inscription_get_type = Interop.downcallHandle(
-            "gtk_inscription_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_inscription_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_inscription_get_type != null;
     }
 }

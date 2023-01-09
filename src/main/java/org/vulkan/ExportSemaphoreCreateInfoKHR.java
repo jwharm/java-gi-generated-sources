@@ -29,8 +29,8 @@ public class ExportSemaphoreCreateInfoKHR extends Struct {
      * @return A new, uninitialized @{link ExportSemaphoreCreateInfoKHR}
      */
     public static ExportSemaphoreCreateInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExportSemaphoreCreateInfoKHR newInstance = new ExportSemaphoreCreateInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExportSemaphoreCreateInfoKHR newInstance = new ExportSemaphoreCreateInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExportSemaphoreCreateInfoKHR extends Struct {
     /**
      * Create a ExportSemaphoreCreateInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExportSemaphoreCreateInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExportSemaphoreCreateInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExportSemaphoreCreateInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExportSemaphoreCreateInfoKHR(input, ownership);
+    public static final Marshal<Addressable, ExportSemaphoreCreateInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExportSemaphoreCreateInfoKHR(input);
 }

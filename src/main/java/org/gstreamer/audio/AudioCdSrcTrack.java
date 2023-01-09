@@ -46,8 +46,8 @@ public class AudioCdSrcTrack extends Struct {
      * @return A new, uninitialized @{link AudioCdSrcTrack}
      */
     public static AudioCdSrcTrack allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioCdSrcTrack newInstance = new AudioCdSrcTrack(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioCdSrcTrack newInstance = new AudioCdSrcTrack(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,10 +57,12 @@ public class AudioCdSrcTrack extends Struct {
      * @return The value of the field {@code is_audio}
      */
     public boolean getIsAudio() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -68,9 +70,11 @@ public class AudioCdSrcTrack extends Struct {
      * @param isAudio The new value of the field {@code is_audio}
      */
     public void setIsAudio(boolean isAudio) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
+        }
     }
     
     /**
@@ -78,10 +82,12 @@ public class AudioCdSrcTrack extends Struct {
      * @return The value of the field {@code num}
      */
     public int getNum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -89,9 +95,11 @@ public class AudioCdSrcTrack extends Struct {
      * @param num The new value of the field {@code num}
      */
     public void setNum(int num) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), num);
+        }
     }
     
     /**
@@ -99,10 +107,12 @@ public class AudioCdSrcTrack extends Struct {
      * @return The value of the field {@code start}
      */
     public int getStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -110,9 +120,11 @@ public class AudioCdSrcTrack extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(int start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), start);
+        }
     }
     
     /**
@@ -120,10 +132,12 @@ public class AudioCdSrcTrack extends Struct {
      * @return The value of the field {@code end}
      */
     public int getEnd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -131,9 +145,11 @@ public class AudioCdSrcTrack extends Struct {
      * @param end The new value of the field {@code end}
      */
     public void setEnd(int end) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), end);
+        }
     }
     
     /**
@@ -141,10 +157,12 @@ public class AudioCdSrcTrack extends Struct {
      * @return The value of the field {@code tags}
      */
     public org.gstreamer.gst.TagList getTags() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -152,22 +170,26 @@ public class AudioCdSrcTrack extends Struct {
      * @param tags The new value of the field {@code tags}
      */
     public void setTags(org.gstreamer.gst.TagList tags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
+        }
     }
     
     /**
      * Create a AudioCdSrcTrack proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioCdSrcTrack(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioCdSrcTrack(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioCdSrcTrack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrcTrack(input, ownership);
+    public static final Marshal<Addressable, AudioCdSrcTrack> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrcTrack(input);
     
     /**
      * A {@link AudioCdSrcTrack.Builder} object constructs a {@link AudioCdSrcTrack} 
@@ -191,7 +213,7 @@ public class AudioCdSrcTrack extends Struct {
             struct = AudioCdSrcTrack.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioCdSrcTrack} struct.
          * @return A new instance of {@code AudioCdSrcTrack} with the fields 
          *         that were set in the Builder object.
@@ -206,10 +228,12 @@ public class AudioCdSrcTrack extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsAudio(boolean isAudio) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -218,10 +242,12 @@ public class AudioCdSrcTrack extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNum(int num) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), num);
+                return this;
+            }
         }
         
         /**
@@ -230,10 +256,12 @@ public class AudioCdSrcTrack extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(int start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), start);
+                return this;
+            }
         }
         
         /**
@@ -242,10 +270,12 @@ public class AudioCdSrcTrack extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEnd(int end) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), end);
+                return this;
+            }
         }
         
         /**
@@ -254,24 +284,30 @@ public class AudioCdSrcTrack extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTags(org.gstreamer.gst.TagList tags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved1(int[] GstReserved1) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved1 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved1, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved1"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved1 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved1, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setGstReserved2(java.lang.foreign.MemoryAddress[] GstReserved2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved2 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved2, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved2 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved2, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

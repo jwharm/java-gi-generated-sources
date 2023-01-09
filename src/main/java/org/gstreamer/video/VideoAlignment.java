@@ -40,8 +40,8 @@ public class VideoAlignment extends Struct {
      * @return A new, uninitialized @{link VideoAlignment}
      */
     public static VideoAlignment allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAlignment newInstance = new VideoAlignment(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAlignment newInstance = new VideoAlignment(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class VideoAlignment extends Struct {
      * @return The value of the field {@code padding_top}
      */
     public int getPaddingTop() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class VideoAlignment extends Struct {
      * @param paddingTop The new value of the field {@code padding_top}
      */
     public void setPaddingTop(int paddingTop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingTop);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), paddingTop);
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class VideoAlignment extends Struct {
      * @return The value of the field {@code padding_bottom}
      */
     public int getPaddingBottom() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class VideoAlignment extends Struct {
      * @param paddingBottom The new value of the field {@code padding_bottom}
      */
     public void setPaddingBottom(int paddingBottom) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingBottom);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), paddingBottom);
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class VideoAlignment extends Struct {
      * @return The value of the field {@code padding_left}
      */
     public int getPaddingLeft() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class VideoAlignment extends Struct {
      * @param paddingLeft The new value of the field {@code padding_left}
      */
     public void setPaddingLeft(int paddingLeft) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingLeft);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), paddingLeft);
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class VideoAlignment extends Struct {
      * @return The value of the field {@code padding_right}
      */
     public int getPaddingRight() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -125,9 +139,11 @@ public class VideoAlignment extends Struct {
      * @param paddingRight The new value of the field {@code padding_right}
      */
     public void setPaddingRight(int paddingRight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingRight);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), paddingRight);
+        }
     }
     
     /**
@@ -135,10 +151,12 @@ public class VideoAlignment extends Struct {
      * @return The value of the field {@code stride_align}
      */
     public int[] getStrideAlign() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_INT);
+        }
     }
     
     /**
@@ -146,30 +164,33 @@ public class VideoAlignment extends Struct {
      * @param strideAlign The new value of the field {@code stride_align}
      */
     public void setStrideAlign(int[] strideAlign) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false, SCOPE)));
+        }
     }
     
     /**
      * Create a VideoAlignment proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAlignment(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAlignment(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAlignment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAlignment(input, ownership);
+    public static final Marshal<Addressable, VideoAlignment> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAlignment(input);
     
     /**
      * Set {@code align} to its default values with no padding and no alignment.
      */
     public void reset() {
         try {
-            DowncallHandles.gst_video_alignment_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_alignment_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,9 +199,9 @@ public class VideoAlignment extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_alignment_reset = Interop.downcallHandle(
-            "gst_video_alignment_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_alignment_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -206,7 +227,7 @@ public class VideoAlignment extends Struct {
             struct = VideoAlignment.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAlignment} struct.
          * @return A new instance of {@code VideoAlignment} with the fields 
          *         that were set in the Builder object.
@@ -221,10 +242,12 @@ public class VideoAlignment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPaddingTop(int paddingTop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingTop);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), paddingTop);
+                return this;
+            }
         }
         
         /**
@@ -233,10 +256,12 @@ public class VideoAlignment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPaddingBottom(int paddingBottom) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingBottom);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), paddingBottom);
+                return this;
+            }
         }
         
         /**
@@ -245,10 +270,12 @@ public class VideoAlignment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPaddingLeft(int paddingLeft) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingLeft);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), paddingLeft);
+                return this;
+            }
         }
         
         /**
@@ -257,10 +284,12 @@ public class VideoAlignment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPaddingRight(int paddingRight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingRight);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), paddingRight);
+                return this;
+            }
         }
         
         /**
@@ -269,10 +298,12 @@ public class VideoAlignment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStrideAlign(int[] strideAlign) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

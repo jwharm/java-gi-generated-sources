@@ -29,8 +29,8 @@ public class ObjectTableIndexBufferEntryNVX extends Struct {
      * @return A new, uninitialized @{link ObjectTableIndexBufferEntryNVX}
      */
     public static ObjectTableIndexBufferEntryNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectTableIndexBufferEntryNVX newInstance = new ObjectTableIndexBufferEntryNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ObjectTableIndexBufferEntryNVX newInstance = new ObjectTableIndexBufferEntryNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ObjectTableIndexBufferEntryNVX extends Struct {
     /**
      * Create a ObjectTableIndexBufferEntryNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ObjectTableIndexBufferEntryNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ObjectTableIndexBufferEntryNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ObjectTableIndexBufferEntryNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ObjectTableIndexBufferEntryNVX(input, ownership);
+    public static final Marshal<Addressable, ObjectTableIndexBufferEntryNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ObjectTableIndexBufferEntryNVX(input);
 }

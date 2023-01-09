@@ -33,8 +33,8 @@ public class RTSPWatch extends Struct {
      * @return A new, uninitialized @{link RTSPWatch}
      */
     public static RTSPWatch allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPWatch newInstance = new RTSPWatch(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPWatch newInstance = new RTSPWatch(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class RTSPWatch extends Struct {
     /**
      * Create a RTSPWatch proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPWatch(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPWatch(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPWatch> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPWatch(input, ownership);
+    public static final Marshal<Addressable, RTSPWatch> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPWatch(input);
     
     /**
      * Adds a {@link RTSPWatch} to a context so that it will be executed within that context.
@@ -75,18 +77,20 @@ public class RTSPWatch extends Struct {
      * @param messages maximum messages
      */
     public void getSendBacklog(Out<Long> bytes, Out<Integer> messages) {
-        MemorySegment bytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment messagesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_rtsp_watch_get_send_backlog.invokeExact(
-                    handle(),
-                    (Addressable) (bytes == null ? MemoryAddress.NULL : (Addressable) bytesPOINTER.address()),
-                    (Addressable) (messages == null ? MemoryAddress.NULL : (Addressable) messagesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bytesPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment messagesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_rtsp_watch_get_send_backlog.invokeExact(
+                        handle(),
+                        (Addressable) (bytes == null ? MemoryAddress.NULL : (Addressable) bytesPOINTER.address()),
+                        (Addressable) (messages == null ? MemoryAddress.NULL : (Addressable) messagesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (bytes != null) bytes.set(bytesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (messages != null) messages.set(messagesPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (bytes != null) bytes.set(bytesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (messages != null) messages.set(messagesPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -95,8 +99,7 @@ public class RTSPWatch extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_rtsp_watch_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtsp_watch_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,18 +117,20 @@ public class RTSPWatch extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     public org.gstreamer.rtsp.RTSPResult sendMessage(org.gstreamer.rtsp.RTSPMessage message, Out<Integer> id) {
-        MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_watch_send_message.invokeExact(
-                    handle(),
-                    message.handle(),
-                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment idPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_watch_send_message.invokeExact(
+                        handle(),
+                        message.handle(),
+                        (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -142,19 +147,21 @@ public class RTSPWatch extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     public org.gstreamer.rtsp.RTSPResult sendMessages(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, Out<Integer> id) {
-        MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_watch_send_messages.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false),
-                    nMessages,
-                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment idPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_watch_send_messages.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false, SCOPE),
+                        nMessages,
+                        (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -199,8 +206,7 @@ public class RTSPWatch extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_rtsp_watch_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtsp_watch_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,19 +291,21 @@ public class RTSPWatch extends Struct {
      * are reached. {@code GST_RTSP_EINTR} when {@code watch} was flushing.
      */
     public org.gstreamer.rtsp.RTSPResult writeData(byte[] data, int size, Out<Integer> id) {
-        MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_watch_write_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size,
-                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment idPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_watch_write_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size,
+                        (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -325,81 +333,81 @@ public class RTSPWatch extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.rtsp.RTSPWatch.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPWatch.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_watch_attach = Interop.downcallHandle(
-            "gst_rtsp_watch_attach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_attach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_get_send_backlog = Interop.downcallHandle(
-            "gst_rtsp_watch_get_send_backlog",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_get_send_backlog",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_reset = Interop.downcallHandle(
-            "gst_rtsp_watch_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_send_message = Interop.downcallHandle(
-            "gst_rtsp_watch_send_message",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_send_message",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_send_messages = Interop.downcallHandle(
-            "gst_rtsp_watch_send_messages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_send_messages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_set_flushing = Interop.downcallHandle(
-            "gst_rtsp_watch_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_watch_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_set_send_backlog = Interop.downcallHandle(
-            "gst_rtsp_watch_set_send_backlog",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_watch_set_send_backlog",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_unref = Interop.downcallHandle(
-            "gst_rtsp_watch_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_wait_backlog = Interop.downcallHandle(
-            "gst_rtsp_watch_wait_backlog",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_wait_backlog",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_wait_backlog_usec = Interop.downcallHandle(
-            "gst_rtsp_watch_wait_backlog_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_watch_wait_backlog_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_write_data = Interop.downcallHandle(
-            "gst_rtsp_watch_write_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_write_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_watch_new = Interop.downcallHandle(
-            "gst_rtsp_watch_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_watch_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

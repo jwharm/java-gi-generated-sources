@@ -35,8 +35,8 @@ public class ByteArray extends Struct {
      * @return A new, uninitialized @{link ByteArray}
      */
     public static ByteArray allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ByteArray newInstance = new ByteArray(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ByteArray newInstance = new ByteArray(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class ByteArray extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class ByteArray extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(PointerByte data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class ByteArray extends Struct {
      * @return The value of the field {@code len}
      */
     public int getLen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -78,22 +84,26 @@ public class ByteArray extends Struct {
      * @param len The new value of the field {@code len}
      */
     public void setLen(int len) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), len);
+        }
     }
     
     /**
      * Create a ByteArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ByteArray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ByteArray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ByteArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteArray(input, ownership);
+    public static final Marshal<Addressable, ByteArray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ByteArray(input);
     
     /**
      * Adds the given bytes to the end of the {@link ByteArray}.
@@ -104,16 +114,18 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte append(byte[] array, PointerByte data, int len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    data.handle(),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        data.handle(),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -127,15 +139,17 @@ public class ByteArray extends Struct {
      *          {@code null}.  The element data should be freed using g_free().
      */
     public static PointerByte free(byte[] array, boolean freeSegment) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -152,14 +166,17 @@ public class ByteArray extends Struct {
      *     byte data that was in the array
      */
     public static org.gtk.glib.Bytes freeToBytes(byte[] array) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(
-                    Interop.allocateNativeArray(array, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -167,13 +184,15 @@ public class ByteArray extends Struct {
      * @return the new {@link ByteArray}
      */
     public static PointerByte new_() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new.invokeExact();
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -188,15 +207,17 @@ public class ByteArray extends Struct {
      * @return a new {@link ByteArray}
      */
     public static PointerByte newTake(byte[] data, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -208,16 +229,18 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte prepend(byte[] array, PointerByte data, int len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    data.handle(),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        data.handle(),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -227,14 +250,15 @@ public class ByteArray extends Struct {
      * @return The passed in {@link ByteArray}
      */
     public static PointerByte ref(byte[] array) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(
-                    Interop.allocateNativeArray(array, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -245,15 +269,17 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte removeIndex(byte[] array, int index) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    index);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        index);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -266,15 +292,17 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte removeIndexFast(byte[] array, int index) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    index);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        index);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -286,16 +314,18 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte removeRange(byte[] array, int index, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    index,
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        index,
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -305,15 +335,17 @@ public class ByteArray extends Struct {
      * @return the {@link ByteArray}
      */
     public static PointerByte setSize(byte[] array, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -325,14 +357,15 @@ public class ByteArray extends Struct {
      * @return the new {@link ByteArray}
      */
     public static PointerByte sizedNew(int reservedSize) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(
-                    reservedSize);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(reservedSize);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerByte(RESULT);
         }
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -350,12 +383,14 @@ public class ByteArray extends Struct {
      * @param compareFunc comparison function
      */
     public static void sort(byte[] array, org.gtk.glib.CompareFunc compareFunc) {
-        try {
-            DowncallHandles.g_byte_array_sort.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    (Addressable) compareFunc.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_byte_array_sort.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        (Addressable) compareFunc.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -366,13 +401,15 @@ public class ByteArray extends Struct {
      * @param compareFunc comparison function
      */
     public static void sortWithData(byte[] array, org.gtk.glib.CompareDataFunc compareFunc) {
-        try {
-            DowncallHandles.g_byte_array_sort_with_data.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    (Addressable) compareFunc.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_byte_array_sort_with_data.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        (Addressable) compareFunc.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -387,17 +424,19 @@ public class ByteArray extends Struct {
      *     freed using g_free().
      */
     public static PointerByte steal(byte[] array, Out<Long> len) {
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
-                    Interop.allocateNativeArray(array, false),
-                    (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
+                        Interop.allocateNativeArray(array, false, SCOPE),
+                        (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new PointerByte(RESULT);
         }
-        if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new PointerByte(RESULT);
     }
     
     /**
@@ -408,110 +447,111 @@ public class ByteArray extends Struct {
      * @param array A {@link ByteArray}
      */
     public static void unref(byte[] array) {
-        try {
-            DowncallHandles.g_byte_array_unref.invokeExact(
-                    Interop.allocateNativeArray(array, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_byte_array_append = Interop.downcallHandle(
-            "g_byte_array_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_free = Interop.downcallHandle(
-            "g_byte_array_free",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_free",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
-            "g_byte_array_free_to_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_free_to_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_byte_array_new = Interop.downcallHandle(
-            "g_byte_array_new",
-            FunctionDescriptor.ofVoid(),
-            false
+                "g_byte_array_new",
+                FunctionDescriptor.ofVoid(),
+                false
         );
         
         private static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
-            "g_byte_array_new_take",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_byte_array_new_take",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_byte_array_prepend = Interop.downcallHandle(
-            "g_byte_array_prepend",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_prepend",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_ref = Interop.downcallHandle(
-            "g_byte_array_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_byte_array_remove_index = Interop.downcallHandle(
-            "g_byte_array_remove_index",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_remove_index",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_remove_index_fast = Interop.downcallHandle(
-            "g_byte_array_remove_index_fast",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_remove_index_fast",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_remove_range = Interop.downcallHandle(
-            "g_byte_array_remove_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_remove_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_set_size = Interop.downcallHandle(
-            "g_byte_array_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_sized_new = Interop.downcallHandle(
-            "g_byte_array_sized_new",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
-            false
+                "g_byte_array_sized_new",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_byte_array_sort = Interop.downcallHandle(
-            "g_byte_array_sort",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_sort",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_byte_array_sort_with_data = Interop.downcallHandle(
-            "g_byte_array_sort_with_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_sort_with_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
-            "g_byte_array_steal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_steal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
-            "g_byte_array_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_byte_array_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -537,7 +577,7 @@ public class ByteArray extends Struct {
             struct = ByteArray.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ByteArray} struct.
          * @return A new instance of {@code ByteArray} with the fields 
          *         that were set in the Builder object.
@@ -553,10 +593,12 @@ public class ByteArray extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(PointerByte data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
+                return this;
+            }
         }
         
         /**
@@ -565,10 +607,12 @@ public class ByteArray extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLen(int len) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), len);
+                return this;
+            }
         }
     }
 }

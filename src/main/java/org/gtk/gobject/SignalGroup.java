@@ -47,20 +47,21 @@ public class SignalGroup extends org.gtk.gobject.GObject {
     /**
      * Create a SignalGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SignalGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SignalGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SignalGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SignalGroup(input, ownership);
+    public static final Marshal<Addressable, SignalGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SignalGroup(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type targetType) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(
-                    targetType.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_new.invokeExact(targetType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +73,8 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param targetType the {@link org.gtk.glib.Type} of the target instance.
      */
     public SignalGroup(org.gtk.glib.Type targetType) {
-        super(constructNew(targetType), Ownership.FULL);
+        super(constructNew(targetType));
+        this.takeOwnership();
     }
     
     /**
@@ -84,8 +86,7 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      */
     public void block() {
         try {
-            DowncallHandles.g_signal_group_block.invokeExact(
-                    handle());
+            DowncallHandles.g_signal_group_block.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,14 +101,16 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param cHandler the {@link Callback} to connect
      */
     public void connect(java.lang.String detailedSignal, org.gtk.gobject.Callback cHandler) {
-        try {
-            DowncallHandles.g_signal_group_connect.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    (Addressable) cHandler.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        (Addressable) cHandler.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -122,14 +125,16 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param cHandler the {@link Callback} to connect
      */
     public void connectAfter(java.lang.String detailedSignal, org.gtk.gobject.Callback cHandler) {
-        try {
-            DowncallHandles.g_signal_group_connect_after.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    (Addressable) cHandler.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect_after.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        (Addressable) cHandler.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -143,14 +148,16 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      *  default handler of the signal.
      */
     public void connectClosure(java.lang.String detailedSignal, org.gtk.gobject.Closure closure, boolean after) {
-        try {
-            DowncallHandles.g_signal_group_connect_closure.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    closure.handle(),
-                    Marshal.booleanToInteger.marshal(after, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect_closure.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        closure.handle(),
+                        Marshal.booleanToInteger.marshal(after, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -165,16 +172,18 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param flags the flags used to create the signal connection
      */
     public void connectData(java.lang.String detailedSignal, org.gtk.gobject.Callback cHandler, org.gtk.gobject.ClosureNotify notify, org.gtk.gobject.ConnectFlags flags) {
-        try {
-            DowncallHandles.g_signal_group_connect_data.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    (Addressable) cHandler.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) notify.toCallback(),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect_data.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        (Addressable) cHandler.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) notify.toCallback(),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -192,15 +201,17 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param flags {@link ConnectFlags} for the signal connection
      */
     public void connectObject(java.lang.String detailedSignal, org.gtk.gobject.Callback cHandler, java.lang.foreign.MemoryAddress object, org.gtk.gobject.ConnectFlags flags) {
-        try {
-            DowncallHandles.g_signal_group_connect_object.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    (Addressable) cHandler.toCallback(),
-                    (Addressable) object,
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect_object.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        (Addressable) cHandler.toCallback(),
+                        (Addressable) object,
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -216,14 +227,16 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @param cHandler the {@link Callback} to connect
      */
     public void connectSwapped(java.lang.String detailedSignal, org.gtk.gobject.Callback cHandler) {
-        try {
-            DowncallHandles.g_signal_group_connect_swapped.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedSignal, null),
-                    (Addressable) cHandler.toCallback(),
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_signal_group_connect_swapped.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedSignal, SCOPE),
+                        (Addressable) cHandler.toCallback(),
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -234,12 +247,13 @@ public class SignalGroup extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject dupTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_dup_target.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_signal_group_dup_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -270,8 +284,7 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      */
     public void unblock() {
         try {
-            DowncallHandles.g_signal_group_unblock.invokeExact(
-                    handle());
+            DowncallHandles.g_signal_group_unblock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,19 +304,40 @@ public class SignalGroup extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Bind} callback.
+     */
     @FunctionalInterface
     public interface Bind {
+    
+        /**
+         * This signal is emitted when {@link SignalGroup}:target is set to a new value
+         * other than {@code null}. It is similar to {@link GObject}::notify on {@code target} except it
+         * will not emit when {@link SignalGroup}:target is {@code null} and also allows for
+         * receiving the {@link GObject} without a data-race.
+         */
         void run(org.gtk.gobject.GObject instance);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSignalGroup, MemoryAddress instance) {
-            run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(instance)), org.gtk.gobject.GObject.fromAddress).marshal(instance, Ownership.NONE));
+            run((org.gtk.gobject.GObject) Interop.register(instance, org.gtk.gobject.GObject.fromAddress).marshal(instance, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Bind.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Bind.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -316,28 +350,51 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SignalGroup.Bind> onBind(SignalGroup.Bind handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("bind"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("bind", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Unbind} callback.
+     */
     @FunctionalInterface
     public interface Unbind {
+    
+        /**
+         * This signal is emitted when the target instance of {@code self} is set to a
+         * new {@link GObject}.
+         * <p>
+         * This signal will only be emitted if the previous target of {@code self} is
+         * non-{@code null}.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSignalGroup) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Unbind.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Unbind.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -351,9 +408,10 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SignalGroup.Unbind> onUnbind(SignalGroup.Unbind handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("unbind"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("unbind", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -376,6 +434,9 @@ public class SignalGroup extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -422,75 +483,83 @@ public class SignalGroup extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_signal_group_new = Interop.downcallHandle(
-            "g_signal_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_signal_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_signal_group_block = Interop.downcallHandle(
-            "g_signal_group_block",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_block",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect = Interop.downcallHandle(
-            "g_signal_group_connect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_connect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect_after = Interop.downcallHandle(
-            "g_signal_group_connect_after",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_connect_after",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect_closure = Interop.downcallHandle(
-            "g_signal_group_connect_closure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_signal_group_connect_closure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect_data = Interop.downcallHandle(
-            "g_signal_group_connect_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_signal_group_connect_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect_object = Interop.downcallHandle(
-            "g_signal_group_connect_object",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_signal_group_connect_object",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_signal_group_connect_swapped = Interop.downcallHandle(
-            "g_signal_group_connect_swapped",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_connect_swapped",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_dup_target = Interop.downcallHandle(
-            "g_signal_group_dup_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_dup_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_set_target = Interop.downcallHandle(
-            "g_signal_group_set_target",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_set_target",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_unblock = Interop.downcallHandle(
-            "g_signal_group_unblock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_signal_group_unblock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_signal_group_get_type = Interop.downcallHandle(
-            "g_signal_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_signal_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_signal_group_get_type != null;
     }
 }

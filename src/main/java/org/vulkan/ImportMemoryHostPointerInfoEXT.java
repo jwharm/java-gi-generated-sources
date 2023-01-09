@@ -29,8 +29,8 @@ public class ImportMemoryHostPointerInfoEXT extends Struct {
      * @return A new, uninitialized @{link ImportMemoryHostPointerInfoEXT}
      */
     public static ImportMemoryHostPointerInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImportMemoryHostPointerInfoEXT newInstance = new ImportMemoryHostPointerInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImportMemoryHostPointerInfoEXT newInstance = new ImportMemoryHostPointerInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImportMemoryHostPointerInfoEXT extends Struct {
     /**
      * Create a ImportMemoryHostPointerInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImportMemoryHostPointerInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImportMemoryHostPointerInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImportMemoryHostPointerInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImportMemoryHostPointerInfoEXT(input, ownership);
+    public static final Marshal<Addressable, ImportMemoryHostPointerInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImportMemoryHostPointerInfoEXT(input);
 }

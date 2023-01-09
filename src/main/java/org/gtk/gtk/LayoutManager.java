@@ -75,14 +75,16 @@ public class LayoutManager extends org.gtk.gobject.GObject {
     /**
      * Create a LayoutManager proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutManager(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutManager(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutManager> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutManager(input, ownership);
+    public static final Marshal<Addressable, LayoutManager> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutManager(input);
     
     /**
      * Assigns the given {@code width}, {@code height}, and {@code baseline} to
@@ -127,7 +129,7 @@ public class LayoutManager extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.LayoutChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LayoutChild.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.LayoutChild) Interop.register(RESULT, org.gtk.gtk.LayoutChild.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -137,8 +139,7 @@ public class LayoutManager extends org.gtk.gobject.GObject {
     public org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,12 +153,11 @@ public class LayoutManager extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -168,8 +168,7 @@ public class LayoutManager extends org.gtk.gobject.GObject {
      */
     public void layoutChanged() {
         try {
-            DowncallHandles.gtk_layout_manager_layout_changed.invokeExact(
-                    handle());
+            DowncallHandles.gtk_layout_manager_layout_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,27 +198,29 @@ public class LayoutManager extends org.gtk.gobject.GObject {
      *   natural size
      */
     public void measure(org.gtk.gtk.Widget widget, org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
-        MemorySegment minimumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gtk_layout_manager_measure.invokeExact(
-                    handle(),
-                    widget.handle(),
-                    orientation.getValue(),
-                    forSize,
-                    (Addressable) (minimum == null ? MemoryAddress.NULL : (Addressable) minimumPOINTER.address()),
-                    (Addressable) (natural == null ? MemoryAddress.NULL : (Addressable) naturalPOINTER.address()),
-                    (Addressable) (minimumBaseline == null ? MemoryAddress.NULL : (Addressable) minimumBaselinePOINTER.address()),
-                    (Addressable) (naturalBaseline == null ? MemoryAddress.NULL : (Addressable) naturalBaselinePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minimumPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minimumBaselinePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment naturalBaselinePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gtk_layout_manager_measure.invokeExact(
+                        handle(),
+                        widget.handle(),
+                        orientation.getValue(),
+                        forSize,
+                        (Addressable) (minimum == null ? MemoryAddress.NULL : (Addressable) minimumPOINTER.address()),
+                        (Addressable) (natural == null ? MemoryAddress.NULL : (Addressable) naturalPOINTER.address()),
+                        (Addressable) (minimumBaseline == null ? MemoryAddress.NULL : (Addressable) minimumBaselinePOINTER.address()),
+                        (Addressable) (naturalBaseline == null ? MemoryAddress.NULL : (Addressable) naturalBaselinePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minimum != null) minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (natural != null) natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (minimumBaseline != null) minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (naturalBaseline != null) naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (minimum != null) minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (natural != null) natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (minimumBaseline != null) minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (naturalBaseline != null) naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -252,6 +253,9 @@ public class LayoutManager extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -276,45 +280,53 @@ public class LayoutManager extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_layout_manager_allocate = Interop.downcallHandle(
-            "gtk_layout_manager_allocate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_layout_manager_allocate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_get_layout_child = Interop.downcallHandle(
-            "gtk_layout_manager_get_layout_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_manager_get_layout_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_get_request_mode = Interop.downcallHandle(
-            "gtk_layout_manager_get_request_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_manager_get_request_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_get_widget = Interop.downcallHandle(
-            "gtk_layout_manager_get_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_manager_get_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_layout_changed = Interop.downcallHandle(
-            "gtk_layout_manager_layout_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_manager_layout_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_measure = Interop.downcallHandle(
-            "gtk_layout_manager_measure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_layout_manager_measure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_layout_manager_get_type = Interop.downcallHandle(
-            "gtk_layout_manager_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_layout_manager_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_layout_manager_get_type != null;
     }
 }

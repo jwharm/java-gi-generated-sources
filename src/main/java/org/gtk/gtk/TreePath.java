@@ -32,8 +32,8 @@ public class TreePath extends Struct {
      * @return A new, uninitialized @{link TreePath}
      */
     public static TreePath allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreePath newInstance = new TreePath(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreePath newInstance = new TreePath(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class TreePath extends Struct {
     /**
      * Create a TreePath proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreePath(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreePath(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreePath> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreePath(input, ownership);
+    public static final Marshal<Addressable, TreePath> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreePath(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,7 +67,8 @@ public class TreePath extends Struct {
      * This refers to a row.
      */
     public TreePath() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFirst() {
@@ -77,7 +80,7 @@ public class TreePath extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkTreePath}.
      * <p>
@@ -86,7 +89,9 @@ public class TreePath extends Struct {
      */
     public static TreePath newFirst() {
         var RESULT = constructNewFirst();
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromIndices(int firstIndex, java.lang.Object... varargs) {
@@ -100,7 +105,7 @@ public class TreePath extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new path with {@code first_index} and {@code varargs} as indices.
      * @param firstIndex first integer
@@ -109,21 +114,25 @@ public class TreePath extends Struct {
      */
     public static TreePath newFromIndices(int firstIndex, java.lang.Object... varargs) {
         var RESULT = constructNewFromIndices(firstIndex, varargs);
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromIndicesv(int[] indices, long length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(
-                    Interop.allocateNativeArray(indices, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_indicesv.invokeExact(
+                        Interop.allocateNativeArray(indices, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new path with the given {@code indices} array of {@code length}.
      * @param indices array of indices
@@ -132,20 +141,23 @@ public class TreePath extends Struct {
      */
     public static TreePath newFromIndicesv(int[] indices, long length) {
         var RESULT = constructNewFromIndicesv(indices, length);
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromString(java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_new_from_string.invokeExact(Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkTreePath} initialized to {@code path}.
      * <p>
@@ -159,7 +171,9 @@ public class TreePath extends Struct {
      */
     public static TreePath newFromString(java.lang.String path) {
         var RESULT = constructNewFromString(path);
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -206,12 +220,13 @@ public class TreePath extends Struct {
     public org.gtk.gtk.TreePath copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -219,8 +234,7 @@ public class TreePath extends Struct {
      */
     public void down() {
         try {
-            DowncallHandles.gtk_tree_path_down.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_path_down.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,8 +245,7 @@ public class TreePath extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_tree_path_free.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_path_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,8 +258,7 @@ public class TreePath extends Struct {
     public int getDepth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_get_depth.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_get_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,18 +277,20 @@ public class TreePath extends Struct {
      *   indices
      */
     public int[] getIndices(Out<Integer> depth) {
-        MemorySegment depthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices_with_depth.invokeExact(
-                    handle(),
-                    (Addressable) (depth == null ? MemoryAddress.NULL : (Addressable) depthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment depthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_get_indices_with_depth.invokeExact(
+                        handle(),
+                        (Addressable) (depth == null ? MemoryAddress.NULL : (Addressable) depthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (depth != null) depth.set(depthPOINTER.get(Interop.valueLayout.C_INT, 0));
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), depth.get().intValue() * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT);
         }
-        if (depth != null) depth.set(depthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), depth.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -318,8 +332,7 @@ public class TreePath extends Struct {
      */
     public void next() {
         try {
-            DowncallHandles.gtk_tree_path_next.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_path_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,8 +363,7 @@ public class TreePath extends Struct {
     public boolean prev() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_prev.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_prev.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,8 +382,7 @@ public class TreePath extends Struct {
     public @Nullable java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_path_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,8 +396,7 @@ public class TreePath extends Struct {
     public boolean up() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_tree_path_up.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_tree_path_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,117 +406,117 @@ public class TreePath extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_path_new = Interop.downcallHandle(
-            "gtk_tree_path_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_new_first = Interop.downcallHandle(
-            "gtk_tree_path_new_first",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_new_first",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indices = Interop.downcallHandle(
-            "gtk_tree_path_new_from_indices",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
+                "gtk_tree_path_new_from_indices",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                true
         );
         
         private static final MethodHandle gtk_tree_path_new_from_indicesv = Interop.downcallHandle(
-            "gtk_tree_path_new_from_indicesv",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_path_new_from_indicesv",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_new_from_string = Interop.downcallHandle(
-            "gtk_tree_path_new_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_new_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_append_index = Interop.downcallHandle(
-            "gtk_tree_path_append_index",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_path_append_index",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_compare = Interop.downcallHandle(
-            "gtk_tree_path_compare",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_compare",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_copy = Interop.downcallHandle(
-            "gtk_tree_path_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_down = Interop.downcallHandle(
-            "gtk_tree_path_down",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_down",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_free = Interop.downcallHandle(
-            "gtk_tree_path_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_get_depth = Interop.downcallHandle(
-            "gtk_tree_path_get_depth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_get_depth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_get_indices_with_depth = Interop.downcallHandle(
-            "gtk_tree_path_get_indices_with_depth",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_get_indices_with_depth",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_is_ancestor = Interop.downcallHandle(
-            "gtk_tree_path_is_ancestor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_is_ancestor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_is_descendant = Interop.downcallHandle(
-            "gtk_tree_path_is_descendant",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_is_descendant",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_next = Interop.downcallHandle(
-            "gtk_tree_path_next",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_next",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_prepend_index = Interop.downcallHandle(
-            "gtk_tree_path_prepend_index",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_tree_path_prepend_index",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_prev = Interop.downcallHandle(
-            "gtk_tree_path_prev",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_prev",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_to_string = Interop.downcallHandle(
-            "gtk_tree_path_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_path_up = Interop.downcallHandle(
-            "gtk_tree_path_up",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_path_up",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

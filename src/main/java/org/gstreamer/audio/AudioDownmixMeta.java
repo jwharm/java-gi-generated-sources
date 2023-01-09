@@ -46,8 +46,8 @@ public class AudioDownmixMeta extends Struct {
      * @return A new, uninitialized @{link AudioDownmixMeta}
      */
     public static AudioDownmixMeta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioDownmixMeta newInstance = new AudioDownmixMeta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioDownmixMeta newInstance = new AudioDownmixMeta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,7 +58,7 @@ public class AudioDownmixMeta extends Struct {
      */
     public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -66,9 +66,11 @@ public class AudioDownmixMeta extends Struct {
      * @param meta The new value of the field {@code meta}
      */
     public void setMeta(org.gstreamer.gst.Meta meta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+        }
     }
     
     /**
@@ -76,10 +78,12 @@ public class AudioDownmixMeta extends Struct {
      * @return The value of the field {@code from_position}
      */
     public PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> getFromPosition() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerEnumeration<org.gstreamer.audio.AudioChannelPosition>(RESULT, org.gstreamer.audio.AudioChannelPosition::of);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerEnumeration<org.gstreamer.audio.AudioChannelPosition>(RESULT, org.gstreamer.audio.AudioChannelPosition::of);
+        }
     }
     
     /**
@@ -87,9 +91,11 @@ public class AudioDownmixMeta extends Struct {
      * @param fromPosition The new value of the field {@code from_position}
      */
     public void setFromPosition(PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> fromPosition) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fromPosition == null ? MemoryAddress.NULL : fromPosition.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fromPosition == null ? MemoryAddress.NULL : fromPosition.handle()));
+        }
     }
     
     /**
@@ -97,10 +103,12 @@ public class AudioDownmixMeta extends Struct {
      * @return The value of the field {@code to_position}
      */
     public PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> getToPosition() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerEnumeration<org.gstreamer.audio.AudioChannelPosition>(RESULT, org.gstreamer.audio.AudioChannelPosition::of);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerEnumeration<org.gstreamer.audio.AudioChannelPosition>(RESULT, org.gstreamer.audio.AudioChannelPosition::of);
+        }
     }
     
     /**
@@ -108,9 +116,11 @@ public class AudioDownmixMeta extends Struct {
      * @param toPosition The new value of the field {@code to_position}
      */
     public void setToPosition(PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> toPosition) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toPosition == null ? MemoryAddress.NULL : toPosition.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toPosition == null ? MemoryAddress.NULL : toPosition.handle()));
+        }
     }
     
     /**
@@ -118,10 +128,12 @@ public class AudioDownmixMeta extends Struct {
      * @return The value of the field {@code from_channels}
      */
     public int getFromChannels() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -129,9 +141,11 @@ public class AudioDownmixMeta extends Struct {
      * @param fromChannels The new value of the field {@code from_channels}
      */
     public void setFromChannels(int fromChannels) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fromChannels);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), fromChannels);
+        }
     }
     
     /**
@@ -139,10 +153,12 @@ public class AudioDownmixMeta extends Struct {
      * @return The value of the field {@code to_channels}
      */
     public int getToChannels() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -150,9 +166,11 @@ public class AudioDownmixMeta extends Struct {
      * @param toChannels The new value of the field {@code to_channels}
      */
     public void setToChannels(int toChannels) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), toChannels);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), toChannels);
+        }
     }
     
     /**
@@ -160,10 +178,12 @@ public class AudioDownmixMeta extends Struct {
      * @return The value of the field {@code matrix}
      */
     public PointerFloat getMatrix() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerFloat(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerFloat(RESULT);
+        }
     }
     
     /**
@@ -171,22 +191,26 @@ public class AudioDownmixMeta extends Struct {
      * @param matrix The new value of the field {@code matrix}
      */
     public void setMatrix(PointerFloat matrix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
+        }
     }
     
     /**
      * Create a AudioDownmixMeta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioDownmixMeta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioDownmixMeta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioDownmixMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioDownmixMeta(input, ownership);
+    public static final Marshal<Addressable, AudioDownmixMeta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioDownmixMeta(input);
     
     public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
@@ -195,15 +219,15 @@ public class AudioDownmixMeta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_downmix_meta_get_info = Interop.downcallHandle(
-            "gst_audio_downmix_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_downmix_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -229,7 +253,7 @@ public class AudioDownmixMeta extends Struct {
             struct = AudioDownmixMeta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioDownmixMeta} struct.
          * @return A new instance of {@code AudioDownmixMeta} with the fields 
          *         that were set in the Builder object.
@@ -244,10 +268,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMeta(org.gstreamer.gst.Meta meta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
+                return this;
+            }
         }
         
         /**
@@ -256,10 +282,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFromPosition(PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> fromPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fromPosition == null ? MemoryAddress.NULL : fromPosition.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("from_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fromPosition == null ? MemoryAddress.NULL : fromPosition.handle()));
+                return this;
+            }
         }
         
         /**
@@ -268,10 +296,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setToPosition(PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> toPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (toPosition == null ? MemoryAddress.NULL : toPosition.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (toPosition == null ? MemoryAddress.NULL : toPosition.handle()));
+                return this;
+            }
         }
         
         /**
@@ -280,10 +310,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFromChannels(int fromChannels) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fromChannels);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("from_channels"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), fromChannels);
+                return this;
+            }
         }
         
         /**
@@ -292,10 +324,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setToChannels(int toChannels) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), toChannels);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("to_channels"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), toChannels);
+                return this;
+            }
         }
         
         /**
@@ -304,10 +338,12 @@ public class AudioDownmixMeta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMatrix(PointerFloat matrix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class PhysicalDeviceMaintenance3Properties extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceMaintenance3Properties}
      */
     public static PhysicalDeviceMaintenance3Properties allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceMaintenance3Properties newInstance = new PhysicalDeviceMaintenance3Properties(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceMaintenance3Properties newInstance = new PhysicalDeviceMaintenance3Properties(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceMaintenance3Properties extends Struct {
     /**
      * Create a PhysicalDeviceMaintenance3Properties proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceMaintenance3Properties(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceMaintenance3Properties(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceMaintenance3Properties> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMaintenance3Properties(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceMaintenance3Properties> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMaintenance3Properties(input);
 }

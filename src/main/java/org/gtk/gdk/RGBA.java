@@ -45,8 +45,8 @@ public class RGBA extends Struct {
      * @return A new, uninitialized @{link RGBA}
      */
     public static RGBA allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RGBA newInstance = new RGBA(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RGBA newInstance = new RGBA(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,10 +56,12 @@ public class RGBA extends Struct {
      * @return The value of the field {@code red}
      */
     public float getRed() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("red"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -67,9 +69,11 @@ public class RGBA extends Struct {
      * @param red The new value of the field {@code red}
      */
     public void setRed(float red) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("red"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), red);
+        }
     }
     
     /**
@@ -77,10 +81,12 @@ public class RGBA extends Struct {
      * @return The value of the field {@code green}
      */
     public float getGreen() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("green"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -88,9 +94,11 @@ public class RGBA extends Struct {
      * @param green The new value of the field {@code green}
      */
     public void setGreen(float green) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("green"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), green);
+        }
     }
     
     /**
@@ -98,10 +106,12 @@ public class RGBA extends Struct {
      * @return The value of the field {@code blue}
      */
     public float getBlue() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -109,9 +119,11 @@ public class RGBA extends Struct {
      * @param blue The new value of the field {@code blue}
      */
     public void setBlue(float blue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), blue);
+        }
     }
     
     /**
@@ -119,10 +131,12 @@ public class RGBA extends Struct {
      * @return The value of the field {@code alpha}
      */
     public float getAlpha() {
-        var RESULT = (float) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (float) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -130,22 +144,26 @@ public class RGBA extends Struct {
      * @param alpha The new value of the field {@code alpha}
      */
     public void setAlpha(float alpha) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), alpha);
+        }
     }
     
     /**
      * Create a RGBA proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RGBA(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RGBA(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RGBA> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RGBA(input, ownership);
+    public static final Marshal<Addressable, RGBA> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RGBA(input);
     
     /**
      * Makes a copy of a {@code GdkRGBA}.
@@ -156,12 +174,13 @@ public class RGBA extends Struct {
     public org.gtk.gdk.RGBA copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.RGBA.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.RGBA.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -186,8 +205,7 @@ public class RGBA extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gdk_rgba_free.invokeExact(
-                    handle());
+            DowncallHandles.gdk_rgba_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +219,7 @@ public class RGBA extends Struct {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_hash.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,8 +235,7 @@ public class RGBA extends Struct {
     public boolean isClear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_is_clear.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_is_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +252,7 @@ public class RGBA extends Struct {
     public boolean isOpaque() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_rgba_is_opaque.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_rgba_is_opaque.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,15 +283,17 @@ public class RGBA extends Struct {
      * @return {@code true} if the parsing succeeded
      */
     public boolean parse(java.lang.String spec) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_rgba_parse.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(spec, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_rgba_parse.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(spec, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -298,8 +315,7 @@ public class RGBA extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -309,51 +325,51 @@ public class RGBA extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_rgba_copy = Interop.downcallHandle(
-            "gdk_rgba_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_equal = Interop.downcallHandle(
-            "gdk_rgba_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_free = Interop.downcallHandle(
-            "gdk_rgba_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_hash = Interop.downcallHandle(
-            "gdk_rgba_hash",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_hash",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_is_clear = Interop.downcallHandle(
-            "gdk_rgba_is_clear",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_is_clear",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_is_opaque = Interop.downcallHandle(
-            "gdk_rgba_is_opaque",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_is_opaque",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_parse = Interop.downcallHandle(
-            "gdk_rgba_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_rgba_to_string = Interop.downcallHandle(
-            "gdk_rgba_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_rgba_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -379,7 +395,7 @@ public class RGBA extends Struct {
             struct = RGBA.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RGBA} struct.
          * @return A new instance of {@code RGBA} with the fields 
          *         that were set in the Builder object.
@@ -394,10 +410,12 @@ public class RGBA extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRed(float red) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("red"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("red"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), red);
+                return this;
+            }
         }
         
         /**
@@ -406,10 +424,12 @@ public class RGBA extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGreen(float green) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("green"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("green"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), green);
+                return this;
+            }
         }
         
         /**
@@ -418,10 +438,12 @@ public class RGBA extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBlue(float blue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("blue"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("blue"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), blue);
+                return this;
+            }
         }
         
         /**
@@ -431,10 +453,12 @@ public class RGBA extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAlpha(float alpha) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), alpha);
+                return this;
+            }
         }
     }
 }

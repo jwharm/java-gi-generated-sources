@@ -22,6 +22,9 @@ public class PluginFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PluginFlags BLACKLISTED = new PluginFlags(32);
     
+    /**
+     * Create a new PluginFlags with the provided value
+     */
     public PluginFlags(int value) {
         super(value);
     }

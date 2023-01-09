@@ -61,8 +61,8 @@ public class Context extends Struct {
      * @return A new, uninitialized @{link Context}
      */
     public static Context allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Context newInstance = new Context(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Context newInstance = new Context(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -70,25 +70,29 @@ public class Context extends Struct {
     /**
      * Create a Context proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Context(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Context(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Context> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Context(input, ownership);
+    public static final Marshal<Addressable, Context> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Context(input);
     
     private static MemoryAddress constructNew(java.lang.String contextType, boolean persistent) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_context_new.invokeExact(
-                    Marshal.stringToAddress.marshal(contextType, null),
-                    Marshal.booleanToInteger.marshal(persistent, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_context_new.invokeExact(
+                        Marshal.stringToAddress.marshal(contextType, SCOPE),
+                        Marshal.booleanToInteger.marshal(persistent, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -97,7 +101,8 @@ public class Context extends Struct {
      * @param persistent Persistent context
      */
     public Context(java.lang.String contextType, boolean persistent) {
-        super(constructNew(contextType, persistent), Ownership.FULL);
+        super(constructNew(contextType, persistent));
+        this.takeOwnership();
     }
     
     /**
@@ -107,8 +112,7 @@ public class Context extends Struct {
     public java.lang.String getContextType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_context_get_context_type.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_context_get_context_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,12 +128,11 @@ public class Context extends Struct {
     public org.gstreamer.gst.Structure getStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_context_get_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_context_get_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -138,15 +141,17 @@ public class Context extends Struct {
      * @return {@code true} if {@code context} has {@code context_type}.
      */
     public boolean hasContextType(java.lang.String contextType) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_context_has_context_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(contextType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_context_has_context_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(contextType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -156,8 +161,7 @@ public class Context extends Struct {
     public boolean isPersistent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_context_is_persistent.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_context_is_persistent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,50 +178,49 @@ public class Context extends Struct {
     public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_context_writable_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_context_writable_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_context_new = Interop.downcallHandle(
-            "gst_context_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_context_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_context_get_context_type = Interop.downcallHandle(
-            "gst_context_get_context_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_context_get_context_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_context_get_structure = Interop.downcallHandle(
-            "gst_context_get_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_context_get_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_context_has_context_type = Interop.downcallHandle(
-            "gst_context_has_context_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_context_has_context_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_context_is_persistent = Interop.downcallHandle(
-            "gst_context_is_persistent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_context_is_persistent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_context_writable_structure = Interop.downcallHandle(
-            "gst_context_writable_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_context_writable_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -14,14 +14,17 @@ import org.jetbrains.annotations.*;
  * as {@code false} and {@code true}.
  */
 public enum AccessibleTristate implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The state is {@code false}
      */
     FALSE(0),
+    
     /**
      * The state is {@code true}
      */
     TRUE(1),
+    
     /**
      * The state is {@code mixed}
      */
@@ -30,15 +33,29 @@ public enum AccessibleTristate implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkAccessibleTristate";
     
     private final int value;
+    
+    /**
+     * Create a new AccessibleTristate for the provided value
+     * @param numeric value the enum value
+     */
     AccessibleTristate(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AccessibleTristate for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AccessibleTristate of(int value) {
         return switch (value) {
             case 0 -> FALSE;

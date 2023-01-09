@@ -29,8 +29,8 @@ public class PhysicalDeviceExternalFenceInfoKHR extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceExternalFenceInfoKHR}
      */
     public static PhysicalDeviceExternalFenceInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceExternalFenceInfoKHR newInstance = new PhysicalDeviceExternalFenceInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceExternalFenceInfoKHR newInstance = new PhysicalDeviceExternalFenceInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceExternalFenceInfoKHR extends Struct {
     /**
      * Create a PhysicalDeviceExternalFenceInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceExternalFenceInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceExternalFenceInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceExternalFenceInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalFenceInfoKHR(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceExternalFenceInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalFenceInfoKHR(input);
 }

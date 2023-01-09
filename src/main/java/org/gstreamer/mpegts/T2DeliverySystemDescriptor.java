@@ -45,8 +45,8 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return A new, uninitialized @{link T2DeliverySystemDescriptor}
      */
     public static T2DeliverySystemDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        T2DeliverySystemDescriptor newInstance = new T2DeliverySystemDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        T2DeliverySystemDescriptor newInstance = new T2DeliverySystemDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,10 +56,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code plp_id}
      */
     public byte getPlpId() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -67,9 +69,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param plpId The new value of the field {@code plp_id}
      */
     public void setPlpId(byte plpId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), plpId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), plpId);
+        }
     }
     
     /**
@@ -77,10 +81,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code t2_system_id}
      */
     public short getT2SystemId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -88,9 +94,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param t2SystemId The new value of the field {@code t2_system_id}
      */
     public void setT2SystemId(short t2SystemId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), t2SystemId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), t2SystemId);
+        }
     }
     
     /**
@@ -98,10 +106,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code siso_miso}
      */
     public byte getSisoMiso() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -109,9 +119,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param sisoMiso The new value of the field {@code siso_miso}
      */
     public void setSisoMiso(byte sisoMiso) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sisoMiso);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), sisoMiso);
+        }
     }
     
     /**
@@ -119,10 +131,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code bandwidth}
      */
     public int getBandwidth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -130,9 +144,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param bandwidth The new value of the field {@code bandwidth}
      */
     public void setBandwidth(int bandwidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bandwidth);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bandwidth);
+        }
     }
     
     /**
@@ -140,10 +156,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code guard_interval}
      */
     public org.gstreamer.mpegts.TerrestrialGuardInterval getGuardInterval() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.TerrestrialGuardInterval.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.TerrestrialGuardInterval.of(RESULT);
+        }
     }
     
     /**
@@ -151,9 +169,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param guardInterval The new value of the field {@code guard_interval}
      */
     public void setGuardInterval(org.gstreamer.mpegts.TerrestrialGuardInterval guardInterval) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (guardInterval == null ? MemoryAddress.NULL : guardInterval.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (guardInterval == null ? MemoryAddress.NULL : guardInterval.getValue()));
+        }
     }
     
     /**
@@ -161,10 +181,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code transmission_mode}
      */
     public org.gstreamer.mpegts.TerrestrialTransmissionMode getTransmissionMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.TerrestrialTransmissionMode.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.TerrestrialTransmissionMode.of(RESULT);
+        }
     }
     
     /**
@@ -172,9 +194,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param transmissionMode The new value of the field {@code transmission_mode}
      */
     public void setTransmissionMode(org.gstreamer.mpegts.TerrestrialTransmissionMode transmissionMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transmissionMode == null ? MemoryAddress.NULL : transmissionMode.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transmissionMode == null ? MemoryAddress.NULL : transmissionMode.getValue()));
+        }
     }
     
     /**
@@ -182,10 +206,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code other_frequency}
      */
     public boolean getOtherFrequency() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -193,9 +219,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param otherFrequency The new value of the field {@code other_frequency}
      */
     public void setOtherFrequency(boolean otherFrequency) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(otherFrequency, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(otherFrequency, null).intValue());
+        }
     }
     
     /**
@@ -203,10 +231,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code tfs}
      */
     public boolean getTfs() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -214,9 +244,11 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param tfs The new value of the field {@code tfs}
      */
     public void setTfs(boolean tfs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(tfs, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(tfs, null).intValue());
+        }
     }
     
     /**
@@ -224,10 +256,12 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @return The value of the field {@code cells}
      */
     public PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCell> getCells() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cells"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCell>(RESULT, org.gstreamer.mpegts.T2DeliverySystemCell.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cells"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCell>(RESULT, org.gstreamer.mpegts.T2DeliverySystemCell.fromAddress);
+        }
     }
     
     /**
@@ -235,27 +269,30 @@ public class T2DeliverySystemDescriptor extends Struct {
      * @param cells The new value of the field {@code cells}
      */
     public void setCells(org.gstreamer.mpegts.T2DeliverySystemCell[] cells) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cells"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(cells, org.gstreamer.mpegts.T2DeliverySystemCell.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cells"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(cells, org.gstreamer.mpegts.T2DeliverySystemCell.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a T2DeliverySystemDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected T2DeliverySystemDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected T2DeliverySystemDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, T2DeliverySystemDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new T2DeliverySystemDescriptor(input, ownership);
+    public static final Marshal<Addressable, T2DeliverySystemDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new T2DeliverySystemDescriptor(input);
     
     public void free() {
         try {
-            DowncallHandles.gst_mpegts_t2_delivery_system_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_t2_delivery_system_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,9 +301,9 @@ public class T2DeliverySystemDescriptor extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_t2_delivery_system_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_t2_delivery_system_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_t2_delivery_system_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -292,7 +329,7 @@ public class T2DeliverySystemDescriptor extends Struct {
             struct = T2DeliverySystemDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link T2DeliverySystemDescriptor} struct.
          * @return A new instance of {@code T2DeliverySystemDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -302,66 +339,84 @@ public class T2DeliverySystemDescriptor extends Struct {
         }
         
         public Builder setPlpId(byte plpId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), plpId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("plp_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), plpId);
+                return this;
+            }
         }
         
         public Builder setT2SystemId(short t2SystemId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), t2SystemId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("t2_system_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), t2SystemId);
+                return this;
+            }
         }
         
         public Builder setSisoMiso(byte sisoMiso) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sisoMiso);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("siso_miso"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sisoMiso);
+                return this;
+            }
         }
         
         public Builder setBandwidth(int bandwidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bandwidth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bandwidth);
+                return this;
+            }
         }
         
         public Builder setGuardInterval(org.gstreamer.mpegts.TerrestrialGuardInterval guardInterval) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (guardInterval == null ? MemoryAddress.NULL : guardInterval.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("guard_interval"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (guardInterval == null ? MemoryAddress.NULL : guardInterval.getValue()));
+                return this;
+            }
         }
         
         public Builder setTransmissionMode(org.gstreamer.mpegts.TerrestrialTransmissionMode transmissionMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transmissionMode == null ? MemoryAddress.NULL : transmissionMode.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transmission_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transmissionMode == null ? MemoryAddress.NULL : transmissionMode.getValue()));
+                return this;
+            }
         }
         
         public Builder setOtherFrequency(boolean otherFrequency) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(otherFrequency, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("other_frequency"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(otherFrequency, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTfs(boolean tfs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(tfs, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tfs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(tfs, null).intValue());
+                return this;
+            }
         }
         
         public Builder setCells(org.gstreamer.mpegts.T2DeliverySystemCell[] cells) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cells"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(cells, org.gstreamer.mpegts.T2DeliverySystemCell.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cells"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(cells, org.gstreamer.mpegts.T2DeliverySystemCell.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

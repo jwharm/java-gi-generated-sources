@@ -29,8 +29,8 @@ public class SurfaceTransformFlagsKHR extends Struct {
      * @return A new, uninitialized @{link SurfaceTransformFlagsKHR}
      */
     public static SurfaceTransformFlagsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SurfaceTransformFlagsKHR newInstance = new SurfaceTransformFlagsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SurfaceTransformFlagsKHR newInstance = new SurfaceTransformFlagsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SurfaceTransformFlagsKHR extends Struct {
     /**
      * Create a SurfaceTransformFlagsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SurfaceTransformFlagsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SurfaceTransformFlagsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SurfaceTransformFlagsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SurfaceTransformFlagsKHR(input, ownership);
+    public static final Marshal<Addressable, SurfaceTransformFlagsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SurfaceTransformFlagsKHR(input);
 }

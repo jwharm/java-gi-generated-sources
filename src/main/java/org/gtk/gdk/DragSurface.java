@@ -10,8 +10,11 @@ import org.jetbrains.annotations.*;
  */
 public interface DragSurface extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DragSurfaceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragSurfaceImpl(input, ownership);
+    public static final Marshal<Addressable, DragSurfaceImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DragSurfaceImpl(input);
     
     /**
      * Present {@code drag_surface}.
@@ -51,27 +54,42 @@ public interface DragSurface extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gdk_drag_surface_present = Interop.downcallHandle(
-            "gdk_drag_surface_present",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_drag_surface_present",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_drag_surface_get_type = Interop.downcallHandle(
-            "gdk_drag_surface_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_drag_surface_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The DragSurfaceImpl type represents a native instance of the DragSurface interface.
+     */
     class DragSurfaceImpl extends org.gtk.gobject.GObject implements DragSurface {
         
         static {
             Gdk.javagi$ensureInitialized();
         }
         
-        public DragSurfaceImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of DragSurface for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public DragSurfaceImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_drag_surface_get_type != null;
     }
 }

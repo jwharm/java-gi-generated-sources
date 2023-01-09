@@ -37,6 +37,9 @@ public class MetaFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MetaFlags LAST = new MetaFlags(65536);
     
+    /**
+     * Create a new MetaFlags with the provided value
+     */
     public MetaFlags(int value) {
         super(value);
     }

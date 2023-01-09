@@ -34,8 +34,11 @@ import org.jetbrains.annotations.*;
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PowerProfileMonitorImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PowerProfileMonitorImpl(input, ownership);
+    public static final Marshal<Addressable, PowerProfileMonitorImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PowerProfileMonitorImpl(input);
     
     /**
      * Gets whether the system is in “Power Saver” mode.
@@ -48,8 +51,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     default boolean getPowerSaverEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_power_profile_monitor_get_power_saver_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +83,9 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.PowerProfileMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.PowerProfileMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.PowerProfileMonitor) Interop.register(RESULT, org.gtk.gio.PowerProfileMonitor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     @ApiStatus.Internal
@@ -89,34 +93,49 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
-            "g_power_profile_monitor_get_power_saver_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_power_profile_monitor_get_power_saver_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_get_type = Interop.downcallHandle(
-            "g_power_profile_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_power_profile_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
-            "g_power_profile_monitor_dup_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_power_profile_monitor_dup_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The PowerProfileMonitorImpl type represents a native instance of the PowerProfileMonitor interface.
+     */
     class PowerProfileMonitorImpl extends org.gtk.gobject.GObject implements PowerProfileMonitor {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public PowerProfileMonitorImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of PowerProfileMonitor for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PowerProfileMonitorImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_power_profile_monitor_get_type != null;
     }
 }

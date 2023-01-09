@@ -40,26 +40,17 @@ public class GLBaseSrc extends org.gstreamer.base.PushSrc {
     
     /**
      * Create a GLBaseSrc proxy instance for the provided memory address.
-     * <p>
-     * Because GLBaseSrc is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLBaseSrc(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLBaseSrc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLBaseSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseSrc(input, ownership);
+    public static final Marshal<Addressable, GLBaseSrc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseSrc(input);
     
     /**
      * Get the gtype
@@ -91,6 +82,9 @@ public class GLBaseSrc extends org.gstreamer.base.PushSrc {
      */
     public static class Builder extends org.gstreamer.base.PushSrc.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -121,9 +115,17 @@ public class GLBaseSrc extends org.gstreamer.base.PushSrc {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_base_src_get_type = Interop.downcallHandle(
-            "gst_gl_base_src_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_base_src_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_base_src_get_type != null;
     }
 }

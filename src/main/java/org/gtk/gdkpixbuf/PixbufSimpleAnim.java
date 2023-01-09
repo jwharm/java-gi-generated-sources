@@ -28,14 +28,16 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     /**
      * Create a PixbufSimpleAnim proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufSimpleAnim(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufSimpleAnim(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufSimpleAnim> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufSimpleAnim(input, ownership);
+    public static final Marshal<Addressable, PixbufSimpleAnim> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufSimpleAnim(input);
     
     private static MemoryAddress constructNew(int width, int height, float rate) {
         MemoryAddress RESULT;
@@ -57,7 +59,8 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * @param rate the speed of the animation, in frames per second
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(constructNew(width, height, rate), Ownership.FULL);
+        super(constructNew(width, height, rate));
+        this.takeOwnership();
     }
     
     /**
@@ -83,8 +86,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     public boolean getLoop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_pixbuf_simple_anim_get_loop.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_simple_anim_get_loop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,6 +137,9 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      */
     public static class Builder extends org.gtk.gdkpixbuf.PixbufAnimation.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -170,33 +175,41 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_pixbuf_simple_anim_new = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
-            false
+                "gdk_pixbuf_simple_anim_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_add_frame = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_add_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_simple_anim_add_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_get_loop = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_get_loop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_pixbuf_simple_anim_get_loop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_set_loop = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_set_loop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_pixbuf_simple_anim_set_loop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_pixbuf_simple_anim_get_type = Interop.downcallHandle(
-            "gdk_pixbuf_simple_anim_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_pixbuf_simple_anim_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_pixbuf_simple_anim_get_type != null;
     }
 }

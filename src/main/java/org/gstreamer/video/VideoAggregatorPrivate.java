@@ -29,8 +29,8 @@ public class VideoAggregatorPrivate extends Struct {
      * @return A new, uninitialized @{link VideoAggregatorPrivate}
      */
     public static VideoAggregatorPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoAggregatorPrivate newInstance = new VideoAggregatorPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoAggregatorPrivate newInstance = new VideoAggregatorPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VideoAggregatorPrivate extends Struct {
     /**
      * Create a VideoAggregatorPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAggregatorPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoAggregatorPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAggregatorPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorPrivate(input, ownership);
+    public static final Marshal<Addressable, VideoAggregatorPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorPrivate(input);
 }

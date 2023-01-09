@@ -33,8 +33,8 @@ public class Rand extends Struct {
      * @return A new, uninitialized @{link Rand}
      */
     public static Rand allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Rand newInstance = new Rand(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Rand newInstance = new Rand(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class Rand extends Struct {
     /**
      * Create a Rand proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Rand(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Rand(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Rand> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rand(input, ownership);
+    public static final Marshal<Addressable, Rand> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Rand(input);
     
     /**
      * Copies a {@link Rand} into a new one with the same exact state as before.
@@ -60,12 +62,11 @@ public class Rand extends Struct {
     public org.gtk.glib.Rand copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -76,8 +77,7 @@ public class Rand extends Struct {
     public double double_() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.g_rand_double.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.g_rand_double.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,8 +109,7 @@ public class Rand extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_rand_free.invokeExact(
-                    handle());
+            DowncallHandles.g_rand_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +123,7 @@ public class Rand extends Struct {
     public int int_() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_rand_int.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_rand_int.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,7 +199,7 @@ public class Rand extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -212,12 +210,11 @@ public class Rand extends Struct {
     public static org.gtk.glib.Rand newWithSeed(int seed) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(
-                    seed);
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -236,75 +233,75 @@ public class Rand extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_rand_copy = Interop.downcallHandle(
-            "g_rand_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_rand_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rand_double = Interop.downcallHandle(
-            "g_rand_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "g_rand_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rand_double_range = Interop.downcallHandle(
-            "g_rand_double_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "g_rand_double_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle g_rand_free = Interop.downcallHandle(
-            "g_rand_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_rand_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rand_int = Interop.downcallHandle(
-            "g_rand_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_rand_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rand_int_range = Interop.downcallHandle(
-            "g_rand_int_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_rand_int_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
-            "g_rand_set_seed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_rand_set_seed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
-            "g_rand_set_seed_array",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_rand_set_seed_array",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_rand_new = Interop.downcallHandle(
-            "g_rand_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_rand_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
-            "g_rand_new_with_seed",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_rand_new_with_seed",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
-            "g_rand_new_with_seed_array",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_rand_new_with_seed_array",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

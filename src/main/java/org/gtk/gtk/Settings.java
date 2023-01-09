@@ -53,14 +53,16 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
     /**
      * Create a Settings proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Settings(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Settings(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Settings> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Settings(input, ownership);
+    public static final Marshal<Addressable, Settings> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Settings(input);
     
     /**
      * Undoes the effect of calling g_object_set() to install an
@@ -71,12 +73,14 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
      * @param name the name of the setting to reset
      */
     public void resetProperty(java.lang.String name) {
-        try {
-            DowncallHandles.gtk_settings_reset_property.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_settings_reset_property.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -109,7 +113,7 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Settings.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Settings) Interop.register(RESULT, org.gtk.gtk.Settings.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -120,12 +124,11 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
     public static org.gtk.gtk.Settings getForDisplay(org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_for_display.invokeExact(
-                    display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Settings.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Settings) Interop.register(RESULT, org.gtk.gtk.Settings.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -144,6 +147,9 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -881,27 +887,35 @@ public class Settings extends org.gtk.gobject.GObject implements org.gtk.gtk.Sty
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
-            "gtk_settings_reset_property",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_settings_reset_property",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_settings_get_type = Interop.downcallHandle(
-            "gtk_settings_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_settings_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
-            "gtk_settings_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_settings_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
-            "gtk_settings_get_for_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_settings_get_for_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_settings_get_type != null;
     }
 }

@@ -28,30 +28,34 @@ public class CClosureExpression extends org.gtk.gtk.Expression {
     /**
      * Create a CClosureExpression proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CClosureExpression(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CClosureExpression(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CClosureExpression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CClosureExpression(input, ownership);
+    public static final Marshal<Addressable, CClosureExpression> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CClosureExpression(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, int nParams, org.gtk.gtk.Expression[] params, org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_cclosure_expression_new.invokeExact(
-                    valueType.getValue().longValue(),
-                    (Addressable) (marshal == null ? MemoryAddress.NULL : (Addressable) marshal.toCallback()),
-                    nParams,
-                    Interop.allocateNativeArray(params, false),
-                    (Addressable) callbackFunc.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (userDestroy == null ? MemoryAddress.NULL : (Addressable) userDestroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_cclosure_expression_new.invokeExact(
+                        valueType.getValue().longValue(),
+                        (Addressable) (marshal == null ? MemoryAddress.NULL : (Addressable) marshal.toCallback()),
+                        nParams,
+                        Interop.allocateNativeArray(params, false, SCOPE),
+                        (Addressable) callbackFunc.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (userDestroy == null ? MemoryAddress.NULL : (Addressable) userDestroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -68,7 +72,8 @@ public class CClosureExpression extends org.gtk.gtk.Expression {
      * @param userDestroy destroy notify for {@code user_data}
      */
     public CClosureExpression(org.gtk.glib.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, int nParams, org.gtk.gtk.Expression[] params, org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {
-        super(constructNew(valueType, marshal, nParams, params, callbackFunc, userDestroy), Ownership.FULL);
+        super(constructNew(valueType, marshal, nParams, params, callbackFunc, userDestroy));
+        this.takeOwnership();
     }
     
     /**
@@ -88,15 +93,23 @@ public class CClosureExpression extends org.gtk.gtk.Expression {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cclosure_expression_new = Interop.downcallHandle(
-            "gtk_cclosure_expression_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cclosure_expression_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cclosure_expression_get_type = Interop.downcallHandle(
-            "gtk_cclosure_expression_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cclosure_expression_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cclosure_expression_get_type != null;
     }
 }

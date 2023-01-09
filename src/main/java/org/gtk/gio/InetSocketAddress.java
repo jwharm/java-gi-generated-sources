@@ -32,14 +32,16 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     /**
      * Create a InetSocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InetSocketAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InetSocketAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InetSocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetSocketAddress(input, ownership);
+    public static final Marshal<Addressable, InetSocketAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InetSocketAddress(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.InetAddress address, short port) {
         MemoryAddress RESULT;
@@ -59,21 +61,24 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param port a port number
      */
     public InetSocketAddress(org.gtk.gio.InetAddress address, short port) {
-        super(constructNew(address, port), Ownership.FULL);
+        super(constructNew(address, port));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromString(java.lang.String address, int port) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_new_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(address, null),
-                    port);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_new_from_string.invokeExact(
+                        Marshal.stringToAddress.marshal(address, SCOPE),
+                        port);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link InetSocketAddress} for {@code address} and {@code port}.
      * <p>
@@ -86,7 +91,9 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      */
     public static InetSocketAddress newFromString(java.lang.String address, int port) {
         var RESULT = constructNewFromString(address, port);
-        return (org.gtk.gio.InetSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.InetSocketAddress) Interop.register(RESULT, org.gtk.gio.InetSocketAddress.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -97,12 +104,11 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public org.gtk.gio.InetAddress getAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_get_address.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_get_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InetAddress) Interop.register(RESULT, org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -113,8 +119,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public int getFlowinfo() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_socket_address_get_flowinfo.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_inet_socket_address_get_flowinfo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,8 +133,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public short getPort() {
         short RESULT;
         try {
-            RESULT = (short) DowncallHandles.g_inet_socket_address_get_port.invokeExact(
-                    handle());
+            RESULT = (short) DowncallHandles.g_inet_socket_address_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,8 +148,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     public int getScopeId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_inet_socket_address_get_scope_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_inet_socket_address_get_scope_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,6 +185,9 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      */
     public static class Builder extends org.gtk.gio.SocketAddress.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -235,45 +241,53 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle g_inet_socket_address_new = Interop.downcallHandle(
-            "g_inet_socket_address_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
-            false
+                "g_inet_socket_address_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_new_from_string = Interop.downcallHandle(
-            "g_inet_socket_address_new_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_inet_socket_address_new_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_get_address = Interop.downcallHandle(
-            "g_inet_socket_address_get_address",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_inet_socket_address_get_address",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_get_flowinfo = Interop.downcallHandle(
-            "g_inet_socket_address_get_flowinfo",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_inet_socket_address_get_flowinfo",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_get_port = Interop.downcallHandle(
-            "g_inet_socket_address_get_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "g_inet_socket_address_get_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_get_scope_id = Interop.downcallHandle(
-            "g_inet_socket_address_get_scope_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_inet_socket_address_get_scope_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_inet_socket_address_get_type = Interop.downcallHandle(
-            "g_inet_socket_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_inet_socket_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_inet_socket_address_get_type != null;
     }
 }

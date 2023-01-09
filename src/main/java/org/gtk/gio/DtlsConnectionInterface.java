@@ -45,8 +45,8 @@ public class DtlsConnectionInterface extends Struct {
      * @return A new, uninitialized @{link DtlsConnectionInterface}
      */
     public static DtlsConnectionInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DtlsConnectionInterface newInstance = new DtlsConnectionInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DtlsConnectionInterface newInstance = new DtlsConnectionInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -57,7 +57,7 @@ public class DtlsConnectionInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -65,25 +65,42 @@ public class DtlsConnectionInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AcceptCertificateCallback} callback.
+     */
     @FunctionalInterface
     public interface AcceptCertificateCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection connection, org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress connection, MemoryAddress peerCert, int errors) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.DtlsConnection.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(peerCert)), org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(connection, org.gtk.gio.DtlsConnection.fromAddress).marshal(connection, null), (org.gtk.gio.TlsCertificate) Interop.register(peerCert, org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, null), new org.gtk.gio.TlsCertificateFlags(errors));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcceptCertificateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AcceptCertificateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -92,25 +109,42 @@ public class DtlsConnectionInterface extends Struct {
      * @param acceptCertificate The new value of the field {@code accept_certificate}
      */
     public void setAcceptCertificate(AcceptCertificateCallback acceptCertificate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("accept_certificate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acceptCertificate == null ? MemoryAddress.NULL : acceptCertificate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("accept_certificate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acceptCertificate == null ? MemoryAddress.NULL : acceptCertificate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandshakeCallback} callback.
+     */
     @FunctionalInterface
     public interface HandshakeCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection conn, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress conn, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandshakeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandshakeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -119,24 +153,41 @@ public class DtlsConnectionInterface extends Struct {
      * @param handshake The new value of the field {@code handshake}
      */
     public void setHandshake(HandshakeCallback handshake) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handshake"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshake == null ? MemoryAddress.NULL : handshake.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handshake"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshake == null ? MemoryAddress.NULL : handshake.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandshakeAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface HandshakeAsyncCallback {
+    
         void run(org.gtk.gio.DtlsConnection conn, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress conn, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), ioPriority, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandshakeAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandshakeAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -145,25 +196,42 @@ public class DtlsConnectionInterface extends Struct {
      * @param handshakeAsync The new value of the field {@code handshake_async}
      */
     public void setHandshakeAsync(HandshakeAsyncCallback handshakeAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handshake_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeAsync == null ? MemoryAddress.NULL : handshakeAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handshake_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshakeAsync == null ? MemoryAddress.NULL : handshakeAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandshakeFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface HandshakeFinishCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection conn, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress conn, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandshakeFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandshakeFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -172,25 +240,42 @@ public class DtlsConnectionInterface extends Struct {
      * @param handshakeFinish The new value of the field {@code handshake_finish}
      */
     public void setHandshakeFinish(HandshakeFinishCallback handshakeFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handshake_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeFinish == null ? MemoryAddress.NULL : handshakeFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handshake_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshakeFinish == null ? MemoryAddress.NULL : handshakeFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ShutdownCallback} callback.
+     */
     @FunctionalInterface
     public interface ShutdownCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection conn, boolean shutdownRead, boolean shutdownWrite, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress conn, int shutdownRead, int shutdownWrite, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), Marshal.integerToBoolean.marshal(shutdownRead, null).booleanValue(), Marshal.integerToBoolean.marshal(shutdownWrite, null).booleanValue(), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), Marshal.integerToBoolean.marshal(shutdownRead, null).booleanValue(), Marshal.integerToBoolean.marshal(shutdownWrite, null).booleanValue(), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShutdownCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ShutdownCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -199,24 +284,41 @@ public class DtlsConnectionInterface extends Struct {
      * @param shutdown The new value of the field {@code shutdown}
      */
     public void setShutdown(ShutdownCallback shutdown) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ShutdownAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface ShutdownAsyncCallback {
+    
         void run(org.gtk.gio.DtlsConnection conn, boolean shutdownRead, boolean shutdownWrite, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress conn, int shutdownRead, int shutdownWrite, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), Marshal.integerToBoolean.marshal(shutdownRead, null).booleanValue(), Marshal.integerToBoolean.marshal(shutdownWrite, null).booleanValue(), ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), Marshal.integerToBoolean.marshal(shutdownRead, null).booleanValue(), Marshal.integerToBoolean.marshal(shutdownWrite, null).booleanValue(), ioPriority, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShutdownAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ShutdownAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -225,25 +327,42 @@ public class DtlsConnectionInterface extends Struct {
      * @param shutdownAsync The new value of the field {@code shutdown_async}
      */
     public void setShutdownAsync(ShutdownAsyncCallback shutdownAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shutdown_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdownAsync == null ? MemoryAddress.NULL : shutdownAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shutdown_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdownAsync == null ? MemoryAddress.NULL : shutdownAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ShutdownFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface ShutdownFinishCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection conn, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress conn, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShutdownFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ShutdownFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -252,24 +371,43 @@ public class DtlsConnectionInterface extends Struct {
      * @param shutdownFinish The new value of the field {@code shutdown_finish}
      */
     public void setShutdownFinish(ShutdownFinishCallback shutdownFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("shutdown_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdownFinish == null ? MemoryAddress.NULL : shutdownFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("shutdown_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdownFinish == null ? MemoryAddress.NULL : shutdownFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetAdvertisedProtocolsCallback} callback.
+     */
     @FunctionalInterface
     public interface SetAdvertisedProtocolsCallback {
+    
         void run(org.gtk.gio.DtlsConnection conn, @Nullable PointerString protocols);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress conn, MemoryAddress protocols) {
-            run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), new PointerString(protocols));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), new PointerString(protocols));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetAdvertisedProtocolsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetAdvertisedProtocolsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -278,25 +416,44 @@ public class DtlsConnectionInterface extends Struct {
      * @param setAdvertisedProtocols The new value of the field {@code set_advertised_protocols}
      */
     public void setSetAdvertisedProtocols(SetAdvertisedProtocolsCallback setAdvertisedProtocols) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_advertised_protocols"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setAdvertisedProtocols == null ? MemoryAddress.NULL : setAdvertisedProtocols.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_advertised_protocols"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setAdvertisedProtocols == null ? MemoryAddress.NULL : setAdvertisedProtocols.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNegotiatedProtocolCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNegotiatedProtocolCallback {
+    
         @Nullable java.lang.String run(org.gtk.gio.DtlsConnection conn);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress conn) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNegotiatedProtocolCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNegotiatedProtocolCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -305,25 +462,44 @@ public class DtlsConnectionInterface extends Struct {
      * @param getNegotiatedProtocol The new value of the field {@code get_negotiated_protocol}
      */
     public void setGetNegotiatedProtocol(GetNegotiatedProtocolCallback getNegotiatedProtocol) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_negotiated_protocol"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNegotiatedProtocol == null ? MemoryAddress.NULL : getNegotiatedProtocol.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_negotiated_protocol"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNegotiatedProtocol == null ? MemoryAddress.NULL : getNegotiatedProtocol.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetBindingDataCallback} callback.
+     */
     @FunctionalInterface
     public interface GetBindingDataCallback {
+    
         boolean run(org.gtk.gio.DtlsConnection conn, org.gtk.gio.TlsChannelBindingType type, PointerByte data);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress conn, int type, MemoryAddress data) {
-            var RESULT = run((org.gtk.gio.DtlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(conn)), org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, Ownership.NONE), org.gtk.gio.TlsChannelBindingType.of(type), new PointerByte(data));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.DtlsConnection) Interop.register(conn, org.gtk.gio.DtlsConnection.fromAddress).marshal(conn, null), org.gtk.gio.TlsChannelBindingType.of(type), new PointerByte(data));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetBindingDataCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetBindingDataCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -332,22 +508,26 @@ public class DtlsConnectionInterface extends Struct {
      * @param getBindingData The new value of the field {@code get_binding_data}
      */
     public void setGetBindingData(GetBindingDataCallback getBindingData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_binding_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getBindingData == null ? MemoryAddress.NULL : getBindingData.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_binding_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getBindingData == null ? MemoryAddress.NULL : getBindingData.toCallback()));
+        }
     }
     
     /**
      * Create a DtlsConnectionInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DtlsConnectionInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DtlsConnectionInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DtlsConnectionInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsConnectionInterface(input, ownership);
+    public static final Marshal<Addressable, DtlsConnectionInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DtlsConnectionInterface(input);
     
     /**
      * A {@link DtlsConnectionInterface.Builder} object constructs a {@link DtlsConnectionInterface} 
@@ -371,7 +551,7 @@ public class DtlsConnectionInterface extends Struct {
             struct = DtlsConnectionInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DtlsConnectionInterface} struct.
          * @return A new instance of {@code DtlsConnectionInterface} with the fields 
          *         that were set in the Builder object.
@@ -386,80 +566,102 @@ public class DtlsConnectionInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setAcceptCertificate(AcceptCertificateCallback acceptCertificate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("accept_certificate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (acceptCertificate == null ? MemoryAddress.NULL : acceptCertificate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("accept_certificate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (acceptCertificate == null ? MemoryAddress.NULL : acceptCertificate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandshake(HandshakeCallback handshake) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handshake"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshake == null ? MemoryAddress.NULL : handshake.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handshake"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshake == null ? MemoryAddress.NULL : handshake.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandshakeAsync(HandshakeAsyncCallback handshakeAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handshake_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeAsync == null ? MemoryAddress.NULL : handshakeAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handshake_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshakeAsync == null ? MemoryAddress.NULL : handshakeAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandshakeFinish(HandshakeFinishCallback handshakeFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handshake_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handshakeFinish == null ? MemoryAddress.NULL : handshakeFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handshake_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handshakeFinish == null ? MemoryAddress.NULL : handshakeFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setShutdown(ShutdownCallback shutdown) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shutdown"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdown == null ? MemoryAddress.NULL : shutdown.toCallback()));
+                return this;
+            }
         }
         
         public Builder setShutdownAsync(ShutdownAsyncCallback shutdownAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shutdown_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdownAsync == null ? MemoryAddress.NULL : shutdownAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shutdown_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdownAsync == null ? MemoryAddress.NULL : shutdownAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setShutdownFinish(ShutdownFinishCallback shutdownFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("shutdown_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shutdownFinish == null ? MemoryAddress.NULL : shutdownFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("shutdown_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (shutdownFinish == null ? MemoryAddress.NULL : shutdownFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetAdvertisedProtocols(SetAdvertisedProtocolsCallback setAdvertisedProtocols) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_advertised_protocols"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setAdvertisedProtocols == null ? MemoryAddress.NULL : setAdvertisedProtocols.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_advertised_protocols"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setAdvertisedProtocols == null ? MemoryAddress.NULL : setAdvertisedProtocols.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetNegotiatedProtocol(GetNegotiatedProtocolCallback getNegotiatedProtocol) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_negotiated_protocol"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNegotiatedProtocol == null ? MemoryAddress.NULL : getNegotiatedProtocol.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_negotiated_protocol"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNegotiatedProtocol == null ? MemoryAddress.NULL : getNegotiatedProtocol.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetBindingData(GetBindingDataCallback getBindingData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_binding_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getBindingData == null ? MemoryAddress.NULL : getBindingData.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_binding_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getBindingData == null ? MemoryAddress.NULL : getBindingData.toCallback()));
+                return this;
+            }
         }
     }
 }

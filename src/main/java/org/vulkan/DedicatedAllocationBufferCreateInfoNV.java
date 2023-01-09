@@ -29,8 +29,8 @@ public class DedicatedAllocationBufferCreateInfoNV extends Struct {
      * @return A new, uninitialized @{link DedicatedAllocationBufferCreateInfoNV}
      */
     public static DedicatedAllocationBufferCreateInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DedicatedAllocationBufferCreateInfoNV newInstance = new DedicatedAllocationBufferCreateInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DedicatedAllocationBufferCreateInfoNV newInstance = new DedicatedAllocationBufferCreateInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DedicatedAllocationBufferCreateInfoNV extends Struct {
     /**
      * Create a DedicatedAllocationBufferCreateInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DedicatedAllocationBufferCreateInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DedicatedAllocationBufferCreateInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DedicatedAllocationBufferCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DedicatedAllocationBufferCreateInfoNV(input, ownership);
+    public static final Marshal<Addressable, DedicatedAllocationBufferCreateInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DedicatedAllocationBufferCreateInfoNV(input);
 }

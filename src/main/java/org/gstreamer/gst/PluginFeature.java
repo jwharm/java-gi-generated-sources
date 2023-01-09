@@ -27,26 +27,17 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a PluginFeature proxy instance for the provided memory address.
-     * <p>
-     * Because PluginFeature is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PluginFeature(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected PluginFeature(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PluginFeature> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PluginFeature(input, ownership);
+    public static final Marshal<Addressable, PluginFeature> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PluginFeature(input);
     
     /**
      * Checks whether the given plugin feature is at least
@@ -80,12 +71,13 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.Plugin getPlugin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_get_plugin.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_get_plugin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Plugin) Interop.register(RESULT, org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -97,8 +89,7 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getPluginName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_get_plugin_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_get_plugin_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,8 +103,7 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     public int getRank() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_plugin_feature_get_rank.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_plugin_feature_get_rank.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,12 +129,13 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.gst.PluginFeature load() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_load.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_load.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.PluginFeature) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PluginFeature.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.PluginFeature) Interop.register(RESULT, org.gstreamer.gst.PluginFeature.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -187,12 +178,13 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     public static org.gtk.glib.List listCopy(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_list_copy.invokeExact(
-                    list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_list_copy.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -202,8 +194,7 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
      */
     public static void listDebug(org.gtk.glib.List list) {
         try {
-            DowncallHandles.gst_plugin_feature_list_debug.invokeExact(
-                    list.handle());
+            DowncallHandles.gst_plugin_feature_list_debug.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,8 +207,7 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
      */
     public static void listFree(org.gtk.glib.List list) {
         try {
-            DowncallHandles.gst_plugin_feature_list_free.invokeExact(
-                    list.handle());
+            DowncallHandles.gst_plugin_feature_list_free.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,6 +252,9 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -286,69 +279,77 @@ public class PluginFeature extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_plugin_feature_check_version = Interop.downcallHandle(
-            "gst_plugin_feature_check_version",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_plugin_feature_check_version",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_get_plugin = Interop.downcallHandle(
-            "gst_plugin_feature_get_plugin",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_get_plugin",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_get_plugin_name = Interop.downcallHandle(
-            "gst_plugin_feature_get_plugin_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_get_plugin_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_get_rank = Interop.downcallHandle(
-            "gst_plugin_feature_get_rank",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_get_rank",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_load = Interop.downcallHandle(
-            "gst_plugin_feature_load",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_load",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_set_rank = Interop.downcallHandle(
-            "gst_plugin_feature_set_rank",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_plugin_feature_set_rank",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_get_type = Interop.downcallHandle(
-            "gst_plugin_feature_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_plugin_feature_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_list_copy = Interop.downcallHandle(
-            "gst_plugin_feature_list_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_list_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_list_debug = Interop.downcallHandle(
-            "gst_plugin_feature_list_debug",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_list_debug",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_list_free = Interop.downcallHandle(
-            "gst_plugin_feature_list_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_list_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_plugin_feature_rank_compare_func = Interop.downcallHandle(
-            "gst_plugin_feature_rank_compare_func",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_plugin_feature_rank_compare_func",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_plugin_feature_get_type != null;
     }
 }

@@ -126,14 +126,16 @@ public class Adapter extends org.gtk.gobject.GObject {
     /**
      * Create a Adapter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Adapter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Adapter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Adapter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Adapter(input, ownership);
+    public static final Marshal<Addressable, Adapter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Adapter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -149,7 +151,8 @@ public class Adapter extends org.gtk.gobject.GObject {
      * Creates a new {@link Adapter}. Free with g_object_unref().
      */
     public Adapter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -161,8 +164,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public long available() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_available.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,8 +181,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public long availableFast() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_available_fast.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_available_fast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,8 +193,7 @@ public class Adapter extends org.gtk.gobject.GObject {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_adapter_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_adapter_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +218,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -233,8 +235,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public long distanceFromDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_distance_from_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_distance_from_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,8 +250,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.ClockTime dtsAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_dts_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_dts_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +297,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -323,7 +325,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -347,7 +351,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -371,7 +377,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -392,16 +400,18 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return a pointer to the first {@code size} bytes of data, or {@code null}
      */
     public byte[] map(long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_adapter_map.invokeExact(
-                    handle(),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_adapter_map.invokeExact(
+                        handle(),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -479,21 +489,23 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return offset of the first match, or -1 if no match was found.
      */
     public long maskedScanUint32Peek(int mask, int pattern, long offset, long size, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_masked_scan_uint32_peek.invokeExact(
-                    handle(),
-                    mask,
-                    pattern,
-                    offset,
-                    size,
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_masked_scan_uint32_peek.invokeExact(
+                        handle(),
+                        mask,
+                        pattern,
+                        offset,
+                        size,
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return RESULT;
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT;
     }
     
     /**
@@ -504,8 +516,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public long offsetAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_offset_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_offset_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,17 +536,19 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return The previously seen dts.
      */
     public org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_prev_dts.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_prev_dts.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -552,18 +565,20 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return The previously seen dts at given offset.
      */
     public org.gstreamer.gst.ClockTime prevDtsAtOffset(long offset, Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_prev_dts_at_offset.invokeExact(
-                    handle(),
-                    offset,
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_prev_dts_at_offset.invokeExact(
+                        handle(),
+                        offset,
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -579,17 +594,19 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return The previous seen offset.
      */
     public long prevOffset(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_prev_offset.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_prev_offset.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -605,17 +622,19 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return The previously seen pts.
      */
     public org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_prev_pts.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_prev_pts.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -632,18 +651,20 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return The previously seen pts at given offset.
      */
     public org.gstreamer.gst.ClockTime prevPtsAtOffset(long offset, Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_adapter_prev_pts_at_offset.invokeExact(
-                    handle(),
-                    offset,
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_adapter_prev_pts_at_offset.invokeExact(
+                        handle(),
+                        offset,
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -654,8 +675,7 @@ public class Adapter extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.ClockTime ptsAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_adapter_pts_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_adapter_pts_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -689,16 +709,18 @@ public class Adapter extends org.gtk.gobject.GObject {
      * @return oven-fresh hot data, or {@code null} if {@code nbytes} bytes are not available
      */
     public byte[] take(long nbytes) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_adapter_take.invokeExact(
-                    handle(),
-                    nbytes);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_adapter_take.invokeExact(
+                        handle(),
+                        nbytes);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (RESULT.equals(MemoryAddress.NULL)) return null;
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), nbytes * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), nbytes * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -735,7 +757,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -776,7 +800,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -801,7 +827,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -826,7 +854,9 @@ public class Adapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -834,8 +864,7 @@ public class Adapter extends org.gtk.gobject.GObject {
      */
     public void unmap() {
         try {
-            DowncallHandles.gst_adapter_unmap.invokeExact(
-                    handle());
+            DowncallHandles.gst_adapter_unmap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -871,6 +900,9 @@ public class Adapter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -895,183 +927,191 @@ public class Adapter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_adapter_new = Interop.downcallHandle(
-            "gst_adapter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_available = Interop.downcallHandle(
-            "gst_adapter_available",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_available",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_available_fast = Interop.downcallHandle(
-            "gst_adapter_available_fast",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_available_fast",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_clear = Interop.downcallHandle(
-            "gst_adapter_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_copy_bytes = Interop.downcallHandle(
-            "gst_adapter_copy_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_copy_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_distance_from_discont = Interop.downcallHandle(
-            "gst_adapter_distance_from_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_distance_from_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_dts_at_discont = Interop.downcallHandle(
-            "gst_adapter_dts_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_dts_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_flush = Interop.downcallHandle(
-            "gst_adapter_flush",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_flush",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_get_buffer = Interop.downcallHandle(
-            "gst_adapter_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_get_buffer_fast = Interop.downcallHandle(
-            "gst_adapter_get_buffer_fast",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_get_buffer_fast",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_get_buffer_list = Interop.downcallHandle(
-            "gst_adapter_get_buffer_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_get_buffer_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_get_list = Interop.downcallHandle(
-            "gst_adapter_get_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_get_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_map = Interop.downcallHandle(
-            "gst_adapter_map",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_map",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_masked_scan_uint32 = Interop.downcallHandle(
-            "gst_adapter_masked_scan_uint32",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_masked_scan_uint32",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_masked_scan_uint32_peek = Interop.downcallHandle(
-            "gst_adapter_masked_scan_uint32_peek",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_masked_scan_uint32_peek",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_offset_at_discont = Interop.downcallHandle(
-            "gst_adapter_offset_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_offset_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_prev_dts = Interop.downcallHandle(
-            "gst_adapter_prev_dts",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_prev_dts",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_prev_dts_at_offset = Interop.downcallHandle(
-            "gst_adapter_prev_dts_at_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_prev_dts_at_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_prev_offset = Interop.downcallHandle(
-            "gst_adapter_prev_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_prev_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_prev_pts = Interop.downcallHandle(
-            "gst_adapter_prev_pts",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_prev_pts",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_prev_pts_at_offset = Interop.downcallHandle(
-            "gst_adapter_prev_pts_at_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_prev_pts_at_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_pts_at_discont = Interop.downcallHandle(
-            "gst_adapter_pts_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_pts_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_push = Interop.downcallHandle(
-            "gst_adapter_push",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_push",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_take = Interop.downcallHandle(
-            "gst_adapter_take",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_take",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_take_buffer = Interop.downcallHandle(
-            "gst_adapter_take_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_take_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_take_buffer_fast = Interop.downcallHandle(
-            "gst_adapter_take_buffer_fast",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_take_buffer_fast",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_take_buffer_list = Interop.downcallHandle(
-            "gst_adapter_take_buffer_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_take_buffer_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_take_list = Interop.downcallHandle(
-            "gst_adapter_take_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_take_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_adapter_unmap = Interop.downcallHandle(
-            "gst_adapter_unmap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_adapter_unmap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_adapter_get_type = Interop.downcallHandle(
-            "gst_adapter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_adapter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_adapter_get_type != null;
     }
 }

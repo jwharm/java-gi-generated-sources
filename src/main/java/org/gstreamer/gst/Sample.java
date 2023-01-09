@@ -33,8 +33,8 @@ public class Sample extends Struct {
      * @return A new, uninitialized @{link Sample}
      */
     public static Sample allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Sample newInstance = new Sample(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Sample newInstance = new Sample(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class Sample extends Struct {
     /**
      * Create a Sample proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Sample(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Sample(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Sample> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sample(input, ownership);
+    public static final Marshal<Addressable, Sample> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Sample(input);
     
     private static MemoryAddress constructNew(@Nullable org.gstreamer.gst.Buffer buffer, @Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Segment segment, @Nullable org.gstreamer.gst.Structure info) {
         MemoryAddress RESULT;
@@ -76,7 +78,8 @@ public class Sample extends Struct {
      * @param info a {@link Structure}, or {@code null}
      */
     public Sample(@Nullable org.gstreamer.gst.Buffer buffer, @Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Segment segment, @Nullable org.gstreamer.gst.Structure info) {
-        super(constructNew(buffer, caps, segment, info), Ownership.FULL);
+        super(constructNew(buffer, caps, segment, info));
+        this.takeOwnership();
     }
     
     /**
@@ -89,12 +92,11 @@ public class Sample extends Struct {
     public @Nullable org.gstreamer.gst.Buffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -107,12 +109,11 @@ public class Sample extends Struct {
     public @Nullable org.gstreamer.gst.BufferList getBufferList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_buffer_list.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_buffer_list.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -125,12 +126,11 @@ public class Sample extends Struct {
     public @Nullable org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -141,12 +141,11 @@ public class Sample extends Struct {
     public @Nullable org.gstreamer.gst.Structure getInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -157,12 +156,11 @@ public class Sample extends Struct {
     public org.gstreamer.gst.Segment getSegment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_segment.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_segment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -242,69 +240,69 @@ public class Sample extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_sample_new = Interop.downcallHandle(
-            "gst_sample_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_get_buffer = Interop.downcallHandle(
-            "gst_sample_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_get_buffer_list = Interop.downcallHandle(
-            "gst_sample_get_buffer_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_get_buffer_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_get_caps = Interop.downcallHandle(
-            "gst_sample_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_get_info = Interop.downcallHandle(
-            "gst_sample_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_get_segment = Interop.downcallHandle(
-            "gst_sample_get_segment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_get_segment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_set_buffer = Interop.downcallHandle(
-            "gst_sample_set_buffer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_set_buffer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_set_buffer_list = Interop.downcallHandle(
-            "gst_sample_set_buffer_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_set_buffer_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_set_caps = Interop.downcallHandle(
-            "gst_sample_set_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_set_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_set_info = Interop.downcallHandle(
-            "gst_sample_set_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_set_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_sample_set_segment = Interop.downcallHandle(
-            "gst_sample_set_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_sample_set_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

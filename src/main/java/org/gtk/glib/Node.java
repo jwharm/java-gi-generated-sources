@@ -38,8 +38,8 @@ public class Node extends Struct {
      * @return A new, uninitialized @{link Node}
      */
     public static Node allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Node newInstance = new Node(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Node newInstance = new Node(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class Node extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.foreign.MemoryAddress getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class Node extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.foreign.MemoryAddress data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class Node extends Struct {
      * @return The value of the field {@code next}
      */
     public org.gtk.glib.Node getNext() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class Node extends Struct {
      * @param next The new value of the field {@code next}
      */
     public void setNext(org.gtk.glib.Node next) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class Node extends Struct {
      * @return The value of the field {@code prev}
      */
     public org.gtk.glib.Node getPrev() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -102,9 +112,11 @@ public class Node extends Struct {
      * @param prev The new value of the field {@code prev}
      */
     public void setPrev(org.gtk.glib.Node prev) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+        }
     }
     
     /**
@@ -112,10 +124,12 @@ public class Node extends Struct {
      * @return The value of the field {@code parent}
      */
     public org.gtk.glib.Node getParent() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -123,9 +137,11 @@ public class Node extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.glib.Node parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -133,10 +149,12 @@ public class Node extends Struct {
      * @return The value of the field {@code children}
      */
     public org.gtk.glib.Node getChildren() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("children"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("children"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -144,22 +162,26 @@ public class Node extends Struct {
      * @param children The new value of the field {@code children}
      */
     public void setChildren(org.gtk.glib.Node children) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("children"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("children"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));
+        }
     }
     
     /**
      * Create a Node proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Node(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Node(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Node> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Node(input, ownership);
+    public static final Marshal<Addressable, Node> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Node(input);
     
     /**
      * Gets the position of the first child of a {@link Node}
@@ -226,12 +248,11 @@ public class Node extends Struct {
     public org.gtk.glib.Node copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -250,7 +271,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -263,8 +284,7 @@ public class Node extends Struct {
     public int depth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_depth.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_node_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,8 +297,7 @@ public class Node extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_node_destroy.invokeExact(
-                    handle());
+            DowncallHandles.g_node_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +322,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -322,7 +341,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -333,12 +352,11 @@ public class Node extends Struct {
     public org.gtk.glib.Node firstSibling() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_first_sibling.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_first_sibling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -348,12 +366,11 @@ public class Node extends Struct {
     public org.gtk.glib.Node getRoot() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_get_root.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_get_root.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -373,7 +390,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -393,7 +410,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -413,7 +430,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -442,12 +459,11 @@ public class Node extends Struct {
     public org.gtk.glib.Node lastChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_last_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_last_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -458,12 +474,11 @@ public class Node extends Struct {
     public org.gtk.glib.Node lastSibling() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_last_sibling.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_node_last_sibling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -477,8 +492,7 @@ public class Node extends Struct {
     public int maxHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_max_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_node_max_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -492,8 +506,7 @@ public class Node extends Struct {
     public int nChildren() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_node_n_children.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_node_n_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +547,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -551,7 +564,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -560,8 +573,7 @@ public class Node extends Struct {
      */
     public void reverseChildren() {
         try {
-            DowncallHandles.g_node_reverse_children.invokeExact(
-                    handle());
+            DowncallHandles.g_node_reverse_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -601,8 +613,7 @@ public class Node extends Struct {
      */
     public void unlink() {
         try {
-            DowncallHandles.g_node_unlink.invokeExact(
-                    handle());
+            DowncallHandles.g_node_unlink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -616,170 +627,169 @@ public class Node extends Struct {
     public static org.gtk.glib.Node new_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_node_new.invokeExact(
-                    (Addressable) MemoryAddress.NULL);
+            RESULT = (MemoryAddress) DowncallHandles.g_node_new.invokeExact((Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_node_child_index = Interop.downcallHandle(
-            "g_node_child_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_child_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_child_position = Interop.downcallHandle(
-            "g_node_child_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_child_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_children_foreach = Interop.downcallHandle(
-            "g_node_children_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_children_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_copy = Interop.downcallHandle(
-            "g_node_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_copy_deep = Interop.downcallHandle(
-            "g_node_copy_deep",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_copy_deep",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_depth = Interop.downcallHandle(
-            "g_node_depth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_depth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_destroy = Interop.downcallHandle(
-            "g_node_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_node_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_find = Interop.downcallHandle(
-            "g_node_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_find_child = Interop.downcallHandle(
-            "g_node_find_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_find_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_first_sibling = Interop.downcallHandle(
-            "g_node_first_sibling",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_first_sibling",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_get_root = Interop.downcallHandle(
-            "g_node_get_root",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_get_root",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_insert = Interop.downcallHandle(
-            "g_node_insert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_insert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_insert_after = Interop.downcallHandle(
-            "g_node_insert_after",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_insert_after",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_insert_before = Interop.downcallHandle(
-            "g_node_insert_before",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_insert_before",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_is_ancestor = Interop.downcallHandle(
-            "g_node_is_ancestor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_is_ancestor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_last_child = Interop.downcallHandle(
-            "g_node_last_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_last_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_last_sibling = Interop.downcallHandle(
-            "g_node_last_sibling",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_last_sibling",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_max_height = Interop.downcallHandle(
-            "g_node_max_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_max_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_n_children = Interop.downcallHandle(
-            "g_node_n_children",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_n_children",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_n_nodes = Interop.downcallHandle(
-            "g_node_n_nodes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_node_n_nodes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_node_nth_child = Interop.downcallHandle(
-            "g_node_nth_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_node_nth_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_node_prepend = Interop.downcallHandle(
-            "g_node_prepend",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_prepend",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_reverse_children = Interop.downcallHandle(
-            "g_node_reverse_children",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_node_reverse_children",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_traverse = Interop.downcallHandle(
-            "g_node_traverse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_traverse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_unlink = Interop.downcallHandle(
-            "g_node_unlink",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_node_unlink",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_node_new = Interop.downcallHandle(
-            "g_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -805,7 +815,7 @@ public class Node extends Struct {
             struct = Node.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Node} struct.
          * @return A new instance of {@code Node} with the fields 
          *         that were set in the Builder object.
@@ -820,10 +830,12 @@ public class Node extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(java.lang.foreign.MemoryAddress data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+                return this;
+            }
         }
         
         /**
@@ -833,10 +845,12 @@ public class Node extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNext(org.gtk.glib.Node next) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+                return this;
+            }
         }
         
         /**
@@ -845,10 +859,12 @@ public class Node extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrev(org.gtk.glib.Node prev) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+                return this;
+            }
         }
         
         /**
@@ -858,10 +874,12 @@ public class Node extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gtk.glib.Node parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -872,10 +890,12 @@ public class Node extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setChildren(org.gtk.glib.Node children) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("children"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("children"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));
+                return this;
+            }
         }
     }
 }

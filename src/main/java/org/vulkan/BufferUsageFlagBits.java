@@ -29,8 +29,8 @@ public class BufferUsageFlagBits extends Struct {
      * @return A new, uninitialized @{link BufferUsageFlagBits}
      */
     public static BufferUsageFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BufferUsageFlagBits newInstance = new BufferUsageFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BufferUsageFlagBits newInstance = new BufferUsageFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BufferUsageFlagBits extends Struct {
     /**
      * Create a BufferUsageFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferUsageFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferUsageFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferUsageFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferUsageFlagBits(input, ownership);
+    public static final Marshal<Addressable, BufferUsageFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferUsageFlagBits(input);
 }

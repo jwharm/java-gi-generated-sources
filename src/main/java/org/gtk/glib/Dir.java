@@ -32,8 +32,8 @@ public class Dir extends Struct {
      * @return A new, uninitialized @{link Dir}
      */
     public static Dir allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Dir newInstance = new Dir(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Dir newInstance = new Dir(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,22 +41,23 @@ public class Dir extends Struct {
     /**
      * Create a Dir proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Dir(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Dir(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Dir> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Dir(input, ownership);
+    public static final Marshal<Addressable, Dir> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Dir(input);
     
     /**
      * Closes the directory and deallocates all related resources.
      */
     public void close() {
         try {
-            DowncallHandles.g_dir_close.invokeExact(
-                    handle());
+            DowncallHandles.g_dir_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,8 +84,7 @@ public class Dir extends Struct {
     public java.lang.String readName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,8 +97,7 @@ public class Dir extends Struct {
      */
     public void rewind() {
         try {
-            DowncallHandles.g_dir_rewind.invokeExact(
-                    handle());
+            DowncallHandles.g_dir_rewind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,19 +124,19 @@ public class Dir extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact((Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, SCOPE)),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -153,52 +152,54 @@ public class Dir extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.glib.Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(
-                    Marshal.stringToAddress.marshal(path, null),
-                    flags,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(
+                        Marshal.stringToAddress.marshal(path, SCOPE),
+                        flags,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.glib.Dir.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.glib.Dir.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_dir_close = Interop.downcallHandle(
-            "g_dir_close",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dir_close",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dir_read_name = Interop.downcallHandle(
-            "g_dir_read_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dir_read_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dir_rewind = Interop.downcallHandle(
-            "g_dir_rewind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_dir_rewind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
-            "g_dir_make_tmp",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dir_make_tmp",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dir_open = Interop.downcallHandle(
-            "g_dir_open",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dir_open",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -38,25 +38,42 @@ public class DBusProxyClass extends Struct {
      * @return A new, uninitialized @{link DBusProxyClass}
      */
     public static DBusProxyClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusProxyClass newInstance = new DBusProxyClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusProxyClass newInstance = new DBusProxyClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code GPropertiesChangedCallback} callback.
+     */
     @FunctionalInterface
     public interface GPropertiesChangedCallback {
+    
         void run(org.gtk.gio.DBusProxy proxy, org.gtk.glib.Variant changedProperties, java.lang.String invalidatedProperties);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress proxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties) {
-            run((org.gtk.gio.DBusProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.DBusProxy.fromAddress).marshal(proxy, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(changedProperties, Ownership.NONE), Marshal.addressToString.marshal(invalidatedProperties, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.DBusProxy) Interop.register(proxy, org.gtk.gio.DBusProxy.fromAddress).marshal(proxy, null), org.gtk.glib.Variant.fromAddress.marshal(changedProperties, null), Marshal.addressToString.marshal(invalidatedProperties, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GPropertiesChangedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GPropertiesChangedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -65,24 +82,43 @@ public class DBusProxyClass extends Struct {
      * @param gPropertiesChanged The new value of the field {@code g_properties_changed}
      */
     public void setGPropertiesChanged(GPropertiesChangedCallback gPropertiesChanged) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_properties_changed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gPropertiesChanged == null ? MemoryAddress.NULL : gPropertiesChanged.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_properties_changed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gPropertiesChanged == null ? MemoryAddress.NULL : gPropertiesChanged.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GSignalCallback} callback.
+     */
     @FunctionalInterface
     public interface GSignalCallback {
+    
         void run(org.gtk.gio.DBusProxy proxy, java.lang.String senderName, java.lang.String signalName, org.gtk.glib.Variant parameters);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress proxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters) {
-            run((org.gtk.gio.DBusProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(proxy)), org.gtk.gio.DBusProxy.fromAddress).marshal(proxy, Ownership.NONE), Marshal.addressToString.marshal(senderName, null), Marshal.addressToString.marshal(signalName, null), org.gtk.glib.Variant.fromAddress.marshal(parameters, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.DBusProxy) Interop.register(proxy, org.gtk.gio.DBusProxy.fromAddress).marshal(proxy, null), Marshal.addressToString.marshal(senderName, null), Marshal.addressToString.marshal(signalName, null), org.gtk.glib.Variant.fromAddress.marshal(parameters, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GSignalCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GSignalCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -91,22 +127,26 @@ public class DBusProxyClass extends Struct {
      * @param gSignal The new value of the field {@code g_signal}
      */
     public void setGSignal(GSignalCallback gSignal) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_signal"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gSignal == null ? MemoryAddress.NULL : gSignal.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_signal"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gSignal == null ? MemoryAddress.NULL : gSignal.toCallback()));
+        }
     }
     
     /**
      * Create a DBusProxyClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusProxyClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusProxyClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusProxyClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusProxyClass(input, ownership);
+    public static final Marshal<Addressable, DBusProxyClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusProxyClass(input);
     
     /**
      * A {@link DBusProxyClass.Builder} object constructs a {@link DBusProxyClass} 
@@ -130,7 +170,7 @@ public class DBusProxyClass extends Struct {
             struct = DBusProxyClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusProxyClass} struct.
          * @return A new instance of {@code DBusProxyClass} with the fields 
          *         that were set in the Builder object.
@@ -140,31 +180,39 @@ public class DBusProxyClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGPropertiesChanged(GPropertiesChangedCallback gPropertiesChanged) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_properties_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gPropertiesChanged == null ? MemoryAddress.NULL : gPropertiesChanged.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_properties_changed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gPropertiesChanged == null ? MemoryAddress.NULL : gPropertiesChanged.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGSignal(GSignalCallback gSignal) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_signal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gSignal == null ? MemoryAddress.NULL : gSignal.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_signal"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gSignal == null ? MemoryAddress.NULL : gSignal.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

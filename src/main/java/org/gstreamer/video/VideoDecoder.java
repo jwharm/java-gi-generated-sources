@@ -149,26 +149,17 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     
     /**
      * Create a VideoDecoder proxy instance for the provided memory address.
-     * <p>
-     * Because VideoDecoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoDecoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VideoDecoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoDecoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoDecoder(input, ownership);
+    public static final Marshal<Addressable, VideoDecoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoDecoder(input);
     
     /**
      * Removes next {@code n_bytes} of input data and adds it to currently parsed frame.
@@ -196,12 +187,13 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.Buffer allocateOutputBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_allocate_output_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_allocate_output_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -343,35 +335,37 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_video_decoder_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_video_decoder_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            params.yieldOwnership();
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        params.yieldOwnership();
     }
     
     public org.gstreamer.gst.BufferPool getBufferPool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_buffer_pool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_buffer_pool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.BufferPool) Interop.register(RESULT, org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public int getEstimateRate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_estimate_rate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_estimate_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -392,7 +386,9 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -402,12 +398,13 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public org.gtk.glib.List getFrames() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_frames.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_frames.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -437,18 +434,20 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
      *     configured mximum latency, or {@code null}
      */
     public void getLatency(@Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
-        MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_video_decoder_get_latency.invokeExact(
-                    handle(),
-                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
-                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_video_decoder_get_latency.invokeExact(
+                        handle(),
+                        (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                        (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -474,8 +473,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public int getMaxErrors() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_max_errors.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_max_errors.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,8 +487,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public boolean getNeedsFormat() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_needs_format.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_needs_format.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -505,8 +502,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public boolean getNeedsSyncPoint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_needs_sync_point.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_needs_sync_point.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -520,12 +516,13 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public org.gstreamer.video.VideoCodecFrame getOldestFrame() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_oldest_frame.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_oldest_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -535,12 +532,13 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public org.gstreamer.video.VideoCodecState getOutputState() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_output_state.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_decoder_get_output_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -551,8 +549,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public boolean getPacketized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_packetized.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_packetized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -567,8 +564,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public long getPendingFrameSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_video_decoder_get_pending_frame_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_video_decoder_get_pending_frame_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,8 +592,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public double getQosProportion() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gst_video_decoder_get_qos_proportion.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gst_video_decoder_get_qos_proportion.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -613,8 +608,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public boolean getSubframeMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_get_subframe_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_get_subframe_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -629,8 +623,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.FlowReturn haveFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_have_frame.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_have_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -690,8 +683,7 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     public boolean negotiate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_decoder_negotiate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_decoder_negotiate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,7 +708,9 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -811,7 +805,9 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -923,7 +919,9 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1018,6 +1016,9 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1121,267 +1122,275 @@ public class VideoDecoder extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_decoder_add_to_frame = Interop.downcallHandle(
-            "gst_video_decoder_add_to_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_add_to_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_allocate_output_buffer = Interop.downcallHandle(
-            "gst_video_decoder_allocate_output_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_allocate_output_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_allocate_output_frame = Interop.downcallHandle(
-            "gst_video_decoder_allocate_output_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_allocate_output_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_allocate_output_frame_with_params = Interop.downcallHandle(
-            "gst_video_decoder_allocate_output_frame_with_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_allocate_output_frame_with_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_drop_frame = Interop.downcallHandle(
-            "gst_video_decoder_drop_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_drop_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_drop_subframe = Interop.downcallHandle(
-            "gst_video_decoder_drop_subframe",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_drop_subframe",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_finish_frame = Interop.downcallHandle(
-            "gst_video_decoder_finish_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_finish_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_finish_subframe = Interop.downcallHandle(
-            "gst_video_decoder_finish_subframe",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_finish_subframe",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_allocator = Interop.downcallHandle(
-            "gst_video_decoder_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_buffer_pool = Interop.downcallHandle(
-            "gst_video_decoder_get_buffer_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_buffer_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_estimate_rate = Interop.downcallHandle(
-            "gst_video_decoder_get_estimate_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_estimate_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_frame = Interop.downcallHandle(
-            "gst_video_decoder_get_frame",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_get_frame",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_frames = Interop.downcallHandle(
-            "gst_video_decoder_get_frames",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_frames",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_input_subframe_index = Interop.downcallHandle(
-            "gst_video_decoder_get_input_subframe_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_input_subframe_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_latency = Interop.downcallHandle(
-            "gst_video_decoder_get_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_max_decode_time = Interop.downcallHandle(
-            "gst_video_decoder_get_max_decode_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_max_decode_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_max_errors = Interop.downcallHandle(
-            "gst_video_decoder_get_max_errors",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_max_errors",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_needs_format = Interop.downcallHandle(
-            "gst_video_decoder_get_needs_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_needs_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_needs_sync_point = Interop.downcallHandle(
-            "gst_video_decoder_get_needs_sync_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_needs_sync_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_oldest_frame = Interop.downcallHandle(
-            "gst_video_decoder_get_oldest_frame",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_oldest_frame",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_output_state = Interop.downcallHandle(
-            "gst_video_decoder_get_output_state",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_output_state",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_packetized = Interop.downcallHandle(
-            "gst_video_decoder_get_packetized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_packetized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_pending_frame_size = Interop.downcallHandle(
-            "gst_video_decoder_get_pending_frame_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_pending_frame_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_processed_subframe_index = Interop.downcallHandle(
-            "gst_video_decoder_get_processed_subframe_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_processed_subframe_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_qos_proportion = Interop.downcallHandle(
-            "gst_video_decoder_get_qos_proportion",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_qos_proportion",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_subframe_mode = Interop.downcallHandle(
-            "gst_video_decoder_get_subframe_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_get_subframe_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_have_frame = Interop.downcallHandle(
-            "gst_video_decoder_have_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_have_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_have_last_subframe = Interop.downcallHandle(
-            "gst_video_decoder_have_last_subframe",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_have_last_subframe",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_merge_tags = Interop.downcallHandle(
-            "gst_video_decoder_merge_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_merge_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_negotiate = Interop.downcallHandle(
-            "gst_video_decoder_negotiate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_negotiate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_proxy_getcaps = Interop.downcallHandle(
-            "gst_video_decoder_proxy_getcaps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_proxy_getcaps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_release_frame = Interop.downcallHandle(
-            "gst_video_decoder_release_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_release_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_request_sync_point = Interop.downcallHandle(
-            "gst_video_decoder_request_sync_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_request_sync_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_estimate_rate = Interop.downcallHandle(
-            "gst_video_decoder_set_estimate_rate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_estimate_rate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_interlaced_output_state = Interop.downcallHandle(
-            "gst_video_decoder_set_interlaced_output_state",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_set_interlaced_output_state",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_latency = Interop.downcallHandle(
-            "gst_video_decoder_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_video_decoder_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_max_errors = Interop.downcallHandle(
-            "gst_video_decoder_set_max_errors",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_max_errors",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_needs_format = Interop.downcallHandle(
-            "gst_video_decoder_set_needs_format",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_needs_format",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_needs_sync_point = Interop.downcallHandle(
-            "gst_video_decoder_set_needs_sync_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_needs_sync_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_output_state = Interop.downcallHandle(
-            "gst_video_decoder_set_output_state",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_decoder_set_output_state",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_packetized = Interop.downcallHandle(
-            "gst_video_decoder_set_packetized",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_packetized",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_subframe_mode = Interop.downcallHandle(
-            "gst_video_decoder_set_subframe_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_subframe_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_set_use_default_pad_acceptcaps = Interop.downcallHandle(
-            "gst_video_decoder_set_use_default_pad_acceptcaps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_decoder_set_use_default_pad_acceptcaps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_decoder_get_type = Interop.downcallHandle(
-            "gst_video_decoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_decoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_decoder_get_type != null;
     }
 }

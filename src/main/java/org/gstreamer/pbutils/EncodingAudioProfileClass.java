@@ -29,8 +29,8 @@ public class EncodingAudioProfileClass extends Struct {
      * @return A new, uninitialized @{link EncodingAudioProfileClass}
      */
     public static EncodingAudioProfileClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EncodingAudioProfileClass newInstance = new EncodingAudioProfileClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EncodingAudioProfileClass newInstance = new EncodingAudioProfileClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class EncodingAudioProfileClass extends Struct {
     /**
      * Create a EncodingAudioProfileClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EncodingAudioProfileClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EncodingAudioProfileClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EncodingAudioProfileClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingAudioProfileClass(input, ownership);
+    public static final Marshal<Addressable, EncodingAudioProfileClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EncodingAudioProfileClass(input);
 }

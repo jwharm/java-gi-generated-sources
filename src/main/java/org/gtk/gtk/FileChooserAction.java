@@ -10,17 +10,20 @@ import org.jetbrains.annotations.*;
  * or to save to a possibly new file.
  */
 public enum FileChooserAction implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Indicates open mode.  The file chooser
      *  will only let the user pick an existing file.
      */
     OPEN(0),
+    
     /**
      * Indicates save mode.  The file chooser
      *  will let the user pick an existing file, or type in a new
      *  filename.
      */
     SAVE(1),
+    
     /**
      * Indicates an Open mode for
      *  selecting folders.  The file chooser will let the user pick an
@@ -31,15 +34,29 @@ public enum FileChooserAction implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkFileChooserAction";
     
     private final int value;
+    
+    /**
+     * Create a new FileChooserAction for the provided value
+     * @param numeric value the enum value
+     */
     FileChooserAction(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new FileChooserAction for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static FileChooserAction of(int value) {
         return switch (value) {
             case 0 -> OPEN;

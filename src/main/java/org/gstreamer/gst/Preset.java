@@ -32,8 +32,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Preset extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PresetImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PresetImpl(input, ownership);
+    public static final Marshal<Addressable, PresetImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PresetImpl(input);
     
     /**
      * Delete the given preset.
@@ -41,15 +44,17 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
     default boolean deletePreset(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_delete_preset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_delete_preset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -62,19 +67,21 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * or no value for the given {@code tag}
      */
     default boolean getMeta(java.lang.String name, java.lang.String tag, Out<java.lang.String> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_get_meta.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_get_meta.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -82,14 +89,15 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return list with names, use g_strfreev() after usage.
      */
     default PointerString getPresetNames() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_preset_names.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_preset_names.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -98,14 +106,15 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      *   array of property names which should be freed with g_strfreev() after use.
      */
     default PointerString getPropertyNames() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_property_names.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_property_names.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -115,8 +124,7 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
     default boolean isEditable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_preset_is_editable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_preset_is_editable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,15 +137,17 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
     default boolean loadPreset(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_load_preset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_load_preset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -148,16 +158,18 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if e.g. there is no preset with {@code old_name}
      */
     default boolean renamePreset(java.lang.String oldName, java.lang.String newName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_rename_preset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(oldName, null),
-                    Marshal.stringToAddress.marshal(newName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_rename_preset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(oldName, SCOPE),
+                        Marshal.stringToAddress.marshal(newName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -167,15 +179,17 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false}
      */
     default boolean savePreset(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_save_preset.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_save_preset.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -188,17 +202,19 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
     default boolean setMeta(java.lang.String name, java.lang.String tag, @Nullable java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_set_meta.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_set_meta.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -239,14 +255,15 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if the dir already has been set
      */
     public static boolean setAppDir(java.lang.String appDir) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_preset_set_app_dir.invokeExact(
-                    Marshal.stringToAddress.marshal(appDir, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_preset_set_app_dir.invokeExact(Marshal.stringToAddress.marshal(appDir, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @ApiStatus.Internal
@@ -254,97 +271,112 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_delete_preset = Interop.downcallHandle(
-            "gst_preset_delete_preset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_delete_preset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_get_meta = Interop.downcallHandle(
-            "gst_preset_get_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_get_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_get_preset_names = Interop.downcallHandle(
-            "gst_preset_get_preset_names",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_get_preset_names",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_get_property_names = Interop.downcallHandle(
-            "gst_preset_get_property_names",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_get_property_names",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_is_editable = Interop.downcallHandle(
-            "gst_preset_is_editable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_is_editable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_load_preset = Interop.downcallHandle(
-            "gst_preset_load_preset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_load_preset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_rename_preset = Interop.downcallHandle(
-            "gst_preset_rename_preset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_rename_preset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_save_preset = Interop.downcallHandle(
-            "gst_preset_save_preset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_save_preset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_set_meta = Interop.downcallHandle(
-            "gst_preset_set_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_set_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_get_type = Interop.downcallHandle(
-            "gst_preset_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_preset_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_get_app_dir = Interop.downcallHandle(
-            "gst_preset_get_app_dir",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_get_app_dir",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_preset_set_app_dir = Interop.downcallHandle(
-            "gst_preset_set_app_dir",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_preset_set_app_dir",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The PresetImpl type represents a native instance of the Preset interface.
+     */
     class PresetImpl extends org.gtk.gobject.GObject implements Preset {
         
         static {
             Gst.javagi$ensureInitialized();
         }
         
-        public PresetImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Preset for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public PresetImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_preset_get_type != null;
     }
 }

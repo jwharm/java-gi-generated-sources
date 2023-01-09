@@ -59,27 +59,31 @@ public class Cursor extends org.gtk.gobject.GObject {
     /**
      * Create a Cursor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Cursor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Cursor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Cursor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Cursor(input, ownership);
+    public static final Marshal<Addressable, Cursor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Cursor(input);
     
     private static MemoryAddress constructNewFromName(java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_new_from_name.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (fallback == null ? MemoryAddress.NULL : fallback.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_new_from_name.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (fallback == null ? MemoryAddress.NULL : fallback.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new cursor by looking up {@code name} in the current cursor
      * theme.
@@ -106,7 +110,9 @@ public class Cursor extends org.gtk.gobject.GObject {
      */
     public static Cursor newFromName(java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
         var RESULT = constructNewFromName(name, fallback);
-        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Cursor) Interop.register(RESULT, org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromTexture(org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
@@ -122,7 +128,7 @@ public class Cursor extends org.gtk.gobject.GObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new cursor from a {@code GdkTexture}.
      * @param texture the texture providing the pixel data
@@ -134,7 +140,9 @@ public class Cursor extends org.gtk.gobject.GObject {
      */
     public static Cursor newFromTexture(org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
         var RESULT = constructNewFromTexture(texture, hotspotX, hotspotY, fallback);
-        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Cursor) Interop.register(RESULT, org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -151,12 +159,11 @@ public class Cursor extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Cursor getFallback() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_fallback.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_fallback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Cursor) Interop.register(RESULT, org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -172,8 +179,7 @@ public class Cursor extends org.gtk.gobject.GObject {
     public int getHotspotX() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_x.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,8 +199,7 @@ public class Cursor extends org.gtk.gobject.GObject {
     public int getHotspotY() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_y.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_cursor_get_hotspot_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,8 +216,7 @@ public class Cursor extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,12 +233,11 @@ public class Cursor extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Texture getTexture() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_texture.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_get_texture.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -267,6 +270,9 @@ public class Cursor extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -350,51 +356,59 @@ public class Cursor extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_cursor_new_from_name = Interop.downcallHandle(
-            "gdk_cursor_new_from_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_new_from_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_new_from_texture = Interop.downcallHandle(
-            "gdk_cursor_new_from_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_new_from_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_fallback = Interop.downcallHandle(
-            "gdk_cursor_get_fallback",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_get_fallback",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_hotspot_x = Interop.downcallHandle(
-            "gdk_cursor_get_hotspot_x",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_get_hotspot_x",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_hotspot_y = Interop.downcallHandle(
-            "gdk_cursor_get_hotspot_y",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_get_hotspot_y",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_name = Interop.downcallHandle(
-            "gdk_cursor_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_texture = Interop.downcallHandle(
-            "gdk_cursor_get_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_cursor_get_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_cursor_get_type = Interop.downcallHandle(
-            "gdk_cursor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_cursor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_cursor_get_type != null;
     }
 }

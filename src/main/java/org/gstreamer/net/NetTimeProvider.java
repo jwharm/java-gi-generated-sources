@@ -39,38 +39,31 @@ public class NetTimeProvider extends org.gstreamer.gst.GstObject implements org.
     
     /**
      * Create a NetTimeProvider proxy instance for the provided memory address.
-     * <p>
-     * Because NetTimeProvider is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetTimeProvider(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected NetTimeProvider(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetTimeProvider> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetTimeProvider(input);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_net_time_provider_new.invokeExact(
+                        clock.handle(),
+                        (Addressable) (address == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(address, SCOPE)),
+                        port);
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, NetTimeProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetTimeProvider(input, ownership);
-    
-    private static MemoryAddress constructNew(org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_net_time_provider_new.invokeExact(
-                    clock.handle(),
-                    (Addressable) (address == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(address, null)),
-                    port);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -81,7 +74,8 @@ public class NetTimeProvider extends org.gstreamer.gst.GstObject implements org.
      * @param port a port to bind on, or 0 to let the kernel choose
      */
     public NetTimeProvider(org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
-        super(constructNew(clock, address, port), Ownership.FULL);
+        super(constructNew(clock, address, port));
+        this.takeOwnership();
     }
     
     /**
@@ -114,6 +108,9 @@ public class NetTimeProvider extends org.gstreamer.gst.GstObject implements org.
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -168,15 +165,23 @@ public class NetTimeProvider extends org.gstreamer.gst.GstObject implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle gst_net_time_provider_new = Interop.downcallHandle(
-            "gst_net_time_provider_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_net_time_provider_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_net_time_provider_get_type = Interop.downcallHandle(
-            "gst_net_time_provider_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_net_time_provider_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_net_time_provider_get_type != null;
     }
 }

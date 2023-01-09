@@ -10,10 +10,12 @@ import org.jetbrains.annotations.*;
  * @version 2.70
  */
 public enum ModuleError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * there was an error loading or opening a module file
      */
     FAILED(0),
+    
     /**
      * a module returned an error from its {@code g_module_check_init()} function
      */
@@ -22,15 +24,29 @@ public enum ModuleError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GModuleError";
     
     private final int value;
+    
+    /**
+     * Create a new ModuleError for the provided value
+     * @param numeric value the enum value
+     */
     ModuleError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ModuleError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ModuleError of(int value) {
         return switch (value) {
             case 0 -> FAILED;

@@ -33,16 +33,22 @@ public class ParamSpecEnum extends org.gtk.gobject.ParamSpec {
     /**
      * Create a ParamSpecEnum proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecEnum(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecEnum(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecEnum> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecEnum(input, ownership);
-
+    public static final Marshal<Addressable, ParamSpecEnum> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecEnum(input);
+    
     public static org.gtk.glib.Type getType() {
         return org.gtk.glib.Type.G_TYPE_PARAM;
+    }
+    
+    public static boolean isAvailable() {
+        return true;
     }
 }

@@ -29,8 +29,8 @@ public class PhysicalDeviceHostQueryResetFeaturesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceHostQueryResetFeaturesEXT}
      */
     public static PhysicalDeviceHostQueryResetFeaturesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceHostQueryResetFeaturesEXT newInstance = new PhysicalDeviceHostQueryResetFeaturesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceHostQueryResetFeaturesEXT newInstance = new PhysicalDeviceHostQueryResetFeaturesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceHostQueryResetFeaturesEXT extends Struct {
     /**
      * Create a PhysicalDeviceHostQueryResetFeaturesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceHostQueryResetFeaturesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceHostQueryResetFeaturesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceHostQueryResetFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceHostQueryResetFeaturesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceHostQueryResetFeaturesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceHostQueryResetFeaturesEXT(input);
 }

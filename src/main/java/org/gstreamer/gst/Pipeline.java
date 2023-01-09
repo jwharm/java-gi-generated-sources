@@ -82,36 +82,28 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     
     /**
      * Create a Pipeline proxy instance for the provided memory address.
-     * <p>
-     * Because Pipeline is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Pipeline(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Pipeline(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Pipeline> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Pipeline(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_new.invokeExact((Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Pipeline> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Pipeline(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -119,7 +111,9 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * @param name name of new pipeline
      */
     public Pipeline(@Nullable java.lang.String name) {
-        super(constructNew(name), Ownership.NONE);
+        super(constructNew(name));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -134,8 +128,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      */
     public void autoClock() {
         try {
-            DowncallHandles.gst_pipeline_auto_clock.invokeExact(
-                    handle());
+            DowncallHandles.gst_pipeline_auto_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +145,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public boolean getAutoFlushBus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_pipeline_get_auto_flush_bus.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_pipeline_get_auto_flush_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,12 +162,13 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_bus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Bus) Interop.register(RESULT, org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -190,12 +183,13 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public org.gstreamer.gst.Clock getClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_clock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -207,8 +201,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public org.gstreamer.gst.ClockTime getDelay() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_pipeline_get_delay.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_pipeline_get_delay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,8 +216,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_pipeline_get_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_pipeline_get_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,12 +233,13 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     public org.gstreamer.gst.Clock getPipelineClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_pipeline_clock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_pipeline_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Clock) Interop.register(RESULT, org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -392,6 +385,9 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      */
     public static class Builder extends org.gstreamer.gst.Bin.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -453,87 +449,95 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     private static class DowncallHandles {
         
         private static final MethodHandle gst_pipeline_new = Interop.downcallHandle(
-            "gst_pipeline_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_auto_clock = Interop.downcallHandle(
-            "gst_pipeline_auto_clock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_auto_clock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_auto_flush_bus = Interop.downcallHandle(
-            "gst_pipeline_get_auto_flush_bus",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_auto_flush_bus",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_bus = Interop.downcallHandle(
-            "gst_pipeline_get_bus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_bus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_clock = Interop.downcallHandle(
-            "gst_pipeline_get_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_delay = Interop.downcallHandle(
-            "gst_pipeline_get_delay",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_delay",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_latency = Interop.downcallHandle(
-            "gst_pipeline_get_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_pipeline_clock = Interop.downcallHandle(
-            "gst_pipeline_get_pipeline_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_get_pipeline_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_set_auto_flush_bus = Interop.downcallHandle(
-            "gst_pipeline_set_auto_flush_bus",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_pipeline_set_auto_flush_bus",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_pipeline_set_clock = Interop.downcallHandle(
-            "gst_pipeline_set_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_set_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_set_delay = Interop.downcallHandle(
-            "gst_pipeline_set_delay",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_pipeline_set_delay",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_pipeline_set_latency = Interop.downcallHandle(
-            "gst_pipeline_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_pipeline_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_pipeline_use_clock = Interop.downcallHandle(
-            "gst_pipeline_use_clock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_pipeline_use_clock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_pipeline_get_type = Interop.downcallHandle(
-            "gst_pipeline_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_pipeline_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_pipeline_get_type != null;
     }
 }

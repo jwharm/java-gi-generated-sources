@@ -43,8 +43,8 @@ public class LogField extends Struct {
      * @return A new, uninitialized @{link LogField}
      */
     public static LogField allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LogField newInstance = new LogField(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LogField newInstance = new LogField(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class LogField extends Struct {
      * @return The value of the field {@code key}
      */
     public java.lang.String getKey() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class LogField extends Struct {
      * @param key The new value of the field {@code key}
      */
     public void setKey(java.lang.String key) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class LogField extends Struct {
      * @return The value of the field {@code value}
      */
     public java.lang.foreign.MemoryAddress getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class LogField extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(java.lang.foreign.MemoryAddress value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class LogField extends Struct {
      * @return The value of the field {@code length}
      */
     public long getLength() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,22 +117,26 @@ public class LogField extends Struct {
      * @param length The new value of the field {@code length}
      */
     public void setLength(long length) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), length);
+        }
     }
     
     /**
      * Create a LogField proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LogField(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LogField(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LogField> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogField(input, ownership);
+    public static final Marshal<Addressable, LogField> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LogField(input);
     
     /**
      * A {@link LogField.Builder} object constructs a {@link LogField} 
@@ -146,7 +160,7 @@ public class LogField extends Struct {
             struct = LogField.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LogField} struct.
          * @return A new instance of {@code LogField} with the fields 
          *         that were set in the Builder object.
@@ -161,10 +175,12 @@ public class LogField extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKey(java.lang.String key) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("key"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -173,10 +189,12 @@ public class LogField extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(java.lang.foreign.MemoryAddress value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
+                return this;
+            }
         }
         
         /**
@@ -185,10 +203,12 @@ public class LogField extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLength(long length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
     }
 }

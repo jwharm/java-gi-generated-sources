@@ -9,106 +9,132 @@ import org.jetbrains.annotations.*;
  * The type of a node determines what the node is rendering.
  */
 public enum RenderNodeType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Error type. No node will ever have this type.
      */
     NOT_A_RENDER_NODE(0),
+    
     /**
      * A node containing a stack of children
      */
     CONTAINER_NODE(1),
+    
     /**
      * A node drawing a {@code cairo_surface_t}
      */
     CAIRO_NODE(2),
+    
     /**
      * A node drawing a single color rectangle
      */
     COLOR_NODE(3),
+    
     /**
      * A node drawing a linear gradient
      */
     LINEAR_GRADIENT_NODE(4),
+    
     /**
      * A node drawing a repeating linear gradient
      */
     REPEATING_LINEAR_GRADIENT_NODE(5),
+    
     /**
      * A node drawing a radial gradient
      */
     RADIAL_GRADIENT_NODE(6),
+    
     /**
      * A node drawing a repeating radial gradient
      */
     REPEATING_RADIAL_GRADIENT_NODE(7),
+    
     /**
      * A node drawing a conic gradient
      */
     CONIC_GRADIENT_NODE(8),
+    
     /**
      * A node stroking a border around an area
      */
     BORDER_NODE(9),
+    
     /**
      * A node drawing a {@code GdkTexture}
      */
     TEXTURE_NODE(10),
+    
     /**
      * A node drawing an inset shadow
      */
     INSET_SHADOW_NODE(11),
+    
     /**
      * A node drawing an outset shadow
      */
     OUTSET_SHADOW_NODE(12),
+    
     /**
      * A node that renders its child after applying a matrix transform
      */
     TRANSFORM_NODE(13),
+    
     /**
      * A node that changes the opacity of its child
      */
     OPACITY_NODE(14),
+    
     /**
      * A node that applies a color matrix to every pixel
      */
     COLOR_MATRIX_NODE(15),
+    
     /**
      * A node that repeats the child's contents
      */
     REPEAT_NODE(16),
+    
     /**
      * A node that clips its child to a rectangular area
      */
     CLIP_NODE(17),
+    
     /**
      * A node that clips its child to a rounded rectangle
      */
     ROUNDED_CLIP_NODE(18),
+    
     /**
      * A node that draws a shadow below its child
      */
     SHADOW_NODE(19),
+    
     /**
      * A node that blends two children together
      */
     BLEND_NODE(20),
+    
     /**
      * A node that cross-fades between two children
      */
     CROSS_FADE_NODE(21),
+    
     /**
      * A node containing a glyph string
      */
     TEXT_NODE(22),
+    
     /**
      * A node that applies a blur
      */
     BLUR_NODE(23),
+    
     /**
      * Debug information that does not affect the rendering
      */
     DEBUG_NODE(24),
+    
     /**
      * A node that uses OpenGL fragment shaders to render
      */
@@ -117,15 +143,29 @@ public enum RenderNodeType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GskRenderNodeType";
     
     private final int value;
+    
+    /**
+     * Create a new RenderNodeType for the provided value
+     * @param numeric value the enum value
+     */
     RenderNodeType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new RenderNodeType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static RenderNodeType of(int value) {
         return switch (value) {
             case 0 -> NOT_A_RENDER_NODE;

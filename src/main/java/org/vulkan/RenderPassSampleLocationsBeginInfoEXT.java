@@ -29,8 +29,8 @@ public class RenderPassSampleLocationsBeginInfoEXT extends Struct {
      * @return A new, uninitialized @{link RenderPassSampleLocationsBeginInfoEXT}
      */
     public static RenderPassSampleLocationsBeginInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RenderPassSampleLocationsBeginInfoEXT newInstance = new RenderPassSampleLocationsBeginInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RenderPassSampleLocationsBeginInfoEXT newInstance = new RenderPassSampleLocationsBeginInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RenderPassSampleLocationsBeginInfoEXT extends Struct {
     /**
      * Create a RenderPassSampleLocationsBeginInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RenderPassSampleLocationsBeginInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RenderPassSampleLocationsBeginInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RenderPassSampleLocationsBeginInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassSampleLocationsBeginInfoEXT(input, ownership);
+    public static final Marshal<Addressable, RenderPassSampleLocationsBeginInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassSampleLocationsBeginInfoEXT(input);
 }

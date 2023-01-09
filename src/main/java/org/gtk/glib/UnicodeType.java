@@ -11,122 +11,152 @@ import org.jetbrains.annotations.*;
  * See <a href="http://www.unicode.org/reports/tr44/#General_Category_Values">Unicode Character Database</a>.
  */
 public enum UnicodeType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * General category "Other, Control" (Cc)
      */
     CONTROL(0),
+    
     /**
      * General category "Other, Format" (Cf)
      */
     FORMAT(1),
+    
     /**
      * General category "Other, Not Assigned" (Cn)
      */
     UNASSIGNED(2),
+    
     /**
      * General category "Other, Private Use" (Co)
      */
     PRIVATE_USE(3),
+    
     /**
      * General category "Other, Surrogate" (Cs)
      */
     SURROGATE(4),
+    
     /**
      * General category "Letter, Lowercase" (Ll)
      */
     LOWERCASE_LETTER(5),
+    
     /**
      * General category "Letter, Modifier" (Lm)
      */
     MODIFIER_LETTER(6),
+    
     /**
      * General category "Letter, Other" (Lo)
      */
     OTHER_LETTER(7),
+    
     /**
      * General category "Letter, Titlecase" (Lt)
      */
     TITLECASE_LETTER(8),
+    
     /**
      * General category "Letter, Uppercase" (Lu)
      */
     UPPERCASE_LETTER(9),
+    
     /**
      * General category "Mark, Spacing" (Mc)
      */
     SPACING_MARK(10),
+    
     /**
      * General category "Mark, Enclosing" (Me)
      */
     ENCLOSING_MARK(11),
+    
     /**
      * General category "Mark, Nonspacing" (Mn)
      */
     NON_SPACING_MARK(12),
+    
     /**
      * General category "Number, Decimal Digit" (Nd)
      */
     DECIMAL_NUMBER(13),
+    
     /**
      * General category "Number, Letter" (Nl)
      */
     LETTER_NUMBER(14),
+    
     /**
      * General category "Number, Other" (No)
      */
     OTHER_NUMBER(15),
+    
     /**
      * General category "Punctuation, Connector" (Pc)
      */
     CONNECT_PUNCTUATION(16),
+    
     /**
      * General category "Punctuation, Dash" (Pd)
      */
     DASH_PUNCTUATION(17),
+    
     /**
      * General category "Punctuation, Close" (Pe)
      */
     CLOSE_PUNCTUATION(18),
+    
     /**
      * General category "Punctuation, Final quote" (Pf)
      */
     FINAL_PUNCTUATION(19),
+    
     /**
      * General category "Punctuation, Initial quote" (Pi)
      */
     INITIAL_PUNCTUATION(20),
+    
     /**
      * General category "Punctuation, Other" (Po)
      */
     OTHER_PUNCTUATION(21),
+    
     /**
      * General category "Punctuation, Open" (Ps)
      */
     OPEN_PUNCTUATION(22),
+    
     /**
      * General category "Symbol, Currency" (Sc)
      */
     CURRENCY_SYMBOL(23),
+    
     /**
      * General category "Symbol, Modifier" (Sk)
      */
     MODIFIER_SYMBOL(24),
+    
     /**
      * General category "Symbol, Math" (Sm)
      */
     MATH_SYMBOL(25),
+    
     /**
      * General category "Symbol, Other" (So)
      */
     OTHER_SYMBOL(26),
+    
     /**
      * General category "Separator, Line" (Zl)
      */
     LINE_SEPARATOR(27),
+    
     /**
      * General category "Separator, Paragraph" (Zp)
      */
     PARAGRAPH_SEPARATOR(28),
+    
     /**
      * General category "Separator, Space" (Zs)
      */
@@ -135,15 +165,29 @@ public enum UnicodeType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GUnicodeType";
     
     private final int value;
+    
+    /**
+     * Create a new UnicodeType for the provided value
+     * @param numeric value the enum value
+     */
     UnicodeType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UnicodeType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UnicodeType of(int value) {
         return switch (value) {
             case 0 -> CONTROL;

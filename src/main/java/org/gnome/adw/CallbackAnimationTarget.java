@@ -30,14 +30,16 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
     /**
      * Create a CallbackAnimationTarget proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CallbackAnimationTarget(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CallbackAnimationTarget(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CallbackAnimationTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAnimationTarget(input, ownership);
+    public static final Marshal<Addressable, CallbackAnimationTarget> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAnimationTarget(input);
     
     private static MemoryAddress constructNew(org.gnome.adw.AnimationTargetFunc callback, org.gtk.glib.DestroyNotify destroy) {
         MemoryAddress RESULT;
@@ -60,7 +62,8 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      *   callback action is finalized
      */
     public CallbackAnimationTarget(org.gnome.adw.AnimationTargetFunc callback, org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(callback, destroy), Ownership.FULL);
+        super(constructNew(callback, destroy));
+        this.takeOwnership();
     }
     
     /**
@@ -93,6 +96,9 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
      */
     public static class Builder extends org.gnome.adw.AnimationTarget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -117,15 +123,23 @@ public class CallbackAnimationTarget extends org.gnome.adw.AnimationTarget {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_callback_animation_target_new = Interop.downcallHandle(
-            "adw_callback_animation_target_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_callback_animation_target_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_callback_animation_target_get_type = Interop.downcallHandle(
-            "adw_callback_animation_target_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_callback_animation_target_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_callback_animation_target_get_type != null;
     }
 }

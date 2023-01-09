@@ -28,27 +28,31 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
     /**
      * Create a EncodingVideoProfile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EncodingVideoProfile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EncodingVideoProfile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EncodingVideoProfile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingVideoProfile(input, ownership);
+    public static final Marshal<Addressable, EncodingVideoProfile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EncodingVideoProfile(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gst.Caps format, @Nullable java.lang.String preset, @Nullable org.gstreamer.gst.Caps restriction, int presence) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_encoding_video_profile_new.invokeExact(
-                    format.handle(),
-                    (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, null)),
-                    (Addressable) (restriction == null ? MemoryAddress.NULL : restriction.handle()),
-                    presence);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_encoding_video_profile_new.invokeExact(
+                        format.handle(),
+                        (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, SCOPE)),
+                        (Addressable) (restriction == null ? MemoryAddress.NULL : restriction.handle()),
+                        presence);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -70,7 +74,8 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
      *  times (including never)
      */
     public EncodingVideoProfile(org.gstreamer.gst.Caps format, @Nullable java.lang.String preset, @Nullable org.gstreamer.gst.Caps restriction, int presence) {
-        super(constructNew(format, preset, restriction, presence), Ownership.FULL);
+        super(constructNew(format, preset, restriction, presence));
+        this.takeOwnership();
     }
     
     /**
@@ -81,8 +86,7 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
     public int getPass() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_video_profile_get_pass.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_video_profile_get_pass.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +103,7 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
     public boolean getVariableframerate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_encoding_video_profile_get_variableframerate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_encoding_video_profile_get_variableframerate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,6 +173,9 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
      */
     public static class Builder extends org.gstreamer.pbutils.EncodingProfile.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -194,39 +200,47 @@ public class EncodingVideoProfile extends org.gstreamer.pbutils.EncodingProfile 
     private static class DowncallHandles {
         
         private static final MethodHandle gst_encoding_video_profile_new = Interop.downcallHandle(
-            "gst_encoding_video_profile_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_video_profile_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_video_profile_get_pass = Interop.downcallHandle(
-            "gst_encoding_video_profile_get_pass",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_video_profile_get_pass",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_video_profile_get_variableframerate = Interop.downcallHandle(
-            "gst_encoding_video_profile_get_variableframerate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_encoding_video_profile_get_variableframerate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_encoding_video_profile_set_pass = Interop.downcallHandle(
-            "gst_encoding_video_profile_set_pass",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_video_profile_set_pass",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_video_profile_set_variableframerate = Interop.downcallHandle(
-            "gst_encoding_video_profile_set_variableframerate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_encoding_video_profile_set_variableframerate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_encoding_video_profile_get_type = Interop.downcallHandle(
-            "gst_encoding_video_profile_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_encoding_video_profile_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_encoding_video_profile_get_type != null;
     }
 }

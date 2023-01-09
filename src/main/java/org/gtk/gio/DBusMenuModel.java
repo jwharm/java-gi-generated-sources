@@ -30,14 +30,16 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
     /**
      * Create a DBusMenuModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusMenuModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusMenuModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusMenuModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusMenuModel(input, ownership);
+    public static final Marshal<Addressable, DBusMenuModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusMenuModel(input);
     
     /**
      * Get the gtype
@@ -70,16 +72,20 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      *     g_object_unref().
      */
     public static org.gtk.gio.DBusMenuModel get(org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, java.lang.String objectPath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_menu_model_get.invokeExact(
-                    connection.handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
-                    Marshal.stringToAddress.marshal(objectPath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_menu_model_get.invokeExact(
+                        connection.handle(),
+                        (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, SCOPE)),
+                        Marshal.stringToAddress.marshal(objectPath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.DBusMenuModel) Interop.register(RESULT, org.gtk.gio.DBusMenuModel.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.DBusMenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusMenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -98,6 +104,9 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      */
     public static class Builder extends org.gtk.gio.MenuModel.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -122,15 +131,23 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_menu_model_get_type = Interop.downcallHandle(
-            "g_dbus_menu_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_menu_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_dbus_menu_model_get = Interop.downcallHandle(
-            "g_dbus_menu_model_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_menu_model_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_menu_model_get_type != null;
     }
 }

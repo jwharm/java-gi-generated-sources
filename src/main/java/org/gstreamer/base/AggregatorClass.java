@@ -67,8 +67,8 @@ public class AggregatorClass extends Struct {
      * @return A new, uninitialized @{link AggregatorClass}
      */
     public static AggregatorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AggregatorClass newInstance = new AggregatorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AggregatorClass newInstance = new AggregatorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -79,7 +79,7 @@ public class AggregatorClass extends Struct {
      */
     public org.gstreamer.gst.ElementClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -87,25 +87,42 @@ public class AggregatorClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FlushCallback} callback.
+     */
     @FunctionalInterface
     public interface FlushCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator aggregator);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FlushCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FlushCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -114,25 +131,43 @@ public class AggregatorClass extends Struct {
      * @param flush The new value of the field {@code flush}
      */
     public void setFlush(FlushCallback flush) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flush"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flush == null ? MemoryAddress.NULL : flush.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flush"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flush == null ? MemoryAddress.NULL : flush.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ClipCallback} callback.
+     */
     @FunctionalInterface
     public interface ClipCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad, org.gstreamer.gst.Buffer buf);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad, MemoryAddress buf) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buf, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buf, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClipCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClipCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -141,25 +176,42 @@ public class AggregatorClass extends Struct {
      * @param clip The new value of the field {@code clip}
      */
     public void setClip(ClipCallback clip) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("clip"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clip == null ? MemoryAddress.NULL : clip.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("clip"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (clip == null ? MemoryAddress.NULL : clip.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FinishBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface FinishBufferCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress buffer) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FinishBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FinishBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -168,25 +220,42 @@ public class AggregatorClass extends Struct {
      * @param finishBuffer The new value of the field {@code finish_buffer}
      */
     public void setFinishBuffer(FinishBufferCallback finishBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finishBuffer == null ? MemoryAddress.NULL : finishBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finishBuffer == null ? MemoryAddress.NULL : finishBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SinkEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SinkEventCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SinkEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SinkEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -195,25 +264,42 @@ public class AggregatorClass extends Struct {
      * @param sinkEvent The new value of the field {@code sink_event}
      */
     public void setSinkEvent(SinkEventCallback sinkEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SinkQueryCallback} callback.
+     */
     @FunctionalInterface
     public interface SinkQueryCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SinkQueryCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SinkQueryCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -222,25 +308,42 @@ public class AggregatorClass extends Struct {
      * @param sinkQuery The new value of the field {@code sink_query}
      */
     public void setSinkQuery(SinkQueryCallback sinkQuery) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkQuery == null ? MemoryAddress.NULL : sinkQuery.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_query"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkQuery == null ? MemoryAddress.NULL : sinkQuery.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SrcEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SrcEventCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SrcEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SrcEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -249,25 +352,42 @@ public class AggregatorClass extends Struct {
      * @param srcEvent The new value of the field {@code src_event}
      */
     public void setSrcEvent(SrcEventCallback srcEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SrcQueryCallback} callback.
+     */
     @FunctionalInterface
     public interface SrcQueryCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SrcQueryCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SrcQueryCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -276,25 +396,42 @@ public class AggregatorClass extends Struct {
      * @param srcQuery The new value of the field {@code src_query}
      */
     public void setSrcQuery(SrcQueryCallback srcQuery) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcQuery == null ? MemoryAddress.NULL : srcQuery.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_query"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcQuery == null ? MemoryAddress.NULL : srcQuery.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SrcActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface SrcActivateCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.gst.PadMode mode, boolean active);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, int mode, int active) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), org.gstreamer.gst.PadMode.of(mode), Marshal.integerToBoolean.marshal(active, null).booleanValue());
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), org.gstreamer.gst.PadMode.of(mode), Marshal.integerToBoolean.marshal(active, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SrcActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SrcActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -303,25 +440,42 @@ public class AggregatorClass extends Struct {
      * @param srcActivate The new value of the field {@code src_activate}
      */
     public void setSrcActivate(SrcActivateCallback srcActivate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcActivate == null ? MemoryAddress.NULL : srcActivate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcActivate == null ? MemoryAddress.NULL : srcActivate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AggregateCallback} callback.
+     */
     @FunctionalInterface
     public interface AggregateCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator aggregator, boolean timeout);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, int timeout) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), Marshal.integerToBoolean.marshal(timeout, null).booleanValue());
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), Marshal.integerToBoolean.marshal(timeout, null).booleanValue());
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AggregateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AggregateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -330,25 +484,42 @@ public class AggregatorClass extends Struct {
      * @param aggregate The new value of the field {@code aggregate}
      */
     public void setAggregate(AggregateCallback aggregate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("aggregate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (aggregate == null ? MemoryAddress.NULL : aggregate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("aggregate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (aggregate == null ? MemoryAddress.NULL : aggregate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StopCallback} callback.
+     */
     @FunctionalInterface
     public interface StopCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StopCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -357,25 +528,42 @@ public class AggregatorClass extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(StopCallback stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartCallback} callback.
+     */
     @FunctionalInterface
     public interface StartCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -384,25 +572,42 @@ public class AggregatorClass extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(StartCallback start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetNextTimeCallback} callback.
+     */
     @FunctionalInterface
     public interface GetNextTimeCallback {
+    
         org.gstreamer.gst.ClockTime run(org.gstreamer.base.Aggregator aggregator);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress aggregator) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null));
             return RESULT.getValue().longValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNextTimeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetNextTimeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -411,25 +616,44 @@ public class AggregatorClass extends Struct {
      * @param getNextTime The new value of the field {@code get_next_time}
      */
     public void setGetNextTime(GetNextTimeCallback getNextTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_next_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNextTime == null ? MemoryAddress.NULL : getNextTime.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_next_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNextTime == null ? MemoryAddress.NULL : getNextTime.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateNewPadCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateNewPadCallback {
+    
         org.gstreamer.base.AggregatorPad run(org.gstreamer.base.Aggregator self, org.gstreamer.gst.PadTemplate templ, java.lang.String reqName, org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress templ, MemoryAddress reqName, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(templ)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, Ownership.NONE), Marshal.addressToString.marshal(reqName, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), (org.gstreamer.gst.PadTemplate) Interop.register(templ, org.gstreamer.gst.PadTemplate.fromAddress).marshal(templ, null), Marshal.addressToString.marshal(reqName, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateNewPadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateNewPadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -438,27 +662,46 @@ public class AggregatorClass extends Struct {
      * @param createNewPad The new value of the field {@code create_new_pad}
      */
     public void setCreateNewPad(CreateNewPadCallback createNewPad) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_new_pad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createNewPad == null ? MemoryAddress.NULL : createNewPad.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_new_pad"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createNewPad == null ? MemoryAddress.NULL : createNewPad.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UpdateSrcCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface UpdateSrcCapsCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator self, org.gstreamer.gst.Caps caps, @Nullable Out<org.gstreamer.gst.Caps> ret);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress caps, MemoryAddress ret) {
-            Out<org.gstreamer.gst.Caps> retOUT = new Out<>(org.gstreamer.gst.Caps.fromAddress.marshal(ret, Ownership.FULL));
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE), retOUT);
-            ret.set(Interop.valueLayout.ADDRESS, 0, retOUT.get().handle());
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<org.gstreamer.gst.Caps> retOUT = new Out<>(org.gstreamer.gst.Caps.fromAddress.marshal(ret, null));
+                var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null), retOUT);
+                ret.set(Interop.valueLayout.ADDRESS, 0, retOUT.get().handle());
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateSrcCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UpdateSrcCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -467,25 +710,43 @@ public class AggregatorClass extends Struct {
      * @param updateSrcCaps The new value of the field {@code update_src_caps}
      */
     public void setUpdateSrcCaps(UpdateSrcCapsCallback updateSrcCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("update_src_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateSrcCaps == null ? MemoryAddress.NULL : updateSrcCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("update_src_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateSrcCaps == null ? MemoryAddress.NULL : updateSrcCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FixateSrcCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface FixateSrcCapsCallback {
+    
         org.gstreamer.gst.Caps run(org.gstreamer.base.Aggregator self, org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FixateSrcCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FixateSrcCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -494,25 +755,42 @@ public class AggregatorClass extends Struct {
      * @param fixateSrcCaps The new value of the field {@code fixate_src_caps}
      */
     public void setFixateSrcCaps(FixateSrcCapsCallback fixateSrcCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fixate_src_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fixateSrcCaps == null ? MemoryAddress.NULL : fixateSrcCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fixate_src_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fixateSrcCaps == null ? MemoryAddress.NULL : fixateSrcCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NegotiatedSrcCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface NegotiatedSrcCapsCallback {
+    
         boolean run(org.gstreamer.base.Aggregator self, org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NegotiatedSrcCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NegotiatedSrcCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -521,25 +799,42 @@ public class AggregatorClass extends Struct {
      * @param negotiatedSrcCaps The new value of the field {@code negotiated_src_caps}
      */
     public void setNegotiatedSrcCaps(NegotiatedSrcCapsCallback negotiatedSrcCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("negotiated_src_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiatedSrcCaps == null ? MemoryAddress.NULL : negotiatedSrcCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("negotiated_src_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiatedSrcCaps == null ? MemoryAddress.NULL : negotiatedSrcCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DecideAllocationCallback} callback.
+     */
     @FunctionalInterface
     public interface DecideAllocationCallback {
+    
         boolean run(org.gstreamer.base.Aggregator self, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DecideAllocationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DecideAllocationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -548,25 +843,42 @@ public class AggregatorClass extends Struct {
      * @param decideAllocation The new value of the field {@code decide_allocation}
      */
     public void setDecideAllocation(DecideAllocationCallback decideAllocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ProposeAllocationCallback} callback.
+     */
     @FunctionalInterface
     public interface ProposeAllocationCallback {
+    
         boolean run(org.gstreamer.base.Aggregator self, org.gstreamer.base.AggregatorPad pad, org.gstreamer.gst.Query decideQuery, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress pad, MemoryAddress decideQuery, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(pad, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(decideQuery, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null), (org.gstreamer.base.AggregatorPad) Interop.register(pad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(pad, null), org.gstreamer.gst.Query.fromAddress.marshal(decideQuery, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProposeAllocationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ProposeAllocationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -575,25 +887,42 @@ public class AggregatorClass extends Struct {
      * @param proposeAllocation The new value of the field {@code propose_allocation}
      */
     public void setProposeAllocation(ProposeAllocationCallback proposeAllocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NegotiateCallback} callback.
+     */
     @FunctionalInterface
     public interface NegotiateCallback {
+    
         boolean run(org.gstreamer.base.Aggregator self);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.base.Aggregator.fromAddress).marshal(self, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(self, org.gstreamer.base.Aggregator.fromAddress).marshal(self, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NegotiateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NegotiateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -602,25 +931,42 @@ public class AggregatorClass extends Struct {
      * @param negotiate The new value of the field {@code negotiate}
      */
     public void setNegotiate(NegotiateCallback negotiate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SinkEventPreQueueCallback} callback.
+     */
     @FunctionalInterface
     public interface SinkEventPreQueueCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SinkEventPreQueueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SinkEventPreQueueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -629,25 +975,42 @@ public class AggregatorClass extends Struct {
      * @param sinkEventPreQueue The new value of the field {@code sink_event_pre_queue}
      */
     public void setSinkEventPreQueue(SinkEventPreQueueCallback sinkEventPreQueue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_event_pre_queue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEventPreQueue == null ? MemoryAddress.NULL : sinkEventPreQueue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_event_pre_queue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEventPreQueue == null ? MemoryAddress.NULL : sinkEventPreQueue.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SinkQueryPreQueueCallback} callback.
+     */
     @FunctionalInterface
     public interface SinkQueryPreQueueCallback {
+    
         boolean run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SinkQueryPreQueueCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SinkQueryPreQueueCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -656,25 +1019,42 @@ public class AggregatorClass extends Struct {
      * @param sinkQueryPreQueue The new value of the field {@code sink_query_pre_queue}
      */
     public void setSinkQueryPreQueue(SinkQueryPreQueueCallback sinkQueryPreQueue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_query_pre_queue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkQueryPreQueue == null ? MemoryAddress.NULL : sinkQueryPreQueue.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_query_pre_queue"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkQueryPreQueue == null ? MemoryAddress.NULL : sinkQueryPreQueue.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FinishBufferListCallback} callback.
+     */
     @FunctionalInterface
     public interface FinishBufferListCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.gst.BufferList bufferlist);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress aggregator, MemoryAddress bufferlist) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), org.gstreamer.gst.BufferList.fromAddress.marshal(bufferlist, Ownership.FULL));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), org.gstreamer.gst.BufferList.fromAddress.marshal(bufferlist, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FinishBufferListCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FinishBufferListCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -683,25 +1063,43 @@ public class AggregatorClass extends Struct {
      * @param finishBufferList The new value of the field {@code finish_buffer_list}
      */
     public void setFinishBufferList(FinishBufferListCallback finishBufferList) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer_list"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finishBufferList == null ? MemoryAddress.NULL : finishBufferList.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer_list"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finishBufferList == null ? MemoryAddress.NULL : finishBufferList.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PeekNextSampleCallback} callback.
+     */
     @FunctionalInterface
     public interface PeekNextSampleCallback {
+    
         @Nullable org.gstreamer.gst.Sample run(org.gstreamer.base.Aggregator aggregator, org.gstreamer.base.AggregatorPad aggregatorPad);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress aggregator, MemoryAddress aggregatorPad) {
-            var RESULT = run((org.gstreamer.base.Aggregator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregator)), org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, Ownership.NONE), (org.gstreamer.base.AggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(aggregatorPad)), org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, Ownership.NONE));
+            var RESULT = run((org.gstreamer.base.Aggregator) Interop.register(aggregator, org.gstreamer.base.Aggregator.fromAddress).marshal(aggregator, null), (org.gstreamer.base.AggregatorPad) Interop.register(aggregatorPad, org.gstreamer.base.AggregatorPad.fromAddress).marshal(aggregatorPad, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PeekNextSampleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PeekNextSampleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -710,22 +1108,26 @@ public class AggregatorClass extends Struct {
      * @param peekNextSample The new value of the field {@code peek_next_sample}
      */
     public void setPeekNextSample(PeekNextSampleCallback peekNextSample) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("peek_next_sample"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (peekNextSample == null ? MemoryAddress.NULL : peekNextSample.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("peek_next_sample"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (peekNextSample == null ? MemoryAddress.NULL : peekNextSample.toCallback()));
+        }
     }
     
     /**
      * Create a AggregatorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AggregatorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AggregatorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AggregatorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AggregatorClass(input, ownership);
+    public static final Marshal<Addressable, AggregatorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AggregatorClass(input);
     
     /**
      * A {@link AggregatorClass.Builder} object constructs a {@link AggregatorClass} 
@@ -749,7 +1151,7 @@ public class AggregatorClass extends Struct {
             struct = AggregatorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AggregatorClass} struct.
          * @return A new instance of {@code AggregatorClass} with the fields 
          *         that were set in the Builder object.
@@ -759,178 +1161,228 @@ public class AggregatorClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setFlush(FlushCallback flush) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flush"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flush == null ? MemoryAddress.NULL : flush.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flush"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flush == null ? MemoryAddress.NULL : flush.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClip(ClipCallback clip) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("clip"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clip == null ? MemoryAddress.NULL : clip.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("clip"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (clip == null ? MemoryAddress.NULL : clip.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFinishBuffer(FinishBufferCallback finishBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finishBuffer == null ? MemoryAddress.NULL : finishBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finishBuffer == null ? MemoryAddress.NULL : finishBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSinkEvent(SinkEventCallback sinkEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSinkQuery(SinkQueryCallback sinkQuery) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_query"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkQuery == null ? MemoryAddress.NULL : sinkQuery.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_query"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkQuery == null ? MemoryAddress.NULL : sinkQuery.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSrcEvent(SrcEventCallback srcEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSrcQuery(SrcQueryCallback srcQuery) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("src_query"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcQuery == null ? MemoryAddress.NULL : srcQuery.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("src_query"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcQuery == null ? MemoryAddress.NULL : srcQuery.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSrcActivate(SrcActivateCallback srcActivate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("src_activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcActivate == null ? MemoryAddress.NULL : srcActivate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("src_activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcActivate == null ? MemoryAddress.NULL : srcActivate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAggregate(AggregateCallback aggregate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("aggregate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (aggregate == null ? MemoryAddress.NULL : aggregate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("aggregate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (aggregate == null ? MemoryAddress.NULL : aggregate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStop(StopCallback stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStart(StartCallback start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetNextTime(GetNextTimeCallback getNextTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_next_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNextTime == null ? MemoryAddress.NULL : getNextTime.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_next_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getNextTime == null ? MemoryAddress.NULL : getNextTime.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateNewPad(CreateNewPadCallback createNewPad) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_new_pad"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createNewPad == null ? MemoryAddress.NULL : createNewPad.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_new_pad"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createNewPad == null ? MemoryAddress.NULL : createNewPad.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUpdateSrcCaps(UpdateSrcCapsCallback updateSrcCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("update_src_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateSrcCaps == null ? MemoryAddress.NULL : updateSrcCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("update_src_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateSrcCaps == null ? MemoryAddress.NULL : updateSrcCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFixateSrcCaps(FixateSrcCapsCallback fixateSrcCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fixate_src_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fixateSrcCaps == null ? MemoryAddress.NULL : fixateSrcCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fixate_src_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (fixateSrcCaps == null ? MemoryAddress.NULL : fixateSrcCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNegotiatedSrcCaps(NegotiatedSrcCapsCallback negotiatedSrcCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("negotiated_src_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiatedSrcCaps == null ? MemoryAddress.NULL : negotiatedSrcCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("negotiated_src_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiatedSrcCaps == null ? MemoryAddress.NULL : negotiatedSrcCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDecideAllocation(DecideAllocationCallback decideAllocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decide_allocation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decideAllocation == null ? MemoryAddress.NULL : decideAllocation.toCallback()));
+                return this;
+            }
         }
         
         public Builder setProposeAllocation(ProposeAllocationCallback proposeAllocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("propose_allocation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (proposeAllocation == null ? MemoryAddress.NULL : proposeAllocation.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNegotiate(NegotiateCallback negotiate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("negotiate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (negotiate == null ? MemoryAddress.NULL : negotiate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSinkEventPreQueue(SinkEventPreQueueCallback sinkEventPreQueue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_event_pre_queue"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEventPreQueue == null ? MemoryAddress.NULL : sinkEventPreQueue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_event_pre_queue"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEventPreQueue == null ? MemoryAddress.NULL : sinkEventPreQueue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSinkQueryPreQueue(SinkQueryPreQueueCallback sinkQueryPreQueue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_query_pre_queue"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkQueryPreQueue == null ? MemoryAddress.NULL : sinkQueryPreQueue.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_query_pre_queue"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkQueryPreQueue == null ? MemoryAddress.NULL : sinkQueryPreQueue.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFinishBufferList(FinishBufferListCallback finishBufferList) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer_list"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finishBufferList == null ? MemoryAddress.NULL : finishBufferList.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("finish_buffer_list"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (finishBufferList == null ? MemoryAddress.NULL : finishBufferList.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPeekNextSample(PeekNextSampleCallback peekNextSample) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("peek_next_sample"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (peekNextSample == null ? MemoryAddress.NULL : peekNextSample.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("peek_next_sample"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (peekNextSample == null ? MemoryAddress.NULL : peekNextSample.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

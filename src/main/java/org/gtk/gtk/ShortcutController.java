@@ -66,14 +66,16 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     /**
      * Create a ShortcutController proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShortcutController(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShortcutController(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutController> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutController(input, ownership);
+    public static final Marshal<Addressable, ShortcutController> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutController(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -89,20 +91,20 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * Creates a new shortcut controller.
      */
     public ShortcutController() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewForModel(org.gtk.gio.ListModel model) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_controller_new_for_model.invokeExact(
-                    model.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_controller_new_for_model.invokeExact(model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new shortcut controller that takes its shortcuts from
      * the given list model.
@@ -115,7 +117,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      */
     public static ShortcutController newForModel(org.gtk.gio.ListModel model) {
         var RESULT = constructNewForModel(model);
-        return (org.gtk.gtk.ShortcutController) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutController.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.ShortcutController) Interop.register(RESULT, org.gtk.gtk.ShortcutController.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -143,8 +147,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public org.gtk.gdk.ModifierType getMnemonicsModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,8 +163,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     public org.gtk.gtk.ShortcutScope getScope() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_scope.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,6 +265,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      */
     public static class Builder extends org.gtk.gtk.EventController.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -342,57 +347,65 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcut_controller_new = Interop.downcallHandle(
-            "gtk_shortcut_controller_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_new_for_model = Interop.downcallHandle(
-            "gtk_shortcut_controller_new_for_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_new_for_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_add_shortcut = Interop.downcallHandle(
-            "gtk_shortcut_controller_add_shortcut",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_add_shortcut",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_get_mnemonics_modifiers = Interop.downcallHandle(
-            "gtk_shortcut_controller_get_mnemonics_modifiers",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_get_mnemonics_modifiers",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_get_scope = Interop.downcallHandle(
-            "gtk_shortcut_controller_get_scope",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_get_scope",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_remove_shortcut = Interop.downcallHandle(
-            "gtk_shortcut_controller_remove_shortcut",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_controller_remove_shortcut",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_set_mnemonics_modifiers = Interop.downcallHandle(
-            "gtk_shortcut_controller_set_mnemonics_modifiers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_shortcut_controller_set_mnemonics_modifiers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_set_scope = Interop.downcallHandle(
-            "gtk_shortcut_controller_set_scope",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_shortcut_controller_set_scope",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_controller_get_type = Interop.downcallHandle(
-            "gtk_shortcut_controller_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_shortcut_controller_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_shortcut_controller_get_type != null;
     }
 }

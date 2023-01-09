@@ -34,26 +34,17 @@ public class GLDisplayEGL extends org.gstreamer.gl.GLDisplay {
     
     /**
      * Create a GLDisplayEGL proxy instance for the provided memory address.
-     * <p>
-     * Because GLDisplayEGL is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLDisplayEGL(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLDisplayEGL(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLDisplayEGL> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayEGL(input, ownership);
+    public static final Marshal<Addressable, GLDisplayEGL> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayEGL(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -69,23 +60,26 @@ public class GLDisplayEGL extends org.gstreamer.gl.GLDisplay {
      * Create a new {@link GLDisplayEGL} using the default EGL_DEFAULT_DISPLAY.
      */
     public GLDisplayEGL() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithEglDisplay(@Nullable java.lang.foreign.MemoryAddress display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_new_with_egl_display.invokeExact(
-                    (Addressable) (display == null ? MemoryAddress.NULL : (Addressable) display));
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_new_with_egl_display.invokeExact((Addressable) (display == null ? MemoryAddress.NULL : (Addressable) display));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     public static GLDisplayEGL newWithEglDisplay(@Nullable java.lang.foreign.MemoryAddress display) {
         var RESULT = constructNewWithEglDisplay(display);
-        return (org.gstreamer.gl.egl.GLDisplayEGL) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.egl.GLDisplayEGL.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.gl.egl.GLDisplayEGL) Interop.register(RESULT, org.gstreamer.gl.egl.GLDisplayEGL.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -113,12 +107,13 @@ public class GLDisplayEGL extends org.gstreamer.gl.GLDisplay {
     public static org.gstreamer.gl.egl.GLDisplayEGL fromGlDisplay(org.gstreamer.gl.GLDisplay display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_from_gl_display.invokeExact(
-                    display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_from_gl_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gl.egl.GLDisplayEGL) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.egl.GLDisplayEGL.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gl.egl.GLDisplayEGL) Interop.register(RESULT, org.gstreamer.gl.egl.GLDisplayEGL.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -157,6 +152,9 @@ public class GLDisplayEGL extends org.gstreamer.gl.GLDisplay {
      */
     public static class Builder extends org.gstreamer.gl.GLDisplay.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -181,33 +179,41 @@ public class GLDisplayEGL extends org.gstreamer.gl.GLDisplay {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_display_egl_new = Interop.downcallHandle(
-            "gst_gl_display_egl_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_egl_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_new_with_egl_display = Interop.downcallHandle(
-            "gst_gl_display_egl_new_with_egl_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_egl_new_with_egl_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_get_type = Interop.downcallHandle(
-            "gst_gl_display_egl_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_display_egl_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_from_gl_display = Interop.downcallHandle(
-            "gst_gl_display_egl_from_gl_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_display_egl_from_gl_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_display_egl_get_from_native = Interop.downcallHandle(
-            "gst_gl_display_egl_get_from_native",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_display_egl_get_from_native",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_display_egl_get_type != null;
     }
 }

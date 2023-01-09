@@ -31,26 +31,17 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     
     /**
      * Create a RTPHeaderExtension proxy instance for the provided memory address.
-     * <p>
-     * Because RTPHeaderExtension is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPHeaderExtension(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected RTPHeaderExtension(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPHeaderExtension> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPHeaderExtension(input, ownership);
+    public static final Marshal<Addressable, RTPHeaderExtension> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPHeaderExtension(input);
     
     /**
      * Retrieve the direction
@@ -59,8 +50,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public org.gstreamer.rtp.RTPHeaderExtensionDirection getDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_direction.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,8 +60,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +92,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public java.lang.String getSdpCapsFieldName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_get_sdp_caps_field_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_get_sdp_caps_field_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,8 +102,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public org.gstreamer.rtp.RTPHeaderExtensionFlags getSupportedFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_supported_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_header_extension_get_supported_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,8 +112,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,18 +129,20 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
      * @return whether the extension could be read from {@code data}
      */
     public boolean read(org.gstreamer.rtp.RTPHeaderExtensionFlags readFlags, byte[] data, long size, org.gstreamer.gst.Buffer buffer) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_read.invokeExact(
-                    handle(),
-                    readFlags.getValue(),
-                    Interop.allocateNativeArray(data, false),
-                    size,
-                    buffer.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_header_extension_read.invokeExact(
+                        handle(),
+                        readFlags.getValue(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size,
+                        buffer.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -211,16 +199,18 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
      * @return whether the {@code ext} attributes could be set on {@code caps}.
      */
     public boolean setCapsFromAttributesHelper(org.gstreamer.gst.Caps caps, java.lang.String attributes) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_set_caps_from_attributes_helper.invokeExact(
-                    handle(),
-                    caps.handle(),
-                    Marshal.stringToAddress.marshal(attributes, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_header_extension_set_caps_from_attributes_helper.invokeExact(
+                        handle(),
+                        caps.handle(),
+                        Marshal.stringToAddress.marshal(attributes, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,8 +308,7 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     public boolean wantsUpdateNonRtpSrcCaps() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtp_header_extension_wants_update_non_rtp_src_caps.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtp_header_extension_wants_update_non_rtp_src_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,19 +328,21 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
      * @return the size of the data written, &lt; 0 on failure
      */
     public long write(org.gstreamer.gst.Buffer inputMeta, org.gstreamer.rtp.RTPHeaderExtensionFlags writeFlags, org.gstreamer.gst.Buffer output, byte[] data, long size) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_rtp_header_extension_write.invokeExact(
-                    handle(),
-                    inputMeta.handle(),
-                    writeFlags.getValue(),
-                    output.handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_rtp_header_extension_write.invokeExact(
+                        handle(),
+                        inputMeta.handle(),
+                        writeFlags.getValue(),
+                        output.handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -369,14 +360,17 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     }
     
     public static @Nullable org.gstreamer.rtp.RTPHeaderExtension createFromUri(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_create_from_uri.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtp_header_extension_create_from_uri.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.rtp.RTPHeaderExtension) Interop.register(RESULT, org.gstreamer.rtp.RTPHeaderExtension.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.rtp.RTPHeaderExtension) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.rtp.RTPHeaderExtension.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -395,6 +389,9 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -419,117 +416,125 @@ public class RTPHeaderExtension extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_header_extension_get_direction = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_id = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_max_size = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_max_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_max_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_sdp_caps_field_name = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_sdp_caps_field_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_sdp_caps_field_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_supported_flags = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_supported_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_supported_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_uri = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_read = Interop.downcallHandle(
-            "gst_rtp_header_extension_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_attributes_from_caps = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_attributes_from_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_set_attributes_from_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_caps_from_attributes = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_caps_from_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_set_caps_from_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_caps_from_attributes_helper = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_caps_from_attributes_helper",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_set_caps_from_attributes_helper",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_direction = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_direction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_header_extension_set_direction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_id = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_header_extension_set_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_non_rtp_sink_caps = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_non_rtp_sink_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_set_non_rtp_sink_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_set_wants_update_non_rtp_src_caps = Interop.downcallHandle(
-            "gst_rtp_header_extension_set_wants_update_non_rtp_src_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_header_extension_set_wants_update_non_rtp_src_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_update_non_rtp_src_caps = Interop.downcallHandle(
-            "gst_rtp_header_extension_update_non_rtp_src_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_update_non_rtp_src_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_wants_update_non_rtp_src_caps = Interop.downcallHandle(
-            "gst_rtp_header_extension_wants_update_non_rtp_src_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_wants_update_non_rtp_src_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_write = Interop.downcallHandle(
-            "gst_rtp_header_extension_write",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_header_extension_write",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_get_type = Interop.downcallHandle(
-            "gst_rtp_header_extension_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_header_extension_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtp_header_extension_create_from_uri = Interop.downcallHandle(
-            "gst_rtp_header_extension_create_from_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_header_extension_create_from_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_rtp_header_extension_get_type != null;
     }
 }

@@ -29,8 +29,8 @@ public class MemoryDedicatedRequirementsKHR extends Struct {
      * @return A new, uninitialized @{link MemoryDedicatedRequirementsKHR}
      */
     public static MemoryDedicatedRequirementsKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryDedicatedRequirementsKHR newInstance = new MemoryDedicatedRequirementsKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryDedicatedRequirementsKHR newInstance = new MemoryDedicatedRequirementsKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryDedicatedRequirementsKHR extends Struct {
     /**
      * Create a MemoryDedicatedRequirementsKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryDedicatedRequirementsKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryDedicatedRequirementsKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryDedicatedRequirementsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryDedicatedRequirementsKHR(input, ownership);
+    public static final Marshal<Addressable, MemoryDedicatedRequirementsKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryDedicatedRequirementsKHR(input);
 }

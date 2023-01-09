@@ -28,14 +28,16 @@ public class ConstraintLayoutChild extends org.gtk.gtk.LayoutChild {
     /**
      * Create a ConstraintLayoutChild proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConstraintLayoutChild(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConstraintLayoutChild(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConstraintLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConstraintLayoutChild(input, ownership);
+    public static final Marshal<Addressable, ConstraintLayoutChild> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConstraintLayoutChild(input);
     
     /**
      * Get the gtype
@@ -67,6 +69,9 @@ public class ConstraintLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -91,9 +96,17 @@ public class ConstraintLayoutChild extends org.gtk.gtk.LayoutChild {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constraint_layout_child_get_type = Interop.downcallHandle(
-            "gtk_constraint_layout_child_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_constraint_layout_child_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_constraint_layout_child_get_type != null;
     }
 }

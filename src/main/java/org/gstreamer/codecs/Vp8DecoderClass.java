@@ -39,8 +39,8 @@ public class Vp8DecoderClass extends Struct {
      * @return A new, uninitialized @{link Vp8DecoderClass}
      */
     public static Vp8DecoderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp8DecoderClass newInstance = new Vp8DecoderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp8DecoderClass newInstance = new Vp8DecoderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class Vp8DecoderClass extends Struct {
      */
     public org.gstreamer.video.VideoDecoderClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.video.VideoDecoderClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoDecoderClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,42 @@ public class Vp8DecoderClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.video.VideoDecoderClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewSequenceCallback} callback.
+     */
     @FunctionalInterface
     public interface NewSequenceCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, java.lang.foreign.MemoryAddress frameHdr);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress frameHdr) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), frameHdr);
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), frameHdr);
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewSequenceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewSequenceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +103,42 @@ public class Vp8DecoderClass extends Struct {
      * @param newSequence The new value of the field {@code new_sequence}
      */
     public void setNewSequence(NewSequenceCallback newSequence) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface NewPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, org.gstreamer.video.VideoCodecFrame frame, org.gstreamer.codecs.Vp8Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress frame, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, Ownership.NONE), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, null), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,25 +147,42 @@ public class Vp8DecoderClass extends Struct {
      * @param newPicture The new value of the field {@code new_picture}
      */
     public void setNewPicture(NewPictureCallback newPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface StartPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, org.gstreamer.codecs.Vp8Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -140,25 +191,42 @@ public class Vp8DecoderClass extends Struct {
      * @param startPicture The new value of the field {@code start_picture}
      */
     public void setStartPicture(StartPictureCallback startPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DecodePictureCallback} callback.
+     */
     @FunctionalInterface
     public interface DecodePictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, org.gstreamer.codecs.Vp8Picture picture, java.lang.foreign.MemoryAddress parser);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture, MemoryAddress parser) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, Ownership.NONE), parser);
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, null), parser);
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DecodePictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DecodePictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,25 +235,42 @@ public class Vp8DecoderClass extends Struct {
      * @param decodePicture The new value of the field {@code decode_picture}
      */
     public void setDecodePicture(DecodePictureCallback decodePicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("decode_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decodePicture == null ? MemoryAddress.NULL : decodePicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("decode_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decodePicture == null ? MemoryAddress.NULL : decodePicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface EndPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, org.gstreamer.codecs.Vp8Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -194,25 +279,42 @@ public class Vp8DecoderClass extends Struct {
      * @param endPicture The new value of the field {@code end_picture}
      */
     public void setEndPicture(EndPictureCallback endPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OutputPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface OutputPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.Vp8Decoder decoder, org.gstreamer.video.VideoCodecFrame frame, org.gstreamer.codecs.Vp8Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress frame, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, Ownership.NONE), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, null), org.gstreamer.codecs.Vp8Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OutputPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OutputPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -221,25 +323,42 @@ public class Vp8DecoderClass extends Struct {
      * @param outputPicture The new value of the field {@code output_picture}
      */
     public void setOutputPicture(OutputPictureCallback outputPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredOutputDelayCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredOutputDelayCallback {
+    
         int run(org.gstreamer.codecs.Vp8Decoder decoder, boolean isLive);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, int isLive) {
-            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, Ownership.NONE), Marshal.integerToBoolean.marshal(isLive, null).booleanValue());
+            var RESULT = run((org.gstreamer.codecs.Vp8Decoder) Interop.register(decoder, org.gstreamer.codecs.Vp8Decoder.fromAddress).marshal(decoder, null), Marshal.integerToBoolean.marshal(isLive, null).booleanValue());
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredOutputDelayCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredOutputDelayCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -248,22 +367,26 @@ public class Vp8DecoderClass extends Struct {
      * @param getPreferredOutputDelay The new value of the field {@code get_preferred_output_delay}
      */
     public void setGetPreferredOutputDelay(GetPreferredOutputDelayCallback getPreferredOutputDelay) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+        }
     }
     
     /**
      * Create a Vp8DecoderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp8DecoderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp8DecoderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp8DecoderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp8DecoderClass(input, ownership);
+    public static final Marshal<Addressable, Vp8DecoderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp8DecoderClass(input);
     
     /**
      * A {@link Vp8DecoderClass.Builder} object constructs a {@link Vp8DecoderClass} 
@@ -287,7 +410,7 @@ public class Vp8DecoderClass extends Struct {
             struct = Vp8DecoderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp8DecoderClass} struct.
          * @return A new instance of {@code Vp8DecoderClass} with the fields 
          *         that were set in the Builder object.
@@ -297,66 +420,84 @@ public class Vp8DecoderClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.video.VideoDecoderClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setNewSequence(NewSequenceCallback newSequence) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNewPicture(NewPictureCallback newPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStartPicture(StartPictureCallback startPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDecodePicture(DecodePictureCallback decodePicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decode_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decodePicture == null ? MemoryAddress.NULL : decodePicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decode_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decodePicture == null ? MemoryAddress.NULL : decodePicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEndPicture(EndPictureCallback endPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setOutputPicture(OutputPictureCallback outputPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredOutputDelay(GetPreferredOutputDelayCallback getPreferredOutputDelay) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

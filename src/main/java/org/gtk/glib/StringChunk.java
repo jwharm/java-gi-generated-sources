@@ -33,8 +33,8 @@ public class StringChunk extends Struct {
      * @return A new, uninitialized @{link StringChunk}
      */
     public static StringChunk allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StringChunk newInstance = new StringChunk(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StringChunk newInstance = new StringChunk(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class StringChunk extends Struct {
     /**
      * Create a StringChunk proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StringChunk(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StringChunk(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StringChunk> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringChunk(input, ownership);
+    public static final Marshal<Addressable, StringChunk> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StringChunk(input);
     
     /**
      * Frees all strings contained within the {@link StringChunk}.
@@ -58,8 +60,7 @@ public class StringChunk extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_string_chunk_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_string_chunk_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,8 +73,7 @@ public class StringChunk extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_string_chunk_free.invokeExact(
-                    handle());
+            DowncallHandles.g_string_chunk_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,15 +96,17 @@ public class StringChunk extends Struct {
      *     the {@link StringChunk}
      */
     public java.lang.String insert(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -126,15 +128,17 @@ public class StringChunk extends Struct {
      *     within the {@link StringChunk}
      */
     public java.lang.String insertConst(java.lang.String string) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_const.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_const.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -153,16 +157,18 @@ public class StringChunk extends Struct {
      * @return a pointer to the copy of {@code string} within the {@link StringChunk}
      */
     public java.lang.String insertLen(java.lang.String string, long len) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_len.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null),
-                    len);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_len.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        len);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -176,50 +182,49 @@ public class StringChunk extends Struct {
     public static org.gtk.glib.StringChunk new_(long size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_new.invokeExact(
-                    size);
+            RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_new.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.StringChunk.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.StringChunk.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_string_chunk_clear = Interop.downcallHandle(
-            "g_string_chunk_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_string_chunk_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_chunk_free = Interop.downcallHandle(
-            "g_string_chunk_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_string_chunk_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_chunk_insert = Interop.downcallHandle(
-            "g_string_chunk_insert",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_chunk_insert",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_chunk_insert_const = Interop.downcallHandle(
-            "g_string_chunk_insert_const",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_string_chunk_insert_const",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_string_chunk_insert_len = Interop.downcallHandle(
-            "g_string_chunk_insert_len",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_chunk_insert_len",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_string_chunk_new = Interop.downcallHandle(
-            "g_string_chunk_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_string_chunk_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
 }

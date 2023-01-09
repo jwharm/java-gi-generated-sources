@@ -29,8 +29,8 @@ public class BuilderClass extends Struct {
      * @return A new, uninitialized @{link BuilderClass}
      */
     public static BuilderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BuilderClass newInstance = new BuilderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BuilderClass newInstance = new BuilderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BuilderClass extends Struct {
     /**
      * Create a BuilderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BuilderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BuilderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuilderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderClass(input, ownership);
+    public static final Marshal<Addressable, BuilderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuilderClass(input);
 }

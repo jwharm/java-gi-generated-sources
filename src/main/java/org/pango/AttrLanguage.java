@@ -36,8 +36,8 @@ public class AttrLanguage extends Struct {
      * @return A new, uninitialized @{link AttrLanguage}
      */
     public static AttrLanguage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrLanguage newInstance = new AttrLanguage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrLanguage newInstance = new AttrLanguage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class AttrLanguage extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,9 +56,11 @@ public class AttrLanguage extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -66,10 +68,12 @@ public class AttrLanguage extends Struct {
      * @return The value of the field {@code value}
      */
     public org.pango.Language getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.pango.Language.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -77,22 +81,26 @@ public class AttrLanguage extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(org.pango.Language value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        }
     }
     
     /**
      * Create a AttrLanguage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrLanguage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrLanguage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrLanguage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrLanguage(input, ownership);
+    public static final Marshal<Addressable, AttrLanguage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrLanguage(input);
     
     /**
      * Create a new language tag attribute.
@@ -104,20 +112,21 @@ public class AttrLanguage extends Struct {
     public static org.pango.Attribute new_(org.pango.Language language) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_language_new.invokeExact(
-                    language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_language_new.invokeExact(language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
-            "pango_attr_language_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_language_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -143,7 +152,7 @@ public class AttrLanguage extends Struct {
             struct = AttrLanguage.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrLanguage} struct.
          * @return A new instance of {@code AttrLanguage} with the fields 
          *         that were set in the Builder object.
@@ -158,10 +167,12 @@ public class AttrLanguage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -170,10 +181,12 @@ public class AttrLanguage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(org.pango.Language value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+                return this;
+            }
         }
     }
 }

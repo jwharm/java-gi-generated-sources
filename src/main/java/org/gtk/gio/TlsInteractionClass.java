@@ -55,26 +55,41 @@ public class TlsInteractionClass extends Struct {
      * @return A new, uninitialized @{link TlsInteractionClass}
      */
     public static TlsInteractionClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsInteractionClass newInstance = new TlsInteractionClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsInteractionClass newInstance = new TlsInteractionClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code AskPasswordCallback} callback.
+     */
     @FunctionalInterface
     public interface AskPasswordCallback {
+    
         org.gtk.gio.TlsInteractionResult run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsPassword password, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress interaction, MemoryAddress password, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.TlsPassword) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(password)), org.gtk.gio.TlsPassword.fromAddress).marshal(password, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.TlsPassword) Interop.register(password, org.gtk.gio.TlsPassword.fromAddress).marshal(password, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AskPasswordCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AskPasswordCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,24 +98,41 @@ public class TlsInteractionClass extends Struct {
      * @param askPassword The new value of the field {@code ask_password}
      */
     public void setAskPassword(AskPasswordCallback askPassword) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ask_password"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPassword == null ? MemoryAddress.NULL : askPassword.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ask_password"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPassword == null ? MemoryAddress.NULL : askPassword.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AskPasswordAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface AskPasswordAsyncCallback {
+    
         void run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsPassword password, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress interaction, MemoryAddress password, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.TlsPassword) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(password)), org.gtk.gio.TlsPassword.fromAddress).marshal(password, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.TlsPassword) Interop.register(password, org.gtk.gio.TlsPassword.fromAddress).marshal(password, null), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AskPasswordAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AskPasswordAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -109,25 +141,42 @@ public class TlsInteractionClass extends Struct {
      * @param askPasswordAsync The new value of the field {@code ask_password_async}
      */
     public void setAskPasswordAsync(AskPasswordAsyncCallback askPasswordAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ask_password_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordAsync == null ? MemoryAddress.NULL : askPasswordAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ask_password_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPasswordAsync == null ? MemoryAddress.NULL : askPasswordAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AskPasswordFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface AskPasswordFinishCallback {
+    
         org.gtk.gio.TlsInteractionResult run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress interaction, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AskPasswordFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AskPasswordFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -136,25 +185,42 @@ public class TlsInteractionClass extends Struct {
      * @param askPasswordFinish The new value of the field {@code ask_password_finish}
      */
     public void setAskPasswordFinish(AskPasswordFinishCallback askPasswordFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ask_password_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordFinish == null ? MemoryAddress.NULL : askPasswordFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ask_password_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPasswordFinish == null ? MemoryAddress.NULL : askPasswordFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestCertificateCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestCertificateCallback {
+    
         org.gtk.gio.TlsInteractionResult run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsConnection connection, org.gtk.gio.TlsCertificateRequestFlags flags, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress interaction, MemoryAddress connection, int flags, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.TlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.TlsConnection.fromAddress).marshal(connection, Ownership.NONE), org.gtk.gio.TlsCertificateRequestFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.TlsConnection) Interop.register(connection, org.gtk.gio.TlsConnection.fromAddress).marshal(connection, null), org.gtk.gio.TlsCertificateRequestFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestCertificateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestCertificateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -163,24 +229,41 @@ public class TlsInteractionClass extends Struct {
      * @param requestCertificate The new value of the field {@code request_certificate}
      */
     public void setRequestCertificate(RequestCertificateCallback requestCertificate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_certificate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificate == null ? MemoryAddress.NULL : requestCertificate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificate == null ? MemoryAddress.NULL : requestCertificate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestCertificateAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestCertificateAsyncCallback {
+    
         void run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsConnection connection, org.gtk.gio.TlsCertificateRequestFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress interaction, MemoryAddress connection, int flags, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.TlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.TlsConnection.fromAddress).marshal(connection, Ownership.NONE), org.gtk.gio.TlsCertificateRequestFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.TlsConnection) Interop.register(connection, org.gtk.gio.TlsConnection.fromAddress).marshal(connection, null), org.gtk.gio.TlsCertificateRequestFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestCertificateAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestCertificateAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -189,25 +272,42 @@ public class TlsInteractionClass extends Struct {
      * @param requestCertificateAsync The new value of the field {@code request_certificate_async}
      */
     public void setRequestCertificateAsync(RequestCertificateAsyncCallback requestCertificateAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateAsync == null ? MemoryAddress.NULL : requestCertificateAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificateAsync == null ? MemoryAddress.NULL : requestCertificateAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestCertificateFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestCertificateFinishCallback {
+    
         org.gtk.gio.TlsInteractionResult run(org.gtk.gio.TlsInteraction interaction, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress interaction, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestCertificateFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestCertificateFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -216,22 +316,26 @@ public class TlsInteractionClass extends Struct {
      * @param requestCertificateFinish The new value of the field {@code request_certificate_finish}
      */
     public void setRequestCertificateFinish(RequestCertificateFinishCallback requestCertificateFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateFinish == null ? MemoryAddress.NULL : requestCertificateFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificateFinish == null ? MemoryAddress.NULL : requestCertificateFinish.toCallback()));
+        }
     }
     
     /**
      * Create a TlsInteractionClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsInteractionClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsInteractionClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsInteractionClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsInteractionClass(input, ownership);
+    public static final Marshal<Addressable, TlsInteractionClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsInteractionClass(input);
     
     /**
      * A {@link TlsInteractionClass.Builder} object constructs a {@link TlsInteractionClass} 
@@ -255,7 +359,7 @@ public class TlsInteractionClass extends Struct {
             struct = TlsInteractionClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TlsInteractionClass} struct.
          * @return A new instance of {@code TlsInteractionClass} with the fields 
          *         that were set in the Builder object.
@@ -265,59 +369,75 @@ public class TlsInteractionClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setAskPassword(AskPasswordCallback askPassword) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ask_password"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPassword == null ? MemoryAddress.NULL : askPassword.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ask_password"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPassword == null ? MemoryAddress.NULL : askPassword.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAskPasswordAsync(AskPasswordAsyncCallback askPasswordAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ask_password_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordAsync == null ? MemoryAddress.NULL : askPasswordAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ask_password_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPasswordAsync == null ? MemoryAddress.NULL : askPasswordAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAskPasswordFinish(AskPasswordFinishCallback askPasswordFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ask_password_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (askPasswordFinish == null ? MemoryAddress.NULL : askPasswordFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ask_password_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (askPasswordFinish == null ? MemoryAddress.NULL : askPasswordFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestCertificate(RequestCertificateCallback requestCertificate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificate == null ? MemoryAddress.NULL : requestCertificate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_certificate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificate == null ? MemoryAddress.NULL : requestCertificate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestCertificateAsync(RequestCertificateAsyncCallback requestCertificateAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateAsync == null ? MemoryAddress.NULL : requestCertificateAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificateAsync == null ? MemoryAddress.NULL : requestCertificateAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestCertificateFinish(RequestCertificateFinishCallback requestCertificateFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestCertificateFinish == null ? MemoryAddress.NULL : requestCertificateFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_certificate_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestCertificateFinish == null ? MemoryAddress.NULL : requestCertificateFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

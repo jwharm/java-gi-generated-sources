@@ -42,8 +42,8 @@ public class VideoTimeCodeConfig extends Struct {
      * @return A new, uninitialized @{link VideoTimeCodeConfig}
      */
     public static VideoTimeCodeConfig allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoTimeCodeConfig newInstance = new VideoTimeCodeConfig(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoTimeCodeConfig newInstance = new VideoTimeCodeConfig(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class VideoTimeCodeConfig extends Struct {
      * @return The value of the field {@code fps_n}
      */
     public int getFpsN() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class VideoTimeCodeConfig extends Struct {
      * @param fpsN The new value of the field {@code fps_n}
      */
     public void setFpsN(int fpsN) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fpsN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), fpsN);
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class VideoTimeCodeConfig extends Struct {
      * @return The value of the field {@code fps_d}
      */
     public int getFpsD() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class VideoTimeCodeConfig extends Struct {
      * @param fpsD The new value of the field {@code fps_d}
      */
     public void setFpsD(int fpsD) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fpsD);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), fpsD);
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class VideoTimeCodeConfig extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.video.VideoTimeCodeFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoTimeCodeFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.video.VideoTimeCodeFlags(RESULT);
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class VideoTimeCodeConfig extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.video.VideoTimeCodeFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class VideoTimeCodeConfig extends Struct {
      * @return The value of the field {@code latest_daily_jam}
      */
     public org.gtk.glib.DateTime getLatestDailyJam() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -127,22 +141,26 @@ public class VideoTimeCodeConfig extends Struct {
      * @param latestDailyJam The new value of the field {@code latest_daily_jam}
      */
     public void setLatestDailyJam(org.gtk.glib.DateTime latestDailyJam) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (latestDailyJam == null ? MemoryAddress.NULL : latestDailyJam.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (latestDailyJam == null ? MemoryAddress.NULL : latestDailyJam.handle()));
+        }
     }
     
     /**
      * Create a VideoTimeCodeConfig proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoTimeCodeConfig(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoTimeCodeConfig(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoTimeCodeConfig> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeConfig(input, ownership);
+    public static final Marshal<Addressable, VideoTimeCodeConfig> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeConfig(input);
     
     /**
      * A {@link VideoTimeCodeConfig.Builder} object constructs a {@link VideoTimeCodeConfig} 
@@ -166,7 +184,7 @@ public class VideoTimeCodeConfig extends Struct {
             struct = VideoTimeCodeConfig.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoTimeCodeConfig} struct.
          * @return A new instance of {@code VideoTimeCodeConfig} with the fields 
          *         that were set in the Builder object.
@@ -181,10 +199,12 @@ public class VideoTimeCodeConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFpsN(int fpsN) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fpsN);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fps_n"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), fpsN);
+                return this;
+            }
         }
         
         /**
@@ -193,10 +213,12 @@ public class VideoTimeCodeConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFpsD(int fpsD) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fpsD);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fps_d"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), fpsD);
+                return this;
+            }
         }
         
         /**
@@ -205,10 +227,12 @@ public class VideoTimeCodeConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.video.VideoTimeCodeFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -217,10 +241,12 @@ public class VideoTimeCodeConfig extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLatestDailyJam(org.gtk.glib.DateTime latestDailyJam) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (latestDailyJam == null ? MemoryAddress.NULL : latestDailyJam.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("latest_daily_jam"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (latestDailyJam == null ? MemoryAddress.NULL : latestDailyJam.handle()));
+                return this;
+            }
         }
     }
 }

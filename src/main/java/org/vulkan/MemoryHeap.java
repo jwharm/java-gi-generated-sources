@@ -29,8 +29,8 @@ public class MemoryHeap extends Struct {
      * @return A new, uninitialized @{link MemoryHeap}
      */
     public static MemoryHeap allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryHeap newInstance = new MemoryHeap(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryHeap newInstance = new MemoryHeap(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryHeap extends Struct {
     /**
      * Create a MemoryHeap proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryHeap(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryHeap(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryHeap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryHeap(input, ownership);
+    public static final Marshal<Addressable, MemoryHeap> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryHeap(input);
 }

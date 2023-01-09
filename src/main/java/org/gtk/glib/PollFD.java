@@ -37,8 +37,8 @@ public class PollFD extends Struct {
      * @return A new, uninitialized @{link PollFD}
      */
     public static PollFD allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PollFD newInstance = new PollFD(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PollFD newInstance = new PollFD(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class PollFD extends Struct {
      * @return The value of the field {@code fd}
      */
     public int getFd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fd"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fd"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class PollFD extends Struct {
      * @param fd The new value of the field {@code fd}
      */
     public void setFd(int fd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("fd"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fd);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("fd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), fd);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class PollFD extends Struct {
      * @return The value of the field {@code events}
      */
     public short getEvents() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class PollFD extends Struct {
      * @param events The new value of the field {@code events}
      */
     public void setEvents(short events) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), events);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), events);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class PollFD extends Struct {
      * @return The value of the field {@code revents}
      */
     public short getRevents() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("revents"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("revents"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class PollFD extends Struct {
      * @param revents The new value of the field {@code revents}
      */
     public void setRevents(short revents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("revents"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), revents);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("revents"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), revents);
+        }
     }
     
     /**
      * Create a PollFD proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PollFD(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PollFD(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PollFD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PollFD(input, ownership);
+    public static final Marshal<Addressable, PollFD> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PollFD(input);
     
     /**
      * A {@link PollFD.Builder} object constructs a {@link PollFD} 
@@ -140,7 +154,7 @@ public class PollFD extends Struct {
             struct = PollFD.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PollFD} struct.
          * @return A new instance of {@code PollFD} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class PollFD extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFd(int fd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("fd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fd);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("fd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), fd);
+                return this;
+            }
         }
         
         /**
@@ -170,10 +186,12 @@ public class PollFD extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEvents(short events) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), events);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), events);
+                return this;
+            }
         }
         
         /**
@@ -183,10 +201,12 @@ public class PollFD extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRevents(short revents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("revents"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), revents);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("revents"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), revents);
+                return this;
+            }
         }
     }
 }

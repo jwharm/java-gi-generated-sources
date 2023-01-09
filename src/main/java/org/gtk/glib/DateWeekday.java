@@ -10,34 +10,42 @@ import org.jetbrains.annotations.*;
  * {@link DateWeekday#TUESDAY}, etc. {@link DateWeekday#BAD_WEEKDAY} is an invalid weekday.
  */
 public enum DateWeekday implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * invalid value
      */
     BAD_WEEKDAY(0),
+    
     /**
      * Monday
      */
     MONDAY(1),
+    
     /**
      * Tuesday
      */
     TUESDAY(2),
+    
     /**
      * Wednesday
      */
     WEDNESDAY(3),
+    
     /**
      * Thursday
      */
     THURSDAY(4),
+    
     /**
      * Friday
      */
     FRIDAY(5),
+    
     /**
      * Saturday
      */
     SATURDAY(6),
+    
     /**
      * Sunday
      */
@@ -46,15 +54,29 @@ public enum DateWeekday implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GDateWeekday";
     
     private final int value;
+    
+    /**
+     * Create a new DateWeekday for the provided value
+     * @param numeric value the enum value
+     */
     DateWeekday(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DateWeekday for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DateWeekday of(int value) {
         return switch (value) {
             case 0 -> BAD_WEEKDAY;

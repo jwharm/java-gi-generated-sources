@@ -33,8 +33,8 @@ public class RecentInfo extends Struct {
      * @return A new, uninitialized @{link RecentInfo}
      */
     public static RecentInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RecentInfo newInstance = new RecentInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RecentInfo newInstance = new RecentInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class RecentInfo extends Struct {
     /**
      * Create a RecentInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RecentInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RecentInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RecentInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecentInfo(input, ownership);
+    public static final Marshal<Addressable, RecentInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RecentInfo(input);
     
     /**
      * Creates a {@code GAppInfo} for the specified {@code GtkRecentInfo}
@@ -63,20 +65,24 @@ public class RecentInfo extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.AppInfo createAppInfo(@Nullable java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(
-                    handle(),
-                    (Addressable) (appName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appName, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(
+                        handle(),
+                        (Addressable) (appName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appName, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gio.AppInfo) Interop.register(RESULT, org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -88,8 +94,7 @@ public class RecentInfo extends Struct {
     public boolean exists() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_exists.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_exists.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,12 +110,11 @@ public class RecentInfo extends Struct {
     public org.gtk.glib.DateTime getAdded() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_added.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_added.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -122,8 +126,7 @@ public class RecentInfo extends Struct {
     public int getAge() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_age.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_get_age.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,24 +151,26 @@ public class RecentInfo extends Struct {
      *   modified or freed
      */
     public boolean getApplicationInfo(java.lang.String appName, Out<java.lang.String> appExec, Out<Integer> count, Out<org.gtk.glib.DateTime> stamp) {
-        MemorySegment appExecPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(appName, null),
-                    (Addressable) appExecPOINTER.address(),
-                    (Addressable) countPOINTER.address(),
-                    (Addressable) stampPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment appExecPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment countPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment stampPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(appName, SCOPE),
+                        (Addressable) appExecPOINTER.address(),
+                        (Addressable) countPOINTER.address(),
+                        (Addressable) stampPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    appExec.set(Marshal.addressToString.marshal(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        appExec.set(Marshal.addressToString.marshal(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -175,22 +180,24 @@ public class RecentInfo extends Struct {
      *   allocated {@code null}-terminated array of strings. Use g_strfreev() to free it.
      */
     public java.lang.String[] getApplications(Out<Long> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -201,8 +208,7 @@ public class RecentInfo extends Struct {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,8 +226,7 @@ public class RecentInfo extends Struct {
     public java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_display_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_display_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,12 +240,13 @@ public class RecentInfo extends Struct {
     public @Nullable org.gtk.gio.Icon getGicon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_gicon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_gicon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -253,22 +259,24 @@ public class RecentInfo extends Struct {
      *   Use g_strfreev() to free it.
      */
     public java.lang.String[] getGroups(Out<Long> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -279,8 +287,7 @@ public class RecentInfo extends Struct {
     public java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_mime_type.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_mime_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,12 +303,11 @@ public class RecentInfo extends Struct {
     public org.gtk.glib.DateTime getModified() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_modified.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_modified.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -315,8 +321,7 @@ public class RecentInfo extends Struct {
     public boolean getPrivateHint() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_get_private_hint.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_get_private_hint.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,8 +340,7 @@ public class RecentInfo extends Struct {
     public java.lang.String getShortName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_short_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_short_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,8 +355,7 @@ public class RecentInfo extends Struct {
     public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,8 +374,7 @@ public class RecentInfo extends Struct {
     public @Nullable java.lang.String getUriDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,12 +390,11 @@ public class RecentInfo extends Struct {
     public org.gtk.glib.DateTime getVisited() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_visited.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_visited.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -403,15 +404,17 @@ public class RecentInfo extends Struct {
      *   {@code false} otherwise
      */
     public boolean hasApplication(java.lang.String appName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_has_application.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(appName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_recent_info_has_application.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(appName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -421,15 +424,17 @@ public class RecentInfo extends Struct {
      * @return {@code true} if the group was found
      */
     public boolean hasGroup(java.lang.String groupName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_has_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_recent_info_has_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -440,8 +445,7 @@ public class RecentInfo extends Struct {
     public boolean isLocal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_recent_info_is_local.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_recent_info_is_local.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -456,8 +460,7 @@ public class RecentInfo extends Struct {
     public java.lang.String lastApplication() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_last_application.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_last_application.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -490,12 +493,13 @@ public class RecentInfo extends Struct {
     public org.gtk.gtk.RecentInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.RecentInfo.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.RecentInfo.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -506,8 +510,7 @@ public class RecentInfo extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gtk_recent_info_unref.invokeExact(
-                    handle());
+            DowncallHandles.gtk_recent_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -516,147 +519,147 @@ public class RecentInfo extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_recent_info_create_app_info = Interop.downcallHandle(
-            "gtk_recent_info_create_app_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_create_app_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_exists = Interop.downcallHandle(
-            "gtk_recent_info_exists",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_exists",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_added = Interop.downcallHandle(
-            "gtk_recent_info_get_added",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_added",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_age = Interop.downcallHandle(
-            "gtk_recent_info_get_age",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_age",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_application_info = Interop.downcallHandle(
-            "gtk_recent_info_get_application_info",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_application_info",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_applications = Interop.downcallHandle(
-            "gtk_recent_info_get_applications",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_applications",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_description = Interop.downcallHandle(
-            "gtk_recent_info_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_display_name = Interop.downcallHandle(
-            "gtk_recent_info_get_display_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_display_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_gicon = Interop.downcallHandle(
-            "gtk_recent_info_get_gicon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_gicon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_groups = Interop.downcallHandle(
-            "gtk_recent_info_get_groups",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_groups",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_mime_type = Interop.downcallHandle(
-            "gtk_recent_info_get_mime_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_mime_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_modified = Interop.downcallHandle(
-            "gtk_recent_info_get_modified",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_modified",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_private_hint = Interop.downcallHandle(
-            "gtk_recent_info_get_private_hint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_private_hint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_short_name = Interop.downcallHandle(
-            "gtk_recent_info_get_short_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_short_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_uri = Interop.downcallHandle(
-            "gtk_recent_info_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_uri_display = Interop.downcallHandle(
-            "gtk_recent_info_get_uri_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_uri_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_get_visited = Interop.downcallHandle(
-            "gtk_recent_info_get_visited",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_get_visited",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_has_application = Interop.downcallHandle(
-            "gtk_recent_info_has_application",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_has_application",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_has_group = Interop.downcallHandle(
-            "gtk_recent_info_has_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_has_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_is_local = Interop.downcallHandle(
-            "gtk_recent_info_is_local",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_is_local",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_last_application = Interop.downcallHandle(
-            "gtk_recent_info_last_application",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_last_application",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_match = Interop.downcallHandle(
-            "gtk_recent_info_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_ref = Interop.downcallHandle(
-            "gtk_recent_info_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_recent_info_unref = Interop.downcallHandle(
-            "gtk_recent_info_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_recent_info_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

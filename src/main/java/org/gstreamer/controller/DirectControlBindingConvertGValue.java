@@ -8,18 +8,36 @@ import org.jetbrains.annotations.*;
 /**
  * Function to map a control-value to the target GValue.
  */
+/**
+ * Functional interface declaration of the {@code DirectControlBindingConvertGValue} callback.
+ */
 @FunctionalInterface
 public interface DirectControlBindingConvertGValue {
-    void run(org.gstreamer.controller.DirectControlBinding self, double srcValue, org.gtk.gobject.Value destValue);
 
+    /**
+     * Function to map a control-value to the target GValue.
+     */
+    void run(org.gstreamer.controller.DirectControlBinding self, double srcValue, org.gtk.gobject.Value destValue);
+    
     @ApiStatus.Internal default void upcall(MemoryAddress self, double srcValue, MemoryAddress destValue) {
-        run((org.gstreamer.controller.DirectControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(self, Ownership.NONE), srcValue, org.gtk.gobject.Value.fromAddress.marshal(destValue, Ownership.NONE));
+        run((org.gstreamer.controller.DirectControlBinding) Interop.register(self, org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(self, null), srcValue, org.gtk.gobject.Value.fromAddress.marshal(destValue, null));
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DirectControlBindingConvertGValue.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DirectControlBindingConvertGValue.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

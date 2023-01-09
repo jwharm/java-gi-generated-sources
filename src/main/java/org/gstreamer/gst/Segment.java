@@ -92,8 +92,8 @@ public class Segment extends Struct {
      * @return A new, uninitialized @{link Segment}
      */
     public static Segment allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Segment newInstance = new Segment(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Segment newInstance = new Segment(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -103,10 +103,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.gst.SegmentFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.SegmentFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.SegmentFlags(RESULT);
+        }
     }
     
     /**
@@ -114,9 +116,11 @@ public class Segment extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.gst.SegmentFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -124,10 +128,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code rate}
      */
     public double getRate() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -135,9 +141,11 @@ public class Segment extends Struct {
      * @param rate The new value of the field {@code rate}
      */
     public void setRate(double rate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), rate);
+        }
     }
     
     /**
@@ -145,10 +153,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code applied_rate}
      */
     public double getAppliedRate() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -156,9 +166,11 @@ public class Segment extends Struct {
      * @param appliedRate The new value of the field {@code applied_rate}
      */
     public void setAppliedRate(double appliedRate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), appliedRate);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), appliedRate);
+        }
     }
     
     /**
@@ -166,10 +178,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code format}
      */
     public org.gstreamer.gst.Format getFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Format.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Format.of(RESULT);
+        }
     }
     
     /**
@@ -177,9 +191,11 @@ public class Segment extends Struct {
      * @param format The new value of the field {@code format}
      */
     public void setFormat(org.gstreamer.gst.Format format) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+        }
     }
     
     /**
@@ -187,10 +203,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code base}
      */
     public long getBase() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -198,9 +216,11 @@ public class Segment extends Struct {
      * @param base The new value of the field {@code base}
      */
     public void setBase(long base) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("base"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), base);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("base"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), base);
+        }
     }
     
     /**
@@ -208,10 +228,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code offset}
      */
     public long getOffset() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -219,9 +241,11 @@ public class Segment extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(long offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -229,10 +253,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code start}
      */
     public long getStart() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -240,9 +266,11 @@ public class Segment extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(long start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), start);
+        }
     }
     
     /**
@@ -250,10 +278,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code stop}
      */
     public long getStop() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -261,9 +291,11 @@ public class Segment extends Struct {
      * @param stop The new value of the field {@code stop}
      */
     public void setStop(long stop) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), stop);
+        }
     }
     
     /**
@@ -271,10 +303,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code time}
      */
     public long getTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -282,9 +316,11 @@ public class Segment extends Struct {
      * @param time The new value of the field {@code time}
      */
     public void setTime(long time) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), time);
+        }
     }
     
     /**
@@ -292,10 +328,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code position}
      */
     public long getPosition() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -303,9 +341,11 @@ public class Segment extends Struct {
      * @param position The new value of the field {@code position}
      */
     public void setPosition(long position) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), position);
+        }
     }
     
     /**
@@ -313,10 +353,12 @@ public class Segment extends Struct {
      * @return The value of the field {@code duration}
      */
     public long getDuration() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -324,22 +366,26 @@ public class Segment extends Struct {
      * @param duration The new value of the field {@code duration}
      */
     public void setDuration(long duration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), duration);
+        }
     }
     
     /**
      * Create a Segment proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Segment(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Segment(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Segment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Segment(input, ownership);
+    public static final Marshal<Addressable, Segment> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Segment(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -358,7 +404,8 @@ public class Segment extends Struct {
      * Free-function: gst_segment_free
      */
     public Segment() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -385,23 +432,25 @@ public class Segment extends Struct {
      *     of the segment.
      */
     public boolean clip(org.gstreamer.gst.Format format, long start, long stop, Out<Long> clipStart, Out<Long> clipStop) {
-        MemorySegment clipStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment clipStopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_clip.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    start,
-                    stop,
-                    (Addressable) (clipStart == null ? MemoryAddress.NULL : (Addressable) clipStartPOINTER.address()),
-                    (Addressable) (clipStop == null ? MemoryAddress.NULL : (Addressable) clipStopPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment clipStartPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment clipStopPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_clip.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        start,
+                        stop,
+                        (Addressable) (clipStart == null ? MemoryAddress.NULL : (Addressable) clipStartPOINTER.address()),
+                        (Addressable) (clipStop == null ? MemoryAddress.NULL : (Addressable) clipStopPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (clipStart != null) clipStart.set(clipStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (clipStop != null) clipStop.set(clipStopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (clipStart != null) clipStart.set(clipStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (clipStop != null) clipStop.set(clipStopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -413,12 +462,13 @@ public class Segment extends Struct {
     public org.gstreamer.gst.Segment copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_segment_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_segment_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -474,24 +524,26 @@ public class Segment extends Struct {
      * @return {@code true} if the seek could be performed.
      */
     public boolean doSeek(double rate, org.gstreamer.gst.Format format, org.gstreamer.gst.SeekFlags flags, org.gstreamer.gst.SeekType startType, long start, org.gstreamer.gst.SeekType stopType, long stop, Out<Boolean> update) {
-        MemorySegment updatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_do_seek.invokeExact(
-                    handle(),
-                    rate,
-                    format.getValue(),
-                    flags.getValue(),
-                    startType.getValue(),
-                    start,
-                    stopType.getValue(),
-                    stop,
-                    (Addressable) (update == null ? MemoryAddress.NULL : (Addressable) updatePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment updatePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_do_seek.invokeExact(
+                        handle(),
+                        rate,
+                        format.getValue(),
+                        flags.getValue(),
+                        startType.getValue(),
+                        start,
+                        stopType.getValue(),
+                        stop,
+                        (Addressable) (update == null ? MemoryAddress.NULL : (Addressable) updatePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (update != null) update.set(updatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (update != null) update.set(updatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -499,8 +551,7 @@ public class Segment extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_segment_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_segment_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -608,19 +659,21 @@ public class Segment extends Struct {
      * @return a 1 or -1 on success, 0 on failure.
      */
     public int positionFromRunningTimeFull(org.gstreamer.gst.Format format, long runningTime, Out<Long> position) {
-        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_position_from_running_time_full.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    runningTime,
-                    (Addressable) positionPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment positionPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_position_from_running_time_full.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        runningTime,
+                        (Addressable) positionPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -666,19 +719,21 @@ public class Segment extends Struct {
      * @return a 1 or -1 on success, 0 on failure.
      */
     public int positionFromStreamTimeFull(org.gstreamer.gst.Format format, long streamTime, Out<Long> position) {
-        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_position_from_stream_time_full.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    streamTime,
-                    (Addressable) positionPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment positionPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_position_from_stream_time_full.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        streamTime,
+                        (Addressable) positionPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -775,19 +830,21 @@ public class Segment extends Struct {
      * @return a 1 or -1 on success, 0 on failure.
      */
     public int toRunningTimeFull(org.gstreamer.gst.Format format, long position, Out<Long> runningTime) {
-        MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_to_running_time_full.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    position,
-                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment runningTimePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_to_running_time_full.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        position,
+                        (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (runningTime != null) runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        if (runningTime != null) runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -841,135 +898,137 @@ public class Segment extends Struct {
      * @return a 1 or -1 on success, 0 on failure.
      */
     public int toStreamTimeFull(org.gstreamer.gst.Format format, long position, Out<Long> streamTime) {
-        MemorySegment streamTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_segment_to_stream_time_full.invokeExact(
-                    handle(),
-                    format.getValue(),
-                    position,
-                    (Addressable) streamTimePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment streamTimePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_segment_to_stream_time_full.invokeExact(
+                        handle(),
+                        format.getValue(),
+                        position,
+                        (Addressable) streamTimePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    streamTime.set(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        streamTime.set(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_segment_new = Interop.downcallHandle(
-            "gst_segment_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_clip = Interop.downcallHandle(
-            "gst_segment_clip",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_clip",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_copy = Interop.downcallHandle(
-            "gst_segment_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_copy_into = Interop.downcallHandle(
-            "gst_segment_copy_into",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_copy_into",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_do_seek = Interop.downcallHandle(
-            "gst_segment_do_seek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_segment_do_seek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_segment_free = Interop.downcallHandle(
-            "gst_segment_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_init = Interop.downcallHandle(
-            "gst_segment_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_segment_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_segment_is_equal = Interop.downcallHandle(
-            "gst_segment_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_offset_running_time = Interop.downcallHandle(
-            "gst_segment_offset_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_offset_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_position_from_running_time = Interop.downcallHandle(
-            "gst_segment_position_from_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_position_from_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_position_from_running_time_full = Interop.downcallHandle(
-            "gst_segment_position_from_running_time_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_position_from_running_time_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_position_from_stream_time = Interop.downcallHandle(
-            "gst_segment_position_from_stream_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_position_from_stream_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_position_from_stream_time_full = Interop.downcallHandle(
-            "gst_segment_position_from_stream_time_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_position_from_stream_time_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_set_running_time = Interop.downcallHandle(
-            "gst_segment_set_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_set_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_to_position = Interop.downcallHandle(
-            "gst_segment_to_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_to_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_to_running_time = Interop.downcallHandle(
-            "gst_segment_to_running_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_to_running_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_to_running_time_full = Interop.downcallHandle(
-            "gst_segment_to_running_time_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_to_running_time_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_segment_to_stream_time = Interop.downcallHandle(
-            "gst_segment_to_stream_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_segment_to_stream_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_segment_to_stream_time_full = Interop.downcallHandle(
-            "gst_segment_to_stream_time_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_segment_to_stream_time_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -995,7 +1054,7 @@ public class Segment extends Struct {
             struct = Segment.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Segment} struct.
          * @return A new instance of {@code Segment} with the fields 
          *         that were set in the Builder object.
@@ -1010,10 +1069,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.gst.SegmentFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1032,10 +1093,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRate(double rate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("rate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), rate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("rate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), rate);
+                return this;
+            }
         }
         
         /**
@@ -1055,10 +1118,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAppliedRate(double appliedRate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), appliedRate);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), appliedRate);
+                return this;
+            }
         }
         
         /**
@@ -1067,10 +1132,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFormat(org.gstreamer.gst.Format format) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1081,10 +1148,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBase(long base) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("base"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), base);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("base"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), base);
+                return this;
+            }
         }
         
         /**
@@ -1096,10 +1165,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(long offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -1113,10 +1184,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(long start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), start);
+                return this;
+            }
         }
         
         /**
@@ -1129,10 +1202,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStop(long stop) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), stop);
+                return this;
+            }
         }
         
         /**
@@ -1142,10 +1217,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTime(long time) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), time);
+                return this;
+            }
         }
         
         /**
@@ -1160,10 +1237,12 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPosition(long position) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), position);
+                return this;
+            }
         }
         
         /**
@@ -1177,17 +1256,21 @@ public class Segment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDuration(long duration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), duration);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

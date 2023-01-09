@@ -97,8 +97,8 @@ public class Regex extends Struct {
      * @return A new, uninitialized @{link Regex}
      */
     public static Regex allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Regex newInstance = new Regex(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Regex newInstance = new Regex(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -106,31 +106,35 @@ public class Regex extends Struct {
     /**
      * Create a Regex proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Regex(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Regex(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Regex> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Regex(input, ownership);
+    public static final Marshal<Addressable, Regex> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Regex(input);
     
     private static MemoryAddress constructNew(java.lang.String pattern, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
-                    Marshal.stringToAddress.marshal(pattern, null),
-                    compileOptions.getValue(),
-                    matchOptions.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
+                        Marshal.stringToAddress.marshal(pattern, SCOPE),
+                        compileOptions.getValue(),
+                        matchOptions.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -142,7 +146,8 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public Regex(java.lang.String pattern, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
-        super(constructNew(pattern, compileOptions, matchOptions), Ownership.FULL);
+        super(constructNew(pattern, compileOptions, matchOptions));
+        this.takeOwnership();
     }
     
     /**
@@ -152,8 +157,7 @@ public class Regex extends Struct {
     public int getCaptureCount() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_capture_count.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_capture_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,8 +175,7 @@ public class Regex extends Struct {
     public org.gtk.glib.RegexCompileFlags getCompileFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_compile_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_compile_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,8 +189,7 @@ public class Regex extends Struct {
     public boolean getHasCrOrLf() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_has_cr_or_lf.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_has_cr_or_lf.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +203,7 @@ public class Regex extends Struct {
     public org.gtk.glib.RegexMatchFlags getMatchFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_match_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_match_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,8 +219,7 @@ public class Regex extends Struct {
     public int getMaxBackref() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_max_backref.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_max_backref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,8 +235,7 @@ public class Regex extends Struct {
     public int getMaxLookbehind() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_regex_get_max_lookbehind.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_regex_get_max_lookbehind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,8 +250,7 @@ public class Regex extends Struct {
     public java.lang.String getPattern() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_get_pattern.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_get_pattern.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,15 +264,17 @@ public class Regex extends Struct {
      *   does not exists
      */
     public int getStringNumber(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_get_string_number.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_get_string_number.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -324,19 +324,21 @@ public class Regex extends Struct {
      * @return {@code true} is the string matched, {@code false} otherwise
      */
     public boolean match(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) {
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_match.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null),
-                    matchOptions.getValue(),
-                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment matchInfoPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_match.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        matchOptions.getValue(),
+                        (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -361,19 +363,21 @@ public class Regex extends Struct {
      * @return {@code true} is the string matched, {@code false} otherwise
      */
     public boolean matchAll(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) {
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_match_all.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null),
-                    matchOptions.getValue(),
-                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment matchInfoPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_match_all.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        matchOptions.getValue(),
+                        (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -425,26 +429,28 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_match_all_full.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    matchOptions.getValue(),
-                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment matchInfoPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_match_all_full.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        matchOptions.getValue(),
+                        (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -508,26 +514,28 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_match_full.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    matchOptions.getValue(),
-                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment matchInfoPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_match_full.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        matchOptions.getValue(),
+                        (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -537,12 +545,13 @@ public class Regex extends Struct {
     public org.gtk.glib.Regex ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_regex_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Regex.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Regex.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -582,24 +591,26 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    Marshal.stringToAddress.marshal(replacement, null),
-                    matchOptions.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_replace.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        Marshal.stringToAddress.marshal(replacement, SCOPE),
+                        matchOptions.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -657,25 +668,27 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, org.gtk.glib.RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_eval.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    matchOptions.getValue(),
-                    (Addressable) eval.toCallback(),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_eval.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        matchOptions.getValue(),
+                        (Addressable) eval.toCallback(),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -696,24 +709,26 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_literal.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    Marshal.stringToAddress.marshal(replacement, null),
-                    matchOptions.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_replace_literal.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        Marshal.stringToAddress.marshal(replacement, SCOPE),
+                        matchOptions.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -740,16 +755,18 @@ public class Regex extends Struct {
      * it using g_strfreev()
      */
     public PointerString split(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null),
-                    matchOptions.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_split.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        matchOptions.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -785,24 +802,26 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public PointerString splitFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_full.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(string, false),
-                    stringLen,
-                    startPosition,
-                    matchOptions.getValue(),
-                    maxTokens,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_split_full.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        stringLen,
+                        startPosition,
+                        matchOptions.getValue(),
+                        maxTokens,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new PointerString(RESULT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -811,8 +830,7 @@ public class Regex extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_regex_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_regex_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -835,22 +853,24 @@ public class Regex extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static boolean checkReplacement(java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
-                    Marshal.stringToAddress.marshal(replacement, null),
-                    (Addressable) (hasReferences == null ? MemoryAddress.NULL : (Addressable) hasReferencesPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment hasReferencesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
+                        Marshal.stringToAddress.marshal(replacement, SCOPE),
+                        (Addressable) (hasReferences == null ? MemoryAddress.NULL : (Addressable) hasReferencesPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (hasReferences != null) hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (hasReferences != null) hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public static org.gtk.glib.Quark errorQuark() {
@@ -874,15 +894,17 @@ public class Regex extends Struct {
      * @return a newly-allocated escaped string
      */
     public static java.lang.String escapeNul(java.lang.String string, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -898,15 +920,17 @@ public class Regex extends Struct {
      * @return a newly-allocated escaped string
      */
     public static java.lang.String escapeString(java.lang.String[] string, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(
-                    Interop.allocateNativeArray(string, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(
+                        Interop.allocateNativeArray(string, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -927,17 +951,19 @@ public class Regex extends Struct {
      * @return {@code true} if the string matched, {@code false} otherwise
      */
     public static boolean matchSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(
-                    Marshal.stringToAddress.marshal(pattern, null),
-                    Marshal.stringToAddress.marshal(string, null),
-                    compileOptions.getValue(),
-                    matchOptions.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(
+                        Marshal.stringToAddress.marshal(pattern, SCOPE),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        compileOptions.getValue(),
+                        matchOptions.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -976,175 +1002,177 @@ public class Regex extends Struct {
      * it using g_strfreev()
      */
     public static PointerString splitSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(
-                    Marshal.stringToAddress.marshal(pattern, null),
-                    Marshal.stringToAddress.marshal(string, null),
-                    compileOptions.getValue(),
-                    matchOptions.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(
+                        Marshal.stringToAddress.marshal(pattern, SCOPE),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        compileOptions.getValue(),
+                        matchOptions.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_regex_new = Interop.downcallHandle(
-            "g_regex_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_capture_count = Interop.downcallHandle(
-            "g_regex_get_capture_count",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_capture_count",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_compile_flags = Interop.downcallHandle(
-            "g_regex_get_compile_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_compile_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_has_cr_or_lf = Interop.downcallHandle(
-            "g_regex_get_has_cr_or_lf",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_has_cr_or_lf",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_match_flags = Interop.downcallHandle(
-            "g_regex_get_match_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_match_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_max_backref = Interop.downcallHandle(
-            "g_regex_get_max_backref",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_max_backref",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_max_lookbehind = Interop.downcallHandle(
-            "g_regex_get_max_lookbehind",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_max_lookbehind",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_pattern = Interop.downcallHandle(
-            "g_regex_get_pattern",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_pattern",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_get_string_number = Interop.downcallHandle(
-            "g_regex_get_string_number",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_get_string_number",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_match = Interop.downcallHandle(
-            "g_regex_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_match_all = Interop.downcallHandle(
-            "g_regex_match_all",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_match_all",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_match_all_full = Interop.downcallHandle(
-            "g_regex_match_all_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_match_all_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_match_full = Interop.downcallHandle(
-            "g_regex_match_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_match_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_ref = Interop.downcallHandle(
-            "g_regex_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_replace = Interop.downcallHandle(
-            "g_regex_replace",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_replace",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_replace_eval = Interop.downcallHandle(
-            "g_regex_replace_eval",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_replace_eval",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_replace_literal = Interop.downcallHandle(
-            "g_regex_replace_literal",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_replace_literal",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_split = Interop.downcallHandle(
-            "g_regex_split",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_regex_split",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_regex_split_full = Interop.downcallHandle(
-            "g_regex_split_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_split_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_unref = Interop.downcallHandle(
-            "g_regex_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_check_replacement = Interop.downcallHandle(
-            "g_regex_check_replacement",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_regex_check_replacement",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_regex_error_quark = Interop.downcallHandle(
-            "g_regex_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_regex_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_regex_escape_nul = Interop.downcallHandle(
-            "g_regex_escape_nul",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_regex_escape_nul",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_regex_escape_string = Interop.downcallHandle(
-            "g_regex_escape_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_regex_escape_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_regex_match_simple = Interop.downcallHandle(
-            "g_regex_match_simple",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_regex_match_simple",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_regex_split_simple = Interop.downcallHandle(
-            "g_regex_split_simple",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_regex_split_simple",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

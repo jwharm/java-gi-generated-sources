@@ -95,26 +95,17 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     /**
      * Create a AppSrc proxy instance for the provided memory address.
-     * <p>
-     * Because AppSrc is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppSrc(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AppSrc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppSrc(input, ownership);
+    public static final Marshal<Addressable, AppSrc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppSrc(input);
     
     /**
      * Indicates to the appsrc element that the last buffer queued in the
@@ -125,8 +116,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.gst.FlowReturn endOfStream() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_src_end_of_stream.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_src_end_of_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,12 +130,13 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_app_src_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_app_src_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -155,8 +146,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public long getCurrentLevelBuffers() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_buffers.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_buffers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,8 +160,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public long getCurrentLevelBytes() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_bytes.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,8 +174,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.gst.ClockTime getCurrentLevelTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_current_level_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +189,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_duration.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,8 +204,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public boolean getEmitSignals() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_src_get_emit_signals.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_src_get_emit_signals.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,18 +217,20 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @param max the max latency
      */
     public void getLatency(Out<Long> min, Out<Long> max) {
-        MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_app_src_get_latency.invokeExact(
-                    handle(),
-                    (Addressable) minPOINTER.address(),
-                    (Addressable) maxPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_app_src_get_latency.invokeExact(
+                        handle(),
+                        (Addressable) minPOINTER.address(),
+                        (Addressable) maxPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    min.set(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    max.set(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        min.set(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        max.set(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -253,8 +241,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.app.AppLeakyType getLeakyType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_src_get_leaky_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_src_get_leaky_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,8 +255,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public long getMaxBuffers() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_max_buffers.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_max_buffers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,8 +269,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public long getMaxBytes() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_max_bytes.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_max_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,8 +283,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.gst.ClockTime getMaxTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_max_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_max_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,8 +298,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_app_src_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_app_src_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -330,8 +313,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public org.gstreamer.app.AppStreamType getStreamType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_src_get_stream_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_src_get_stream_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -618,20 +600,38 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code EndOfStream} callback.
+     */
     @FunctionalInterface
     public interface EndOfStream {
+    
+        /**
+         * Notify {@code appsrc} that no more buffer are available.
+         */
         org.gstreamer.gst.FlowReturn run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc) {
             var RESULT = run();
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndOfStream.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndOfStream.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -641,28 +641,49 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.EndOfStream> onEndOfStream(AppSrc.EndOfStream handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("end-of-stream"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("end-of-stream", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code EnoughData} callback.
+     */
     @FunctionalInterface
     public interface EnoughData {
+    
+        /**
+         * Signal that the source has enough data. It is recommended that the
+         * application stops calling push-buffer until the need-data signal is
+         * emitted again to avoid excessive buffer queueing.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppSrc) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EnoughData.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EnoughData.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -674,28 +695,54 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.EnoughData> onEnoughData(AppSrc.EnoughData handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("enough-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("enough-data", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code NeedData} callback.
+     */
     @FunctionalInterface
     public interface NeedData {
+    
+        /**
+         * Signal that the source needs more data. In the callback or from another
+         * thread you should call push-buffer or end-of-stream.
+         * <p>
+         * {@code length} is just a hint and when it is set to -1, any number of bytes can be
+         * pushed into {@code appsrc}.
+         * <p>
+         * You can call push-buffer multiple times until the enough-data signal is
+         * fired.
+         */
         void run(int length);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppSrc, int length) {
             run(length);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NeedData.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NeedData.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -712,29 +759,56 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.NeedData> onNeedData(AppSrc.NeedData handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("need-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("need-data", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PushBuffer} callback.
+     */
     @FunctionalInterface
     public interface PushBuffer {
+    
+        /**
+         * Adds a buffer to the queue of buffers that the appsrc element will
+         * push to its source pad.
+         * <p>
+         * This function does not take ownership of the buffer, but it takes a
+         * reference so the buffer can be unreffed at any time after calling this
+         * function.
+         * <p>
+         * When the block property is TRUE, this function can block until free space
+         * becomes available in the queue.
+         */
         org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress buffer) {
-            var RESULT = run(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            var RESULT = run(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushBuffer.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PushBuffer.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -752,29 +826,56 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.PushBuffer> onPushBuffer(AppSrc.PushBuffer handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("push-buffer"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("push-buffer", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PushBufferList} callback.
+     */
     @FunctionalInterface
     public interface PushBufferList {
+    
+        /**
+         * Adds a buffer list to the queue of buffers and buffer lists that the
+         * appsrc element will push to its source pad.
+         * <p>
+         * This function does not take ownership of the buffer list, but it takes a
+         * reference so the buffer list can be unreffed at any time after calling
+         * this function.
+         * <p>
+         * When the block property is TRUE, this function can block until free space
+         * becomes available in the queue.
+         */
         org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.BufferList bufferList);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress bufferList) {
-            var RESULT = run(org.gstreamer.gst.BufferList.fromAddress.marshal(bufferList, Ownership.NONE));
+            var RESULT = run(org.gstreamer.gst.BufferList.fromAddress.marshal(bufferList, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushBufferList.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PushBufferList.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -792,29 +893,60 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.PushBufferList> onPushBufferList(AppSrc.PushBufferList handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("push-buffer-list"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("push-buffer-list", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PushSample} callback.
+     */
     @FunctionalInterface
     public interface PushSample {
+    
+        /**
+         * Extract a buffer from the provided sample and adds the extracted buffer
+         * to the queue of buffers that the appsrc element will
+         * push to its source pad. This function set the appsrc caps based on the caps
+         * in the sample and reset the caps if they change.
+         * Only the caps and the buffer of the provided sample are used and not
+         * for example the segment in the sample.
+         * <p>
+         * This function does not take ownership of the sample, but it takes a
+         * reference so the sample can be unreffed at any time after calling this
+         * function.
+         * <p>
+         * When the block property is TRUE, this function can block until free space
+         * becomes available in the queue.
+         */
         org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Sample sample);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress sample) {
-            var RESULT = run(org.gstreamer.gst.Sample.fromAddress.marshal(sample, Ownership.NONE));
+            var RESULT = run(org.gstreamer.gst.Sample.fromAddress.marshal(sample, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushSample.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PushSample.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -836,29 +968,50 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.PushSample> onPushSample(AppSrc.PushSample handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("push-sample"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("push-sample", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SeekData} callback.
+     */
     @FunctionalInterface
     public interface SeekData {
+    
+        /**
+         * Seek to the given offset. The next push-buffer should produce buffers from
+         * the new {@code offset}.
+         * This callback is only called for seekable stream types.
+         */
         boolean run(long offset);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, long offset) {
             var RESULT = run(offset);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SeekData.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SeekData.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -870,9 +1023,10 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSrc.SeekData> onSeekData(AppSrc.SeekData handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("seek-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("seek-data", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -895,6 +1049,9 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      */
     public static class Builder extends org.gstreamer.base.BaseSrc.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1151,177 +1308,185 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     private static class DowncallHandles {
         
         private static final MethodHandle gst_app_src_end_of_stream = Interop.downcallHandle(
-            "gst_app_src_end_of_stream",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_end_of_stream",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_caps = Interop.downcallHandle(
-            "gst_app_src_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_current_level_buffers = Interop.downcallHandle(
-            "gst_app_src_get_current_level_buffers",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_current_level_buffers",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_current_level_bytes = Interop.downcallHandle(
-            "gst_app_src_get_current_level_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_current_level_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_current_level_time = Interop.downcallHandle(
-            "gst_app_src_get_current_level_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_current_level_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_duration = Interop.downcallHandle(
-            "gst_app_src_get_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_emit_signals = Interop.downcallHandle(
-            "gst_app_src_get_emit_signals",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_emit_signals",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_latency = Interop.downcallHandle(
-            "gst_app_src_get_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_leaky_type = Interop.downcallHandle(
-            "gst_app_src_get_leaky_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_leaky_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_max_buffers = Interop.downcallHandle(
-            "gst_app_src_get_max_buffers",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_max_buffers",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_max_bytes = Interop.downcallHandle(
-            "gst_app_src_get_max_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_max_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_max_time = Interop.downcallHandle(
-            "gst_app_src_get_max_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_max_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_size = Interop.downcallHandle(
-            "gst_app_src_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_stream_type = Interop.downcallHandle(
-            "gst_app_src_get_stream_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_get_stream_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_push_buffer = Interop.downcallHandle(
-            "gst_app_src_push_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_push_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_push_buffer_list = Interop.downcallHandle(
-            "gst_app_src_push_buffer_list",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_push_buffer_list",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_push_sample = Interop.downcallHandle(
-            "gst_app_src_push_sample",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_push_sample",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_callbacks = Interop.downcallHandle(
-            "gst_app_src_set_callbacks",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_set_callbacks",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_caps = Interop.downcallHandle(
-            "gst_app_src_set_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_src_set_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_duration = Interop.downcallHandle(
-            "gst_app_src_set_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_emit_signals = Interop.downcallHandle(
-            "gst_app_src_set_emit_signals",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_src_set_emit_signals",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_latency = Interop.downcallHandle(
-            "gst_app_src_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_leaky_type = Interop.downcallHandle(
-            "gst_app_src_set_leaky_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_src_set_leaky_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_max_buffers = Interop.downcallHandle(
-            "gst_app_src_set_max_buffers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_max_buffers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_max_bytes = Interop.downcallHandle(
-            "gst_app_src_set_max_bytes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_max_bytes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_max_time = Interop.downcallHandle(
-            "gst_app_src_set_max_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_max_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_size = Interop.downcallHandle(
-            "gst_app_src_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_src_set_stream_type = Interop.downcallHandle(
-            "gst_app_src_set_stream_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_src_set_stream_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_src_get_type = Interop.downcallHandle(
-            "gst_app_src_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_app_src_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_app_src_get_type != null;
     }
 }

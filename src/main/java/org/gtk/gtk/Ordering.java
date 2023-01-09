@@ -14,14 +14,17 @@ import org.jetbrains.annotations.*;
  * {@link Ordering#fromCmpfunc}.
  */
 public enum Ordering implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the first value is smaller than the second
      */
     SMALLER(-1),
+    
     /**
      * the two values are equal
      */
     EQUAL(0),
+    
     /**
      * the first value is larger than the second
      */
@@ -30,15 +33,29 @@ public enum Ordering implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkOrdering";
     
     private final int value;
+    
+    /**
+     * Create a new Ordering for the provided value
+     * @param numeric value the enum value
+     */
     Ordering(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Ordering for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Ordering of(int value) {
         return switch (value) {
             case -1 -> SMALLER;
@@ -57,8 +74,7 @@ public enum Ordering implements io.github.jwharm.javagi.Enumeration {
     public static org.gtk.gtk.Ordering fromCmpfunc(int cmpfuncResult) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(
-                    cmpfuncResult);
+            RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(cmpfuncResult);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,9 +84,9 @@ public enum Ordering implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_ordering_from_cmpfunc = Interop.downcallHandle(
-            "gtk_ordering_from_cmpfunc",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_ordering_from_cmpfunc",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

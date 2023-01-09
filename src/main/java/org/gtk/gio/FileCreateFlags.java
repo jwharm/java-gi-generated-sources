@@ -37,6 +37,9 @@ public class FileCreateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileCreateFlags REPLACE_DESTINATION = new FileCreateFlags(2);
     
+    /**
+     * Create a new FileCreateFlags with the provided value
+     */
     public FileCreateFlags(int value) {
         super(value);
     }

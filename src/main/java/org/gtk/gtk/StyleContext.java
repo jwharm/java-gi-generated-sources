@@ -64,14 +64,16 @@ public class StyleContext extends org.gtk.gobject.GObject {
     /**
      * Create a StyleContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StyleContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StyleContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StyleContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StyleContext(input, ownership);
+    public static final Marshal<Addressable, StyleContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StyleContext(input);
     
     /**
      * Adds a style class to {@code context}, so later uses of the
@@ -91,12 +93,14 @@ public class StyleContext extends org.gtk.gobject.GObject {
      * @param className class name to use in styling
      */
     public void addClass(java.lang.String className) {
-        try {
-            DowncallHandles.gtk_style_context_add_class.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(className, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_style_context_add_class.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(className, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -164,12 +168,11 @@ public class StyleContext extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -207,8 +210,7 @@ public class StyleContext extends org.gtk.gobject.GObject {
     public int getScale() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_get_scale.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_style_context_get_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,8 +230,7 @@ public class StyleContext extends org.gtk.gobject.GObject {
     public org.gtk.gtk.StateFlags getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_style_context_get_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_style_context_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,15 +244,17 @@ public class StyleContext extends org.gtk.gobject.GObject {
      * @return {@code true} if {@code context} has {@code class_name} defined
      */
     public boolean hasClass(java.lang.String className) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_style_context_has_class.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(className, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_style_context_has_class.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(className, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -261,16 +264,18 @@ public class StyleContext extends org.gtk.gobject.GObject {
      * @return {@code true} if {@code color_name} was found and resolved, {@code false} otherwise
      */
     public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_style_context_lookup_color.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(colorName, null),
-                    color.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_style_context_lookup_color.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(colorName, SCOPE),
+                        color.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -278,12 +283,14 @@ public class StyleContext extends org.gtk.gobject.GObject {
      * @param className class name to remove
      */
     public void removeClass(java.lang.String className) {
-        try {
-            DowncallHandles.gtk_style_context_remove_class.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(className, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_style_context_remove_class.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(className, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -308,8 +315,7 @@ public class StyleContext extends org.gtk.gobject.GObject {
      */
     public void restore() {
         try {
-            DowncallHandles.gtk_style_context_restore.invokeExact(
-                    handle());
+            DowncallHandles.gtk_style_context_restore.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,8 +335,7 @@ public class StyleContext extends org.gtk.gobject.GObject {
      */
     public void save() {
         try {
-            DowncallHandles.gtk_style_context_save.invokeExact(
-                    handle());
+            DowncallHandles.gtk_style_context_save.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -485,6 +490,9 @@ public class StyleContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -515,135 +523,143 @@ public class StyleContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_style_context_add_class = Interop.downcallHandle(
-            "gtk_style_context_add_class",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_add_class",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_add_provider = Interop.downcallHandle(
-            "gtk_style_context_add_provider",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_style_context_add_provider",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_border = Interop.downcallHandle(
-            "gtk_style_context_get_border",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_border",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_color = Interop.downcallHandle(
-            "gtk_style_context_get_color",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_color",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_display = Interop.downcallHandle(
-            "gtk_style_context_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_margin = Interop.downcallHandle(
-            "gtk_style_context_get_margin",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_margin",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_padding = Interop.downcallHandle(
-            "gtk_style_context_get_padding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_padding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_scale = Interop.downcallHandle(
-            "gtk_style_context_get_scale",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_scale",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_state = Interop.downcallHandle(
-            "gtk_style_context_get_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_get_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_has_class = Interop.downcallHandle(
-            "gtk_style_context_has_class",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_has_class",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_lookup_color = Interop.downcallHandle(
-            "gtk_style_context_lookup_color",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_lookup_color",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_remove_class = Interop.downcallHandle(
-            "gtk_style_context_remove_class",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_remove_class",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_remove_provider = Interop.downcallHandle(
-            "gtk_style_context_remove_provider",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_remove_provider",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_restore = Interop.downcallHandle(
-            "gtk_style_context_restore",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_restore",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_save = Interop.downcallHandle(
-            "gtk_style_context_save",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_save",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_set_display = Interop.downcallHandle(
-            "gtk_style_context_set_display",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_set_display",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_style_context_set_scale = Interop.downcallHandle(
-            "gtk_style_context_set_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_style_context_set_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_style_context_set_state = Interop.downcallHandle(
-            "gtk_style_context_set_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_style_context_set_state",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_style_context_to_string = Interop.downcallHandle(
-            "gtk_style_context_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_style_context_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_style_context_get_type = Interop.downcallHandle(
-            "gtk_style_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_style_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_style_context_add_provider_for_display = Interop.downcallHandle(
-            "gtk_style_context_add_provider_for_display",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_style_context_add_provider_for_display",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_style_context_remove_provider_for_display = Interop.downcallHandle(
-            "gtk_style_context_remove_provider_for_display",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_style_context_remove_provider_for_display",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_style_context_get_type != null;
     }
 }

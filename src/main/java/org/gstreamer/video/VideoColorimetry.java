@@ -37,8 +37,8 @@ public class VideoColorimetry extends Struct {
      * @return A new, uninitialized @{link VideoColorimetry}
      */
     public static VideoColorimetry allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoColorimetry newInstance = new VideoColorimetry(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoColorimetry newInstance = new VideoColorimetry(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class VideoColorimetry extends Struct {
      * @return The value of the field {@code range}
      */
     public org.gstreamer.video.VideoColorRange getRange() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("range"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoColorRange.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("range"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoColorRange.of(RESULT);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class VideoColorimetry extends Struct {
      * @param range The new value of the field {@code range}
      */
     public void setRange(org.gstreamer.video.VideoColorRange range) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (range == null ? MemoryAddress.NULL : range.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (range == null ? MemoryAddress.NULL : range.getValue()));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class VideoColorimetry extends Struct {
      * @return The value of the field {@code matrix}
      */
     public org.gstreamer.video.VideoColorMatrix getMatrix() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoColorMatrix.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoColorMatrix.of(RESULT);
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class VideoColorimetry extends Struct {
      * @param matrix The new value of the field {@code matrix}
      */
     public void setMatrix(org.gstreamer.video.VideoColorMatrix matrix) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.getValue()));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class VideoColorimetry extends Struct {
      * @return The value of the field {@code transfer}
      */
     public org.gstreamer.video.VideoTransferFunction getTransfer() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoTransferFunction.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoTransferFunction.of(RESULT);
+        }
     }
     
     /**
@@ -101,9 +111,11 @@ public class VideoColorimetry extends Struct {
      * @param transfer The new value of the field {@code transfer}
      */
     public void setTransfer(org.gstreamer.video.VideoTransferFunction transfer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transfer == null ? MemoryAddress.NULL : transfer.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transfer == null ? MemoryAddress.NULL : transfer.getValue()));
+        }
     }
     
     /**
@@ -111,10 +123,12 @@ public class VideoColorimetry extends Struct {
      * @return The value of the field {@code primaries}
      */
     public org.gstreamer.video.VideoColorPrimaries getPrimaries() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.video.VideoColorPrimaries.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.video.VideoColorPrimaries.of(RESULT);
+        }
     }
     
     /**
@@ -122,22 +136,26 @@ public class VideoColorimetry extends Struct {
      * @param primaries The new value of the field {@code primaries}
      */
     public void setPrimaries(org.gstreamer.video.VideoColorPrimaries primaries) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+        }
     }
     
     /**
      * Create a VideoColorimetry proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoColorimetry(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoColorimetry(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoColorimetry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoColorimetry(input, ownership);
+    public static final Marshal<Addressable, VideoColorimetry> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoColorimetry(input);
     
     /**
      * Parse the colorimetry string and update {@code cinfo} with the parsed
@@ -146,15 +164,17 @@ public class VideoColorimetry extends Struct {
      * @return {@code true} if {@code color} points to valid colorimetry info.
      */
     public boolean fromString(java.lang.String color) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_colorimetry_from_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(color, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_colorimetry_from_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(color, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,15 +202,17 @@ public class VideoColorimetry extends Struct {
      * information in {@code info}.
      */
     public boolean matches(java.lang.String color) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_colorimetry_matches.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(color, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_colorimetry_matches.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(color, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -201,8 +223,7 @@ public class VideoColorimetry extends Struct {
     public @Nullable java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_colorimetry_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_colorimetry_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,27 +233,27 @@ public class VideoColorimetry extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_colorimetry_from_string = Interop.downcallHandle(
-            "gst_video_colorimetry_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_colorimetry_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_colorimetry_is_equal = Interop.downcallHandle(
-            "gst_video_colorimetry_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_colorimetry_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_colorimetry_matches = Interop.downcallHandle(
-            "gst_video_colorimetry_matches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_colorimetry_matches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_colorimetry_to_string = Interop.downcallHandle(
-            "gst_video_colorimetry_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_colorimetry_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -258,7 +279,7 @@ public class VideoColorimetry extends Struct {
             struct = VideoColorimetry.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoColorimetry} struct.
          * @return A new instance of {@code VideoColorimetry} with the fields 
          *         that were set in the Builder object.
@@ -274,10 +295,12 @@ public class VideoColorimetry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRange(org.gstreamer.video.VideoColorRange range) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (range == null ? MemoryAddress.NULL : range.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (range == null ? MemoryAddress.NULL : range.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -287,10 +310,12 @@ public class VideoColorimetry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMatrix(org.gstreamer.video.VideoColorMatrix matrix) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("matrix"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -299,10 +324,12 @@ public class VideoColorimetry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransfer(org.gstreamer.video.VideoTransferFunction transfer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transfer == null ? MemoryAddress.NULL : transfer.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transfer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transfer == null ? MemoryAddress.NULL : transfer.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -311,10 +338,12 @@ public class VideoColorimetry extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPrimaries(org.gstreamer.video.VideoColorPrimaries primaries) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("primaries"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (primaries == null ? MemoryAddress.NULL : primaries.getValue()));
+                return this;
+            }
         }
     }
 }

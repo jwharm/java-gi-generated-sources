@@ -37,8 +37,8 @@ public class TagList extends Struct {
      * @return A new, uninitialized @{link TagList}
      */
     public static TagList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TagList newInstance = new TagList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TagList newInstance = new TagList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class TagList extends Struct {
      */
     public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,33 +57,39 @@ public class TagList extends Struct {
      * @param miniObject The new value of the field {@code mini_object}
      */
     public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        }
     }
     
     /**
      * Create a TagList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TagList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TagList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagList(input, ownership);
+    public static final Marshal<Addressable, TagList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagList(input);
     
     private static MemoryAddress constructNew(java.lang.String tag, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new.invokeExact(
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new.invokeExact(
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -104,7 +110,8 @@ public class TagList extends Struct {
      * @param varargs {@code null}-terminated list of values to set
      */
     public TagList(java.lang.String tag, java.lang.Object... varargs) {
-        super(constructNew(tag, varargs), Ownership.FULL);
+        super(constructNew(tag, varargs));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewEmpty() {
@@ -116,7 +123,7 @@ public class TagList extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new empty GstTagList.
      * <p>
@@ -125,20 +132,23 @@ public class TagList extends Struct {
      */
     public static TagList newEmpty() {
         var RESULT = constructNewEmpty();
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromString(java.lang.String str) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_from_string.invokeExact(Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Deserializes a tag list.
      * @param str a string created with gst_tag_list_to_string()
@@ -147,20 +157,21 @@ public class TagList extends Struct {
      */
     public static TagList newFromString(java.lang.String str) {
         var RESULT = constructNewFromString(str);
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewValist(VaList varArgs) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_valist.invokeExact(
-                    varArgs);
+            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_valist.invokeExact(varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Just like gst_tag_list_new(), only that it takes a va_list argument.
      * Useful mostly for language bindings.
@@ -172,7 +183,9 @@ public class TagList extends Struct {
      */
     public static TagList newValist(VaList varArgs) {
         var RESULT = constructNewValist(varArgs);
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -182,14 +195,16 @@ public class TagList extends Struct {
      * @param varargs {@code null}-terminated list of values to set
      */
     public void add(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_tag_list_add.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_add.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -200,14 +215,16 @@ public class TagList extends Struct {
      * @param varArgs tag / value pairs to set
      */
     public void addValist(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
-        try {
-            DowncallHandles.gst_tag_list_add_valist.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_add_valist.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -218,14 +235,16 @@ public class TagList extends Struct {
      * @param varArgs tag / GValue pairs to set
      */
     public void addValistValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
-        try {
-            DowncallHandles.gst_tag_list_add_valist_values.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_add_valist_values.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -236,14 +255,16 @@ public class TagList extends Struct {
      * @param value GValue for this tag
      */
     public void addValue(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_tag_list_add_value.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_add_value.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -254,14 +275,16 @@ public class TagList extends Struct {
      * @param varargs GValues to set
      */
     public void addValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_tag_list_add_values.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_add_values.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -280,12 +303,13 @@ public class TagList extends Struct {
     public org.gstreamer.gst.TagList copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -313,18 +337,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getBoolean(java.lang.String tag, Out<Boolean> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -337,19 +363,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getBooleanIndex(java.lang.String tag, int index, Out<Boolean> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_boolean_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_boolean_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -365,18 +393,20 @@ public class TagList extends Struct {
      *              given list or if it was {@code null}.
      */
     public boolean getDate(java.lang.String tag, Out<org.gtk.glib.Date> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_date.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_date.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -392,19 +422,21 @@ public class TagList extends Struct {
      *              given list or if it was {@code null}.
      */
     public boolean getDateIndex(java.lang.String tag, int index, Out<org.gtk.glib.Date> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_date_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_date_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -420,18 +452,20 @@ public class TagList extends Struct {
      *              the given list or if it was {@code null}.
      */
     public boolean getDateTime(java.lang.String tag, Out<org.gstreamer.gst.DateTime> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_date_time.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_date_time.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -447,19 +481,21 @@ public class TagList extends Struct {
      *              given list or if it was {@code null}.
      */
     public boolean getDateTimeIndex(java.lang.String tag, int index, Out<org.gstreamer.gst.DateTime> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_date_time_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_date_time_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -471,18 +507,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getDouble(java.lang.String tag, Out<Double> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -495,19 +533,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getDoubleIndex(java.lang.String tag, int index, Out<Double> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_double_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_double_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -519,18 +559,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getFloat(java.lang.String tag, Out<Float> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_float.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_float.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -543,19 +585,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getFloatIndex(java.lang.String tag, int index, Out<Float> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_float_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_float_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -567,18 +611,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getInt(java.lang.String tag, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_int.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_int.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -590,18 +636,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getInt64(java.lang.String tag, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -614,19 +662,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getInt64Index(java.lang.String tag, int index, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_int64_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_int64_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -639,19 +689,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getIntIndex(java.lang.String tag, int index, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_int_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_int_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -663,18 +715,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getPointer(java.lang.String tag, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_pointer.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_pointer.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -687,19 +741,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getPointerIndex(java.lang.String tag, int index, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_pointer_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_pointer_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -717,18 +773,20 @@ public class TagList extends Struct {
      *              the given list or if it was {@code null}.
      */
     public boolean getSample(java.lang.String tag, Out<org.gstreamer.gst.Sample> sample) {
-        MemorySegment samplePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_sample.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) samplePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment samplePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_sample.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) samplePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -747,19 +805,21 @@ public class TagList extends Struct {
      *              given list or if it was {@code null}.
      */
     public boolean getSampleIndex(java.lang.String tag, int index, Out<org.gstreamer.gst.Sample> sample) {
-        MemorySegment samplePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_sample_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) samplePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment samplePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_sample_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) samplePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -769,8 +829,7 @@ public class TagList extends Struct {
     public org.gstreamer.gst.TagScope getScope() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_scope.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_tag_list_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -795,18 +854,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getString(java.lang.String tag, Out<java.lang.String> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -825,19 +886,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getStringIndex(java.lang.String tag, int index, Out<java.lang.String> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_string_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_string_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -846,15 +909,17 @@ public class TagList extends Struct {
      * @return The number of tags stored
      */
     public int getTagSize(java.lang.String tag) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_tag_size.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_tag_size.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -866,18 +931,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getUint(java.lang.String tag, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_uint.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_uint.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -889,18 +956,20 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getUint64(java.lang.String tag, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -913,19 +982,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getUint64Index(java.lang.String tag, int index, Out<Long> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_uint64_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_uint64_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -938,19 +1009,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean getUintIndex(java.lang.String tag, int index, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_get_uint_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_get_uint_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -963,16 +1036,18 @@ public class TagList extends Struct {
      *          doesn't have as many entries
      */
     public @Nullable org.gtk.gobject.Value getValueIndex(java.lang.String tag, int index) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_get_value_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_get_value_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -998,8 +1073,7 @@ public class TagList extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_tag_list_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_tag_list_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1042,7 +1116,9 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1052,8 +1128,7 @@ public class TagList extends Struct {
     public int nTags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_tag_list_n_tags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_tag_list_n_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1091,19 +1166,21 @@ public class TagList extends Struct {
      *              given list.
      */
     public boolean peekStringIndex(java.lang.String tag, int index, Out<java.lang.String> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_peek_string_index.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    index,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_peek_string_index.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        index,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1111,12 +1188,14 @@ public class TagList extends Struct {
      * @param tag tag to remove
      */
     public void removeTag(java.lang.String tag) {
-        try {
-            DowncallHandles.gst_tag_list_remove_tag.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tag, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_list_remove_tag.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1144,8 +1223,7 @@ public class TagList extends Struct {
     public @Nullable java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1164,312 +1242,314 @@ public class TagList extends Struct {
      *          given list.
      */
     public static boolean copyValue(org.gtk.gobject.Value dest, org.gstreamer.gst.TagList list, java.lang.String tag) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_list_copy_value.invokeExact(
-                    dest.handle(),
-                    list.handle(),
-                    Marshal.stringToAddress.marshal(tag, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_list_copy_value.invokeExact(
+                        dest.handle(),
+                        list.handle(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_tag_list_new = Interop.downcallHandle(
-            "gst_tag_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tag_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_tag_list_new_empty = Interop.downcallHandle(
-            "gst_tag_list_new_empty",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_new_empty",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_new_from_string = Interop.downcallHandle(
-            "gst_tag_list_new_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_new_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_new_valist = Interop.downcallHandle(
-            "gst_tag_list_new_valist",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_new_valist",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_add = Interop.downcallHandle(
-            "gst_tag_list_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tag_list_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_tag_list_add_valist = Interop.downcallHandle(
-            "gst_tag_list_add_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_add_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_add_valist_values = Interop.downcallHandle(
-            "gst_tag_list_add_valist_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_add_valist_values",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_add_value = Interop.downcallHandle(
-            "gst_tag_list_add_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_add_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_add_values = Interop.downcallHandle(
-            "gst_tag_list_add_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tag_list_add_values",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gst_tag_list_copy = Interop.downcallHandle(
-            "gst_tag_list_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_foreach = Interop.downcallHandle(
-            "gst_tag_list_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_boolean = Interop.downcallHandle(
-            "gst_tag_list_get_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_get_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_boolean_index = Interop.downcallHandle(
-            "gst_tag_list_get_boolean_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_get_boolean_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_date = Interop.downcallHandle(
-            "gst_tag_list_get_date",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_date",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_date_index = Interop.downcallHandle(
-            "gst_tag_list_get_date_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_date_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_date_time = Interop.downcallHandle(
-            "gst_tag_list_get_date_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_date_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_date_time_index = Interop.downcallHandle(
-            "gst_tag_list_get_date_time_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_date_time_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_double = Interop.downcallHandle(
-            "gst_tag_list_get_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_double_index = Interop.downcallHandle(
-            "gst_tag_list_get_double_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_double_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_float = Interop.downcallHandle(
-            "gst_tag_list_get_float",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_float",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_float_index = Interop.downcallHandle(
-            "gst_tag_list_get_float_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_float_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_int = Interop.downcallHandle(
-            "gst_tag_list_get_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_int64 = Interop.downcallHandle(
-            "gst_tag_list_get_int64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_int64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_int64_index = Interop.downcallHandle(
-            "gst_tag_list_get_int64_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_int64_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_int_index = Interop.downcallHandle(
-            "gst_tag_list_get_int_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_int_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_pointer = Interop.downcallHandle(
-            "gst_tag_list_get_pointer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_pointer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_pointer_index = Interop.downcallHandle(
-            "gst_tag_list_get_pointer_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_pointer_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_sample = Interop.downcallHandle(
-            "gst_tag_list_get_sample",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_sample",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_sample_index = Interop.downcallHandle(
-            "gst_tag_list_get_sample_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_sample_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_scope = Interop.downcallHandle(
-            "gst_tag_list_get_scope",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_scope",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_string = Interop.downcallHandle(
-            "gst_tag_list_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_string_index = Interop.downcallHandle(
-            "gst_tag_list_get_string_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_string_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_tag_size = Interop.downcallHandle(
-            "gst_tag_list_get_tag_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_tag_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_uint = Interop.downcallHandle(
-            "gst_tag_list_get_uint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_uint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_uint64 = Interop.downcallHandle(
-            "gst_tag_list_get_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_uint64_index = Interop.downcallHandle(
-            "gst_tag_list_get_uint64_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_uint64_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_uint_index = Interop.downcallHandle(
-            "gst_tag_list_get_uint_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_get_uint_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_get_value_index = Interop.downcallHandle(
-            "gst_tag_list_get_value_index",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_get_value_index",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_insert = Interop.downcallHandle(
-            "gst_tag_list_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_is_empty = Interop.downcallHandle(
-            "gst_tag_list_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_is_equal = Interop.downcallHandle(
-            "gst_tag_list_is_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_is_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_merge = Interop.downcallHandle(
-            "gst_tag_list_merge",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_merge",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_n_tags = Interop.downcallHandle(
-            "gst_tag_list_n_tags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_n_tags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_nth_tag_name = Interop.downcallHandle(
-            "gst_tag_list_nth_tag_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_nth_tag_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_peek_string_index = Interop.downcallHandle(
-            "gst_tag_list_peek_string_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_peek_string_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_remove_tag = Interop.downcallHandle(
-            "gst_tag_list_remove_tag",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_remove_tag",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_set_scope = Interop.downcallHandle(
-            "gst_tag_list_set_scope",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_list_set_scope",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_tag_list_to_string = Interop.downcallHandle(
-            "gst_tag_list_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_tag_list_copy_value = Interop.downcallHandle(
-            "gst_tag_list_copy_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_list_copy_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1495,7 +1575,7 @@ public class TagList extends Struct {
             struct = TagList.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TagList} struct.
          * @return A new instance of {@code TagList} with the fields 
          *         that were set in the Builder object.
@@ -1510,10 +1590,12 @@ public class TagList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
     }
 }

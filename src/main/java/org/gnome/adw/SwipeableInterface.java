@@ -41,8 +41,8 @@ public class SwipeableInterface extends Struct {
      * @return A new, uninitialized @{link SwipeableInterface}
      */
     public static SwipeableInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SwipeableInterface newInstance = new SwipeableInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SwipeableInterface newInstance = new SwipeableInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,7 +53,7 @@ public class SwipeableInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -61,25 +61,42 @@ public class SwipeableInterface extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.gobject.TypeInterface parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetDistanceCallback} callback.
+     */
     @FunctionalInterface
     public interface GetDistanceCallback {
+    
         double run(org.gnome.adw.Swipeable self);
-
+        
         @ApiStatus.Internal default double upcall(MemoryAddress self) {
-            var RESULT = run((org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.Swipeable.fromAddress).marshal(self, Ownership.NONE));
+            var RESULT = run((org.gnome.adw.Swipeable) Interop.register(self, org.gnome.adw.Swipeable.fromAddress).marshal(self, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetDistanceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetDistanceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -88,26 +105,45 @@ public class SwipeableInterface extends Struct {
      * @param getDistance The new value of the field {@code get_distance}
      */
     public void setGetDistance(GetDistanceCallback getDistance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_distance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDistance == null ? MemoryAddress.NULL : getDistance.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_distance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDistance == null ? MemoryAddress.NULL : getDistance.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSnapPointsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSnapPointsCallback {
+    
         double[] run(org.gnome.adw.Swipeable self, Out<Integer> nSnapPoints);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress nSnapPoints) {
-            Out<Integer> nSnapPointsOUT = new Out<>(nSnapPoints.get(Interop.valueLayout.C_INT, 0));
-            run((org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.Swipeable.fromAddress).marshal(self, Ownership.NONE), nSnapPointsOUT);
-            nSnapPoints.set(Interop.valueLayout.C_INT, 0, nSnapPointsOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> nSnapPointsOUT = new Out<>(nSnapPoints.get(Interop.valueLayout.C_INT, 0));
+                run((org.gnome.adw.Swipeable) Interop.register(self, org.gnome.adw.Swipeable.fromAddress).marshal(self, null), nSnapPointsOUT);
+                nSnapPoints.set(Interop.valueLayout.C_INT, 0, nSnapPointsOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSnapPointsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSnapPointsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -116,25 +152,42 @@ public class SwipeableInterface extends Struct {
      * @param getSnapPoints The new value of the field {@code get_snap_points}
      */
     public void setGetSnapPoints(GetSnapPointsCallback getSnapPoints) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_snap_points"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSnapPoints == null ? MemoryAddress.NULL : getSnapPoints.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_snap_points"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSnapPoints == null ? MemoryAddress.NULL : getSnapPoints.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetProgressCallback} callback.
+     */
     @FunctionalInterface
     public interface GetProgressCallback {
+    
         double run(org.gnome.adw.Swipeable self);
-
+        
         @ApiStatus.Internal default double upcall(MemoryAddress self) {
-            var RESULT = run((org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.Swipeable.fromAddress).marshal(self, Ownership.NONE));
+            var RESULT = run((org.gnome.adw.Swipeable) Interop.register(self, org.gnome.adw.Swipeable.fromAddress).marshal(self, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetProgressCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetProgressCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -143,25 +196,42 @@ public class SwipeableInterface extends Struct {
      * @param getProgress The new value of the field {@code get_progress}
      */
     public void setGetProgress(GetProgressCallback getProgress) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_progress"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProgress == null ? MemoryAddress.NULL : getProgress.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_progress"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getProgress == null ? MemoryAddress.NULL : getProgress.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCancelProgressCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCancelProgressCallback {
+    
         double run(org.gnome.adw.Swipeable self);
-
+        
         @ApiStatus.Internal default double upcall(MemoryAddress self) {
-            var RESULT = run((org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.Swipeable.fromAddress).marshal(self, Ownership.NONE));
+            var RESULT = run((org.gnome.adw.Swipeable) Interop.register(self, org.gnome.adw.Swipeable.fromAddress).marshal(self, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCancelProgressCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCancelProgressCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -170,24 +240,41 @@ public class SwipeableInterface extends Struct {
      * @param getCancelProgress The new value of the field {@code get_cancel_progress}
      */
     public void setGetCancelProgress(GetCancelProgressCallback getCancelProgress) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_cancel_progress"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCancelProgress == null ? MemoryAddress.NULL : getCancelProgress.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_cancel_progress"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCancelProgress == null ? MemoryAddress.NULL : getCancelProgress.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetSwipeAreaCallback} callback.
+     */
     @FunctionalInterface
     public interface GetSwipeAreaCallback {
+    
         void run(org.gnome.adw.Swipeable self, org.gnome.adw.NavigationDirection navigationDirection, boolean isDrag, org.gtk.gdk.Rectangle rect);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, int navigationDirection, int isDrag, MemoryAddress rect) {
-            run((org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gnome.adw.Swipeable.fromAddress).marshal(self, Ownership.NONE), org.gnome.adw.NavigationDirection.of(navigationDirection), Marshal.integerToBoolean.marshal(isDrag, null).booleanValue(), org.gtk.gdk.Rectangle.fromAddress.marshal(rect, Ownership.NONE));
+            run((org.gnome.adw.Swipeable) Interop.register(self, org.gnome.adw.Swipeable.fromAddress).marshal(self, null), org.gnome.adw.NavigationDirection.of(navigationDirection), Marshal.integerToBoolean.marshal(isDrag, null).booleanValue(), org.gtk.gdk.Rectangle.fromAddress.marshal(rect, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetSwipeAreaCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetSwipeAreaCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -196,22 +283,26 @@ public class SwipeableInterface extends Struct {
      * @param getSwipeArea The new value of the field {@code get_swipe_area}
      */
     public void setGetSwipeArea(GetSwipeAreaCallback getSwipeArea) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_swipe_area"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSwipeArea == null ? MemoryAddress.NULL : getSwipeArea.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_swipe_area"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSwipeArea == null ? MemoryAddress.NULL : getSwipeArea.toCallback()));
+        }
     }
     
     /**
      * Create a SwipeableInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SwipeableInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SwipeableInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SwipeableInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwipeableInterface(input, ownership);
+    public static final Marshal<Addressable, SwipeableInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SwipeableInterface(input);
     
     /**
      * A {@link SwipeableInterface.Builder} object constructs a {@link SwipeableInterface} 
@@ -235,7 +326,7 @@ public class SwipeableInterface extends Struct {
             struct = SwipeableInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SwipeableInterface} struct.
          * @return A new instance of {@code SwipeableInterface} with the fields 
          *         that were set in the Builder object.
@@ -250,52 +341,66 @@ public class SwipeableInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gtk.gobject.TypeInterface parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setGetDistance(GetDistanceCallback getDistance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_distance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getDistance == null ? MemoryAddress.NULL : getDistance.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_distance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getDistance == null ? MemoryAddress.NULL : getDistance.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSnapPoints(GetSnapPointsCallback getSnapPoints) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_snap_points"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSnapPoints == null ? MemoryAddress.NULL : getSnapPoints.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_snap_points"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSnapPoints == null ? MemoryAddress.NULL : getSnapPoints.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetProgress(GetProgressCallback getProgress) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_progress"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProgress == null ? MemoryAddress.NULL : getProgress.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_progress"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getProgress == null ? MemoryAddress.NULL : getProgress.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetCancelProgress(GetCancelProgressCallback getCancelProgress) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_cancel_progress"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCancelProgress == null ? MemoryAddress.NULL : getCancelProgress.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_cancel_progress"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCancelProgress == null ? MemoryAddress.NULL : getCancelProgress.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetSwipeArea(GetSwipeAreaCallback getSwipeArea) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_swipe_area"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getSwipeArea == null ? MemoryAddress.NULL : getSwipeArea.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_swipe_area"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getSwipeArea == null ? MemoryAddress.NULL : getSwipeArea.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

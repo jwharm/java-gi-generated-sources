@@ -29,8 +29,8 @@ public class PhysicalDeviceExternalSemaphoreInfo extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceExternalSemaphoreInfo}
      */
     public static PhysicalDeviceExternalSemaphoreInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceExternalSemaphoreInfo newInstance = new PhysicalDeviceExternalSemaphoreInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceExternalSemaphoreInfo newInstance = new PhysicalDeviceExternalSemaphoreInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceExternalSemaphoreInfo extends Struct {
     /**
      * Create a PhysicalDeviceExternalSemaphoreInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceExternalSemaphoreInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceExternalSemaphoreInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceExternalSemaphoreInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalSemaphoreInfo(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceExternalSemaphoreInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalSemaphoreInfo(input);
 }

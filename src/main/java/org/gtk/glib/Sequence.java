@@ -33,8 +33,8 @@ public class Sequence extends Struct {
      * @return A new, uninitialized @{link Sequence}
      */
     public static Sequence allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Sequence newInstance = new Sequence(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Sequence newInstance = new Sequence(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class Sequence extends Struct {
     /**
      * Create a Sequence proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Sequence(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Sequence(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Sequence> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sequence(input, ownership);
+    public static final Marshal<Addressable, Sequence> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Sequence(input);
     
     /**
      * Adds a new item to the end of {@code seq}.
@@ -64,7 +66,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -90,8 +92,7 @@ public class Sequence extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_sequence_free.invokeExact(
-                    handle());
+            DowncallHandles.g_sequence_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,12 +105,11 @@ public class Sequence extends Struct {
     public org.gtk.glib.SequenceIter getBeginIter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_begin_iter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_begin_iter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -119,12 +119,11 @@ public class Sequence extends Struct {
     public org.gtk.glib.SequenceIter getEndIter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_end_iter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_end_iter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -142,7 +141,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -154,8 +153,7 @@ public class Sequence extends Struct {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_get_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_sequence_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +187,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -219,7 +217,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -233,8 +231,7 @@ public class Sequence extends Struct {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_sequence_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_sequence_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,7 +268,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -301,7 +298,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -317,7 +314,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -349,7 +346,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -382,7 +379,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -454,8 +451,7 @@ public class Sequence extends Struct {
     public static @Nullable java.lang.foreign.MemoryAddress get(org.gtk.glib.SequenceIter iter) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(
-                    iter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -476,7 +472,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -532,12 +528,13 @@ public class Sequence extends Struct {
     public static org.gtk.glib.Sequence new_(@Nullable org.gtk.glib.DestroyNotify dataDestroy) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_sequence_new.invokeExact(
-                    (Addressable) (dataDestroy == null ? MemoryAddress.NULL : (Addressable) dataDestroy.toCallback()));
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_new.invokeExact((Addressable) (dataDestroy == null ? MemoryAddress.NULL : (Addressable) dataDestroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Sequence.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Sequence.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -561,7 +558,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -574,8 +571,7 @@ public class Sequence extends Struct {
      */
     public static void remove(org.gtk.glib.SequenceIter iter) {
         try {
-            DowncallHandles.g_sequence_remove.invokeExact(
-                    iter.handle());
+            DowncallHandles.g_sequence_remove.invokeExact(iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -683,183 +679,183 @@ public class Sequence extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_sequence_append = Interop.downcallHandle(
-            "g_sequence_append",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_append",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_foreach = Interop.downcallHandle(
-            "g_sequence_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_free = Interop.downcallHandle(
-            "g_sequence_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_get_begin_iter = Interop.downcallHandle(
-            "g_sequence_get_begin_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_get_begin_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_get_end_iter = Interop.downcallHandle(
-            "g_sequence_get_end_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_get_end_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_get_iter_at_pos = Interop.downcallHandle(
-            "g_sequence_get_iter_at_pos",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_sequence_get_iter_at_pos",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_sequence_get_length = Interop.downcallHandle(
-            "g_sequence_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_insert_sorted = Interop.downcallHandle(
-            "g_sequence_insert_sorted",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_insert_sorted",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_insert_sorted_iter = Interop.downcallHandle(
-            "g_sequence_insert_sorted_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_insert_sorted_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_is_empty = Interop.downcallHandle(
-            "g_sequence_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_lookup = Interop.downcallHandle(
-            "g_sequence_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_lookup_iter = Interop.downcallHandle(
-            "g_sequence_lookup_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_lookup_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_prepend = Interop.downcallHandle(
-            "g_sequence_prepend",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_prepend",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_search = Interop.downcallHandle(
-            "g_sequence_search",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_search",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_search_iter = Interop.downcallHandle(
-            "g_sequence_search_iter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_search_iter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_sort = Interop.downcallHandle(
-            "g_sequence_sort",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_sort",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_sort_iter = Interop.downcallHandle(
-            "g_sequence_sort_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_sort_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_foreach_range = Interop.downcallHandle(
-            "g_sequence_foreach_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_foreach_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_get = Interop.downcallHandle(
-            "g_sequence_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_insert_before = Interop.downcallHandle(
-            "g_sequence_insert_before",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_insert_before",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_move = Interop.downcallHandle(
-            "g_sequence_move",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_move",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_move_range = Interop.downcallHandle(
-            "g_sequence_move_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_move_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_new = Interop.downcallHandle(
-            "g_sequence_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_range_get_midpoint = Interop.downcallHandle(
-            "g_sequence_range_get_midpoint",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_range_get_midpoint",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_remove = Interop.downcallHandle(
-            "g_sequence_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_remove_range = Interop.downcallHandle(
-            "g_sequence_remove_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_remove_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_set = Interop.downcallHandle(
-            "g_sequence_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_set",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_sort_changed = Interop.downcallHandle(
-            "g_sequence_sort_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_sort_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_sort_changed_iter = Interop.downcallHandle(
-            "g_sequence_sort_changed_iter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_sort_changed_iter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_sequence_swap = Interop.downcallHandle(
-            "g_sequence_swap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_sequence_swap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -71,8 +71,8 @@ public class Scanner extends Struct {
      * @return A new, uninitialized @{link Scanner}
      */
     public static Scanner allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Scanner newInstance = new Scanner(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Scanner newInstance = new Scanner(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -82,10 +82,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code user_data}
      */
     public java.lang.foreign.MemoryAddress getUserData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -93,9 +95,11 @@ public class Scanner extends Struct {
      * @param userData The new value of the field {@code user_data}
      */
     public void setUserData(java.lang.foreign.MemoryAddress userData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        }
     }
     
     /**
@@ -103,10 +107,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code max_parse_errors}
      */
     public int getMaxParseErrors() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -114,9 +120,11 @@ public class Scanner extends Struct {
      * @param maxParseErrors The new value of the field {@code max_parse_errors}
      */
     public void setMaxParseErrors(int maxParseErrors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxParseErrors);
+        }
     }
     
     /**
@@ -124,10 +132,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code parse_errors}
      */
     public int getParseErrors() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -135,9 +145,11 @@ public class Scanner extends Struct {
      * @param parseErrors The new value of the field {@code parse_errors}
      */
     public void setParseErrors(int parseErrors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), parseErrors);
+        }
     }
     
     /**
@@ -145,10 +157,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code input_name}
      */
     public java.lang.String getInputName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -156,9 +170,11 @@ public class Scanner extends Struct {
      * @param inputName The new value of the field {@code input_name}
      */
     public void setInputName(java.lang.String inputName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, SCOPE)));
+        }
     }
     
     /**
@@ -166,10 +182,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code config}
      */
     public org.gtk.glib.ScannerConfig getConfig() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("config"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.ScannerConfig.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("config"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.ScannerConfig.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -177,9 +195,11 @@ public class Scanner extends Struct {
      * @param config The new value of the field {@code config}
      */
     public void setConfig(org.gtk.glib.ScannerConfig config) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("config"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("config"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
+        }
     }
     
     /**
@@ -187,10 +207,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code token}
      */
     public org.gtk.glib.TokenType getToken() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("token"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.TokenType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("token"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.TokenType.of(RESULT);
+        }
     }
     
     /**
@@ -198,9 +220,11 @@ public class Scanner extends Struct {
      * @param token The new value of the field {@code token}
      */
     public void setToken(org.gtk.glib.TokenType token) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
+        }
     }
     
     /**
@@ -208,10 +232,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code value}
      */
     public org.gtk.glib.TokenValue getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -219,9 +245,11 @@ public class Scanner extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(org.gtk.glib.TokenValue value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        }
     }
     
     /**
@@ -229,10 +257,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code line}
      */
     public int getLine() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("line"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -240,9 +270,11 @@ public class Scanner extends Struct {
      * @param line The new value of the field {@code line}
      */
     public void setLine(int line) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("line"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), line);
+        }
     }
     
     /**
@@ -250,10 +282,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code position}
      */
     public int getPosition() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -261,9 +295,11 @@ public class Scanner extends Struct {
      * @param position The new value of the field {@code position}
      */
     public void setPosition(int position) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), position);
+        }
     }
     
     /**
@@ -271,10 +307,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code next_token}
      */
     public org.gtk.glib.TokenType getNextToken_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.TokenType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.TokenType.of(RESULT);
+        }
     }
     
     /**
@@ -282,9 +320,11 @@ public class Scanner extends Struct {
      * @param nextToken The new value of the field {@code next_token}
      */
     public void setNextToken(org.gtk.glib.TokenType nextToken) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
+        }
     }
     
     /**
@@ -292,10 +332,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code next_value}
      */
     public org.gtk.glib.TokenValue getNextValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -303,9 +345,11 @@ public class Scanner extends Struct {
      * @param nextValue The new value of the field {@code next_value}
      */
     public void setNextValue(org.gtk.glib.TokenValue nextValue) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
+        }
     }
     
     /**
@@ -313,10 +357,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code next_line}
      */
     public int getNextLine() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -324,9 +370,11 @@ public class Scanner extends Struct {
      * @param nextLine The new value of the field {@code next_line}
      */
     public void setNextLine(int nextLine) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nextLine);
+        }
     }
     
     /**
@@ -334,10 +382,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code next_position}
      */
     public int getNextPosition() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -345,9 +395,11 @@ public class Scanner extends Struct {
      * @param nextPosition The new value of the field {@code next_position}
      */
     public void setNextPosition(int nextPosition) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nextPosition);
+        }
     }
     
     /**
@@ -355,10 +407,12 @@ public class Scanner extends Struct {
      * @return The value of the field {@code msg_handler}
      */
     public org.gtk.glib.ScannerMsgFunc getMsgHandler() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -366,22 +420,26 @@ public class Scanner extends Struct {
      * @param msgHandler The new value of the field {@code msg_handler}
      */
     public void setMsgHandler(org.gtk.glib.ScannerMsgFunc msgHandler) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
+        }
     }
     
     /**
      * Create a Scanner proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Scanner(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Scanner(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Scanner> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Scanner(input, ownership);
+    public static final Marshal<Addressable, Scanner> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Scanner(input);
     
     /**
      * Returns the current line in the input stream (counting
@@ -392,8 +450,7 @@ public class Scanner extends Struct {
     public int curLine() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_cur_line.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_cur_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,8 +466,7 @@ public class Scanner extends Struct {
     public int curPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_cur_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_cur_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -425,8 +481,7 @@ public class Scanner extends Struct {
     public org.gtk.glib.TokenType curToken() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_cur_token.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_cur_token.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,12 +496,11 @@ public class Scanner extends Struct {
     public org.gtk.glib.TokenValue curValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_scanner_cur_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_scanner_cur_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -454,8 +508,7 @@ public class Scanner extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_scanner_destroy.invokeExact(
-                    handle());
+            DowncallHandles.g_scanner_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,8 +523,7 @@ public class Scanner extends Struct {
     public boolean eof() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_eof.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_eof.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,13 +536,15 @@ public class Scanner extends Struct {
      * @param varargs the parameters to insert into the format string
      */
     public void error(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_scanner_error.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_error.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -504,8 +558,7 @@ public class Scanner extends Struct {
     public org.gtk.glib.TokenType getNextToken() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_get_next_token.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_get_next_token.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -532,13 +585,15 @@ public class Scanner extends Struct {
      * @param textLen the length of the text buffer
      */
     public void inputText(java.lang.String text, int textLen) {
-        try {
-            DowncallHandles.g_scanner_input_text.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    textLen);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_input_text.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        textLen);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -551,15 +606,17 @@ public class Scanner extends Struct {
      *     if {@code symbol} is not bound in the current scope
      */
     public @Nullable java.lang.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_scanner_lookup_symbol.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(symbol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_scanner_lookup_symbol.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(symbol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -579,8 +636,7 @@ public class Scanner extends Struct {
     public org.gtk.glib.TokenType peekNextToken() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_scanner_peek_next_token.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_scanner_peek_next_token.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -594,14 +650,16 @@ public class Scanner extends Struct {
      * @param value the value of the symbol
      */
     public void scopeAddSymbol(int scopeId, java.lang.String symbol, @Nullable java.lang.foreign.MemoryAddress value) {
-        try {
-            DowncallHandles.g_scanner_scope_add_symbol.invokeExact(
-                    handle(),
-                    scopeId,
-                    Marshal.stringToAddress.marshal(symbol, null),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_scope_add_symbol.invokeExact(
+                        handle(),
+                        scopeId,
+                        Marshal.stringToAddress.marshal(symbol, SCOPE),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -634,16 +692,18 @@ public class Scanner extends Struct {
      *     if {@code symbol} is not bound in the given scope.
      */
     public @Nullable java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_scanner_scope_lookup_symbol.invokeExact(
-                    handle(),
-                    scopeId,
-                    Marshal.stringToAddress.marshal(symbol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_scanner_scope_lookup_symbol.invokeExact(
+                        handle(),
+                        scopeId,
+                        Marshal.stringToAddress.marshal(symbol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -652,13 +712,15 @@ public class Scanner extends Struct {
      * @param symbol the symbol to remove
      */
     public void scopeRemoveSymbol(int scopeId, java.lang.String symbol) {
-        try {
-            DowncallHandles.g_scanner_scope_remove_symbol.invokeExact(
-                    handle(),
-                    scopeId,
-                    Marshal.stringToAddress.marshal(symbol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_scope_remove_symbol.invokeExact(
+                        handle(),
+                        scopeId,
+                        Marshal.stringToAddress.marshal(symbol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -687,8 +749,7 @@ public class Scanner extends Struct {
      */
     public void syncFileOffset() {
         try {
-            DowncallHandles.g_scanner_sync_file_offset.invokeExact(
-                    handle());
+            DowncallHandles.g_scanner_sync_file_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,17 +780,19 @@ public class Scanner extends Struct {
      *     output as a warning.
      */
     public void unexpToken(org.gtk.glib.TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
-        try {
-            DowncallHandles.g_scanner_unexp_token.invokeExact(
-                    handle(),
-                    expectedToken.getValue(),
-                    Marshal.stringToAddress.marshal(identifierSpec, null),
-                    Marshal.stringToAddress.marshal(symbolSpec, null),
-                    Marshal.stringToAddress.marshal(symbolName, null),
-                    Marshal.stringToAddress.marshal(message, null),
-                    isError);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_unexp_token.invokeExact(
+                        handle(),
+                        expectedToken.getValue(),
+                        Marshal.stringToAddress.marshal(identifierSpec, SCOPE),
+                        Marshal.stringToAddress.marshal(symbolSpec, SCOPE),
+                        Marshal.stringToAddress.marshal(symbolName, SCOPE),
+                        Marshal.stringToAddress.marshal(message, SCOPE),
+                        isError);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -739,13 +802,15 @@ public class Scanner extends Struct {
      * @param varargs the parameters to insert into the format string
      */
     public void warn(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_scanner_warn.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_scanner_warn.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -762,140 +827,139 @@ public class Scanner extends Struct {
     public static org.gtk.glib.Scanner new_(org.gtk.glib.ScannerConfig configTempl) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_scanner_new.invokeExact(
-                    configTempl.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_scanner_new.invokeExact(configTempl.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Scanner.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Scanner.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_scanner_cur_line = Interop.downcallHandle(
-            "g_scanner_cur_line",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_cur_line",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_cur_position = Interop.downcallHandle(
-            "g_scanner_cur_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_cur_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_cur_token = Interop.downcallHandle(
-            "g_scanner_cur_token",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_cur_token",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_cur_value = Interop.downcallHandle(
-            "g_scanner_cur_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_cur_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_destroy = Interop.downcallHandle(
-            "g_scanner_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_eof = Interop.downcallHandle(
-            "g_scanner_eof",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_eof",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_error = Interop.downcallHandle(
-            "g_scanner_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_scanner_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_scanner_get_next_token = Interop.downcallHandle(
-            "g_scanner_get_next_token",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_get_next_token",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_input_file = Interop.downcallHandle(
-            "g_scanner_input_file",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_scanner_input_file",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_scanner_input_text = Interop.downcallHandle(
-            "g_scanner_input_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_scanner_input_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_scanner_lookup_symbol = Interop.downcallHandle(
-            "g_scanner_lookup_symbol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_lookup_symbol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_peek_next_token = Interop.downcallHandle(
-            "g_scanner_peek_next_token",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_peek_next_token",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_scope_add_symbol = Interop.downcallHandle(
-            "g_scanner_scope_add_symbol",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_scope_add_symbol",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_scope_foreach_symbol = Interop.downcallHandle(
-            "g_scanner_scope_foreach_symbol",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_scope_foreach_symbol",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_scope_lookup_symbol = Interop.downcallHandle(
-            "g_scanner_scope_lookup_symbol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_scope_lookup_symbol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_scope_remove_symbol = Interop.downcallHandle(
-            "g_scanner_scope_remove_symbol",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_scope_remove_symbol",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_set_scope = Interop.downcallHandle(
-            "g_scanner_set_scope",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_scanner_set_scope",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_scanner_sync_file_offset = Interop.downcallHandle(
-            "g_scanner_sync_file_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_sync_file_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_scanner_unexp_token = Interop.downcallHandle(
-            "g_scanner_unexp_token",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_scanner_unexp_token",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_scanner_warn = Interop.downcallHandle(
-            "g_scanner_warn",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_scanner_warn",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_scanner_new = Interop.downcallHandle(
-            "g_scanner_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_scanner_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -921,7 +985,7 @@ public class Scanner extends Struct {
             struct = Scanner.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Scanner} struct.
          * @return A new instance of {@code Scanner} with the fields 
          *         that were set in the Builder object.
@@ -936,10 +1000,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         /**
@@ -948,10 +1014,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxParseErrors(int maxParseErrors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxParseErrors);
+                return this;
+            }
         }
         
         /**
@@ -960,10 +1028,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParseErrors(int parseErrors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), parseErrors);
+                return this;
+            }
         }
         
         /**
@@ -972,10 +1042,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInputName(java.lang.String inputName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -984,10 +1056,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setQdata(org.gtk.glib.Data qdata) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("qdata"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (qdata == null ? MemoryAddress.NULL : qdata.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("qdata"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (qdata == null ? MemoryAddress.NULL : qdata.handle()));
+                return this;
+            }
         }
         
         /**
@@ -996,10 +1070,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setConfig(org.gtk.glib.ScannerConfig config) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("config"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("config"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1008,10 +1084,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setToken(org.gtk.glib.TokenType token) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("token"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("token"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1020,10 +1098,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(org.gtk.glib.TokenValue value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1032,10 +1112,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLine(int line) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("line"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), line);
+                return this;
+            }
         }
         
         /**
@@ -1044,10 +1126,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPosition(int position) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), position);
+                return this;
+            }
         }
         
         /**
@@ -1056,10 +1140,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNextToken(org.gtk.glib.TokenType nextToken) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1068,10 +1154,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNextValue(org.gtk.glib.TokenValue nextValue) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1080,10 +1168,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNextLine(int nextLine) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nextLine);
+                return this;
+            }
         }
         
         /**
@@ -1092,52 +1182,66 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNextPosition(int nextPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nextPosition);
+                return this;
+            }
         }
         
         public Builder setSymbolTable(org.gtk.glib.HashTable symbolTable) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("symbol_table"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (symbolTable == null ? MemoryAddress.NULL : symbolTable.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("symbol_table"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (symbolTable == null ? MemoryAddress.NULL : symbolTable.handle()));
+                return this;
+            }
         }
         
         public Builder setInputFd(int inputFd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("input_fd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inputFd);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("input_fd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), inputFd);
+                return this;
+            }
         }
         
         public Builder setText(java.lang.String text) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("text"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setTextEnd(java.lang.String textEnd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("text_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textEnd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(textEnd, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("text_end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (textEnd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(textEnd, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setBuffer(java.lang.String buffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(buffer, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (buffer == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(buffer, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setScopeId(int scopeId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("scope_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scopeId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("scope_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), scopeId);
+                return this;
+            }
         }
         
         /**
@@ -1146,10 +1250,12 @@ public class Scanner extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMsgHandler(org.gtk.glib.ScannerMsgFunc msgHandler) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
+                return this;
+            }
         }
     }
 }

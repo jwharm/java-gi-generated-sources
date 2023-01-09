@@ -29,8 +29,8 @@ public class NetworkServicePrivate extends Struct {
      * @return A new, uninitialized @{link NetworkServicePrivate}
      */
     public static NetworkServicePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NetworkServicePrivate newInstance = new NetworkServicePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NetworkServicePrivate newInstance = new NetworkServicePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class NetworkServicePrivate extends Struct {
     /**
      * Create a NetworkServicePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NetworkServicePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NetworkServicePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NetworkServicePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkServicePrivate(input, ownership);
+    public static final Marshal<Addressable, NetworkServicePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NetworkServicePrivate(input);
 }

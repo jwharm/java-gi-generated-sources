@@ -38,26 +38,27 @@ public class Renderer extends org.gtk.gobject.GObject {
     /**
      * Create a Renderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Renderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Renderer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Renderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input, ownership);
+    public static final Marshal<Addressable, Renderer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input);
     
     private static MemoryAddress constructNewForSurface(org.gtk.gdk.Surface surface) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(
-                    surface.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates an appropriate {@code GskRenderer} instance for the given {@code surface}.
      * <p>
@@ -71,7 +72,9 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public static Renderer newForSurface(org.gtk.gdk.Surface surface) {
         var RESULT = constructNewForSurface(surface);
-        return (org.gtk.gsk.Renderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.Renderer.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gsk.Renderer) Interop.register(RESULT, org.gtk.gsk.Renderer.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -83,12 +86,11 @@ public class Renderer extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_get_surface.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -98,8 +100,7 @@ public class Renderer extends org.gtk.gobject.GObject {
     public boolean isRealized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_renderer_is_realized.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_renderer_is_realized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,20 +121,22 @@ public class Renderer extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean realize(@Nullable org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(
-                    handle(),
-                    (Addressable) (surface == null ? MemoryAddress.NULL : surface.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(
+                        handle(),
+                        (Addressable) (surface == null ? MemoryAddress.NULL : surface.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +190,9 @@ public class Renderer extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Texture) Interop.register(RESULT, org.gtk.gdk.Texture.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -195,8 +200,7 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public void unrealize() {
         try {
-            DowncallHandles.gsk_renderer_unrealize.invokeExact(
-                    handle());
+            DowncallHandles.gsk_renderer_unrealize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,6 +236,9 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -278,51 +285,59 @@ public class Renderer extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_renderer_new_for_surface = Interop.downcallHandle(
-            "gsk_renderer_new_for_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_new_for_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_get_surface = Interop.downcallHandle(
-            "gsk_renderer_get_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_get_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_is_realized = Interop.downcallHandle(
-            "gsk_renderer_is_realized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_is_realized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_realize = Interop.downcallHandle(
-            "gsk_renderer_realize",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_realize",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_render = Interop.downcallHandle(
-            "gsk_renderer_render",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_render",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_render_texture = Interop.downcallHandle(
-            "gsk_renderer_render_texture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_render_texture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_unrealize = Interop.downcallHandle(
-            "gsk_renderer_unrealize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_renderer_unrealize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_renderer_get_type = Interop.downcallHandle(
-            "gsk_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_renderer_get_type != null;
     }
 }

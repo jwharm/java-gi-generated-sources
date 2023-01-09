@@ -48,36 +48,28 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Create a AppChooserWidget proxy instance for the provided memory address.
-     * <p>
-     * Because AppChooserWidget is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppChooserWidget(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected AppChooserWidget(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppChooserWidget> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserWidget(input);
+    
+    private static MemoryAddress constructNew(java.lang.String contentType) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(Marshal.stringToAddress.marshal(contentType, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, AppChooserWidget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserWidget(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String contentType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(
-                    Marshal.stringToAddress.marshal(contentType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -86,7 +78,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param contentType the content type to show applications for
      */
     public AppChooserWidget(java.lang.String contentType) {
-        super(constructNew(contentType), Ownership.NONE);
+        super(constructNew(contentType));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -97,8 +91,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getDefaultText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_get_default_text.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_get_default_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +106,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowAll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_all.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,8 +121,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowDefault() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_default.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,8 +136,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowFallback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_fallback.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_fallback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,8 +151,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowOther() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_other.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_other.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,8 +166,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public boolean getShowRecommended() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_recommended.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_app_chooser_widget_get_show_recommended.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,12 +179,14 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param text the new value for {@code Gtk.AppChooserWidget:default-text}
      */
     public void setDefaultText(java.lang.String text) {
-        try {
-            DowncallHandles.gtk_app_chooser_widget_set_default_text.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_app_chooser_widget_set_default_text.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -289,19 +279,41 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ApplicationActivated} callback.
+     */
     @FunctionalInterface
     public interface ApplicationActivated {
+    
+        /**
+         * Emitted when an application item is activated from the widget's list.
+         * <p>
+         * This usually happens when the user double clicks an item, or an item
+         * is selected and the user presses one of the keys Space, Shift+Space,
+         * Return or Enter.
+         */
         void run(org.gtk.gio.AppInfo application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserWidget, MemoryAddress application) {
-            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.AppInfo.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.AppInfo) Interop.register(application, org.gtk.gio.AppInfo.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplicationActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ApplicationActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -315,28 +327,47 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserWidget.ApplicationActivated> onApplicationActivated(AppChooserWidget.ApplicationActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("application-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("application-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ApplicationSelected} callback.
+     */
     @FunctionalInterface
     public interface ApplicationSelected {
+    
+        /**
+         * Emitted when an application item is selected from the widget's list.
+         */
         void run(org.gtk.gio.AppInfo application);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserWidget, MemoryAddress application) {
-            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.AppInfo.fromAddress).marshal(application, Ownership.NONE));
+            run((org.gtk.gio.AppInfo) Interop.register(application, org.gtk.gio.AppInfo.fromAddress).marshal(application, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplicationSelected.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ApplicationSelected.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -346,9 +377,10 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppChooserWidget.ApplicationSelected> onApplicationSelected(AppChooserWidget.ApplicationSelected handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("application-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("application-selected", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -371,6 +403,9 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -477,87 +512,95 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_app_chooser_widget_new = Interop.downcallHandle(
-            "gtk_app_chooser_widget_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_default_text = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_default_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_default_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_all = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_show_all",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_show_all",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_default = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_show_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_show_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_fallback = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_show_fallback",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_show_fallback",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_other = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_show_other",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_show_other",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_show_recommended = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_show_recommended",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_get_show_recommended",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_default_text = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_default_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_app_chooser_widget_set_default_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_all = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_show_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_widget_set_show_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_default = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_show_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_widget_set_show_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_fallback = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_show_fallback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_widget_set_show_fallback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_other = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_show_other",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_widget_set_show_other",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_set_show_recommended = Interop.downcallHandle(
-            "gtk_app_chooser_widget_set_show_recommended",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_app_chooser_widget_set_show_recommended",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_app_chooser_widget_get_type = Interop.downcallHandle(
-            "gtk_app_chooser_widget_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_app_chooser_widget_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_app_chooser_widget_get_type != null;
     }
 }

@@ -34,8 +34,8 @@ public class ISO639LanguageDescriptor extends Struct {
      * @return A new, uninitialized @{link ISO639LanguageDescriptor}
      */
     public static ISO639LanguageDescriptor allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ISO639LanguageDescriptor newInstance = new ISO639LanguageDescriptor(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ISO639LanguageDescriptor newInstance = new ISO639LanguageDescriptor(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class ISO639LanguageDescriptor extends Struct {
      * @return The value of the field {@code nb_language}
      */
     public int getNbLanguage() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class ISO639LanguageDescriptor extends Struct {
      * @param nbLanguage The new value of the field {@code nb_language}
      */
     public void setNbLanguage(int nbLanguage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbLanguage);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nbLanguage);
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class ISO639LanguageDescriptor extends Struct {
      * @return The value of the field {@code language}
      */
     public java.lang.String[] getLanguage() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringArrayFrom(RESULT, 64);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getStringArrayFrom(RESULT, 64);
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class ISO639LanguageDescriptor extends Struct {
      * @param language The new value of the field {@code language}
      */
     public void setLanguage(java.lang.String[] language) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("language"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("language"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false, SCOPE)));
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class ISO639LanguageDescriptor extends Struct {
      * @return The value of the field {@code audio_type}
      */
     public org.gstreamer.mpegts.Iso639AudioType[] getAudioType() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerEnumeration<org.gstreamer.mpegts.Iso639AudioType>(RESULT, org.gstreamer.mpegts.Iso639AudioType::of).toArray((int) 64, org.gstreamer.mpegts.Iso639AudioType.class);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerEnumeration<org.gstreamer.mpegts.Iso639AudioType>(RESULT, org.gstreamer.mpegts.Iso639AudioType::of).toArray((int) 64, org.gstreamer.mpegts.Iso639AudioType.class);
+        }
     }
     
     /**
@@ -98,27 +108,30 @@ public class ISO639LanguageDescriptor extends Struct {
      * @param audioType The new value of the field {@code audio_type}
      */
     public void setAudioType(org.gstreamer.mpegts.Iso639AudioType[] audioType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false, SCOPE)));
+        }
     }
     
     /**
      * Create a ISO639LanguageDescriptor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ISO639LanguageDescriptor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ISO639LanguageDescriptor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ISO639LanguageDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ISO639LanguageDescriptor(input, ownership);
+    public static final Marshal<Addressable, ISO639LanguageDescriptor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ISO639LanguageDescriptor(input);
     
     public void descriptorFree() {
         try {
-            DowncallHandles.gst_mpegts_iso_639_language_descriptor_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_mpegts_iso_639_language_descriptor_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,9 +140,9 @@ public class ISO639LanguageDescriptor extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_iso_639_language_descriptor_free = Interop.downcallHandle(
-            "gst_mpegts_iso_639_language_descriptor_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_iso_639_language_descriptor_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -155,7 +168,7 @@ public class ISO639LanguageDescriptor extends Struct {
             struct = ISO639LanguageDescriptor.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ISO639LanguageDescriptor} struct.
          * @return A new instance of {@code ISO639LanguageDescriptor} with the fields 
          *         that were set in the Builder object.
@@ -165,24 +178,30 @@ public class ISO639LanguageDescriptor extends Struct {
         }
         
         public Builder setNbLanguage(int nbLanguage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbLanguage);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nbLanguage);
+                return this;
+            }
         }
         
         public Builder setLanguage(java.lang.String[] language) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("language"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("language"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setAudioType(org.gstreamer.mpegts.Iso639AudioType[] audioType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

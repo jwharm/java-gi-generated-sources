@@ -46,8 +46,8 @@ public class GLContextClass extends Struct {
      * @return A new, uninitialized @{link GLContextClass}
      */
     public static GLContextClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLContextClass newInstance = new GLContextClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLContextClass newInstance = new GLContextClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,7 +58,7 @@ public class GLContextClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -66,25 +66,42 @@ public class GLContextClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCurrentContextCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCurrentContextCallback {
+    
         long run();
-
+        
         @ApiStatus.Internal default long upcall() {
             var RESULT = run();
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCurrentContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCurrentContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -93,25 +110,42 @@ public class GLContextClass extends Struct {
      * @param getCurrentContext The new value of the field {@code get_current_context}
      */
     public void setGetCurrentContext(GetCurrentContextCallback getCurrentContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_current_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentContext == null ? MemoryAddress.NULL : getCurrentContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_current_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentContext == null ? MemoryAddress.NULL : getCurrentContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGlContextCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGlContextCallback {
+    
         long run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default long upcall(MemoryAddress context) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGlContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGlContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -120,25 +154,42 @@ public class GLContextClass extends Struct {
      * @param getGlContext The new value of the field {@code get_gl_context}
      */
     public void setGetGlContext(GetGlContextCallback getGlContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_gl_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlContext == null ? MemoryAddress.NULL : getGlContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlContext == null ? MemoryAddress.NULL : getGlContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGlApiCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGlApiCallback {
+    
         org.gstreamer.gl.GLAPI run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGlApiCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGlApiCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -147,25 +198,42 @@ public class GLContextClass extends Struct {
      * @param getGlApi The new value of the field {@code get_gl_api}
      */
     public void setGetGlApi(GetGlApiCallback getGlApi) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_gl_api"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlApi == null ? MemoryAddress.NULL : getGlApi.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_api"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlApi == null ? MemoryAddress.NULL : getGlApi.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGlPlatformCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGlPlatformCallback {
+    
         org.gstreamer.gl.GLPlatform run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGlPlatformCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGlPlatformCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -174,25 +242,44 @@ public class GLContextClass extends Struct {
      * @param getGlPlatform The new value of the field {@code get_gl_platform}
      */
     public void setGetGlPlatform(GetGlPlatformCallback getGlPlatform) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlPlatform == null ? MemoryAddress.NULL : getGlPlatform.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlPlatform == null ? MemoryAddress.NULL : getGlPlatform.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetProcAddressCallback} callback.
+     */
     @FunctionalInterface
     public interface GetProcAddressCallback {
+    
         java.lang.foreign.MemoryAddress run(org.gstreamer.gl.GLAPI glApi, java.lang.String name);
-
+        
         @ApiStatus.Internal default Addressable upcall(int glApi, MemoryAddress name) {
-            var RESULT = run(new org.gstreamer.gl.GLAPI(glApi), Marshal.addressToString.marshal(name, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(new org.gstreamer.gl.GLAPI(glApi), Marshal.addressToString.marshal(name, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetProcAddressCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetProcAddressCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -201,25 +288,42 @@ public class GLContextClass extends Struct {
      * @param getProcAddress The new value of the field {@code get_proc_address}
      */
     public void setGetProcAddress(GetProcAddressCallback getProcAddress) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_proc_address"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProcAddress == null ? MemoryAddress.NULL : getProcAddress.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_proc_address"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getProcAddress == null ? MemoryAddress.NULL : getProcAddress.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateCallback {
+    
         boolean run(org.gstreamer.gl.GLContext context, boolean activate);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context, int activate) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE), Marshal.integerToBoolean.marshal(activate, null).booleanValue());
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null), Marshal.integerToBoolean.marshal(activate, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -228,25 +332,42 @@ public class GLContextClass extends Struct {
      * @param activate The new value of the field {@code activate}
      */
     public void setActivate(ActivateCallback activate) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChooseFormatCallback} callback.
+     */
     @FunctionalInterface
     public interface ChooseFormatCallback {
+    
         boolean run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChooseFormatCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChooseFormatCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -255,25 +376,42 @@ public class GLContextClass extends Struct {
      * @param chooseFormat The new value of the field {@code choose_format}
      */
     public void setChooseFormat(ChooseFormatCallback chooseFormat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("choose_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (chooseFormat == null ? MemoryAddress.NULL : chooseFormat.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("choose_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (chooseFormat == null ? MemoryAddress.NULL : chooseFormat.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateContextCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateContextCallback {
+    
         boolean run(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLAPI glApi, org.gstreamer.gl.GLContext otherContext);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context, int glApi, MemoryAddress otherContext) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE), new org.gstreamer.gl.GLAPI(glApi), (org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(otherContext)), org.gstreamer.gl.GLContext.fromAddress).marshal(otherContext, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null), new org.gstreamer.gl.GLAPI(glApi), (org.gstreamer.gl.GLContext) Interop.register(otherContext, org.gstreamer.gl.GLContext.fromAddress).marshal(otherContext, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -282,24 +420,41 @@ public class GLContextClass extends Struct {
      * @param createContext The new value of the field {@code create_context}
      */
     public void setCreateContext(CreateContextCallback createContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DestroyContextCallback} callback.
+     */
     @FunctionalInterface
     public interface DestroyContextCallback {
+    
         void run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context) {
-            run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DestroyContextCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DestroyContextCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -308,24 +463,41 @@ public class GLContextClass extends Struct {
      * @param destroyContext The new value of the field {@code destroy_context}
      */
     public void setDestroyContext(DestroyContextCallback destroyContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("destroy_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyContext == null ? MemoryAddress.NULL : destroyContext.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("destroy_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyContext == null ? MemoryAddress.NULL : destroyContext.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SwapBuffersCallback} callback.
+     */
     @FunctionalInterface
     public interface SwapBuffersCallback {
+    
         void run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context) {
-            run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SwapBuffersCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SwapBuffersCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -334,25 +506,44 @@ public class GLContextClass extends Struct {
      * @param swapBuffers The new value of the field {@code swap_buffers}
      */
     public void setSwapBuffers(SwapBuffersCallback swapBuffers) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("swap_buffers"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (swapBuffers == null ? MemoryAddress.NULL : swapBuffers.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("swap_buffers"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (swapBuffers == null ? MemoryAddress.NULL : swapBuffers.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CheckFeatureCallback} callback.
+     */
     @FunctionalInterface
     public interface CheckFeatureCallback {
+    
         boolean run(org.gstreamer.gl.GLContext context, java.lang.String feature);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context, MemoryAddress feature) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE), Marshal.addressToString.marshal(feature, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null), Marshal.addressToString.marshal(feature, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CheckFeatureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CheckFeatureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -361,28 +552,47 @@ public class GLContextClass extends Struct {
      * @param checkFeature The new value of the field {@code check_feature}
      */
     public void setCheckFeature(CheckFeatureCallback checkFeature) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("check_feature"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (checkFeature == null ? MemoryAddress.NULL : checkFeature.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("check_feature"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (checkFeature == null ? MemoryAddress.NULL : checkFeature.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGlPlatformVersionCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGlPlatformVersionCallback {
+    
         void run(org.gstreamer.gl.GLContext context, Out<Integer> major, Out<Integer> minor);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress context, MemoryAddress major, MemoryAddress minor) {
-            Out<Integer> majorOUT = new Out<>(major.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> minorOUT = new Out<>(minor.get(Interop.valueLayout.C_INT, 0));
-            run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE), majorOUT, minorOUT);
-            major.set(Interop.valueLayout.C_INT, 0, majorOUT.get());
-            minor.set(Interop.valueLayout.C_INT, 0, minorOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> majorOUT = new Out<>(major.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> minorOUT = new Out<>(minor.get(Interop.valueLayout.C_INT, 0));
+                run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null), majorOUT, minorOUT);
+                major.set(Interop.valueLayout.C_INT, 0, majorOUT.get());
+                minor.set(Interop.valueLayout.C_INT, 0, minorOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGlPlatformVersionCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGlPlatformVersionCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -391,25 +601,43 @@ public class GLContextClass extends Struct {
      * @param getGlPlatformVersion The new value of the field {@code get_gl_platform_version}
      */
     public void setGetGlPlatformVersion(GetGlPlatformVersionCallback getGlPlatformVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlPlatformVersion == null ? MemoryAddress.NULL : getGlPlatformVersion.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlPlatformVersion == null ? MemoryAddress.NULL : getGlPlatformVersion.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetConfigCallback} callback.
+     */
     @FunctionalInterface
     public interface GetConfigCallback {
+    
         @Nullable org.gstreamer.gst.Structure run(org.gstreamer.gl.GLContext context);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress context) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetConfigCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetConfigCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -418,25 +646,42 @@ public class GLContextClass extends Struct {
      * @param getConfig The new value of the field {@code get_config}
      */
     public void setGetConfig(GetConfigCallback getConfig) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_config"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getConfig == null ? MemoryAddress.NULL : getConfig.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_config"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getConfig == null ? MemoryAddress.NULL : getConfig.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RequestConfigCallback} callback.
+     */
     @FunctionalInterface
     public interface RequestConfigCallback {
+    
         boolean run(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.Structure glConfig);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress context, MemoryAddress glConfig) {
-            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE), org.gstreamer.gst.Structure.fromAddress.marshal(glConfig, Ownership.FULL));
+            var RESULT = run((org.gstreamer.gl.GLContext) Interop.register(context, org.gstreamer.gl.GLContext.fromAddress).marshal(context, null), org.gstreamer.gst.Structure.fromAddress.marshal(glConfig, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestConfigCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RequestConfigCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -445,22 +690,26 @@ public class GLContextClass extends Struct {
      * @param requestConfig The new value of the field {@code request_config}
      */
     public void setRequestConfig(RequestConfigCallback requestConfig) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("request_config"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestConfig == null ? MemoryAddress.NULL : requestConfig.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("request_config"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestConfig == null ? MemoryAddress.NULL : requestConfig.toCallback()));
+        }
     }
     
     /**
      * Create a GLContextClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLContextClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLContextClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLContextClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLContextClass(input, ownership);
+    public static final Marshal<Addressable, GLContextClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLContextClass(input);
     
     /**
      * A {@link GLContextClass.Builder} object constructs a {@link GLContextClass} 
@@ -484,7 +733,7 @@ public class GLContextClass extends Struct {
             struct = GLContextClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLContextClass} struct.
          * @return A new instance of {@code GLContextClass} with the fields 
          *         that were set in the Builder object.
@@ -494,115 +743,147 @@ public class GLContextClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetCurrentContext(GetCurrentContextCallback getCurrentContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_current_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentContext == null ? MemoryAddress.NULL : getCurrentContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_current_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentContext == null ? MemoryAddress.NULL : getCurrentContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGlContext(GetGlContextCallback getGlContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlContext == null ? MemoryAddress.NULL : getGlContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_gl_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlContext == null ? MemoryAddress.NULL : getGlContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGlApi(GetGlApiCallback getGlApi) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_api"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlApi == null ? MemoryAddress.NULL : getGlApi.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_gl_api"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlApi == null ? MemoryAddress.NULL : getGlApi.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGlPlatform(GetGlPlatformCallback getGlPlatform) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlPlatform == null ? MemoryAddress.NULL : getGlPlatform.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlPlatform == null ? MemoryAddress.NULL : getGlPlatform.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetProcAddress(GetProcAddressCallback getProcAddress) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_proc_address"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProcAddress == null ? MemoryAddress.NULL : getProcAddress.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_proc_address"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getProcAddress == null ? MemoryAddress.NULL : getProcAddress.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivate(ActivateCallback activate) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChooseFormat(ChooseFormatCallback chooseFormat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("choose_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (chooseFormat == null ? MemoryAddress.NULL : chooseFormat.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("choose_format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (chooseFormat == null ? MemoryAddress.NULL : chooseFormat.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateContext(CreateContextCallback createContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createContext == null ? MemoryAddress.NULL : createContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDestroyContext(DestroyContextCallback destroyContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("destroy_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyContext == null ? MemoryAddress.NULL : destroyContext.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("destroy_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyContext == null ? MemoryAddress.NULL : destroyContext.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSwapBuffers(SwapBuffersCallback swapBuffers) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("swap_buffers"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (swapBuffers == null ? MemoryAddress.NULL : swapBuffers.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("swap_buffers"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (swapBuffers == null ? MemoryAddress.NULL : swapBuffers.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCheckFeature(CheckFeatureCallback checkFeature) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("check_feature"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (checkFeature == null ? MemoryAddress.NULL : checkFeature.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("check_feature"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (checkFeature == null ? MemoryAddress.NULL : checkFeature.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGlPlatformVersion(GetGlPlatformVersionCallback getGlPlatformVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlPlatformVersion == null ? MemoryAddress.NULL : getGlPlatformVersion.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_gl_platform_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlPlatformVersion == null ? MemoryAddress.NULL : getGlPlatformVersion.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetConfig(GetConfigCallback getConfig) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_config"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getConfig == null ? MemoryAddress.NULL : getConfig.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_config"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getConfig == null ? MemoryAddress.NULL : getConfig.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRequestConfig(RequestConfigCallback requestConfig) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("request_config"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (requestConfig == null ? MemoryAddress.NULL : requestConfig.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("request_config"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (requestConfig == null ? MemoryAddress.NULL : requestConfig.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

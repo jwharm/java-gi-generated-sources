@@ -85,26 +85,17 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Create a GstObject proxy instance for the provided memory address.
-     * <p>
-     * Because GstObject is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GstObject(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GstObject(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GstObject> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GstObject(input, ownership);
+    public static final Marshal<Addressable, GstObject> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GstObject(input);
     
     /**
      * Attach the {@link ControlBinding} to the object. If there already was a
@@ -137,13 +128,15 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * @param debug an additional debug information string, or {@code null}
      */
     public void defaultError(org.gtk.glib.Error error, @Nullable java.lang.String debug) {
-        try {
-            DowncallHandles.gst_object_default_error.invokeExact(
-                    handle(),
-                    error.handle(),
-                    (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_object_default_error.invokeExact(
+                        handle(),
+                        error.handle(),
+                        (Addressable) (debug == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debug, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -155,15 +148,19 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * {@code property_name} or {@code null} if the property is not controlled.
      */
     public @Nullable org.gstreamer.gst.ControlBinding getControlBinding(java.lang.String propertyName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_control_binding.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_object_get_control_binding.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.ControlBinding) Interop.register(RESULT, org.gstreamer.gst.ControlBinding.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.ControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ControlBinding.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -182,8 +179,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public org.gstreamer.gst.ClockTime getControlRate() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_object_get_control_rate.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_object_get_control_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,19 +201,21 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
     public boolean getGValueArray(java.lang.String propertyName, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, org.gtk.gobject.Value[] values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_object_get_g_value_array.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    timestamp.getValue().longValue(),
-                    interval.getValue().longValue(),
-                    nValues,
-                    Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_object_get_g_value_array.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        timestamp.getValue().longValue(),
+                        interval.getValue().longValue(),
+                        nValues,
+                        Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -235,8 +233,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,12 +251,13 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public @Nullable org.gstreamer.gst.GstObject getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GstObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.GstObject) Interop.register(RESULT, org.gstreamer.gst.GstObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -276,8 +274,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public java.lang.String getPathString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_path_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_path_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,16 +289,20 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * or {@code null} if the property isn't controlled.
      */
     public @Nullable org.gtk.gobject.Value getValue(java.lang.String propertyName, org.gstreamer.gst.ClockTime timestamp) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_get_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    timestamp.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_object_get_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        timestamp.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -323,19 +324,21 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
     public boolean getValueArray(java.lang.String propertyName, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, @Nullable java.lang.foreign.MemoryAddress values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_object_get_value_array.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    timestamp.getValue().longValue(),
-                    interval.getValue().longValue(),
-                    nValues,
-                    (Addressable) (values == null ? MemoryAddress.NULL : (Addressable) values));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_object_get_value_array.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        timestamp.getValue().longValue(),
+                        interval.getValue().longValue(),
+                        nValues,
+                        (Addressable) (values == null ? MemoryAddress.NULL : (Addressable) values));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -345,8 +348,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public boolean hasActiveControlBindings() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_object_has_active_control_bindings.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_object_has_active_control_bindings.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -429,12 +431,13 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public org.gstreamer.gst.GstObject ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_object_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GstObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.GstObject) Interop.register(RESULT, org.gstreamer.gst.GstObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -464,13 +467,15 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * or not.
      */
     public void setControlBindingDisabled(java.lang.String propertyName, boolean disabled) {
-        try {
-            DowncallHandles.gst_object_set_control_binding_disabled.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    Marshal.booleanToInteger.marshal(disabled, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_object_set_control_binding_disabled.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        Marshal.booleanToInteger.marshal(disabled, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -523,15 +528,17 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * MT safe.  This function grabs and releases {@code object}'s LOCK.
      */
     public boolean setName(@Nullable java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_object_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_object_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -564,8 +571,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public org.gstreamer.gst.ClockTime suggestNextSync() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_object_suggest_next_sync.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_object_suggest_next_sync.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,8 +608,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      */
     public void unparent() {
         try {
-            DowncallHandles.gst_object_unparent.invokeExact(
-                    handle());
+            DowncallHandles.gst_object_unparent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,8 +624,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_object_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_object_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -655,15 +659,17 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * MT safe. Grabs and releases the LOCK of each object in the list.
      */
     public static boolean checkUniqueness(org.gtk.glib.List list, java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_object_check_uniqueness.invokeExact(
-                    list.handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_object_check_uniqueness.invokeExact(
+                        list.handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -681,14 +687,16 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      *     all changes.
      */
     public static void defaultDeepNotify(org.gtk.gobject.GObject object, org.gstreamer.gst.GstObject orig, org.gtk.gobject.ParamSpec pspec, @Nullable java.lang.String[] excludedProps) {
-        try {
-            DowncallHandles.gst_object_default_deep_notify.invokeExact(
-                    object.handle(),
-                    orig.handle(),
-                    pspec.handle(),
-                    (Addressable) (excludedProps == null ? MemoryAddress.NULL : Interop.allocateNativeArray(excludedProps, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_object_default_deep_notify.invokeExact(
+                        object.handle(),
+                        orig.handle(),
+                        pspec.handle(),
+                        (Addressable) (excludedProps == null ? MemoryAddress.NULL : Interop.allocateNativeArray(excludedProps, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -709,8 +717,7 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     public static @Nullable java.lang.foreign.MemoryAddress refSink(@Nullable java.lang.foreign.MemoryAddress object) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_object_ref_sink.invokeExact(
-                    (Addressable) (object == null ? MemoryAddress.NULL : (Addressable) object));
+            RESULT = (MemoryAddress) DowncallHandles.gst_object_ref_sink.invokeExact((Addressable) (object == null ? MemoryAddress.NULL : (Addressable) object));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -729,32 +736,54 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * @return {@code true} if {@code newobj} was different from {@code oldobj}
      */
     public static boolean replace(@Nullable Out<org.gstreamer.gst.GstObject> oldobj, @Nullable org.gstreamer.gst.GstObject newobj) {
-        MemorySegment oldobjPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_object_replace.invokeExact(
-                    (Addressable) (oldobj == null ? MemoryAddress.NULL : (Addressable) oldobjPOINTER.address()),
-                    (Addressable) (newobj == null ? MemoryAddress.NULL : newobj.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment oldobjPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_object_replace.invokeExact(
+                        (Addressable) (oldobj == null ? MemoryAddress.NULL : (Addressable) oldobjPOINTER.address()),
+                        (Addressable) (newobj == null ? MemoryAddress.NULL : newobj.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (oldobj != null) oldobj.set((org.gstreamer.gst.GstObject) Interop.register(oldobjPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.GstObject.fromAddress).marshal(oldobjPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (oldobj != null) oldobj.set((org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(oldobjPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.GstObject.fromAddress).marshal(oldobjPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
+    /**
+     * Functional interface declaration of the {@code DeepNotify} callback.
+     */
     @FunctionalInterface
     public interface DeepNotify {
+    
+        /**
+         * The deep notify signal is used to be notified of property changes. It is
+         * typically attached to the toplevel bin to receive notifications from all
+         * the elements contained in that bin.
+         */
         void run(org.gstreamer.gst.GstObject propObject, org.gtk.gobject.ParamSpec prop);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGstObject, MemoryAddress propObject, MemoryAddress prop) {
-            run((org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(propObject)), org.gstreamer.gst.GstObject.fromAddress).marshal(propObject, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(prop)), org.gtk.gobject.ParamSpec.fromAddress).marshal(prop, Ownership.NONE));
+            run((org.gstreamer.gst.GstObject) Interop.register(propObject, org.gstreamer.gst.GstObject.fromAddress).marshal(propObject, null), (org.gtk.gobject.ParamSpec) Interop.register(prop, org.gtk.gobject.ParamSpec.fromAddress).marshal(prop, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeepNotify.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DeepNotify.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -767,9 +796,10 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GstObject.DeepNotify> onDeepNotify(@Nullable String detail, GstObject.DeepNotify handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("deep-notify" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("deep-notify" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail)), SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -792,6 +822,9 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
      */
     public static class Builder extends org.gtk.gobject.InitiallyUnowned.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -837,183 +870,191 @@ public class GstObject extends org.gtk.gobject.InitiallyUnowned {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_object_add_control_binding = Interop.downcallHandle(
-            "gst_object_add_control_binding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_add_control_binding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_default_error = Interop.downcallHandle(
-            "gst_object_default_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_default_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_control_binding = Interop.downcallHandle(
-            "gst_object_get_control_binding",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_control_binding",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_control_rate = Interop.downcallHandle(
-            "gst_object_get_control_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_control_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_g_value_array = Interop.downcallHandle(
-            "gst_object_get_g_value_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_g_value_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_name = Interop.downcallHandle(
-            "gst_object_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_parent = Interop.downcallHandle(
-            "gst_object_get_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_path_string = Interop.downcallHandle(
-            "gst_object_get_path_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_path_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_value = Interop.downcallHandle(
-            "gst_object_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_object_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_object_get_value_array = Interop.downcallHandle(
-            "gst_object_get_value_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_get_value_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_has_active_control_bindings = Interop.downcallHandle(
-            "gst_object_has_active_control_bindings",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_has_active_control_bindings",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_has_ancestor = Interop.downcallHandle(
-            "gst_object_has_ancestor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_has_ancestor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_has_as_ancestor = Interop.downcallHandle(
-            "gst_object_has_as_ancestor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_has_as_ancestor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_has_as_parent = Interop.downcallHandle(
-            "gst_object_has_as_parent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_has_as_parent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_ref = Interop.downcallHandle(
-            "gst_object_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_remove_control_binding = Interop.downcallHandle(
-            "gst_object_remove_control_binding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_remove_control_binding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_set_control_binding_disabled = Interop.downcallHandle(
-            "gst_object_set_control_binding_disabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_object_set_control_binding_disabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_object_set_control_bindings_disabled = Interop.downcallHandle(
-            "gst_object_set_control_bindings_disabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_object_set_control_bindings_disabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_object_set_control_rate = Interop.downcallHandle(
-            "gst_object_set_control_rate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_object_set_control_rate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_object_set_name = Interop.downcallHandle(
-            "gst_object_set_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_set_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_set_parent = Interop.downcallHandle(
-            "gst_object_set_parent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_set_parent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_suggest_next_sync = Interop.downcallHandle(
-            "gst_object_suggest_next_sync",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_suggest_next_sync",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_sync_values = Interop.downcallHandle(
-            "gst_object_sync_values",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_object_sync_values",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_object_unparent = Interop.downcallHandle(
-            "gst_object_unparent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_unparent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_unref = Interop.downcallHandle(
-            "gst_object_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_get_type = Interop.downcallHandle(
-            "gst_object_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_object_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_object_check_uniqueness = Interop.downcallHandle(
-            "gst_object_check_uniqueness",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_check_uniqueness",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_default_deep_notify = Interop.downcallHandle(
-            "gst_object_default_deep_notify",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_default_deep_notify",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_ref_sink = Interop.downcallHandle(
-            "gst_object_ref_sink",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_ref_sink",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_object_replace = Interop.downcallHandle(
-            "gst_object_replace",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_object_replace",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_object_get_type != null;
     }
 }

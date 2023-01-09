@@ -29,8 +29,8 @@ public class MemoryAllocateFlags extends Struct {
      * @return A new, uninitialized @{link MemoryAllocateFlags}
      */
     public static MemoryAllocateFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryAllocateFlags newInstance = new MemoryAllocateFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryAllocateFlags newInstance = new MemoryAllocateFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryAllocateFlags extends Struct {
     /**
      * Create a MemoryAllocateFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryAllocateFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryAllocateFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryAllocateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryAllocateFlags(input, ownership);
+    public static final Marshal<Addressable, MemoryAllocateFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryAllocateFlags(input);
 }

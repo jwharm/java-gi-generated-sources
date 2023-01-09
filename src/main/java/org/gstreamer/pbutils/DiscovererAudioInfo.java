@@ -28,20 +28,21 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     /**
      * Create a DiscovererAudioInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererAudioInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererAudioInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererAudioInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererAudioInfo(input, ownership);
+    public static final Marshal<Addressable, DiscovererAudioInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererAudioInfo(input);
     
     public int getBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -51,8 +52,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public long getChannelMask() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_discoverer_audio_info_get_channel_mask.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_discoverer_audio_info_get_channel_mask.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -62,8 +62,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getChannels() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_channels.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_channels.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,8 +72,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getDepth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_depth.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +82,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public java.lang.String getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_audio_info_get_language.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_audio_info_get_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,8 +92,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getMaxBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_max_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_max_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,8 +102,7 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     public int getSampleRate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_sample_rate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_audio_info_get_sample_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,6 +139,9 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
      */
     public static class Builder extends org.gstreamer.pbutils.DiscovererStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -168,51 +166,59 @@ public class DiscovererAudioInfo extends org.gstreamer.pbutils.DiscovererStreamI
     private static class DowncallHandles {
         
         private static final MethodHandle gst_discoverer_audio_info_get_bitrate = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_channel_mask = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_channel_mask",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_channel_mask",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_channels = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_channels",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_channels",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_depth = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_depth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_depth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_language = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_max_bitrate = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_max_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_max_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_sample_rate = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_sample_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_audio_info_get_sample_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_audio_info_get_type = Interop.downcallHandle(
-            "gst_discoverer_audio_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_discoverer_audio_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_discoverer_audio_info_get_type != null;
     }
 }

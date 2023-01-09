@@ -37,6 +37,9 @@ public class ApplicationInhibitFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ApplicationInhibitFlags IDLE = new ApplicationInhibitFlags(8);
     
+    /**
+     * Create a new ApplicationInhibitFlags with the provided value
+     */
     public ApplicationInhibitFlags(int value) {
         super(value);
     }

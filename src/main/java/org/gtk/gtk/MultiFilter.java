@@ -28,14 +28,16 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
     /**
      * Create a MultiFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MultiFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MultiFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MultiFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MultiFilter(input, ownership);
+    public static final Marshal<Addressable, MultiFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MultiFilter(input);
     
     /**
      * Adds a {@code filter} to {@code self} to use for matching.
@@ -100,6 +102,9 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
      */
     public static class Builder extends org.gtk.gtk.Filter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -146,21 +151,29 @@ public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListM
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_multi_filter_append = Interop.downcallHandle(
-            "gtk_multi_filter_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_multi_filter_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_multi_filter_remove = Interop.downcallHandle(
-            "gtk_multi_filter_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_multi_filter_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_multi_filter_get_type = Interop.downcallHandle(
-            "gtk_multi_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_multi_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_multi_filter_get_type != null;
     }
 }

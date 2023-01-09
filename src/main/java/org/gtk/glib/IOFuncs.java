@@ -42,26 +42,43 @@ public class IOFuncs extends Struct {
      * @return A new, uninitialized @{link IOFuncs}
      */
     public static IOFuncs allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IOFuncs newInstance = new IOFuncs(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IOFuncs newInstance = new IOFuncs(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code IoReadCallback} callback.
+     */
     @FunctionalInterface
     public interface IoReadCallback {
+    
         org.gtk.glib.IOStatus run(org.gtk.glib.IOChannel channel, java.lang.String buf, long count, PointerLong bytesRead);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel, MemoryAddress buf, long count, MemoryAddress bytesRead) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE), Marshal.addressToString.marshal(buf, null), count, new PointerLong(bytesRead));
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null), Marshal.addressToString.marshal(buf, null), count, new PointerLong(bytesRead));
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoReadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoReadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -70,25 +87,44 @@ public class IOFuncs extends Struct {
      * @param ioRead The new value of the field {@code io_read}
      */
     public void setIoRead(IoReadCallback ioRead) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_read"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioRead == null ? MemoryAddress.NULL : ioRead.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_read"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioRead == null ? MemoryAddress.NULL : ioRead.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoWriteCallback} callback.
+     */
     @FunctionalInterface
     public interface IoWriteCallback {
+    
         org.gtk.glib.IOStatus run(org.gtk.glib.IOChannel channel, java.lang.String buf, long count, PointerLong bytesWritten);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel, MemoryAddress buf, long count, MemoryAddress bytesWritten) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE), Marshal.addressToString.marshal(buf, null), count, new PointerLong(bytesWritten));
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null), Marshal.addressToString.marshal(buf, null), count, new PointerLong(bytesWritten));
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoWriteCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoWriteCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -97,25 +133,42 @@ public class IOFuncs extends Struct {
      * @param ioWrite The new value of the field {@code io_write}
      */
     public void setIoWrite(IoWriteCallback ioWrite) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_write"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioWrite == null ? MemoryAddress.NULL : ioWrite.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_write"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioWrite == null ? MemoryAddress.NULL : ioWrite.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoSeekCallback} callback.
+     */
     @FunctionalInterface
     public interface IoSeekCallback {
+    
         org.gtk.glib.IOStatus run(org.gtk.glib.IOChannel channel, long offset, org.gtk.glib.SeekType type);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel, long offset, int type) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE), offset, org.gtk.glib.SeekType.of(type));
+            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null), offset, org.gtk.glib.SeekType.of(type));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoSeekCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoSeekCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -124,25 +177,42 @@ public class IOFuncs extends Struct {
      * @param ioSeek The new value of the field {@code io_seek}
      */
     public void setIoSeek(IoSeekCallback ioSeek) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_seek"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSeek == null ? MemoryAddress.NULL : ioSeek.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_seek"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioSeek == null ? MemoryAddress.NULL : ioSeek.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoCloseCallback} callback.
+     */
     @FunctionalInterface
     public interface IoCloseCallback {
+    
         org.gtk.glib.IOStatus run(org.gtk.glib.IOChannel channel);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE));
+            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoCloseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoCloseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -151,25 +221,43 @@ public class IOFuncs extends Struct {
      * @param ioClose The new value of the field {@code io_close}
      */
     public void setIoClose(IoCloseCallback ioClose) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_close"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioClose == null ? MemoryAddress.NULL : ioClose.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_close"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioClose == null ? MemoryAddress.NULL : ioClose.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoCreateWatchCallback} callback.
+     */
     @FunctionalInterface
     public interface IoCreateWatchCallback {
+    
         org.gtk.glib.Source run(org.gtk.glib.IOChannel channel, org.gtk.glib.IOCondition condition);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress channel, int condition) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
+            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null), new org.gtk.glib.IOCondition(condition));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoCreateWatchCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoCreateWatchCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -178,24 +266,41 @@ public class IOFuncs extends Struct {
      * @param ioCreateWatch The new value of the field {@code io_create_watch}
      */
     public void setIoCreateWatch(IoCreateWatchCallback ioCreateWatch) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_create_watch"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioCreateWatch == null ? MemoryAddress.NULL : ioCreateWatch.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_create_watch"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioCreateWatch == null ? MemoryAddress.NULL : ioCreateWatch.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoFreeCallback} callback.
+     */
     @FunctionalInterface
     public interface IoFreeCallback {
+    
         void run(org.gtk.glib.IOChannel channel);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress channel) {
-            run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE));
+            run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoFreeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoFreeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -204,25 +309,42 @@ public class IOFuncs extends Struct {
      * @param ioFree The new value of the field {@code io_free}
      */
     public void setIoFree(IoFreeCallback ioFree) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_free"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioFree == null ? MemoryAddress.NULL : ioFree.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_free"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioFree == null ? MemoryAddress.NULL : ioFree.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoSetFlagsCallback} callback.
+     */
     @FunctionalInterface
     public interface IoSetFlagsCallback {
+    
         org.gtk.glib.IOStatus run(org.gtk.glib.IOChannel channel, org.gtk.glib.IOFlags flags);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel, int flags) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE), new org.gtk.glib.IOFlags(flags));
+            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null), new org.gtk.glib.IOFlags(flags));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoSetFlagsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoSetFlagsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -231,25 +353,42 @@ public class IOFuncs extends Struct {
      * @param ioSetFlags The new value of the field {@code io_set_flags}
      */
     public void setIoSetFlags(IoSetFlagsCallback ioSetFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_set_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSetFlags == null ? MemoryAddress.NULL : ioSetFlags.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_set_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioSetFlags == null ? MemoryAddress.NULL : ioSetFlags.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code IoGetFlagsCallback} callback.
+     */
     @FunctionalInterface
     public interface IoGetFlagsCallback {
+    
         org.gtk.glib.IOFlags run(org.gtk.glib.IOChannel channel);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress channel) {
-            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, Ownership.NONE));
+            var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(channel, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IoGetFlagsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), IoGetFlagsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -258,22 +397,26 @@ public class IOFuncs extends Struct {
      * @param ioGetFlags The new value of the field {@code io_get_flags}
      */
     public void setIoGetFlags(IoGetFlagsCallback ioGetFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("io_get_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioGetFlags == null ? MemoryAddress.NULL : ioGetFlags.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("io_get_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioGetFlags == null ? MemoryAddress.NULL : ioGetFlags.toCallback()));
+        }
     }
     
     /**
      * Create a IOFuncs proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IOFuncs(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IOFuncs(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IOFuncs> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOFuncs(input, ownership);
+    public static final Marshal<Addressable, IOFuncs> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IOFuncs(input);
     
     /**
      * A {@link IOFuncs.Builder} object constructs a {@link IOFuncs} 
@@ -297,7 +440,7 @@ public class IOFuncs extends Struct {
             struct = IOFuncs.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link IOFuncs} struct.
          * @return A new instance of {@code IOFuncs} with the fields 
          *         that were set in the Builder object.
@@ -307,59 +450,75 @@ public class IOFuncs extends Struct {
         }
         
         public Builder setIoRead(IoReadCallback ioRead) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_read"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioRead == null ? MemoryAddress.NULL : ioRead.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_read"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioRead == null ? MemoryAddress.NULL : ioRead.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoWrite(IoWriteCallback ioWrite) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_write"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioWrite == null ? MemoryAddress.NULL : ioWrite.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_write"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioWrite == null ? MemoryAddress.NULL : ioWrite.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoSeek(IoSeekCallback ioSeek) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_seek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSeek == null ? MemoryAddress.NULL : ioSeek.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_seek"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioSeek == null ? MemoryAddress.NULL : ioSeek.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoClose(IoCloseCallback ioClose) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_close"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioClose == null ? MemoryAddress.NULL : ioClose.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_close"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioClose == null ? MemoryAddress.NULL : ioClose.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoCreateWatch(IoCreateWatchCallback ioCreateWatch) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_create_watch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioCreateWatch == null ? MemoryAddress.NULL : ioCreateWatch.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_create_watch"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioCreateWatch == null ? MemoryAddress.NULL : ioCreateWatch.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoFree(IoFreeCallback ioFree) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioFree == null ? MemoryAddress.NULL : ioFree.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_free"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioFree == null ? MemoryAddress.NULL : ioFree.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoSetFlags(IoSetFlagsCallback ioSetFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_set_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioSetFlags == null ? MemoryAddress.NULL : ioSetFlags.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_set_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioSetFlags == null ? MemoryAddress.NULL : ioSetFlags.toCallback()));
+                return this;
+            }
         }
         
         public Builder setIoGetFlags(IoGetFlagsCallback ioGetFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("io_get_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ioGetFlags == null ? MemoryAddress.NULL : ioGetFlags.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("io_get_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (ioGetFlags == null ? MemoryAddress.NULL : ioGetFlags.toCallback()));
+                return this;
+            }
         }
     }
 }

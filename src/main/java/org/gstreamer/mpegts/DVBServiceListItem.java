@@ -33,8 +33,8 @@ public class DVBServiceListItem extends Struct {
      * @return A new, uninitialized @{link DVBServiceListItem}
      */
     public static DVBServiceListItem allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DVBServiceListItem newInstance = new DVBServiceListItem(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DVBServiceListItem newInstance = new DVBServiceListItem(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,10 +44,12 @@ public class DVBServiceListItem extends Struct {
      * @return The value of the field {@code service_id}
      */
     public short getServiceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -55,9 +57,11 @@ public class DVBServiceListItem extends Struct {
      * @param serviceId The new value of the field {@code service_id}
      */
     public void setServiceId(short serviceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+        }
     }
     
     /**
@@ -65,10 +69,12 @@ public class DVBServiceListItem extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.mpegts.DVBServiceType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.mpegts.DVBServiceType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.mpegts.DVBServiceType.of(RESULT);
+        }
     }
     
     /**
@@ -76,22 +82,26 @@ public class DVBServiceListItem extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.mpegts.DVBServiceType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
      * Create a DVBServiceListItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DVBServiceListItem(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DVBServiceListItem(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DVBServiceListItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBServiceListItem(input, ownership);
+    public static final Marshal<Addressable, DVBServiceListItem> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DVBServiceListItem(input);
     
     /**
      * A {@link DVBServiceListItem.Builder} object constructs a {@link DVBServiceListItem} 
@@ -115,7 +125,7 @@ public class DVBServiceListItem extends Struct {
             struct = DVBServiceListItem.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DVBServiceListItem} struct.
          * @return A new instance of {@code DVBServiceListItem} with the fields 
          *         that were set in the Builder object.
@@ -130,10 +140,12 @@ public class DVBServiceListItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setServiceId(short serviceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+                return this;
+            }
         }
         
         /**
@@ -142,10 +154,12 @@ public class DVBServiceListItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.mpegts.DVBServiceType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
     }
 }

@@ -9,10 +9,12 @@ import org.jetbrains.annotations.*;
  * Error codes for {@code GtkIconTheme} operations.
  */
 public enum IconThemeError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The icon specified does not exist in the theme
      */
     NOT_FOUND(0),
+    
     /**
      * An unspecified error occurred.
      */
@@ -21,15 +23,29 @@ public enum IconThemeError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkIconThemeError";
     
     private final int value;
+    
+    /**
+     * Create a new IconThemeError for the provided value
+     * @param numeric value the enum value
+     */
     IconThemeError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new IconThemeError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static IconThemeError of(int value) {
         return switch (value) {
             case 0 -> NOT_FOUND;
@@ -51,9 +67,9 @@ public enum IconThemeError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_icon_theme_error_quark = Interop.downcallHandle(
-            "gtk_icon_theme_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gtk_icon_theme_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

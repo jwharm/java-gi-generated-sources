@@ -10,37 +10,45 @@ import org.jetbrains.annotations.*;
  * {@link ATSCStreamType} instead since it also covers these stream types
  */
 public enum ScteStreamType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * SCTE-27 Subtitling
      */
     SUBTITLING(130),
+    
     /**
      * SCTE-19 Isochronous data
      */
     ISOCH_DATA(131),
+    
     /**
      * SCTE-35 Splice Information Table
      */
     SIT(134),
+    
     /**
      * SCTE-07 Data Service or
      * Network Resource Table
      */
     DST_NRT(149),
+    
     /**
      * Type B - DSM-CC Data Carousel
      * [IEC 13818-6])
      */
     DSMCC_DCB(176),
+    
     /**
      * Enhanced Television Application
      * Signaling (OC-SP-ETV-AM1.0.1-120614)
      */
     SIGNALING(192),
+    
     /**
      * SCTE-07 Synchronous data
      */
     SYNC_DATA(194),
+    
     /**
      * SCTE-53 Asynchronous data
      */
@@ -49,15 +57,29 @@ public enum ScteStreamType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsScteStreamType";
     
     private final int value;
+    
+    /**
+     * Create a new ScteStreamType for the provided value
+     * @param numeric value the enum value
+     */
     ScteStreamType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ScteStreamType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ScteStreamType of(int value) {
         return switch (value) {
             case 130 -> SUBTITLING;

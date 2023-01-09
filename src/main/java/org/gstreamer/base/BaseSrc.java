@@ -159,26 +159,17 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     
     /**
      * Create a BaseSrc proxy instance for the provided memory address.
-     * <p>
-     * Because BaseSrc is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseSrc(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected BaseSrc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrc(input, ownership);
+    public static final Marshal<Addressable, BaseSrc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrc(input);
     
     /**
      * Lets {@link BaseSrc} sub-classes to know the memory {@code allocator}
@@ -190,16 +181,18 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @param params the {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_base_src_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_base_src_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -209,8 +202,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public int getBlocksize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_get_blocksize.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_get_blocksize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,12 +212,13 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public @Nullable org.gstreamer.gst.BufferPool getBufferPool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_base_src_get_buffer_pool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_base_src_get_buffer_pool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.BufferPool) Interop.register(RESULT, org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -235,8 +228,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public boolean getDoTimestamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_get_do_timestamp.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_get_do_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,8 +242,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public boolean isAsync() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_is_async.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_is_async.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,8 +256,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public boolean isLive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_is_live.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_is_live.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,8 +276,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public boolean negotiate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_negotiate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_negotiate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,23 +349,25 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @return {@code true} if the query succeeded.
      */
     public boolean queryLatency(Out<Boolean> live, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
-        MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_base_src_query_latency.invokeExact(
-                    handle(),
-                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
-                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
-                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment livePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxLatencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_base_src_query_latency.invokeExact(
+                        handle(),
+                        (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                        (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                        (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -548,8 +539,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.FlowReturn startWait() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_start_wait.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_start_wait.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -601,8 +591,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     public org.gstreamer.gst.FlowReturn waitPlaying() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_src_wait_playing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_src_wait_playing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -639,6 +628,9 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -687,141 +679,149 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_base_src_get_allocator = Interop.downcallHandle(
-            "gst_base_src_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_get_blocksize = Interop.downcallHandle(
-            "gst_base_src_get_blocksize",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_get_blocksize",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_get_buffer_pool = Interop.downcallHandle(
-            "gst_base_src_get_buffer_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_get_buffer_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_get_do_timestamp = Interop.downcallHandle(
-            "gst_base_src_get_do_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_get_do_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_is_async = Interop.downcallHandle(
-            "gst_base_src_is_async",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_is_async",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_is_live = Interop.downcallHandle(
-            "gst_base_src_is_live",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_is_live",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_negotiate = Interop.downcallHandle(
-            "gst_base_src_negotiate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_negotiate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_new_seamless_segment = Interop.downcallHandle(
-            "gst_base_src_new_seamless_segment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_src_new_seamless_segment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_src_new_segment = Interop.downcallHandle(
-            "gst_base_src_new_segment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_new_segment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_query_latency = Interop.downcallHandle(
-            "gst_base_src_query_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_query_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_async = Interop.downcallHandle(
-            "gst_base_src_set_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_automatic_eos = Interop.downcallHandle(
-            "gst_base_src_set_automatic_eos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_automatic_eos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_blocksize = Interop.downcallHandle(
-            "gst_base_src_set_blocksize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_blocksize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_caps = Interop.downcallHandle(
-            "gst_base_src_set_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_set_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_do_timestamp = Interop.downcallHandle(
-            "gst_base_src_set_do_timestamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_do_timestamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_dynamic_size = Interop.downcallHandle(
-            "gst_base_src_set_dynamic_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_dynamic_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_format = Interop.downcallHandle(
-            "gst_base_src_set_format",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_format",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_set_live = Interop.downcallHandle(
-            "gst_base_src_set_live",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_set_live",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_start_complete = Interop.downcallHandle(
-            "gst_base_src_start_complete",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_src_start_complete",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_src_start_wait = Interop.downcallHandle(
-            "gst_base_src_start_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_start_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_submit_buffer_list = Interop.downcallHandle(
-            "gst_base_src_submit_buffer_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_submit_buffer_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_wait_playing = Interop.downcallHandle(
-            "gst_base_src_wait_playing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_src_wait_playing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_src_get_type = Interop.downcallHandle(
-            "gst_base_src_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_base_src_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_base_src_get_type != null;
     }
 }

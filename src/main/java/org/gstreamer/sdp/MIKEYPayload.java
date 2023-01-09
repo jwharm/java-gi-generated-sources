@@ -36,8 +36,8 @@ public class MIKEYPayload extends Struct {
      * @return A new, uninitialized @{link MIKEYPayload}
      */
     public static MIKEYPayload allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MIKEYPayload newInstance = new MIKEYPayload(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MIKEYPayload newInstance = new MIKEYPayload(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class MIKEYPayload extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.sdp.MIKEYPayloadType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.sdp.MIKEYPayloadType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.sdp.MIKEYPayloadType.of(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class MIKEYPayload extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.sdp.MIKEYPayloadType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class MIKEYPayload extends Struct {
      * @return The value of the field {@code len}
      */
     public int getLen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,28 +85,31 @@ public class MIKEYPayload extends Struct {
      * @param len The new value of the field {@code len}
      */
     public void setLen(int len) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("len"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), len);
+        }
     }
     
     /**
      * Create a MIKEYPayload proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MIKEYPayload(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MIKEYPayload(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MIKEYPayload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayload(input, ownership);
+    public static final Marshal<Addressable, MIKEYPayload> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayload(input);
     
     private static MemoryAddress constructNew(org.gstreamer.sdp.MIKEYPayloadType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mikey_payload_new.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mikey_payload_new.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +121,8 @@ public class MIKEYPayload extends Struct {
      * @param type a {@link MIKEYPayloadType}
      */
     public MIKEYPayload(org.gstreamer.sdp.MIKEYPayloadType type) {
-        super(constructNew(type), Ownership.FULL);
+        super(constructNew(type));
+        this.takeOwnership();
     }
     
     /**
@@ -141,8 +151,7 @@ public class MIKEYPayload extends Struct {
     public int kemacGetNSub() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_kemac_get_n_sub.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mikey_payload_kemac_get_n_sub.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,7 +173,7 @@ public class MIKEYPayload extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -213,18 +222,20 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean keyDataSetInterval(byte vfLen, byte[] vfData, byte vtLen, byte[] vtData) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_interval.invokeExact(
-                    handle(),
-                    vfLen,
-                    Interop.allocateNativeArray(vfData, false),
-                    vtLen,
-                    Interop.allocateNativeArray(vtData, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_interval.invokeExact(
+                        handle(),
+                        vfLen,
+                        Interop.allocateNativeArray(vfData, false, SCOPE),
+                        vtLen,
+                        Interop.allocateNativeArray(vtData, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -236,17 +247,19 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean keyDataSetKey(org.gstreamer.sdp.MIKEYKeyDataType keyType, short keyLen, byte[] keyData) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_key.invokeExact(
-                    handle(),
-                    keyType.getValue(),
-                    keyLen,
-                    Interop.allocateNativeArray(keyData, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_key.invokeExact(
+                        handle(),
+                        keyType.getValue(),
+                        keyLen,
+                        Interop.allocateNativeArray(keyData, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,16 +270,18 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean keyDataSetSalt(short saltLen, byte[] saltData) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_salt.invokeExact(
-                    handle(),
-                    saltLen,
-                    (Addressable) (saltData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(saltData, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_salt.invokeExact(
+                        handle(),
+                        saltLen,
+                        (Addressable) (saltData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(saltData, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -276,16 +291,18 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean keyDataSetSpi(byte spiLen, byte[] spiData) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_spi.invokeExact(
-                    handle(),
-                    spiLen,
-                    Interop.allocateNativeArray(spiData, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_key_data_set_spi.invokeExact(
+                        handle(),
+                        spiLen,
+                        Interop.allocateNativeArray(spiData, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -297,17 +314,19 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean pkeSet(org.gstreamer.sdp.MIKEYCacheType C, short dataLen, byte[] data) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_pke_set.invokeExact(
-                    handle(),
-                    C.getValue(),
-                    dataLen,
-                    Interop.allocateNativeArray(data, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_pke_set.invokeExact(
+                        handle(),
+                        C.getValue(),
+                        dataLen,
+                        Interop.allocateNativeArray(data, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,16 +336,18 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean randSet(byte len, byte[] rand) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_rand_set.invokeExact(
-                    handle(),
-                    len,
-                    Interop.allocateNativeArray(rand, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_rand_set.invokeExact(
+                        handle(),
+                        len,
+                        Interop.allocateNativeArray(rand, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -338,17 +359,19 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean spAddParam(byte type, byte len, byte[] val) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_sp_add_param.invokeExact(
-                    handle(),
-                    type,
-                    len,
-                    Interop.allocateNativeArray(val, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_sp_add_param.invokeExact(
+                        handle(),
+                        type,
+                        len,
+                        Interop.allocateNativeArray(val, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -359,8 +382,7 @@ public class MIKEYPayload extends Struct {
     public int spGetNParams() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_sp_get_n_params.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_mikey_payload_sp_get_n_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +404,7 @@ public class MIKEYPayload extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.sdp.MIKEYPayloadSPParam.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.MIKEYPayloadSPParam.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -429,126 +451,128 @@ public class MIKEYPayload extends Struct {
      * @return {@code true} on success
      */
     public boolean tSet(org.gstreamer.sdp.MIKEYTSType type, byte[] tsValue) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mikey_payload_t_set.invokeExact(
-                    handle(),
-                    type.getValue(),
-                    Interop.allocateNativeArray(tsValue, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mikey_payload_t_set.invokeExact(
+                        handle(),
+                        type.getValue(),
+                        Interop.allocateNativeArray(tsValue, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mikey_payload_new = Interop.downcallHandle(
-            "gst_mikey_payload_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_kemac_add_sub = Interop.downcallHandle(
-            "gst_mikey_payload_kemac_add_sub",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_kemac_add_sub",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_kemac_get_n_sub = Interop.downcallHandle(
-            "gst_mikey_payload_kemac_get_n_sub",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_kemac_get_n_sub",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_kemac_get_sub = Interop.downcallHandle(
-            "gst_mikey_payload_kemac_get_sub",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_kemac_get_sub",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_kemac_remove_sub = Interop.downcallHandle(
-            "gst_mikey_payload_kemac_remove_sub",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_kemac_remove_sub",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_kemac_set = Interop.downcallHandle(
-            "gst_mikey_payload_kemac_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_kemac_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_key_data_set_interval = Interop.downcallHandle(
-            "gst_mikey_payload_key_data_set_interval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_key_data_set_interval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_key_data_set_key = Interop.downcallHandle(
-            "gst_mikey_payload_key_data_set_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_key_data_set_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_key_data_set_salt = Interop.downcallHandle(
-            "gst_mikey_payload_key_data_set_salt",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_key_data_set_salt",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_key_data_set_spi = Interop.downcallHandle(
-            "gst_mikey_payload_key_data_set_spi",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_key_data_set_spi",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_pke_set = Interop.downcallHandle(
-            "gst_mikey_payload_pke_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_pke_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_rand_set = Interop.downcallHandle(
-            "gst_mikey_payload_rand_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_rand_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_sp_add_param = Interop.downcallHandle(
-            "gst_mikey_payload_sp_add_param",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_sp_add_param",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_sp_get_n_params = Interop.downcallHandle(
-            "gst_mikey_payload_sp_get_n_params",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_sp_get_n_params",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_sp_get_param = Interop.downcallHandle(
-            "gst_mikey_payload_sp_get_param",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_sp_get_param",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_sp_remove_param = Interop.downcallHandle(
-            "gst_mikey_payload_sp_remove_param",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_sp_remove_param",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_sp_set = Interop.downcallHandle(
-            "gst_mikey_payload_sp_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_mikey_payload_sp_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_mikey_payload_t_set = Interop.downcallHandle(
-            "gst_mikey_payload_t_set",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mikey_payload_t_set",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -574,7 +598,7 @@ public class MIKEYPayload extends Struct {
             struct = MIKEYPayload.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MIKEYPayload} struct.
          * @return A new instance of {@code MIKEYPayload} with the fields 
          *         that were set in the Builder object.
@@ -584,10 +608,12 @@ public class MIKEYPayload extends Struct {
         }
         
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
         
         /**
@@ -596,10 +622,12 @@ public class MIKEYPayload extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.sdp.MIKEYPayloadType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -608,10 +636,12 @@ public class MIKEYPayload extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLen(int len) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("len"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("len"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), len);
+                return this;
+            }
         }
     }
 }

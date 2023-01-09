@@ -37,8 +37,8 @@ public class AllocatorClass extends Struct {
      * @return A new, uninitialized @{link AllocatorClass}
      */
     public static AllocatorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AllocatorClass newInstance = new AllocatorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AllocatorClass newInstance = new AllocatorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class AllocatorClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,25 +57,43 @@ public class AllocatorClass extends Struct {
      * @param objectClass The new value of the field {@code object_class}
      */
     public void setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AllocCallback} callback.
+     */
     @FunctionalInterface
     public interface AllocCallback {
+    
         @Nullable org.gstreamer.gst.Memory run(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress allocator, long size, MemoryAddress params) {
-            var RESULT = run((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocator)), org.gstreamer.gst.Allocator.fromAddress).marshal(allocator, Ownership.NONE), size, org.gstreamer.gst.AllocationParams.fromAddress.marshal(params, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.Allocator) Interop.register(allocator, org.gstreamer.gst.Allocator.fromAddress).marshal(allocator, null), size, org.gstreamer.gst.AllocationParams.fromAddress.marshal(params, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AllocCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AllocCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,24 +102,41 @@ public class AllocatorClass extends Struct {
      * @param alloc The new value of the field {@code alloc}
      */
     public void setAlloc(AllocCallback alloc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("alloc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (alloc == null ? MemoryAddress.NULL : alloc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("alloc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (alloc == null ? MemoryAddress.NULL : alloc.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code FreeCallback} callback.
+     */
     @FunctionalInterface
     public interface FreeCallback {
+    
         void run(org.gstreamer.gst.Allocator allocator, org.gstreamer.gst.Memory memory);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress allocator, MemoryAddress memory) {
-            run((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocator)), org.gstreamer.gst.Allocator.fromAddress).marshal(allocator, Ownership.NONE), org.gstreamer.gst.Memory.fromAddress.marshal(memory, Ownership.FULL));
+            run((org.gstreamer.gst.Allocator) Interop.register(allocator, org.gstreamer.gst.Allocator.fromAddress).marshal(allocator, null), org.gstreamer.gst.Memory.fromAddress.marshal(memory, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FreeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FreeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -110,22 +145,26 @@ public class AllocatorClass extends Struct {
      * @param free The new value of the field {@code free}
      */
     public void setFree(FreeCallback free) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : free.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : free.toCallback()));
+        }
     }
     
     /**
      * Create a AllocatorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AllocatorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AllocatorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AllocatorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AllocatorClass(input, ownership);
+    public static final Marshal<Addressable, AllocatorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AllocatorClass(input);
     
     /**
      * A {@link AllocatorClass.Builder} object constructs a {@link AllocatorClass} 
@@ -149,7 +188,7 @@ public class AllocatorClass extends Struct {
             struct = AllocatorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AllocatorClass} struct.
          * @return A new instance of {@code AllocatorClass} with the fields 
          *         that were set in the Builder object.
@@ -164,31 +203,39 @@ public class AllocatorClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setAlloc(AllocCallback alloc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("alloc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (alloc == null ? MemoryAddress.NULL : alloc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("alloc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (alloc == null ? MemoryAddress.NULL : alloc.toCallback()));
+                return this;
+            }
         }
         
         public Builder setFree(FreeCallback free) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : free.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (free == null ? MemoryAddress.NULL : free.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

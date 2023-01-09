@@ -37,8 +37,8 @@ public class PageRange extends Struct {
      * @return A new, uninitialized @{link PageRange}
      */
     public static PageRange allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PageRange newInstance = new PageRange(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PageRange newInstance = new PageRange(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class PageRange extends Struct {
      * @return The value of the field {@code start}
      */
     public int getStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class PageRange extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(int start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), start);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class PageRange extends Struct {
      * @return The value of the field {@code end}
      */
     public int getEnd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,22 +86,26 @@ public class PageRange extends Struct {
      * @param end The new value of the field {@code end}
      */
     public void setEnd(int end) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), end);
+        }
     }
     
     /**
      * Create a PageRange proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PageRange(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PageRange(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PageRange> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PageRange(input, ownership);
+    public static final Marshal<Addressable, PageRange> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PageRange(input);
     
     /**
      * A {@link PageRange.Builder} object constructs a {@link PageRange} 
@@ -119,7 +129,7 @@ public class PageRange extends Struct {
             struct = PageRange.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PageRange} struct.
          * @return A new instance of {@code PageRange} with the fields 
          *         that were set in the Builder object.
@@ -134,10 +144,12 @@ public class PageRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(int start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), start);
+                return this;
+            }
         }
         
         /**
@@ -146,10 +158,12 @@ public class PageRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEnd(int end) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), end);
+                return this;
+            }
         }
     }
 }

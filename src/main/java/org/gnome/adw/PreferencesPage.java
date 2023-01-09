@@ -44,26 +44,17 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     /**
      * Create a PreferencesPage proxy instance for the provided memory address.
-     * <p>
-     * Because PreferencesPage is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PreferencesPage(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected PreferencesPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PreferencesPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesPage(input, ownership);
+    public static final Marshal<Addressable, PreferencesPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesPage(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -79,7 +70,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Creates a new {@code AdwPreferencesPage}.
      */
     public PreferencesPage() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -103,8 +96,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +110,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,8 +124,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,8 +138,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_page_get_use_underline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_preferences_page_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,12 +164,14 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_preferences_page_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_page_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -189,12 +180,14 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param name the name
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.adw_preferences_page_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_page_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -203,12 +196,14 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * @param title the title
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.adw_preferences_page_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_page_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -256,6 +251,9 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -324,75 +322,83 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_page_new = Interop.downcallHandle(
-            "adw_preferences_page_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_add = Interop.downcallHandle(
-            "adw_preferences_page_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_get_icon_name = Interop.downcallHandle(
-            "adw_preferences_page_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_get_name = Interop.downcallHandle(
-            "adw_preferences_page_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_get_title = Interop.downcallHandle(
-            "adw_preferences_page_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_get_use_underline = Interop.downcallHandle(
-            "adw_preferences_page_get_use_underline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_get_use_underline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_remove = Interop.downcallHandle(
-            "adw_preferences_page_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_set_icon_name = Interop.downcallHandle(
-            "adw_preferences_page_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_set_name = Interop.downcallHandle(
-            "adw_preferences_page_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_set_title = Interop.downcallHandle(
-            "adw_preferences_page_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_page_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_set_use_underline = Interop.downcallHandle(
-            "adw_preferences_page_set_use_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_preferences_page_set_use_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_preferences_page_get_type = Interop.downcallHandle(
-            "adw_preferences_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_preferences_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_preferences_page_get_type != null;
     }
 }

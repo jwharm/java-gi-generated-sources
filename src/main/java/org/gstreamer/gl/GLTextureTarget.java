@@ -14,19 +14,23 @@ import org.jetbrains.annotations.*;
  * @version 1.8
  */
 public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no texture target
      */
     NONE(0),
+    
     /**
      * 2D texture target ({@code GL_TEXTURE_2D})
      */
     _2D(1),
+    
     /**
      * rectangle texture target
      *     ({@code GL_TEXTURE_RECTANGLE})
      */
     RECTANGLE(2),
+    
     /**
      * external oes texture target
      *     ({@code GL_TEXTURE_EXTERNAL_OES})
@@ -36,15 +40,29 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstGLTextureTarget";
     
     private final int value;
+    
+    /**
+     * Create a new GLTextureTarget for the provided value
+     * @param numeric value the enum value
+     */
     GLTextureTarget(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new GLTextureTarget for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static GLTextureTarget of(int value) {
         return switch (value) {
             case 0 -> NONE;
@@ -58,8 +76,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.gl.GLTextureTarget fromGl(int target) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_texture_target_from_gl.invokeExact(
-                    target);
+            RESULT = (int) DowncallHandles.gst_gl_texture_target_from_gl.invokeExact(target);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,21 +84,21 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     }
     
     public static org.gstreamer.gl.GLTextureTarget fromString(java.lang.String str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_texture_target_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_texture_target_from_string.invokeExact(Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gl.GLTextureTarget.of(RESULT);
         }
-        return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
     public static java.lang.String toBufferPoolOption(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_buffer_pool_option.invokeExact(
-                    target.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_buffer_pool_option.invokeExact(target.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,8 +108,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     public static int toGl(org.gstreamer.gl.GLTextureTarget target) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_texture_target_to_gl.invokeExact(
-                    target.getValue());
+            RESULT = (int) DowncallHandles.gst_gl_texture_target_to_gl.invokeExact(target.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,8 +118,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String toString(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_string.invokeExact(
-                    target.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_string.invokeExact(target.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,33 +128,33 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_texture_target_from_gl = Interop.downcallHandle(
-            "gst_gl_texture_target_from_gl",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_texture_target_from_gl",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_texture_target_from_string = Interop.downcallHandle(
-            "gst_gl_texture_target_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_texture_target_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_texture_target_to_buffer_pool_option = Interop.downcallHandle(
-            "gst_gl_texture_target_to_buffer_pool_option",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_texture_target_to_buffer_pool_option",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_texture_target_to_gl = Interop.downcallHandle(
-            "gst_gl_texture_target_to_gl",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_texture_target_to_gl",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_texture_target_to_string = Interop.downcallHandle(
-            "gst_gl_texture_target_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_texture_target_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

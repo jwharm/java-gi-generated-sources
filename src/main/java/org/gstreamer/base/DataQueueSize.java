@@ -36,8 +36,8 @@ public class DataQueueSize extends Struct {
      * @return A new, uninitialized @{link DataQueueSize}
      */
     public static DataQueueSize allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DataQueueSize newInstance = new DataQueueSize(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DataQueueSize newInstance = new DataQueueSize(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class DataQueueSize extends Struct {
      * @return The value of the field {@code visible}
      */
     public int getVisible() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("visible"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("visible"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class DataQueueSize extends Struct {
      * @param visible The new value of the field {@code visible}
      */
     public void setVisible(int visible) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("visible"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("visible"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), visible);
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class DataQueueSize extends Struct {
      * @return The value of the field {@code bytes}
      */
     public int getBytes() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class DataQueueSize extends Struct {
      * @param bytes The new value of the field {@code bytes}
      */
     public void setBytes(int bytes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bytes);
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class DataQueueSize extends Struct {
      * @return The value of the field {@code time}
      */
     public long getTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -100,22 +110,26 @@ public class DataQueueSize extends Struct {
      * @param time The new value of the field {@code time}
      */
     public void setTime(long time) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), time);
+        }
     }
     
     /**
      * Create a DataQueueSize proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DataQueueSize(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DataQueueSize(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DataQueueSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataQueueSize(input, ownership);
+    public static final Marshal<Addressable, DataQueueSize> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DataQueueSize(input);
     
     /**
      * A {@link DataQueueSize.Builder} object constructs a {@link DataQueueSize} 
@@ -139,7 +153,7 @@ public class DataQueueSize extends Struct {
             struct = DataQueueSize.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DataQueueSize} struct.
          * @return A new instance of {@code DataQueueSize} with the fields 
          *         that were set in the Builder object.
@@ -154,10 +168,12 @@ public class DataQueueSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVisible(int visible) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("visible"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("visible"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), visible);
+                return this;
+            }
         }
         
         /**
@@ -166,10 +182,12 @@ public class DataQueueSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBytes(int bytes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bytes);
+                return this;
+            }
         }
         
         /**
@@ -178,10 +196,12 @@ public class DataQueueSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTime(long time) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), time);
+                return this;
+            }
         }
     }
 }

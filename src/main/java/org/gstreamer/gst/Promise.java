@@ -87,8 +87,8 @@ public class Promise extends Struct {
      * @return A new, uninitialized @{link Promise}
      */
     public static Promise allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Promise newInstance = new Promise(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Promise newInstance = new Promise(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -99,7 +99,7 @@ public class Promise extends Struct {
      */
     public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -107,22 +107,26 @@ public class Promise extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.gst.MiniObject parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
      * Create a Promise proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Promise(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Promise(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Promise> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Promise(input, ownership);
+    public static final Marshal<Addressable, Promise> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Promise(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -135,7 +139,8 @@ public class Promise extends Struct {
     }
     
     public Promise() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithChangeFunc(org.gstreamer.gst.PromiseChangeFunc func, org.gtk.glib.DestroyNotify notify) {
@@ -150,7 +155,7 @@ public class Promise extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * {@code func} will be called exactly once when transitioning out of
      * {@link PromiseResult#PENDING} into any of the other {@link PromiseResult}
@@ -161,7 +166,9 @@ public class Promise extends Struct {
      */
     public static Promise newWithChangeFunc(org.gstreamer.gst.PromiseChangeFunc func, org.gtk.glib.DestroyNotify notify) {
         var RESULT = constructNewWithChangeFunc(func, notify);
-        return org.gstreamer.gst.Promise.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Promise.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -171,8 +178,7 @@ public class Promise extends Struct {
      */
     public void expire() {
         try {
-            DowncallHandles.gst_promise_expire.invokeExact(
-                    handle());
+            DowncallHandles.gst_promise_expire.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,12 +192,11 @@ public class Promise extends Struct {
     public @Nullable org.gstreamer.gst.Structure getReply() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_promise_get_reply.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_promise_get_reply.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -201,8 +206,7 @@ public class Promise extends Struct {
      */
     public void interrupt() {
         try {
-            DowncallHandles.gst_promise_interrupt.invokeExact(
-                    handle());
+            DowncallHandles.gst_promise_interrupt.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,8 +241,7 @@ public class Promise extends Struct {
     public org.gstreamer.gst.PromiseResult wait_() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_promise_wait.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_promise_wait.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,45 +251,45 @@ public class Promise extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_promise_new = Interop.downcallHandle(
-            "gst_promise_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_new_with_change_func = Interop.downcallHandle(
-            "gst_promise_new_with_change_func",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_new_with_change_func",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_expire = Interop.downcallHandle(
-            "gst_promise_expire",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_expire",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_get_reply = Interop.downcallHandle(
-            "gst_promise_get_reply",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_get_reply",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_interrupt = Interop.downcallHandle(
-            "gst_promise_interrupt",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_interrupt",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_reply = Interop.downcallHandle(
-            "gst_promise_reply",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_reply",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_promise_wait = Interop.downcallHandle(
-            "gst_promise_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_promise_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -312,7 +315,7 @@ public class Promise extends Struct {
             struct = Promise.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Promise} struct.
          * @return A new instance of {@code Promise} with the fields 
          *         that were set in the Builder object.
@@ -327,10 +330,12 @@ public class Promise extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
     }
 }

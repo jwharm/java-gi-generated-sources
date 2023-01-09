@@ -28,14 +28,16 @@ public class FocusEvent extends org.gtk.gdk.Event {
     /**
      * Create a FocusEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FocusEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FocusEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FocusEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FocusEvent(input, ownership);
+    public static final Marshal<Addressable, FocusEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FocusEvent(input);
     
     /**
      * Extracts whether this event is about focus entering or
@@ -45,8 +47,7 @@ public class FocusEvent extends org.gtk.gdk.Event {
     public boolean getIn() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_focus_event_get_in.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_focus_event_get_in.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,15 +71,23 @@ public class FocusEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_focus_event_get_in = Interop.downcallHandle(
-            "gdk_focus_event_get_in",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_focus_event_get_in",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_focus_event_get_type = Interop.downcallHandle(
-            "gdk_focus_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_focus_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_focus_event_get_type != null;
     }
 }

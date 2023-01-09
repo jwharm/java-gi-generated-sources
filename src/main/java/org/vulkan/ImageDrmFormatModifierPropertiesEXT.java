@@ -29,8 +29,8 @@ public class ImageDrmFormatModifierPropertiesEXT extends Struct {
      * @return A new, uninitialized @{link ImageDrmFormatModifierPropertiesEXT}
      */
     public static ImageDrmFormatModifierPropertiesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageDrmFormatModifierPropertiesEXT newInstance = new ImageDrmFormatModifierPropertiesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageDrmFormatModifierPropertiesEXT newInstance = new ImageDrmFormatModifierPropertiesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageDrmFormatModifierPropertiesEXT extends Struct {
     /**
      * Create a ImageDrmFormatModifierPropertiesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageDrmFormatModifierPropertiesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageDrmFormatModifierPropertiesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageDrmFormatModifierPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageDrmFormatModifierPropertiesEXT(input, ownership);
+    public static final Marshal<Addressable, ImageDrmFormatModifierPropertiesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageDrmFormatModifierPropertiesEXT(input);
 }

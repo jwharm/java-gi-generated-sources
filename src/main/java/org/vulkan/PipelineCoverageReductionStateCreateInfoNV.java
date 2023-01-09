@@ -29,8 +29,8 @@ public class PipelineCoverageReductionStateCreateInfoNV extends Struct {
      * @return A new, uninitialized @{link PipelineCoverageReductionStateCreateInfoNV}
      */
     public static PipelineCoverageReductionStateCreateInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineCoverageReductionStateCreateInfoNV newInstance = new PipelineCoverageReductionStateCreateInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineCoverageReductionStateCreateInfoNV newInstance = new PipelineCoverageReductionStateCreateInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineCoverageReductionStateCreateInfoNV extends Struct {
     /**
      * Create a PipelineCoverageReductionStateCreateInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineCoverageReductionStateCreateInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineCoverageReductionStateCreateInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineCoverageReductionStateCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCoverageReductionStateCreateInfoNV(input, ownership);
+    public static final Marshal<Addressable, PipelineCoverageReductionStateCreateInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineCoverageReductionStateCreateInfoNV(input);
 }

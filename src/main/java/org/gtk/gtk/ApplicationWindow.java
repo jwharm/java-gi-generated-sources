@@ -97,32 +97,22 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     
     /**
      * Create a ApplicationWindow proxy instance for the provided memory address.
-     * <p>
-     * Because ApplicationWindow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ApplicationWindow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ApplicationWindow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ApplicationWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationWindow(input, ownership);
+    public static final Marshal<Addressable, ApplicationWindow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationWindow(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Application application) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(
-                    application.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(application.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +124,9 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      * @param application a {@code GtkApplication}
      */
     public ApplicationWindow(org.gtk.gtk.Application application) {
-        super(constructNew(application), Ownership.NONE);
+        super(constructNew(application));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -147,12 +139,11 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public @Nullable org.gtk.gtk.ShortcutsWindow getHelpOverlay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_get_help_overlay.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_get_help_overlay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ShortcutsWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutsWindow.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ShortcutsWindow) Interop.register(RESULT, org.gtk.gtk.ShortcutsWindow.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -165,8 +156,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_application_window_get_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_application_window_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,8 +171,7 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     public boolean getShowMenubar() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_application_window_get_show_menubar.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_application_window_get_show_menubar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,6 +242,9 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
      */
     public static class Builder extends org.gtk.gtk.Window.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -294,45 +286,53 @@ public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
-            "gtk_application_window_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_application_window_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
-            "gtk_application_window_get_help_overlay",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_application_window_get_help_overlay",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
-            "gtk_application_window_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_application_window_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
-            "gtk_application_window_get_show_menubar",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_application_window_get_show_menubar",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
-            "gtk_application_window_set_help_overlay",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_application_window_set_help_overlay",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
-            "gtk_application_window_set_show_menubar",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_application_window_set_show_menubar",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_application_window_get_type = Interop.downcallHandle(
-            "gtk_application_window_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_application_window_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_application_window_get_type != null;
     }
 }

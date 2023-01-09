@@ -42,14 +42,16 @@ public class Renderer extends org.gtk.gobject.GObject {
     /**
      * Create a Renderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Renderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Renderer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Renderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input, ownership);
+    public static final Marshal<Addressable, Renderer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input);
     
     /**
      * Does initial setup before rendering operations on {@code renderer}.
@@ -64,8 +66,7 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public void activate() {
         try {
-            DowncallHandles.pango_renderer_activate.invokeExact(
-                    handle());
+            DowncallHandles.pango_renderer_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,8 +79,7 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public void deactivate() {
         try {
-            DowncallHandles.pango_renderer_deactivate.invokeExact(
-                    handle());
+            DowncallHandles.pango_renderer_deactivate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,15 +160,17 @@ public class Renderer extends org.gtk.gobject.GObject {
      *   in Pango units
      */
     public void drawGlyphItem(@Nullable java.lang.String text, org.pango.GlyphItem glyphItem, int x, int y) {
-        try {
-            DowncallHandles.pango_renderer_draw_glyph_item.invokeExact(
-                    handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)),
-                    glyphItem.handle(),
-                    x,
-                    y);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_renderer_draw_glyph_item.invokeExact(
+                        handle(),
+                        (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, SCOPE)),
+                        glyphItem.handle(),
+                        x,
+                        y);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -331,7 +333,7 @@ public class Renderer extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Color.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.Color.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -348,12 +350,11 @@ public class Renderer extends org.gtk.gobject.GObject {
     public @Nullable org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -370,12 +371,11 @@ public class Renderer extends org.gtk.gobject.GObject {
     public @Nullable org.pango.LayoutLine getLayoutLine() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout_line.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_layout_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -390,12 +390,11 @@ public class Renderer extends org.gtk.gobject.GObject {
     public @Nullable org.pango.Matrix getMatrix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_matrix.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_matrix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.pango.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -507,6 +506,9 @@ public class Renderer extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -531,123 +533,131 @@ public class Renderer extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_renderer_activate = Interop.downcallHandle(
-            "pango_renderer_activate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_activate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_deactivate = Interop.downcallHandle(
-            "pango_renderer_deactivate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_deactivate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_error_underline = Interop.downcallHandle(
-            "pango_renderer_draw_error_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_error_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_glyph = Interop.downcallHandle(
-            "pango_renderer_draw_glyph",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_renderer_draw_glyph",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_glyph_item = Interop.downcallHandle(
-            "pango_renderer_draw_glyph_item",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_glyph_item",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_glyphs = Interop.downcallHandle(
-            "pango_renderer_draw_glyphs",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_glyphs",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_layout = Interop.downcallHandle(
-            "pango_renderer_draw_layout",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_layout",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_layout_line = Interop.downcallHandle(
-            "pango_renderer_draw_layout_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_layout_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_rectangle = Interop.downcallHandle(
-            "pango_renderer_draw_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_draw_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_draw_trapezoid = Interop.downcallHandle(
-            "pango_renderer_draw_trapezoid",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_renderer_draw_trapezoid",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_alpha = Interop.downcallHandle(
-            "pango_renderer_get_alpha",
-            FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_get_alpha",
+                FunctionDescriptor.of(Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_color = Interop.downcallHandle(
-            "pango_renderer_get_color",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_get_color",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_layout = Interop.downcallHandle(
-            "pango_renderer_get_layout",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_get_layout",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_layout_line = Interop.downcallHandle(
-            "pango_renderer_get_layout_line",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_get_layout_line",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_matrix = Interop.downcallHandle(
-            "pango_renderer_get_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_get_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_part_changed = Interop.downcallHandle(
-            "pango_renderer_part_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_renderer_part_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_renderer_set_alpha = Interop.downcallHandle(
-            "pango_renderer_set_alpha",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
-            false
+                "pango_renderer_set_alpha",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_SHORT),
+                false
         );
         
         private static final MethodHandle pango_renderer_set_color = Interop.downcallHandle(
-            "pango_renderer_set_color",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_set_color",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_set_matrix = Interop.downcallHandle(
-            "pango_renderer_set_matrix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_renderer_set_matrix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_renderer_get_type = Interop.downcallHandle(
-            "pango_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "pango_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.pango_renderer_get_type != null;
     }
 }

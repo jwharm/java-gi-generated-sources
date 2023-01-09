@@ -29,8 +29,8 @@ public class Queue extends Struct {
      * @return A new, uninitialized @{link Queue}
      */
     public static Queue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Queue newInstance = new Queue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Queue newInstance = new Queue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Queue extends Struct {
     /**
      * Create a Queue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Queue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Queue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Queue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Queue(input, ownership);
+    public static final Marshal<Addressable, Queue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Queue(input);
 }

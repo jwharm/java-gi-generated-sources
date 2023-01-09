@@ -29,8 +29,8 @@ public class PipelineLayout extends Struct {
      * @return A new, uninitialized @{link PipelineLayout}
      */
     public static PipelineLayout allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineLayout newInstance = new PipelineLayout(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineLayout newInstance = new PipelineLayout(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineLayout extends Struct {
     /**
      * Create a PipelineLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineLayout(input, ownership);
+    public static final Marshal<Addressable, PipelineLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineLayout(input);
 }

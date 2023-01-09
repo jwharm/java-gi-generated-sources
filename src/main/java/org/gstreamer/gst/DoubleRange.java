@@ -28,14 +28,16 @@ public class DoubleRange extends io.github.jwharm.javagi.ObjectBase {
     /**
      * Create a DoubleRange proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DoubleRange(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DoubleRange(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DoubleRange> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DoubleRange(input, ownership);
+    public static final Marshal<Addressable, DoubleRange> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DoubleRange(input);
     
     /**
      * Get the gtype
@@ -54,9 +56,17 @@ public class DoubleRange extends io.github.jwharm.javagi.ObjectBase {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_double_range_get_type = Interop.downcallHandle(
-            "gst_double_range_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_double_range_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_double_range_get_type != null;
     }
 }

@@ -39,37 +39,30 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
     
     /**
      * Create a FontChooserDialog proxy instance for the provided memory address.
-     * <p>
-     * Because FontChooserDialog is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontChooserDialog(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected FontChooserDialog(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontChooserDialog> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontChooserDialog(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_dialog_new.invokeExact(
+                        (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, SCOPE)),
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, FontChooserDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontChooserDialog(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_dialog_new.invokeExact(
-                    (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, null)),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -78,7 +71,9 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      * @param parent Transient parent of the dialog
      */
     public FontChooserDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(title, parent), Ownership.NONE);
+        super(constructNew(title, parent));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -111,6 +106,9 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
      */
     public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -135,15 +133,23 @@ public class FontChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_font_chooser_dialog_new = Interop.downcallHandle(
-            "gtk_font_chooser_dialog_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_font_chooser_dialog_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_font_chooser_dialog_get_type = Interop.downcallHandle(
-            "gtk_font_chooser_dialog_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_font_chooser_dialog_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_font_chooser_dialog_get_type != null;
     }
 }

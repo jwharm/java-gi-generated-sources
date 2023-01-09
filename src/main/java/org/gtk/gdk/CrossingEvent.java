@@ -28,14 +28,16 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     /**
      * Create a CrossingEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CrossingEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CrossingEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CrossingEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CrossingEvent(input, ownership);
+    public static final Marshal<Addressable, CrossingEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CrossingEvent(input);
     
     /**
      * Extracts the notify detail from a crossing event.
@@ -44,8 +46,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.NotifyType getDetail() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_detail.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_detail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,8 +60,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public boolean getFocus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_focus.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +74,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.CrossingMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_crossing_event_get_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_crossing_event_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,27 +98,35 @@ public class CrossingEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_crossing_event_get_detail = Interop.downcallHandle(
-            "gdk_crossing_event_get_detail",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_crossing_event_get_detail",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_crossing_event_get_focus = Interop.downcallHandle(
-            "gdk_crossing_event_get_focus",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_crossing_event_get_focus",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_crossing_event_get_mode = Interop.downcallHandle(
-            "gdk_crossing_event_get_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_crossing_event_get_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_crossing_event_get_type = Interop.downcallHandle(
-            "gdk_crossing_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_crossing_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_crossing_event_get_type != null;
     }
 }

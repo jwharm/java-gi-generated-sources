@@ -10,13 +10,13 @@ import org.jetbrains.annotations.*;
  */
 public final class GstVulkanWayland {
     
-    private static boolean javagi$initialized = false;
+    static {
+        registerTypes();
+    }
     
-    @ApiStatus.Internal
-    public static void javagi$ensureInitialized() {
-        if (!javagi$initialized) {
-            javagi$initialized = true;
-            JavaGITypeRegister.register();
-        }
+    @ApiStatus.Internal public static void javagi$ensureInitialized() {}
+    
+    private static void registerTypes() {
+        if (VulkanDisplayWayland.isAvailable()) Interop.register(VulkanDisplayWayland.getType(), VulkanDisplayWayland.fromAddress);
     }
 }

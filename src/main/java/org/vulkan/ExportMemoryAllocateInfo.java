@@ -29,8 +29,8 @@ public class ExportMemoryAllocateInfo extends Struct {
      * @return A new, uninitialized @{link ExportMemoryAllocateInfo}
      */
     public static ExportMemoryAllocateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExportMemoryAllocateInfo newInstance = new ExportMemoryAllocateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExportMemoryAllocateInfo newInstance = new ExportMemoryAllocateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExportMemoryAllocateInfo extends Struct {
     /**
      * Create a ExportMemoryAllocateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExportMemoryAllocateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExportMemoryAllocateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExportMemoryAllocateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExportMemoryAllocateInfo(input, ownership);
+    public static final Marshal<Addressable, ExportMemoryAllocateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExportMemoryAllocateInfo(input);
 }

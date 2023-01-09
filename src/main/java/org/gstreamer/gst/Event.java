@@ -78,8 +78,8 @@ public class Event extends Struct {
      * @return A new, uninitialized @{link Event}
      */
     public static Event allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Event newInstance = new Event(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Event newInstance = new Event(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -90,7 +90,7 @@ public class Event extends Struct {
      */
     public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -98,9 +98,11 @@ public class Event extends Struct {
      * @param miniObject The new value of the field {@code mini_object}
      */
     public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        }
     }
     
     /**
@@ -108,10 +110,12 @@ public class Event extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.gst.EventType getType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.EventType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.EventType.of(RESULT);
+        }
     }
     
     /**
@@ -119,9 +123,11 @@ public class Event extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.gst.EventType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
@@ -129,10 +135,12 @@ public class Event extends Struct {
      * @return The value of the field {@code timestamp}
      */
     public long getTimestamp() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -140,9 +148,11 @@ public class Event extends Struct {
      * @param timestamp The new value of the field {@code timestamp}
      */
     public void setTimestamp(long timestamp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), timestamp);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), timestamp);
+        }
     }
     
     /**
@@ -150,10 +160,12 @@ public class Event extends Struct {
      * @return The value of the field {@code seqnum}
      */
     public int getSeqnum_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -161,22 +173,26 @@ public class Event extends Struct {
      * @param seqnum The new value of the field {@code seqnum}
      */
     public void setSeqnum_(int seqnum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqnum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), seqnum);
+        }
     }
     
     /**
      * Create a Event proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Event(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Event(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Event> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Event(input, ownership);
+    public static final Marshal<Addressable, Event> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Event(input);
     
     private static MemoryAddress constructNewBufferSize(org.gstreamer.gst.Format format, long minsize, long maxsize, boolean async) {
         MemoryAddress RESULT;
@@ -191,7 +207,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new buffersize event. The event is sent downstream and notifies
      * elements that they should provide a buffer of the specified dimensions.
@@ -205,20 +221,21 @@ public class Event extends Struct {
      */
     public static Event newBufferSize(org.gstreamer.gst.Format format, long minsize, long maxsize, boolean async) {
         var RESULT = constructNewBufferSize(format, minsize, maxsize, async);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewCaps(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_caps.invokeExact(
-                    caps.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_caps.invokeExact(caps.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new CAPS event for {@code caps}. The caps event can only travel downstream
      * synchronized with the buffer flow and contains the format of the buffers
@@ -228,7 +245,9 @@ public class Event extends Struct {
      */
     public static Event newCaps(org.gstreamer.gst.Caps caps) {
         var RESULT = constructNewCaps(caps);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewCustom(org.gstreamer.gst.EventType type, org.gstreamer.gst.Structure structure) {
@@ -243,7 +262,7 @@ public class Event extends Struct {
         structure.yieldOwnership();
         return RESULT;
     }
-    
+        
     /**
      * Create a new custom-typed event. This can be used for anything not
      * handled by other event-specific functions to pass an event to another
@@ -262,7 +281,9 @@ public class Event extends Struct {
      */
     public static Event newCustom(org.gstreamer.gst.EventType type, org.gstreamer.gst.Structure structure) {
         var RESULT = constructNewCustom(type, structure);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewEos() {
@@ -274,7 +295,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new EOS event. The eos event can only travel downstream
      * synchronized with the buffer flow. Elements that receive the EOS
@@ -293,7 +314,9 @@ public class Event extends Struct {
      */
     public static Event newEos() {
         var RESULT = constructNewEos();
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFlushStart() {
@@ -305,7 +328,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocate a new flush start event. The flush start event can be sent
      * upstream and downstream and travels out-of-bounds with the dataflow.
@@ -325,20 +348,21 @@ public class Event extends Struct {
      */
     public static Event newFlushStart() {
         var RESULT = constructNewFlushStart();
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFlushStop(boolean resetTime) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_flush_stop.invokeExact(
-                    Marshal.booleanToInteger.marshal(resetTime, null).intValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_flush_stop.invokeExact(Marshal.booleanToInteger.marshal(resetTime, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocate a new flush stop event. The flush stop event can be sent
      * upstream and downstream and travels serialized with the dataflow.
@@ -355,7 +379,9 @@ public class Event extends Struct {
      */
     public static Event newFlushStop(boolean resetTime) {
         var RESULT = constructNewFlushStop(resetTime);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewGap(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime duration) {
@@ -369,7 +395,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new GAP event. A gap event can be thought of as conceptually
      * equivalent to a buffer to signal that there is no data for a certain
@@ -382,7 +408,9 @@ public class Event extends Struct {
      */
     public static Event newGap(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime duration) {
         var RESULT = constructNewGap(timestamp, duration);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewInstantRateChange(double rateMultiplier, org.gstreamer.gst.SegmentFlags newFlags) {
@@ -396,7 +424,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new instant-rate-change event. This event is sent by seek
      * handlers (e.g. demuxers) when receiving a seek with the
@@ -413,7 +441,9 @@ public class Event extends Struct {
      */
     public static Event newInstantRateChange(double rateMultiplier, org.gstreamer.gst.SegmentFlags newFlags) {
         var RESULT = constructNewInstantRateChange(rateMultiplier, newFlags);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewInstantRateSyncTime(double rateMultiplier, org.gstreamer.gst.ClockTime runningTime, org.gstreamer.gst.ClockTime upstreamRunningTime) {
@@ -428,7 +458,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new instant-rate-sync-time event. This event is sent by the
      * pipeline to notify elements handling the instant-rate-change event about
@@ -450,20 +480,21 @@ public class Event extends Struct {
      */
     public static Event newInstantRateSyncTime(double rateMultiplier, org.gstreamer.gst.ClockTime runningTime, org.gstreamer.gst.ClockTime upstreamRunningTime) {
         var RESULT = constructNewInstantRateSyncTime(rateMultiplier, runningTime, upstreamRunningTime);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewLatency(org.gstreamer.gst.ClockTime latency) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_latency.invokeExact(
-                    latency.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_latency.invokeExact(latency.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new latency event. The event is sent upstream from the sinks and
      * notifies elements that they should add an additional {@code latency} to the
@@ -476,21 +507,22 @@ public class Event extends Struct {
      */
     public static Event newLatency(org.gstreamer.gst.ClockTime latency) {
         var RESULT = constructNewLatency(latency);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewNavigation(org.gstreamer.gst.Structure structure) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_navigation.invokeExact(
-                    structure.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_navigation.invokeExact(structure.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         structure.yieldOwnership();
         return RESULT;
     }
-    
+        
     /**
      * Create a new navigation event from the given description.
      * @param structure description of the event. The event will take
@@ -499,22 +531,26 @@ public class Event extends Struct {
      */
     public static Event newNavigation(org.gstreamer.gst.Structure structure) {
         var RESULT = constructNewNavigation(structure);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewProtection(java.lang.String systemId, org.gstreamer.gst.Buffer data, java.lang.String origin) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_protection.invokeExact(
-                    Marshal.stringToAddress.marshal(systemId, null),
-                    data.handle(),
-                    Marshal.stringToAddress.marshal(origin, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_event_new_protection.invokeExact(
+                        Marshal.stringToAddress.marshal(systemId, SCOPE),
+                        data.handle(),
+                        Marshal.stringToAddress.marshal(origin, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new event containing information specific to a particular
      * protection system (uniquely identified by {@code system_id}), by which that
@@ -557,7 +593,9 @@ public class Event extends Struct {
      */
     public static Event newProtection(java.lang.String systemId, org.gstreamer.gst.Buffer data, java.lang.String origin) {
         var RESULT = constructNewProtection(systemId, data, origin);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewQos(org.gstreamer.gst.QOSType type, double proportion, org.gstreamer.gst.ClockTimeDiff diff, org.gstreamer.gst.ClockTime timestamp) {
@@ -573,7 +611,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocate a new qos event with the given values.
      * The QOS event is generated in an element that wants an upstream
@@ -625,7 +663,9 @@ public class Event extends Struct {
      */
     public static Event newQos(org.gstreamer.gst.QOSType type, double proportion, org.gstreamer.gst.ClockTimeDiff diff, org.gstreamer.gst.ClockTime timestamp) {
         var RESULT = constructNewQos(type, proportion, diff, timestamp);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewReconfigure() {
@@ -637,7 +677,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new reconfigure event. The purpose of the reconfigure event is
      * to travel upstream and make elements renegotiate their caps or reconfigure
@@ -647,7 +687,9 @@ public class Event extends Struct {
      */
     public static Event newReconfigure() {
         var RESULT = constructNewReconfigure();
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSeek(double rate, org.gstreamer.gst.Format format, org.gstreamer.gst.SeekFlags flags, org.gstreamer.gst.SeekType startType, long start, org.gstreamer.gst.SeekType stopType, long stop) {
@@ -666,7 +708,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocate a new seek event with the given parameters.
      * <p>
@@ -710,20 +752,21 @@ public class Event extends Struct {
      */
     public static Event newSeek(double rate, org.gstreamer.gst.Format format, org.gstreamer.gst.SeekFlags flags, org.gstreamer.gst.SeekType startType, long start, org.gstreamer.gst.SeekType stopType, long stop) {
         var RESULT = constructNewSeek(rate, format, flags, startType, start, stopType, stop);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSegment(org.gstreamer.gst.Segment segment) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_segment.invokeExact(
-                    segment.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_segment.invokeExact(segment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new SEGMENT event for {@code segment}. The segment event can only travel
      * downstream synchronized with the buffer flow and contains timing information
@@ -761,7 +804,9 @@ public class Event extends Struct {
      */
     public static Event newSegment(org.gstreamer.gst.Segment segment) {
         var RESULT = constructNewSegment(segment);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSegmentDone(org.gstreamer.gst.Format format, long position) {
@@ -775,7 +820,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new segment-done event. This event is sent by elements that
      * finish playback of a segment as a result of a segment seek.
@@ -785,20 +830,21 @@ public class Event extends Struct {
      */
     public static Event newSegmentDone(org.gstreamer.gst.Format format, long position) {
         var RESULT = constructNewSegmentDone(format, position);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSelectStreams(org.gtk.glib.List streams) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_select_streams.invokeExact(
-                    streams.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_select_streams.invokeExact(streams.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocate a new select-streams event.
      * <p>
@@ -817,21 +863,25 @@ public class Event extends Struct {
      */
     public static Event newSelectStreams(org.gtk.glib.List streams) {
         var RESULT = constructNewSelectStreams(streams);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewSinkMessage(java.lang.String name, org.gstreamer.gst.Message msg) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_sink_message.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    msg.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_event_new_sink_message.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        msg.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Create a new sink-message event. The purpose of the sink-message event is
      * to instruct a sink to post the message contained in the event synchronized
@@ -844,7 +894,9 @@ public class Event extends Struct {
      */
     public static Event newSinkMessage(java.lang.String name, org.gstreamer.gst.Message msg) {
         var RESULT = constructNewSinkMessage(name, msg);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewStep(org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
@@ -861,7 +913,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new step event. The purpose of the step event is to instruct a sink
      * to skip {@code amount} (expressed in {@code format}) of media. It can be used to implement
@@ -885,20 +937,21 @@ public class Event extends Struct {
      */
     public static Event newStep(org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
         var RESULT = constructNewStep(format, amount, rate, flush, intermediate);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewStreamCollection(org.gstreamer.gst.StreamCollection collection) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_collection.invokeExact(
-                    collection.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_collection.invokeExact(collection.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new STREAM_COLLECTION event. The stream collection event can only
      * travel downstream synchronized with the buffer flow.
@@ -913,20 +966,21 @@ public class Event extends Struct {
      */
     public static Event newStreamCollection(org.gstreamer.gst.StreamCollection collection) {
         var RESULT = constructNewStreamCollection(collection);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewStreamGroupDone(int groupId) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_group_done.invokeExact(
-                    groupId);
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_group_done.invokeExact(groupId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new Stream Group Done event. The stream-group-done event can
      * only travel downstream synchronized with the buffer flow. Elements
@@ -942,20 +996,23 @@ public class Event extends Struct {
      */
     public static Event newStreamGroupDone(int groupId) {
         var RESULT = constructNewStreamGroupDone(groupId);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewStreamStart(java.lang.String streamId) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_start.invokeExact(
-                    Marshal.stringToAddress.marshal(streamId, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_event_new_stream_start.invokeExact(Marshal.stringToAddress.marshal(streamId, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Create a new STREAM_START event. The stream start event can only
      * travel downstream synchronized with the buffer flow. It is expected
@@ -983,21 +1040,22 @@ public class Event extends Struct {
      */
     public static Event newStreamStart(java.lang.String streamId) {
         var RESULT = constructNewStreamStart(streamId);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewTag(org.gstreamer.gst.TagList taglist) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_tag.invokeExact(
-                    taglist.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_tag.invokeExact(taglist.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         taglist.yieldOwnership();
         return RESULT;
     }
-    
+        
     /**
      * Generates a metadata tag event from the given {@code taglist}.
      * <p>
@@ -1012,7 +1070,9 @@ public class Event extends Struct {
      */
     public static Event newTag(org.gstreamer.gst.TagList taglist) {
         var RESULT = constructNewTag(taglist);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewToc(org.gstreamer.gst.Toc toc, boolean updated) {
@@ -1026,7 +1086,7 @@ public class Event extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Generate a TOC event from the given {@code toc}. The purpose of the TOC event is to
      * inform elements that some kind of the TOC was found.
@@ -1036,20 +1096,23 @@ public class Event extends Struct {
      */
     public static Event newToc(org.gstreamer.gst.Toc toc, boolean updated) {
         var RESULT = constructNewToc(toc, updated);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewTocSelect(java.lang.String uid) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_new_toc_select.invokeExact(
-                    Marshal.stringToAddress.marshal(uid, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_event_new_toc_select.invokeExact(Marshal.stringToAddress.marshal(uid, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Generate a TOC select event with the given {@code uid}. The purpose of the
      * TOC select event is to start playback based on the TOC's entry with the
@@ -1059,7 +1122,9 @@ public class Event extends Struct {
      */
     public static Event newTocSelect(java.lang.String uid) {
         var RESULT = constructNewTocSelect(uid);
-        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Event.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -1094,8 +1159,7 @@ public class Event extends Struct {
     public long getRunningTimeOffset() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_event_get_running_time_offset.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_event_get_running_time_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1122,8 +1186,7 @@ public class Event extends Struct {
     public int getSeqnum() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_event_get_seqnum.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_event_get_seqnum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1141,12 +1204,11 @@ public class Event extends Struct {
     public @Nullable org.gstreamer.gst.Structure getStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_get_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_get_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1156,15 +1218,17 @@ public class Event extends Struct {
      * @return {@code true} if {@code name} matches the name of the event structure.
      */
     public boolean hasName(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_event_has_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_event_has_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1193,24 +1257,26 @@ public class Event extends Struct {
      * @param async A pointer to store the async-flag in
      */
     public void parseBufferSize(Out<org.gstreamer.gst.Format> format, Out<Long> minsize, Out<Long> maxsize, Out<Boolean> async) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment minsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment asyncPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_buffer_size.invokeExact(
-                    handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) minsizePOINTER.address(),
-                    (Addressable) maxsizePOINTER.address(),
-                    (Addressable) asyncPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment minsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment asyncPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_buffer_size.invokeExact(
+                        handle(),
+                        (Addressable) formatPOINTER.address(),
+                        (Addressable) minsizePOINTER.address(),
+                        (Addressable) maxsizePOINTER.address(),
+                        (Addressable) asyncPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    minsize.set(minsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    async.set(asyncPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        minsize.set(minsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        async.set(asyncPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1219,15 +1285,17 @@ public class Event extends Struct {
      * @param caps A pointer to the caps
      */
     public void parseCaps(Out<org.gstreamer.gst.Caps> caps) {
-        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_caps.invokeExact(
-                    handle(),
-                    (Addressable) capsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment capsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_caps.invokeExact(
+                        handle(),
+                        (Addressable) capsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1235,15 +1303,17 @@ public class Event extends Struct {
      * @param resetTime if time should be reset
      */
     public void parseFlushStop(Out<Boolean> resetTime) {
-        MemorySegment resetTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_flush_stop.invokeExact(
-                    handle(),
-                    (Addressable) resetTimePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment resetTimePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_flush_stop.invokeExact(
+                        handle(),
+                        (Addressable) resetTimePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    resetTime.set(resetTimePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        resetTime.set(resetTimePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1254,18 +1324,20 @@ public class Event extends Struct {
      *     the gap, or {@code null}
      */
     public void parseGap(@Nullable org.gstreamer.gst.ClockTime timestamp, @Nullable org.gstreamer.gst.ClockTime duration) {
-        MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_gap.invokeExact(
-                    handle(),
-                    (Addressable) (timestamp == null ? MemoryAddress.NULL : (Addressable) timestampPOINTER.address()),
-                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment timestampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment durationPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_gap.invokeExact(
+                        handle(),
+                        (Addressable) (timestamp == null ? MemoryAddress.NULL : (Addressable) timestampPOINTER.address()),
+                        (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (timestamp != null) timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (duration != null) duration.setValue(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (timestamp != null) timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (duration != null) duration.setValue(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1274,29 +1346,33 @@ public class Event extends Struct {
      * @param flags a {@link GapFlags} or {@code null}
      */
     public void parseGapFlags(Out<org.gstreamer.gst.GapFlags> flags) {
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_gap_flags.invokeExact(
-                    handle(),
-                    (Addressable) flagsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment flagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_gap_flags.invokeExact(
+                        handle(),
+                        (Addressable) flagsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    flags.set(new org.gstreamer.gst.GapFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        flags.set(new org.gstreamer.gst.GapFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     public boolean parseGroupId(Out<Integer> groupId) {
-        MemorySegment groupIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_event_parse_group_id.invokeExact(
-                    handle(),
-                    (Addressable) groupIdPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment groupIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_event_parse_group_id.invokeExact(
+                        handle(),
+                        (Addressable) groupIdPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1307,18 +1383,20 @@ public class Event extends Struct {
      *     segment flags of the instant-rate-change event, or {@code null}
      */
     public void parseInstantRateChange(Out<Double> rateMultiplier, @Nullable Out<org.gstreamer.gst.SegmentFlags> newFlags) {
-        MemorySegment rateMultiplierPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment newFlagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_instant_rate_change.invokeExact(
-                    handle(),
-                    (Addressable) (rateMultiplier == null ? MemoryAddress.NULL : (Addressable) rateMultiplierPOINTER.address()),
-                    (Addressable) (newFlags == null ? MemoryAddress.NULL : (Addressable) newFlagsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rateMultiplierPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment newFlagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_instant_rate_change.invokeExact(
+                        handle(),
+                        (Addressable) (rateMultiplier == null ? MemoryAddress.NULL : (Addressable) rateMultiplierPOINTER.address()),
+                        (Addressable) (newFlags == null ? MemoryAddress.NULL : (Addressable) newFlagsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (rateMultiplier != null) rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (newFlags != null) newFlags.set(new org.gstreamer.gst.SegmentFlags(newFlagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        if (rateMultiplier != null) rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (newFlags != null) newFlags.set(new org.gstreamer.gst.SegmentFlags(newFlagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -1331,21 +1409,23 @@ public class Event extends Struct {
      *     upstream running time of the instant-rate-sync-time event, or {@code null}
      */
     public void parseInstantRateSyncTime(Out<Double> rateMultiplier, @Nullable org.gstreamer.gst.ClockTime runningTime, @Nullable org.gstreamer.gst.ClockTime upstreamRunningTime) {
-        MemorySegment rateMultiplierPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment upstreamRunningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_instant_rate_sync_time.invokeExact(
-                    handle(),
-                    (Addressable) (rateMultiplier == null ? MemoryAddress.NULL : (Addressable) rateMultiplierPOINTER.address()),
-                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()),
-                    (Addressable) (upstreamRunningTime == null ? MemoryAddress.NULL : (Addressable) upstreamRunningTimePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rateMultiplierPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment runningTimePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment upstreamRunningTimePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_instant_rate_sync_time.invokeExact(
+                        handle(),
+                        (Addressable) (rateMultiplier == null ? MemoryAddress.NULL : (Addressable) rateMultiplierPOINTER.address()),
+                        (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()),
+                        (Addressable) (upstreamRunningTime == null ? MemoryAddress.NULL : (Addressable) upstreamRunningTimePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (rateMultiplier != null) rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (runningTime != null) runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (upstreamRunningTime != null) upstreamRunningTime.setValue(upstreamRunningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (rateMultiplier != null) rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (runningTime != null) runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (upstreamRunningTime != null) upstreamRunningTime.setValue(upstreamRunningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1353,15 +1433,17 @@ public class Event extends Struct {
      * @param latency A pointer to store the latency in.
      */
     public void parseLatency(org.gstreamer.gst.ClockTime latency) {
-        MemorySegment latencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_latency.invokeExact(
-                    handle(),
-                    (Addressable) latencyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment latencyPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_latency.invokeExact(
+                        handle(),
+                        (Addressable) latencyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    latency.setValue(latencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        latency.setValue(latencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1377,21 +1459,23 @@ public class Event extends Struct {
      * from.
      */
     public void parseProtection(@Nullable Out<java.lang.String> systemId, @Nullable Out<org.gstreamer.gst.Buffer> data, @Nullable Out<java.lang.String> origin) {
-        MemorySegment systemIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment originPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_protection.invokeExact(
-                    handle(),
-                    (Addressable) (systemId == null ? MemoryAddress.NULL : (Addressable) systemIdPOINTER.address()),
-                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
-                    (Addressable) (origin == null ? MemoryAddress.NULL : (Addressable) originPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment systemIdPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment originPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_protection.invokeExact(
+                        handle(),
+                        (Addressable) (systemId == null ? MemoryAddress.NULL : (Addressable) systemIdPOINTER.address()),
+                        (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
+                        (Addressable) (origin == null ? MemoryAddress.NULL : (Addressable) originPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (systemId != null) systemId.set(Marshal.addressToString.marshal(systemIdPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (data != null) data.set(org.gstreamer.gst.Buffer.fromAddress.marshal(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (origin != null) origin.set(Marshal.addressToString.marshal(originPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (systemId != null) systemId.set(Marshal.addressToString.marshal(systemIdPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (data != null) data.set(org.gstreamer.gst.Buffer.fromAddress.marshal(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (origin != null) origin.set(Marshal.addressToString.marshal(originPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1405,24 +1489,26 @@ public class Event extends Struct {
      * @param timestamp A pointer to store the timestamp in
      */
     public void parseQos(Out<org.gstreamer.gst.QOSType> type, Out<Double> proportion, org.gstreamer.gst.ClockTimeDiff diff, org.gstreamer.gst.ClockTime timestamp) {
-        MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment proportionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment diffPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_qos.invokeExact(
-                    handle(),
-                    (Addressable) typePOINTER.address(),
-                    (Addressable) proportionPOINTER.address(),
-                    (Addressable) diffPOINTER.address(),
-                    (Addressable) timestampPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment typePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment proportionPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment diffPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment timestampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_qos.invokeExact(
+                        handle(),
+                        (Addressable) typePOINTER.address(),
+                        (Addressable) proportionPOINTER.address(),
+                        (Addressable) diffPOINTER.address(),
+                        (Addressable) timestampPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    type.set(org.gstreamer.gst.QOSType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    proportion.set(proportionPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    diff.setValue(diffPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        type.set(org.gstreamer.gst.QOSType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        proportion.set(proportionPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        diff.setValue(diffPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1436,33 +1522,35 @@ public class Event extends Struct {
      * @param stop result location for the stop position expressed in {@code format}
      */
     public void parseSeek(Out<Double> rate, Out<org.gstreamer.gst.Format> format, Out<org.gstreamer.gst.SeekFlags> flags, Out<org.gstreamer.gst.SeekType> startType, Out<Long> start, Out<org.gstreamer.gst.SeekType> stopType, Out<Long> stop) {
-        MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment startTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment stopTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_seek.invokeExact(
-                    handle(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) flagsPOINTER.address(),
-                    (Addressable) startTypePOINTER.address(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) stopTypePOINTER.address(),
-                    (Addressable) stopPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment ratePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment flagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment startTypePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment startPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment stopTypePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment stopPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_seek.invokeExact(
+                        handle(),
+                        (Addressable) ratePOINTER.address(),
+                        (Addressable) formatPOINTER.address(),
+                        (Addressable) flagsPOINTER.address(),
+                        (Addressable) startTypePOINTER.address(),
+                        (Addressable) startPOINTER.address(),
+                        (Addressable) stopTypePOINTER.address(),
+                        (Addressable) stopPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    flags.set(new org.gstreamer.gst.SeekFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    startType.set(org.gstreamer.gst.SeekType.of(startTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    stopType.set(org.gstreamer.gst.SeekType.of(stopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        flags.set(new org.gstreamer.gst.SeekFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        startType.set(org.gstreamer.gst.SeekType.of(startTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stopType.set(org.gstreamer.gst.SeekType.of(stopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1470,15 +1558,17 @@ public class Event extends Struct {
      * seek event with gst_event_set_seek_trickmode_interval().
      */
     public void parseSeekTrickmodeInterval(org.gstreamer.gst.ClockTime interval) {
-        MemorySegment intervalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_seek_trickmode_interval.invokeExact(
-                    handle(),
-                    (Addressable) intervalPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment intervalPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_seek_trickmode_interval.invokeExact(
+                        handle(),
+                        (Addressable) intervalPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    interval.setValue(intervalPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        interval.setValue(intervalPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1488,15 +1578,17 @@ public class Event extends Struct {
      * @param segment a pointer to a {@link Segment}
      */
     public void parseSegment(Out<org.gstreamer.gst.Segment> segment) {
-        MemorySegment segmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_segment.invokeExact(
-                    handle(),
-                    (Addressable) segmentPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment segmentPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_segment.invokeExact(
+                        handle(),
+                        (Addressable) segmentPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    segment.set(org.gstreamer.gst.Segment.fromAddress.marshal(segmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        segment.set(org.gstreamer.gst.Segment.fromAddress.marshal(segmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1505,18 +1597,20 @@ public class Event extends Struct {
      * @param position Result location for the position, or {@code null}
      */
     public void parseSegmentDone(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> position) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_event_parse_segment_done.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment positionPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_event_parse_segment_done.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1524,15 +1618,17 @@ public class Event extends Struct {
      * @param streams the streams
      */
     public void parseSelectStreams(Out<org.gtk.glib.List> streams) {
-        MemorySegment streamsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_select_streams.invokeExact(
-                    handle(),
-                    (Addressable) streamsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment streamsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_select_streams.invokeExact(
+                        handle(),
+                        (Addressable) streamsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    streams.set(org.gtk.glib.List.fromAddress.marshal(streamsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        streams.set(org.gtk.glib.List.fromAddress.marshal(streamsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1540,15 +1636,17 @@ public class Event extends Struct {
      * @param msg a pointer to store the {@link Message} in.
      */
     public void parseSinkMessage(Out<org.gstreamer.gst.Message> msg) {
-        MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_sink_message.invokeExact(
-                    handle(),
-                    (Addressable) msgPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment msgPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_sink_message.invokeExact(
+                        handle(),
+                        (Addressable) msgPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    msg.set(org.gstreamer.gst.Message.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        msg.set(org.gstreamer.gst.Message.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1561,27 +1659,29 @@ public class Event extends Struct {
      *     boolean in
      */
     public void parseStep(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> amount, Out<Double> rate, Out<Boolean> flush, Out<Boolean> intermediate) {
-        MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment amountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment flushPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment intermediatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_step.invokeExact(
-                    handle(),
-                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
-                    (Addressable) (amount == null ? MemoryAddress.NULL : (Addressable) amountPOINTER.address()),
-                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
-                    (Addressable) (flush == null ? MemoryAddress.NULL : (Addressable) flushPOINTER.address()),
-                    (Addressable) (intermediate == null ? MemoryAddress.NULL : (Addressable) intermediatePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment formatPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment amountPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment ratePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment flushPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment intermediatePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_step.invokeExact(
+                        handle(),
+                        (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                        (Addressable) (amount == null ? MemoryAddress.NULL : (Addressable) amountPOINTER.address()),
+                        (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                        (Addressable) (flush == null ? MemoryAddress.NULL : (Addressable) flushPOINTER.address()),
+                        (Addressable) (intermediate == null ? MemoryAddress.NULL : (Addressable) intermediatePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (amount != null) amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (flush != null) flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+                    if (intermediate != null) intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (amount != null) amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (flush != null) flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        if (intermediate != null) intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1589,15 +1689,17 @@ public class Event extends Struct {
      * @param stream address of variable to store the stream
      */
     public void parseStream(Out<org.gstreamer.gst.Stream> stream) {
-        MemorySegment streamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_stream.invokeExact(
-                    handle(),
-                    (Addressable) streamPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment streamPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_stream.invokeExact(
+                        handle(),
+                        (Addressable) streamPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    stream.set((org.gstreamer.gst.Stream) Interop.register(streamPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Stream.fromAddress).marshal(streamPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        stream.set((org.gstreamer.gst.Stream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(streamPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Stream.fromAddress).marshal(streamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1605,27 +1707,31 @@ public class Event extends Struct {
      * @param collection pointer to store the collection
      */
     public void parseStreamCollection(Out<org.gstreamer.gst.StreamCollection> collection) {
-        MemorySegment collectionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_stream_collection.invokeExact(
-                    handle(),
-                    (Addressable) collectionPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment collectionPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_stream_collection.invokeExact(
+                        handle(),
+                        (Addressable) collectionPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    collection.set((org.gstreamer.gst.StreamCollection) Interop.register(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.StreamCollection.fromAddress).marshal(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        collection.set((org.gstreamer.gst.StreamCollection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.StreamCollection.fromAddress).marshal(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     public void parseStreamFlags(Out<org.gstreamer.gst.StreamFlags> flags) {
-        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_stream_flags.invokeExact(
-                    handle(),
-                    (Addressable) flagsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment flagsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_stream_flags.invokeExact(
+                        handle(),
+                        (Addressable) flagsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    flags.set(new org.gstreamer.gst.StreamFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        flags.set(new org.gstreamer.gst.StreamFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -1634,15 +1740,17 @@ public class Event extends Struct {
      * @param groupId address of variable to store the group id into
      */
     public void parseStreamGroupDone(Out<Integer> groupId) {
-        MemorySegment groupIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_stream_group_done.invokeExact(
-                    handle(),
-                    (Addressable) groupIdPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment groupIdPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_stream_group_done.invokeExact(
+                        handle(),
+                        (Addressable) groupIdPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1653,15 +1761,17 @@ public class Event extends Struct {
      * @param streamId pointer to store the stream-id
      */
     public void parseStreamStart(Out<java.lang.String> streamId) {
-        MemorySegment streamIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_stream_start.invokeExact(
-                    handle(),
-                    (Addressable) streamIdPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment streamIdPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_stream_start.invokeExact(
+                        handle(),
+                        (Addressable) streamIdPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    streamId.set(Marshal.addressToString.marshal(streamIdPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        streamId.set(Marshal.addressToString.marshal(streamIdPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1672,15 +1782,17 @@ public class Event extends Struct {
      * @param taglist pointer to metadata list
      */
     public void parseTag(Out<org.gstreamer.gst.TagList> taglist) {
-        MemorySegment taglistPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_tag.invokeExact(
-                    handle(),
-                    (Addressable) taglistPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment taglistPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_tag.invokeExact(
+                        handle(),
+                        (Addressable) taglistPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    taglist.set(org.gstreamer.gst.TagList.fromAddress.marshal(taglistPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        taglist.set(org.gstreamer.gst.TagList.fromAddress.marshal(taglistPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1689,18 +1801,20 @@ public class Event extends Struct {
      * @param updated pointer to store TOC updated flag.
      */
     public void parseToc(Out<org.gstreamer.gst.Toc> toc, Out<Boolean> updated) {
-        MemorySegment tocPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment updatedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_event_parse_toc.invokeExact(
-                    handle(),
-                    (Addressable) tocPOINTER.address(),
-                    (Addressable) updatedPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment tocPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment updatedPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_event_parse_toc.invokeExact(
+                        handle(),
+                        (Addressable) tocPOINTER.address(),
+                        (Addressable) updatedPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    toc.set(org.gstreamer.gst.Toc.fromAddress.marshal(tocPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    updated.set(updatedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         }
-        toc.set(org.gstreamer.gst.Toc.fromAddress.marshal(tocPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        updated.set(updatedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1708,15 +1822,17 @@ public class Event extends Struct {
      * @param uid storage for the selection UID.
      */
     public void parseTocSelect(@Nullable Out<java.lang.String> uid) {
-        MemorySegment uidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_event_parse_toc_select.invokeExact(
-                    handle(),
-                    (Addressable) (uid == null ? MemoryAddress.NULL : (Addressable) uidPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment uidPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_event_parse_toc_select.invokeExact(
+                        handle(),
+                        (Addressable) (uid == null ? MemoryAddress.NULL : (Addressable) uidPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (uid != null) uid.set(Marshal.addressToString.marshal(uidPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (uid != null) uid.set(Marshal.addressToString.marshal(uidPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1843,410 +1959,409 @@ public class Event extends Struct {
     public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_event_writable_structure.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_event_writable_structure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_event_new_buffer_size = Interop.downcallHandle(
-            "gst_event_new_buffer_size",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_buffer_size",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_caps = Interop.downcallHandle(
-            "gst_event_new_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_custom = Interop.downcallHandle(
-            "gst_event_new_custom",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_custom",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_eos = Interop.downcallHandle(
-            "gst_event_new_eos",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_eos",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_flush_start = Interop.downcallHandle(
-            "gst_event_new_flush_start",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_flush_start",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_flush_stop = Interop.downcallHandle(
-            "gst_event_new_flush_stop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_flush_stop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_gap = Interop.downcallHandle(
-            "gst_event_new_gap",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_gap",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_instant_rate_change = Interop.downcallHandle(
-            "gst_event_new_instant_rate_change",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_instant_rate_change",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_instant_rate_sync_time = Interop.downcallHandle(
-            "gst_event_new_instant_rate_sync_time",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_instant_rate_sync_time",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_latency = Interop.downcallHandle(
-            "gst_event_new_latency",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_latency",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_navigation = Interop.downcallHandle(
-            "gst_event_new_navigation",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_navigation",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_protection = Interop.downcallHandle(
-            "gst_event_new_protection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_protection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_qos = Interop.downcallHandle(
-            "gst_event_new_qos",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_qos",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_reconfigure = Interop.downcallHandle(
-            "gst_event_new_reconfigure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_reconfigure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_seek = Interop.downcallHandle(
-            "gst_event_new_seek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_seek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_segment = Interop.downcallHandle(
-            "gst_event_new_segment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_segment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_segment_done = Interop.downcallHandle(
-            "gst_event_new_segment_done",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_new_segment_done",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_new_select_streams = Interop.downcallHandle(
-            "gst_event_new_select_streams",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_select_streams",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_sink_message = Interop.downcallHandle(
-            "gst_event_new_sink_message",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_sink_message",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_step = Interop.downcallHandle(
-            "gst_event_new_step",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_step",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_stream_collection = Interop.downcallHandle(
-            "gst_event_new_stream_collection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_stream_collection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_stream_group_done = Interop.downcallHandle(
-            "gst_event_new_stream_group_done",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_stream_group_done",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_stream_start = Interop.downcallHandle(
-            "gst_event_new_stream_start",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_stream_start",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_tag = Interop.downcallHandle(
-            "gst_event_new_tag",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_tag",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_new_toc = Interop.downcallHandle(
-            "gst_event_new_toc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_new_toc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_new_toc_select = Interop.downcallHandle(
-            "gst_event_new_toc_select",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_new_toc_select",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_copy_segment = Interop.downcallHandle(
-            "gst_event_copy_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_copy_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_get_running_time_offset = Interop.downcallHandle(
-            "gst_event_get_running_time_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_get_running_time_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_get_seqnum = Interop.downcallHandle(
-            "gst_event_get_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_get_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_get_structure = Interop.downcallHandle(
-            "gst_event_get_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_get_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_has_name = Interop.downcallHandle(
-            "gst_event_has_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_has_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_has_name_id = Interop.downcallHandle(
-            "gst_event_has_name_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_has_name_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_buffer_size = Interop.downcallHandle(
-            "gst_event_parse_buffer_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_buffer_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_caps = Interop.downcallHandle(
-            "gst_event_parse_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_flush_stop = Interop.downcallHandle(
-            "gst_event_parse_flush_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_flush_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_gap = Interop.downcallHandle(
-            "gst_event_parse_gap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_gap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_gap_flags = Interop.downcallHandle(
-            "gst_event_parse_gap_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_gap_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_group_id = Interop.downcallHandle(
-            "gst_event_parse_group_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_group_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_instant_rate_change = Interop.downcallHandle(
-            "gst_event_parse_instant_rate_change",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_instant_rate_change",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_instant_rate_sync_time = Interop.downcallHandle(
-            "gst_event_parse_instant_rate_sync_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_instant_rate_sync_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_latency = Interop.downcallHandle(
-            "gst_event_parse_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_protection = Interop.downcallHandle(
-            "gst_event_parse_protection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_protection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_qos = Interop.downcallHandle(
-            "gst_event_parse_qos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_qos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_seek = Interop.downcallHandle(
-            "gst_event_parse_seek",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_seek",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_seek_trickmode_interval = Interop.downcallHandle(
-            "gst_event_parse_seek_trickmode_interval",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_seek_trickmode_interval",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_segment = Interop.downcallHandle(
-            "gst_event_parse_segment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_segment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_segment_done = Interop.downcallHandle(
-            "gst_event_parse_segment_done",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_segment_done",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_select_streams = Interop.downcallHandle(
-            "gst_event_parse_select_streams",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_select_streams",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_sink_message = Interop.downcallHandle(
-            "gst_event_parse_sink_message",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_sink_message",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_step = Interop.downcallHandle(
-            "gst_event_parse_step",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_step",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_stream = Interop.downcallHandle(
-            "gst_event_parse_stream",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_stream",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_stream_collection = Interop.downcallHandle(
-            "gst_event_parse_stream_collection",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_stream_collection",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_stream_flags = Interop.downcallHandle(
-            "gst_event_parse_stream_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_stream_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_stream_group_done = Interop.downcallHandle(
-            "gst_event_parse_stream_group_done",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_stream_group_done",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_stream_start = Interop.downcallHandle(
-            "gst_event_parse_stream_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_stream_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_tag = Interop.downcallHandle(
-            "gst_event_parse_tag",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_tag",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_parse_toc = Interop.downcallHandle(
-            "gst_event_parse_toc",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_parse_toc",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_parse_toc_select = Interop.downcallHandle(
-            "gst_event_parse_toc_select",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_parse_toc_select",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_set_gap_flags = Interop.downcallHandle(
-            "gst_event_set_gap_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_set_gap_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_set_group_id = Interop.downcallHandle(
-            "gst_event_set_group_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_set_group_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_set_running_time_offset = Interop.downcallHandle(
-            "gst_event_set_running_time_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_set_running_time_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_set_seek_trickmode_interval = Interop.downcallHandle(
-            "gst_event_set_seek_trickmode_interval",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_event_set_seek_trickmode_interval",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_event_set_seqnum = Interop.downcallHandle(
-            "gst_event_set_seqnum",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_set_seqnum",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_set_stream = Interop.downcallHandle(
-            "gst_event_set_stream",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_set_stream",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_event_set_stream_flags = Interop.downcallHandle(
-            "gst_event_set_stream_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_event_set_stream_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_event_writable_structure = Interop.downcallHandle(
-            "gst_event_writable_structure",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_event_writable_structure",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -2272,7 +2387,7 @@ public class Event extends Struct {
             struct = Event.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Event} struct.
          * @return A new instance of {@code Event} with the fields 
          *         that were set in the Builder object.
@@ -2287,10 +2402,12 @@ public class Event extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2299,10 +2416,12 @@ public class Event extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.gst.EventType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -2311,10 +2430,12 @@ public class Event extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTimestamp(long timestamp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), timestamp);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), timestamp);
+                return this;
+            }
         }
         
         /**
@@ -2323,10 +2444,12 @@ public class Event extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSeqnum(int seqnum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqnum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), seqnum);
+                return this;
+            }
         }
     }
 }

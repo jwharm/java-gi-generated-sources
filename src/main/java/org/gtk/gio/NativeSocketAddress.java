@@ -31,14 +31,16 @@ public class NativeSocketAddress extends org.gtk.gio.SocketAddress implements or
     /**
      * Create a NativeSocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NativeSocketAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NativeSocketAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NativeSocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeSocketAddress(input, ownership);
+    public static final Marshal<Addressable, NativeSocketAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NativeSocketAddress(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.foreign.MemoryAddress native_, long len) {
         MemoryAddress RESULT;
@@ -58,7 +60,8 @@ public class NativeSocketAddress extends org.gtk.gio.SocketAddress implements or
      * @param len the length of {@code native}, in bytes
      */
     public NativeSocketAddress(@Nullable java.lang.foreign.MemoryAddress native_, long len) {
-        super(constructNew(native_, len), Ownership.FULL);
+        super(constructNew(native_, len));
+        this.takeOwnership();
     }
     
     /**
@@ -91,6 +94,9 @@ public class NativeSocketAddress extends org.gtk.gio.SocketAddress implements or
      */
     public static class Builder extends org.gtk.gio.SocketAddress.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -115,15 +121,23 @@ public class NativeSocketAddress extends org.gtk.gio.SocketAddress implements or
     private static class DowncallHandles {
         
         private static final MethodHandle g_native_socket_address_new = Interop.downcallHandle(
-            "g_native_socket_address_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_native_socket_address_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_native_socket_address_get_type = Interop.downcallHandle(
-            "g_native_socket_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_native_socket_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_native_socket_address_get_type != null;
     }
 }

@@ -34,8 +34,8 @@ public class LogicalChannel extends Struct {
      * @return A new, uninitialized @{link LogicalChannel}
      */
     public static LogicalChannel allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LogicalChannel newInstance = new LogicalChannel(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LogicalChannel newInstance = new LogicalChannel(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class LogicalChannel extends Struct {
      * @return The value of the field {@code service_id}
      */
     public short getServiceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class LogicalChannel extends Struct {
      * @param serviceId The new value of the field {@code service_id}
      */
     public void setServiceId(short serviceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class LogicalChannel extends Struct {
      * @return The value of the field {@code visible_service}
      */
     public boolean getVisibleService() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class LogicalChannel extends Struct {
      * @param visibleService The new value of the field {@code visible_service}
      */
     public void setVisibleService(boolean visibleService) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class LogicalChannel extends Struct {
      * @return The value of the field {@code logical_channel_number}
      */
     public short getLogicalChannelNumber() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -98,22 +108,26 @@ public class LogicalChannel extends Struct {
      * @param logicalChannelNumber The new value of the field {@code logical_channel_number}
      */
     public void setLogicalChannelNumber(short logicalChannelNumber) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), logicalChannelNumber);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), logicalChannelNumber);
+        }
     }
     
     /**
      * Create a LogicalChannel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LogicalChannel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LogicalChannel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LogicalChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogicalChannel(input, ownership);
+    public static final Marshal<Addressable, LogicalChannel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LogicalChannel(input);
     
     /**
      * A {@link LogicalChannel.Builder} object constructs a {@link LogicalChannel} 
@@ -137,7 +151,7 @@ public class LogicalChannel extends Struct {
             struct = LogicalChannel.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LogicalChannel} struct.
          * @return A new instance of {@code LogicalChannel} with the fields 
          *         that were set in the Builder object.
@@ -147,24 +161,30 @@ public class LogicalChannel extends Struct {
         }
         
         public Builder setServiceId(short serviceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), serviceId);
+                return this;
+            }
         }
         
         public Builder setVisibleService(boolean visibleService) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
+                return this;
+            }
         }
         
         public Builder setLogicalChannelNumber(short logicalChannelNumber) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), logicalChannelNumber);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), logicalChannelNumber);
+                return this;
+            }
         }
     }
 }

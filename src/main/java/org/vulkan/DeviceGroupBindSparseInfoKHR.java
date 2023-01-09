@@ -29,8 +29,8 @@ public class DeviceGroupBindSparseInfoKHR extends Struct {
      * @return A new, uninitialized @{link DeviceGroupBindSparseInfoKHR}
      */
     public static DeviceGroupBindSparseInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceGroupBindSparseInfoKHR newInstance = new DeviceGroupBindSparseInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceGroupBindSparseInfoKHR newInstance = new DeviceGroupBindSparseInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceGroupBindSparseInfoKHR extends Struct {
     /**
      * Create a DeviceGroupBindSparseInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceGroupBindSparseInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceGroupBindSparseInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceGroupBindSparseInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupBindSparseInfoKHR(input, ownership);
+    public static final Marshal<Addressable, DeviceGroupBindSparseInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupBindSparseInfoKHR(input);
 }

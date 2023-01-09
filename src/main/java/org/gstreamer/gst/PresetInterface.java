@@ -43,8 +43,8 @@ public class PresetInterface extends Struct {
      * @return A new, uninitialized @{link PresetInterface}
      */
     public static PresetInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PresetInterface newInstance = new PresetInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PresetInterface newInstance = new PresetInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,7 +55,7 @@ public class PresetInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -63,24 +63,43 @@ public class PresetInterface extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.gobject.TypeInterface parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPresetNamesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPresetNamesCallback {
+    
         java.lang.String[] run(org.gstreamer.gst.Preset preset);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress preset) {
-            run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPresetNamesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPresetNamesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -89,24 +108,43 @@ public class PresetInterface extends Struct {
      * @param getPresetNames The new value of the field {@code get_preset_names}
      */
     public void setGetPresetNames(GetPresetNamesCallback getPresetNames) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preset_names"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPresetNames == null ? MemoryAddress.NULL : getPresetNames.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preset_names"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPresetNames == null ? MemoryAddress.NULL : getPresetNames.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPropertyNamesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPropertyNamesCallback {
+    
         java.lang.String[] run(org.gstreamer.gst.Preset preset);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress preset) {
-            run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPropertyNamesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPropertyNamesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,25 +153,44 @@ public class PresetInterface extends Struct {
      * @param getPropertyNames The new value of the field {@code get_property_names}
      */
     public void setGetPropertyNames(GetPropertyNamesCallback getPropertyNames) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_property_names"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPropertyNames == null ? MemoryAddress.NULL : getPropertyNames.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_property_names"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPropertyNames == null ? MemoryAddress.NULL : getPropertyNames.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadPresetCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadPresetCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String name);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress name) {
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(name, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(name, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadPresetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadPresetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -142,25 +199,44 @@ public class PresetInterface extends Struct {
      * @param loadPreset The new value of the field {@code load_preset}
      */
     public void setLoadPreset(LoadPresetCallback loadPreset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_preset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadPreset == null ? MemoryAddress.NULL : loadPreset.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_preset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadPreset == null ? MemoryAddress.NULL : loadPreset.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SavePresetCallback} callback.
+     */
     @FunctionalInterface
     public interface SavePresetCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String name);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress name) {
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(name, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(name, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SavePresetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SavePresetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -169,25 +245,44 @@ public class PresetInterface extends Struct {
      * @param savePreset The new value of the field {@code save_preset}
      */
     public void setSavePreset(SavePresetCallback savePreset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("save_preset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (savePreset == null ? MemoryAddress.NULL : savePreset.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("save_preset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (savePreset == null ? MemoryAddress.NULL : savePreset.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code RenamePresetCallback} callback.
+     */
     @FunctionalInterface
     public interface RenamePresetCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String oldName, java.lang.String newName);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress oldName, MemoryAddress newName) {
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(oldName, null), Marshal.addressToString.marshal(newName, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(oldName, null), Marshal.addressToString.marshal(newName, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RenamePresetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RenamePresetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -196,25 +291,44 @@ public class PresetInterface extends Struct {
      * @param renamePreset The new value of the field {@code rename_preset}
      */
     public void setRenamePreset(RenamePresetCallback renamePreset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("rename_preset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renamePreset == null ? MemoryAddress.NULL : renamePreset.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("rename_preset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renamePreset == null ? MemoryAddress.NULL : renamePreset.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DeletePresetCallback} callback.
+     */
     @FunctionalInterface
     public interface DeletePresetCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String name);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress name) {
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(name, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(name, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeletePresetCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DeletePresetCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -223,25 +337,44 @@ public class PresetInterface extends Struct {
      * @param deletePreset The new value of the field {@code delete_preset}
      */
     public void setDeletePreset(DeletePresetCallback deletePreset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delete_preset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deletePreset == null ? MemoryAddress.NULL : deletePreset.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delete_preset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deletePreset == null ? MemoryAddress.NULL : deletePreset.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetMetaCallback} callback.
+     */
     @FunctionalInterface
     public interface SetMetaCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String name, java.lang.String tag, @Nullable java.lang.String value);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress name, MemoryAddress tag, MemoryAddress value) {
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(name, null), Marshal.addressToString.marshal(tag, null), Marshal.addressToString.marshal(value, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(name, null), Marshal.addressToString.marshal(tag, null), Marshal.addressToString.marshal(value, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetMetaCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetMetaCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -250,27 +383,46 @@ public class PresetInterface extends Struct {
      * @param setMeta The new value of the field {@code set_meta}
      */
     public void setSetMeta(SetMetaCallback setMeta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setMeta == null ? MemoryAddress.NULL : setMeta.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setMeta == null ? MemoryAddress.NULL : setMeta.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMetaCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMetaCallback {
+    
         boolean run(org.gstreamer.gst.Preset preset, java.lang.String name, java.lang.String tag, Out<java.lang.String> value);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress preset, MemoryAddress name, MemoryAddress tag, MemoryAddress value) {
-            Out<java.lang.String> valueOUT = new Out<>(Marshal.addressToString.marshal(value, null));
-            var RESULT = run((org.gstreamer.gst.Preset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preset)), org.gstreamer.gst.Preset.fromAddress).marshal(preset, Ownership.NONE), Marshal.addressToString.marshal(name, null), Marshal.addressToString.marshal(tag, null), valueOUT);
-            value.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(valueOUT.get(), null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<java.lang.String> valueOUT = new Out<>(Marshal.addressToString.marshal(value, null));
+                var RESULT = run((org.gstreamer.gst.Preset) Interop.register(preset, org.gstreamer.gst.Preset.fromAddress).marshal(preset, null), Marshal.addressToString.marshal(name, null), Marshal.addressToString.marshal(tag, null), valueOUT);
+                value.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(valueOUT.get(), SCOPE));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMetaCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMetaCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -279,22 +431,26 @@ public class PresetInterface extends Struct {
      * @param getMeta The new value of the field {@code get_meta}
      */
     public void setGetMeta(GetMetaCallback getMeta) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMeta == null ? MemoryAddress.NULL : getMeta.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_meta"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMeta == null ? MemoryAddress.NULL : getMeta.toCallback()));
+        }
     }
     
     /**
      * Create a PresetInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PresetInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PresetInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PresetInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PresetInterface(input, ownership);
+    public static final Marshal<Addressable, PresetInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PresetInterface(input);
     
     /**
      * A {@link PresetInterface.Builder} object constructs a {@link PresetInterface} 
@@ -318,7 +474,7 @@ public class PresetInterface extends Struct {
             struct = PresetInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PresetInterface} struct.
          * @return A new instance of {@code PresetInterface} with the fields 
          *         that were set in the Builder object.
@@ -333,73 +489,93 @@ public class PresetInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gtk.gobject.TypeInterface parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setGetPresetNames(GetPresetNamesCallback getPresetNames) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preset_names"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPresetNames == null ? MemoryAddress.NULL : getPresetNames.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preset_names"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPresetNames == null ? MemoryAddress.NULL : getPresetNames.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPropertyNames(GetPropertyNamesCallback getPropertyNames) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_property_names"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPropertyNames == null ? MemoryAddress.NULL : getPropertyNames.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_property_names"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPropertyNames == null ? MemoryAddress.NULL : getPropertyNames.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLoadPreset(LoadPresetCallback loadPreset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_preset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadPreset == null ? MemoryAddress.NULL : loadPreset.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_preset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadPreset == null ? MemoryAddress.NULL : loadPreset.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSavePreset(SavePresetCallback savePreset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("save_preset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (savePreset == null ? MemoryAddress.NULL : savePreset.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("save_preset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (savePreset == null ? MemoryAddress.NULL : savePreset.toCallback()));
+                return this;
+            }
         }
         
         public Builder setRenamePreset(RenamePresetCallback renamePreset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("rename_preset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renamePreset == null ? MemoryAddress.NULL : renamePreset.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("rename_preset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (renamePreset == null ? MemoryAddress.NULL : renamePreset.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDeletePreset(DeletePresetCallback deletePreset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delete_preset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deletePreset == null ? MemoryAddress.NULL : deletePreset.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delete_preset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deletePreset == null ? MemoryAddress.NULL : deletePreset.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetMeta(SetMetaCallback setMeta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setMeta == null ? MemoryAddress.NULL : setMeta.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setMeta == null ? MemoryAddress.NULL : setMeta.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetMeta(GetMetaCallback getMeta) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_meta"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMeta == null ? MemoryAddress.NULL : getMeta.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_meta"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMeta == null ? MemoryAddress.NULL : getMeta.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

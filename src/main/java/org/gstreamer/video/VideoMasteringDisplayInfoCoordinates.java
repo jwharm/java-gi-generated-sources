@@ -37,8 +37,8 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @return A new, uninitialized @{link VideoMasteringDisplayInfoCoordinates}
      */
     public static VideoMasteringDisplayInfoCoordinates allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoMasteringDisplayInfoCoordinates newInstance = new VideoMasteringDisplayInfoCoordinates(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoMasteringDisplayInfoCoordinates newInstance = new VideoMasteringDisplayInfoCoordinates(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @return The value of the field {@code x}
      */
     public short getX() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @param x The new value of the field {@code x}
      */
     public void setX(short x) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @return The value of the field {@code y}
      */
     public short getY() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,22 +86,26 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @param y The new value of the field {@code y}
      */
     public void setY(short y) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y);
+        }
     }
     
     /**
      * Create a VideoMasteringDisplayInfoCoordinates proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoMasteringDisplayInfoCoordinates(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoMasteringDisplayInfoCoordinates(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoMasteringDisplayInfoCoordinates> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMasteringDisplayInfoCoordinates(input, ownership);
+    public static final Marshal<Addressable, VideoMasteringDisplayInfoCoordinates> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoMasteringDisplayInfoCoordinates(input);
     
     /**
      * A {@link VideoMasteringDisplayInfoCoordinates.Builder} object constructs a {@link VideoMasteringDisplayInfoCoordinates} 
@@ -119,7 +129,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
             struct = VideoMasteringDisplayInfoCoordinates.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoMasteringDisplayInfoCoordinates} struct.
          * @return A new instance of {@code VideoMasteringDisplayInfoCoordinates} with the fields 
          *         that were set in the Builder object.
@@ -134,10 +144,12 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX(short x) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x);
+                return this;
+            }
         }
         
         /**
@@ -146,10 +158,12 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY(short y) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y);
+                return this;
+            }
         }
     }
 }

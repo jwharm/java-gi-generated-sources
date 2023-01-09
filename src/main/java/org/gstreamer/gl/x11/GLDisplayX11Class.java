@@ -32,8 +32,8 @@ public class GLDisplayX11Class extends Struct {
      * @return A new, uninitialized @{link GLDisplayX11Class}
      */
     public static GLDisplayX11Class allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLDisplayX11Class newInstance = new GLDisplayX11Class(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLDisplayX11Class newInstance = new GLDisplayX11Class(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class GLDisplayX11Class extends Struct {
      */
     public org.gstreamer.gl.GLDisplayClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return org.gstreamer.gl.GLDisplayClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLDisplayClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,9 +52,11 @@ public class GLDisplayX11Class extends Struct {
      * @param objectClass The new value of the field {@code object_class}
      */
     public void setObjectClass(org.gstreamer.gl.GLDisplayClass objectClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+        }
     }
     
     /**
@@ -62,10 +64,12 @@ public class GLDisplayX11Class extends Struct {
      * @return The value of the field {@code _padding}
      */
     public java.lang.foreign.MemoryAddress[] getPadding() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getAddressArrayFrom(RESULT, 4);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Interop.getAddressArrayFrom(RESULT, 4);
+        }
     }
     
     /**
@@ -73,22 +77,26 @@ public class GLDisplayX11Class extends Struct {
      * @param Padding The new value of the field {@code _padding}
      */
     public void setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+        }
     }
     
     /**
      * Create a GLDisplayX11Class proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLDisplayX11Class(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLDisplayX11Class(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLDisplayX11Class> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayX11Class(input, ownership);
+    public static final Marshal<Addressable, GLDisplayX11Class> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayX11Class(input);
     
     /**
      * A {@link GLDisplayX11Class.Builder} object constructs a {@link GLDisplayX11Class} 
@@ -112,7 +120,7 @@ public class GLDisplayX11Class extends Struct {
             struct = GLDisplayX11Class.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLDisplayX11Class} struct.
          * @return A new instance of {@code GLDisplayX11Class} with the fields 
          *         that were set in the Builder object.
@@ -122,17 +130,21 @@ public class GLDisplayX11Class extends Struct {
         }
         
         public Builder setObjectClass(org.gstreamer.gl.GLDisplayClass objectClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

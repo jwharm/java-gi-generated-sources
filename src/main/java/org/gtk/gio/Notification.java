@@ -72,24 +72,27 @@ public class Notification extends org.gtk.gobject.GObject {
     /**
      * Create a Notification proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Notification(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Notification(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Notification> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Notification(input, ownership);
+    public static final Marshal<Addressable, Notification> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Notification(input);
     
     private static MemoryAddress constructNew(java.lang.String title) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_notification_new.invokeExact(
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_notification_new.invokeExact(Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -102,7 +105,8 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param title the title of the notification
      */
     public Notification(java.lang.String title) {
-        super(constructNew(title), Ownership.FULL);
+        super(constructNew(title));
+        this.takeOwnership();
     }
     
     /**
@@ -118,13 +122,15 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param detailedAction a detailed action name
      */
     public void addButton(java.lang.String label, java.lang.String detailedAction) {
-        try {
-            DowncallHandles.g_notification_add_button.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(label, null),
-                    Marshal.stringToAddress.marshal(detailedAction, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_add_button.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(label, SCOPE),
+                        Marshal.stringToAddress.marshal(detailedAction, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -139,14 +145,16 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param target a {@link org.gtk.glib.Variant} to use as {@code action}'s parameter, or {@code null}
      */
     public void addButtonWithTarget(java.lang.String label, java.lang.String action, @Nullable org.gtk.glib.Variant target) {
-        try {
-            DowncallHandles.g_notification_add_button_with_target_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(label, null),
-                    Marshal.stringToAddress.marshal(action, null),
-                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_add_button_with_target_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(label, SCOPE),
+                        Marshal.stringToAddress.marshal(action, SCOPE),
+                        (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -155,12 +163,14 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param body the new body for {@code notification}, or {@code null}
      */
     public void setBody(@Nullable java.lang.String body) {
-        try {
-            DowncallHandles.g_notification_set_body.invokeExact(
-                    handle(),
-                    (Addressable) (body == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(body, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_set_body.invokeExact(
+                        handle(),
+                        (Addressable) (body == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(body, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -174,12 +184,14 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param category the category for {@code notification}, or {@code null} for no category
      */
     public void setCategory(@Nullable java.lang.String category) {
-        try {
-            DowncallHandles.g_notification_set_category.invokeExact(
-                    handle(),
-                    (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_set_category.invokeExact(
+                        handle(),
+                        (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -198,12 +210,14 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param detailedAction a detailed action name
      */
     public void setDefaultAction(java.lang.String detailedAction) {
-        try {
-            DowncallHandles.g_notification_set_default_action.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(detailedAction, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_set_default_action.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(detailedAction, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -221,13 +235,15 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param target a {@link org.gtk.glib.Variant} to use as {@code action}'s parameter, or {@code null}
      */
     public void setDefaultActionAndTarget(java.lang.String action, @Nullable org.gtk.glib.Variant target) {
-        try {
-            DowncallHandles.g_notification_set_default_action_and_target_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(action, null),
-                    (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_set_default_action_and_target_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(action, SCOPE),
+                        (Addressable) (target == null ? MemoryAddress.NULL : target.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -265,12 +281,14 @@ public class Notification extends org.gtk.gobject.GObject {
      * @param title the new title for {@code notification}
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.g_notification_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_notification_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -321,6 +339,9 @@ public class Notification extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -345,75 +366,83 @@ public class Notification extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_notification_new = Interop.downcallHandle(
-            "g_notification_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_add_button = Interop.downcallHandle(
-            "g_notification_add_button",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_add_button",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_add_button_with_target_value = Interop.downcallHandle(
-            "g_notification_add_button_with_target_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_add_button_with_target_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_body = Interop.downcallHandle(
-            "g_notification_set_body",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_body",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_category = Interop.downcallHandle(
-            "g_notification_set_category",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_category",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_default_action = Interop.downcallHandle(
-            "g_notification_set_default_action",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_default_action",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_default_action_and_target_value = Interop.downcallHandle(
-            "g_notification_set_default_action_and_target_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_default_action_and_target_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_icon = Interop.downcallHandle(
-            "g_notification_set_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_priority = Interop.downcallHandle(
-            "g_notification_set_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_notification_set_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_notification_set_title = Interop.downcallHandle(
-            "g_notification_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_notification_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_notification_set_urgent = Interop.downcallHandle(
-            "g_notification_set_urgent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_notification_set_urgent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_notification_get_type = Interop.downcallHandle(
-            "g_notification_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_notification_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_notification_get_type != null;
     }
 }

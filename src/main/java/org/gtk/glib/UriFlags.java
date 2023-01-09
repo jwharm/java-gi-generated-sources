@@ -87,6 +87,9 @@ public class UriFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final UriFlags SCHEME_NORMALIZE = new UriFlags(256);
     
+    /**
+     * Create a new UriFlags with the provided value
+     */
     public UriFlags(int value) {
         super(value);
     }

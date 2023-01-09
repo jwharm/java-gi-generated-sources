@@ -29,8 +29,8 @@ public class PlayClass extends Struct {
      * @return A new, uninitialized @{link PlayClass}
      */
     public static PlayClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayClass newInstance = new PlayClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayClass newInstance = new PlayClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PlayClass extends Struct {
     /**
      * Create a PlayClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayClass(input, ownership);
+    public static final Marshal<Addressable, PlayClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayClass(input);
 }

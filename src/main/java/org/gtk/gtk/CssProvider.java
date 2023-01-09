@@ -58,14 +58,16 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
     /**
      * Create a CssProvider proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CssProvider(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CssProvider(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CssProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CssProvider(input, ownership);
+    public static final Marshal<Addressable, CssProvider> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CssProvider(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -81,7 +83,8 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      * Returns a newly created {@code GtkCssProvider}.
      */
     public CssProvider() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -94,13 +97,15 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      *   potentially do a copy.
      */
     public void loadFromData(byte[] data, long length) {
-        try {
-            DowncallHandles.gtk_css_provider_load_from_data.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_css_provider_load_from_data.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -127,12 +132,14 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      * @param path the path of a filename to load, in the GLib filename encoding
      */
     public void loadFromPath(java.lang.String path) {
-        try {
-            DowncallHandles.gtk_css_provider_load_from_path.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_css_provider_load_from_path.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -144,12 +151,14 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      * @param resourcePath a {@code GResource} resource path
      */
     public void loadFromResource(java.lang.String resourcePath) {
-        try {
-            DowncallHandles.gtk_css_provider_load_from_resource.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(resourcePath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_css_provider_load_from_resource.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(resourcePath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -164,13 +173,15 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      *   {@code null} for the default
      */
     public void loadNamed(java.lang.String name, @Nullable java.lang.String variant) {
-        try {
-            DowncallHandles.gtk_css_provider_load_named.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    (Addressable) (variant == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variant, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_css_provider_load_named.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        (Addressable) (variant == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variant, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -187,8 +198,7 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,19 +219,49 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ParsingError} callback.
+     */
     @FunctionalInterface
     public interface ParsingError {
+    
+        /**
+         * Signals that a parsing error occurred.
+         * <p>
+         * The {@code path}, {@code line} and {@code position} describe the actual location of
+         * the error as accurately as possible.
+         * <p>
+         * Parsing errors are never fatal, so the parsing will resume after
+         * the error. Errors may however cause parts of the given data or
+         * even all of it to not be parsed at all. So it is a useful idea
+         * to check that the parsing succeeds by connecting to this signal.
+         * <p>
+         * Note that this signal may be emitted at any time as the css provider
+         * may opt to defer parsing parts or all of the input to a later time
+         * than when a loading function was called.
+         */
         void run(org.gtk.gtk.CssSection section, org.gtk.glib.Error error);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceCssProvider, MemoryAddress section, MemoryAddress error) {
-            run(org.gtk.gtk.CssSection.fromAddress.marshal(section, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+            run(org.gtk.gtk.CssSection.fromAddress.marshal(section, null), org.gtk.glib.Error.fromAddress.marshal(error, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ParsingError.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ParsingError.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -243,9 +283,10 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CssProvider.ParsingError> onParsingError(CssProvider.ParsingError handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("parsing-error"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("parsing-error", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -268,6 +309,9 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -292,51 +336,59 @@ public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_css_provider_new = Interop.downcallHandle(
-            "gtk_css_provider_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_data = Interop.downcallHandle(
-            "gtk_css_provider_load_from_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gtk_css_provider_load_from_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_file = Interop.downcallHandle(
-            "gtk_css_provider_load_from_file",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_load_from_file",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_path = Interop.downcallHandle(
-            "gtk_css_provider_load_from_path",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_load_from_path",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_load_from_resource = Interop.downcallHandle(
-            "gtk_css_provider_load_from_resource",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_load_from_resource",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_load_named = Interop.downcallHandle(
-            "gtk_css_provider_load_named",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_load_named",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_to_string = Interop.downcallHandle(
-            "gtk_css_provider_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_css_provider_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_css_provider_get_type = Interop.downcallHandle(
-            "gtk_css_provider_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_css_provider_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_css_provider_get_type != null;
     }
 }

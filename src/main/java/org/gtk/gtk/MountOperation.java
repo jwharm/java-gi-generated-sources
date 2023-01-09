@@ -43,20 +43,21 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     /**
      * Create a MountOperation proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MountOperation(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MountOperation(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MountOperation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MountOperation(input, ownership);
+    public static final Marshal<Addressable, MountOperation> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MountOperation(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact((Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +69,8 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * @param parent transient parent of the window
      */
     public MountOperation(@Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(parent), Ownership.FULL);
+        super(constructNew(parent));
+        this.takeOwnership();
     }
     
     /**
@@ -79,12 +81,11 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -94,12 +95,11 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public @Nullable org.gtk.gtk.Window getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Window.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Window) Interop.register(RESULT, org.gtk.gtk.Window.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -110,8 +110,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     public boolean isShowing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_mount_operation_is_showing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_mount_operation_is_showing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,6 +176,9 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public static class Builder extends org.gtk.gio.MountOperation.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -234,45 +236,53 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_mount_operation_new = Interop.downcallHandle(
-            "gtk_mount_operation_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_get_display = Interop.downcallHandle(
-            "gtk_mount_operation_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_get_parent = Interop.downcallHandle(
-            "gtk_mount_operation_get_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_get_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_is_showing = Interop.downcallHandle(
-            "gtk_mount_operation_is_showing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_is_showing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_set_display = Interop.downcallHandle(
-            "gtk_mount_operation_set_display",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_set_display",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_set_parent = Interop.downcallHandle(
-            "gtk_mount_operation_set_parent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_mount_operation_set_parent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_mount_operation_get_type = Interop.downcallHandle(
-            "gtk_mount_operation_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_mount_operation_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_mount_operation_get_type != null;
     }
 }

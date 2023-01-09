@@ -10,19 +10,23 @@ import org.jetbrains.annotations.*;
  * clock is not selected as the pipeline master clock.
  */
 public enum AudioBaseSinkSlaveMethod implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Resample to match the master clock
      */
     RESAMPLE(0),
+    
     /**
      * Adjust playout pointer when master clock
      * drifts too much.
      */
     SKEW(1),
+    
     /**
      * No adjustment is done.
      */
     NONE(2),
+    
     /**
      * Use custom clock slaving algorithm (Since: 1.6)
      */
@@ -31,15 +35,29 @@ public enum AudioBaseSinkSlaveMethod implements io.github.jwharm.javagi.Enumerat
     private static final java.lang.String C_TYPE_NAME = "GstAudioBaseSinkSlaveMethod";
     
     private final int value;
+    
+    /**
+     * Create a new AudioBaseSinkSlaveMethod for the provided value
+     * @param numeric value the enum value
+     */
     AudioBaseSinkSlaveMethod(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AudioBaseSinkSlaveMethod for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AudioBaseSinkSlaveMethod of(int value) {
         return switch (value) {
             case 0 -> RESAMPLE;

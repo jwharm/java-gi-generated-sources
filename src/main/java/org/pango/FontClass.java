@@ -39,8 +39,8 @@ public class FontClass extends Struct {
      * @return A new, uninitialized @{link FontClass}
      */
     public static FontClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontClass newInstance = new FontClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontClass newInstance = new FontClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class FontClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,43 @@ public class FontClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DescribeCallback} callback.
+     */
     @FunctionalInterface
     public interface DescribeCallback {
+    
         org.pango.FontDescription run(org.pango.Font font);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DescribeCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DescribeCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +104,43 @@ public class FontClass extends Struct {
      * @param describe The new value of the field {@code describe}
      */
     public void setDescribe(DescribeCallback describe) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("describe"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describe == null ? MemoryAddress.NULL : describe.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("describe"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (describe == null ? MemoryAddress.NULL : describe.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCoverageCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCoverageCallback {
+    
         org.pango.Coverage run(org.pango.Font font, org.pango.Language language);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font, MemoryAddress language) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE), org.pango.Language.fromAddress.marshal(language, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null), org.pango.Language.fromAddress.marshal(language, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCoverageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCoverageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,24 +149,41 @@ public class FontClass extends Struct {
      * @param getCoverage The new value of the field {@code get_coverage}
      */
     public void setGetCoverage(GetCoverageCallback getCoverage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_coverage"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCoverage == null ? MemoryAddress.NULL : getCoverage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_coverage"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCoverage == null ? MemoryAddress.NULL : getCoverage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetGlyphExtentsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetGlyphExtentsCallback {
+    
         void run(@Nullable org.pango.Font font, org.pango.Glyph glyph, @Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress font, int glyph, MemoryAddress inkRect, MemoryAddress logicalRect) {
-            run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE), new org.pango.Glyph(glyph), org.pango.Rectangle.fromAddress.marshal(inkRect, Ownership.NONE), org.pango.Rectangle.fromAddress.marshal(logicalRect, Ownership.NONE));
+            run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null), new org.pango.Glyph(glyph), org.pango.Rectangle.fromAddress.marshal(inkRect, null), org.pango.Rectangle.fromAddress.marshal(logicalRect, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetGlyphExtentsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetGlyphExtentsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,25 +192,43 @@ public class FontClass extends Struct {
      * @param getGlyphExtents The new value of the field {@code get_glyph_extents}
      */
     public void setGetGlyphExtents(GetGlyphExtentsCallback getGlyphExtents) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_glyph_extents"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlyphExtents == null ? MemoryAddress.NULL : getGlyphExtents.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_glyph_extents"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlyphExtents == null ? MemoryAddress.NULL : getGlyphExtents.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetMetricsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetMetricsCallback {
+    
         org.pango.FontMetrics run(@Nullable org.pango.Font font, @Nullable org.pango.Language language);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font, MemoryAddress language) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE), org.pango.Language.fromAddress.marshal(language, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null), org.pango.Language.fromAddress.marshal(language, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMetricsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetMetricsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,25 +237,42 @@ public class FontClass extends Struct {
      * @param getMetrics The new value of the field {@code get_metrics}
      */
     public void setGetMetrics(GetMetricsCallback getMetrics) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetFontMapCallback} callback.
+     */
     @FunctionalInterface
     public interface GetFontMapCallback {
+    
         @Nullable org.pango.FontMap run(@Nullable org.pango.Font font);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetFontMapCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetFontMapCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -193,25 +281,43 @@ public class FontClass extends Struct {
      * @param getFontMap The new value of the field {@code get_font_map}
      */
     public void setGetFontMap(GetFontMapCallback getFontMap) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DescribeAbsoluteCallback} callback.
+     */
     @FunctionalInterface
     public interface DescribeAbsoluteCallback {
+    
         org.pango.FontDescription run(org.pango.Font font);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DescribeAbsoluteCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DescribeAbsoluteCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -220,27 +326,46 @@ public class FontClass extends Struct {
      * @param describeAbsolute The new value of the field {@code describe_absolute}
      */
     public void setDescribeAbsolute(DescribeAbsoluteCallback describeAbsolute) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("describe_absolute"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describeAbsolute == null ? MemoryAddress.NULL : describeAbsolute.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("describe_absolute"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (describeAbsolute == null ? MemoryAddress.NULL : describeAbsolute.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetFeaturesCallback} callback.
+     */
     @FunctionalInterface
     public interface GetFeaturesCallback {
+    
         void run(org.pango.Font font, Out<org.harfbuzz.FeatureT[]> features, int len, Out<Integer> numFeatures);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress font, MemoryAddress features, int len, MemoryAddress numFeatures) {
-            Out<Integer> numFeaturesOUT = new Out<>(numFeatures.get(Interop.valueLayout.C_INT, 0));
-            Out<org.harfbuzz.FeatureT[]> featuresOUT = new Out<>(new PointerProxy<org.harfbuzz.FeatureT>(features, org.harfbuzz.FeatureT.fromAddress).toArray((int) len, org.harfbuzz.FeatureT.class));
-            run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE), featuresOUT, len, numFeaturesOUT);
-            numFeatures.set(Interop.valueLayout.C_INT, 0, numFeaturesOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> numFeaturesOUT = new Out<>(numFeatures.get(Interop.valueLayout.C_INT, 0));
+                Out<org.harfbuzz.FeatureT[]> featuresOUT = new Out<>(new PointerProxy<org.harfbuzz.FeatureT>(features, org.harfbuzz.FeatureT.fromAddress).toArray((int) len, org.harfbuzz.FeatureT.class));
+                run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null), featuresOUT, len, numFeaturesOUT);
+                numFeatures.set(Interop.valueLayout.C_INT, 0, numFeaturesOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetFeaturesCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetFeaturesCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -249,25 +374,43 @@ public class FontClass extends Struct {
      * @param getFeatures The new value of the field {@code get_features}
      */
     public void setGetFeatures(GetFeaturesCallback getFeatures) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_features"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFeatures == null ? MemoryAddress.NULL : getFeatures.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_features"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFeatures == null ? MemoryAddress.NULL : getFeatures.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateHbFontCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateHbFontCallback {
+    
         org.harfbuzz.FontT run(org.pango.Font font);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress font) {
-            var RESULT = run((org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(font)), org.pango.Font.fromAddress).marshal(font, Ownership.NONE));
+            var RESULT = run((org.pango.Font) Interop.register(font, org.pango.Font.fromAddress).marshal(font, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateHbFontCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateHbFontCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -276,22 +419,26 @@ public class FontClass extends Struct {
      * @param createHbFont The new value of the field {@code create_hb_font}
      */
     public void setCreateHbFont(CreateHbFontCallback createHbFont) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_hb_font"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createHbFont == null ? MemoryAddress.NULL : createHbFont.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_hb_font"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createHbFont == null ? MemoryAddress.NULL : createHbFont.toCallback()));
+        }
     }
     
     /**
      * Create a FontClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontClass(input, ownership);
+    public static final Marshal<Addressable, FontClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontClass(input);
     
     /**
      * A {@link FontClass.Builder} object constructs a {@link FontClass} 
@@ -315,7 +462,7 @@ public class FontClass extends Struct {
             struct = FontClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FontClass} struct.
          * @return A new instance of {@code FontClass} with the fields 
          *         that were set in the Builder object.
@@ -325,66 +472,84 @@ public class FontClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setDescribe(DescribeCallback describe) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("describe"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describe == null ? MemoryAddress.NULL : describe.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("describe"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (describe == null ? MemoryAddress.NULL : describe.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetCoverage(GetCoverageCallback getCoverage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_coverage"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCoverage == null ? MemoryAddress.NULL : getCoverage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_coverage"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCoverage == null ? MemoryAddress.NULL : getCoverage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetGlyphExtents(GetGlyphExtentsCallback getGlyphExtents) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_glyph_extents"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getGlyphExtents == null ? MemoryAddress.NULL : getGlyphExtents.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_glyph_extents"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getGlyphExtents == null ? MemoryAddress.NULL : getGlyphExtents.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetMetrics(GetMetricsCallback getMetrics) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_metrics"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getMetrics == null ? MemoryAddress.NULL : getMetrics.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetFontMap(GetFontMapCallback getFontMap) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_font_map"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFontMap == null ? MemoryAddress.NULL : getFontMap.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDescribeAbsolute(DescribeAbsoluteCallback describeAbsolute) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("describe_absolute"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (describeAbsolute == null ? MemoryAddress.NULL : describeAbsolute.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("describe_absolute"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (describeAbsolute == null ? MemoryAddress.NULL : describeAbsolute.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetFeatures(GetFeaturesCallback getFeatures) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_features"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFeatures == null ? MemoryAddress.NULL : getFeatures.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_features"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFeatures == null ? MemoryAddress.NULL : getFeatures.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateHbFont(CreateHbFontCallback createHbFont) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_hb_font"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createHbFont == null ? MemoryAddress.NULL : createHbFont.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_hb_font"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createHbFont == null ? MemoryAddress.NULL : createHbFont.toCallback()));
+                return this;
+            }
         }
     }
 }

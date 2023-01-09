@@ -75,6 +75,9 @@ public class SignalFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SignalFlags ACCUMULATOR_FIRST_RUN = new SignalFlags(131072);
     
+    /**
+     * Create a new SignalFlags with the provided value
+     */
     public SignalFlags(int value) {
         super(value);
     }

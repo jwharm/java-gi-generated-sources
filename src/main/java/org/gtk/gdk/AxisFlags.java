@@ -67,6 +67,9 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AxisFlags SLIDER = new AxisFlags(2048);
     
+    /**
+     * Create a new AxisFlags with the provided value
+     */
     public AxisFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class PhysicalDeviceSamplerYcbcrConversionFeatures extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceSamplerYcbcrConversionFeatures}
      */
     public static PhysicalDeviceSamplerYcbcrConversionFeatures allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceSamplerYcbcrConversionFeatures newInstance = new PhysicalDeviceSamplerYcbcrConversionFeatures(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceSamplerYcbcrConversionFeatures newInstance = new PhysicalDeviceSamplerYcbcrConversionFeatures(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceSamplerYcbcrConversionFeatures extends Struct {
     /**
      * Create a PhysicalDeviceSamplerYcbcrConversionFeatures proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceSamplerYcbcrConversionFeatures(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceSamplerYcbcrConversionFeatures(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceSamplerYcbcrConversionFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSamplerYcbcrConversionFeatures(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceSamplerYcbcrConversionFeatures> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSamplerYcbcrConversionFeatures(input);
 }

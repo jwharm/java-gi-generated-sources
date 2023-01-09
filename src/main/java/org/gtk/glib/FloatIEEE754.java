@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * as appropriate for a given platform. IEEE floats and doubles are supported
  * (used for storage) by at least Intel, PPC and Sparc.
  */
-public class FloatIEEE754 extends ObjectBase {
+public class FloatIEEE754 extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -33,13 +33,14 @@ public class FloatIEEE754 extends ObjectBase {
     /**
      * Create a FloatIEEE754 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FloatIEEE754(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FloatIEEE754(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FloatIEEE754> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FloatIEEE754(input, ownership);
+    public static final Marshal<Addressable, FloatIEEE754> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FloatIEEE754(input);
 }
-

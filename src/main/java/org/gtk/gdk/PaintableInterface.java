@@ -48,25 +48,40 @@ public class PaintableInterface extends Struct {
      * @return A new, uninitialized @{link PaintableInterface}
      */
     public static PaintableInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PaintableInterface newInstance = new PaintableInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PaintableInterface newInstance = new PaintableInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code SnapshotCallback} callback.
+     */
     @FunctionalInterface
     public interface SnapshotCallback {
+    
         void run(org.gtk.gdk.Paintable paintable, org.gtk.gdk.Snapshot snapshot, double width, double height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress paintable, MemoryAddress snapshot, double width, double height) {
-            run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE), (org.gtk.gdk.Snapshot) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(snapshot)), org.gtk.gdk.Snapshot.fromAddress).marshal(snapshot, Ownership.NONE), width, height);
+            run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null), (org.gtk.gdk.Snapshot) Interop.register(snapshot, org.gtk.gdk.Snapshot.fromAddress).marshal(snapshot, null), width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SnapshotCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SnapshotCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -75,25 +90,43 @@ public class PaintableInterface extends Struct {
      * @param snapshot The new value of the field {@code snapshot}
      */
     public void setSnapshot(SnapshotCallback snapshot) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCurrentImageCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCurrentImageCallback {
+    
         org.gtk.gdk.Paintable run(org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress paintable) {
-            var RESULT = run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCurrentImageCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCurrentImageCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -102,25 +135,42 @@ public class PaintableInterface extends Struct {
      * @param getCurrentImage The new value of the field {@code get_current_image}
      */
     public void setGetCurrentImage(GetCurrentImageCallback getCurrentImage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentImage == null ? MemoryAddress.NULL : getCurrentImage.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentImage == null ? MemoryAddress.NULL : getCurrentImage.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetFlagsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetFlagsCallback {
+    
         org.gtk.gdk.PaintableFlags run(org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress paintable) {
-            var RESULT = run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetFlagsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetFlagsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -129,25 +179,42 @@ public class PaintableInterface extends Struct {
      * @param getFlags The new value of the field {@code get_flags}
      */
     public void setGetFlags(GetFlagsCallback getFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetIntrinsicWidthCallback} callback.
+     */
     @FunctionalInterface
     public interface GetIntrinsicWidthCallback {
+    
         int run(org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress paintable) {
-            var RESULT = run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetIntrinsicWidthCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetIntrinsicWidthCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -156,25 +223,42 @@ public class PaintableInterface extends Struct {
      * @param getIntrinsicWidth The new value of the field {@code get_intrinsic_width}
      */
     public void setGetIntrinsicWidth(GetIntrinsicWidthCallback getIntrinsicWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicWidth == null ? MemoryAddress.NULL : getIntrinsicWidth.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicWidth == null ? MemoryAddress.NULL : getIntrinsicWidth.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetIntrinsicHeightCallback} callback.
+     */
     @FunctionalInterface
     public interface GetIntrinsicHeightCallback {
+    
         int run(org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress paintable) {
-            var RESULT = run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetIntrinsicHeightCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetIntrinsicHeightCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -183,25 +267,42 @@ public class PaintableInterface extends Struct {
      * @param getIntrinsicHeight The new value of the field {@code get_intrinsic_height}
      */
     public void setGetIntrinsicHeight(GetIntrinsicHeightCallback getIntrinsicHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicHeight == null ? MemoryAddress.NULL : getIntrinsicHeight.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicHeight == null ? MemoryAddress.NULL : getIntrinsicHeight.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetIntrinsicAspectRatioCallback} callback.
+     */
     @FunctionalInterface
     public interface GetIntrinsicAspectRatioCallback {
+    
         double run(org.gtk.gdk.Paintable paintable);
-
+        
         @ApiStatus.Internal default double upcall(MemoryAddress paintable) {
-            var RESULT = run((org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Paintable) Interop.register(paintable, org.gtk.gdk.Paintable.fromAddress).marshal(paintable, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetIntrinsicAspectRatioCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetIntrinsicAspectRatioCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -210,22 +311,26 @@ public class PaintableInterface extends Struct {
      * @param getIntrinsicAspectRatio The new value of the field {@code get_intrinsic_aspect_ratio}
      */
     public void setGetIntrinsicAspectRatio(GetIntrinsicAspectRatioCallback getIntrinsicAspectRatio) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicAspectRatio == null ? MemoryAddress.NULL : getIntrinsicAspectRatio.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicAspectRatio == null ? MemoryAddress.NULL : getIntrinsicAspectRatio.toCallback()));
+        }
     }
     
     /**
      * Create a PaintableInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PaintableInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PaintableInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PaintableInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PaintableInterface(input, ownership);
+    public static final Marshal<Addressable, PaintableInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PaintableInterface(input);
     
     /**
      * A {@link PaintableInterface.Builder} object constructs a {@link PaintableInterface} 
@@ -249,7 +354,7 @@ public class PaintableInterface extends Struct {
             struct = PaintableInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PaintableInterface} struct.
          * @return A new instance of {@code PaintableInterface} with the fields 
          *         that were set in the Builder object.
@@ -259,52 +364,66 @@ public class PaintableInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setSnapshot(SnapshotCallback snapshot) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetCurrentImage(GetCurrentImageCallback getCurrentImage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCurrentImage == null ? MemoryAddress.NULL : getCurrentImage.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_current_image"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCurrentImage == null ? MemoryAddress.NULL : getCurrentImage.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetFlags(GetFlagsCallback getFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getFlags == null ? MemoryAddress.NULL : getFlags.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetIntrinsicWidth(GetIntrinsicWidthCallback getIntrinsicWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicWidth == null ? MemoryAddress.NULL : getIntrinsicWidth.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicWidth == null ? MemoryAddress.NULL : getIntrinsicWidth.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetIntrinsicHeight(GetIntrinsicHeightCallback getIntrinsicHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicHeight == null ? MemoryAddress.NULL : getIntrinsicHeight.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicHeight == null ? MemoryAddress.NULL : getIntrinsicHeight.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetIntrinsicAspectRatio(GetIntrinsicAspectRatioCallback getIntrinsicAspectRatio) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getIntrinsicAspectRatio == null ? MemoryAddress.NULL : getIntrinsicAspectRatio.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_intrinsic_aspect_ratio"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getIntrinsicAspectRatio == null ? MemoryAddress.NULL : getIntrinsicAspectRatio.toCallback()));
+                return this;
+            }
         }
     }
 }

@@ -13,15 +13,18 @@ import org.jetbrains.annotations.*;
  * @version 1.12
  */
 public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown field order for interlaced content.
      *     The actual field order is signalled via buffer flags.
      */
     UNKNOWN(0),
+    
     /**
      * top field is first
      */
     TOP_FIELD_FIRST(1),
+    
     /**
      * bottom field is first
      */
@@ -30,15 +33,29 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoFieldOrder";
     
     private final int value;
+    
+    /**
+     * Create a new VideoFieldOrder for the provided value
+     * @param numeric value the enum value
+     */
     VideoFieldOrder(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoFieldOrder for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoFieldOrder of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -56,14 +73,15 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
      *    string representation for a {@link VideoFieldOrder}.
      */
     public static org.gstreamer.video.VideoFieldOrder fromString(java.lang.String order) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_field_order_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(order, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_field_order_from_string.invokeExact(Marshal.stringToAddress.marshal(order, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.video.VideoFieldOrder.of(RESULT);
         }
-        return org.gstreamer.video.VideoFieldOrder.of(RESULT);
     }
     
     /**
@@ -74,8 +92,7 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String toString(org.gstreamer.video.VideoFieldOrder order) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_field_order_to_string.invokeExact(
-                    order.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_field_order_to_string.invokeExact(order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,15 +102,15 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_field_order_from_string = Interop.downcallHandle(
-            "gst_video_field_order_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_field_order_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_field_order_to_string = Interop.downcallHandle(
-            "gst_video_field_order_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_field_order_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

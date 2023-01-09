@@ -29,8 +29,8 @@ public class Rect2D extends Struct {
      * @return A new, uninitialized @{link Rect2D}
      */
     public static Rect2D allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Rect2D newInstance = new Rect2D(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Rect2D newInstance = new Rect2D(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Rect2D extends Struct {
     /**
      * Create a Rect2D proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Rect2D(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Rect2D(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Rect2D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rect2D(input, ownership);
+    public static final Marshal<Addressable, Rect2D> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Rect2D(input);
 }

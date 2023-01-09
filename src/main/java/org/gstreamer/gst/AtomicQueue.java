@@ -33,8 +33,8 @@ public class AtomicQueue extends Struct {
      * @return A new, uninitialized @{link AtomicQueue}
      */
     public static AtomicQueue allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtomicQueue newInstance = new AtomicQueue(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtomicQueue newInstance = new AtomicQueue(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,20 +42,21 @@ public class AtomicQueue extends Struct {
     /**
      * Create a AtomicQueue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtomicQueue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtomicQueue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtomicQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtomicQueue(input, ownership);
+    public static final Marshal<Addressable, AtomicQueue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtomicQueue(input);
     
     private static MemoryAddress constructNew(int initialSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_new.invokeExact(
-                    initialSize);
+            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_new.invokeExact(initialSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,7 +69,8 @@ public class AtomicQueue extends Struct {
      * @param initialSize initial queue size
      */
     public AtomicQueue(int initialSize) {
-        super(constructNew(initialSize), Ownership.FULL);
+        super(constructNew(initialSize));
+        this.takeOwnership();
     }
     
     /**
@@ -78,8 +80,7 @@ public class AtomicQueue extends Struct {
     public int length() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_atomic_queue_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_atomic_queue_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,8 +95,7 @@ public class AtomicQueue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress peek() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_peek.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_peek.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +110,7 @@ public class AtomicQueue extends Struct {
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_pop.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,8 +135,7 @@ public class AtomicQueue extends Struct {
      */
     public void ref() {
         try {
-            DowncallHandles.gst_atomic_queue_ref.invokeExact(
-                    handle());
+            DowncallHandles.gst_atomic_queue_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,8 +146,7 @@ public class AtomicQueue extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_atomic_queue_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_atomic_queue_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,45 +155,45 @@ public class AtomicQueue extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_atomic_queue_new = Interop.downcallHandle(
-            "gst_atomic_queue_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_atomic_queue_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_length = Interop.downcallHandle(
-            "gst_atomic_queue_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_peek = Interop.downcallHandle(
-            "gst_atomic_queue_peek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_peek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_pop = Interop.downcallHandle(
-            "gst_atomic_queue_pop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_pop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_push = Interop.downcallHandle(
-            "gst_atomic_queue_push",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_push",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_ref = Interop.downcallHandle(
-            "gst_atomic_queue_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_atomic_queue_unref = Interop.downcallHandle(
-            "gst_atomic_queue_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_atomic_queue_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class ColumnViewColumnClass extends Struct {
      * @return A new, uninitialized @{link ColumnViewColumnClass}
      */
     public static ColumnViewColumnClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ColumnViewColumnClass newInstance = new ColumnViewColumnClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ColumnViewColumnClass newInstance = new ColumnViewColumnClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ColumnViewColumnClass extends Struct {
     /**
      * Create a ColumnViewColumnClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColumnViewColumnClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ColumnViewColumnClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColumnViewColumnClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColumnViewColumnClass(input, ownership);
+    public static final Marshal<Addressable, ColumnViewColumnClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColumnViewColumnClass(input);
 }

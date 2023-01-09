@@ -25,14 +25,16 @@ public class BroadwayRenderer extends org.gtk.gsk.Renderer {
     /**
      * Create a BroadwayRenderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BroadwayRenderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BroadwayRenderer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BroadwayRenderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BroadwayRenderer(input, ownership);
+    public static final Marshal<Addressable, BroadwayRenderer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BroadwayRenderer(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -55,7 +57,8 @@ public class BroadwayRenderer extends org.gtk.gsk.Renderer {
      * support.
      */
     public BroadwayRenderer() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -88,6 +91,9 @@ public class BroadwayRenderer extends org.gtk.gsk.Renderer {
      */
     public static class Builder extends org.gtk.gsk.Renderer.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -112,15 +118,23 @@ public class BroadwayRenderer extends org.gtk.gsk.Renderer {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_broadway_renderer_new = Interop.downcallHandle(
-            "gsk_broadway_renderer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gsk_broadway_renderer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_broadway_renderer_get_type = Interop.downcallHandle(
-            "gsk_broadway_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_broadway_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_broadway_renderer_get_type != null;
     }
 }

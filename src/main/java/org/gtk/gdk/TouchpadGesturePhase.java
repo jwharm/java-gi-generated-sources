@@ -26,19 +26,23 @@ import org.jetbrains.annotations.*;
  * progress of the gesture.
  */
 public enum TouchpadGesturePhase implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The gesture has begun.
      */
     BEGIN(0),
+    
     /**
      * The gesture has been updated.
      */
     UPDATE(1),
+    
     /**
      * The gesture was finished, changes
      *   should be permanently applied.
      */
     END(2),
+    
     /**
      * The gesture was cancelled, all
      *   changes should be undone.
@@ -48,15 +52,29 @@ public enum TouchpadGesturePhase implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GdkTouchpadGesturePhase";
     
     private final int value;
+    
+    /**
+     * Create a new TouchpadGesturePhase for the provided value
+     * @param numeric value the enum value
+     */
     TouchpadGesturePhase(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TouchpadGesturePhase for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TouchpadGesturePhase of(int value) {
         return switch (value) {
             case 0 -> BEGIN;

@@ -8,18 +8,36 @@ import org.jetbrains.annotations.*;
 /**
  * Custom GstTask thread callback functions that can be installed.
  */
+/**
+ * Functional interface declaration of the {@code TaskThreadFunc} callback.
+ */
 @FunctionalInterface
 public interface TaskThreadFunc {
-    void run(org.gstreamer.gst.Task task, org.gtk.glib.Thread thread);
 
+    /**
+     * Custom GstTask thread callback functions that can be installed.
+     */
+    void run(org.gstreamer.gst.Task task, org.gtk.glib.Thread thread);
+    
     @ApiStatus.Internal default void upcall(MemoryAddress task, MemoryAddress thread, MemoryAddress userData) {
-        run((org.gstreamer.gst.Task) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(task)), org.gstreamer.gst.Task.fromAddress).marshal(task, Ownership.NONE), org.gtk.glib.Thread.fromAddress.marshal(thread, Ownership.NONE));
+        run((org.gstreamer.gst.Task) Interop.register(task, org.gstreamer.gst.Task.fromAddress).marshal(task, null), org.gtk.glib.Thread.fromAddress.marshal(thread, null));
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TaskThreadFunc.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TaskThreadFunc.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

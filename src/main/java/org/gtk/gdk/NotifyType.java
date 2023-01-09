@@ -12,26 +12,31 @@ import org.jetbrains.annotations.*;
  * full details of crossing event generation.
  */
 public enum NotifyType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the surface is entered from an ancestor or
      *   left towards an ancestor.
      */
     ANCESTOR(0),
+    
     /**
      * the pointer moves between an ancestor and an
      *   inferior of the surface.
      */
     VIRTUAL(1),
+    
     /**
      * the surface is entered from an inferior or
      *   left towards an inferior.
      */
     INFERIOR(2),
+    
     /**
      * the surface is entered from or left towards
      *   a surface which is neither an ancestor nor an inferior.
      */
     NONLINEAR(3),
+    
     /**
      * the pointer moves between two surfaces
      *   which are not ancestors of each other and the surface is part of
@@ -39,6 +44,7 @@ public enum NotifyType implements io.github.jwharm.javagi.Enumeration {
      *   common ancestor.
      */
     NONLINEAR_VIRTUAL(4),
+    
     /**
      * an unknown type of enter/leave event occurred.
      */
@@ -47,15 +53,29 @@ public enum NotifyType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkNotifyType";
     
     private final int value;
+    
+    /**
+     * Create a new NotifyType for the provided value
+     * @param numeric value the enum value
+     */
     NotifyType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new NotifyType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static NotifyType of(int value) {
         return switch (value) {
             case 0 -> ANCESTOR;

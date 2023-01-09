@@ -116,14 +116,16 @@ public class Gesture extends org.gtk.gtk.EventController {
     /**
      * Create a Gesture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Gesture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Gesture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Gesture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Gesture(input, ownership);
+    public static final Marshal<Addressable, Gesture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Gesture(input);
     
     /**
      * If there are touch sequences being currently handled by {@code gesture},
@@ -163,20 +165,22 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return {@code false} if no active touches are present, {@code true} otherwise
      */
     public boolean getBoundingBoxCenter(Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box_center.invokeExact(
-                    handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_get_bounding_box_center.invokeExact(
+                        handle(),
+                        (Addressable) xPOINTER.address(),
+                        (Addressable) yPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -189,12 +193,11 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_device.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) Interop.register(RESULT, org.gtk.gdk.Device.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -205,12 +208,11 @@ public class Gesture extends org.gtk.gtk.EventController {
     public org.gtk.glib.List getGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_group.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_group.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -231,7 +233,7 @@ public class Gesture extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Event.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Event) Interop.register(RESULT, org.gtk.gdk.Event.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -241,12 +243,11 @@ public class Gesture extends org.gtk.gtk.EventController {
     public @Nullable org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_updated_sequence.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_last_updated_sequence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -261,21 +262,23 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return {@code true} if {@code sequence} is currently interpreted
      */
     public boolean getPoint(@Nullable org.gtk.gdk.EventSequence sequence, Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_get_point.invokeExact(
-                    handle(),
-                    (Addressable) (sequence == null ? MemoryAddress.NULL : sequence.handle()),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_get_point.invokeExact(
+                        handle(),
+                        (Addressable) (sequence == null ? MemoryAddress.NULL : sequence.handle()),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -306,12 +309,11 @@ public class Gesture extends org.gtk.gtk.EventController {
     public org.gtk.glib.List getSequences() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_sequences.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_get_sequences.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -372,8 +374,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,8 +408,7 @@ public class Gesture extends org.gtk.gtk.EventController {
     public boolean isRecognized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_gesture_is_recognized.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_gesture_is_recognized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -502,8 +502,7 @@ public class Gesture extends org.gtk.gtk.EventController {
      */
     public void ungroup() {
         try {
-            DowncallHandles.gtk_gesture_ungroup.invokeExact(
-                    handle());
+            DowncallHandles.gtk_gesture_ungroup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,19 +522,45 @@ public class Gesture extends org.gtk.gtk.EventController {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Begin} callback.
+     */
     @FunctionalInterface
     public interface Begin {
+    
+        /**
+         * Emitted when the gesture is recognized.
+         * <p>
+         * This means the number of touch sequences matches
+         * {@code Gtk.Gesture:n-points}.
+         * <p>
+         * Note: These conditions may also happen when an extra touch
+         * (eg. a third touch on a 2-touches gesture) is lifted, in that
+         * situation {@code sequence} won't pertain to the current set of active
+         * touches, so don't rely on this being true.
+         */
         void run(@Nullable org.gtk.gdk.EventSequence sequence);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesture, MemoryAddress sequence) {
-            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE));
+            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Begin.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Begin.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -553,28 +578,56 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Gesture.Begin> onBegin(Gesture.Begin handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("begin"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("begin", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Cancel} callback.
+     */
     @FunctionalInterface
     public interface Cancel {
+    
+        /**
+         * Emitted whenever a sequence is cancelled.
+         * <p>
+         * This usually happens on active touches when
+         * {@link EventController#reset} is called on {@code gesture}
+         * (manually, due to grabs...), or the individual {@code sequence}
+         * was claimed by parent widgets' controllers (see
+         * {@link Gesture#setSequenceState}).
+         * <p>
+         * {@code gesture} must forget everything about {@code sequence} as in
+         * response to this signal.
+         */
         void run(@Nullable org.gtk.gdk.EventSequence sequence);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesture, MemoryAddress sequence) {
-            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE));
+            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Cancel.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Cancel.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -593,28 +646,55 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Gesture.Cancel> onCancel(Gesture.Cancel handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("cancel"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("cancel", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code End} callback.
+     */
     @FunctionalInterface
     public interface End {
+    
+        /**
+         * Emitted when {@code gesture} either stopped recognizing the event
+         * sequences as something to be handled, or the number of touch
+         * sequences became higher or lower than {@code Gtk.Gesture:n-points}.
+         * <p>
+         * Note: {@code sequence} might not pertain to the group of sequences that
+         * were previously triggering recognition on {@code gesture} (ie. a just
+         * pressed touch sequence that exceeds {@code Gtk.Gesture:n-points}).
+         * This situation may be detected by checking through
+         * {@link Gesture#handlesSequence}.
+         */
         void run(@Nullable org.gtk.gdk.EventSequence sequence);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesture, MemoryAddress sequence) {
-            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE));
+            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(End.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), End.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -632,28 +712,50 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Gesture.End> onEnd(Gesture.End handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("end", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SequenceStateChanged} callback.
+     */
     @FunctionalInterface
     public interface SequenceStateChanged {
+    
+        /**
+         * Emitted whenever a sequence state changes.
+         * <p>
+         * See {@link Gesture#setSequenceState} to know
+         * more about the expectable sequence lifetimes.
+         */
         void run(@Nullable org.gtk.gdk.EventSequence sequence, org.gtk.gtk.EventSequenceState state);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesture, MemoryAddress sequence, int state) {
-            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE), org.gtk.gtk.EventSequenceState.of(state));
+            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null), org.gtk.gtk.EventSequenceState.of(state));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SequenceStateChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SequenceStateChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -666,28 +768,49 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Gesture.SequenceStateChanged> onSequenceStateChanged(Gesture.SequenceStateChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("sequence-state-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("sequence-state-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Update} callback.
+     */
     @FunctionalInterface
     public interface Update {
+    
+        /**
+         * Emitted whenever an event is handled while the gesture is recognized.
+         * <p>
+         * {@code sequence} is guaranteed to pertain to the set of active touches.
+         */
         void run(@Nullable org.gtk.gdk.EventSequence sequence);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGesture, MemoryAddress sequence) {
-            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, Ownership.NONE));
+            run(org.gtk.gdk.EventSequence.fromAddress.marshal(sequence, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Update.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Update.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -699,9 +822,10 @@ public class Gesture extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Gesture.Update> onUpdate(Gesture.Update handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("update"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("update", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -724,6 +848,9 @@ public class Gesture extends org.gtk.gtk.EventController {
      */
     public static class Builder extends org.gtk.gtk.EventController.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -760,111 +887,119 @@ public class Gesture extends org.gtk.gtk.EventController {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_get_bounding_box = Interop.downcallHandle(
-            "gtk_gesture_get_bounding_box",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_bounding_box",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_bounding_box_center = Interop.downcallHandle(
-            "gtk_gesture_get_bounding_box_center",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_bounding_box_center",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_device = Interop.downcallHandle(
-            "gtk_gesture_get_device",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_device",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_group = Interop.downcallHandle(
-            "gtk_gesture_get_group",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_group",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_last_event = Interop.downcallHandle(
-            "gtk_gesture_get_last_event",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_last_event",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_last_updated_sequence = Interop.downcallHandle(
-            "gtk_gesture_get_last_updated_sequence",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_last_updated_sequence",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_point = Interop.downcallHandle(
-            "gtk_gesture_get_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_sequence_state = Interop.downcallHandle(
-            "gtk_gesture_get_sequence_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_sequence_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_sequences = Interop.downcallHandle(
-            "gtk_gesture_get_sequences",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_get_sequences",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_group = Interop.downcallHandle(
-            "gtk_gesture_group",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_group",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_handles_sequence = Interop.downcallHandle(
-            "gtk_gesture_handles_sequence",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_handles_sequence",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_is_active = Interop.downcallHandle(
-            "gtk_gesture_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_is_grouped_with = Interop.downcallHandle(
-            "gtk_gesture_is_grouped_with",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_is_grouped_with",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_is_recognized = Interop.downcallHandle(
-            "gtk_gesture_is_recognized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_is_recognized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_set_sequence_state = Interop.downcallHandle(
-            "gtk_gesture_set_sequence_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_set_sequence_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_set_state = Interop.downcallHandle(
-            "gtk_gesture_set_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_gesture_set_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_gesture_ungroup = Interop.downcallHandle(
-            "gtk_gesture_ungroup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_ungroup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_get_type = Interop.downcallHandle(
-            "gtk_gesture_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_get_type != null;
     }
 }

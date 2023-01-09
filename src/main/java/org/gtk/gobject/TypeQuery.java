@@ -39,8 +39,8 @@ public class TypeQuery extends Struct {
      * @return A new, uninitialized @{link TypeQuery}
      */
     public static TypeQuery allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeQuery newInstance = new TypeQuery(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypeQuery newInstance = new TypeQuery(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class TypeQuery extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class TypeQuery extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class TypeQuery extends Struct {
      * @return The value of the field {@code type_name}
      */
     public java.lang.String getTypeName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class TypeQuery extends Struct {
      * @param typeName The new value of the field {@code type_name}
      */
     public void setTypeName(java.lang.String typeName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, SCOPE)));
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class TypeQuery extends Struct {
      * @return The value of the field {@code class_size}
      */
     public int getClassSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class TypeQuery extends Struct {
      * @param classSize The new value of the field {@code class_size}
      */
     public void setClassSize(int classSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), classSize);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class TypeQuery extends Struct {
      * @return The value of the field {@code instance_size}
      */
     public int getInstanceSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class TypeQuery extends Struct {
      * @param instanceSize The new value of the field {@code instance_size}
      */
     public void setInstanceSize(int instanceSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), instanceSize);
+        }
     }
     
     /**
      * Create a TypeQuery proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeQuery(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeQuery(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeQuery> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeQuery(input, ownership);
+    public static final Marshal<Addressable, TypeQuery> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeQuery(input);
     
     /**
      * A {@link TypeQuery.Builder} object constructs a {@link TypeQuery} 
@@ -163,7 +181,7 @@ public class TypeQuery extends Struct {
             struct = TypeQuery.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypeQuery} struct.
          * @return A new instance of {@code TypeQuery} with the fields 
          *         that were set in the Builder object.
@@ -178,10 +196,12 @@ public class TypeQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -190,10 +210,12 @@ public class TypeQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTypeName(java.lang.String typeName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -202,10 +224,12 @@ public class TypeQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setClassSize(int classSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), classSize);
+                return this;
+            }
         }
         
         /**
@@ -214,10 +238,12 @@ public class TypeQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInstanceSize(int instanceSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), instanceSize);
+                return this;
+            }
         }
     }
 }

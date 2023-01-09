@@ -29,8 +29,8 @@ public class PhysicalDeviceFloat16Int8FeaturesKHR extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceFloat16Int8FeaturesKHR}
      */
     public static PhysicalDeviceFloat16Int8FeaturesKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceFloat16Int8FeaturesKHR newInstance = new PhysicalDeviceFloat16Int8FeaturesKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceFloat16Int8FeaturesKHR newInstance = new PhysicalDeviceFloat16Int8FeaturesKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceFloat16Int8FeaturesKHR extends Struct {
     /**
      * Create a PhysicalDeviceFloat16Int8FeaturesKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceFloat16Int8FeaturesKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceFloat16Int8FeaturesKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceFloat16Int8FeaturesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceFloat16Int8FeaturesKHR(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceFloat16Int8FeaturesKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceFloat16Int8FeaturesKHR(input);
 }

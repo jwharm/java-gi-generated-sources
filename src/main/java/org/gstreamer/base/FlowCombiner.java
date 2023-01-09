@@ -63,8 +63,8 @@ public class FlowCombiner extends Struct {
      * @return A new, uninitialized @{link FlowCombiner}
      */
     public static FlowCombiner allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FlowCombiner newInstance = new FlowCombiner(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FlowCombiner newInstance = new FlowCombiner(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -72,14 +72,16 @@ public class FlowCombiner extends Struct {
     /**
      * Create a FlowCombiner proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FlowCombiner(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FlowCombiner(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FlowCombiner> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlowCombiner(input, ownership);
+    public static final Marshal<Addressable, FlowCombiner> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FlowCombiner(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -95,7 +97,8 @@ public class FlowCombiner extends Struct {
      * Creates a new {@link FlowCombiner}, use gst_flow_combiner_free() to free it.
      */
     public FlowCombiner() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -117,8 +120,7 @@ public class FlowCombiner extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_flow_combiner_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_flow_combiner_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,8 +131,7 @@ public class FlowCombiner extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_flow_combiner_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_flow_combiner_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,12 +144,13 @@ public class FlowCombiner extends Struct {
     public org.gstreamer.base.FlowCombiner ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_flow_combiner_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_flow_combiner_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.base.FlowCombiner.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.base.FlowCombiner.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -170,8 +172,7 @@ public class FlowCombiner extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_flow_combiner_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_flow_combiner_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,8 +183,7 @@ public class FlowCombiner extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_flow_combiner_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_flow_combiner_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,63 +239,63 @@ public class FlowCombiner extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_flow_combiner_new = Interop.downcallHandle(
-            "gst_flow_combiner_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_add_pad = Interop.downcallHandle(
-            "gst_flow_combiner_add_pad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_add_pad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_clear = Interop.downcallHandle(
-            "gst_flow_combiner_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_free = Interop.downcallHandle(
-            "gst_flow_combiner_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_ref = Interop.downcallHandle(
-            "gst_flow_combiner_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_remove_pad = Interop.downcallHandle(
-            "gst_flow_combiner_remove_pad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_remove_pad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_reset = Interop.downcallHandle(
-            "gst_flow_combiner_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_unref = Interop.downcallHandle(
-            "gst_flow_combiner_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_flow_combiner_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_update_flow = Interop.downcallHandle(
-            "gst_flow_combiner_update_flow",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_flow_combiner_update_flow",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_flow_combiner_update_pad_flow = Interop.downcallHandle(
-            "gst_flow_combiner_update_pad_flow",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_flow_combiner_update_pad_flow",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

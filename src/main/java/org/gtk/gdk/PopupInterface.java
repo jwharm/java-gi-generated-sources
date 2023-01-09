@@ -29,8 +29,8 @@ public class PopupInterface extends Struct {
      * @return A new, uninitialized @{link PopupInterface}
      */
     public static PopupInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PopupInterface newInstance = new PopupInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PopupInterface newInstance = new PopupInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PopupInterface extends Struct {
     /**
      * Create a PopupInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PopupInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PopupInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PopupInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopupInterface(input, ownership);
+    public static final Marshal<Addressable, PopupInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PopupInterface(input);
 }

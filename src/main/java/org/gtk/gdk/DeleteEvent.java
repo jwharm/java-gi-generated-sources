@@ -28,14 +28,16 @@ public class DeleteEvent extends org.gtk.gdk.Event {
     /**
      * Create a DeleteEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeleteEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeleteEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeleteEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeleteEvent(input, ownership);
+    public static final Marshal<Addressable, DeleteEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeleteEvent(input);
     
     /**
      * Get the gtype
@@ -54,9 +56,17 @@ public class DeleteEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_delete_event_get_type = Interop.downcallHandle(
-            "gdk_delete_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_delete_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_delete_event_get_type != null;
     }
 }

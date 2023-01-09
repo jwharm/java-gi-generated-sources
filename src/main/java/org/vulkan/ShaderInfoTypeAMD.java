@@ -29,8 +29,8 @@ public class ShaderInfoTypeAMD extends Struct {
      * @return A new, uninitialized @{link ShaderInfoTypeAMD}
      */
     public static ShaderInfoTypeAMD allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShaderInfoTypeAMD newInstance = new ShaderInfoTypeAMD(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ShaderInfoTypeAMD newInstance = new ShaderInfoTypeAMD(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ShaderInfoTypeAMD extends Struct {
     /**
      * Create a ShaderInfoTypeAMD proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShaderInfoTypeAMD(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShaderInfoTypeAMD(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShaderInfoTypeAMD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShaderInfoTypeAMD(input, ownership);
+    public static final Marshal<Addressable, ShaderInfoTypeAMD> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShaderInfoTypeAMD(input);
 }

@@ -71,26 +71,17 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     
     /**
      * Create a AboutDialog proxy instance for the provided memory address.
-     * <p>
-     * Because AboutDialog is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AboutDialog(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AboutDialog(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AboutDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AboutDialog(input, ownership);
+    public static final Marshal<Addressable, AboutDialog> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AboutDialog(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -106,7 +97,9 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * Creates a new {@code GtkAboutDialog}.
      */
     public AboutDialog() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -115,13 +108,15 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param people The people who belong to that section
      */
     public void addCreditSection(java.lang.String sectionName, java.lang.String[] people) {
-        try {
-            DowncallHandles.gtk_about_dialog_add_credit_section.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(sectionName, null),
-                    Interop.allocateNativeArray(people, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_add_credit_section.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(sectionName, SCOPE),
+                        Interop.allocateNativeArray(people, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -132,14 +127,15 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      *   {@code NULL}-terminated string array containing the artists
      */
     public PointerString getArtists() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_artists.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_artists.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -149,14 +145,15 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      *   {@code NULL}-terminated string array containing the authors
      */
     public PointerString getAuthors() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_authors.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_authors.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -166,8 +163,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getComments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_comments.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_comments.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,8 +177,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getCopyright() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_copyright.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_copyright.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,14 +191,15 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      *   {@code NULL}-terminated string array containing the documenters
      */
     public PointerString getDocumenters() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_documenters.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_documenters.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -213,8 +209,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_license.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,8 +223,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public org.gtk.gtk.License getLicenseType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_about_dialog_get_license_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_about_dialog_get_license_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,12 +239,11 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable org.gtk.gdk.Paintable getLogo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) Interop.register(RESULT, org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -261,8 +254,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getLogoIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,8 +268,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getProgramName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_program_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_program_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,8 +282,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getSystemInformation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_system_information.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_system_information.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,8 +297,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getTranslatorCredits() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_translator_credits.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_translator_credits.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,8 +311,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_version.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,8 +325,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getWebsite() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,8 +339,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getWebsiteLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website_label.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,8 +354,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public boolean getWrapLicense() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_about_dialog_get_wrap_license.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_about_dialog_get_wrap_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -383,12 +368,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      *   of the application
      */
     public void setArtists(java.lang.String[] artists) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_artists.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(artists, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_artists.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(artists, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -398,12 +385,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param authors the authors of the application
      */
     public void setAuthors(java.lang.String[] authors) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_authors.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(authors, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_authors.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(authors, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -414,12 +403,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param comments a comments string
      */
     public void setComments(@Nullable java.lang.String comments) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_comments.invokeExact(
-                    handle(),
-                    (Addressable) (comments == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(comments, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_comments.invokeExact(
+                        handle(),
+                        (Addressable) (comments == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(comments, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -430,12 +421,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param copyright the copyright string
      */
     public void setCopyright(@Nullable java.lang.String copyright) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_copyright.invokeExact(
-                    handle(),
-                    (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_copyright.invokeExact(
+                        handle(),
+                        (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -446,12 +439,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      *   of the application
      */
     public void setDocumenters(java.lang.String[] documenters) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_documenters.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(documenters, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_documenters.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(documenters, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -463,12 +458,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param license the license information
      */
     public void setLicense(@Nullable java.lang.String license) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_license.invokeExact(
-                    handle(),
-                    (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_license.invokeExact(
+                        handle(),
+                        (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -509,12 +506,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param iconName an icon name
      */
     public void setLogoIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_logo_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_logo_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -526,12 +525,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param name the program name
      */
     public void setProgramName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_program_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_program_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -546,12 +547,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param systemInformation system information
      */
     public void setSystemInformation(@Nullable java.lang.String systemInformation) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_system_information.invokeExact(
-                    handle(),
-                    (Addressable) (systemInformation == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(systemInformation, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_system_information.invokeExact(
+                        handle(),
+                        (Addressable) (systemInformation == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(systemInformation, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -576,12 +579,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param translatorCredits the translator credits
      */
     public void setTranslatorCredits(@Nullable java.lang.String translatorCredits) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_translator_credits.invokeExact(
-                    handle(),
-                    (Addressable) (translatorCredits == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translatorCredits, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_translator_credits.invokeExact(
+                        handle(),
+                        (Addressable) (translatorCredits == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translatorCredits, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -590,12 +595,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param version the version string
      */
     public void setVersion(@Nullable java.lang.String version) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_version.invokeExact(
-                    handle(),
-                    (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_version.invokeExact(
+                        handle(),
+                        (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -604,12 +611,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param website a URL string starting with {@code http://}
      */
     public void setWebsite(@Nullable java.lang.String website) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_website.invokeExact(
-                    handle(),
-                    (Addressable) (website == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(website, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_website.invokeExact(
+                        handle(),
+                        (Addressable) (website == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(website, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -618,12 +627,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param websiteLabel the label used for the website link
      */
     public void setWebsiteLabel(java.lang.String websiteLabel) {
-        try {
-            DowncallHandles.gtk_about_dialog_set_website_label.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(websiteLabel, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_about_dialog_set_website_label.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(websiteLabel, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -656,20 +667,43 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateLink} callback.
+     */
     @FunctionalInterface
     public interface ActivateLink {
+    
+        /**
+         * Emitted every time a URL is activated.
+         * <p>
+         * Applications may connect to it to override the default behaviour,
+         * which is to call {@link Gtk#showUri}.
+         */
         boolean run(java.lang.String uri);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAboutDialog, MemoryAddress uri) {
-            var RESULT = run(Marshal.addressToString.marshal(uri, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(Marshal.addressToString.marshal(uri, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateLink.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -682,9 +716,10 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AboutDialog.ActivateLink> onActivateLink(AboutDialog.ActivateLink handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate-link", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -707,6 +742,9 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      */
     public static class Builder extends org.gtk.gtk.Window.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -928,213 +966,221 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_about_dialog_new = Interop.downcallHandle(
-            "gtk_about_dialog_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_add_credit_section = Interop.downcallHandle(
-            "gtk_about_dialog_add_credit_section",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_add_credit_section",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_artists = Interop.downcallHandle(
-            "gtk_about_dialog_get_artists",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_artists",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_authors = Interop.downcallHandle(
-            "gtk_about_dialog_get_authors",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_authors",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_comments = Interop.downcallHandle(
-            "gtk_about_dialog_get_comments",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_comments",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_copyright = Interop.downcallHandle(
-            "gtk_about_dialog_get_copyright",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_copyright",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_documenters = Interop.downcallHandle(
-            "gtk_about_dialog_get_documenters",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_documenters",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license = Interop.downcallHandle(
-            "gtk_about_dialog_get_license",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_license",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_license_type = Interop.downcallHandle(
-            "gtk_about_dialog_get_license_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_license_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo = Interop.downcallHandle(
-            "gtk_about_dialog_get_logo",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_logo",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_logo_icon_name = Interop.downcallHandle(
-            "gtk_about_dialog_get_logo_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_logo_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_program_name = Interop.downcallHandle(
-            "gtk_about_dialog_get_program_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_program_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_system_information = Interop.downcallHandle(
-            "gtk_about_dialog_get_system_information",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_system_information",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_translator_credits = Interop.downcallHandle(
-            "gtk_about_dialog_get_translator_credits",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_translator_credits",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_version = Interop.downcallHandle(
-            "gtk_about_dialog_get_version",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_version",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website = Interop.downcallHandle(
-            "gtk_about_dialog_get_website",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_website",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_website_label = Interop.downcallHandle(
-            "gtk_about_dialog_get_website_label",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_website_label",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_wrap_license = Interop.downcallHandle(
-            "gtk_about_dialog_get_wrap_license",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_get_wrap_license",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_artists = Interop.downcallHandle(
-            "gtk_about_dialog_set_artists",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_artists",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_authors = Interop.downcallHandle(
-            "gtk_about_dialog_set_authors",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_authors",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_comments = Interop.downcallHandle(
-            "gtk_about_dialog_set_comments",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_comments",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_copyright = Interop.downcallHandle(
-            "gtk_about_dialog_set_copyright",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_copyright",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_documenters = Interop.downcallHandle(
-            "gtk_about_dialog_set_documenters",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_documenters",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license = Interop.downcallHandle(
-            "gtk_about_dialog_set_license",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_license",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_license_type = Interop.downcallHandle(
-            "gtk_about_dialog_set_license_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_about_dialog_set_license_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo = Interop.downcallHandle(
-            "gtk_about_dialog_set_logo",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_logo",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_logo_icon_name = Interop.downcallHandle(
-            "gtk_about_dialog_set_logo_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_logo_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_program_name = Interop.downcallHandle(
-            "gtk_about_dialog_set_program_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_program_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_system_information = Interop.downcallHandle(
-            "gtk_about_dialog_set_system_information",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_system_information",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_translator_credits = Interop.downcallHandle(
-            "gtk_about_dialog_set_translator_credits",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_translator_credits",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_version = Interop.downcallHandle(
-            "gtk_about_dialog_set_version",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_version",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website = Interop.downcallHandle(
-            "gtk_about_dialog_set_website",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_website",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_website_label = Interop.downcallHandle(
-            "gtk_about_dialog_set_website_label",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_about_dialog_set_website_label",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_set_wrap_license = Interop.downcallHandle(
-            "gtk_about_dialog_set_wrap_license",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_about_dialog_set_wrap_license",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_about_dialog_get_type = Interop.downcallHandle(
-            "gtk_about_dialog_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_about_dialog_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_about_dialog_get_type != null;
     }
 }

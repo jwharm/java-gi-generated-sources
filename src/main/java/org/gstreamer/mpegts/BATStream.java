@@ -34,8 +34,8 @@ public class BATStream extends Struct {
      * @return A new, uninitialized @{link BATStream}
      */
     public static BATStream allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BATStream newInstance = new BATStream(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BATStream newInstance = new BATStream(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class BATStream extends Struct {
      * @return The value of the field {@code transport_stream_id}
      */
     public short getTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class BATStream extends Struct {
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
     public void setTransportStreamId(short transportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class BATStream extends Struct {
      * @return The value of the field {@code original_network_id}
      */
     public short getOriginalNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class BATStream extends Struct {
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
     public void setOriginalNetworkId(short originalNetworkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class BATStream extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerAddress getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerAddress(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerAddress(RESULT);
+        }
     }
     
     /**
@@ -98,22 +108,26 @@ public class BATStream extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(java.lang.foreign.MemoryAddress[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false, SCOPE)));
+        }
     }
     
     /**
      * Create a BATStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BATStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BATStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BATStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BATStream(input, ownership);
+    public static final Marshal<Addressable, BATStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BATStream(input);
     
     /**
      * A {@link BATStream.Builder} object constructs a {@link BATStream} 
@@ -137,7 +151,7 @@ public class BATStream extends Struct {
             struct = BATStream.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link BATStream} struct.
          * @return A new instance of {@code BATStream} with the fields 
          *         that were set in the Builder object.
@@ -147,24 +161,30 @@ public class BATStream extends Struct {
         }
         
         public Builder setTransportStreamId(short transportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+                return this;
+            }
         }
         
         public Builder setOriginalNetworkId(short originalNetworkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+                return this;
+            }
         }
         
         public Builder setDescriptors(java.lang.foreign.MemoryAddress[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

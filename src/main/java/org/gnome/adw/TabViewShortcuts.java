@@ -94,6 +94,9 @@ public class TabViewShortcuts extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TabViewShortcuts ALL_SHORTCUTS = new TabViewShortcuts(4095);
     
+    /**
+     * Create a new TabViewShortcuts with the provided value
+     */
     public TabViewShortcuts(int value) {
         super(value);
     }

@@ -39,20 +39,21 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
     /**
      * Create a TreeListRowSorter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeListRowSorter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeListRowSorter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeListRowSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeListRowSorter(input, ownership);
+    public static final Marshal<Addressable, TreeListRowSorter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeListRowSorter(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Sorter sorter) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact(
-                    (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact((Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,7 +70,8 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * @param sorter a {@code GtkSorter}
      */
     public TreeListRowSorter(@Nullable org.gtk.gtk.Sorter sorter) {
-        super(constructNew(sorter), Ownership.FULL);
+        super(constructNew(sorter));
+        this.takeOwnership();
     }
     
     /**
@@ -79,12 +81,11 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_get_sorter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Sorter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Sorter) Interop.register(RESULT, org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -134,6 +135,9 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      */
     public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -169,27 +173,35 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_list_row_sorter_new = Interop.downcallHandle(
-            "gtk_tree_list_row_sorter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_list_row_sorter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_list_row_sorter_get_sorter = Interop.downcallHandle(
-            "gtk_tree_list_row_sorter_get_sorter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_list_row_sorter_get_sorter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_list_row_sorter_set_sorter = Interop.downcallHandle(
-            "gtk_tree_list_row_sorter_set_sorter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_list_row_sorter_set_sorter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_list_row_sorter_get_type = Interop.downcallHandle(
-            "gtk_tree_list_row_sorter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_tree_list_row_sorter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_tree_list_row_sorter_get_type != null;
     }
 }

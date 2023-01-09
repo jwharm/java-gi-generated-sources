@@ -29,8 +29,8 @@ public class WebRTCDTLSTransportClass extends Struct {
      * @return A new, uninitialized @{link WebRTCDTLSTransportClass}
      */
     public static WebRTCDTLSTransportClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WebRTCDTLSTransportClass newInstance = new WebRTCDTLSTransportClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WebRTCDTLSTransportClass newInstance = new WebRTCDTLSTransportClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class WebRTCDTLSTransportClass extends Struct {
     /**
      * Create a WebRTCDTLSTransportClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WebRTCDTLSTransportClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WebRTCDTLSTransportClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WebRTCDTLSTransportClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCDTLSTransportClass(input, ownership);
+    public static final Marshal<Addressable, WebRTCDTLSTransportClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCDTLSTransportClass(input);
 }

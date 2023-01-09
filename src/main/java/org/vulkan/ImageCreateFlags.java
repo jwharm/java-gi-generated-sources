@@ -29,8 +29,8 @@ public class ImageCreateFlags extends Struct {
      * @return A new, uninitialized @{link ImageCreateFlags}
      */
     public static ImageCreateFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ImageCreateFlags newInstance = new ImageCreateFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ImageCreateFlags newInstance = new ImageCreateFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ImageCreateFlags extends Struct {
     /**
      * Create a ImageCreateFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ImageCreateFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ImageCreateFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ImageCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageCreateFlags(input, ownership);
+    public static final Marshal<Addressable, ImageCreateFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ImageCreateFlags(input);
 }

@@ -23,6 +23,9 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLAPI GLES = new GLAPI(2);
     
+    /**
+     * Create a new GLAPI with the provided value
+     */
     public GLAPI(int value) {
         super(value);
     }

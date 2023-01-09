@@ -32,8 +32,8 @@ public class ClosureNotifyData extends Struct {
      * @return A new, uninitialized @{link ClosureNotifyData}
      */
     public static ClosureNotifyData allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ClosureNotifyData newInstance = new ClosureNotifyData(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ClosureNotifyData newInstance = new ClosureNotifyData(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,10 +43,12 @@ public class ClosureNotifyData extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.foreign.MemoryAddress getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -54,9 +56,11 @@ public class ClosureNotifyData extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.foreign.MemoryAddress data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        }
     }
     
     /**
@@ -64,10 +68,12 @@ public class ClosureNotifyData extends Struct {
      * @return The value of the field {@code notify}
      */
     public org.gtk.gobject.ClosureNotify getNotify() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -75,22 +81,26 @@ public class ClosureNotifyData extends Struct {
      * @param notify The new value of the field {@code notify}
      */
     public void setNotify(org.gtk.gobject.ClosureNotify notify) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+        }
     }
     
     /**
      * Create a ClosureNotifyData proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ClosureNotifyData(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ClosureNotifyData(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ClosureNotifyData> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClosureNotifyData(input, ownership);
+    public static final Marshal<Addressable, ClosureNotifyData> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ClosureNotifyData(input);
     
     /**
      * A {@link ClosureNotifyData.Builder} object constructs a {@link ClosureNotifyData} 
@@ -114,7 +124,7 @@ public class ClosureNotifyData extends Struct {
             struct = ClosureNotifyData.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ClosureNotifyData} struct.
          * @return A new instance of {@code ClosureNotifyData} with the fields 
          *         that were set in the Builder object.
@@ -124,17 +134,21 @@ public class ClosureNotifyData extends Struct {
         }
         
         public Builder setData(java.lang.foreign.MemoryAddress data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+                return this;
+            }
         }
         
         public Builder setNotify(org.gtk.gobject.ClosureNotify notify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+                return this;
+            }
         }
     }
 }

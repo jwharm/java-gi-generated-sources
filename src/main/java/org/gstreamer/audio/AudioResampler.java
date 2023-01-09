@@ -34,8 +34,8 @@ public class AudioResampler extends Struct {
      * @return A new, uninitialized @{link AudioResampler}
      */
     public static AudioResampler allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioResampler newInstance = new AudioResampler(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioResampler newInstance = new AudioResampler(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,22 +43,23 @@ public class AudioResampler extends Struct {
     /**
      * Create a AudioResampler proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioResampler(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioResampler(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioResampler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioResampler(input, ownership);
+    public static final Marshal<Addressable, AudioResampler> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioResampler(input);
     
     /**
      * Free a previously allocated {@link AudioResampler} {@code resampler}.
      */
     public void free() {
         try {
-            DowncallHandles.gst_audio_resampler_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_resampler_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,8 +93,7 @@ public class AudioResampler extends Struct {
     public long getMaxLatency() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_resampler_get_max_latency.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_resampler_get_max_latency.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,8 +159,7 @@ public class AudioResampler extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_audio_resampler_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_resampler_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +217,9 @@ public class AudioResampler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioResampler.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.audio.AudioResampler.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -246,57 +247,57 @@ public class AudioResampler extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_resampler_free = Interop.downcallHandle(
-            "gst_audio_resampler_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_get_in_frames = Interop.downcallHandle(
-            "gst_audio_resampler_get_in_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_resampler_get_in_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_get_max_latency = Interop.downcallHandle(
-            "gst_audio_resampler_get_max_latency",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_get_max_latency",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_get_out_frames = Interop.downcallHandle(
-            "gst_audio_resampler_get_out_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_resampler_get_out_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_resample = Interop.downcallHandle(
-            "gst_audio_resampler_resample",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_resampler_resample",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_reset = Interop.downcallHandle(
-            "gst_audio_resampler_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_update = Interop.downcallHandle(
-            "gst_audio_resampler_update",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_update",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_new = Interop.downcallHandle(
-            "gst_audio_resampler_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_resampler_options_set_quality = Interop.downcallHandle(
-            "gst_audio_resampler_options_set_quality",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_resampler_options_set_quality",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

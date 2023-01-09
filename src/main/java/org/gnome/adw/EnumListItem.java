@@ -29,14 +29,16 @@ public class EnumListItem extends org.gtk.gobject.GObject {
     /**
      * Create a EnumListItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EnumListItem(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EnumListItem(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EnumListItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumListItem(input, ownership);
+    public static final Marshal<Addressable, EnumListItem> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EnumListItem(input);
     
     /**
      * Gets the enum value name.
@@ -45,8 +47,7 @@ public class EnumListItem extends org.gtk.gobject.GObject {
     public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,8 +61,7 @@ public class EnumListItem extends org.gtk.gobject.GObject {
     public java.lang.String getNick() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_nick.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_item_get_nick.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -75,8 +75,7 @@ public class EnumListItem extends org.gtk.gobject.GObject {
     public int getValue() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_enum_list_item_get_value.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_enum_list_item_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,6 +112,9 @@ public class EnumListItem extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -170,27 +172,35 @@ public class EnumListItem extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_enum_list_item_get_name = Interop.downcallHandle(
-            "adw_enum_list_item_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_enum_list_item_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_enum_list_item_get_nick = Interop.downcallHandle(
-            "adw_enum_list_item_get_nick",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_enum_list_item_get_nick",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_enum_list_item_get_value = Interop.downcallHandle(
-            "adw_enum_list_item_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_enum_list_item_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_enum_list_item_get_type = Interop.downcallHandle(
-            "adw_enum_list_item_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_enum_list_item_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_enum_list_item_get_type != null;
     }
 }

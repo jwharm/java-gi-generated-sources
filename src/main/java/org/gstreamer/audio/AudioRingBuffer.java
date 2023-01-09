@@ -61,26 +61,17 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a AudioRingBuffer proxy instance for the provided memory address.
-     * <p>
-     * Because AudioRingBuffer is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioRingBuffer(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AudioRingBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioRingBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBuffer(input, ownership);
+    public static final Marshal<Addressable, AudioRingBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBuffer(input);
     
     /**
      * Allocate the resources for the ringbuffer. This function fills
@@ -164,8 +155,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      */
     public void clearAll() {
         try {
-            DowncallHandles.gst_audio_ring_buffer_clear_all.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_ring_buffer_clear_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,8 +171,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean closeDevice() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_close_device.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_close_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,21 +208,23 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      * with a flush or stop.
      */
     public int commit(PointerLong sample, byte[] data, int inSamples, int outSamples, Out<Integer> accum) {
-        MemorySegment accumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_commit.invokeExact(
-                    handle(),
-                    sample.handle(),
-                    Interop.allocateNativeArray(data, false),
-                    inSamples,
-                    outSamples,
-                    (Addressable) accumPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment accumPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_ring_buffer_commit.invokeExact(
+                        handle(),
+                        sample.handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        inSamples,
+                        outSamples,
+                        (Addressable) accumPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    accum.set(accumPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return RESULT;
         }
-        accum.set(accumPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT;
     }
     
     /**
@@ -246,20 +237,22 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      * @return TRUE if the conversion succeeded.
      */
     public boolean convert(org.gstreamer.gst.Format srcFmt, long srcVal, org.gstreamer.gst.Format destFmt, Out<Long> destVal) {
-        MemorySegment destValPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_convert.invokeExact(
-                    handle(),
-                    srcFmt.getValue(),
-                    srcVal,
-                    destFmt.getValue(),
-                    (Addressable) destValPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment destValPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_ring_buffer_convert.invokeExact(
+                        handle(),
+                        srcFmt.getValue(),
+                        srcVal,
+                        destFmt.getValue(),
+                        (Addressable) destValPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    destVal.set(destValPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        destVal.set(destValPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -280,8 +273,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public int delay() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_delay.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_delay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,8 +289,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean deviceIsOpen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_device_is_open.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_device_is_open.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,8 +305,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean isAcquired() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_acquired.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_acquired.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,8 +321,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,8 +337,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean isFlushing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_flushing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_is_flushing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,8 +372,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean openDevice() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_open_device.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_open_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -401,8 +388,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean pause() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_pause.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_pause.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,23 +406,25 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      * MT safe.
      */
     public boolean prepareRead(Out<Integer> segment, Out<byte[]> readptr, Out<Integer> len) {
-        MemorySegment segmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment readptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_prepare_read.invokeExact(
-                    handle(),
-                    (Addressable) segmentPOINTER.address(),
-                    (Addressable) readptrPOINTER.address(),
-                    (Addressable) lenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment segmentPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment readptrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment lenPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_ring_buffer_prepare_read.invokeExact(
+                        handle(),
+                        (Addressable) segmentPOINTER.address(),
+                        (Addressable) readptrPOINTER.address(),
+                        (Addressable) lenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    segment.set(segmentPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
+            readptr.set(MemorySegment.ofAddress(readptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        segment.set(segmentPOINTER.get(Interop.valueLayout.C_INT, 0));
-        len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
-        readptr.set(MemorySegment.ofAddress(readptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -459,20 +447,22 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      * MT safe.
      */
     public int read(long sample, byte[] data, int len, org.gstreamer.gst.ClockTime timestamp) {
-        MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_read.invokeExact(
-                    handle(),
-                    sample,
-                    Interop.allocateNativeArray(data, false),
-                    len,
-                    (Addressable) timestampPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment timestampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_ring_buffer_read.invokeExact(
+                        handle(),
+                        sample,
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        len,
+                        (Addressable) timestampPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -484,8 +474,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean release() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_release.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_release.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -503,8 +492,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public long samplesDone() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_ring_buffer_samples_done.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_ring_buffer_samples_done.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,12 +525,14 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      * @param position the device channel positions
      */
     public void setChannelPositions(org.gstreamer.audio.AudioChannelPosition[] position) {
-        try {
-            DowncallHandles.gst_audio_ring_buffer_set_channel_positions.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(Enumeration.getValues(position), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_audio_ring_buffer_set_channel_positions.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(Enumeration.getValues(position), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -603,8 +593,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean start() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_start.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -620,8 +609,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     public boolean stop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_stop.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_ring_buffer_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -648,8 +636,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      */
     public static void debugSpecBuff(org.gstreamer.audio.AudioRingBufferSpec spec) {
         try {
-            DowncallHandles.gst_audio_ring_buffer_debug_spec_buff.invokeExact(
-                    spec.handle());
+            DowncallHandles.gst_audio_ring_buffer_debug_spec_buff.invokeExact(spec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -661,8 +648,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      */
     public static void debugSpecCaps(org.gstreamer.audio.AudioRingBufferSpec spec) {
         try {
-            DowncallHandles.gst_audio_ring_buffer_debug_spec_caps.invokeExact(
-                    spec.handle());
+            DowncallHandles.gst_audio_ring_buffer_debug_spec_caps.invokeExact(spec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -702,6 +688,9 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -726,189 +715,197 @@ public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_ring_buffer_acquire = Interop.downcallHandle(
-            "gst_audio_ring_buffer_acquire",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_acquire",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_activate = Interop.downcallHandle(
-            "gst_audio_ring_buffer_activate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_ring_buffer_activate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_advance = Interop.downcallHandle(
-            "gst_audio_ring_buffer_advance",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_ring_buffer_advance",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_clear = Interop.downcallHandle(
-            "gst_audio_ring_buffer_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_ring_buffer_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_clear_all = Interop.downcallHandle(
-            "gst_audio_ring_buffer_clear_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_clear_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_close_device = Interop.downcallHandle(
-            "gst_audio_ring_buffer_close_device",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_close_device",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_commit = Interop.downcallHandle(
-            "gst_audio_ring_buffer_commit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_commit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_convert = Interop.downcallHandle(
-            "gst_audio_ring_buffer_convert",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_convert",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_delay = Interop.downcallHandle(
-            "gst_audio_ring_buffer_delay",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_delay",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_device_is_open = Interop.downcallHandle(
-            "gst_audio_ring_buffer_device_is_open",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_device_is_open",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_is_acquired = Interop.downcallHandle(
-            "gst_audio_ring_buffer_is_acquired",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_is_acquired",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_is_active = Interop.downcallHandle(
-            "gst_audio_ring_buffer_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_is_flushing = Interop.downcallHandle(
-            "gst_audio_ring_buffer_is_flushing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_is_flushing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_may_start = Interop.downcallHandle(
-            "gst_audio_ring_buffer_may_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_ring_buffer_may_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_open_device = Interop.downcallHandle(
-            "gst_audio_ring_buffer_open_device",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_open_device",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_pause = Interop.downcallHandle(
-            "gst_audio_ring_buffer_pause",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_pause",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_prepare_read = Interop.downcallHandle(
-            "gst_audio_ring_buffer_prepare_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_prepare_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_read = Interop.downcallHandle(
-            "gst_audio_ring_buffer_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_release = Interop.downcallHandle(
-            "gst_audio_ring_buffer_release",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_release",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_samples_done = Interop.downcallHandle(
-            "gst_audio_ring_buffer_samples_done",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_samples_done",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_set_callback_full = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_callback_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_set_callback_full",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_set_channel_positions = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_channel_positions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_set_channel_positions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_set_flushing = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_ring_buffer_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_set_sample = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_sample",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_ring_buffer_set_sample",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_set_timestamp = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_timestamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_ring_buffer_set_timestamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_start = Interop.downcallHandle(
-            "gst_audio_ring_buffer_start",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_start",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_stop = Interop.downcallHandle(
-            "gst_audio_ring_buffer_stop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_stop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_get_type = Interop.downcallHandle(
-            "gst_audio_ring_buffer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_ring_buffer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_debug_spec_buff = Interop.downcallHandle(
-            "gst_audio_ring_buffer_debug_spec_buff",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_debug_spec_buff",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_debug_spec_caps = Interop.downcallHandle(
-            "gst_audio_ring_buffer_debug_spec_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_debug_spec_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_ring_buffer_parse_caps = Interop.downcallHandle(
-            "gst_audio_ring_buffer_parse_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_ring_buffer_parse_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_audio_ring_buffer_get_type != null;
     }
 }

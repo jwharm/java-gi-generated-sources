@@ -29,30 +29,34 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
     /**
      * Create a CharsetConverter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CharsetConverter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CharsetConverter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CharsetConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CharsetConverter(input, ownership);
+    public static final Marshal<Addressable, CharsetConverter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CharsetConverter(input);
     
     private static MemoryAddress constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_charset_converter_new.invokeExact(
-                    Marshal.stringToAddress.marshal(toCharset, null),
-                    Marshal.stringToAddress.marshal(fromCharset, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_charset_converter_new.invokeExact(
+                        Marshal.stringToAddress.marshal(toCharset, SCOPE),
+                        Marshal.stringToAddress.marshal(fromCharset, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -62,7 +66,8 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
-        super(constructNew(toCharset, fromCharset), Ownership.FULL);
+        super(constructNew(toCharset, fromCharset));
+        this.takeOwnership();
     }
     
     /**
@@ -72,8 +77,7 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
     public int getNumFallbacks() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_charset_converter_get_num_fallbacks.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_charset_converter_get_num_fallbacks.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,8 +91,7 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
     public boolean getUseFallback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_charset_converter_get_use_fallback.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_charset_converter_get_use_fallback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,6 +142,9 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -181,33 +187,41 @@ public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
-            "g_charset_converter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_charset_converter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_charset_converter_get_num_fallbacks = Interop.downcallHandle(
-            "g_charset_converter_get_num_fallbacks",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_charset_converter_get_num_fallbacks",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_charset_converter_get_use_fallback = Interop.downcallHandle(
-            "g_charset_converter_get_use_fallback",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_charset_converter_get_use_fallback",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_charset_converter_set_use_fallback = Interop.downcallHandle(
-            "g_charset_converter_set_use_fallback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_charset_converter_set_use_fallback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_charset_converter_get_type = Interop.downcallHandle(
-            "g_charset_converter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_charset_converter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_charset_converter_get_type != null;
     }
 }

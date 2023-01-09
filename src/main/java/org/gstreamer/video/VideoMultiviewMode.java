@@ -11,6 +11,7 @@ import org.jetbrains.annotations.*;
  * multiview content is being transported in the stream.
  */
 public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * A special value indicating
      * no multiview information. Used in GstVideoInfo and other places to
@@ -18,23 +19,28 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
      * provided. This value is never carried on caps.
      */
     NONE(-1),
+    
     /**
      * All frames are monoscopic.
      */
     MONO(0),
+    
     /**
      * All frames represent a left-eye view.
      */
     LEFT(1),
+    
     /**
      * All frames represent a right-eye view.
      */
     RIGHT(2),
+    
     /**
      * Left and right eye views are
      * provided in the left and right half of the frame respectively.
      */
     SIDE_BY_SIDE(3),
+    
     /**
      * Left and right eye
      * views are provided in the left and right half of the frame, but
@@ -42,32 +48,38 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
      * between the 2 views.
      */
     SIDE_BY_SIDE_QUINCUNX(4),
+    
     /**
      * Alternating vertical
      * columns of pixels represent the left and right eye view respectively.
      */
     COLUMN_INTERLEAVED(5),
+    
     /**
      * Alternating horizontal
      * rows of pixels represent the left and right eye view respectively.
      */
     ROW_INTERLEAVED(6),
+    
     /**
      * The top half of the frame
      * contains the left eye, and the bottom half the right eye.
      */
     TOP_BOTTOM(7),
+    
     /**
      * Pixels are arranged with
      * alternating pixels representing left and right eye views in a
      * checkerboard fashion.
      */
     CHECKERBOARD(8),
+    
     /**
      * Left and right eye views
      * are provided in separate frames alternately.
      */
     FRAME_BY_FRAME(32),
+    
     /**
      * Multiple
      * independent views are provided in separate frames in sequence.
@@ -76,6 +88,7 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
      * and {@link VideoMeta}(s) on raw video buffers.
      */
     MULTIVIEW_FRAME_BY_FRAME(33),
+    
     /**
      * Multiple views are
      * provided as separate {@link org.gstreamer.gst.Memory} framebuffers attached to each
@@ -87,15 +100,29 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoMultiviewMode";
     
     private final int value;
+    
+    /**
+     * Create a new VideoMultiviewMode for the provided value
+     * @param numeric value the enum value
+     */
     VideoMultiviewMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoMultiviewMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoMultiviewMode of(int value) {
         return switch (value) {
             case -1 -> NONE;
@@ -116,21 +143,21 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
     }
     
     public static org.gstreamer.video.VideoMultiviewMode fromCapsString(java.lang.String capsMviewMode) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_video_multiview_mode_from_caps_string.invokeExact(
-                    Marshal.stringToAddress.marshal(capsMviewMode, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_video_multiview_mode_from_caps_string.invokeExact(Marshal.stringToAddress.marshal(capsMviewMode, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.video.VideoMultiviewMode.of(RESULT);
         }
-        return org.gstreamer.video.VideoMultiviewMode.of(RESULT);
     }
     
     public static java.lang.String toCapsString(org.gstreamer.video.VideoMultiviewMode mviewMode) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_mode_to_caps_string.invokeExact(
-                    mviewMode.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_mode_to_caps_string.invokeExact(mviewMode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,15 +167,15 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_multiview_mode_from_caps_string = Interop.downcallHandle(
-            "gst_video_multiview_mode_from_caps_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_multiview_mode_from_caps_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_multiview_mode_to_caps_string = Interop.downcallHandle(
-            "gst_video_multiview_mode_to_caps_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_multiview_mode_to_caps_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

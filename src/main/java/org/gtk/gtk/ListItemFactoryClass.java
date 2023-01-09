@@ -29,8 +29,8 @@ public class ListItemFactoryClass extends Struct {
      * @return A new, uninitialized @{link ListItemFactoryClass}
      */
     public static ListItemFactoryClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ListItemFactoryClass newInstance = new ListItemFactoryClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ListItemFactoryClass newInstance = new ListItemFactoryClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ListItemFactoryClass extends Struct {
     /**
      * Create a ListItemFactoryClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListItemFactoryClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ListItemFactoryClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListItemFactoryClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListItemFactoryClass(input, ownership);
+    public static final Marshal<Addressable, ListItemFactoryClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListItemFactoryClass(input);
 }

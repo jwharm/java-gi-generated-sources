@@ -48,26 +48,17 @@ public class GLFilter extends org.gstreamer.gl.GLBaseFilter {
     
     /**
      * Create a GLFilter proxy instance for the provided memory address.
-     * <p>
-     * Because GLFilter is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLFilter(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFilter(input, ownership);
+    public static final Marshal<Addressable, GLFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLFilter(input);
     
     /**
      * Render a fullscreen quad using the current GL state.  The only GL state this
@@ -77,8 +68,7 @@ public class GLFilter extends org.gstreamer.gl.GLBaseFilter {
      */
     public void drawFullscreenQuad() {
         try {
-            DowncallHandles.gst_gl_filter_draw_fullscreen_quad.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_filter_draw_fullscreen_quad.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -161,8 +151,7 @@ public class GLFilter extends org.gstreamer.gl.GLBaseFilter {
     
     public static void addRgbaPadTemplates(org.gstreamer.gl.GLFilterClass klass) {
         try {
-            DowncallHandles.gst_gl_filter_add_rgba_pad_templates.invokeExact(
-                    klass.handle());
+            DowncallHandles.gst_gl_filter_add_rgba_pad_templates.invokeExact(klass.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,6 +173,9 @@ public class GLFilter extends org.gstreamer.gl.GLBaseFilter {
      */
     public static class Builder extends org.gstreamer.gl.GLBaseFilter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -208,39 +200,47 @@ public class GLFilter extends org.gstreamer.gl.GLBaseFilter {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_filter_draw_fullscreen_quad = Interop.downcallHandle(
-            "gst_gl_filter_draw_fullscreen_quad",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_filter_draw_fullscreen_quad",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_filter_filter_texture = Interop.downcallHandle(
-            "gst_gl_filter_filter_texture",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_filter_filter_texture",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_filter_render_to_target = Interop.downcallHandle(
-            "gst_gl_filter_render_to_target",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_filter_render_to_target",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_filter_render_to_target_with_shader = Interop.downcallHandle(
-            "gst_gl_filter_render_to_target_with_shader",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_filter_render_to_target_with_shader",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_filter_get_type = Interop.downcallHandle(
-            "gst_gl_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_filter_add_rgba_pad_templates = Interop.downcallHandle(
-            "gst_gl_filter_add_rgba_pad_templates",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_filter_add_rgba_pad_templates",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_filter_get_type != null;
     }
 }

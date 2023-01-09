@@ -24,67 +24,66 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Transcoder proxy instance for the provided memory address.
-     * <p>
-     * Because Transcoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Transcoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected Transcoder(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Transcoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Transcoder(input);
+    
+    private static MemoryAddress constructNew(java.lang.String sourceUri, java.lang.String destUri, java.lang.String encodingProfile) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new.invokeExact(
+                        Marshal.stringToAddress.marshal(sourceUri, SCOPE),
+                        Marshal.stringToAddress.marshal(destUri, SCOPE),
+                        Marshal.stringToAddress.marshal(encodingProfile, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, Transcoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Transcoder(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String sourceUri, java.lang.String destUri, java.lang.String encodingProfile) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new.invokeExact(
-                    Marshal.stringToAddress.marshal(sourceUri, null),
-                    Marshal.stringToAddress.marshal(destUri, null),
-                    Marshal.stringToAddress.marshal(encodingProfile, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     public Transcoder(java.lang.String sourceUri, java.lang.String destUri, java.lang.String encodingProfile) {
-        super(constructNew(sourceUri, destUri, encodingProfile), Ownership.NONE);
+        super(constructNew(sourceUri, destUri, encodingProfile));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFull(java.lang.String sourceUri, java.lang.String destUri, org.gstreamer.pbutils.EncodingProfile profile) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new_full.invokeExact(
-                    Marshal.stringToAddress.marshal(sourceUri, null),
-                    Marshal.stringToAddress.marshal(destUri, null),
-                    profile.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new_full.invokeExact(
+                        Marshal.stringToAddress.marshal(sourceUri, SCOPE),
+                        Marshal.stringToAddress.marshal(destUri, SCOPE),
+                        profile.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     public static Transcoder newFull(java.lang.String sourceUri, java.lang.String destUri, org.gstreamer.pbutils.EncodingProfile profile) {
         var RESULT = constructNewFull(sourceUri, destUri, profile);
-        return (org.gstreamer.transcoder.Transcoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.Transcoder.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.transcoder.Transcoder) Interop.register(RESULT, org.gstreamer.transcoder.Transcoder.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public boolean getAvoidReencoding() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_transcoder_get_avoid_reencoding.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_transcoder_get_avoid_reencoding.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +98,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public java.lang.String getDestUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_dest_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_dest_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,8 +113,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_transcoder_get_duration.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_transcoder_get_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,30 +138,31 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Bus getMessageBus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_message_bus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_message_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Bus) Interop.register(RESULT, org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.gst.Element getPipeline() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_pipeline.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_pipeline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.gst.ClockTime getPosition() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_transcoder_get_position.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_transcoder_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +172,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public int getPositionUpdateInterval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_transcoder_get_position_update_interval.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_transcoder_get_position_update_interval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,7 +200,9 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.transcoder.TranscoderSignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.transcoder.TranscoderSignalAdapter) Interop.register(RESULT, org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -214,8 +213,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public java.lang.String getSourceUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_source_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_source_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,12 +229,13 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public org.gstreamer.transcoder.TranscoderSignalAdapter getSyncSignalAdapter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_sync_signal_adapter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_sync_signal_adapter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.transcoder.TranscoderSignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.transcoder.TranscoderSignalAdapter) Interop.register(RESULT, org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -246,19 +245,19 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean run() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_transcoder_run.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_transcoder_run.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -269,8 +268,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
      */
     public void runAsync() {
         try {
-            DowncallHandles.gst_transcoder_run_async.invokeExact(
-                    handle());
+            DowncallHandles.gst_transcoder_run_async.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,8 +333,7 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     public static boolean isTranscoderMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_transcoder_is_transcoder_message.invokeExact(
-                    msg.handle());
+            RESULT = (int) DowncallHandles.gst_transcoder_is_transcoder_message.invokeExact(msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,6 +356,9 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -436,117 +436,125 @@ public class Transcoder extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_transcoder_new = Interop.downcallHandle(
-            "gst_transcoder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_new_full = Interop.downcallHandle(
-            "gst_transcoder_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_avoid_reencoding = Interop.downcallHandle(
-            "gst_transcoder_get_avoid_reencoding",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_avoid_reencoding",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_dest_uri = Interop.downcallHandle(
-            "gst_transcoder_get_dest_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_dest_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_duration = Interop.downcallHandle(
-            "gst_transcoder_get_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_message_bus = Interop.downcallHandle(
-            "gst_transcoder_get_message_bus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_message_bus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_pipeline = Interop.downcallHandle(
-            "gst_transcoder_get_pipeline",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_pipeline",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_position = Interop.downcallHandle(
-            "gst_transcoder_get_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_position_update_interval = Interop.downcallHandle(
-            "gst_transcoder_get_position_update_interval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_position_update_interval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_signal_adapter = Interop.downcallHandle(
-            "gst_transcoder_get_signal_adapter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_signal_adapter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_source_uri = Interop.downcallHandle(
-            "gst_transcoder_get_source_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_source_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_sync_signal_adapter = Interop.downcallHandle(
-            "gst_transcoder_get_sync_signal_adapter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_get_sync_signal_adapter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_run = Interop.downcallHandle(
-            "gst_transcoder_run",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_run",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_run_async = Interop.downcallHandle(
-            "gst_transcoder_run_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_run_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_transcoder_set_avoid_reencoding = Interop.downcallHandle(
-            "gst_transcoder_set_avoid_reencoding",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_transcoder_set_avoid_reencoding",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_transcoder_set_cpu_usage = Interop.downcallHandle(
-            "gst_transcoder_set_cpu_usage",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_transcoder_set_cpu_usage",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_transcoder_set_position_update_interval = Interop.downcallHandle(
-            "gst_transcoder_set_position_update_interval",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_transcoder_set_position_update_interval",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_transcoder_get_type = Interop.downcallHandle(
-            "gst_transcoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_transcoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_transcoder_is_transcoder_message = Interop.downcallHandle(
-            "gst_transcoder_is_transcoder_message",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_transcoder_is_transcoder_message",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_transcoder_get_type != null;
     }
 }

@@ -36,14 +36,16 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
     /**
      * Create a EmblemedIcon proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EmblemedIcon(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EmblemedIcon(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EmblemedIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EmblemedIcon(input, ownership);
+    public static final Marshal<Addressable, EmblemedIcon> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EmblemedIcon(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
         MemoryAddress RESULT;
@@ -63,7 +65,8 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
      * @param emblem a {@link Emblem}, or {@code null}
      */
     public EmblemedIcon(org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
-        super(constructNew(icon, emblem), Ownership.FULL);
+        super(constructNew(icon, emblem));
+        this.takeOwnership();
     }
     
     /**
@@ -85,8 +88,7 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public void clearEmblems() {
         try {
-            DowncallHandles.g_emblemed_icon_clear_emblems.invokeExact(
-                    handle());
+            DowncallHandles.g_emblemed_icon_clear_emblems.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,12 +102,11 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
     public org.gtk.glib.List getEmblems() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_emblems.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_emblems.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -115,12 +116,11 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
     public org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -153,6 +153,9 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -183,39 +186,47 @@ public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio
     private static class DowncallHandles {
         
         private static final MethodHandle g_emblemed_icon_new = Interop.downcallHandle(
-            "g_emblemed_icon_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_emblemed_icon_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_emblemed_icon_add_emblem = Interop.downcallHandle(
-            "g_emblemed_icon_add_emblem",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_emblemed_icon_add_emblem",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_emblemed_icon_clear_emblems = Interop.downcallHandle(
-            "g_emblemed_icon_clear_emblems",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_emblemed_icon_clear_emblems",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_emblemed_icon_get_emblems = Interop.downcallHandle(
-            "g_emblemed_icon_get_emblems",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_emblemed_icon_get_emblems",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_emblemed_icon_get_icon = Interop.downcallHandle(
-            "g_emblemed_icon_get_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_emblemed_icon_get_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_emblemed_icon_get_type = Interop.downcallHandle(
-            "g_emblemed_icon_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_emblemed_icon_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_emblemed_icon_get_type != null;
     }
 }

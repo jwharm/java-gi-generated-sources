@@ -33,8 +33,8 @@ public class ScaleClass extends Struct {
      * @return A new, uninitialized @{link ScaleClass}
      */
     public static ScaleClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScaleClass newInstance = new ScaleClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ScaleClass newInstance = new ScaleClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class ScaleClass extends Struct {
      */
     public org.gtk.gtk.RangeClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.RangeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.RangeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,28 +53,47 @@ public class ScaleClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.RangeClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetLayoutOffsetsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetLayoutOffsetsCallback {
+    
         void run(org.gtk.gtk.Scale scale, Out<Integer> x, Out<Integer> y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress scale, MemoryAddress x, MemoryAddress y) {
-            Out<Integer> xOUT = new Out<>(x.get(Interop.valueLayout.C_INT, 0));
-            Out<Integer> yOUT = new Out<>(y.get(Interop.valueLayout.C_INT, 0));
-            run((org.gtk.gtk.Scale) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(scale)), org.gtk.gtk.Scale.fromAddress).marshal(scale, Ownership.NONE), xOUT, yOUT);
-            x.set(Interop.valueLayout.C_INT, 0, xOUT.get());
-            y.set(Interop.valueLayout.C_INT, 0, yOUT.get());
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<Integer> xOUT = new Out<>(x.get(Interop.valueLayout.C_INT, 0));
+                Out<Integer> yOUT = new Out<>(y.get(Interop.valueLayout.C_INT, 0));
+                run((org.gtk.gtk.Scale) Interop.register(scale, org.gtk.gtk.Scale.fromAddress).marshal(scale, null), xOUT, yOUT);
+                x.set(Interop.valueLayout.C_INT, 0, xOUT.get());
+                y.set(Interop.valueLayout.C_INT, 0, yOUT.get());
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetLayoutOffsetsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetLayoutOffsetsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,22 +102,26 @@ public class ScaleClass extends Struct {
      * @param getLayoutOffsets The new value of the field {@code get_layout_offsets}
      */
     public void setGetLayoutOffsets(GetLayoutOffsetsCallback getLayoutOffsets) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLayoutOffsets == null ? MemoryAddress.NULL : getLayoutOffsets.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getLayoutOffsets == null ? MemoryAddress.NULL : getLayoutOffsets.toCallback()));
+        }
     }
     
     /**
      * Create a ScaleClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScaleClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScaleClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScaleClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScaleClass(input, ownership);
+    public static final Marshal<Addressable, ScaleClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScaleClass(input);
     
     /**
      * A {@link ScaleClass.Builder} object constructs a {@link ScaleClass} 
@@ -122,7 +145,7 @@ public class ScaleClass extends Struct {
             struct = ScaleClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ScaleClass} struct.
          * @return A new instance of {@code ScaleClass} with the fields 
          *         that were set in the Builder object.
@@ -132,24 +155,30 @@ public class ScaleClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.RangeClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetLayoutOffsets(GetLayoutOffsetsCallback getLayoutOffsets) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLayoutOffsets == null ? MemoryAddress.NULL : getLayoutOffsets.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_layout_offsets"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getLayoutOffsets == null ? MemoryAddress.NULL : getLayoutOffsets.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

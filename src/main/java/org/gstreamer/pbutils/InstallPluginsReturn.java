@@ -14,11 +14,13 @@ import org.jetbrains.annotations.*;
  * program and to what extent the requested plugins could be installed.
  */
 public enum InstallPluginsReturn implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * all of the requested plugins could be
      *     installed
      */
     SUCCESS(0),
+    
     /**
      * no appropriate installation candidate for
      *     any of the requested plugins could be found. Only return this if nothing
@@ -26,46 +28,55 @@ public enum InstallPluginsReturn implements io.github.jwharm.javagi.Enumeration 
      *     some (but not all) of the requested plugins could be installed.
      */
     NOT_FOUND(1),
+    
     /**
      * an error occurred during the installation. If
      *     this happens, the  user has already seen an error message and another
      *     one should not be displayed
      */
     ERROR(2),
+    
     /**
      * some of the requested plugins could
      *     be installed, but not all
      */
     PARTIAL_SUCCESS(3),
+    
     /**
      * the user has aborted the installation
      */
     USER_ABORT(4),
+    
     /**
      * the installer had an unclean exit code
      *     (ie. death by signal)
      */
     CRASHED(100),
+    
     /**
      * the helper returned an invalid status code
      */
     INVALID(101),
+    
     /**
      * returned by gst_install_plugins_async() to
      *     indicate that everything went fine so far and the provided callback
      *     will be called with the result of the installation later
      */
     STARTED_OK(200),
+    
     /**
      * some internal failure has
      *     occurred when trying to start the installer
      */
     INTERNAL_FAILURE(201),
+    
     /**
      * the helper script to call the
      *     actual installer is not installed
      */
     HELPER_MISSING(202),
+    
     /**
      * a previously-started plugin
      *     installation is still in progress, try again later
@@ -75,15 +86,29 @@ public enum InstallPluginsReturn implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GstInstallPluginsReturn";
     
     private final int value;
+    
+    /**
+     * Create a new InstallPluginsReturn for the provided value
+     * @param numeric value the enum value
+     */
     InstallPluginsReturn(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new InstallPluginsReturn for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static InstallPluginsReturn of(int value) {
         return switch (value) {
             case 0 -> SUCCESS;
@@ -112,8 +137,7 @@ public enum InstallPluginsReturn implements io.github.jwharm.javagi.Enumeration 
     public static java.lang.String getName(org.gstreamer.pbutils.InstallPluginsReturn ret) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_return_get_name.invokeExact(
-                    ret.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_return_get_name.invokeExact(ret.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,9 +147,9 @@ public enum InstallPluginsReturn implements io.github.jwharm.javagi.Enumeration 
     private static class DowncallHandles {
         
         private static final MethodHandle gst_install_plugins_return_get_name = Interop.downcallHandle(
-            "gst_install_plugins_return_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_install_plugins_return_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

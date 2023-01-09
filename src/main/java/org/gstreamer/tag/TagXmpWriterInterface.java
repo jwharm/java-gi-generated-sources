@@ -31,8 +31,8 @@ public class TagXmpWriterInterface extends Struct {
      * @return A new, uninitialized @{link TagXmpWriterInterface}
      */
     public static TagXmpWriterInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TagXmpWriterInterface newInstance = new TagXmpWriterInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TagXmpWriterInterface newInstance = new TagXmpWriterInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class TagXmpWriterInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class TagXmpWriterInterface extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.gobject.TypeInterface parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
      * Create a TagXmpWriterInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TagXmpWriterInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TagXmpWriterInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagXmpWriterInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterInterface(input, ownership);
+    public static final Marshal<Addressable, TagXmpWriterInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterInterface(input);
     
     /**
      * A {@link TagXmpWriterInterface.Builder} object constructs a {@link TagXmpWriterInterface} 
@@ -90,7 +94,7 @@ public class TagXmpWriterInterface extends Struct {
             struct = TagXmpWriterInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TagXmpWriterInterface} struct.
          * @return A new instance of {@code TagXmpWriterInterface} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class TagXmpWriterInterface extends Struct {
         }
         
         public Builder setParent(org.gtk.gobject.TypeInterface parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
     }
 }

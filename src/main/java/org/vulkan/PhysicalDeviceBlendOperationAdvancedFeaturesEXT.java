@@ -29,8 +29,8 @@ public class PhysicalDeviceBlendOperationAdvancedFeaturesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceBlendOperationAdvancedFeaturesEXT}
      */
     public static PhysicalDeviceBlendOperationAdvancedFeaturesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceBlendOperationAdvancedFeaturesEXT newInstance = new PhysicalDeviceBlendOperationAdvancedFeaturesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceBlendOperationAdvancedFeaturesEXT newInstance = new PhysicalDeviceBlendOperationAdvancedFeaturesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceBlendOperationAdvancedFeaturesEXT extends Struct {
     /**
      * Create a PhysicalDeviceBlendOperationAdvancedFeaturesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceBlendOperationAdvancedFeaturesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceBlendOperationAdvancedFeaturesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceBlendOperationAdvancedFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceBlendOperationAdvancedFeaturesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceBlendOperationAdvancedFeaturesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceBlendOperationAdvancedFeaturesEXT(input);
 }

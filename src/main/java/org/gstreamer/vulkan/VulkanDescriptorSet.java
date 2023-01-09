@@ -38,8 +38,8 @@ public class VulkanDescriptorSet extends Struct {
      * @return A new, uninitialized @{link VulkanDescriptorSet}
      */
     public static VulkanDescriptorSet allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanDescriptorSet newInstance = new VulkanDescriptorSet(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanDescriptorSet newInstance = new VulkanDescriptorSet(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class VulkanDescriptorSet extends Struct {
      */
     public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,9 +58,11 @@ public class VulkanDescriptorSet extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.gst.MiniObject parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -69,7 +71,7 @@ public class VulkanDescriptorSet extends Struct {
      */
     public org.vulkan.DescriptorSet getSet() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("set"));
-        return org.vulkan.DescriptorSet.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.DescriptorSet.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -77,9 +79,11 @@ public class VulkanDescriptorSet extends Struct {
      * @param set The new value of the field {@code set}
      */
     public void setSet(org.vulkan.DescriptorSet set) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set == null ? MemoryAddress.NULL : set.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (set == null ? MemoryAddress.NULL : set.handle()));
+        }
     }
     
     /**
@@ -87,10 +91,12 @@ public class VulkanDescriptorSet extends Struct {
      * @return The value of the field {@code pool}
      */
     public org.gstreamer.vulkan.VulkanDescriptorPool getPool() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.vulkan.VulkanDescriptorPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDescriptorPool.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.vulkan.VulkanDescriptorPool) Interop.register(RESULT, org.gstreamer.vulkan.VulkanDescriptorPool.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -98,9 +104,11 @@ public class VulkanDescriptorSet extends Struct {
      * @param pool The new value of the field {@code pool}
      */
     public void setPool(org.gstreamer.vulkan.VulkanDescriptorPool pool) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        }
     }
     
     /**
@@ -108,10 +116,12 @@ public class VulkanDescriptorSet extends Struct {
      * @return The value of the field {@code cache}
      */
     public org.gstreamer.vulkan.VulkanDescriptorCache getCache() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cache"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.vulkan.VulkanDescriptorCache) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDescriptorCache.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cache"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.vulkan.VulkanDescriptorCache) Interop.register(RESULT, org.gstreamer.vulkan.VulkanDescriptorCache.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -119,9 +129,11 @@ public class VulkanDescriptorSet extends Struct {
      * @param cache The new value of the field {@code cache}
      */
     public void setCache(org.gstreamer.vulkan.VulkanDescriptorCache cache) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cache"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cache == null ? MemoryAddress.NULL : cache.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cache"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cache == null ? MemoryAddress.NULL : cache.handle()));
+        }
     }
     
     /**
@@ -129,10 +141,12 @@ public class VulkanDescriptorSet extends Struct {
      * @return The value of the field {@code n_layouts}
      */
     public int getNLayouts() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -140,9 +154,11 @@ public class VulkanDescriptorSet extends Struct {
      * @param nLayouts The new value of the field {@code n_layouts}
      */
     public void setNLayouts(int nLayouts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nLayouts);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nLayouts);
+        }
     }
     
     /**
@@ -150,10 +166,12 @@ public class VulkanDescriptorSet extends Struct {
      * @return The value of the field {@code layouts}
      */
     public PointerProxy<org.gstreamer.vulkan.VulkanHandle> getLayouts() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.vulkan.VulkanHandle>(RESULT, org.gstreamer.vulkan.VulkanHandle.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.vulkan.VulkanHandle>(RESULT, org.gstreamer.vulkan.VulkanHandle.fromAddress);
+        }
     }
     
     /**
@@ -161,22 +179,26 @@ public class VulkanDescriptorSet extends Struct {
      * @param layouts The new value of the field {@code layouts}
      */
     public void setLayouts(PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layouts == null ? MemoryAddress.NULL : layouts.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (layouts == null ? MemoryAddress.NULL : layouts.handle()));
+        }
     }
     
     /**
      * Create a VulkanDescriptorSet proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanDescriptorSet(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanDescriptorSet(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanDescriptorSet> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorSet(input, ownership);
+    public static final Marshal<Addressable, VulkanDescriptorSet> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorSet(input);
     
     private static MemoryAddress constructNewWrapped(org.gstreamer.vulkan.VulkanDescriptorPool pool, org.vulkan.DescriptorSet set, int nLayouts, PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) {
         MemoryAddress RESULT;
@@ -191,10 +213,12 @@ public class VulkanDescriptorSet extends Struct {
         }
         return RESULT;
     }
-    
+        
     public static VulkanDescriptorSet newWrapped(org.gstreamer.vulkan.VulkanDescriptorPool pool, org.vulkan.DescriptorSet set, int nLayouts, PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) {
         var RESULT = constructNewWrapped(pool, set, nLayouts, layouts);
-        return org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -204,12 +228,13 @@ public class VulkanDescriptorSet extends Struct {
     public org.gstreamer.vulkan.VulkanDescriptorSet ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_set_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_set_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -218,8 +243,7 @@ public class VulkanDescriptorSet extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_vulkan_descriptor_set_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_vulkan_descriptor_set_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,21 +253,21 @@ public class VulkanDescriptorSet extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_descriptor_set_new_wrapped = Interop.downcallHandle(
-            "gst_vulkan_descriptor_set_new_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_set_new_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_set_ref = Interop.downcallHandle(
-            "gst_vulkan_descriptor_set_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_set_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_descriptor_set_unref = Interop.downcallHandle(
-            "gst_vulkan_descriptor_set_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_descriptor_set_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -269,7 +293,7 @@ public class VulkanDescriptorSet extends Struct {
             struct = VulkanDescriptorSet.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanDescriptorSet} struct.
          * @return A new instance of {@code VulkanDescriptorSet} with the fields 
          *         that were set in the Builder object.
@@ -284,10 +308,12 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -296,10 +322,12 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSet(org.vulkan.DescriptorSet set) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (set == null ? MemoryAddress.NULL : set.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (set == null ? MemoryAddress.NULL : set.handle()));
+                return this;
+            }
         }
         
         /**
@@ -308,10 +336,12 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPool(org.gstreamer.vulkan.VulkanDescriptorPool pool) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+                return this;
+            }
         }
         
         /**
@@ -320,10 +350,12 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCache(org.gstreamer.vulkan.VulkanDescriptorCache cache) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cache"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cache == null ? MemoryAddress.NULL : cache.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cache"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cache == null ? MemoryAddress.NULL : cache.handle()));
+                return this;
+            }
         }
         
         /**
@@ -332,10 +364,12 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNLayouts(int nLayouts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nLayouts);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_layouts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nLayouts);
+                return this;
+            }
         }
         
         /**
@@ -344,17 +378,21 @@ public class VulkanDescriptorSet extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLayouts(PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layouts == null ? MemoryAddress.NULL : layouts.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("layouts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (layouts == null ? MemoryAddress.NULL : layouts.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

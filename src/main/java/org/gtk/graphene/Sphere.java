@@ -36,8 +36,8 @@ public class Sphere extends Struct {
      * @return A new, uninitialized @{link Sphere}
      */
     public static Sphere allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Sphere newInstance = new Sphere(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Sphere newInstance = new Sphere(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,14 +45,16 @@ public class Sphere extends Struct {
     /**
      * Create a Sphere proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Sphere(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Sphere(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Sphere> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sphere(input, ownership);
+    public static final Marshal<Addressable, Sphere> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Sphere(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -63,7 +65,7 @@ public class Sphere extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Sphere}.
      * <p>
@@ -73,7 +75,9 @@ public class Sphere extends Struct {
      */
     public static Sphere alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -134,8 +138,7 @@ public class Sphere extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_sphere_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_sphere_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,8 +180,7 @@ public class Sphere extends Struct {
     public float getRadius() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_sphere_get_radius.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_sphere_get_radius.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +204,7 @@ public class Sphere extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -217,17 +219,19 @@ public class Sphere extends Struct {
      * @return the initialized {@link Sphere}
      */
     public org.gtk.graphene.Sphere initFromPoints(int nPoints, org.gtk.graphene.Point3D[] points, @Nullable org.gtk.graphene.Point3D center) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(
-                    handle(),
-                    nPoints,
-                    Interop.allocateNativeArray(points, org.gtk.graphene.Point3D.getMemoryLayout(), false),
-                    (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(
+                        handle(),
+                        nPoints,
+                        Interop.allocateNativeArray(points, org.gtk.graphene.Point3D.getMemoryLayout(), false, SCOPE),
+                        (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -242,17 +246,19 @@ public class Sphere extends Struct {
      * @return the initialized {@link Sphere}
      */
     public org.gtk.graphene.Sphere initFromVectors(int nVectors, org.gtk.graphene.Vec3[] vectors, @Nullable org.gtk.graphene.Point3D center) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(
-                    handle(),
-                    nVectors,
-                    Interop.allocateNativeArray(vectors, org.gtk.graphene.Vec3.getMemoryLayout(), false),
-                    (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(
+                        handle(),
+                        nVectors,
+                        Interop.allocateNativeArray(vectors, org.gtk.graphene.Vec3.getMemoryLayout(), false, SCOPE),
+                        (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -262,8 +268,7 @@ public class Sphere extends Struct {
     public boolean isEmpty() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_sphere_is_empty.invokeExact(
-                    handle());
+            RESULT = (boolean) DowncallHandles.graphene_sphere_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,81 +295,81 @@ public class Sphere extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_sphere_alloc = Interop.downcallHandle(
-            "graphene_sphere_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_contains_point = Interop.downcallHandle(
-            "graphene_sphere_contains_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_contains_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_distance = Interop.downcallHandle(
-            "graphene_sphere_distance",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_distance",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_equal = Interop.downcallHandle(
-            "graphene_sphere_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_free = Interop.downcallHandle(
-            "graphene_sphere_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_get_bounding_box = Interop.downcallHandle(
-            "graphene_sphere_get_bounding_box",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_get_bounding_box",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_get_center = Interop.downcallHandle(
-            "graphene_sphere_get_center",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_get_center",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_get_radius = Interop.downcallHandle(
-            "graphene_sphere_get_radius",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_get_radius",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_init = Interop.downcallHandle(
-            "graphene_sphere_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_sphere_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_sphere_init_from_points = Interop.downcallHandle(
-            "graphene_sphere_init_from_points",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_init_from_points",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_init_from_vectors = Interop.downcallHandle(
-            "graphene_sphere_init_from_vectors",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_init_from_vectors",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_is_empty = Interop.downcallHandle(
-            "graphene_sphere_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_sphere_translate = Interop.downcallHandle(
-            "graphene_sphere_translate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_sphere_translate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -390,7 +395,7 @@ public class Sphere extends Struct {
             struct = Sphere.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Sphere} struct.
          * @return A new instance of {@code Sphere} with the fields 
          *         that were set in the Builder object.
@@ -400,17 +405,21 @@ public class Sphere extends Struct {
         }
         
         public Builder setCenter(org.gtk.graphene.Vec3 center) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("center"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("center"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
+                return this;
+            }
         }
         
         public Builder setRadius(float radius) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("radius"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("radius"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), radius);
+                return this;
+            }
         }
     }
 }

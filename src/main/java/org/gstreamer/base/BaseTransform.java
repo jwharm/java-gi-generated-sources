@@ -135,26 +135,17 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     
     /**
      * Create a BaseTransform proxy instance for the provided memory address.
-     * <p>
-     * Because BaseTransform is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseTransform(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected BaseTransform(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseTransform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseTransform(input, ownership);
+    public static final Marshal<Addressable, BaseTransform> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseTransform(input);
     
     /**
      * Lets {@link BaseTransform} sub-classes know the memory {@code allocator}
@@ -166,27 +157,30 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      * @param params the {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_base_transform_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_base_transform_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     public @Nullable org.gstreamer.gst.BufferPool getBufferPool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_base_transform_get_buffer_pool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_base_transform_get_buffer_pool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.BufferPool) Interop.register(RESULT, org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -198,8 +192,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     public boolean isInPlace() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_transform_is_in_place.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_transform_is_in_place.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -215,8 +208,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     public boolean isPassthrough() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_transform_is_passthrough.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_transform_is_passthrough.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,8 +224,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     public boolean isQosEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_transform_is_qos_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_transform_is_qos_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,8 +251,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     public boolean reconfigure() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_base_transform_reconfigure.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_base_transform_reconfigure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,8 +265,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      */
     public void reconfigureSink() {
         try {
-            DowncallHandles.gst_base_transform_reconfigure_sink.invokeExact(
-                    handle());
+            DowncallHandles.gst_base_transform_reconfigure_sink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,8 +278,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      */
     public void reconfigureSrc() {
         try {
-            DowncallHandles.gst_base_transform_reconfigure_src.invokeExact(
-                    handle());
+            DowncallHandles.gst_base_transform_reconfigure_src.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,6 +461,9 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -503,99 +494,107 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_base_transform_get_allocator = Interop.downcallHandle(
-            "gst_base_transform_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_get_buffer_pool = Interop.downcallHandle(
-            "gst_base_transform_get_buffer_pool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_get_buffer_pool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_is_in_place = Interop.downcallHandle(
-            "gst_base_transform_is_in_place",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_is_in_place",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_is_passthrough = Interop.downcallHandle(
-            "gst_base_transform_is_passthrough",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_is_passthrough",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_is_qos_enabled = Interop.downcallHandle(
-            "gst_base_transform_is_qos_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_is_qos_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_reconfigure = Interop.downcallHandle(
-            "gst_base_transform_reconfigure",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_reconfigure",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_reconfigure_sink = Interop.downcallHandle(
-            "gst_base_transform_reconfigure_sink",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_reconfigure_sink",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_reconfigure_src = Interop.downcallHandle(
-            "gst_base_transform_reconfigure_src",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_reconfigure_src",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_set_gap_aware = Interop.downcallHandle(
-            "gst_base_transform_set_gap_aware",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_transform_set_gap_aware",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_transform_set_in_place = Interop.downcallHandle(
-            "gst_base_transform_set_in_place",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_transform_set_in_place",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_transform_set_passthrough = Interop.downcallHandle(
-            "gst_base_transform_set_passthrough",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_transform_set_passthrough",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_transform_set_prefer_passthrough = Interop.downcallHandle(
-            "gst_base_transform_set_prefer_passthrough",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_transform_set_prefer_passthrough",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_transform_set_qos_enabled = Interop.downcallHandle(
-            "gst_base_transform_set_qos_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_base_transform_set_qos_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_base_transform_update_qos = Interop.downcallHandle(
-            "gst_base_transform_update_qos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_base_transform_update_qos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_base_transform_update_src_caps = Interop.downcallHandle(
-            "gst_base_transform_update_src_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_base_transform_update_src_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_base_transform_get_type = Interop.downcallHandle(
-            "gst_base_transform_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_base_transform_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_base_transform_get_type != null;
     }
 }

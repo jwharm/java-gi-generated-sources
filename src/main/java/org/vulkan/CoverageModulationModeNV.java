@@ -29,8 +29,8 @@ public class CoverageModulationModeNV extends Struct {
      * @return A new, uninitialized @{link CoverageModulationModeNV}
      */
     public static CoverageModulationModeNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CoverageModulationModeNV newInstance = new CoverageModulationModeNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CoverageModulationModeNV newInstance = new CoverageModulationModeNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CoverageModulationModeNV extends Struct {
     /**
      * Create a CoverageModulationModeNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CoverageModulationModeNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CoverageModulationModeNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CoverageModulationModeNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CoverageModulationModeNV(input, ownership);
+    public static final Marshal<Addressable, CoverageModulationModeNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CoverageModulationModeNV(input);
 }

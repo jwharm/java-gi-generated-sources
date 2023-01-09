@@ -29,8 +29,8 @@ public class TracerPrivate extends Struct {
      * @return A new, uninitialized @{link TracerPrivate}
      */
     public static TracerPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TracerPrivate newInstance = new TracerPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TracerPrivate newInstance = new TracerPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TracerPrivate extends Struct {
     /**
      * Create a TracerPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TracerPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TracerPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TracerPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerPrivate(input, ownership);
+    public static final Marshal<Addressable, TracerPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TracerPrivate(input);
 }

@@ -38,8 +38,8 @@ public class AudioStreamAlign extends Struct {
      * @return A new, uninitialized @{link AudioStreamAlign}
      */
     public static AudioStreamAlign allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioStreamAlign newInstance = new AudioStreamAlign(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioStreamAlign newInstance = new AudioStreamAlign(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,14 +47,16 @@ public class AudioStreamAlign extends Struct {
     /**
      * Create a AudioStreamAlign proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioStreamAlign(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioStreamAlign(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioStreamAlign> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioStreamAlign(input, ownership);
+    public static final Marshal<Addressable, AudioStreamAlign> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioStreamAlign(input);
     
     private static MemoryAddress constructNew(int rate, org.gstreamer.gst.ClockTime alignmentThreshold, org.gstreamer.gst.ClockTime discontWait) {
         MemoryAddress RESULT;
@@ -86,7 +88,8 @@ public class AudioStreamAlign extends Struct {
      * @param discontWait discont wait in nanoseconds
      */
     public AudioStreamAlign(int rate, org.gstreamer.gst.ClockTime alignmentThreshold, org.gstreamer.gst.ClockTime discontWait) {
-        super(constructNew(rate, alignmentThreshold, discontWait), Ownership.FULL);
+        super(constructNew(rate, alignmentThreshold, discontWait));
+        this.takeOwnership();
     }
     
     /**
@@ -96,12 +99,13 @@ public class AudioStreamAlign extends Struct {
     public org.gstreamer.audio.AudioStreamAlign copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_stream_align_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_stream_align_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioStreamAlign.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.audio.AudioStreamAlign.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -110,8 +114,7 @@ public class AudioStreamAlign extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_audio_stream_align_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_stream_align_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +127,7 @@ public class AudioStreamAlign extends Struct {
     public org.gstreamer.gst.ClockTime getAlignmentThreshold() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_alignment_threshold.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_alignment_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,8 +141,7 @@ public class AudioStreamAlign extends Struct {
     public org.gstreamer.gst.ClockTime getDiscontWait() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_discont_wait.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_discont_wait.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +155,7 @@ public class AudioStreamAlign extends Struct {
     public int getRate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_stream_align_get_rate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_stream_align_get_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,8 +170,7 @@ public class AudioStreamAlign extends Struct {
     public long getSamplesSinceDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_samples_since_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_samples_since_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,8 +185,7 @@ public class AudioStreamAlign extends Struct {
     public org.gstreamer.gst.ClockTime getTimestampAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_timestamp_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_stream_align_get_timestamp_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,8 +197,7 @@ public class AudioStreamAlign extends Struct {
      */
     public void markDiscont() {
         try {
-            DowncallHandles.gst_audio_stream_align_mark_discont.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_stream_align_mark_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -232,26 +229,28 @@ public class AudioStreamAlign extends Struct {
      * @return {@code true} if a discontinuity was detected, {@code false} otherwise.
      */
     public boolean process(boolean discont, org.gstreamer.gst.ClockTime timestamp, int nSamples, org.gstreamer.gst.ClockTime outTimestamp, org.gstreamer.gst.ClockTime outDuration, Out<Long> outSamplePosition) {
-        MemorySegment outTimestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment outDurationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment outSamplePositionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_audio_stream_align_process.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(discont, null).intValue(),
-                    timestamp.getValue().longValue(),
-                    nSamples,
-                    (Addressable) outTimestampPOINTER.address(),
-                    (Addressable) outDurationPOINTER.address(),
-                    (Addressable) outSamplePositionPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outTimestampPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment outDurationPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment outSamplePositionPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_audio_stream_align_process.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(discont, null).intValue(),
+                        timestamp.getValue().longValue(),
+                        nSamples,
+                        (Addressable) outTimestampPOINTER.address(),
+                        (Addressable) outDurationPOINTER.address(),
+                        (Addressable) outSamplePositionPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outTimestamp.setValue(outTimestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    outDuration.setValue(outDurationPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    outSamplePosition.set(outSamplePositionPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        outTimestamp.setValue(outTimestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        outDuration.setValue(outDurationPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        outSamplePosition.set(outSamplePositionPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -300,81 +299,81 @@ public class AudioStreamAlign extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_stream_align_new = Interop.downcallHandle(
-            "gst_audio_stream_align_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_stream_align_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_copy = Interop.downcallHandle(
-            "gst_audio_stream_align_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_free = Interop.downcallHandle(
-            "gst_audio_stream_align_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_get_alignment_threshold = Interop.downcallHandle(
-            "gst_audio_stream_align_get_alignment_threshold",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_get_alignment_threshold",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_get_discont_wait = Interop.downcallHandle(
-            "gst_audio_stream_align_get_discont_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_get_discont_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_get_rate = Interop.downcallHandle(
-            "gst_audio_stream_align_get_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_get_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_get_samples_since_discont = Interop.downcallHandle(
-            "gst_audio_stream_align_get_samples_since_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_get_samples_since_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_get_timestamp_at_discont = Interop.downcallHandle(
-            "gst_audio_stream_align_get_timestamp_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_get_timestamp_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_mark_discont = Interop.downcallHandle(
-            "gst_audio_stream_align_mark_discont",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_mark_discont",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_process = Interop.downcallHandle(
-            "gst_audio_stream_align_process",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_stream_align_process",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_set_alignment_threshold = Interop.downcallHandle(
-            "gst_audio_stream_align_set_alignment_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_stream_align_set_alignment_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_set_discont_wait = Interop.downcallHandle(
-            "gst_audio_stream_align_set_discont_wait",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_stream_align_set_discont_wait",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_stream_align_set_rate = Interop.downcallHandle(
-            "gst_audio_stream_align_set_rate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_stream_align_set_rate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

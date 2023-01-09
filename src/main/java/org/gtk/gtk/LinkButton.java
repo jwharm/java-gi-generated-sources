@@ -50,36 +50,28 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     
     /**
      * Create a LinkButton proxy instance for the provided memory address.
-     * <p>
-     * Because LinkButton is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LinkButton(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected LinkButton(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LinkButton> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LinkButton(input);
+    
+    private static MemoryAddress constructNew(java.lang.String uri) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_new.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, LinkButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LinkButton(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_new.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -87,21 +79,25 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @param uri a valid URI
      */
     public LinkButton(java.lang.String uri) {
-        super(constructNew(uri), Ownership.NONE);
+        super(constructNew(uri));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithLabel(java.lang.String uri, @Nullable java.lang.String label) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_new_with_label.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_new_with_label.invokeExact(
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkLinkButton} containing a label.
      * @param uri a valid URI
@@ -110,7 +106,10 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      */
     public static LinkButton newWithLabel(java.lang.String uri, @Nullable java.lang.String label) {
         var RESULT = constructNewWithLabel(uri, label);
-        return (org.gtk.gtk.LinkButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LinkButton.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.LinkButton) Interop.register(RESULT, org.gtk.gtk.LinkButton.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -121,8 +120,7 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_link_button_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,8 +139,7 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     public boolean getVisited() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_link_button_get_visited.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_link_button_get_visited.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,12 +153,14 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @param uri a valid URI
      */
     public void setUri(java.lang.String uri) {
-        try {
-            DowncallHandles.gtk_link_button_set_uri.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_link_button_set_uri.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -195,20 +194,45 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateLink} callback.
+     */
     @FunctionalInterface
     public interface ActivateLink {
+    
+        /**
+         * Emitted each time the {@code GtkLinkButton} is clicked.
+         * <p>
+         * The default handler will call {@link Gtk#showUri} with the URI
+         * stored inside the {@code Gtk.LinkButton:uri} property.
+         * <p>
+         * To override the default behavior, you can connect to the
+         * ::activate-link signal and stop the propagation of the signal
+         * by returning {@code true} from your handler.
+         */
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceLinkButton) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateLink.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -225,9 +249,10 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<LinkButton.ActivateLink> onActivateLink(LinkButton.ActivateLink handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate-link", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -250,6 +275,9 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      */
     public static class Builder extends org.gtk.gtk.Button.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -298,45 +326,53 @@ public class LinkButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_link_button_new = Interop.downcallHandle(
-            "gtk_link_button_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_link_button_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_link_button_new_with_label = Interop.downcallHandle(
-            "gtk_link_button_new_with_label",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_link_button_new_with_label",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_link_button_get_uri = Interop.downcallHandle(
-            "gtk_link_button_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_link_button_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_link_button_get_visited = Interop.downcallHandle(
-            "gtk_link_button_get_visited",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_link_button_get_visited",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_link_button_set_uri = Interop.downcallHandle(
-            "gtk_link_button_set_uri",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_link_button_set_uri",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_link_button_set_visited = Interop.downcallHandle(
-            "gtk_link_button_set_visited",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_link_button_set_visited",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_link_button_get_type = Interop.downcallHandle(
-            "gtk_link_button_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_link_button_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_link_button_get_type != null;
     }
 }

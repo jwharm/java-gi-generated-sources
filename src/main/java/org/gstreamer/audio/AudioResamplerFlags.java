@@ -39,6 +39,9 @@ public class AudioResamplerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioResamplerFlags VARIABLE_RATE = new AudioResamplerFlags(4);
     
+    /**
+     * Create a new AudioResamplerFlags with the provided value
+     */
     public AudioResamplerFlags(int value) {
         super(value);
     }

@@ -49,25 +49,29 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     /**
      * Create a DirectoryList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DirectoryList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DirectoryList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DirectoryList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DirectoryList(input, ownership);
+    public static final Marshal<Addressable, DirectoryList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DirectoryList(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String attributes, @Nullable org.gtk.gio.File file) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_new.invokeExact(
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)),
-                    (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_new.invokeExact(
+                        (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, SCOPE)),
+                        (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -79,7 +83,8 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
      * @param file The file to query
      */
     public DirectoryList(@Nullable java.lang.String attributes, @Nullable org.gtk.gio.File file) {
-        super(constructNew(attributes, file), Ownership.FULL);
+        super(constructNew(attributes, file));
+        this.takeOwnership();
     }
     
     /**
@@ -89,8 +94,7 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public @Nullable java.lang.String getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,12 +116,11 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public @Nullable org.gtk.glib.Error getError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_error.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_error.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Error.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -127,12 +130,11 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_file.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -142,8 +144,7 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public int getIoPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_get_io_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_io_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -158,8 +159,7 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public boolean getMonitored() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_get_monitored.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_monitored.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,8 +178,7 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     public boolean isLoading() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_directory_list_is_loading.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_is_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,12 +193,14 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
      * @param attributes the attributes to enumerate
      */
     public void setAttributes(@Nullable java.lang.String attributes) {
-        try {
-            DowncallHandles.gtk_directory_list_set_attributes.invokeExact(
-                    handle(),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_directory_list_set_attributes.invokeExact(
+                        handle(),
+                        (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -294,6 +295,9 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -406,75 +410,83 @@ public class DirectoryList extends org.gtk.gobject.GObject implements org.gtk.gi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_directory_list_new = Interop.downcallHandle(
-            "gtk_directory_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_attributes = Interop.downcallHandle(
-            "gtk_directory_list_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_error = Interop.downcallHandle(
-            "gtk_directory_list_get_error",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_get_error",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_file = Interop.downcallHandle(
-            "gtk_directory_list_get_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_get_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_io_priority = Interop.downcallHandle(
-            "gtk_directory_list_get_io_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_get_io_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_monitored = Interop.downcallHandle(
-            "gtk_directory_list_get_monitored",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_get_monitored",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_is_loading = Interop.downcallHandle(
-            "gtk_directory_list_is_loading",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_is_loading",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_set_attributes = Interop.downcallHandle(
-            "gtk_directory_list_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_set_file = Interop.downcallHandle(
-            "gtk_directory_list_set_file",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_directory_list_set_file",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_set_io_priority = Interop.downcallHandle(
-            "gtk_directory_list_set_io_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_directory_list_set_io_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_set_monitored = Interop.downcallHandle(
-            "gtk_directory_list_set_monitored",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_directory_list_set_monitored",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_directory_list_get_type = Interop.downcallHandle(
-            "gtk_directory_list_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_directory_list_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_directory_list_get_type != null;
     }
 }

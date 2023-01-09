@@ -22,6 +22,9 @@ public class BusFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BusFlags FLAG_LAST = new BusFlags(32);
     
+    /**
+     * Create a new BusFlags with the provided value
+     */
     public BusFlags(int value) {
         super(value);
     }

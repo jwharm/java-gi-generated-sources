@@ -29,8 +29,8 @@ public class UnixFDMessagePrivate extends Struct {
      * @return A new, uninitialized @{link UnixFDMessagePrivate}
      */
     public static UnixFDMessagePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixFDMessagePrivate newInstance = new UnixFDMessagePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        UnixFDMessagePrivate newInstance = new UnixFDMessagePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class UnixFDMessagePrivate extends Struct {
     /**
      * Create a UnixFDMessagePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UnixFDMessagePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UnixFDMessagePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UnixFDMessagePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixFDMessagePrivate(input, ownership);
+    public static final Marshal<Addressable, UnixFDMessagePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UnixFDMessagePrivate(input);
 }

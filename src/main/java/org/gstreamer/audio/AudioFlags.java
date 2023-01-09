@@ -23,6 +23,9 @@ public class AudioFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AudioFlags UNPOSITIONED = new AudioFlags(1);
     
+    /**
+     * Create a new AudioFlags with the provided value
+     */
     public AudioFlags(int value) {
         super(value);
     }

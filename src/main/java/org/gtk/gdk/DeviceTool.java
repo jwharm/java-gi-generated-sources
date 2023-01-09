@@ -28,14 +28,16 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     /**
      * Create a DeviceTool proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceTool(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceTool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceTool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceTool(input, ownership);
+    public static final Marshal<Addressable, DeviceTool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceTool(input);
     
     /**
      * Gets the axes of the tool.
@@ -44,8 +46,7 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     public org.gtk.gdk.AxisFlags getAxes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_tool_get_axes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_tool_get_axes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,8 +70,7 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     public long getHardwareId() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_device_tool_get_hardware_id.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_device_tool_get_hardware_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,8 +87,7 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     public long getSerial() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_device_tool_get_serial.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_device_tool_get_serial.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,8 +103,7 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     public org.gtk.gdk.DeviceToolType getToolType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_tool_get_tool_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_tool_get_tool_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,6 +140,9 @@ public class DeviceTool extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -210,33 +211,41 @@ public class DeviceTool extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_device_tool_get_axes = Interop.downcallHandle(
-            "gdk_device_tool_get_axes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_tool_get_axes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_tool_get_hardware_id = Interop.downcallHandle(
-            "gdk_device_tool_get_hardware_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_tool_get_hardware_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_tool_get_serial = Interop.downcallHandle(
-            "gdk_device_tool_get_serial",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_tool_get_serial",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_tool_get_tool_type = Interop.downcallHandle(
-            "gdk_device_tool_get_tool_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_tool_get_tool_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_device_tool_get_type = Interop.downcallHandle(
-            "gdk_device_tool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_device_tool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_device_tool_get_type != null;
     }
 }

@@ -14,17 +14,20 @@ import org.jetbrains.annotations.*;
  * choice.
  */
 public enum FilterChange implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The filter change cannot be
      *   described with any of the other enumeration values.
      */
     DIFFERENT(0),
+    
     /**
      * The filter is less strict than
      *   it was before: All items that it used to return {@code true} for
      *   still return {@code true}, others now may, too.
      */
     LESS_STRICT(1),
+    
     /**
      * The filter is more strict than
      *   it was before: All items that it used to return {@code false} for
@@ -35,15 +38,29 @@ public enum FilterChange implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkFilterChange";
     
     private final int value;
+    
+    /**
+     * Create a new FilterChange for the provided value
+     * @param numeric value the enum value
+     */
     FilterChange(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new FilterChange for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static FilterChange of(int value) {
         return switch (value) {
             case 0 -> DIFFERENT;

@@ -39,8 +39,8 @@ public class FrameTimings extends Struct {
      * @return A new, uninitialized @{link FrameTimings}
      */
     public static FrameTimings allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FrameTimings newInstance = new FrameTimings(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FrameTimings newInstance = new FrameTimings(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class FrameTimings extends Struct {
     /**
      * Create a FrameTimings proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FrameTimings(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FrameTimings(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FrameTimings> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FrameTimings(input, ownership);
+    public static final Marshal<Addressable, FrameTimings> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FrameTimings(input);
     
     /**
      * Returns whether {@code timings} are complete.
@@ -77,8 +79,7 @@ public class FrameTimings extends Struct {
     public boolean getComplete() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_frame_timings_get_complete.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_frame_timings_get_complete.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,8 +94,7 @@ public class FrameTimings extends Struct {
     public long getFrameCounter() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_counter.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_counter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,8 +112,7 @@ public class FrameTimings extends Struct {
     public long getFrameTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_frame_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,8 +139,7 @@ public class FrameTimings extends Struct {
     public long getPredictedPresentationTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_predicted_presentation_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_predicted_presentation_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,8 +157,7 @@ public class FrameTimings extends Struct {
     public long getPresentationTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_presentation_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_presentation_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +177,7 @@ public class FrameTimings extends Struct {
     public long getRefreshInterval() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_frame_timings_get_refresh_interval.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_frame_timings_get_refresh_interval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,12 +191,13 @@ public class FrameTimings extends Struct {
     public org.gtk.gdk.FrameTimings ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_timings_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_timings_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.FrameTimings.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.FrameTimings.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -210,8 +207,7 @@ public class FrameTimings extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_frame_timings_unref.invokeExact(
-                    handle());
+            DowncallHandles.gdk_frame_timings_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,51 +216,51 @@ public class FrameTimings extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_frame_timings_get_complete = Interop.downcallHandle(
-            "gdk_frame_timings_get_complete",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_complete",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_counter = Interop.downcallHandle(
-            "gdk_frame_timings_get_frame_counter",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_frame_counter",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_get_frame_time = Interop.downcallHandle(
-            "gdk_frame_timings_get_frame_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_frame_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_get_predicted_presentation_time = Interop.downcallHandle(
-            "gdk_frame_timings_get_predicted_presentation_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_predicted_presentation_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_get_presentation_time = Interop.downcallHandle(
-            "gdk_frame_timings_get_presentation_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_presentation_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_get_refresh_interval = Interop.downcallHandle(
-            "gdk_frame_timings_get_refresh_interval",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_get_refresh_interval",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_ref = Interop.downcallHandle(
-            "gdk_frame_timings_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_frame_timings_unref = Interop.downcallHandle(
-            "gdk_frame_timings_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_frame_timings_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

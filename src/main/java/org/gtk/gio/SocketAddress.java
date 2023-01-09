@@ -32,14 +32,16 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
     /**
      * Create a SocketAddress proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketAddress(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketAddress(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddress(input, ownership);
+    public static final Marshal<Addressable, SocketAddress> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddress(input);
     
     private static MemoryAddress constructNewFromNative(java.lang.foreign.MemoryAddress native_, long len) {
         MemoryAddress RESULT;
@@ -52,7 +54,7 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@link SocketAddress} subclass corresponding to the native
      * struct sockaddr {@code native}.
@@ -63,7 +65,9 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
      */
     public static SocketAddress newFromNative(java.lang.foreign.MemoryAddress native_, long len) {
         var RESULT = constructNewFromNative(native_, len);
-        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.SocketAddress) Interop.register(RESULT, org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -73,8 +77,7 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
     public org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_address_get_family.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_socket_address_get_family.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,8 +94,7 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
     public long getNativeSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_socket_address_get_native_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_socket_address_get_native_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,21 +116,23 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean toNative(@Nullable java.lang.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_socket_address_to_native.invokeExact(
-                    handle(),
-                    (Addressable) (dest == null ? MemoryAddress.NULL : (Addressable) dest),
-                    destlen,
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_socket_address_to_native.invokeExact(
+                        handle(),
+                        (Addressable) (dest == null ? MemoryAddress.NULL : (Addressable) dest),
+                        destlen,
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,6 +165,9 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -191,33 +198,41 @@ public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gi
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_address_new_from_native = Interop.downcallHandle(
-            "g_socket_address_new_from_native",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_socket_address_new_from_native",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_socket_address_get_family = Interop.downcallHandle(
-            "g_socket_address_get_family",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_get_family",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_get_native_size = Interop.downcallHandle(
-            "g_socket_address_get_native_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_get_native_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_to_native = Interop.downcallHandle(
-            "g_socket_address_to_native",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_address_to_native",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_address_get_type = Interop.downcallHandle(
-            "g_socket_address_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_address_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_address_get_type != null;
     }
 }

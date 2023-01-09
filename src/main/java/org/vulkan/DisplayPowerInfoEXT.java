@@ -29,8 +29,8 @@ public class DisplayPowerInfoEXT extends Struct {
      * @return A new, uninitialized @{link DisplayPowerInfoEXT}
      */
     public static DisplayPowerInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DisplayPowerInfoEXT newInstance = new DisplayPowerInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DisplayPowerInfoEXT newInstance = new DisplayPowerInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DisplayPowerInfoEXT extends Struct {
     /**
      * Create a DisplayPowerInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DisplayPowerInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DisplayPowerInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DisplayPowerInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPowerInfoEXT(input, ownership);
+    public static final Marshal<Addressable, DisplayPowerInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPowerInfoEXT(input);
 }

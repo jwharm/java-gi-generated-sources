@@ -79,26 +79,30 @@ public class PropertyAction extends org.gtk.gobject.GObject implements org.gtk.g
     /**
      * Create a PropertyAction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PropertyAction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PropertyAction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PropertyAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PropertyAction(input, ownership);
+    public static final Marshal<Addressable, PropertyAction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PropertyAction(input);
     
     private static MemoryAddress constructNew(java.lang.String name, org.gtk.gobject.GObject object, java.lang.String propertyName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -116,7 +120,8 @@ public class PropertyAction extends org.gtk.gobject.GObject implements org.gtk.g
      * @param propertyName the name of the property
      */
     public PropertyAction(java.lang.String name, org.gtk.gobject.GObject object, java.lang.String propertyName) {
-        super(constructNew(name, object, propertyName), Ownership.FULL);
+        super(constructNew(name, object, propertyName));
+        this.takeOwnership();
     }
     
     /**
@@ -149,6 +154,9 @@ public class PropertyAction extends org.gtk.gobject.GObject implements org.gtk.g
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -273,15 +281,23 @@ public class PropertyAction extends org.gtk.gobject.GObject implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle g_property_action_new = Interop.downcallHandle(
-            "g_property_action_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_property_action_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_property_action_get_type = Interop.downcallHandle(
-            "g_property_action_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_property_action_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_property_action_get_type != null;
     }
 }

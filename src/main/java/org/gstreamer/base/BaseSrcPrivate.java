@@ -29,8 +29,8 @@ public class BaseSrcPrivate extends Struct {
      * @return A new, uninitialized @{link BaseSrcPrivate}
      */
     public static BaseSrcPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BaseSrcPrivate newInstance = new BaseSrcPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BaseSrcPrivate newInstance = new BaseSrcPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BaseSrcPrivate extends Struct {
     /**
      * Create a BaseSrcPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BaseSrcPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BaseSrcPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BaseSrcPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrcPrivate(input, ownership);
+    public static final Marshal<Addressable, BaseSrcPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrcPrivate(input);
 }

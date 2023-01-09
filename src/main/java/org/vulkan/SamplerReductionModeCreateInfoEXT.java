@@ -29,8 +29,8 @@ public class SamplerReductionModeCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link SamplerReductionModeCreateInfoEXT}
      */
     public static SamplerReductionModeCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SamplerReductionModeCreateInfoEXT newInstance = new SamplerReductionModeCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SamplerReductionModeCreateInfoEXT newInstance = new SamplerReductionModeCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SamplerReductionModeCreateInfoEXT extends Struct {
     /**
      * Create a SamplerReductionModeCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SamplerReductionModeCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SamplerReductionModeCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SamplerReductionModeCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerReductionModeCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, SamplerReductionModeCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SamplerReductionModeCreateInfoEXT(input);
 }

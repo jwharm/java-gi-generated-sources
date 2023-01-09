@@ -56,26 +56,17 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Create a PasswordEntry proxy instance for the provided memory address.
-     * <p>
-     * Because PasswordEntry is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PasswordEntry(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected PasswordEntry(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PasswordEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntry(input, ownership);
+    public static final Marshal<Addressable, PasswordEntry> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntry(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -91,7 +82,9 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Creates a {@code GtkPasswordEntry}.
      */
     public PasswordEntry() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -101,12 +94,11 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_get_extra_menu.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_get_extra_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) Interop.register(RESULT, org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -117,8 +109,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getShowPeekIcon() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_password_entry_get_show_peek_icon.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_password_entry_get_show_peek_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,19 +162,39 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted when the entry is activated.
+         * <p>
+         * The keybindings for this signal are all forms of the Enter key.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourcePasswordEntry) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -195,9 +206,10 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<PasswordEntry.Activate> onActivate(PasswordEntry.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -220,6 +232,9 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -290,39 +305,47 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
-            "gtk_password_entry_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_password_entry_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
-            "gtk_password_entry_get_extra_menu",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_password_entry_get_extra_menu",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
-            "gtk_password_entry_get_show_peek_icon",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_password_entry_get_show_peek_icon",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
-            "gtk_password_entry_set_extra_menu",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_password_entry_set_extra_menu",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
-            "gtk_password_entry_set_show_peek_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_password_entry_set_show_peek_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_get_type = Interop.downcallHandle(
-            "gtk_password_entry_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_password_entry_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_password_entry_get_type != null;
     }
 }

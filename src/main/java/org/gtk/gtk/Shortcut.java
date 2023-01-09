@@ -42,14 +42,16 @@ public class Shortcut extends org.gtk.gobject.GObject {
     /**
      * Create a Shortcut proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Shortcut(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Shortcut(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Shortcut> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Shortcut(input, ownership);
+    public static final Marshal<Addressable, Shortcut> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Shortcut(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.ShortcutTrigger trigger, @Nullable org.gtk.gtk.ShortcutAction action) {
         MemoryAddress RESULT;
@@ -73,25 +75,28 @@ public class Shortcut extends org.gtk.gobject.GObject {
      *    triggering
      */
     public Shortcut(@Nullable org.gtk.gtk.ShortcutTrigger trigger, @Nullable org.gtk.gtk.ShortcutAction action) {
-        super(constructNew(trigger, action), Ownership.FULL);
+        super(constructNew(trigger, action));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithArguments(@Nullable org.gtk.gtk.ShortcutTrigger trigger, @Nullable org.gtk.gtk.ShortcutAction action, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_new_with_arguments.invokeExact(
-                    (Addressable) (trigger == null ? MemoryAddress.NULL : trigger.handle()),
-                    (Addressable) (action == null ? MemoryAddress.NULL : action.handle()),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_new_with_arguments.invokeExact(
+                        (Addressable) (trigger == null ? MemoryAddress.NULL : trigger.handle()),
+                        (Addressable) (action == null ? MemoryAddress.NULL : action.handle()),
+                        (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, SCOPE)),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            trigger.yieldOwnership();
+            action.yieldOwnership();
+            return RESULT;
         }
-        trigger.yieldOwnership();
-        action.yieldOwnership();
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkShortcut} that is triggered by {@code trigger} and then activates
      * {@code action} with arguments given by {@code format_string}.
@@ -105,7 +110,9 @@ public class Shortcut extends org.gtk.gobject.GObject {
      */
     public static Shortcut newWithArguments(@Nullable org.gtk.gtk.ShortcutTrigger trigger, @Nullable org.gtk.gtk.ShortcutAction action, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
         var RESULT = constructNewWithArguments(trigger, action, formatString, varargs);
-        return (org.gtk.gtk.Shortcut) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Shortcut.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.Shortcut) Interop.register(RESULT, org.gtk.gtk.Shortcut.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -115,12 +122,11 @@ public class Shortcut extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.ShortcutAction getAction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_action.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_action.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ShortcutAction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutAction.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ShortcutAction) Interop.register(RESULT, org.gtk.gtk.ShortcutAction.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -130,12 +136,11 @@ public class Shortcut extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.glib.Variant getArguments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_arguments.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_arguments.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -145,12 +150,11 @@ public class Shortcut extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.ShortcutTrigger getTrigger() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_trigger.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_get_trigger.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ShortcutTrigger) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutTrigger.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ShortcutTrigger) Interop.register(RESULT, org.gtk.gtk.ShortcutTrigger.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -229,6 +233,9 @@ public class Shortcut extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -286,57 +293,65 @@ public class Shortcut extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcut_new = Interop.downcallHandle(
-            "gtk_shortcut_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_new_with_arguments = Interop.downcallHandle(
-            "gtk_shortcut_new_with_arguments",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_shortcut_new_with_arguments",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_shortcut_get_action = Interop.downcallHandle(
-            "gtk_shortcut_get_action",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_get_action",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_get_arguments = Interop.downcallHandle(
-            "gtk_shortcut_get_arguments",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_get_arguments",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_get_trigger = Interop.downcallHandle(
-            "gtk_shortcut_get_trigger",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_get_trigger",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_set_action = Interop.downcallHandle(
-            "gtk_shortcut_set_action",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_set_action",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_set_arguments = Interop.downcallHandle(
-            "gtk_shortcut_set_arguments",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_set_arguments",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_set_trigger = Interop.downcallHandle(
-            "gtk_shortcut_set_trigger",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_shortcut_set_trigger",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_shortcut_get_type = Interop.downcallHandle(
-            "gtk_shortcut_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_shortcut_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_shortcut_get_type != null;
     }
 }

@@ -70,6 +70,9 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PrintCapabilities NUMBER_UP_LAYOUT = new PrintCapabilities(512);
     
+    /**
+     * Create a new PrintCapabilities with the provided value
+     */
     public PrintCapabilities(int value) {
         super(value);
     }

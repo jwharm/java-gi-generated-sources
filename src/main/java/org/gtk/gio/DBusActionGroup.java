@@ -30,14 +30,16 @@ public class DBusActionGroup extends org.gtk.gobject.GObject implements org.gtk.
     /**
      * Create a DBusActionGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusActionGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusActionGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusActionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusActionGroup(input, ownership);
+    public static final Marshal<Addressable, DBusActionGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusActionGroup(input);
     
     /**
      * Get the gtype
@@ -74,16 +76,20 @@ public class DBusActionGroup extends org.gtk.gobject.GObject implements org.gtk.
      * @return a {@link DBusActionGroup}
      */
     public static org.gtk.gio.DBusActionGroup get(org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, java.lang.String objectPath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(
-                    connection.handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
-                    Marshal.stringToAddress.marshal(objectPath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(
+                        connection.handle(),
+                        (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, SCOPE)),
+                        Marshal.stringToAddress.marshal(objectPath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.DBusActionGroup) Interop.register(RESULT, org.gtk.gio.DBusActionGroup.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.DBusActionGroup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusActionGroup.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -102,6 +108,9 @@ public class DBusActionGroup extends org.gtk.gobject.GObject implements org.gtk.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -126,15 +135,23 @@ public class DBusActionGroup extends org.gtk.gobject.GObject implements org.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_action_group_get_type = Interop.downcallHandle(
-            "g_dbus_action_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_action_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
-            "g_dbus_action_group_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_action_group_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_action_group_get_type != null;
     }
 }

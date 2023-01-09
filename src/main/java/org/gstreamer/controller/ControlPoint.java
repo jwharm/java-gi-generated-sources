@@ -37,8 +37,8 @@ public class ControlPoint extends Struct {
      * @return A new, uninitialized @{link ControlPoint}
      */
     public static ControlPoint allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ControlPoint newInstance = new ControlPoint(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ControlPoint newInstance = new ControlPoint(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class ControlPoint extends Struct {
      * @return The value of the field {@code timestamp}
      */
     public org.gstreamer.gst.ClockTime getTimestamp() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class ControlPoint extends Struct {
      * @param timestamp The new value of the field {@code timestamp}
      */
     public void setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class ControlPoint extends Struct {
      * @return The value of the field {@code value}
      */
     public double getValue() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,22 +86,26 @@ public class ControlPoint extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(double value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
      * Create a ControlPoint proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ControlPoint(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ControlPoint(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ControlPoint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ControlPoint(input, ownership);
+    public static final Marshal<Addressable, ControlPoint> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ControlPoint(input);
     
     /**
      * Copies a {@link ControlPoint}
@@ -104,12 +114,13 @@ public class ControlPoint extends Struct {
     public org.gstreamer.controller.ControlPoint copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_control_point_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_control_point_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.controller.ControlPoint.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.controller.ControlPoint.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -117,8 +128,7 @@ public class ControlPoint extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_control_point_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_control_point_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,15 +137,15 @@ public class ControlPoint extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_control_point_copy = Interop.downcallHandle(
-            "gst_control_point_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_point_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_control_point_free = Interop.downcallHandle(
-            "gst_control_point_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_control_point_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -161,7 +171,7 @@ public class ControlPoint extends Struct {
             struct = ControlPoint.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ControlPoint} struct.
          * @return A new instance of {@code ControlPoint} with the fields 
          *         that were set in the Builder object.
@@ -176,10 +186,12 @@ public class ControlPoint extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -188,10 +200,12 @@ public class ControlPoint extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(double value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
     }
 }

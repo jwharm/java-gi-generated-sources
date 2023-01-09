@@ -42,8 +42,8 @@ public class ByteReader extends Struct {
      * @return A new, uninitialized @{link ByteReader}
      */
     public static ByteReader allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ByteReader newInstance = new ByteReader(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ByteReader newInstance = new ByteReader(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class ByteReader extends Struct {
      * @return The value of the field {@code data}
      */
     public PointerByte getData_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class ByteReader extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(byte[] data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class ByteReader extends Struct {
      * @return The value of the field {@code size}
      */
     public int getSize_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class ByteReader extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(int size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class ByteReader extends Struct {
      * @return The value of the field {@code byte}
      */
     public int getByte() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -106,22 +116,26 @@ public class ByteReader extends Struct {
      * @param byte_ The new value of the field {@code byte}
      */
     public void setByte(int byte_) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), byte_);
+        }
     }
     
     /**
      * Create a ByteReader proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ByteReader(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ByteReader(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ByteReader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteReader(input, ownership);
+    public static final Marshal<Addressable, ByteReader> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ByteReader(input);
     
     /**
      * Free-function: g_free
@@ -135,18 +149,20 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean dupData(int size, Out<byte[]> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_dup_data.invokeExact(
-                    handle(),
-                    size,
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_dup_data.invokeExact(
+                        handle(),
+                        size,
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -170,15 +186,17 @@ public class ByteReader extends Struct {
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
     public boolean dupStringUtf16(short[] str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf16.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(str, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf16.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(str, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -202,15 +220,17 @@ public class ByteReader extends Struct {
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
     public boolean dupStringUtf32(int[] str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf32.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(str, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf32.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(str, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -228,15 +248,17 @@ public class ByteReader extends Struct {
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
     public boolean dupStringUtf8(java.lang.String[] str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf8.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(str, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf8.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(str, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -245,8 +267,7 @@ public class ByteReader extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_byte_reader_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_byte_reader_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,18 +284,20 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getData(int size, Out<byte[]> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_data.invokeExact(
-                    handle(),
-                    size,
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_data.invokeExact(
+                        handle(),
+                        size,
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -284,17 +307,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat32Be(Out<Float> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_float32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_float32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -304,17 +329,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat32Le(Out<Float> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_float32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_float32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -324,17 +351,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat64Be(Out<Double> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_float64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_float64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -344,17 +373,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat64Le(Out<Double> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_float64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_float64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -364,17 +395,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt16Be(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int16_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int16_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -384,17 +417,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt16Le(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int16_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int16_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -404,17 +439,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt24Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int24_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int24_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -424,17 +461,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt24Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int24_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int24_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -444,17 +483,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt32Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -464,17 +505,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt32Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -484,17 +527,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt64Be(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -504,17 +549,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt64Le(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -523,17 +570,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt8(Out<Byte> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_int8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_int8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -543,8 +592,7 @@ public class ByteReader extends Struct {
     public int getPos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_pos.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_get_pos.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -558,8 +606,7 @@ public class ByteReader extends Struct {
     public int getRemaining() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_remaining.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_get_remaining.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,8 +620,7 @@ public class ByteReader extends Struct {
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,15 +642,17 @@ public class ByteReader extends Struct {
      * @return {@code true} if a string could be found, {@code false} otherwise.
      */
     public boolean getStringUtf8(java.lang.String[] str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_string_utf8.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(str, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_string_utf8.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(str, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -639,17 +687,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint16Be(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint16_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint16_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -659,17 +709,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint16Le(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint16_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint16_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -679,17 +731,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint24Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint24_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint24_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -699,17 +753,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint24Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint24_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint24_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -719,17 +775,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint32Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -739,17 +797,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint32Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -759,17 +819,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint64Be(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -779,17 +841,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint64Le(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -798,17 +862,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint8(Out<Byte> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_get_uint8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_get_uint8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -819,13 +885,15 @@ public class ByteReader extends Struct {
      * @param size Size of {@code data} in bytes
      */
     public void init(byte[] data, int size) {
-        try {
-            DowncallHandles.gst_byte_reader_init.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_byte_reader_init.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -902,21 +970,23 @@ public class ByteReader extends Struct {
      * @return offset of the first match, or -1 if no match was found.
      */
     public int maskedScanUint32Peek(int mask, int pattern, int offset, int size, Out<Integer> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_masked_scan_uint32_peek.invokeExact(
-                    handle(),
-                    mask,
-                    pattern,
-                    offset,
-                    size,
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_masked_scan_uint32_peek.invokeExact(
+                        handle(),
+                        mask,
+                        pattern,
+                        offset,
+                        size,
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+            return RESULT;
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT;
     }
     
     /**
@@ -929,18 +999,20 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekData(int size, Out<byte[]> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_data.invokeExact(
-                    handle(),
-                    size,
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_data.invokeExact(
+                        handle(),
+                        size,
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -950,17 +1022,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat32Be(Out<Float> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_float32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_float32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -970,17 +1044,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat32Le(Out<Float> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_float32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_FLOAT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_float32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -990,17 +1066,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat64Be(Out<Double> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_float64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_float64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1010,17 +1088,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat64Le(Out<Double> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_float64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_float64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1030,17 +1110,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt16Be(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int16_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int16_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1050,17 +1132,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt16Le(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int16_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int16_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1070,17 +1154,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt24Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int24_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int24_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1090,17 +1176,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt24Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int24_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int24_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1110,17 +1198,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt32Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1130,17 +1220,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt32Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1150,17 +1242,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt64Be(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1170,17 +1264,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt64Le(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1189,17 +1285,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt8(Out<Byte> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_int8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_int8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1217,15 +1315,17 @@ public class ByteReader extends Struct {
      * @return {@code true} if a string could be skipped, {@code false} otherwise.
      */
     public boolean peekStringUtf8(java.lang.String[] str) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_string_utf8.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(str, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_string_utf8.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(str, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1260,17 +1360,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint16Be(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint16_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint16_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1280,17 +1382,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint16Le(Out<Short> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint16_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_SHORT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint16_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1300,17 +1404,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint24Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint24_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint24_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1320,17 +1426,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint24Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint24_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint24_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1340,17 +1448,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint32Be(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint32_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint32_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1360,17 +1470,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint32Le(Out<Integer> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint32_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint32_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1380,17 +1492,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint64Be(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint64_be.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint64_be.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1400,17 +1514,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint64Le(Out<Long> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint64_le.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint64_le.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1419,17 +1535,19 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint8(Out<Byte> val) {
-        MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint8.invokeExact(
-                    handle(),
-                    (Addressable) valPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_byte_reader_peek_uint8.invokeExact(
+                        handle(),
+                        (Addressable) valPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1479,8 +1597,7 @@ public class ByteReader extends Struct {
     public boolean skipStringUtf16() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf16.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf16.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1499,8 +1616,7 @@ public class ByteReader extends Struct {
     public boolean skipStringUtf32() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf32.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf32.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1519,8 +1635,7 @@ public class ByteReader extends Struct {
     public boolean skipStringUtf8() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf8.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_byte_reader_skip_string_utf8.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1537,419 +1652,423 @@ public class ByteReader extends Struct {
      * @return a new {@link ByteReader} instance
      */
     public static org.gstreamer.base.ByteReader new_(byte[] data, int size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_byte_reader_new.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_byte_reader_new.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.base.ByteReader.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.base.ByteReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_byte_reader_dup_data = Interop.downcallHandle(
-            "gst_byte_reader_dup_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_dup_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_dup_string_utf16 = Interop.downcallHandle(
-            "gst_byte_reader_dup_string_utf16",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_dup_string_utf16",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_dup_string_utf32 = Interop.downcallHandle(
-            "gst_byte_reader_dup_string_utf32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_dup_string_utf32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_dup_string_utf8 = Interop.downcallHandle(
-            "gst_byte_reader_dup_string_utf8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_dup_string_utf8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_free = Interop.downcallHandle(
-            "gst_byte_reader_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_data = Interop.downcallHandle(
-            "gst_byte_reader_get_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_float32_be = Interop.downcallHandle(
-            "gst_byte_reader_get_float32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_float32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_float32_le = Interop.downcallHandle(
-            "gst_byte_reader_get_float32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_float32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_float64_be = Interop.downcallHandle(
-            "gst_byte_reader_get_float64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_float64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_float64_le = Interop.downcallHandle(
-            "gst_byte_reader_get_float64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_float64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int16_be = Interop.downcallHandle(
-            "gst_byte_reader_get_int16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int16_le = Interop.downcallHandle(
-            "gst_byte_reader_get_int16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int24_be = Interop.downcallHandle(
-            "gst_byte_reader_get_int24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int24_le = Interop.downcallHandle(
-            "gst_byte_reader_get_int24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int32_be = Interop.downcallHandle(
-            "gst_byte_reader_get_int32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int32_le = Interop.downcallHandle(
-            "gst_byte_reader_get_int32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int64_be = Interop.downcallHandle(
-            "gst_byte_reader_get_int64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int64_le = Interop.downcallHandle(
-            "gst_byte_reader_get_int64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_int8 = Interop.downcallHandle(
-            "gst_byte_reader_get_int8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_int8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_pos = Interop.downcallHandle(
-            "gst_byte_reader_get_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_remaining = Interop.downcallHandle(
-            "gst_byte_reader_get_remaining",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_remaining",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_size = Interop.downcallHandle(
-            "gst_byte_reader_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_string_utf8 = Interop.downcallHandle(
-            "gst_byte_reader_get_string_utf8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_string_utf8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_sub_reader = Interop.downcallHandle(
-            "gst_byte_reader_get_sub_reader",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_get_sub_reader",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint16_be = Interop.downcallHandle(
-            "gst_byte_reader_get_uint16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint16_le = Interop.downcallHandle(
-            "gst_byte_reader_get_uint16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint24_be = Interop.downcallHandle(
-            "gst_byte_reader_get_uint24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint24_le = Interop.downcallHandle(
-            "gst_byte_reader_get_uint24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint32_be = Interop.downcallHandle(
-            "gst_byte_reader_get_uint32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint32_le = Interop.downcallHandle(
-            "gst_byte_reader_get_uint32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint64_be = Interop.downcallHandle(
-            "gst_byte_reader_get_uint64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint64_le = Interop.downcallHandle(
-            "gst_byte_reader_get_uint64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_get_uint8 = Interop.downcallHandle(
-            "gst_byte_reader_get_uint8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_get_uint8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_init = Interop.downcallHandle(
-            "gst_byte_reader_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_masked_scan_uint32 = Interop.downcallHandle(
-            "gst_byte_reader_masked_scan_uint32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_masked_scan_uint32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_masked_scan_uint32_peek = Interop.downcallHandle(
-            "gst_byte_reader_masked_scan_uint32_peek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_masked_scan_uint32_peek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_data = Interop.downcallHandle(
-            "gst_byte_reader_peek_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_float32_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_float32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_float32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_float32_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_float32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_float32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_float64_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_float64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_float64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_float64_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_float64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_float64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int16_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_int16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int16_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_int16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int24_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_int24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int24_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_int24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int32_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_int32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int32_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_int32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int64_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_int64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int64_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_int64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_int8 = Interop.downcallHandle(
-            "gst_byte_reader_peek_int8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_int8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_string_utf8 = Interop.downcallHandle(
-            "gst_byte_reader_peek_string_utf8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_string_utf8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_sub_reader = Interop.downcallHandle(
-            "gst_byte_reader_peek_sub_reader",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_peek_sub_reader",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint16_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint16_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint16_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint16_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint16_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint16_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint24_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint24_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint24_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint24_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint24_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint24_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint32_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint32_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint32_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint32_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint32_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint32_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint64_be = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint64_be",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint64_be",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint64_le = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint64_le",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint64_le",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_peek_uint8 = Interop.downcallHandle(
-            "gst_byte_reader_peek_uint8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_peek_uint8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_set_pos = Interop.downcallHandle(
-            "gst_byte_reader_set_pos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_set_pos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_skip = Interop.downcallHandle(
-            "gst_byte_reader_skip",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_skip",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_skip_string_utf16 = Interop.downcallHandle(
-            "gst_byte_reader_skip_string_utf16",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_skip_string_utf16",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_skip_string_utf32 = Interop.downcallHandle(
-            "gst_byte_reader_skip_string_utf32",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_skip_string_utf32",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_skip_string_utf8 = Interop.downcallHandle(
-            "gst_byte_reader_skip_string_utf8",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_byte_reader_skip_string_utf8",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_byte_reader_new = Interop.downcallHandle(
-            "gst_byte_reader_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_byte_reader_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -1975,7 +2094,7 @@ public class ByteReader extends Struct {
             struct = ByteReader.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ByteReader} struct.
          * @return A new instance of {@code ByteReader} with the fields 
          *         that were set in the Builder object.
@@ -1991,10 +2110,12 @@ public class ByteReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(byte[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -2003,10 +2124,12 @@ public class ByteReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(int size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         /**
@@ -2015,17 +2138,21 @@ public class ByteReader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setByte(int byte_) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("byte"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("byte"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), byte_);
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -30,14 +30,16 @@ public class Vfs extends org.gtk.gobject.GObject {
     /**
      * Create a Vfs proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vfs(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vfs(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vfs> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vfs(input, ownership);
+    public static final Marshal<Addressable, Vfs> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vfs(input);
     
     /**
      * Gets a {@link File} for {@code path}.
@@ -46,15 +48,19 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     Free the returned object with g_object_unref().
      */
     public org.gtk.gio.File getFileForPath(java.lang.String path) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_path.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_path.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -68,15 +74,19 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     Free the returned object with g_object_unref().
      */
     public org.gtk.gio.File getFileForUri(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_uri.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_file_for_uri.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -86,14 +96,15 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     not be freed or modified.
      */
     public PointerString getSupportedUriSchemes() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_supported_uri_schemes.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_vfs_get_supported_uri_schemes.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -104,8 +115,7 @@ public class Vfs extends org.gtk.gobject.GObject {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_vfs_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_vfs_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,15 +131,19 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     Free the returned object with g_object_unref().
      */
     public org.gtk.gio.File parseName(java.lang.String parseName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_vfs_parse_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(parseName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_vfs_parse_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(parseName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -166,21 +180,23 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     for {@code scheme} already exists.
      */
     public boolean registerUriScheme(java.lang.String scheme, @Nullable org.gtk.gio.VfsFileLookupFunc uriFunc, @Nullable org.gtk.glib.DestroyNotify uriDestroy, @Nullable org.gtk.gio.VfsFileLookupFunc parseNameFunc, @Nullable org.gtk.glib.DestroyNotify parseNameDestroy) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_vfs_register_uri_scheme.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(scheme, null),
-                    (Addressable) (uriFunc == null ? MemoryAddress.NULL : (Addressable) uriFunc.toCallback()),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (uriDestroy == null ? MemoryAddress.NULL : (Addressable) uriDestroy.toCallback()),
-                    (Addressable) (parseNameFunc == null ? MemoryAddress.NULL : (Addressable) parseNameFunc.toCallback()),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (parseNameDestroy == null ? MemoryAddress.NULL : (Addressable) parseNameDestroy.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_vfs_register_uri_scheme.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(scheme, SCOPE),
+                        (Addressable) (uriFunc == null ? MemoryAddress.NULL : (Addressable) uriFunc.toCallback()),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (uriDestroy == null ? MemoryAddress.NULL : (Addressable) uriDestroy.toCallback()),
+                        (Addressable) (parseNameFunc == null ? MemoryAddress.NULL : (Addressable) parseNameFunc.toCallback()),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (parseNameDestroy == null ? MemoryAddress.NULL : (Addressable) parseNameDestroy.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -191,15 +207,17 @@ public class Vfs extends org.gtk.gobject.GObject {
      *     handler for {@code scheme} does not exist.
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_vfs_unregister_uri_scheme.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(scheme, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_vfs_unregister_uri_scheme.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(scheme, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -228,7 +246,7 @@ public class Vfs extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Vfs) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Vfs.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Vfs) Interop.register(RESULT, org.gtk.gio.Vfs.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -242,7 +260,7 @@ public class Vfs extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Vfs) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Vfs.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Vfs) Interop.register(RESULT, org.gtk.gio.Vfs.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -261,6 +279,9 @@ public class Vfs extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -285,63 +306,71 @@ public class Vfs extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_vfs_get_file_for_path = Interop.downcallHandle(
-            "g_vfs_get_file_for_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_get_file_for_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_get_file_for_uri = Interop.downcallHandle(
-            "g_vfs_get_file_for_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_get_file_for_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_get_supported_uri_schemes = Interop.downcallHandle(
-            "g_vfs_get_supported_uri_schemes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_get_supported_uri_schemes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_is_active = Interop.downcallHandle(
-            "g_vfs_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_parse_name = Interop.downcallHandle(
-            "g_vfs_parse_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_parse_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_register_uri_scheme = Interop.downcallHandle(
-            "g_vfs_register_uri_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_register_uri_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_unregister_uri_scheme = Interop.downcallHandle(
-            "g_vfs_unregister_uri_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_unregister_uri_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_get_type = Interop.downcallHandle(
-            "g_vfs_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_vfs_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_vfs_get_default = Interop.downcallHandle(
-            "g_vfs_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_vfs_get_local = Interop.downcallHandle(
-            "g_vfs_get_local",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_vfs_get_local",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_vfs_get_type != null;
     }
 }

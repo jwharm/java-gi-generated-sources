@@ -48,26 +48,17 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a GLViewConvert proxy instance for the provided memory address.
-     * <p>
-     * Because GLViewConvert is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLViewConvert(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLViewConvert(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLViewConvert> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLViewConvert(input, ownership);
+    public static final Marshal<Addressable, GLViewConvert> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLViewConvert(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -80,7 +71,8 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
     }
     
     public GLViewConvert() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -102,7 +94,9 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         othercaps.yieldOwnership();
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -111,17 +105,19 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
     public org.gstreamer.gst.FlowReturn getOutput(Out<org.gstreamer.gst.Buffer> outbufPtr) {
-        MemorySegment outbufPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_view_convert_get_output.invokeExact(
-                    handle(),
-                    (Addressable) outbufPtrPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outbufPtrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_view_convert_get_output.invokeExact(
+                        handle(),
+                        (Addressable) outbufPtrPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -139,7 +135,9 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -148,8 +146,7 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
      */
     public void reset() {
         try {
-            DowncallHandles.gst_gl_view_convert_reset.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_view_convert_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +222,9 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -258,6 +257,9 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -312,63 +314,71 @@ public class GLViewConvert extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_view_convert_new = Interop.downcallHandle(
-            "gst_gl_view_convert_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_fixate_caps = Interop.downcallHandle(
-            "gst_gl_view_convert_fixate_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_fixate_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_get_output = Interop.downcallHandle(
-            "gst_gl_view_convert_get_output",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_get_output",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_perform = Interop.downcallHandle(
-            "gst_gl_view_convert_perform",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_perform",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_reset = Interop.downcallHandle(
-            "gst_gl_view_convert_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_set_caps = Interop.downcallHandle(
-            "gst_gl_view_convert_set_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_set_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_set_context = Interop.downcallHandle(
-            "gst_gl_view_convert_set_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_set_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_submit_input_buffer = Interop.downcallHandle(
-            "gst_gl_view_convert_submit_input_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_submit_input_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_transform_caps = Interop.downcallHandle(
-            "gst_gl_view_convert_transform_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_view_convert_transform_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_view_convert_get_type = Interop.downcallHandle(
-            "gst_gl_view_convert_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_view_convert_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_view_convert_get_type != null;
     }
 }

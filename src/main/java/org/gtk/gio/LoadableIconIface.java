@@ -37,8 +37,8 @@ public class LoadableIconIface extends Struct {
      * @return A new, uninitialized @{link LoadableIconIface}
      */
     public static LoadableIconIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LoadableIconIface newInstance = new LoadableIconIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LoadableIconIface newInstance = new LoadableIconIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class LoadableIconIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,27 +57,47 @@ public class LoadableIconIface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadCallback {
+    
         org.gtk.gio.InputStream run(org.gtk.gio.LoadableIcon icon, int size, @Nullable Out<java.lang.String> type, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress icon, int size, MemoryAddress type, MemoryAddress cancellable) {
-            Out<java.lang.String> typeOUT = new Out<>(Marshal.addressToString.marshal(type, null));
-            var RESULT = run((org.gtk.gio.LoadableIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, Ownership.NONE), size, typeOUT, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            type.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(typeOUT.get(), null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<java.lang.String> typeOUT = new Out<>(Marshal.addressToString.marshal(type, null));
+                var RESULT = run((org.gtk.gio.LoadableIcon) Interop.register(icon, org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, null), size, typeOUT, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                type.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(typeOUT.get(), SCOPE));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,24 +106,41 @@ public class LoadableIconIface extends Struct {
      * @param load The new value of the field {@code load}
      */
     public void setLoad(LoadCallback load) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadAsyncCallback {
+    
         void run(org.gtk.gio.LoadableIcon icon, int size, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress icon, int size, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.LoadableIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, Ownership.NONE), size, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.LoadableIcon) Interop.register(icon, org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, null), size, (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,27 +149,47 @@ public class LoadableIconIface extends Struct {
      * @param loadAsync The new value of the field {@code load_async}
      */
     public void setLoadAsync(LoadAsyncCallback loadAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadAsync == null ? MemoryAddress.NULL : loadAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadAsync == null ? MemoryAddress.NULL : loadAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LoadFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface LoadFinishCallback {
+    
         org.gtk.gio.InputStream run(org.gtk.gio.LoadableIcon icon, org.gtk.gio.AsyncResult res, @Nullable Out<java.lang.String> type);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress icon, MemoryAddress res, MemoryAddress type) {
-            Out<java.lang.String> typeOUT = new Out<>(Marshal.addressToString.marshal(type, null));
-            var RESULT = run((org.gtk.gio.LoadableIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(icon)), org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(res)), org.gtk.gio.AsyncResult.fromAddress).marshal(res, Ownership.NONE), typeOUT);
-            type.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(typeOUT.get(), null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                Out<java.lang.String> typeOUT = new Out<>(Marshal.addressToString.marshal(type, null));
+                var RESULT = run((org.gtk.gio.LoadableIcon) Interop.register(icon, org.gtk.gio.LoadableIcon.fromAddress).marshal(icon, null), (org.gtk.gio.AsyncResult) Interop.register(res, org.gtk.gio.AsyncResult.fromAddress).marshal(res, null), typeOUT);
+                type.set(Interop.valueLayout.ADDRESS, 0, Marshal.stringToAddress.marshal(typeOUT.get(), SCOPE));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LoadFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LoadFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -141,22 +198,26 @@ public class LoadableIconIface extends Struct {
      * @param loadFinish The new value of the field {@code load_finish}
      */
     public void setLoadFinish(LoadFinishCallback loadFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("load_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFinish == null ? MemoryAddress.NULL : loadFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("load_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFinish == null ? MemoryAddress.NULL : loadFinish.toCallback()));
+        }
     }
     
     /**
      * Create a LoadableIconIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LoadableIconIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LoadableIconIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LoadableIconIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LoadableIconIface(input, ownership);
+    public static final Marshal<Addressable, LoadableIconIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LoadableIconIface(input);
     
     /**
      * A {@link LoadableIconIface.Builder} object constructs a {@link LoadableIconIface} 
@@ -180,7 +241,7 @@ public class LoadableIconIface extends Struct {
             struct = LoadableIconIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LoadableIconIface} struct.
          * @return A new instance of {@code LoadableIconIface} with the fields 
          *         that were set in the Builder object.
@@ -195,31 +256,39 @@ public class LoadableIconIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setLoad(LoadCallback load) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (load == null ? MemoryAddress.NULL : load.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLoadAsync(LoadAsyncCallback loadAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadAsync == null ? MemoryAddress.NULL : loadAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadAsync == null ? MemoryAddress.NULL : loadAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLoadFinish(LoadFinishCallback loadFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("load_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loadFinish == null ? MemoryAddress.NULL : loadFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("load_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loadFinish == null ? MemoryAddress.NULL : loadFinish.toCallback()));
+                return this;
+            }
         }
     }
 }

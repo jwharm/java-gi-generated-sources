@@ -28,6 +28,9 @@ public class HookFlagMask extends io.github.jwharm.javagi.Bitfield {
      */
     public static final HookFlagMask MASK = new HookFlagMask(15);
     
+    /**
+     * Create a new HookFlagMask with the provided value
+     */
     public HookFlagMask(int value) {
         super(value);
     }

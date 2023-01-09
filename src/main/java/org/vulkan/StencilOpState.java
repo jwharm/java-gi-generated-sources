@@ -29,8 +29,8 @@ public class StencilOpState extends Struct {
      * @return A new, uninitialized @{link StencilOpState}
      */
     public static StencilOpState allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StencilOpState newInstance = new StencilOpState(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StencilOpState newInstance = new StencilOpState(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class StencilOpState extends Struct {
     /**
      * Create a StencilOpState proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StencilOpState(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StencilOpState(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StencilOpState> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StencilOpState(input, ownership);
+    public static final Marshal<Addressable, StencilOpState> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StencilOpState(input);
 }

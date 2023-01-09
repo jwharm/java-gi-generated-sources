@@ -34,8 +34,8 @@ public class AudioAggregatorPadClass extends Struct {
      * @return A new, uninitialized @{link AudioAggregatorPadClass}
      */
     public static AudioAggregatorPadClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioAggregatorPadClass newInstance = new AudioAggregatorPadClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioAggregatorPadClass newInstance = new AudioAggregatorPadClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class AudioAggregatorPadClass extends Struct {
      */
     public org.gstreamer.base.AggregatorPadClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.base.AggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.AggregatorPadClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,25 +54,43 @@ public class AudioAggregatorPadClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.base.AggregatorPadClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ConvertBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface ConvertBufferCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.audio.AudioAggregatorPad pad, org.gstreamer.audio.AudioInfo inInfo, org.gstreamer.audio.AudioInfo outInfo, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress pad, MemoryAddress inInfo, MemoryAddress outInfo, MemoryAddress buffer) {
-            var RESULT = run((org.gstreamer.audio.AudioAggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.audio.AudioAggregatorPad.fromAddress).marshal(pad, Ownership.NONE), org.gstreamer.audio.AudioInfo.fromAddress.marshal(inInfo, Ownership.NONE), org.gstreamer.audio.AudioInfo.fromAddress.marshal(outInfo, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioAggregatorPad) Interop.register(pad, org.gstreamer.audio.AudioAggregatorPad.fromAddress).marshal(pad, null), org.gstreamer.audio.AudioInfo.fromAddress.marshal(inInfo, null), org.gstreamer.audio.AudioInfo.fromAddress.marshal(outInfo, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConvertBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ConvertBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,24 +99,41 @@ public class AudioAggregatorPadClass extends Struct {
      * @param convertBuffer The new value of the field {@code convert_buffer}
      */
     public void setConvertBuffer(ConvertBufferCallback convertBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("convert_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (convertBuffer == null ? MemoryAddress.NULL : convertBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("convert_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (convertBuffer == null ? MemoryAddress.NULL : convertBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code UpdateConversionInfoCallback} callback.
+     */
     @FunctionalInterface
     public interface UpdateConversionInfoCallback {
+    
         void run(org.gstreamer.audio.AudioAggregatorPad pad);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress pad) {
-            run((org.gstreamer.audio.AudioAggregatorPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.audio.AudioAggregatorPad.fromAddress).marshal(pad, Ownership.NONE));
+            run((org.gstreamer.audio.AudioAggregatorPad) Interop.register(pad, org.gstreamer.audio.AudioAggregatorPad.fromAddress).marshal(pad, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateConversionInfoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UpdateConversionInfoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -107,22 +142,26 @@ public class AudioAggregatorPadClass extends Struct {
      * @param updateConversionInfo The new value of the field {@code update_conversion_info}
      */
     public void setUpdateConversionInfo(UpdateConversionInfoCallback updateConversionInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("update_conversion_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateConversionInfo == null ? MemoryAddress.NULL : updateConversionInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("update_conversion_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateConversionInfo == null ? MemoryAddress.NULL : updateConversionInfo.toCallback()));
+        }
     }
     
     /**
      * Create a AudioAggregatorPadClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioAggregatorPadClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioAggregatorPadClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioAggregatorPadClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorPadClass(input, ownership);
+    public static final Marshal<Addressable, AudioAggregatorPadClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorPadClass(input);
     
     /**
      * A {@link AudioAggregatorPadClass.Builder} object constructs a {@link AudioAggregatorPadClass} 
@@ -146,7 +185,7 @@ public class AudioAggregatorPadClass extends Struct {
             struct = AudioAggregatorPadClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioAggregatorPadClass} struct.
          * @return A new instance of {@code AudioAggregatorPadClass} with the fields 
          *         that were set in the Builder object.
@@ -156,31 +195,39 @@ public class AudioAggregatorPadClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.base.AggregatorPadClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setConvertBuffer(ConvertBufferCallback convertBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("convert_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (convertBuffer == null ? MemoryAddress.NULL : convertBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("convert_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (convertBuffer == null ? MemoryAddress.NULL : convertBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setUpdateConversionInfo(UpdateConversionInfoCallback updateConversionInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("update_conversion_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateConversionInfo == null ? MemoryAddress.NULL : updateConversionInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("update_conversion_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (updateConversionInfo == null ? MemoryAddress.NULL : updateConversionInfo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

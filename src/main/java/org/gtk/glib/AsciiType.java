@@ -31,6 +31,9 @@ public class AsciiType extends io.github.jwharm.javagi.Bitfield {
     
     public static final AsciiType XDIGIT = new AsciiType(1024);
     
+    /**
+     * Create a new AsciiType with the provided value
+     */
     public AsciiType(int value) {
         super(value);
     }

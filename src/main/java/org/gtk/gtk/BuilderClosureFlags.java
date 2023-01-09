@@ -23,6 +23,9 @@ public class BuilderClosureFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BuilderClosureFlags SWAPPED = new BuilderClosureFlags(1);
     
+    /**
+     * Create a new BuilderClosureFlags with the provided value
+     */
     public BuilderClosureFlags(int value) {
         super(value);
     }

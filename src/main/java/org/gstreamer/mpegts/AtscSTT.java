@@ -44,8 +44,8 @@ public class AtscSTT extends Struct {
      * @return A new, uninitialized @{link AtscSTT}
      */
     public static AtscSTT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscSTT newInstance = new AtscSTT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscSTT newInstance = new AtscSTT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code protocol_version}
      */
     public byte getProtocolVersion() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class AtscSTT extends Struct {
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
     public void setProtocolVersion(byte protocolVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code system_time}
      */
     public int getSystemTime() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,9 +93,11 @@ public class AtscSTT extends Struct {
      * @param systemTime The new value of the field {@code system_time}
      */
     public void setSystemTime(int systemTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), systemTime);
+        }
     }
     
     /**
@@ -97,10 +105,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code gps_utc_offset}
      */
     public byte getGpsUtcOffset() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -108,9 +118,11 @@ public class AtscSTT extends Struct {
      * @param gpsUtcOffset The new value of the field {@code gps_utc_offset}
      */
     public void setGpsUtcOffset(byte gpsUtcOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), gpsUtcOffset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), gpsUtcOffset);
+        }
     }
     
     /**
@@ -118,10 +130,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code ds_status}
      */
     public boolean getDsStatus() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -129,9 +143,11 @@ public class AtscSTT extends Struct {
      * @param dsStatus The new value of the field {@code ds_status}
      */
     public void setDsStatus(boolean dsStatus) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(dsStatus, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(dsStatus, null).intValue());
+        }
     }
     
     /**
@@ -139,10 +155,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code ds_dayofmonth}
      */
     public byte getDsDayofmonth() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -150,9 +168,11 @@ public class AtscSTT extends Struct {
      * @param dsDayofmonth The new value of the field {@code ds_dayofmonth}
      */
     public void setDsDayofmonth(byte dsDayofmonth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dsDayofmonth);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), dsDayofmonth);
+        }
     }
     
     /**
@@ -160,10 +180,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code ds_hour}
      */
     public byte getDsHour() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -171,9 +193,11 @@ public class AtscSTT extends Struct {
      * @param dsHour The new value of the field {@code ds_hour}
      */
     public void setDsHour(byte dsHour) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dsHour);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), dsHour);
+        }
     }
     
     /**
@@ -181,10 +205,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        }
     }
     
     /**
@@ -192,9 +218,11 @@ public class AtscSTT extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -202,10 +230,12 @@ public class AtscSTT extends Struct {
      * @return The value of the field {@code utc_datetime}
      */
     public org.gstreamer.gst.DateTime getUtcDatetime() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -213,22 +243,26 @@ public class AtscSTT extends Struct {
      * @param utcDatetime The new value of the field {@code utc_datetime}
      */
     public void setUtcDatetime(org.gstreamer.gst.DateTime utcDatetime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (utcDatetime == null ? MemoryAddress.NULL : utcDatetime.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (utcDatetime == null ? MemoryAddress.NULL : utcDatetime.handle()));
+        }
     }
     
     /**
      * Create a AtscSTT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscSTT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscSTT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscSTT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscSTT(input, ownership);
+    public static final Marshal<Addressable, AtscSTT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscSTT(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -241,32 +275,34 @@ public class AtscSTT extends Struct {
     }
     
     public AtscSTT() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     public org.gstreamer.gst.DateTime getDatetimeUtc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_stt_get_datetime_utc.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_stt_get_datetime_utc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_atsc_stt_new = Interop.downcallHandle(
-            "gst_mpegts_atsc_stt_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_atsc_stt_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_atsc_stt_get_datetime_utc = Interop.downcallHandle(
-            "gst_mpegts_atsc_stt_get_datetime_utc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_atsc_stt_get_datetime_utc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -292,7 +328,7 @@ public class AtscSTT extends Struct {
             struct = AtscSTT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscSTT} struct.
          * @return A new instance of {@code AtscSTT} with the fields 
          *         that were set in the Builder object.
@@ -307,10 +343,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProtocolVersion(byte protocolVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+                return this;
+            }
         }
         
         /**
@@ -319,10 +357,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSystemTime(int systemTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("system_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), systemTime);
+                return this;
+            }
         }
         
         /**
@@ -331,17 +371,21 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGpsUtcOffset(byte gpsUtcOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), gpsUtcOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("gps_utc_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), gpsUtcOffset);
+                return this;
+            }
         }
         
         public Builder setDsStatus(boolean dsStatus) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(dsStatus, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ds_status"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(dsStatus, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -350,10 +394,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDsDayofmonth(byte dsDayofmonth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dsDayofmonth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ds_dayofmonth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dsDayofmonth);
+                return this;
+            }
         }
         
         /**
@@ -362,10 +408,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDsHour(byte dsHour) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dsHour);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ds_hour"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), dsHour);
+                return this;
+            }
         }
         
         /**
@@ -374,10 +422,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -386,10 +436,12 @@ public class AtscSTT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUtcDatetime(org.gstreamer.gst.DateTime utcDatetime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (utcDatetime == null ? MemoryAddress.NULL : utcDatetime.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("utc_datetime"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (utcDatetime == null ? MemoryAddress.NULL : utcDatetime.handle()));
+                return this;
+            }
         }
     }
 }

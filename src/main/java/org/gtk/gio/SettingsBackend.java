@@ -54,14 +54,16 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
     /**
      * Create a SettingsBackend proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SettingsBackend(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SettingsBackend(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SettingsBackend> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsBackend(input, ownership);
+    public static final Marshal<Addressable, SettingsBackend> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SettingsBackend(input);
     
     /**
      * Signals that a single key has possibly changed.  Backend
@@ -90,13 +92,15 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param originTag the origin tag
      */
     public void changed(java.lang.String key, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        try {
-            DowncallHandles.g_settings_backend_changed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_backend_changed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -145,14 +149,16 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param originTag the origin tag
      */
     public void keysChanged(java.lang.String path, java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        try {
-            DowncallHandles.g_settings_backend_keys_changed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null),
-                    Interop.allocateNativeArray(items, false),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_backend_keys_changed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE),
+                        Interop.allocateNativeArray(items, false, SCOPE),
+                        (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -182,13 +188,15 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param originTag the origin tag
      */
     public void pathChanged(java.lang.String path, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        try {
-            DowncallHandles.g_settings_backend_path_changed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null),
-                    (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_backend_path_changed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE),
+                        (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -201,12 +209,14 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param path the name of the path
      */
     public void pathWritableChanged(java.lang.String path) {
-        try {
-            DowncallHandles.g_settings_backend_path_writable_changed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_backend_path_writable_changed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -218,12 +228,14 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param key the name of the key
      */
     public void writableChanged(java.lang.String key) {
-        try {
-            DowncallHandles.g_settings_backend_writable_changed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_backend_writable_changed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -256,17 +268,19 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      * @param values the location to save the values, or {@code null}
      */
     public static void flattenTree(org.gtk.glib.Tree tree, Out<java.lang.String> path, java.lang.String[] keys, @Nullable org.gtk.glib.Variant[] values) {
-        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.g_settings_backend_flatten_tree.invokeExact(
-                    tree.handle(),
-                    (Addressable) pathPOINTER.address(),
-                    Interop.allocateNativeArray(keys, false),
-                    (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.glib.Variant.getMemoryLayout(), false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment pathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.g_settings_backend_flatten_tree.invokeExact(
+                        tree.handle(),
+                        (Addressable) pathPOINTER.address(),
+                        Interop.allocateNativeArray(keys, false, SCOPE),
+                        (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.glib.Variant.getMemoryLayout(), false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -286,7 +300,9 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.SettingsBackend) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SettingsBackend.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.SettingsBackend) Interop.register(RESULT, org.gtk.gio.SettingsBackend.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -305,6 +321,9 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -329,57 +348,65 @@ public class SettingsBackend extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
-            "g_settings_backend_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
-            "g_settings_backend_changed_tree",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_changed_tree",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
-            "g_settings_backend_keys_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_keys_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
-            "g_settings_backend_path_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_path_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
-            "g_settings_backend_path_writable_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_path_writable_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
-            "g_settings_backend_writable_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_writable_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_get_type = Interop.downcallHandle(
-            "g_settings_backend_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_settings_backend_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_settings_backend_flatten_tree = Interop.downcallHandle(
-            "g_settings_backend_flatten_tree",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_flatten_tree",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
-            "g_settings_backend_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_backend_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_settings_backend_get_type != null;
     }
 }

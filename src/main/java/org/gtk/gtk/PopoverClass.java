@@ -34,8 +34,8 @@ public class PopoverClass extends Struct {
      * @return A new, uninitialized @{link PopoverClass}
      */
     public static PopoverClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PopoverClass newInstance = new PopoverClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PopoverClass newInstance = new PopoverClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class PopoverClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,24 +54,41 @@ public class PopoverClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ClosedCallback} callback.
+     */
     @FunctionalInterface
     public interface ClosedCallback {
+    
         void run(org.gtk.gtk.Popover popover);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress popover) {
-            run((org.gtk.gtk.Popover) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(popover)), org.gtk.gtk.Popover.fromAddress).marshal(popover, Ownership.NONE));
+            run((org.gtk.gtk.Popover) Interop.register(popover, org.gtk.gtk.Popover.fromAddress).marshal(popover, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClosedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClosedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -80,24 +97,41 @@ public class PopoverClass extends Struct {
      * @param closed The new value of the field {@code closed}
      */
     public void setClosed(ClosedCallback closed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("closed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateDefaultCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateDefaultCallback {
+    
         void run(org.gtk.gtk.Popover popover);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress popover) {
-            run((org.gtk.gtk.Popover) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(popover)), org.gtk.gtk.Popover.fromAddress).marshal(popover, Ownership.NONE));
+            run((org.gtk.gtk.Popover) Interop.register(popover, org.gtk.gtk.Popover.fromAddress).marshal(popover, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateDefaultCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateDefaultCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -106,22 +140,26 @@ public class PopoverClass extends Struct {
      * @param activateDefault The new value of the field {@code activate_default}
      */
     public void setActivateDefault(ActivateDefaultCallback activateDefault) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+        }
     }
     
     /**
      * Create a PopoverClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PopoverClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PopoverClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PopoverClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopoverClass(input, ownership);
+    public static final Marshal<Addressable, PopoverClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PopoverClass(input);
     
     /**
      * A {@link PopoverClass.Builder} object constructs a {@link PopoverClass} 
@@ -145,7 +183,7 @@ public class PopoverClass extends Struct {
             struct = PopoverClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PopoverClass} struct.
          * @return A new instance of {@code PopoverClass} with the fields 
          *         that were set in the Builder object.
@@ -155,31 +193,39 @@ public class PopoverClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setClosed(ClosedCallback closed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("closed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("closed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+                return this;
+            }
         }
         
         public Builder setActivateDefault(ActivateDefaultCallback activateDefault) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate_default"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateDefault == null ? MemoryAddress.NULL : activateDefault.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

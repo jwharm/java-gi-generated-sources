@@ -37,8 +37,8 @@ public class AudioBaseSrcClass extends Struct {
      * @return A new, uninitialized @{link AudioBaseSrcClass}
      */
     public static AudioBaseSrcClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioBaseSrcClass newInstance = new AudioBaseSrcClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioBaseSrcClass newInstance = new AudioBaseSrcClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class AudioBaseSrcClass extends Struct {
      */
     public org.gstreamer.base.PushSrcClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.base.PushSrcClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.PushSrcClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,25 +57,42 @@ public class AudioBaseSrcClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.base.PushSrcClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateRingbufferCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateRingbufferCallback {
+    
         org.gstreamer.audio.AudioRingBuffer run(org.gstreamer.audio.AudioBaseSrc src);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress src) {
-            var RESULT = run((org.gstreamer.audio.AudioBaseSrc) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(src)), org.gstreamer.audio.AudioBaseSrc.fromAddress).marshal(src, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioBaseSrc) Interop.register(src, org.gstreamer.audio.AudioBaseSrc.fromAddress).marshal(src, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateRingbufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateRingbufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -84,22 +101,26 @@ public class AudioBaseSrcClass extends Struct {
      * @param createRingbuffer The new value of the field {@code create_ringbuffer}
      */
     public void setCreateRingbuffer(CreateRingbufferCallback createRingbuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+        }
     }
     
     /**
      * Create a AudioBaseSrcClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioBaseSrcClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioBaseSrcClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioBaseSrcClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSrcClass(input, ownership);
+    public static final Marshal<Addressable, AudioBaseSrcClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSrcClass(input);
     
     /**
      * A {@link AudioBaseSrcClass.Builder} object constructs a {@link AudioBaseSrcClass} 
@@ -123,7 +144,7 @@ public class AudioBaseSrcClass extends Struct {
             struct = AudioBaseSrcClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioBaseSrcClass} struct.
          * @return A new instance of {@code AudioBaseSrcClass} with the fields 
          *         that were set in the Builder object.
@@ -138,24 +159,30 @@ public class AudioBaseSrcClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.base.PushSrcClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setCreateRingbuffer(CreateRingbufferCallback createRingbuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -62,26 +62,17 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
     
     /**
      * Create a RTPBaseAudioPayload proxy instance for the provided memory address.
-     * <p>
-     * Because RTPBaseAudioPayload is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPBaseAudioPayload(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected RTPBaseAudioPayload(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPBaseAudioPayload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBaseAudioPayload(input, ownership);
+    public static final Marshal<Addressable, RTPBaseAudioPayload> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPBaseAudioPayload(input);
     
     /**
      * Create an RTP buffer and store {@code payload_len} bytes of the adapter as the
@@ -114,12 +105,13 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
     public org.gstreamer.base.Adapter getAdapter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_base_audio_payload_get_adapter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_base_audio_payload_get_adapter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.base.Adapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.base.Adapter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.base.Adapter) Interop.register(RESULT, org.gstreamer.base.Adapter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -132,17 +124,19 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
     public org.gstreamer.gst.FlowReturn push(byte[] data, int payloadLen, org.gstreamer.gst.ClockTime timestamp) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtp_base_audio_payload_push.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    payloadLen,
-                    timestamp.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtp_base_audio_payload_push.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        payloadLen,
+                        timestamp.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.FlowReturn.of(RESULT);
         }
-        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     /**
@@ -151,8 +145,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      */
     public void setFrameBased() {
         try {
-            DowncallHandles.gst_rtp_base_audio_payload_set_frame_based.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtp_base_audio_payload_set_frame_based.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +173,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      */
     public void setSampleBased() {
         try {
-            DowncallHandles.gst_rtp_base_audio_payload_set_sample_based.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtp_base_audio_payload_set_sample_based.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,6 +237,9 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      */
     public static class Builder extends org.gstreamer.rtp.RTPBasePayload.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -275,57 +270,65 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtp_base_audio_payload_flush = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_flush",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_base_audio_payload_flush",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_get_adapter = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_get_adapter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_audio_payload_get_adapter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_push = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_push",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_base_audio_payload_push",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_set_frame_based = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_set_frame_based",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_audio_payload_set_frame_based",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_set_frame_options = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_set_frame_options",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_base_audio_payload_set_frame_options",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_set_sample_based = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_set_sample_based",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtp_base_audio_payload_set_sample_based",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_set_sample_options = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_set_sample_options",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_base_audio_payload_set_sample_options",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_set_samplebits_options = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_set_samplebits_options",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtp_base_audio_payload_set_samplebits_options",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtp_base_audio_payload_get_type = Interop.downcallHandle(
-            "gst_rtp_base_audio_payload_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_rtp_base_audio_payload_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_rtp_base_audio_payload_get_type != null;
     }
 }

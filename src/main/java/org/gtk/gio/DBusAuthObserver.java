@@ -86,14 +86,16 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
     /**
      * Create a DBusAuthObserver proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusAuthObserver(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusAuthObserver(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusAuthObserver> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusAuthObserver(input, ownership);
+    public static final Marshal<Addressable, DBusAuthObserver> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusAuthObserver(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -109,7 +111,8 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
      * Creates a new {@link DBusAuthObserver} object.
      */
     public DBusAuthObserver() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -118,15 +121,17 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
      * @return {@code true} if {@code mechanism} can be used to authenticate the other peer, {@code false} if not.
      */
     public boolean allowMechanism(java.lang.String mechanism) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dbus_auth_observer_allow_mechanism.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(mechanism, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dbus_auth_observer_allow_mechanism.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(mechanism, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -162,20 +167,40 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code AllowMechanism} callback.
+     */
     @FunctionalInterface
     public interface AllowMechanism {
+    
+        /**
+         * Emitted to check if {@code mechanism} is allowed to be used.
+         */
         boolean run(java.lang.String mechanism);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDBusAuthObserver, MemoryAddress mechanism) {
-            var RESULT = run(Marshal.addressToString.marshal(mechanism, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run(Marshal.addressToString.marshal(mechanism, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AllowMechanism.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AllowMechanism.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -185,29 +210,49 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusAuthObserver.AllowMechanism> onAllowMechanism(DBusAuthObserver.AllowMechanism handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("allow-mechanism"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("allow-mechanism", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code AuthorizeAuthenticatedPeer} callback.
+     */
     @FunctionalInterface
     public interface AuthorizeAuthenticatedPeer {
+    
+        /**
+         * Emitted to check if a peer that is successfully authenticated
+         * is authorized.
+         */
         boolean run(org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDBusAuthObserver, MemoryAddress stream, MemoryAddress credentials) {
-            var RESULT = run((org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.IOStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.Credentials) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(credentials)), org.gtk.gio.Credentials.fromAddress).marshal(credentials, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.IOStream) Interop.register(stream, org.gtk.gio.IOStream.fromAddress).marshal(stream, null), (org.gtk.gio.Credentials) Interop.register(credentials, org.gtk.gio.Credentials.fromAddress).marshal(credentials, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AuthorizeAuthenticatedPeer.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AuthorizeAuthenticatedPeer.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -218,9 +263,10 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DBusAuthObserver.AuthorizeAuthenticatedPeer> onAuthorizeAuthenticatedPeer(DBusAuthObserver.AuthorizeAuthenticatedPeer handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("authorize-authenticated-peer"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("authorize-authenticated-peer", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -243,6 +289,9 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -267,27 +316,35 @@ public class DBusAuthObserver extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
-            "g_dbus_auth_observer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_auth_observer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
-            "g_dbus_auth_observer_allow_mechanism",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_auth_observer_allow_mechanism",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
-            "g_dbus_auth_observer_authorize_authenticated_peer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_auth_observer_authorize_authenticated_peer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_auth_observer_get_type = Interop.downcallHandle(
-            "g_dbus_auth_observer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_auth_observer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_auth_observer_get_type != null;
     }
 }

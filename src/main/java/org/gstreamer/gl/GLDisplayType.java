@@ -79,6 +79,9 @@ public class GLDisplayType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLDisplayType ANY = new GLDisplayType(-1);
     
+    /**
+     * Create a new GLDisplayType with the provided value
+     */
     public GLDisplayType(int value) {
         super(value);
     }

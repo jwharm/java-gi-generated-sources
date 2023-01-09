@@ -29,8 +29,8 @@ public class SettingsPrivate extends Struct {
      * @return A new, uninitialized @{link SettingsPrivate}
      */
     public static SettingsPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SettingsPrivate newInstance = new SettingsPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SettingsPrivate newInstance = new SettingsPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SettingsPrivate extends Struct {
     /**
      * Create a SettingsPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SettingsPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SettingsPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SettingsPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsPrivate(input, ownership);
+    public static final Marshal<Addressable, SettingsPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SettingsPrivate(input);
 }

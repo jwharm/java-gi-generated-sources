@@ -38,8 +38,8 @@ public class AudioBaseSinkClass extends Struct {
      * @return A new, uninitialized @{link AudioBaseSinkClass}
      */
     public static AudioBaseSinkClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioBaseSinkClass newInstance = new AudioBaseSinkClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioBaseSinkClass newInstance = new AudioBaseSinkClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class AudioBaseSinkClass extends Struct {
      */
     public org.gstreamer.base.BaseSinkClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.BaseSinkClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,25 +58,42 @@ public class AudioBaseSinkClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.base.BaseSinkClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateRingbufferCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateRingbufferCallback {
+    
         org.gstreamer.audio.AudioRingBuffer run(org.gstreamer.audio.AudioBaseSink sink);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sink) {
-            var RESULT = run((org.gstreamer.audio.AudioBaseSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sink)), org.gstreamer.audio.AudioBaseSink.fromAddress).marshal(sink, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioBaseSink) Interop.register(sink, org.gstreamer.audio.AudioBaseSink.fromAddress).marshal(sink, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateRingbufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateRingbufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,25 +102,43 @@ public class AudioBaseSinkClass extends Struct {
      * @param createRingbuffer The new value of the field {@code create_ringbuffer}
      */
     public void setCreateRingbuffer(CreateRingbufferCallback createRingbuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code PayloadCallback} callback.
+     */
     @FunctionalInterface
     public interface PayloadCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.audio.AudioBaseSink sink, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sink, MemoryAddress buffer) {
-            var RESULT = run((org.gstreamer.audio.AudioBaseSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sink)), org.gstreamer.audio.AudioBaseSink.fromAddress).marshal(sink, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            var RESULT = run((org.gstreamer.audio.AudioBaseSink) Interop.register(sink, org.gstreamer.audio.AudioBaseSink.fromAddress).marshal(sink, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PayloadCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PayloadCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -112,22 +147,26 @@ public class AudioBaseSinkClass extends Struct {
      * @param payload The new value of the field {@code payload}
      */
     public void setPayload(PayloadCallback payload) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("payload"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (payload == null ? MemoryAddress.NULL : payload.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("payload"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (payload == null ? MemoryAddress.NULL : payload.toCallback()));
+        }
     }
     
     /**
      * Create a AudioBaseSinkClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioBaseSinkClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioBaseSinkClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioBaseSinkClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSinkClass(input, ownership);
+    public static final Marshal<Addressable, AudioBaseSinkClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSinkClass(input);
     
     /**
      * A {@link AudioBaseSinkClass.Builder} object constructs a {@link AudioBaseSinkClass} 
@@ -151,7 +190,7 @@ public class AudioBaseSinkClass extends Struct {
             struct = AudioBaseSinkClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioBaseSinkClass} struct.
          * @return A new instance of {@code AudioBaseSinkClass} with the fields 
          *         that were set in the Builder object.
@@ -166,31 +205,39 @@ public class AudioBaseSinkClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.base.BaseSinkClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setCreateRingbuffer(CreateRingbufferCallback createRingbuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_ringbuffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createRingbuffer == null ? MemoryAddress.NULL : createRingbuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPayload(PayloadCallback payload) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("payload"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (payload == null ? MemoryAddress.NULL : payload.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("payload"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (payload == null ? MemoryAddress.NULL : payload.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

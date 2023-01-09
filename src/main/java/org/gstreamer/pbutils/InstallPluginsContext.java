@@ -33,8 +33,8 @@ public class InstallPluginsContext extends Struct {
      * @return A new, uninitialized @{link InstallPluginsContext}
      */
     public static InstallPluginsContext allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InstallPluginsContext newInstance = new InstallPluginsContext(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InstallPluginsContext newInstance = new InstallPluginsContext(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class InstallPluginsContext extends Struct {
     /**
      * Create a InstallPluginsContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InstallPluginsContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InstallPluginsContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InstallPluginsContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InstallPluginsContext(input, ownership);
+    public static final Marshal<Addressable, InstallPluginsContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InstallPluginsContext(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -65,7 +67,8 @@ public class InstallPluginsContext extends Struct {
      * Creates a new {@link InstallPluginsContext}.
      */
     public InstallPluginsContext() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -75,12 +78,13 @@ public class InstallPluginsContext extends Struct {
     public org.gstreamer.pbutils.InstallPluginsContext copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_context_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_context_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.pbutils.InstallPluginsContext.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.pbutils.InstallPluginsContext.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -88,8 +92,7 @@ public class InstallPluginsContext extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_install_plugins_context_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_install_plugins_context_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,12 +128,14 @@ public class InstallPluginsContext extends Struct {
      * @param desktopId the desktop file ID of the calling application
      */
     public void setDesktopId(java.lang.String desktopId) {
-        try {
-            DowncallHandles.gst_install_plugins_context_set_desktop_id.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(desktopId, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_install_plugins_context_set_desktop_id.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(desktopId, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -156,12 +161,14 @@ public class InstallPluginsContext extends Struct {
      * @param startupId the startup notification ID
      */
     public void setStartupNotificationId(java.lang.String startupId) {
-        try {
-            DowncallHandles.gst_install_plugins_context_set_startup_notification_id.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(startupId, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_install_plugins_context_set_startup_notification_id.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(startupId, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -203,45 +210,45 @@ public class InstallPluginsContext extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_install_plugins_context_new = Interop.downcallHandle(
-            "gst_install_plugins_context_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_install_plugins_context_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_copy = Interop.downcallHandle(
-            "gst_install_plugins_context_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_install_plugins_context_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_free = Interop.downcallHandle(
-            "gst_install_plugins_context_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_install_plugins_context_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_set_confirm_search = Interop.downcallHandle(
-            "gst_install_plugins_context_set_confirm_search",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_install_plugins_context_set_confirm_search",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_set_desktop_id = Interop.downcallHandle(
-            "gst_install_plugins_context_set_desktop_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_install_plugins_context_set_desktop_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_set_startup_notification_id = Interop.downcallHandle(
-            "gst_install_plugins_context_set_startup_notification_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_install_plugins_context_set_startup_notification_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_install_plugins_context_set_xid = Interop.downcallHandle(
-            "gst_install_plugins_context_set_xid",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_install_plugins_context_set_xid",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -18,32 +18,39 @@ import org.jetbrains.annotations.*;
  * {@link FileType#REGULAR} or {@link FileType#DIRECTORY}.
  */
 public enum FileType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * File's type is unknown.
      */
     UNKNOWN(0),
+    
     /**
      * File handle represents a regular file.
      */
     REGULAR(1),
+    
     /**
      * File handle represents a directory.
      */
     DIRECTORY(2),
+    
     /**
      * File handle represents a symbolic link
      *    (Unix systems).
      */
     SYMBOLIC_LINK(3),
+    
     /**
      * File is a "special" file, such as a socket, fifo,
      *    block device, or character device.
      */
     SPECIAL(4),
+    
     /**
      * File is a shortcut (Windows systems).
      */
     SHORTCUT(5),
+    
     /**
      * File is a mountable location.
      */
@@ -52,15 +59,29 @@ public enum FileType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GFileType";
     
     private final int value;
+    
+    /**
+     * Create a new FileType for the provided value
+     * @param numeric value the enum value
+     */
     FileType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new FileType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static FileType of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

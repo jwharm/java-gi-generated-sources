@@ -9,18 +9,22 @@ import org.jetbrains.annotations.*;
  * Used for justifying the text inside a {@link Label} widget.
  */
 public enum Justification implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The text is placed at the left edge of the label.
      */
     LEFT(0),
+    
     /**
      * The text is placed at the right edge of the label.
      */
     RIGHT(1),
+    
     /**
      * The text is placed in the center of the label.
      */
     CENTER(2),
+    
     /**
      * The text is placed is distributed across the label.
      */
@@ -29,15 +33,29 @@ public enum Justification implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkJustification";
     
     private final int value;
+    
+    /**
+     * Create a new Justification for the provided value
+     * @param numeric value the enum value
+     */
     Justification(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Justification for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Justification of(int value) {
         return switch (value) {
             case 0 -> LEFT;

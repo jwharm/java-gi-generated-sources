@@ -29,14 +29,16 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     /**
      * Create a ViewStackPage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ViewStackPage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ViewStackPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ViewStackPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ViewStackPage(input, ownership);
+    public static final Marshal<Addressable, ViewStackPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ViewStackPage(input);
     
     /**
      * Gets the badge number for this page.
@@ -45,8 +47,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public int getBadgeNumber() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_badge_number.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_badge_number.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,12 +61,11 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -75,8 +75,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,8 +89,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,8 +103,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_needs_attention.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_needs_attention.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,8 +117,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,8 +131,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_use_underline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,8 +148,7 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_view_stack_page_get_visible.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_page_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,12 +179,14 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_view_stack_page_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_view_stack_page_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -199,12 +195,14 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
      * @param name the page name
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.adw_view_stack_page_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_view_stack_page_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -229,12 +227,14 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
      * @param title the page title
      */
     public void setTitle(@Nullable java.lang.String title) {
-        try {
-            DowncallHandles.adw_view_stack_page_set_title.invokeExact(
-                    handle(),
-                    (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_view_stack_page_set_title.invokeExact(
+                        handle(),
+                        (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -299,6 +299,9 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -421,99 +424,107 @@ public class ViewStackPage extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_view_stack_page_get_badge_number = Interop.downcallHandle(
-            "adw_view_stack_page_get_badge_number",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_badge_number",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_child = Interop.downcallHandle(
-            "adw_view_stack_page_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_icon_name = Interop.downcallHandle(
-            "adw_view_stack_page_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_name = Interop.downcallHandle(
-            "adw_view_stack_page_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_needs_attention = Interop.downcallHandle(
-            "adw_view_stack_page_get_needs_attention",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_needs_attention",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_title = Interop.downcallHandle(
-            "adw_view_stack_page_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_use_underline = Interop.downcallHandle(
-            "adw_view_stack_page_get_use_underline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_use_underline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_visible = Interop.downcallHandle(
-            "adw_view_stack_page_get_visible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_get_visible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_badge_number = Interop.downcallHandle(
-            "adw_view_stack_page_set_badge_number",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_page_set_badge_number",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_icon_name = Interop.downcallHandle(
-            "adw_view_stack_page_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_name = Interop.downcallHandle(
-            "adw_view_stack_page_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_needs_attention = Interop.downcallHandle(
-            "adw_view_stack_page_set_needs_attention",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_page_set_needs_attention",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_title = Interop.downcallHandle(
-            "adw_view_stack_page_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_view_stack_page_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_use_underline = Interop.downcallHandle(
-            "adw_view_stack_page_set_use_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_page_set_use_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_set_visible = Interop.downcallHandle(
-            "adw_view_stack_page_set_visible",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_view_stack_page_set_visible",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_view_stack_page_get_type = Interop.downcallHandle(
-            "adw_view_stack_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_view_stack_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_view_stack_page_get_type != null;
     }
 }

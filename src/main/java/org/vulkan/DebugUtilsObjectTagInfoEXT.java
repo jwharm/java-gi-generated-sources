@@ -29,8 +29,8 @@ public class DebugUtilsObjectTagInfoEXT extends Struct {
      * @return A new, uninitialized @{link DebugUtilsObjectTagInfoEXT}
      */
     public static DebugUtilsObjectTagInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DebugUtilsObjectTagInfoEXT newInstance = new DebugUtilsObjectTagInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DebugUtilsObjectTagInfoEXT newInstance = new DebugUtilsObjectTagInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DebugUtilsObjectTagInfoEXT extends Struct {
     /**
      * Create a DebugUtilsObjectTagInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugUtilsObjectTagInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugUtilsObjectTagInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugUtilsObjectTagInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsObjectTagInfoEXT(input, ownership);
+    public static final Marshal<Addressable, DebugUtilsObjectTagInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsObjectTagInfoEXT(input);
 }

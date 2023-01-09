@@ -39,26 +39,17 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Create a Adjustment proxy instance for the provided memory address.
-     * <p>
-     * Because Adjustment is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Adjustment(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Adjustment(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Adjustment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Adjustment(input, ownership);
+    public static final Marshal<Addressable, Adjustment> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Adjustment(input);
     
     private static MemoryAddress constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         MemoryAddress RESULT;
@@ -86,7 +77,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @param pageSize the page size
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        super(constructNew(value, lower, upper, stepIncrement, pageIncrement, pageSize), Ownership.NONE);
+        super(constructNew(value, lower, upper, stepIncrement, pageIncrement, pageSize));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -150,8 +143,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getLower() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_lower.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_lower.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,8 +157,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getMinimumIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_minimum_increment.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_minimum_increment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +171,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getPageIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_increment.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_increment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,8 +185,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getPageSize() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_size.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_page_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,8 +199,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getStepIncrement() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_step_increment.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_step_increment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,8 +213,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getUpper() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_upper.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_upper.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,8 +227,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_adjustment_get_value.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_adjustment_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,19 +371,41 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Changed} callback.
+     */
     @FunctionalInterface
     public interface Changed {
+    
+        /**
+         * Emitted when one or more of the {@code GtkAdjustment} properties have been
+         * changed.
+         * <p>
+         * Note that the {@code Gtk.Adjustment:value} property is
+         * covered by the {@code Gtk.Adjustment::value-changed} signal.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAdjustment) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Changed.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -411,28 +419,47 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Adjustment.Changed> onChanged(Adjustment.Changed handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueChanged} callback.
+     */
     @FunctionalInterface
     public interface ValueChanged {
+    
+        /**
+         * Emitted when the value has been changed.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAdjustment) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -442,9 +469,10 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Adjustment.ValueChanged> onValueChanged(Adjustment.ValueChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -467,6 +495,9 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      */
     public static class Builder extends org.gtk.gobject.InitiallyUnowned.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -564,105 +595,113 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_adjustment_new = Interop.downcallHandle(
-            "gtk_adjustment_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_clamp_page = Interop.downcallHandle(
-            "gtk_adjustment_clamp_page",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_clamp_page",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_configure = Interop.downcallHandle(
-            "gtk_adjustment_configure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_configure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_lower = Interop.downcallHandle(
-            "gtk_adjustment_get_lower",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_lower",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_minimum_increment = Interop.downcallHandle(
-            "gtk_adjustment_get_minimum_increment",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_minimum_increment",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_page_increment = Interop.downcallHandle(
-            "gtk_adjustment_get_page_increment",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_page_increment",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_page_size = Interop.downcallHandle(
-            "gtk_adjustment_get_page_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_page_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_step_increment = Interop.downcallHandle(
-            "gtk_adjustment_get_step_increment",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_step_increment",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_upper = Interop.downcallHandle(
-            "gtk_adjustment_get_upper",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_upper",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_value = Interop.downcallHandle(
-            "gtk_adjustment_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_adjustment_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_lower = Interop.downcallHandle(
-            "gtk_adjustment_set_lower",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_lower",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_page_increment = Interop.downcallHandle(
-            "gtk_adjustment_set_page_increment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_page_increment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_page_size = Interop.downcallHandle(
-            "gtk_adjustment_set_page_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_page_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_step_increment = Interop.downcallHandle(
-            "gtk_adjustment_set_step_increment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_step_increment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_upper = Interop.downcallHandle(
-            "gtk_adjustment_set_upper",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_upper",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_set_value = Interop.downcallHandle(
-            "gtk_adjustment_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gtk_adjustment_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gtk_adjustment_get_type = Interop.downcallHandle(
-            "gtk_adjustment_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_adjustment_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_adjustment_get_type != null;
     }
 }

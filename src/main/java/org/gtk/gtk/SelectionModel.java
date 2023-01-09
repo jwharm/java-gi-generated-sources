@@ -46,8 +46,11 @@ import org.jetbrains.annotations.*;
  */
 public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SelectionModelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SelectionModelImpl(input, ownership);
+    public static final Marshal<Addressable, SelectionModelImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SelectionModelImpl(input);
     
     /**
      * Gets the set containing all currently selected items in the model.
@@ -62,12 +65,13 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gtk.Bitset getSelection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_model_get_selection.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_selection_model_get_selection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -94,7 +98,9 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -122,8 +128,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     default boolean selectAll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_selection_model_select_all.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_selection_model_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,8 +256,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     default boolean unselectAll() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_selection_model_unselect_all.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_selection_model_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,19 +315,42 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectionChanged} callback.
+     */
     @FunctionalInterface
     public interface SelectionChanged {
+    
+        /**
+         * Emitted when the selection state of some of the items in {@code model} changes.
+         * <p>
+         * Note that this signal does not specify the new selection state of the
+         * items, they need to be queried manually. It is also not necessary for
+         * a model to change the selection state of any of the items in the selection
+         * model, though it would be rather useless to emit such a signal.
+         */
         void run(int position, int nItems);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSelectionModel, int position, int nItems) {
             run(position, nItems);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectionChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectionChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -338,9 +365,10 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<SelectionModel.SelectionChanged> onSelectionChanged(SelectionModel.SelectionChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("selection-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("selection-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -352,97 +380,112 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_get_selection = Interop.downcallHandle(
-            "gtk_selection_model_get_selection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_model_get_selection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_get_selection_in_range = Interop.downcallHandle(
-            "gtk_selection_model_get_selection_in_range",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_get_selection_in_range",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_is_selected = Interop.downcallHandle(
-            "gtk_selection_model_is_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_is_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_all = Interop.downcallHandle(
-            "gtk_selection_model_select_all",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_model_select_all",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_item = Interop.downcallHandle(
-            "gtk_selection_model_select_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_select_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_select_range = Interop.downcallHandle(
-            "gtk_selection_model_select_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_select_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_selection_changed = Interop.downcallHandle(
-            "gtk_selection_model_selection_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_selection_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_set_selection = Interop.downcallHandle(
-            "gtk_selection_model_set_selection",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_model_set_selection",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_all = Interop.downcallHandle(
-            "gtk_selection_model_unselect_all",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_selection_model_unselect_all",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_item = Interop.downcallHandle(
-            "gtk_selection_model_unselect_item",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_unselect_item",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_unselect_range = Interop.downcallHandle(
-            "gtk_selection_model_unselect_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_selection_model_unselect_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_selection_model_get_type = Interop.downcallHandle(
-            "gtk_selection_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_selection_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The SelectionModelImpl type represents a native instance of the SelectionModel interface.
+     */
     class SelectionModelImpl extends org.gtk.gobject.GObject implements SelectionModel {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public SelectionModelImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of SelectionModel for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public SelectionModelImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_selection_model_get_type != null;
     }
 }

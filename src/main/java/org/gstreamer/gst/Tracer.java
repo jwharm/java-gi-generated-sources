@@ -35,26 +35,17 @@ public class Tracer extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Tracer proxy instance for the provided memory address.
-     * <p>
-     * Because Tracer is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Tracer(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Tracer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Tracer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Tracer(input, ownership);
+    public static final Marshal<Addressable, Tracer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Tracer(input);
     
     /**
      * Get the gtype
@@ -79,16 +70,18 @@ public class Tracer extends org.gstreamer.gst.GstObject {
      * @return {@code true}, if the registering succeeded, {@code false} on error
      */
     public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, org.gtk.glib.Type type) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tracer_register.invokeExact(
-                    (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Marshal.stringToAddress.marshal(name, null),
-                    type.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tracer_register.invokeExact(
+                        (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        type.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -107,6 +100,9 @@ public class Tracer extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -137,15 +133,23 @@ public class Tracer extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_tracer_get_type = Interop.downcallHandle(
-            "gst_tracer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_tracer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_tracer_register = Interop.downcallHandle(
-            "gst_tracer_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_tracer_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_tracer_get_type != null;
     }
 }

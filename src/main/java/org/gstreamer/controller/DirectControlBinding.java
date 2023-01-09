@@ -41,38 +41,31 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a DirectControlBinding proxy instance for the provided memory address.
-     * <p>
-     * Because DirectControlBinding is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DirectControlBinding(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected DirectControlBinding(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DirectControlBinding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DirectControlBinding(input);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new.invokeExact(
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        cs.handle());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, DirectControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DirectControlBinding(input, ownership);
-    
-    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new.invokeExact(
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    cs.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -84,22 +77,26 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
      * @param cs the control source
      */
     public DirectControlBinding(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
-        super(constructNew(object, propertyName, cs), Ownership.NONE);
+        super(constructNew(object, propertyName, cs));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewAbsolute(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new_absolute.invokeExact(
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    cs.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new_absolute.invokeExact(
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        cs.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Create a new control-binding that attaches the {@link org.gstreamer.gst.ControlSource} to the
      * {@link org.gtk.gobject.GObject} property. It will directly map the control source values to the
@@ -111,7 +108,10 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
      */
     public static DirectControlBinding newAbsolute(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
         var RESULT = constructNewAbsolute(object, propertyName, cs);
-        return (org.gstreamer.controller.DirectControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gstreamer.controller.DirectControlBinding) Interop.register(RESULT, org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -144,6 +144,9 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
      */
     public static class Builder extends org.gstreamer.gst.ControlBinding.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -180,21 +183,29 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_direct_control_binding_new = Interop.downcallHandle(
-            "gst_direct_control_binding_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_direct_control_binding_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_direct_control_binding_new_absolute = Interop.downcallHandle(
-            "gst_direct_control_binding_new_absolute",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_direct_control_binding_new_absolute",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_direct_control_binding_get_type = Interop.downcallHandle(
-            "gst_direct_control_binding_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_direct_control_binding_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_direct_control_binding_get_type != null;
     }
 }

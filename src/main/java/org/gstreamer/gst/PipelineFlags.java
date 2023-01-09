@@ -22,6 +22,9 @@ public class PipelineFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PipelineFlags LAST = new PipelineFlags(8388608);
     
+    /**
+     * Create a new PipelineFlags with the provided value
+     */
     public PipelineFlags(int value) {
         super(value);
     }

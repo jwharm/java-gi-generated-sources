@@ -39,26 +39,17 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     
     /**
      * Create a ShortcutsSection proxy instance for the provided memory address.
-     * <p>
-     * Because ShortcutsSection is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShortcutsSection(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ShortcutsSection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShortcutsSection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsSection(input, ownership);
+    public static final Marshal<Addressable, ShortcutsSection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsSection(input);
     
     /**
      * Get the gtype
@@ -74,27 +65,43 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangeCurrentPage} callback.
+     */
     @FunctionalInterface
     public interface ChangeCurrentPage {
+    
         boolean run(int object);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceShortcutsSection, int object) {
             var RESULT = run(object);
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeCurrentPage.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangeCurrentPage.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<ShortcutsSection.ChangeCurrentPage> onChangeCurrentPage(ShortcutsSection.ChangeCurrentPage handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("change-current-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("change-current-page", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -117,6 +124,9 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gtk.gtk.Box.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -203,9 +213,17 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_shortcuts_section_get_type = Interop.downcallHandle(
-            "gtk_shortcuts_section_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_shortcuts_section_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_shortcuts_section_get_type != null;
     }
 }

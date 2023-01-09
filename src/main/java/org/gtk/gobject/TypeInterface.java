@@ -35,8 +35,8 @@ public class TypeInterface extends Struct {
      * @return A new, uninitialized @{link TypeInterface}
      */
     public static TypeInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeInterface newInstance = new TypeInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypeInterface newInstance = new TypeInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,14 +44,16 @@ public class TypeInterface extends Struct {
     /**
      * Create a TypeInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeInterface(input, ownership);
+    public static final Marshal<Addressable, TypeInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeInterface(input);
     
     /**
      * Returns the corresponding {@link TypeInterface} structure of the parent type
@@ -66,12 +68,11 @@ public class TypeInterface extends Struct {
     public org.gtk.gobject.TypeInterface peekParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -112,7 +113,7 @@ public class TypeInterface extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.TypePlugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.TypePlugin.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.TypePlugin) Interop.register(RESULT, org.gtk.gobject.TypePlugin.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -128,8 +129,7 @@ public class TypeInterface extends Struct {
     public static org.gtk.glib.Type instantiatablePrerequisite(org.gtk.glib.Type interfaceType) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(
-                    interfaceType.getValue().longValue());
+            RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,7 +154,7 @@ public class TypeInterface extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -167,60 +167,62 @@ public class TypeInterface extends Struct {
      *     the prerequisites of {@code interface_type}
      */
     public static org.gtk.glib.Type[] prerequisites(org.gtk.glib.Type interfaceType, Out<Integer> nPrerequisites) {
-        MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
-                    interfaceType.getValue().longValue(),
-                    (Addressable) (nPrerequisites == null ? MemoryAddress.NULL : (Addressable) nPrerequisitesPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nPrerequisitesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
+                        interfaceType.getValue().longValue(),
+                        (Addressable) (nPrerequisites == null ? MemoryAddress.NULL : (Addressable) nPrerequisitesPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (nPrerequisites != null) nPrerequisites.set(nPrerequisitesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nPrerequisites.get().intValue()];
+            for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
+                resultARRAY[I] = new org.gtk.glib.Type(OBJ);
+            }
+            return resultARRAY;
         }
-        if (nPrerequisites != null) nPrerequisites.set(nPrerequisitesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nPrerequisites.get().intValue()];
-        for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
-            resultARRAY[I] = new org.gtk.glib.Type(OBJ);
-        }
-        return resultARRAY;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_type_interface_peek_parent = Interop.downcallHandle(
-            "g_type_interface_peek_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_interface_peek_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
-            "g_type_interface_add_prerequisite",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_type_interface_add_prerequisite",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
-            "g_type_interface_get_plugin",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_type_interface_get_plugin",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
-            "g_type_interface_instantiatable_prerequisite",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_type_interface_instantiatable_prerequisite",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
-            "g_type_interface_peek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_interface_peek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
-            "g_type_interface_prerequisites",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_interface_prerequisites",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -246,7 +248,7 @@ public class TypeInterface extends Struct {
             struct = TypeInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypeInterface} struct.
          * @return A new instance of {@code TypeInterface} with the fields 
          *         that were set in the Builder object.
@@ -256,17 +258,21 @@ public class TypeInterface extends Struct {
         }
         
         public Builder setGType(org.gtk.glib.Type gType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
+                return this;
+            }
         }
         
         public Builder setGInstanceType(org.gtk.glib.Type gInstanceType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_instance_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gInstanceType == null ? MemoryAddress.NULL : gInstanceType.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_instance_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gInstanceType == null ? MemoryAddress.NULL : gInstanceType.getValue().longValue()));
+                return this;
+            }
         }
     }
 }

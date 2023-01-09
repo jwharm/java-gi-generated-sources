@@ -48,6 +48,9 @@ public class MarkupParseFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MarkupParseFlags IGNORE_QUALIFIED = new MarkupParseFlags(8);
     
+    /**
+     * Create a new MarkupParseFlags with the provided value
+     */
     public MarkupParseFlags(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class ConverterInputStreamPrivate extends Struct {
      * @return A new, uninitialized @{link ConverterInputStreamPrivate}
      */
     public static ConverterInputStreamPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ConverterInputStreamPrivate newInstance = new ConverterInputStreamPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ConverterInputStreamPrivate newInstance = new ConverterInputStreamPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ConverterInputStreamPrivate extends Struct {
     /**
      * Create a ConverterInputStreamPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConverterInputStreamPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConverterInputStreamPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConverterInputStreamPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterInputStreamPrivate(input, ownership);
+    public static final Marshal<Addressable, ConverterInputStreamPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConverterInputStreamPrivate(input);
 }

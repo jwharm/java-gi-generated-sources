@@ -35,8 +35,8 @@ public class GLMemoryAllocatorClass extends Struct {
      * @return A new, uninitialized @{link GLMemoryAllocatorClass}
      */
     public static GLMemoryAllocatorClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLMemoryAllocatorClass newInstance = new GLMemoryAllocatorClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLMemoryAllocatorClass newInstance = new GLMemoryAllocatorClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class GLMemoryAllocatorClass extends Struct {
      * @return The value of the field {@code map}
      */
     public org.gstreamer.gl.GLBaseMemoryAllocatorMapFunction getMap() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("map"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class GLMemoryAllocatorClass extends Struct {
      * @param map The new value of the field {@code map}
      */
     public void setMap(org.gstreamer.gl.GLBaseMemoryAllocatorMapFunction map) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("map"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : (Addressable) map.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : (Addressable) map.toCallback()));
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class GLMemoryAllocatorClass extends Struct {
      * @return The value of the field {@code copy}
      */
     public org.gstreamer.gl.GLBaseMemoryAllocatorCopyFunction getCopy() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -78,9 +84,11 @@ public class GLMemoryAllocatorClass extends Struct {
      * @param copy The new value of the field {@code copy}
      */
     public void setCopy(org.gstreamer.gl.GLBaseMemoryAllocatorCopyFunction copy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+        }
     }
     
     /**
@@ -88,10 +96,12 @@ public class GLMemoryAllocatorClass extends Struct {
      * @return The value of the field {@code unmap}
      */
     public org.gstreamer.gl.GLBaseMemoryAllocatorUnmapFunction getUnmap() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -99,22 +109,26 @@ public class GLMemoryAllocatorClass extends Struct {
      * @param unmap The new value of the field {@code unmap}
      */
     public void setUnmap(org.gstreamer.gl.GLBaseMemoryAllocatorUnmapFunction unmap) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : (Addressable) unmap.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unmap == null ? MemoryAddress.NULL : (Addressable) unmap.toCallback()));
+        }
     }
     
     /**
      * Create a GLMemoryAllocatorClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemoryAllocatorClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLMemoryAllocatorClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemoryAllocatorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryAllocatorClass(input, ownership);
+    public static final Marshal<Addressable, GLMemoryAllocatorClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryAllocatorClass(input);
     
     /**
      * A {@link GLMemoryAllocatorClass.Builder} object constructs a {@link GLMemoryAllocatorClass} 
@@ -138,7 +152,7 @@ public class GLMemoryAllocatorClass extends Struct {
             struct = GLMemoryAllocatorClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLMemoryAllocatorClass} struct.
          * @return A new instance of {@code GLMemoryAllocatorClass} with the fields 
          *         that were set in the Builder object.
@@ -148,10 +162,12 @@ public class GLMemoryAllocatorClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.gl.GLBaseMemoryAllocatorClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -160,10 +176,12 @@ public class GLMemoryAllocatorClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMap(org.gstreamer.gl.GLBaseMemoryAllocatorMapFunction map) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : (Addressable) map.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("map"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (map == null ? MemoryAddress.NULL : (Addressable) map.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -172,10 +190,12 @@ public class GLMemoryAllocatorClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCopy(org.gstreamer.gl.GLBaseMemoryAllocatorCopyFunction copy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -184,17 +204,21 @@ public class GLMemoryAllocatorClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUnmap(org.gstreamer.gl.GLBaseMemoryAllocatorUnmapFunction unmap) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : (Addressable) unmap.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (unmap == null ? MemoryAddress.NULL : (Addressable) unmap.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

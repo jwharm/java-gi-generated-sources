@@ -47,6 +47,9 @@ public class ElementFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ElementFlags LAST = new ElementFlags(16384);
     
+    /**
+     * Create a new ElementFlags with the provided value
+     */
     public ElementFlags(int value) {
         super(value);
     }

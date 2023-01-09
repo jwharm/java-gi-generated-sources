@@ -32,8 +32,8 @@ public class AV1Tile extends Struct {
      * @return A new, uninitialized @{link AV1Tile}
      */
     public static AV1Tile allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AV1Tile newInstance = new AV1Tile(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AV1Tile newInstance = new AV1Tile(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,10 +43,12 @@ public class AV1Tile extends Struct {
      * @return The value of the field {@code tile_group}
      */
     public java.lang.foreign.MemoryAddress getTileGroup() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -54,9 +56,11 @@ public class AV1Tile extends Struct {
      * @param tileGroup The new value of the field {@code tile_group}
      */
     public void setTileGroup(java.lang.foreign.MemoryAddress tileGroup) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileGroup == null ? MemoryAddress.NULL : (Addressable) tileGroup));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tileGroup == null ? MemoryAddress.NULL : (Addressable) tileGroup));
+        }
     }
     
     /**
@@ -64,10 +68,12 @@ public class AV1Tile extends Struct {
      * @return The value of the field {@code obu}
      */
     public java.lang.foreign.MemoryAddress getObu() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("obu"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("obu"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -75,22 +81,26 @@ public class AV1Tile extends Struct {
      * @param obu The new value of the field {@code obu}
      */
     public void setObu(java.lang.foreign.MemoryAddress obu) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("obu"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (obu == null ? MemoryAddress.NULL : (Addressable) obu));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("obu"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (obu == null ? MemoryAddress.NULL : (Addressable) obu));
+        }
     }
     
     /**
      * Create a AV1Tile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AV1Tile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AV1Tile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AV1Tile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AV1Tile(input, ownership);
+    public static final Marshal<Addressable, AV1Tile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AV1Tile(input);
     
     /**
      * A {@link AV1Tile.Builder} object constructs a {@link AV1Tile} 
@@ -114,7 +124,7 @@ public class AV1Tile extends Struct {
             struct = AV1Tile.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AV1Tile} struct.
          * @return A new instance of {@code AV1Tile} with the fields 
          *         that were set in the Builder object.
@@ -124,17 +134,21 @@ public class AV1Tile extends Struct {
         }
         
         public Builder setTileGroup(java.lang.foreign.MemoryAddress tileGroup) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileGroup == null ? MemoryAddress.NULL : (Addressable) tileGroup));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_group"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tileGroup == null ? MemoryAddress.NULL : (Addressable) tileGroup));
+                return this;
+            }
         }
         
         public Builder setObu(java.lang.foreign.MemoryAddress obu) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("obu"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (obu == null ? MemoryAddress.NULL : (Addressable) obu));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("obu"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (obu == null ? MemoryAddress.NULL : (Addressable) obu));
+                return this;
+            }
         }
     }
 }

@@ -32,8 +32,8 @@ public class FileAttributeMatcher extends Struct {
      * @return A new, uninitialized @{link FileAttributeMatcher}
      */
     public static FileAttributeMatcher allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileAttributeMatcher newInstance = new FileAttributeMatcher(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileAttributeMatcher newInstance = new FileAttributeMatcher(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,24 +41,27 @@ public class FileAttributeMatcher extends Struct {
     /**
      * Create a FileAttributeMatcher proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileAttributeMatcher(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileAttributeMatcher(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileAttributeMatcher> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeMatcher(input, ownership);
+    public static final Marshal<Addressable, FileAttributeMatcher> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeMatcher(input);
     
     private static MemoryAddress constructNew(java.lang.String attributes) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(
-                    Marshal.stringToAddress.marshal(attributes, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(Marshal.stringToAddress.marshal(attributes, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -85,7 +88,8 @@ public class FileAttributeMatcher extends Struct {
      * @param attributes an attribute string to match.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
-        super(constructNew(attributes), Ownership.FULL);
+        super(constructNew(attributes));
+        this.takeOwnership();
     }
     
     /**
@@ -100,15 +104,17 @@ public class FileAttributeMatcher extends Struct {
      * in the given {@code ns}, {@code false} otherwise.
      */
     public boolean enumerateNamespace(java.lang.String ns) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_enumerate_namespace.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(ns, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_file_attribute_matcher_enumerate_namespace.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(ns, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -119,8 +125,7 @@ public class FileAttributeMatcher extends Struct {
     public @Nullable java.lang.String enumerateNext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_enumerate_next.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_enumerate_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,15 +140,17 @@ public class FileAttributeMatcher extends Struct {
      * @return {@code true} if {@code attribute} matches {@code matcher}. {@code false} otherwise.
      */
     public boolean matches(java.lang.String attribute) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(attribute, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(attribute, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -153,15 +160,17 @@ public class FileAttributeMatcher extends Struct {
      * @return {@code true} if the matcher only matches {@code attribute}. {@code false} otherwise.
      */
     public boolean matchesOnly(java.lang.String attribute) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches_only.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(attribute, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches_only.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(attribute, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -171,12 +180,13 @@ public class FileAttributeMatcher extends Struct {
     public org.gtk.gio.FileAttributeMatcher ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -201,7 +211,9 @@ public class FileAttributeMatcher extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -215,8 +227,7 @@ public class FileAttributeMatcher extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,8 +240,7 @@ public class FileAttributeMatcher extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_file_attribute_matcher_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_file_attribute_matcher_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,57 +249,57 @@ public class FileAttributeMatcher extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
-            "g_file_attribute_matcher_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
-            "g_file_attribute_matcher_enumerate_namespace",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_enumerate_namespace",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
-            "g_file_attribute_matcher_enumerate_next",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_enumerate_next",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
-            "g_file_attribute_matcher_matches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_matches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
-            "g_file_attribute_matcher_matches_only",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_matches_only",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
-            "g_file_attribute_matcher_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
-            "g_file_attribute_matcher_subtract",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_subtract",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
-            "g_file_attribute_matcher_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
-            "g_file_attribute_matcher_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_matcher_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -34,14 +34,16 @@ public class DataQueue extends org.gtk.gobject.GObject {
     /**
      * Create a DataQueue proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DataQueue(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DataQueue(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DataQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataQueue(input, ownership);
+    public static final Marshal<Addressable, DataQueue> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DataQueue(input);
     
     private static MemoryAddress constructNew(org.gstreamer.base.DataQueueCheckFullFunction checkfull, org.gstreamer.base.DataQueueFullCallback fullcallback, org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
         MemoryAddress RESULT;
@@ -68,7 +70,8 @@ public class DataQueue extends org.gtk.gobject.GObject {
      * @param emptycallback the callback which will be called when the queue is considered empty.
      */
     public DataQueue(org.gstreamer.base.DataQueueCheckFullFunction checkfull, org.gstreamer.base.DataQueueFullCallback fullcallback, org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
-        super(constructNew(checkfull, fullcallback, emptycallback), Ownership.FULL);
+        super(constructNew(checkfull, fullcallback, emptycallback));
+        this.takeOwnership();
     }
     
     /**
@@ -95,8 +98,7 @@ public class DataQueue extends org.gtk.gobject.GObject {
      */
     public void flush() {
         try {
-            DowncallHandles.gst_data_queue_flush.invokeExact(
-                    handle());
+            DowncallHandles.gst_data_queue_flush.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +126,7 @@ public class DataQueue extends org.gtk.gobject.GObject {
     public boolean isEmpty() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_data_queue_is_empty.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_data_queue_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,8 +142,7 @@ public class DataQueue extends org.gtk.gobject.GObject {
     public boolean isFull() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_data_queue_is_full.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_data_queue_is_full.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,8 +155,7 @@ public class DataQueue extends org.gtk.gobject.GObject {
      */
     public void limitsChanged() {
         try {
-            DowncallHandles.gst_data_queue_limits_changed.invokeExact(
-                    handle());
+            DowncallHandles.gst_data_queue_limits_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,17 +170,19 @@ public class DataQueue extends org.gtk.gobject.GObject {
      * @return {@code true} if an {@code item} was successfully retrieved from the {@code queue}.
      */
     public boolean peek(Out<org.gstreamer.base.DataQueueItem> item) {
-        MemorySegment itemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_data_queue_peek.invokeExact(
-                    handle(),
-                    (Addressable) itemPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment itemPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_data_queue_peek.invokeExact(
+                        handle(),
+                        (Addressable) itemPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -193,17 +194,19 @@ public class DataQueue extends org.gtk.gobject.GObject {
      * @return {@code true} if an {@code item} was successfully retrieved from the {@code queue}.
      */
     public boolean pop(Out<org.gstreamer.base.DataQueueItem> item) {
-        MemorySegment itemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_data_queue_pop.invokeExact(
-                    handle(),
-                    (Addressable) itemPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment itemPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_data_queue_pop.invokeExact(
+                        handle(),
+                        (Addressable) itemPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,19 +293,40 @@ public class DataQueue extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Empty} callback.
+     */
     @FunctionalInterface
     public interface Empty {
+    
+        /**
+         * Reports that the queue became empty (empty).
+         * A queue is empty if the total amount of visible items inside it (num-visible, time,
+         * size) is lower than the boundary values which can be set through the GObject
+         * properties.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceDataQueue) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Empty.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Empty.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -315,28 +339,50 @@ public class DataQueue extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DataQueue.Empty> onEmpty(DataQueue.Empty handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("empty"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("empty", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Full} callback.
+     */
     @FunctionalInterface
     public interface Full {
+    
+        /**
+         * Reports that the queue became full (full).
+         * A queue is full if the total amount of data inside it (num-visible, time,
+         * size) is higher than the boundary values which can be set through the GObject
+         * properties.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceDataQueue) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Full.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Full.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -349,9 +395,10 @@ public class DataQueue extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DataQueue.Full> onFull(DataQueue.Full handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("full"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("full", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -374,6 +421,9 @@ public class DataQueue extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -416,81 +466,89 @@ public class DataQueue extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_data_queue_new = Interop.downcallHandle(
-            "gst_data_queue_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_drop_head = Interop.downcallHandle(
-            "gst_data_queue_drop_head",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_data_queue_drop_head",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_data_queue_flush = Interop.downcallHandle(
-            "gst_data_queue_flush",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_flush",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_get_level = Interop.downcallHandle(
-            "gst_data_queue_get_level",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_get_level",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_is_empty = Interop.downcallHandle(
-            "gst_data_queue_is_empty",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_is_empty",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_is_full = Interop.downcallHandle(
-            "gst_data_queue_is_full",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_is_full",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_limits_changed = Interop.downcallHandle(
-            "gst_data_queue_limits_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_limits_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_peek = Interop.downcallHandle(
-            "gst_data_queue_peek",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_peek",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_pop = Interop.downcallHandle(
-            "gst_data_queue_pop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_pop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_push = Interop.downcallHandle(
-            "gst_data_queue_push",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_push",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_push_force = Interop.downcallHandle(
-            "gst_data_queue_push_force",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_data_queue_push_force",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_data_queue_set_flushing = Interop.downcallHandle(
-            "gst_data_queue_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_data_queue_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_data_queue_get_type = Interop.downcallHandle(
-            "gst_data_queue_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_data_queue_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_data_queue_get_type != null;
     }
 }

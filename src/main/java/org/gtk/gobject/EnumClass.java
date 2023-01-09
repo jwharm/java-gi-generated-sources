@@ -40,8 +40,8 @@ public class EnumClass extends Struct {
      * @return A new, uninitialized @{link EnumClass}
      */
     public static EnumClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EnumClass newInstance = new EnumClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EnumClass newInstance = new EnumClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class EnumClass extends Struct {
      */
     public org.gtk.gobject.TypeClass getGTypeClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,9 +60,11 @@ public class EnumClass extends Struct {
      * @param gTypeClass The new value of the field {@code g_type_class}
      */
     public void setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+        }
     }
     
     /**
@@ -70,10 +72,12 @@ public class EnumClass extends Struct {
      * @return The value of the field {@code minimum}
      */
     public int getMinimum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,9 +85,11 @@ public class EnumClass extends Struct {
      * @param minimum The new value of the field {@code minimum}
      */
     public void setMinimum(int minimum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minimum);
+        }
     }
     
     /**
@@ -91,10 +97,12 @@ public class EnumClass extends Struct {
      * @return The value of the field {@code maximum}
      */
     public int getMaximum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -102,9 +110,11 @@ public class EnumClass extends Struct {
      * @param maximum The new value of the field {@code maximum}
      */
     public void setMaximum(int maximum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maximum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maximum);
+        }
     }
     
     /**
@@ -112,10 +122,12 @@ public class EnumClass extends Struct {
      * @return The value of the field {@code n_values}
      */
     public int getNValues() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -123,9 +135,11 @@ public class EnumClass extends Struct {
      * @param nValues The new value of the field {@code n_values}
      */
     public void setNValues(int nValues) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nValues);
+        }
     }
     
     /**
@@ -133,10 +147,12 @@ public class EnumClass extends Struct {
      * @return The value of the field {@code values}
      */
     public org.gtk.gobject.EnumValue getValues() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gobject.EnumValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gobject.EnumValue.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -144,22 +160,26 @@ public class EnumClass extends Struct {
      * @param values The new value of the field {@code values}
      */
     public void setValues(org.gtk.gobject.EnumValue values) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+        }
     }
     
     /**
      * Create a EnumClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EnumClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EnumClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EnumClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumClass(input, ownership);
+    public static final Marshal<Addressable, EnumClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EnumClass(input);
     
     /**
      * A {@link EnumClass.Builder} object constructs a {@link EnumClass} 
@@ -183,7 +203,7 @@ public class EnumClass extends Struct {
             struct = EnumClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link EnumClass} struct.
          * @return A new instance of {@code EnumClass} with the fields 
          *         that were set in the Builder object.
@@ -198,10 +218,12 @@ public class EnumClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -210,10 +232,12 @@ public class EnumClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinimum(int minimum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minimum);
+                return this;
+            }
         }
         
         /**
@@ -222,10 +246,12 @@ public class EnumClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaximum(int maximum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maximum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maximum);
+                return this;
+            }
         }
         
         /**
@@ -234,10 +260,12 @@ public class EnumClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNValues(int nValues) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nValues);
+                return this;
+            }
         }
         
         /**
@@ -247,10 +275,12 @@ public class EnumClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValues(org.gtk.gobject.EnumValue values) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("values"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("values"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
+                return this;
+            }
         }
     }
 }

@@ -39,8 +39,8 @@ public class Euler extends Struct {
      * @return A new, uninitialized @{link Euler}
      */
     public static Euler allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Euler newInstance = new Euler(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Euler newInstance = new Euler(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class Euler extends Struct {
     /**
      * Create a Euler proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Euler(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Euler(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Euler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Euler(input, ownership);
+    public static final Marshal<Addressable, Euler> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Euler(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -66,7 +68,7 @@ public class Euler extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Euler}.
      * <p>
@@ -75,7 +77,9 @@ public class Euler extends Struct {
      */
     public static Euler alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -100,8 +104,7 @@ public class Euler extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_euler_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_euler_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,8 +120,7 @@ public class Euler extends Struct {
     public float getAlpha() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_alpha.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_alpha.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,8 +137,7 @@ public class Euler extends Struct {
     public float getBeta() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_beta.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_beta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,8 +154,7 @@ public class Euler extends Struct {
     public float getGamma() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_gamma.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_gamma.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +174,7 @@ public class Euler extends Struct {
     public org.gtk.graphene.EulerOrder getOrder() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.graphene_euler_get_order.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.graphene_euler_get_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,8 +188,7 @@ public class Euler extends Struct {
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_x.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,8 +202,7 @@ public class Euler extends Struct {
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_y.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,8 +216,7 @@ public class Euler extends Struct {
     public float getZ() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_euler_get_z.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_euler_get_z.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +243,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -268,7 +264,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -290,7 +286,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -312,7 +308,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -336,7 +332,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -360,7 +356,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -383,7 +379,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -468,129 +464,129 @@ public class Euler extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_euler_alloc = Interop.downcallHandle(
-            "graphene_euler_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_equal = Interop.downcallHandle(
-            "graphene_euler_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_free = Interop.downcallHandle(
-            "graphene_euler_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_alpha = Interop.downcallHandle(
-            "graphene_euler_get_alpha",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_alpha",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_beta = Interop.downcallHandle(
-            "graphene_euler_get_beta",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_beta",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_gamma = Interop.downcallHandle(
-            "graphene_euler_get_gamma",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_gamma",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_order = Interop.downcallHandle(
-            "graphene_euler_get_order",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_order",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_x = Interop.downcallHandle(
-            "graphene_euler_get_x",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_x",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_y = Interop.downcallHandle(
-            "graphene_euler_get_y",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_y",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_get_z = Interop.downcallHandle(
-            "graphene_euler_get_z",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_get_z",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_init = Interop.downcallHandle(
-            "graphene_euler_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_euler_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_from_euler = Interop.downcallHandle(
-            "graphene_euler_init_from_euler",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_init_from_euler",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_from_matrix = Interop.downcallHandle(
-            "graphene_euler_init_from_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "graphene_euler_init_from_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_from_quaternion = Interop.downcallHandle(
-            "graphene_euler_init_from_quaternion",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "graphene_euler_init_from_quaternion",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_from_radians = Interop.downcallHandle(
-            "graphene_euler_init_from_radians",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
-            false
+                "graphene_euler_init_from_radians",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_from_vec3 = Interop.downcallHandle(
-            "graphene_euler_init_from_vec3",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "graphene_euler_init_from_vec3",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_euler_init_with_order = Interop.downcallHandle(
-            "graphene_euler_init_with_order",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
-            false
+                "graphene_euler_init_with_order",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_euler_reorder = Interop.downcallHandle(
-            "graphene_euler_reorder",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_reorder",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_to_matrix = Interop.downcallHandle(
-            "graphene_euler_to_matrix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_to_matrix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_to_quaternion = Interop.downcallHandle(
-            "graphene_euler_to_quaternion",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_to_quaternion",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_euler_to_vec3 = Interop.downcallHandle(
-            "graphene_euler_to_vec3",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_euler_to_vec3",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -616,7 +612,7 @@ public class Euler extends Struct {
             struct = Euler.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Euler} struct.
          * @return A new instance of {@code Euler} with the fields 
          *         that were set in the Builder object.
@@ -626,17 +622,21 @@ public class Euler extends Struct {
         }
         
         public Builder setAngles(org.gtk.graphene.Vec3 angles) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("angles"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (angles == null ? MemoryAddress.NULL : angles.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("angles"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (angles == null ? MemoryAddress.NULL : angles.handle()));
+                return this;
+            }
         }
         
         public Builder setOrder(org.gtk.graphene.EulerOrder order) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("order"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (order == null ? MemoryAddress.NULL : order.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("order"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (order == null ? MemoryAddress.NULL : order.getValue()));
+                return this;
+            }
         }
     }
 }

@@ -61,26 +61,17 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     /**
      * Create a EntryRow proxy instance for the provided memory address.
-     * <p>
-     * Because EntryRow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EntryRow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected EntryRow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EntryRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EntryRow(input, ownership);
+    public static final Marshal<Addressable, EntryRow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EntryRow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -96,7 +87,9 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * Creates a new {@code AdwEntryRow}.
      */
     public EntryRow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -134,8 +127,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public boolean getActivatesDefault() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_entry_row_get_activates_default.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_entry_row_get_activates_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,12 +141,13 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public @Nullable org.pango.AttrList getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_entry_row_get_attributes.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_entry_row_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.AttrList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -164,8 +157,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public boolean getEnableEmojiCompletion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_entry_row_get_enable_emoji_completion.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_entry_row_get_enable_emoji_completion.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,8 +171,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_entry_row_get_input_hints.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_entry_row_get_input_hints.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,8 +185,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_entry_row_get_input_purpose.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_entry_row_get_input_purpose.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,8 +199,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public boolean getShowApplyButton() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_entry_row_get_show_apply_button.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_entry_row_get_show_apply_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,19 +337,39 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Apply} callback.
+     */
     @FunctionalInterface
     public interface Apply {
+    
+        /**
+         * Emitted when the apply button is pressed.
+         * <p>
+         * See {@code EntryRow:show-apply-button}.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryRow) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Apply.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Apply.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -372,28 +381,47 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryRow.Apply> onApply(EntryRow.Apply handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("apply"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("apply", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code EntryActivated} callback.
+     */
     @FunctionalInterface
     public interface EntryActivated {
+    
+        /**
+         * Emitted when the embedded entry is activated.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryRow) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EntryActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EntryActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -403,9 +431,10 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EntryRow.EntryActivated> onEntryActivated(EntryRow.EntryActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("entry-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("entry-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -428,6 +457,9 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      */
     public static class Builder extends org.gnome.adw.PreferencesRow.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -537,105 +569,113 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     private static class DowncallHandles {
         
         private static final MethodHandle adw_entry_row_new = Interop.downcallHandle(
-            "adw_entry_row_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_add_prefix = Interop.downcallHandle(
-            "adw_entry_row_add_prefix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_add_prefix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_add_suffix = Interop.downcallHandle(
-            "adw_entry_row_add_suffix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_add_suffix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_activates_default = Interop.downcallHandle(
-            "adw_entry_row_get_activates_default",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_activates_default",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_attributes = Interop.downcallHandle(
-            "adw_entry_row_get_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_enable_emoji_completion = Interop.downcallHandle(
-            "adw_entry_row_get_enable_emoji_completion",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_enable_emoji_completion",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_input_hints = Interop.downcallHandle(
-            "adw_entry_row_get_input_hints",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_input_hints",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_input_purpose = Interop.downcallHandle(
-            "adw_entry_row_get_input_purpose",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_input_purpose",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_show_apply_button = Interop.downcallHandle(
-            "adw_entry_row_get_show_apply_button",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_get_show_apply_button",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_remove = Interop.downcallHandle(
-            "adw_entry_row_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_activates_default = Interop.downcallHandle(
-            "adw_entry_row_set_activates_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_entry_row_set_activates_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_attributes = Interop.downcallHandle(
-            "adw_entry_row_set_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_entry_row_set_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_enable_emoji_completion = Interop.downcallHandle(
-            "adw_entry_row_set_enable_emoji_completion",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_entry_row_set_enable_emoji_completion",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_input_hints = Interop.downcallHandle(
-            "adw_entry_row_set_input_hints",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_entry_row_set_input_hints",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_input_purpose = Interop.downcallHandle(
-            "adw_entry_row_set_input_purpose",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_entry_row_set_input_purpose",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_entry_row_set_show_apply_button = Interop.downcallHandle(
-            "adw_entry_row_set_show_apply_button",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_entry_row_set_show_apply_button",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_entry_row_get_type = Interop.downcallHandle(
-            "adw_entry_row_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_entry_row_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_entry_row_get_type != null;
     }
 }

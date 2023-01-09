@@ -29,8 +29,8 @@ public class ShaderModule extends Struct {
      * @return A new, uninitialized @{link ShaderModule}
      */
     public static ShaderModule allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ShaderModule newInstance = new ShaderModule(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ShaderModule newInstance = new ShaderModule(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ShaderModule extends Struct {
     /**
      * Create a ShaderModule proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShaderModule(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShaderModule(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShaderModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShaderModule(input, ownership);
+    public static final Marshal<Addressable, ShaderModule> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShaderModule(input);
 }

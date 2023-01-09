@@ -27,6 +27,9 @@ public class RTSPTransMode extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTSPTransMode RDT = new RTSPTransMode(2);
     
+    /**
+     * Create a new RTSPTransMode with the provided value
+     */
     public RTSPTransMode(int value) {
         super(value);
     }

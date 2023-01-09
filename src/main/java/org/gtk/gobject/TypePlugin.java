@@ -57,8 +57,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypePluginImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypePluginImpl(input, ownership);
+    public static final Marshal<Addressable, TypePluginImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypePluginImpl(input);
     
     /**
      * Calls the {@code complete_interface_info} function from the
@@ -108,8 +111,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      */
     default void unuse() {
         try {
-            DowncallHandles.g_type_plugin_unuse.invokeExact(
-                    handle());
+            DowncallHandles.g_type_plugin_unuse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,8 +124,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      */
     default void use() {
         try {
-            DowncallHandles.g_type_plugin_use.invokeExact(
-                    handle());
+            DowncallHandles.g_type_plugin_use.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,48 +149,63 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
-            "g_type_plugin_complete_interface_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_plugin_complete_interface_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
-            "g_type_plugin_complete_type_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_plugin_complete_type_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
-            "g_type_plugin_unuse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_type_plugin_unuse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
-            "g_type_plugin_use",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_type_plugin_use",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_type_plugin_get_type = Interop.downcallHandle(
-            "g_type_plugin_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_type_plugin_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TypePluginImpl type represents a native instance of the TypePlugin interface.
+     */
     class TypePluginImpl extends org.gtk.gobject.GObject implements TypePlugin {
         
         static {
             GObjects.javagi$ensureInitialized();
         }
         
-        public TypePluginImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TypePlugin for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TypePluginImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_type_plugin_get_type != null;
     }
 }

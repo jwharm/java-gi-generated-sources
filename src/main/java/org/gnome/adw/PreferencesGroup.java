@@ -57,26 +57,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     /**
      * Create a PreferencesGroup proxy instance for the provided memory address.
-     * <p>
-     * Because PreferencesGroup is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PreferencesGroup(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected PreferencesGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PreferencesGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesGroup(input, ownership);
+    public static final Marshal<Addressable, PreferencesGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesGroup(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -92,7 +83,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Creates a new {@code AdwPreferencesGroup}.
      */
     public PreferencesGroup() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -116,8 +109,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,12 +123,11 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public @Nullable org.gtk.gtk.Widget getHeaderSuffix() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_header_suffix.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_header_suffix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -146,8 +137,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,12 +163,14 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param description the description
      */
     public void setDescription(@Nullable java.lang.String description) {
-        try {
-            DowncallHandles.adw_preferences_group_set_description.invokeExact(
-                    handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_group_set_description.invokeExact(
+                        handle(),
+                        (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -205,12 +197,14 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * @param title the title
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.adw_preferences_group_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_group_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -244,6 +238,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -306,63 +303,71 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_group_new = Interop.downcallHandle(
-            "adw_preferences_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_add = Interop.downcallHandle(
-            "adw_preferences_group_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_get_description = Interop.downcallHandle(
-            "adw_preferences_group_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_get_header_suffix = Interop.downcallHandle(
-            "adw_preferences_group_get_header_suffix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_get_header_suffix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_get_title = Interop.downcallHandle(
-            "adw_preferences_group_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_remove = Interop.downcallHandle(
-            "adw_preferences_group_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_set_description = Interop.downcallHandle(
-            "adw_preferences_group_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_set_header_suffix = Interop.downcallHandle(
-            "adw_preferences_group_set_header_suffix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_set_header_suffix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_set_title = Interop.downcallHandle(
-            "adw_preferences_group_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_group_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_group_get_type = Interop.downcallHandle(
-            "adw_preferences_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_preferences_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_preferences_group_get_type != null;
     }
 }

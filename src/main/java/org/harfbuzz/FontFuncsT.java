@@ -39,8 +39,8 @@ public class FontFuncsT extends Struct {
      * @return A new, uninitialized @{link FontFuncsT}
      */
     public static FontFuncsT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontFuncsT newInstance = new FontFuncsT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontFuncsT newInstance = new FontFuncsT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,12 +48,14 @@ public class FontFuncsT extends Struct {
     /**
      * Create a FontFuncsT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontFuncsT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontFuncsT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontFuncsT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontFuncsT(input, ownership);
+    public static final Marshal<Addressable, FontFuncsT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontFuncsT(input);
 }

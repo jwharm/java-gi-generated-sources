@@ -31,6 +31,9 @@ public class TracerValueFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TracerValueFlags AGGREGATED = new TracerValueFlags(2);
     
+    /**
+     * Create a new TracerValueFlags with the provided value
+     */
     public TracerValueFlags(int value) {
         super(value);
     }

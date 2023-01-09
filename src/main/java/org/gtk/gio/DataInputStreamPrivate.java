@@ -29,8 +29,8 @@ public class DataInputStreamPrivate extends Struct {
      * @return A new, uninitialized @{link DataInputStreamPrivate}
      */
     public static DataInputStreamPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DataInputStreamPrivate newInstance = new DataInputStreamPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DataInputStreamPrivate newInstance = new DataInputStreamPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DataInputStreamPrivate extends Struct {
     /**
      * Create a DataInputStreamPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DataInputStreamPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DataInputStreamPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DataInputStreamPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataInputStreamPrivate(input, ownership);
+    public static final Marshal<Addressable, DataInputStreamPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DataInputStreamPrivate(input);
 }

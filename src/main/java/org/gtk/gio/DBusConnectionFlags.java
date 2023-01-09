@@ -63,6 +63,9 @@ public class DBusConnectionFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusConnectionFlags CROSS_NAMESPACE = new DBusConnectionFlags(64);
     
+    /**
+     * Create a new DBusConnectionFlags with the provided value
+     */
     public DBusConnectionFlags(int value) {
         super(value);
     }

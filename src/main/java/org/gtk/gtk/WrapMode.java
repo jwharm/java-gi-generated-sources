@@ -9,20 +9,24 @@ import org.jetbrains.annotations.*;
  * Describes a type of line wrapping.
  */
 public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * do not wrap lines; just make the text area wider
      */
     NONE(0),
+    
     /**
      * wrap text, breaking lines anywhere the cursor can
      *   appear (between characters, usually - if you want to be technical,
      *   between graphemes, see pango_get_log_attrs())
      */
     CHAR(1),
+    
     /**
      * wrap text, breaking lines in between words
      */
     WORD(2),
+    
     /**
      * wrap text, breaking lines in between words, or if
      *   that is not enough, also between graphemes
@@ -32,15 +36,29 @@ public enum WrapMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkWrapMode";
     
     private final int value;
+    
+    /**
+     * Create a new WrapMode for the provided value
+     * @param numeric value the enum value
+     */
     WrapMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new WrapMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static WrapMode of(int value) {
         return switch (value) {
             case 0 -> NONE;

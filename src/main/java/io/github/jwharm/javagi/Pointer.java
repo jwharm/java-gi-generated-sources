@@ -11,6 +11,11 @@ import java.lang.reflect.Array;
  */
 public abstract class Pointer<T> implements Iterable<T> {
 
+    private final MemorySegment segment;
+
+    /**
+     * The memory address of the pointer
+     */
     protected final MemoryAddress address;
 
     /**
@@ -18,7 +23,7 @@ public abstract class Pointer<T> implements Iterable<T> {
      * @param layout the memory layout
      */
     protected Pointer(ValueLayout layout) {
-        MemorySegment segment = Interop.getAllocator().allocate(layout);
+        this.segment = MemorySession.openImplicit().allocate(layout);
         this.address = segment.address();
     }
 
@@ -27,6 +32,7 @@ public abstract class Pointer<T> implements Iterable<T> {
      * @param address The memory address
      */
     protected Pointer(MemoryAddress address) {
+        this.segment = null;
         this.address = address;
     }
 

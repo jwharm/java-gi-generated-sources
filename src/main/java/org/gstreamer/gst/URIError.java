@@ -9,19 +9,23 @@ import org.jetbrains.annotations.*;
  * Different URI-related errors that can occur.
  */
 public enum URIError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The protocol is not supported
      */
     UNSUPPORTED_PROTOCOL(0),
+    
     /**
      * There was a problem with the URI
      */
     BAD_URI(1),
+    
     /**
      * Could not set or change the URI because the
      *     URI handler was in a state where that is not possible or not permitted
      */
     BAD_STATE(2),
+    
     /**
      * There was a problem with the entity that
      *     the URI references
@@ -31,15 +35,29 @@ public enum URIError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstURIError";
     
     private final int value;
+    
+    /**
+     * Create a new URIError for the provided value
+     * @param numeric value the enum value
+     */
     URIError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new URIError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static URIError of(int value) {
         return switch (value) {
             case 0 -> UNSUPPORTED_PROTOCOL;
@@ -63,9 +81,9 @@ public enum URIError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_uri_error_quark = Interop.downcallHandle(
-            "gst_uri_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_uri_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -28,14 +28,16 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     /**
      * Create a StackPage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StackPage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StackPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StackPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StackPage(input, ownership);
+    public static final Marshal<Addressable, StackPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StackPage(input);
     
     /**
      * Returns the stack child to which {@code self} belongs.
@@ -44,12 +46,11 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -59,8 +60,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +74,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,8 +89,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_needs_attention.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_needs_attention.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,8 +103,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,8 +117,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_use_underline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,8 +134,7 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_stack_page_get_visible.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_stack_page_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,12 +146,14 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
      * @param setting the new value to set
      */
     public void setIconName(java.lang.String setting) {
-        try {
-            DowncallHandles.gtk_stack_page_set_icon_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(setting, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_stack_page_set_icon_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(setting, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -165,12 +162,14 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
      * @param setting the new value to set
      */
     public void setName(java.lang.String setting) {
-        try {
-            DowncallHandles.gtk_stack_page_set_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(setting, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_stack_page_set_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(setting, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -193,12 +192,14 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
      * @param setting the new value to set
      */
     public void setTitle(java.lang.String setting) {
-        try {
-            DowncallHandles.gtk_stack_page_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(setting, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_stack_page_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(setting, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -260,6 +261,9 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -365,87 +369,95 @@ public class StackPage extends org.gtk.gobject.GObject implements org.gtk.gtk.Ac
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_stack_page_get_child = Interop.downcallHandle(
-            "gtk_stack_page_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_icon_name = Interop.downcallHandle(
-            "gtk_stack_page_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_name = Interop.downcallHandle(
-            "gtk_stack_page_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_needs_attention = Interop.downcallHandle(
-            "gtk_stack_page_get_needs_attention",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_needs_attention",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_title = Interop.downcallHandle(
-            "gtk_stack_page_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_use_underline = Interop.downcallHandle(
-            "gtk_stack_page_get_use_underline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_use_underline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_visible = Interop.downcallHandle(
-            "gtk_stack_page_get_visible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_get_visible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_icon_name = Interop.downcallHandle(
-            "gtk_stack_page_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_name = Interop.downcallHandle(
-            "gtk_stack_page_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_needs_attention = Interop.downcallHandle(
-            "gtk_stack_page_set_needs_attention",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_page_set_needs_attention",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_title = Interop.downcallHandle(
-            "gtk_stack_page_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_stack_page_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_use_underline = Interop.downcallHandle(
-            "gtk_stack_page_set_use_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_page_set_use_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_set_visible = Interop.downcallHandle(
-            "gtk_stack_page_set_visible",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_stack_page_set_visible",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_stack_page_get_type = Interop.downcallHandle(
-            "gtk_stack_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_stack_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_stack_page_get_type != null;
     }
 }

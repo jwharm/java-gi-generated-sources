@@ -41,8 +41,8 @@ public class RTPBasePayloadClass extends Struct {
      * @return A new, uninitialized @{link RTPBasePayloadClass}
      */
     public static RTPBasePayloadClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTPBasePayloadClass newInstance = new RTPBasePayloadClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTPBasePayloadClass newInstance = new RTPBasePayloadClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,7 +53,7 @@ public class RTPBasePayloadClass extends Struct {
      */
     public org.gstreamer.gst.ElementClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ElementClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -61,25 +61,43 @@ public class RTPBasePayloadClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface GetCapsCallback {
+    
         org.gstreamer.gst.Caps run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Pad pad, org.gstreamer.gst.Caps filter);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress payload, MemoryAddress pad, MemoryAddress filter) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(filter, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null), org.gstreamer.gst.Caps.fromAddress.marshal(filter, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -88,25 +106,42 @@ public class RTPBasePayloadClass extends Struct {
      * @param getCaps The new value of the field {@code get_caps}
      */
     public void setGetCaps(GetCapsCallback getCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCaps == null ? MemoryAddress.NULL : getCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCaps == null ? MemoryAddress.NULL : getCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetCapsCallback} callback.
+     */
     @FunctionalInterface
     public interface SetCapsCallback {
+    
         boolean run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Caps caps);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress payload, MemoryAddress caps) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), org.gstreamer.gst.Caps.fromAddress.marshal(caps, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetCapsCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetCapsCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -115,25 +150,42 @@ public class RTPBasePayloadClass extends Struct {
      * @param setCaps The new value of the field {@code set_caps}
      */
     public void setSetCaps(SetCapsCallback setCaps) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCaps == null ? MemoryAddress.NULL : setCaps.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_caps"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCaps == null ? MemoryAddress.NULL : setCaps.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code HandleBufferCallback} callback.
+     */
     @FunctionalInterface
     public interface HandleBufferCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Buffer buffer);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress payload, MemoryAddress buffer) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandleBufferCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), HandleBufferCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -142,25 +194,42 @@ public class RTPBasePayloadClass extends Struct {
      * @param handleBuffer The new value of the field {@code handle_buffer}
      */
     public void setHandleBuffer(HandleBufferCallback handleBuffer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("handle_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleBuffer == null ? MemoryAddress.NULL : handleBuffer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("handle_buffer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleBuffer == null ? MemoryAddress.NULL : handleBuffer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SinkEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SinkEventCallback {
+    
         boolean run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress payload, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SinkEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SinkEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -169,25 +238,42 @@ public class RTPBasePayloadClass extends Struct {
      * @param sinkEvent The new value of the field {@code sink_event}
      */
     public void setSinkEvent(SinkEventCallback sinkEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SrcEventCallback} callback.
+     */
     @FunctionalInterface
     public interface SrcEventCallback {
+    
         boolean run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress payload, MemoryAddress event) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), org.gstreamer.gst.Event.fromAddress.marshal(event, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), org.gstreamer.gst.Event.fromAddress.marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SrcEventCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SrcEventCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -196,25 +282,42 @@ public class RTPBasePayloadClass extends Struct {
      * @param srcEvent The new value of the field {@code src_event}
      */
     public void setSrcEvent(SrcEventCallback srcEvent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code QueryCallback} callback.
+     */
     @FunctionalInterface
     public interface QueryCallback {
+    
         boolean run(org.gstreamer.rtp.RTPBasePayload payload, org.gstreamer.gst.Pad pad, org.gstreamer.gst.Query query);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress payload, MemoryAddress pad, MemoryAddress query) {
-            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(payload)), org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, Ownership.NONE), (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE), org.gstreamer.gst.Query.fromAddress.marshal(query, Ownership.NONE));
+            var RESULT = run((org.gstreamer.rtp.RTPBasePayload) Interop.register(payload, org.gstreamer.rtp.RTPBasePayload.fromAddress).marshal(payload, null), (org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null), org.gstreamer.gst.Query.fromAddress.marshal(query, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QueryCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), QueryCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -223,22 +326,26 @@ public class RTPBasePayloadClass extends Struct {
      * @param query The new value of the field {@code query}
      */
     public void setQuery(QueryCallback query) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+        }
     }
     
     /**
      * Create a RTPBasePayloadClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTPBasePayloadClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTPBasePayloadClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTPBasePayloadClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBasePayloadClass(input, ownership);
+    public static final Marshal<Addressable, RTPBasePayloadClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTPBasePayloadClass(input);
     
     /**
      * A {@link RTPBasePayloadClass.Builder} object constructs a {@link RTPBasePayloadClass} 
@@ -262,7 +369,7 @@ public class RTPBasePayloadClass extends Struct {
             struct = RTPBasePayloadClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTPBasePayloadClass} struct.
          * @return A new instance of {@code RTPBasePayloadClass} with the fields 
          *         that were set in the Builder object.
@@ -277,59 +384,75 @@ public class RTPBasePayloadClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ElementClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setGetCaps(GetCapsCallback getCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getCaps == null ? MemoryAddress.NULL : getCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getCaps == null ? MemoryAddress.NULL : getCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetCaps(SetCapsCallback setCaps) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_caps"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setCaps == null ? MemoryAddress.NULL : setCaps.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_caps"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setCaps == null ? MemoryAddress.NULL : setCaps.toCallback()));
+                return this;
+            }
         }
         
         public Builder setHandleBuffer(HandleBufferCallback handleBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("handle_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (handleBuffer == null ? MemoryAddress.NULL : handleBuffer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("handle_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (handleBuffer == null ? MemoryAddress.NULL : handleBuffer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSinkEvent(SinkEventCallback sinkEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sink_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sinkEvent == null ? MemoryAddress.NULL : sinkEvent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSrcEvent(SrcEventCallback srcEvent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("src_event"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (srcEvent == null ? MemoryAddress.NULL : srcEvent.toCallback()));
+                return this;
+            }
         }
         
         public Builder setQuery(QueryCallback query) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("query"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("query"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (query == null ? MemoryAddress.NULL : query.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

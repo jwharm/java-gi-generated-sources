@@ -11,47 +11,89 @@ import org.jetbrains.annotations.*;
  * As specified in Table 87 of ETSI EN 300 468 v1.13.1
  */
 public enum DVBServiceType implements io.github.jwharm.javagi.Enumeration {
+    
     RESERVED_00(0),
+    
     DIGITAL_TELEVISION(1),
+    
     DIGITAL_RADIO_SOUND(2),
+    
     TELETEXT(3),
+    
     NVOD_REFERENCE(4),
+    
     NVOD_TIME_SHIFTED(5),
+    
     MOSAIC(6),
+    
     FM_RADIO(7),
+    
     DVB_SRM(8),
+    
     RESERVED_09(9),
+    
     ADVANCED_CODEC_DIGITAL_RADIO_SOUND(10),
+    
     ADVANCED_CODEC_MOSAIC(11),
+    
     DATA_BROADCAST(12),
+    
     RESERVED_0D_COMMON_INTERFACE(13),
+    
     RCS_MAP(14),
+    
     RCS_FLS(15),
+    
     DVB_MHP(16),
+    
     MPEG2_HD_DIGITAL_TELEVISION(17),
+    
     ADVANCED_CODEC_SD_DIGITAL_TELEVISION(22),
+    
     ADVANCED_CODEC_SD_NVOD_TIME_SHIFTED(23),
+    
     ADVANCED_CODEC_SD_NVOD_REFERENCE(24),
+    
     ADVANCED_CODEC_HD_DIGITAL_TELEVISION(25),
+    
     ADVANCED_CODEC_HD_NVOD_TIME_SHIFTED(26),
+    
     ADVANCED_CODEC_HD_NVOD_REFERENCE(27),
+    
     ADVANCED_CODEC_STEREO_HD_DIGITAL_TELEVISION(28),
+    
     ADVANCED_CODEC_STEREO_HD_NVOD_TIME_SHIFTED(29),
+    
     ADVANCED_CODEC_STEREO_HD_NVOD_REFERENCE(30),
+    
     RESERVED_FF(31);
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBServiceType";
     
     private final int value;
+    
+    /**
+     * Create a new DVBServiceType for the provided value
+     * @param numeric value the enum value
+     */
     DVBServiceType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DVBServiceType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DVBServiceType of(int value) {
         return switch (value) {
             case 0 -> RESERVED_00;

@@ -29,8 +29,8 @@ public class DeviceEventInfoEXT extends Struct {
      * @return A new, uninitialized @{link DeviceEventInfoEXT}
      */
     public static DeviceEventInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceEventInfoEXT newInstance = new DeviceEventInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceEventInfoEXT newInstance = new DeviceEventInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceEventInfoEXT extends Struct {
     /**
      * Create a DeviceEventInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceEventInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceEventInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceEventInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceEventInfoEXT(input, ownership);
+    public static final Marshal<Addressable, DeviceEventInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceEventInfoEXT(input);
 }

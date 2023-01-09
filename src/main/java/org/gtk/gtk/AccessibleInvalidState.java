@@ -14,18 +14,22 @@ import org.jetbrains.annotations.*;
  * as {@code false} and {@code true}.
  */
 public enum AccessibleInvalidState implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * There are no detected errors in the value
      */
     FALSE(0),
+    
     /**
      * The value entered by the user has failed validation
      */
     TRUE(1),
+    
     /**
      * A grammatical error was detected
      */
     GRAMMAR(2),
+    
     /**
      * A spelling error was detected
      */
@@ -34,15 +38,29 @@ public enum AccessibleInvalidState implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "GtkAccessibleInvalidState";
     
     private final int value;
+    
+    /**
+     * Create a new AccessibleInvalidState for the provided value
+     * @param numeric value the enum value
+     */
     AccessibleInvalidState(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new AccessibleInvalidState for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static AccessibleInvalidState of(int value) {
         return switch (value) {
             case 0 -> FALSE;

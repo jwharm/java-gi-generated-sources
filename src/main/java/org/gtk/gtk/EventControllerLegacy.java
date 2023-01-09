@@ -32,14 +32,16 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     /**
      * Create a EventControllerLegacy proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EventControllerLegacy(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EventControllerLegacy(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EventControllerLegacy> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerLegacy(input, ownership);
+    public static final Marshal<Addressable, EventControllerLegacy> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerLegacy(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -55,7 +57,8 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * Creates a new legacy event controller.
      */
     public EventControllerLegacy() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -72,20 +75,38 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Event} callback.
+     */
     @FunctionalInterface
     public interface Event {
+    
+        /**
+         * Emitted for each GDK event delivered to {@code controller}.
+         */
         boolean run(org.gtk.gdk.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceEventControllerLegacy, MemoryAddress event) {
-            var RESULT = run((org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(event)), org.gtk.gdk.Event.fromAddress).marshal(event, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Event) Interop.register(event, org.gtk.gdk.Event.fromAddress).marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Event.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Event.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -95,9 +116,10 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<EventControllerLegacy.Event> onEvent(EventControllerLegacy.Event handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -120,6 +142,9 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
      */
     public static class Builder extends org.gtk.gtk.EventController.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -144,15 +169,23 @@ public class EventControllerLegacy extends org.gtk.gtk.EventController {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_event_controller_legacy_new = Interop.downcallHandle(
-            "gtk_event_controller_legacy_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_event_controller_legacy_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_event_controller_legacy_get_type = Interop.downcallHandle(
-            "gtk_event_controller_legacy_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_event_controller_legacy_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_event_controller_legacy_get_type != null;
     }
 }

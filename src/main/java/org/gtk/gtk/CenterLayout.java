@@ -34,14 +34,16 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     /**
      * Create a CenterLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CenterLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CenterLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CenterLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CenterLayout(input, ownership);
+    public static final Marshal<Addressable, CenterLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CenterLayout(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -57,7 +59,8 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * Creates a new {@code GtkCenterLayout}.
      */
     public CenterLayout() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -67,8 +70,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     public org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_center_layout_get_baseline_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_center_layout_get_baseline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,12 +84,11 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_center_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_center_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -97,12 +98,11 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     public @Nullable org.gtk.gtk.Widget getEndWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_end_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_end_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -112,8 +112,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     public org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_center_layout_get_orientation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_center_layout_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,12 +126,11 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     public @Nullable org.gtk.gtk.Widget getStartWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_start_widget.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_start_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -241,6 +239,9 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      */
     public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -265,75 +266,83 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_center_layout_new = Interop.downcallHandle(
-            "gtk_center_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_baseline_position = Interop.downcallHandle(
-            "gtk_center_layout_get_baseline_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_get_baseline_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_center_widget = Interop.downcallHandle(
-            "gtk_center_layout_get_center_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_get_center_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_end_widget = Interop.downcallHandle(
-            "gtk_center_layout_get_end_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_get_end_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_orientation = Interop.downcallHandle(
-            "gtk_center_layout_get_orientation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_get_orientation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_start_widget = Interop.downcallHandle(
-            "gtk_center_layout_get_start_widget",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_get_start_widget",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_set_baseline_position = Interop.downcallHandle(
-            "gtk_center_layout_set_baseline_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_center_layout_set_baseline_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_set_center_widget = Interop.downcallHandle(
-            "gtk_center_layout_set_center_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_set_center_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_set_end_widget = Interop.downcallHandle(
-            "gtk_center_layout_set_end_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_set_end_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_set_orientation = Interop.downcallHandle(
-            "gtk_center_layout_set_orientation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_center_layout_set_orientation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_set_start_widget = Interop.downcallHandle(
-            "gtk_center_layout_set_start_widget",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_center_layout_set_start_widget",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_center_layout_get_type = Interop.downcallHandle(
-            "gtk_center_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_center_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_center_layout_get_type != null;
     }
 }

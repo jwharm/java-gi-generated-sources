@@ -49,32 +49,22 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a GLWindow proxy instance for the provided memory address.
-     * <p>
-     * Because GLWindow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLWindow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLWindow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLWindow(input, ownership);
+    public static final Marshal<Addressable, GLWindow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLWindow(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLDisplay display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_window_new.invokeExact(
-                    display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_window_new.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +72,8 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     }
     
     public GLWindow(org.gstreamer.gl.GLDisplay display) {
-        super(constructNew(display), Ownership.FULL);
+        super(constructNew(display));
+        this.takeOwnership();
     }
     
     /**
@@ -92,8 +83,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     public boolean controlsViewport() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_window_controls_viewport.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_window_controls_viewport.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,8 +95,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public void draw() {
         try {
-            DowncallHandles.gst_gl_window_draw.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_window_draw.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,19 +104,19 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gl.GLContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_window_get_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_window_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLContext.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gl.GLContext) Interop.register(RESULT, org.gstreamer.gl.GLContext.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public long getDisplay() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_gl_window_get_display.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_gl_window_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,25 +124,26 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     }
     
     public void getSurfaceDimensions(Out<Integer> width, Out<Integer> height) {
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_gl_window_get_surface_dimensions.invokeExact(
-                    handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_gl_window_get_surface_dimensions.invokeExact(
+                        handle(),
+                        (Addressable) widthPOINTER.address(),
+                        (Addressable) heightPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     public long getWindowHandle() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_gl_window_get_window_handle.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_gl_window_get_window_handle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,8 +175,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     public boolean hasOutputSurface() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_window_has_output_surface.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_window_has_output_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,8 +187,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public void queueResize() {
         try {
-            DowncallHandles.gst_gl_window_queue_resize.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_window_queue_resize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,8 +198,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public void quit() {
         try {
-            DowncallHandles.gst_gl_window_quit.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_window_quit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,21 +225,22 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public void run() {
         try {
-            DowncallHandles.gst_gl_window_run.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_window_run.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     public void sendKeyEvent(java.lang.String eventType, java.lang.String keyStr) {
-        try {
-            DowncallHandles.gst_gl_window_send_key_event.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(eventType, null),
-                    Marshal.stringToAddress.marshal(keyStr, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_gl_window_send_key_event.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(eventType, SCOPE),
+                        Marshal.stringToAddress.marshal(keyStr, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -291,15 +279,17 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     }
     
     public void sendMouseEvent(java.lang.String eventType, int button, double posx, double posy) {
-        try {
-            DowncallHandles.gst_gl_window_send_mouse_event.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(eventType, null),
-                    button,
-                    posx,
-                    posy);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_gl_window_send_mouse_event.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(eventType, SCOPE),
+                        button,
+                        posx,
+                        posy);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -436,8 +426,7 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public void show() {
         try {
-            DowncallHandles.gst_gl_window_show.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_window_show.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,19 +446,39 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code KeyEvent} callback.
+     */
     @FunctionalInterface
     public interface KeyEvent {
+    
+        /**
+         * Will be emitted when a key event is received by the GstGLwindow.
+         */
         void run(java.lang.String id, java.lang.String key);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGLWindow, MemoryAddress id, MemoryAddress key) {
-            run(Marshal.addressToString.marshal(id, null), Marshal.addressToString.marshal(key, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(id, null), Marshal.addressToString.marshal(key, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeyEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), KeyEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -479,28 +488,49 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLWindow.KeyEvent> onKeyEvent(GLWindow.KeyEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("key-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("key-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MouseEvent} callback.
+     */
     @FunctionalInterface
     public interface MouseEvent {
+    
+        /**
+         * Will be emitted when a mouse event is received by the GstGLwindow.
+         */
         void run(java.lang.String id, int button, double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGLWindow, MemoryAddress id, int button, double x, double y) {
-            run(Marshal.addressToString.marshal(id, null), button, x, y);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(id, null), button, x, y);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MouseEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MouseEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -510,28 +540,47 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLWindow.MouseEvent> onMouseEvent(GLWindow.MouseEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("mouse-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("mouse-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ScrollEvent} callback.
+     */
     @FunctionalInterface
     public interface ScrollEvent {
+    
+        /**
+         * Will be emitted when a mouse scroll event is received by the GstGLwindow.
+         */
         void run(double x, double y, double deltaX, double deltaY);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGLWindow, double x, double y, double deltaX, double deltaY) {
             run(x, y, deltaX, deltaY);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScrollEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ScrollEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -541,28 +590,50 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLWindow.ScrollEvent> onScrollEvent(GLWindow.ScrollEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("scroll-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("scroll-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code WindowHandleChanged} callback.
+     */
     @FunctionalInterface
     public interface WindowHandleChanged {
+    
+        /**
+         * Will be emitted when the window handle has been set into the native
+         * implementation, but before the context is re-activated. By using this
+         * signal, elements can refresh associated resource without relying on
+         * direct handle comparision.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGLWindow) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WindowHandleChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), WindowHandleChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -575,9 +646,10 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GLWindow.WindowHandleChanged> onWindowHandleChanged(GLWindow.WindowHandleChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("window-handle-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("window-handle-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -600,6 +672,9 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -624,159 +699,167 @@ public class GLWindow extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_window_new = Interop.downcallHandle(
-            "gst_gl_window_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_controls_viewport = Interop.downcallHandle(
-            "gst_gl_window_controls_viewport",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_controls_viewport",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_draw = Interop.downcallHandle(
-            "gst_gl_window_draw",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_draw",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_get_context = Interop.downcallHandle(
-            "gst_gl_window_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_get_display = Interop.downcallHandle(
-            "gst_gl_window_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_get_surface_dimensions = Interop.downcallHandle(
-            "gst_gl_window_get_surface_dimensions",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_get_surface_dimensions",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_get_window_handle = Interop.downcallHandle(
-            "gst_gl_window_get_window_handle",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_get_window_handle",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_handle_events = Interop.downcallHandle(
-            "gst_gl_window_handle_events",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_window_handle_events",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_window_has_output_surface = Interop.downcallHandle(
-            "gst_gl_window_has_output_surface",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_has_output_surface",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_queue_resize = Interop.downcallHandle(
-            "gst_gl_window_queue_resize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_queue_resize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_quit = Interop.downcallHandle(
-            "gst_gl_window_quit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_quit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_resize = Interop.downcallHandle(
-            "gst_gl_window_resize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_window_resize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_window_run = Interop.downcallHandle(
-            "gst_gl_window_run",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_run",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_send_key_event = Interop.downcallHandle(
-            "gst_gl_window_send_key_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_send_key_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_send_message = Interop.downcallHandle(
-            "gst_gl_window_send_message",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_send_message",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_send_message_async = Interop.downcallHandle(
-            "gst_gl_window_send_message_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_send_message_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_send_mouse_event = Interop.downcallHandle(
-            "gst_gl_window_send_mouse_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_gl_window_send_mouse_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_gl_window_send_scroll_event = Interop.downcallHandle(
-            "gst_gl_window_send_scroll_event",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_gl_window_send_scroll_event",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_close_callback = Interop.downcallHandle(
-            "gst_gl_window_set_close_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_set_close_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_draw_callback = Interop.downcallHandle(
-            "gst_gl_window_set_draw_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_set_draw_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_preferred_size = Interop.downcallHandle(
-            "gst_gl_window_set_preferred_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_window_set_preferred_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_render_rectangle = Interop.downcallHandle(
-            "gst_gl_window_set_render_rectangle",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_window_set_render_rectangle",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_resize_callback = Interop.downcallHandle(
-            "gst_gl_window_set_resize_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_set_resize_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_set_window_handle = Interop.downcallHandle(
-            "gst_gl_window_set_window_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_window_set_window_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_window_show = Interop.downcallHandle(
-            "gst_gl_window_show",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_window_show",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_window_get_type = Interop.downcallHandle(
-            "gst_gl_window_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_window_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_window_get_type != null;
     }
 }

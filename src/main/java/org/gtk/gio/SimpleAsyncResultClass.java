@@ -29,8 +29,8 @@ public class SimpleAsyncResultClass extends Struct {
      * @return A new, uninitialized @{link SimpleAsyncResultClass}
      */
     public static SimpleAsyncResultClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SimpleAsyncResultClass newInstance = new SimpleAsyncResultClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SimpleAsyncResultClass newInstance = new SimpleAsyncResultClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SimpleAsyncResultClass extends Struct {
     /**
      * Create a SimpleAsyncResultClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SimpleAsyncResultClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SimpleAsyncResultClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SimpleAsyncResultClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAsyncResultClass(input, ownership);
+    public static final Marshal<Addressable, SimpleAsyncResultClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAsyncResultClass(input);
 }

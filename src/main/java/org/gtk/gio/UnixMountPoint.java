@@ -33,8 +33,8 @@ public class UnixMountPoint extends Struct {
      * @return A new, uninitialized @{link UnixMountPoint}
      */
     public static UnixMountPoint allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UnixMountPoint newInstance = new UnixMountPoint(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        UnixMountPoint newInstance = new UnixMountPoint(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class UnixMountPoint extends Struct {
     /**
      * Create a UnixMountPoint proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UnixMountPoint(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UnixMountPoint(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UnixMountPoint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixMountPoint(input, ownership);
+    public static final Marshal<Addressable, UnixMountPoint> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UnixMountPoint(input);
     
     /**
      * Compares two unix mount points.
@@ -76,12 +78,13 @@ public class UnixMountPoint extends Struct {
     public org.gtk.gio.UnixMountPoint copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -89,8 +92,7 @@ public class UnixMountPoint extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_unix_mount_point_free.invokeExact(
-                    handle());
+            DowncallHandles.g_unix_mount_point_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +105,7 @@ public class UnixMountPoint extends Struct {
     public java.lang.String getDevicePath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_device_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_device_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +119,7 @@ public class UnixMountPoint extends Struct {
     public java.lang.String getFsType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_fs_type.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_fs_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,8 +133,7 @@ public class UnixMountPoint extends Struct {
     public java.lang.String getMountPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_mount_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_mount_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,8 +147,7 @@ public class UnixMountPoint extends Struct {
     public @Nullable java.lang.String getOptions() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_options.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_options.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,8 +161,7 @@ public class UnixMountPoint extends Struct {
     public boolean guessCanEject() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_guess_can_eject.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_guess_can_eject.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,12 +175,13 @@ public class UnixMountPoint extends Struct {
     public org.gtk.gio.Icon guessIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -195,8 +193,7 @@ public class UnixMountPoint extends Struct {
     public java.lang.String guessName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,12 +207,13 @@ public class UnixMountPoint extends Struct {
     public org.gtk.gio.Icon guessSymbolicIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_symbolic_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_symbolic_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -225,8 +223,7 @@ public class UnixMountPoint extends Struct {
     public boolean isLoopback() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_loopback.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_loopback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,8 +237,7 @@ public class UnixMountPoint extends Struct {
     public boolean isReadonly() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_readonly.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_readonly.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,8 +251,7 @@ public class UnixMountPoint extends Struct {
     public boolean isUserMountable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_unix_mount_point_is_user_mountable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_unix_mount_point_is_user_mountable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,109 +271,113 @@ public class UnixMountPoint extends Struct {
      * is found.
      */
     public static @Nullable org.gtk.gio.UnixMountPoint at(java.lang.String mountPath, Out<Long> timeRead) {
-        MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
-                    Marshal.stringToAddress.marshal(mountPath, null),
-                    (Addressable) (timeRead == null ? MemoryAddress.NULL : (Addressable) timeReadPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment timeReadPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
+                        Marshal.stringToAddress.marshal(mountPath, SCOPE),
+                        (Addressable) (timeRead == null ? MemoryAddress.NULL : (Addressable) timeReadPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (timeRead != null) timeRead.set(timeReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            var OBJECT = org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (timeRead != null) timeRead.set(timeReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_unix_mount_point_compare = Interop.downcallHandle(
-            "g_unix_mount_point_compare",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_compare",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_copy = Interop.downcallHandle(
-            "g_unix_mount_point_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_free = Interop.downcallHandle(
-            "g_unix_mount_point_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_get_device_path = Interop.downcallHandle(
-            "g_unix_mount_point_get_device_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_get_device_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_get_fs_type = Interop.downcallHandle(
-            "g_unix_mount_point_get_fs_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_get_fs_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_get_mount_path = Interop.downcallHandle(
-            "g_unix_mount_point_get_mount_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_get_mount_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_get_options = Interop.downcallHandle(
-            "g_unix_mount_point_get_options",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_get_options",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_can_eject = Interop.downcallHandle(
-            "g_unix_mount_point_guess_can_eject",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_guess_can_eject",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_icon = Interop.downcallHandle(
-            "g_unix_mount_point_guess_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_guess_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_name = Interop.downcallHandle(
-            "g_unix_mount_point_guess_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_guess_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_guess_symbolic_icon = Interop.downcallHandle(
-            "g_unix_mount_point_guess_symbolic_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_guess_symbolic_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_is_loopback = Interop.downcallHandle(
-            "g_unix_mount_point_is_loopback",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_is_loopback",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_is_readonly = Interop.downcallHandle(
-            "g_unix_mount_point_is_readonly",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_is_readonly",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_is_user_mountable = Interop.downcallHandle(
-            "g_unix_mount_point_is_user_mountable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_is_user_mountable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_unix_mount_point_at = Interop.downcallHandle(
-            "g_unix_mount_point_at",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_unix_mount_point_at",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

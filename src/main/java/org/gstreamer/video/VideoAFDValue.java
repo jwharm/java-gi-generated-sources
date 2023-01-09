@@ -41,62 +41,73 @@ import org.jetbrains.annotations.*;
  * @version 1.18
  */
 public enum VideoAFDValue implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Unavailable (see note 0 below).
      */
     UNAVAILABLE(0),
+    
     /**
      * For 4:3 coded frame, letterbox 16:9 image,
      *      at top of the coded frame. For 16:9 coded frame, full frame 16:9 image,
      *      the same as the coded frame.
      */
     _16_9_TOP_ALIGNED(2),
+    
     /**
      * For 4:3 coded frame, letterbox 14:9 image,
      *      at top of the coded frame. For 16:9 coded frame, pillarbox 14:9 image,
      *      horizontally centered in the coded frame.
      */
     _14_9_TOP_ALIGNED(3),
+    
     /**
      * For 4:3 coded frame, letterbox image with an aspect ratio
      *      greater than 16:9, vertically centered in the coded frame. For 16:9 coded frame,
      *      letterbox image with an aspect ratio greater than 16:9.
      */
     GREATER_THAN_16_9(4),
+    
     /**
      * For 4:3 coded frame, full frame 4:3 image,
      *      the same as the coded frame. For 16:9 coded frame, full frame 16:9 image, the same as
      *      the coded frame.
      */
     _4_3_FULL_16_9_FULL(8),
+    
     /**
      * For 4:3 coded frame, full frame 4:3 image, the same as
      *      the coded frame. For 16:9 coded frame, pillarbox 4:3 image, horizontally centered in the
      *      coded frame.
      */
     _4_3_FULL_4_3_PILLAR(9),
+    
     /**
      * For 4:3 coded frame, letterbox 16:9 image, vertically centered in
      *      the coded frame with all image areas protected. For 16:9 coded frame, full frame 16:9 image,
      *      with all image areas protected.
      */
     _16_9_LETTER_16_9_FULL(10),
+    
     /**
      * For 4:3 coded frame, letterbox 14:9 image, vertically centered in
      *      the coded frame. For 16:9 coded frame, pillarbox 14:9 image, horizontally centered in the
      *      coded frame.
      */
     _14_9_LETTER_14_9_PILLAR(11),
+    
     /**
      * For 4:3 coded frame, full frame 4:3 image, with alternative 14:9
      *      center. For 16:9 coded frame, pillarbox 4:3 image, with alternative 14:9 center.
      */
     _4_3_FULL_14_9_CENTER(13),
+    
     /**
      * For 4:3 coded frame, letterbox 16:9 image, with alternative 14:9
      *      center. For 16:9 coded frame, full frame 16:9 image, with alternative 14:9 center.
      */
     _16_9_LETTER_14_9_CENTER(14),
+    
     /**
      * For 4:3 coded frame, letterbox 16:9 image, with alternative 4:3
      *      center. For 16:9 coded frame, full frame 16:9 image, with alternative 4:3 center.
@@ -106,15 +117,29 @@ public enum VideoAFDValue implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoAFDValue";
     
     private final int value;
+    
+    /**
+     * Create a new VideoAFDValue for the provided value
+     * @param numeric value the enum value
+     */
     VideoAFDValue(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoAFDValue for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoAFDValue of(int value) {
         return switch (value) {
             case 0 -> UNAVAILABLE;

@@ -38,8 +38,8 @@ public class RTSPTime2 extends Struct {
      * @return A new, uninitialized @{link RTSPTime2}
      */
     public static RTSPTime2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPTime2 newInstance = new RTSPTime2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPTime2 newInstance = new RTSPTime2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class RTSPTime2 extends Struct {
      * @return The value of the field {@code frames}
      */
     public double getFrames() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class RTSPTime2 extends Struct {
      * @param frames The new value of the field {@code frames}
      */
     public void setFrames(double frames) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frames);
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class RTSPTime2 extends Struct {
      * @return The value of the field {@code year}
      */
     public int getYear() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("year"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class RTSPTime2 extends Struct {
      * @param year The new value of the field {@code year}
      */
     public void setYear(int year) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("year"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), year);
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class RTSPTime2 extends Struct {
      * @return The value of the field {@code month}
      */
     public int getMonth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("month"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -102,9 +112,11 @@ public class RTSPTime2 extends Struct {
      * @param month The new value of the field {@code month}
      */
     public void setMonth(int month) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("month"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), month);
+        }
     }
     
     /**
@@ -112,10 +124,12 @@ public class RTSPTime2 extends Struct {
      * @return The value of the field {@code day}
      */
     public int getDay() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("day"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -123,22 +137,26 @@ public class RTSPTime2 extends Struct {
      * @param day The new value of the field {@code day}
      */
     public void setDay(int day) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("day"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), day);
+        }
     }
     
     /**
      * Create a RTSPTime2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPTime2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPTime2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPTime2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime2(input, ownership);
+    public static final Marshal<Addressable, RTSPTime2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime2(input);
     
     /**
      * A {@link RTSPTime2.Builder} object constructs a {@link RTSPTime2} 
@@ -162,7 +180,7 @@ public class RTSPTime2 extends Struct {
             struct = RTSPTime2.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPTime2} struct.
          * @return A new instance of {@code RTSPTime2} with the fields 
          *         that were set in the Builder object.
@@ -178,10 +196,12 @@ public class RTSPTime2 extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrames(double frames) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frames);
+                return this;
+            }
         }
         
         /**
@@ -190,10 +210,12 @@ public class RTSPTime2 extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYear(int year) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("year"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("year"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), year);
+                return this;
+            }
         }
         
         /**
@@ -202,10 +224,12 @@ public class RTSPTime2 extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMonth(int month) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("month"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("month"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), month);
+                return this;
+            }
         }
         
         /**
@@ -214,10 +238,12 @@ public class RTSPTime2 extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDay(int day) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("day"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("day"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), day);
+                return this;
+            }
         }
     }
 }

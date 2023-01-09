@@ -39,14 +39,16 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
     /**
      * Create a ProxyAddressEnumerator proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyAddressEnumerator(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProxyAddressEnumerator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyAddressEnumerator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddressEnumerator(input, ownership);
+    public static final Marshal<Addressable, ProxyAddressEnumerator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyAddressEnumerator(input);
     
     /**
      * Get the gtype
@@ -78,6 +80,9 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
      */
     public static class Builder extends org.gtk.gio.SocketAddressEnumerator.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -137,9 +142,17 @@ public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator 
     private static class DowncallHandles {
         
         private static final MethodHandle g_proxy_address_enumerator_get_type = Interop.downcallHandle(
-            "g_proxy_address_enumerator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_proxy_address_enumerator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_proxy_address_enumerator_get_type != null;
     }
 }

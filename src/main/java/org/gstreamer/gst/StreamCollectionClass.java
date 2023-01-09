@@ -36,8 +36,8 @@ public class StreamCollectionClass extends Struct {
      * @return A new, uninitialized @{link StreamCollectionClass}
      */
     public static StreamCollectionClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        StreamCollectionClass newInstance = new StreamCollectionClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        StreamCollectionClass newInstance = new StreamCollectionClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class StreamCollectionClass extends Struct {
      */
     public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,24 +56,41 @@ public class StreamCollectionClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StreamNotifyCallback} callback.
+     */
     @FunctionalInterface
     public interface StreamNotifyCallback {
+    
         void run(org.gstreamer.gst.StreamCollection collection, org.gstreamer.gst.Stream stream, org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress collection, MemoryAddress stream, MemoryAddress pspec) {
-            run((org.gstreamer.gst.StreamCollection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(collection)), org.gstreamer.gst.StreamCollection.fromAddress).marshal(collection, Ownership.NONE), (org.gstreamer.gst.Stream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gstreamer.gst.Stream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gstreamer.gst.StreamCollection) Interop.register(collection, org.gstreamer.gst.StreamCollection.fromAddress).marshal(collection, null), (org.gstreamer.gst.Stream) Interop.register(stream, org.gstreamer.gst.Stream.fromAddress).marshal(stream, null), (org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StreamNotifyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StreamNotifyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -82,22 +99,26 @@ public class StreamCollectionClass extends Struct {
      * @param streamNotify The new value of the field {@code stream_notify}
      */
     public void setStreamNotify(StreamNotifyCallback streamNotify) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stream_notify"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streamNotify == null ? MemoryAddress.NULL : streamNotify.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stream_notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (streamNotify == null ? MemoryAddress.NULL : streamNotify.toCallback()));
+        }
     }
     
     /**
      * Create a StreamCollectionClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected StreamCollectionClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected StreamCollectionClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, StreamCollectionClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamCollectionClass(input, ownership);
+    public static final Marshal<Addressable, StreamCollectionClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new StreamCollectionClass(input);
     
     /**
      * A {@link StreamCollectionClass.Builder} object constructs a {@link StreamCollectionClass} 
@@ -121,7 +142,7 @@ public class StreamCollectionClass extends Struct {
             struct = StreamCollectionClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link StreamCollectionClass} struct.
          * @return A new instance of {@code StreamCollectionClass} with the fields 
          *         that were set in the Builder object.
@@ -136,24 +157,30 @@ public class StreamCollectionClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setStreamNotify(StreamNotifyCallback streamNotify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stream_notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streamNotify == null ? MemoryAddress.NULL : streamNotify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stream_notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (streamNotify == null ? MemoryAddress.NULL : streamNotify.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

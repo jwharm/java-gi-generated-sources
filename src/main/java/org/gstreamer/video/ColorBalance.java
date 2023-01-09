@@ -14,8 +14,11 @@ import org.jetbrains.annotations.*;
  */
 public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorBalanceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceImpl(input, ownership);
+    public static final Marshal<Addressable, ColorBalanceImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceImpl(input);
     
     /**
      * Get the {@link ColorBalanceType} of this implementation.
@@ -24,8 +27,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     default org.gstreamer.video.ColorBalanceType getBalanceType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_color_balance_get_balance_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_color_balance_get_balance_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,12 +66,11 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     default org.gtk.glib.List listChannels() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_color_balance_list_channels.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_color_balance_list_channels.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -126,19 +127,37 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ValueChanged} callback.
+     */
     @FunctionalInterface
     public interface ValueChanged {
+    
+        /**
+         * Fired when the value of the indicated channel has changed.
+         */
         void run(org.gstreamer.video.ColorBalanceChannel channel, int value);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceColorBalance, MemoryAddress channel, int value) {
-            run((org.gstreamer.video.ColorBalanceChannel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(channel)), org.gstreamer.video.ColorBalanceChannel.fromAddress).marshal(channel, Ownership.NONE), value);
+            run((org.gstreamer.video.ColorBalanceChannel) Interop.register(channel, org.gstreamer.video.ColorBalanceChannel.fromAddress).marshal(channel, null), value);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ValueChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -148,9 +167,10 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<ColorBalance.ValueChanged> onValueChanged(ColorBalance.ValueChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("value-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -162,55 +182,70 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_get_balance_type = Interop.downcallHandle(
-            "gst_color_balance_get_balance_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_color_balance_get_balance_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_get_value = Interop.downcallHandle(
-            "gst_color_balance_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_color_balance_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_list_channels = Interop.downcallHandle(
-            "gst_color_balance_list_channels",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_color_balance_list_channels",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_set_value = Interop.downcallHandle(
-            "gst_color_balance_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_color_balance_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_value_changed = Interop.downcallHandle(
-            "gst_color_balance_value_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_color_balance_value_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_color_balance_get_type = Interop.downcallHandle(
-            "gst_color_balance_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_color_balance_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The ColorBalanceImpl type represents a native instance of the ColorBalance interface.
+     */
     class ColorBalanceImpl extends org.gtk.gobject.GObject implements ColorBalance {
         
         static {
             GstVideo.javagi$ensureInitialized();
         }
         
-        public ColorBalanceImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of ColorBalance for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public ColorBalanceImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_color_balance_get_type != null;
     }
 }

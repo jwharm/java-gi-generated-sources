@@ -67,6 +67,9 @@ public class OptionFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final OptionFlags NOALIAS = new OptionFlags(64);
     
+    /**
+     * Create a new OptionFlags with the provided value
+     */
     public OptionFlags(int value) {
         super(value);
     }

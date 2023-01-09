@@ -32,14 +32,16 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
     /**
      * Create a PasswordEntryBuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PasswordEntryBuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PasswordEntryBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PasswordEntryBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntryBuffer(input, ownership);
+    public static final Marshal<Addressable, PasswordEntryBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntryBuffer(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -55,7 +57,8 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
      * Creates a new {@code GtkEntryBuffer} using secure memory allocations.
      */
     public PasswordEntryBuffer() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -88,6 +91,9 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
      */
     public static class Builder extends org.gtk.gtk.EntryBuffer.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -112,15 +118,23 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_password_entry_buffer_new = Interop.downcallHandle(
-            "gtk_password_entry_buffer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_password_entry_buffer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_password_entry_buffer_get_type = Interop.downcallHandle(
-            "gtk_password_entry_buffer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_password_entry_buffer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_password_entry_buffer_get_type != null;
     }
 }

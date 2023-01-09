@@ -44,26 +44,17 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
     
     /**
      * Create a CarouselIndicatorDots proxy instance for the provided memory address.
-     * <p>
-     * Because CarouselIndicatorDots is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CarouselIndicatorDots(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CarouselIndicatorDots(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CarouselIndicatorDots> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CarouselIndicatorDots(input, ownership);
+    public static final Marshal<Addressable, CarouselIndicatorDots> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CarouselIndicatorDots(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -79,7 +70,9 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * Creates a new {@code AdwCarouselIndicatorDots}.
      */
     public CarouselIndicatorDots() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -89,12 +82,11 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
     public @Nullable org.gnome.adw.Carousel getCarousel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_get_carousel.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_get_carousel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.Carousel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.Carousel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.Carousel) Interop.register(RESULT, org.gnome.adw.Carousel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -141,6 +133,9 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -176,27 +171,35 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle adw_carousel_indicator_dots_new = Interop.downcallHandle(
-            "adw_carousel_indicator_dots_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_indicator_dots_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_indicator_dots_get_carousel = Interop.downcallHandle(
-            "adw_carousel_indicator_dots_get_carousel",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_indicator_dots_get_carousel",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_indicator_dots_set_carousel = Interop.downcallHandle(
-            "adw_carousel_indicator_dots_set_carousel",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_carousel_indicator_dots_set_carousel",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_carousel_indicator_dots_get_type = Interop.downcallHandle(
-            "adw_carousel_indicator_dots_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_carousel_indicator_dots_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_carousel_indicator_dots_get_type != null;
     }
 }

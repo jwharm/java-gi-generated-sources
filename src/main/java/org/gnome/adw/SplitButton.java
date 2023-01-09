@@ -61,26 +61,17 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     /**
      * Create a SplitButton proxy instance for the provided memory address.
-     * <p>
-     * Because SplitButton is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SplitButton(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected SplitButton(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SplitButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SplitButton(input, ownership);
+    public static final Marshal<Addressable, SplitButton> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SplitButton(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -96,7 +87,9 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Creates a new {@code AdwSplitButton}.
      */
     public SplitButton() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -106,12 +99,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -121,8 +113,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public org.gtk.gtk.ArrowType getArrowDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_split_button_get_direction.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_split_button_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,8 +127,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public java.lang.String getDropdownTooltip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_dropdown_tooltip.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_dropdown_tooltip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,8 +141,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,8 +155,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_label.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,12 +169,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_menu_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_menu_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) Interop.register(RESULT, org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -196,12 +183,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public @Nullable org.gtk.gtk.Popover getPopover() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_popover.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_popover.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Popover) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Popover.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Popover) Interop.register(RESULT, org.gtk.gtk.Popover.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -211,8 +197,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_split_button_get_use_underline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_split_button_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,8 +209,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void popdown() {
         try {
-            DowncallHandles.adw_split_button_popdown.invokeExact(
-                    handle());
+            DowncallHandles.adw_split_button_popdown.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,8 +220,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public void popup() {
         try {
-            DowncallHandles.adw_split_button_popup.invokeExact(
-                    handle());
+            DowncallHandles.adw_split_button_popup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,12 +271,14 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param tooltip the dropdown tooltip of {@code self}
      */
     public void setDropdownTooltip(java.lang.String tooltip) {
-        try {
-            DowncallHandles.adw_split_button_set_dropdown_tooltip.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tooltip, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_split_button_set_dropdown_tooltip.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tooltip, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -305,12 +290,14 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param iconName the icon name to set
      */
     public void setIconName(java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_split_button_set_icon_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(iconName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_split_button_set_icon_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(iconName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -322,12 +309,14 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param label the label to set
      */
     public void setLabel(java.lang.String label) {
-        try {
-            DowncallHandles.adw_split_button_set_label.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(label, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_split_button_set_label.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(label, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -403,19 +392,40 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted to animate press then release.
+         * <p>
+         * This is an action signal. Applications should never connect to this signal,
+         * but use the {@code SplitButton::clicked} signal.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSplitButton) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -428,28 +438,47 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SplitButton.Activate> onActivate(SplitButton.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Clicked} callback.
+     */
     @FunctionalInterface
     public interface Clicked {
+    
+        /**
+         * Emitted when the button has been activated (pressed and released).
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSplitButton) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Clicked.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Clicked.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -459,9 +488,10 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SplitButton.Clicked> onClicked(SplitButton.Clicked handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("clicked"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("clicked", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -484,6 +514,9 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -630,123 +663,131 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     private static class DowncallHandles {
         
         private static final MethodHandle adw_split_button_new = Interop.downcallHandle(
-            "adw_split_button_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_child = Interop.downcallHandle(
-            "adw_split_button_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_direction = Interop.downcallHandle(
-            "adw_split_button_get_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_dropdown_tooltip = Interop.downcallHandle(
-            "adw_split_button_get_dropdown_tooltip",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_dropdown_tooltip",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_icon_name = Interop.downcallHandle(
-            "adw_split_button_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_label = Interop.downcallHandle(
-            "adw_split_button_get_label",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_label",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_menu_model = Interop.downcallHandle(
-            "adw_split_button_get_menu_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_menu_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_popover = Interop.downcallHandle(
-            "adw_split_button_get_popover",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_popover",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_use_underline = Interop.downcallHandle(
-            "adw_split_button_get_use_underline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_get_use_underline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_popdown = Interop.downcallHandle(
-            "adw_split_button_popdown",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_popdown",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_popup = Interop.downcallHandle(
-            "adw_split_button_popup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_popup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_child = Interop.downcallHandle(
-            "adw_split_button_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_direction = Interop.downcallHandle(
-            "adw_split_button_set_direction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_split_button_set_direction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_dropdown_tooltip = Interop.downcallHandle(
-            "adw_split_button_set_dropdown_tooltip",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_dropdown_tooltip",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_icon_name = Interop.downcallHandle(
-            "adw_split_button_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_label = Interop.downcallHandle(
-            "adw_split_button_set_label",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_label",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_menu_model = Interop.downcallHandle(
-            "adw_split_button_set_menu_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_menu_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_popover = Interop.downcallHandle(
-            "adw_split_button_set_popover",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_split_button_set_popover",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_split_button_set_use_underline = Interop.downcallHandle(
-            "adw_split_button_set_use_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_split_button_set_use_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_split_button_get_type = Interop.downcallHandle(
-            "adw_split_button_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_split_button_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_split_button_get_type != null;
     }
 }

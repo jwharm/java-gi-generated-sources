@@ -41,14 +41,16 @@ public class ListItem extends org.gtk.gobject.GObject {
     /**
      * Create a ListItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListItem(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ListItem(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListItem(input, ownership);
+    public static final Marshal<Addressable, ListItem> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListItem(input);
     
     /**
      * Checks if a list item has been set to be activatable via
@@ -58,8 +60,7 @@ public class ListItem extends org.gtk.gobject.GObject {
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_activatable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,12 +75,11 @@ public class ListItem extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -91,12 +91,11 @@ public class ListItem extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -108,8 +107,7 @@ public class ListItem extends org.gtk.gobject.GObject {
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,8 +124,7 @@ public class ListItem extends org.gtk.gobject.GObject {
     public boolean getSelectable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_selectable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,8 +141,7 @@ public class ListItem extends org.gtk.gobject.GObject {
     public boolean getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_item_get_selected.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,6 +243,9 @@ public class ListItem extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -337,63 +336,71 @@ public class ListItem extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_item_get_activatable = Interop.downcallHandle(
-            "gtk_list_item_get_activatable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_activatable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_child = Interop.downcallHandle(
-            "gtk_list_item_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_item = Interop.downcallHandle(
-            "gtk_list_item_get_item",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_item",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_position = Interop.downcallHandle(
-            "gtk_list_item_get_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_selectable = Interop.downcallHandle(
-            "gtk_list_item_get_selectable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_selectable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_selected = Interop.downcallHandle(
-            "gtk_list_item_get_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_get_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_set_activatable = Interop.downcallHandle(
-            "gtk_list_item_set_activatable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_item_set_activatable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_item_set_child = Interop.downcallHandle(
-            "gtk_list_item_set_child",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_item_set_child",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_item_set_selectable = Interop.downcallHandle(
-            "gtk_list_item_set_selectable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_item_set_selectable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_item_get_type = Interop.downcallHandle(
-            "gtk_list_item_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_list_item_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_list_item_get_type != null;
     }
 }

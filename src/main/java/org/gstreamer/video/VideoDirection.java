@@ -12,8 +12,11 @@ import org.jetbrains.annotations.*;
  */
 public interface VideoDirection extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoDirectionImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoDirectionImpl(input, ownership);
+    public static final Marshal<Addressable, VideoDirectionImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoDirectionImpl(input);
     
     /**
      * Get the gtype
@@ -34,20 +37,35 @@ public interface VideoDirection extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_direction_get_type = Interop.downcallHandle(
-            "gst_video_direction_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_direction_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The VideoDirectionImpl type represents a native instance of the VideoDirection interface.
+     */
     class VideoDirectionImpl extends org.gtk.gobject.GObject implements VideoDirection {
         
         static {
             GstVideo.javagi$ensureInitialized();
         }
         
-        public VideoDirectionImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of VideoDirection for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public VideoDirectionImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_direction_get_type != null;
     }
 }

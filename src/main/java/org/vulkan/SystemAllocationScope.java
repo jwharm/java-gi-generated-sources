@@ -29,8 +29,8 @@ public class SystemAllocationScope extends Struct {
      * @return A new, uninitialized @{link SystemAllocationScope}
      */
     public static SystemAllocationScope allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SystemAllocationScope newInstance = new SystemAllocationScope(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SystemAllocationScope newInstance = new SystemAllocationScope(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SystemAllocationScope extends Struct {
     /**
      * Create a SystemAllocationScope proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SystemAllocationScope(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SystemAllocationScope(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SystemAllocationScope> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SystemAllocationScope(input, ownership);
+    public static final Marshal<Addressable, SystemAllocationScope> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SystemAllocationScope(input);
 }

@@ -29,8 +29,8 @@ public class PhysicalDeviceSparseImageFormatInfo2KHR extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceSparseImageFormatInfo2KHR}
      */
     public static PhysicalDeviceSparseImageFormatInfo2KHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceSparseImageFormatInfo2KHR newInstance = new PhysicalDeviceSparseImageFormatInfo2KHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceSparseImageFormatInfo2KHR newInstance = new PhysicalDeviceSparseImageFormatInfo2KHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceSparseImageFormatInfo2KHR extends Struct {
     /**
      * Create a PhysicalDeviceSparseImageFormatInfo2KHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceSparseImageFormatInfo2KHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceSparseImageFormatInfo2KHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceSparseImageFormatInfo2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSparseImageFormatInfo2KHR(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceSparseImageFormatInfo2KHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSparseImageFormatInfo2KHR(input);
 }

@@ -33,8 +33,8 @@ public class MainLoop extends Struct {
      * @return A new, uninitialized @{link MainLoop}
      */
     public static MainLoop allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MainLoop newInstance = new MainLoop(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MainLoop newInstance = new MainLoop(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class MainLoop extends Struct {
     /**
      * Create a MainLoop proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MainLoop(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MainLoop(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MainLoop> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MainLoop(input, ownership);
+    public static final Marshal<Addressable, MainLoop> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MainLoop(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
         MemoryAddress RESULT;
@@ -71,7 +73,8 @@ public class MainLoop extends Struct {
      * {@code true} anyway.
      */
     public MainLoop(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
-        super(constructNew(context, isRunning), Ownership.FULL);
+        super(constructNew(context, isRunning));
+        this.takeOwnership();
     }
     
     /**
@@ -81,12 +84,11 @@ public class MainLoop extends Struct {
     public org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_get_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -96,8 +98,7 @@ public class MainLoop extends Struct {
     public boolean isRunning() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_main_loop_is_running.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_main_loop_is_running.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +114,7 @@ public class MainLoop extends Struct {
      */
     public void quit() {
         try {
-            DowncallHandles.g_main_loop_quit.invokeExact(
-                    handle());
+            DowncallHandles.g_main_loop_quit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -127,12 +127,13 @@ public class MainLoop extends Struct {
     public org.gtk.glib.MainLoop ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_loop_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainLoop.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.MainLoop.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -143,8 +144,7 @@ public class MainLoop extends Struct {
      */
     public void run() {
         try {
-            DowncallHandles.g_main_loop_run.invokeExact(
-                    handle());
+            DowncallHandles.g_main_loop_run.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,8 +156,7 @@ public class MainLoop extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_main_loop_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_main_loop_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,45 +165,45 @@ public class MainLoop extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_main_loop_new = Interop.downcallHandle(
-            "g_main_loop_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_main_loop_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
-            "g_main_loop_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
-            "g_main_loop_is_running",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_is_running",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
-            "g_main_loop_quit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_quit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
-            "g_main_loop_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_loop_run = Interop.downcallHandle(
-            "g_main_loop_run",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_run",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
-            "g_main_loop_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_main_loop_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

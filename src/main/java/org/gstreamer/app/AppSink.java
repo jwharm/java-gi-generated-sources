@@ -66,26 +66,17 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     
     /**
      * Create a AppSink proxy instance for the provided memory address.
-     * <p>
-     * Because AppSink is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AppSink(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AppSink(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AppSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppSink(input, ownership);
+    public static final Marshal<Addressable, AppSink> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AppSink(input);
     
     /**
      * Check if {@code appsink} supports buffer lists.
@@ -94,8 +85,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public boolean getBufferListSupport() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_get_buffer_list_support.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_get_buffer_list_support.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,12 +99,13 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -126,8 +117,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public boolean getDrop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_get_drop.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_get_drop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,8 +132,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public boolean getEmitSignals() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_get_emit_signals.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_get_emit_signals.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,8 +146,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public int getMaxBuffers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_get_max_buffers.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_get_max_buffers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +162,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public boolean getWaitOnEos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_get_wait_on_eos.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_get_wait_on_eos.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,8 +180,7 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public boolean isEos() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_app_sink_is_eos.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_app_sink_is_eos.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,12 +213,13 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public org.gstreamer.gst.MiniObject pullObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_object.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -260,12 +247,13 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public @Nullable org.gstreamer.gst.Sample pullPreroll() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_preroll.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_preroll.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -286,12 +274,13 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     public @Nullable org.gstreamer.gst.Sample pullSample() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_sample.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_app_sink_pull_sample.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -447,7 +436,9 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -483,7 +474,9 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -512,7 +505,9 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -529,19 +524,38 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Eos} callback.
+     */
     @FunctionalInterface
     public interface Eos {
+    
+        /**
+         * Signal that the end-of-stream has been reached. This signal is emitted from
+         * the streaming thread.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceAppSink) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Eos.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Eos.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -552,29 +566,58 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.Eos> onEos(AppSink.Eos handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("eos"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("eos", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewPreroll} callback.
+     */
     @FunctionalInterface
     public interface NewPreroll {
+    
+        /**
+         * Signal that a new preroll sample is available.
+         * <p>
+         * This signal is emitted from the streaming thread and only when the
+         * "emit-signals" property is {@code true}.
+         * <p>
+         * The new preroll sample can be retrieved with the "pull-preroll" action
+         * signal or gst_app_sink_pull_preroll() either from this signal callback
+         * or from any other thread.
+         * <p>
+         * Note that this signal is only emitted when the "emit-signals" property is
+         * set to {@code true}, which it is not by default for performance reasons.
+         */
         org.gstreamer.gst.FlowReturn run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSink) {
             var RESULT = run();
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewPreroll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewPreroll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -594,29 +637,58 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.NewPreroll> onNewPreroll(AppSink.NewPreroll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("new-preroll"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("new-preroll", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewSample} callback.
+     */
     @FunctionalInterface
     public interface NewSample {
+    
+        /**
+         * Signal that a new sample is available.
+         * <p>
+         * This signal is emitted from the streaming thread and only when the
+         * "emit-signals" property is {@code true}.
+         * <p>
+         * The new sample can be retrieved with the "pull-sample" action
+         * signal or gst_app_sink_pull_sample() either from this signal callback
+         * or from any other thread.
+         * <p>
+         * Note that this signal is only emitted when the "emit-signals" property is
+         * set to {@code true}, which it is not by default for performance reasons.
+         */
         org.gstreamer.gst.FlowReturn run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSink) {
             var RESULT = run();
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewSample.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewSample.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -636,29 +708,64 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.NewSample> onNewSample(AppSink.NewSample handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("new-sample"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("new-sample", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewSerializedEvent} callback.
+     */
     @FunctionalInterface
     public interface NewSerializedEvent {
+    
+        /**
+         * Signal that a new downstream serialized event is available.
+         * <p>
+         * This signal is emitted from the streaming thread and only when the
+         * "emit-signals" property is {@code true}.
+         * <p>
+         * The new event can be retrieved with the "try-pull-object" action
+         * signal or gst_app_sink_pull_object() either from this signal callback
+         * or from any other thread.
+         * <p>
+         * EOS will not be notified using this signal, use {@link AppSink}::eos instead.
+         * EOS cannot be pulled either, use gst_app_sink_is_eos() to check for it.
+         * <p>
+         * Note that this signal is only emitted when the "emit-signals" property is
+         * set to {@code true}, which it is not by default for performance reasons.
+         * <p>
+         * The callback should return {@code true} if the event has been handled, which will
+         * skip basesink handling of the event, {@code false} otherwise.
+         */
         boolean run();
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSink) {
             var RESULT = run();
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewSerializedEvent.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewSerializedEvent.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -684,29 +791,66 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.NewSerializedEvent> onNewSerializedEvent(AppSink.NewSerializedEvent handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("new-serialized-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("new-serialized-event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PullPreroll} callback.
+     */
     @FunctionalInterface
     public interface PullPreroll {
+    
+        /**
+         * Get the last preroll sample in {@code appsink}. This was the sample that caused the
+         * appsink to preroll in the PAUSED state.
+         * <p>
+         * This function is typically used when dealing with a pipeline in the PAUSED
+         * state. Calling this function after doing a seek will give the sample right
+         * after the seek position.
+         * <p>
+         * Calling this function will clear the internal reference to the preroll
+         * buffer.
+         * <p>
+         * Note that the preroll sample will also be returned as the first sample
+         * when calling gst_app_sink_pull_sample() or the "pull-sample" action signal.
+         * <p>
+         * If an EOS event was received before any buffers, this function returns
+         * {@code null}. Use gst_app_sink_is_eos () to check for the EOS condition.
+         * <p>
+         * This function blocks until a preroll sample or EOS is received or the appsink
+         * element is set to the READY/NULL state.
+         */
         org.gstreamer.gst.Sample run();
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceAppSink) {
             var RESULT = run();
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PullPreroll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PullPreroll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -733,29 +877,62 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.PullPreroll> onPullPreroll(AppSink.PullPreroll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pull-preroll"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pull-preroll", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code PullSample} callback.
+     */
     @FunctionalInterface
     public interface PullSample {
+    
+        /**
+         * This function blocks until a sample or EOS becomes available or the appsink
+         * element is set to the READY/NULL state.
+         * <p>
+         * This function will only return samples when the appsink is in the PLAYING
+         * state. All rendered samples will be put in a queue so that the application
+         * can pull samples at its own rate.
+         * <p>
+         * Note that when the application does not pull samples fast enough, the
+         * queued samples could consume a lot of memory, especially when dealing with
+         * raw video frames. It's possible to control the behaviour of the queue with
+         * the "drop" and "max-buffers" properties.
+         * <p>
+         * If an EOS event was received before any buffers, this function returns
+         * {@code null}. Use gst_app_sink_is_eos () to check for the EOS condition.
+         */
         org.gstreamer.gst.Sample run();
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceAppSink) {
             var RESULT = run();
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PullSample.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PullSample.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -778,29 +955,70 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.PullSample> onPullSample(AppSink.PullSample handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("pull-sample"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("pull-sample", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullObject} callback.
+     */
     @FunctionalInterface
     public interface TryPullObject {
+    
+        /**
+         * This function blocks until a sample or an event becomes available or the appsink
+         * element is set to the READY/NULL state or the timeout expires.
+         * <p>
+         * This function will only return samples when the appsink is in the PLAYING
+         * state. All rendered samples and events will be put in a queue so that the application
+         * can pull them at its own rate.
+         * Events can be pulled when the appsink is in the READY, PAUSED or PLAYING state.
+         * <p>
+         * Note that when the application does not pull samples fast enough, the
+         * queued samples could consume a lot of memory, especially when dealing with
+         * raw video frames. It's possible to control the behaviour of the queue with
+         * the "drop" and "max-buffers" properties.
+         * <p>
+         * This function will only pull serialized events, excluding
+         * the EOS event for which this functions returns
+         * {@code null}. Use gst_app_sink_is_eos() to check for the EOS condition.
+         * <p>
+         * This signal is a variant of {@link AppSink}::try-pull-sample: that can be used
+         * to handle incoming events as well as samples.
+         * <p>
+         * Note that future releases may extend this API to return other object types
+         * so make sure that your code is checking for the actual type it is handling.
+         */
         org.gstreamer.gst.MiniObject run(long timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceAppSink, long timeout) {
             var RESULT = run(timeout);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullObject.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullObject.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -831,29 +1049,67 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.TryPullObject> onTryPullObject(AppSink.TryPullObject handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("try-pull-object"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("try-pull-object", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullPreroll} callback.
+     */
     @FunctionalInterface
     public interface TryPullPreroll {
+    
+        /**
+         * Get the last preroll sample in {@code appsink}. This was the sample that caused the
+         * appsink to preroll in the PAUSED state.
+         * <p>
+         * This function is typically used when dealing with a pipeline in the PAUSED
+         * state. Calling this function after doing a seek will give the sample right
+         * after the seek position.
+         * <p>
+         * Calling this function will clear the internal reference to the preroll
+         * buffer.
+         * <p>
+         * Note that the preroll sample will also be returned as the first sample
+         * when calling gst_app_sink_pull_sample() or the "pull-sample" action signal.
+         * <p>
+         * If an EOS event was received before any buffers or the timeout expires,
+         * this function returns {@code null}. Use gst_app_sink_is_eos () to check for the EOS
+         * condition.
+         * <p>
+         * This function blocks until a preroll sample or EOS is received, the appsink
+         * element is set to the READY/NULL state, or the timeout expires.
+         */
         org.gstreamer.gst.Sample run(long timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceAppSink, long timeout) {
             var RESULT = run(timeout);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullPreroll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullPreroll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -881,29 +1137,63 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.TryPullPreroll> onTryPullPreroll(AppSink.TryPullPreroll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("try-pull-preroll"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("try-pull-preroll", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code TryPullSample} callback.
+     */
     @FunctionalInterface
     public interface TryPullSample {
+    
+        /**
+         * This function blocks until a sample or EOS becomes available or the appsink
+         * element is set to the READY/NULL state or the timeout expires.
+         * <p>
+         * This function will only return samples when the appsink is in the PLAYING
+         * state. All rendered samples will be put in a queue so that the application
+         * can pull samples at its own rate.
+         * <p>
+         * Note that when the application does not pull samples fast enough, the
+         * queued samples could consume a lot of memory, especially when dealing with
+         * raw video frames. It's possible to control the behaviour of the queue with
+         * the "drop" and "max-buffers" properties.
+         * <p>
+         * If an EOS event was received before any buffers or the timeout expires,
+         * this function returns {@code null}. Use gst_app_sink_is_eos () to check
+         * for the EOS condition.
+         */
         org.gstreamer.gst.Sample run(long timeout);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceAppSink, long timeout) {
             var RESULT = run(timeout);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TryPullSample.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), TryPullSample.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -927,9 +1217,10 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<AppSink.TryPullSample> onTryPullSample(AppSink.TryPullSample handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("try-pull-sample"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("try-pull-sample", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -952,6 +1243,9 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
      */
     public static class Builder extends org.gstreamer.base.BaseSink.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1018,129 +1312,137 @@ public class AppSink extends org.gstreamer.base.BaseSink implements org.gstreame
     private static class DowncallHandles {
         
         private static final MethodHandle gst_app_sink_get_buffer_list_support = Interop.downcallHandle(
-            "gst_app_sink_get_buffer_list_support",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_buffer_list_support",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_caps = Interop.downcallHandle(
-            "gst_app_sink_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_drop = Interop.downcallHandle(
-            "gst_app_sink_get_drop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_drop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_emit_signals = Interop.downcallHandle(
-            "gst_app_sink_get_emit_signals",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_emit_signals",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_max_buffers = Interop.downcallHandle(
-            "gst_app_sink_get_max_buffers",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_max_buffers",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_wait_on_eos = Interop.downcallHandle(
-            "gst_app_sink_get_wait_on_eos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_get_wait_on_eos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_is_eos = Interop.downcallHandle(
-            "gst_app_sink_is_eos",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_is_eos",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_pull_object = Interop.downcallHandle(
-            "gst_app_sink_pull_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_pull_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_pull_preroll = Interop.downcallHandle(
-            "gst_app_sink_pull_preroll",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_pull_preroll",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_pull_sample = Interop.downcallHandle(
-            "gst_app_sink_pull_sample",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_pull_sample",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_buffer_list_support = Interop.downcallHandle(
-            "gst_app_sink_set_buffer_list_support",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_sink_set_buffer_list_support",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_callbacks = Interop.downcallHandle(
-            "gst_app_sink_set_callbacks",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_set_callbacks",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_caps = Interop.downcallHandle(
-            "gst_app_sink_set_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_app_sink_set_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_drop = Interop.downcallHandle(
-            "gst_app_sink_set_drop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_sink_set_drop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_emit_signals = Interop.downcallHandle(
-            "gst_app_sink_set_emit_signals",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_sink_set_emit_signals",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_max_buffers = Interop.downcallHandle(
-            "gst_app_sink_set_max_buffers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_sink_set_max_buffers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_sink_set_wait_on_eos = Interop.downcallHandle(
-            "gst_app_sink_set_wait_on_eos",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_app_sink_set_wait_on_eos",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_app_sink_try_pull_object = Interop.downcallHandle(
-            "gst_app_sink_try_pull_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_sink_try_pull_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_sink_try_pull_preroll = Interop.downcallHandle(
-            "gst_app_sink_try_pull_preroll",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_sink_try_pull_preroll",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_sink_try_pull_sample = Interop.downcallHandle(
-            "gst_app_sink_try_pull_sample",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_app_sink_try_pull_sample",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_app_sink_get_type = Interop.downcallHandle(
-            "gst_app_sink_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_app_sink_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_app_sink_get_type != null;
     }
 }

@@ -190,14 +190,16 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     /**
      * Create a ApplicationCommandLine proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ApplicationCommandLine(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ApplicationCommandLine(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ApplicationCommandLine> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationCommandLine(input, ownership);
+    public static final Marshal<Addressable, ApplicationCommandLine> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationCommandLine(input);
     
     /**
      * Creates a {@link File} corresponding to a filename that was given as part
@@ -210,15 +212,19 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @return a new {@link File}
      */
     public org.gtk.gio.File createFileForArg(java.lang.String arg) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(arg, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(arg, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -237,22 +243,24 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @return the string array containing the arguments (the argv)
      */
     public java.lang.String[] getArguments(Out<Integer> argc) {
-        MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(
-                    handle(),
-                    (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment argcPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(
+                        handle(),
+                        (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[argc.get().intValue()];
+            for (int I = 0; I < argc.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[argc.get().intValue()];
-        for (int I = 0; I < argc.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -269,8 +277,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getCwd() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_cwd.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_cwd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,14 +303,15 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @return the environment strings, or {@code null} if they were not sent
      */
     public PointerString getEnviron() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -314,8 +322,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public int getExitStatus() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_command_line_get_exit_status.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_exit_status.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,8 +336,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public boolean getIsRemote() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_application_command_line_get_is_remote.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_is_remote.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,12 +358,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public org.gtk.glib.VariantDict getOptionsDict() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantDict.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantDict.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -374,12 +379,13 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.glib.Variant getPlatformData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_platform_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_platform_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -398,12 +404,13 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gio.InputStream getStdin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_stdin.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_stdin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.InputStream) Interop.register(RESULT, org.gtk.gio.InputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -422,15 +429,17 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @return the value of the variable, or {@code null} if unset or unsent
      */
     public @Nullable java.lang.String getenv(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -444,13 +453,15 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @param varargs arguments, as per {@code format}
      */
     public void print(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_application_command_line_print.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_application_command_line_print.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -465,13 +476,15 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      * @param varargs arguments, as per {@code format}
      */
     public void printerr(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_application_command_line_printerr.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_application_command_line_printerr.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -539,6 +552,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -587,87 +603,95 @@ public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_application_command_line_create_file_for_arg = Interop.downcallHandle(
-            "g_application_command_line_create_file_for_arg",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_create_file_for_arg",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_arguments = Interop.downcallHandle(
-            "g_application_command_line_get_arguments",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_arguments",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_cwd = Interop.downcallHandle(
-            "g_application_command_line_get_cwd",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_cwd",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_environ = Interop.downcallHandle(
-            "g_application_command_line_get_environ",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_environ",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_exit_status = Interop.downcallHandle(
-            "g_application_command_line_get_exit_status",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_exit_status",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_is_remote = Interop.downcallHandle(
-            "g_application_command_line_get_is_remote",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_is_remote",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_options_dict = Interop.downcallHandle(
-            "g_application_command_line_get_options_dict",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_options_dict",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_platform_data = Interop.downcallHandle(
-            "g_application_command_line_get_platform_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_platform_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_stdin = Interop.downcallHandle(
-            "g_application_command_line_get_stdin",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_get_stdin",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_getenv = Interop.downcallHandle(
-            "g_application_command_line_getenv",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_application_command_line_getenv",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_application_command_line_print = Interop.downcallHandle(
-            "g_application_command_line_print",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_application_command_line_print",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_application_command_line_printerr = Interop.downcallHandle(
-            "g_application_command_line_printerr",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_application_command_line_printerr",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_application_command_line_set_exit_status = Interop.downcallHandle(
-            "g_application_command_line_set_exit_status",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_application_command_line_set_exit_status",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_application_command_line_get_type = Interop.downcallHandle(
-            "g_application_command_line_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_application_command_line_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_application_command_line_get_type != null;
     }
 }

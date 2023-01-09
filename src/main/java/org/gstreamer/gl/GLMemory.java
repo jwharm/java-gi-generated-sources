@@ -60,8 +60,8 @@ public class GLMemory extends Struct {
      * @return A new, uninitialized @{link GLMemory}
      */
     public static GLMemory allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLMemory newInstance = new GLMemory(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLMemory newInstance = new GLMemory(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -72,7 +72,7 @@ public class GLMemory extends Struct {
      */
     public org.gstreamer.gl.GLBaseMemory getMem() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mem"));
-        return org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -80,9 +80,11 @@ public class GLMemory extends Struct {
      * @param mem The new value of the field {@code mem}
      */
     public void setMem(org.gstreamer.gl.GLBaseMemory mem) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mem"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+        }
     }
     
     /**
@@ -90,10 +92,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code tex_id}
      */
     public int getTexId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,9 +105,11 @@ public class GLMemory extends Struct {
      * @param texId The new value of the field {@code tex_id}
      */
     public void setTexId(int texId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), texId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), texId);
+        }
     }
     
     /**
@@ -111,10 +117,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code tex_target}
      */
     public org.gstreamer.gl.GLTextureTarget getTexTarget() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gl.GLTextureTarget.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gl.GLTextureTarget.of(RESULT);
+        }
     }
     
     /**
@@ -122,9 +130,11 @@ public class GLMemory extends Struct {
      * @param texTarget The new value of the field {@code tex_target}
      */
     public void setTexTarget(org.gstreamer.gl.GLTextureTarget texTarget) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texTarget == null ? MemoryAddress.NULL : texTarget.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texTarget == null ? MemoryAddress.NULL : texTarget.getValue()));
+        }
     }
     
     /**
@@ -132,10 +142,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code tex_format}
      */
     public org.gstreamer.gl.GLFormat getTexFormat() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gl.GLFormat.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gl.GLFormat.of(RESULT);
+        }
     }
     
     /**
@@ -143,9 +155,11 @@ public class GLMemory extends Struct {
      * @param texFormat The new value of the field {@code tex_format}
      */
     public void setTexFormat(org.gstreamer.gl.GLFormat texFormat) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
+        }
     }
     
     /**
@@ -154,7 +168,7 @@ public class GLMemory extends Struct {
      */
     public org.gstreamer.video.VideoInfo getInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return org.gstreamer.video.VideoInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -162,9 +176,11 @@ public class GLMemory extends Struct {
      * @param info The new value of the field {@code info}
      */
     public void setInfo(org.gstreamer.video.VideoInfo info) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        }
     }
     
     /**
@@ -173,7 +189,7 @@ public class GLMemory extends Struct {
      */
     public org.gstreamer.video.VideoAlignment getValign() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("valign"));
-        return org.gstreamer.video.VideoAlignment.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoAlignment.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -181,9 +197,11 @@ public class GLMemory extends Struct {
      * @param valign The new value of the field {@code valign}
      */
     public void setValign(org.gstreamer.video.VideoAlignment valign) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("valign"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("valign"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
+        }
     }
     
     /**
@@ -191,10 +209,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code plane}
      */
     public int getPlane() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -202,9 +222,11 @@ public class GLMemory extends Struct {
      * @param plane The new value of the field {@code plane}
      */
     public void setPlane(int plane) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), plane);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), plane);
+        }
     }
     
     /**
@@ -212,10 +234,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code tex_scaling}
      */
     public float[] getTexScaling() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 2, Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 2, SCOPE).toArray(Interop.valueLayout.C_FLOAT);
+        }
     }
     
     /**
@@ -223,9 +247,11 @@ public class GLMemory extends Struct {
      * @param texScaling The new value of the field {@code tex_scaling}
      */
     public void setTexScaling(float[] texScaling) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texScaling == null ? MemoryAddress.NULL : Interop.allocateNativeArray(texScaling, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texScaling == null ? MemoryAddress.NULL : Interop.allocateNativeArray(texScaling, false, SCOPE)));
+        }
     }
     
     /**
@@ -233,10 +259,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code texture_wrapped}
      */
     public boolean getTextureWrapped() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -244,9 +272,11 @@ public class GLMemory extends Struct {
      * @param textureWrapped The new value of the field {@code texture_wrapped}
      */
     public void setTextureWrapped(boolean textureWrapped) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(textureWrapped, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(textureWrapped, null).intValue());
+        }
     }
     
     /**
@@ -254,10 +284,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code unpack_length}
      */
     public int getUnpackLength() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -265,9 +297,11 @@ public class GLMemory extends Struct {
      * @param unpackLength The new value of the field {@code unpack_length}
      */
     public void setUnpackLength(int unpackLength) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), unpackLength);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), unpackLength);
+        }
     }
     
     /**
@@ -275,10 +309,12 @@ public class GLMemory extends Struct {
      * @return The value of the field {@code tex_width}
      */
     public int getTexWidth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -286,22 +322,26 @@ public class GLMemory extends Struct {
      * @param texWidth The new value of the field {@code tex_width}
      */
     public void setTexWidth(int texWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), texWidth);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), texWidth);
+        }
     }
     
     /**
      * Create a GLMemory proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemory(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLMemory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemory(input, ownership);
+    public static final Marshal<Addressable, GLMemory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemory(input);
     
     /**
      * Copies {@code gl_mem} into the texture specified by {@code tex_id}.  The format of {@code tex_id}
@@ -358,8 +398,7 @@ public class GLMemory extends Struct {
     public org.gstreamer.gl.GLFormat getTextureFormat() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_format.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_format.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,8 +408,7 @@ public class GLMemory extends Struct {
     public int getTextureHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,8 +418,7 @@ public class GLMemory extends Struct {
     public int getTextureId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,8 +428,7 @@ public class GLMemory extends Struct {
     public org.gstreamer.gl.GLTextureTarget getTextureTarget() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_target.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,8 +438,7 @@ public class GLMemory extends Struct {
     public int getTextureWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_gl_memory_get_texture_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -494,93 +529,95 @@ public class GLMemory extends Struct {
     }
     
     public static boolean setupBuffer(org.gstreamer.gl.GLMemoryAllocator allocator, org.gstreamer.gst.Buffer buffer, org.gstreamer.gl.GLVideoAllocationParams params, @Nullable org.gstreamer.gl.GLFormat[] texFormats, java.lang.foreign.MemoryAddress[] wrappedData, long nWrappedPointers) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_memory_setup_buffer.invokeExact(
-                    allocator.handle(),
-                    buffer.handle(),
-                    params.handle(),
-                    (Addressable) (texFormats == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(texFormats), false)),
-                    Interop.allocateNativeArray(wrappedData, false),
-                    nWrappedPointers);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_memory_setup_buffer.invokeExact(
+                        allocator.handle(),
+                        buffer.handle(),
+                        params.handle(),
+                        (Addressable) (texFormats == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(texFormats), false, SCOPE)),
+                        Interop.allocateNativeArray(wrappedData, false, SCOPE),
+                        nWrappedPointers);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_memory_copy_into = Interop.downcallHandle(
-            "gst_gl_memory_copy_into",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_memory_copy_into",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_copy_teximage = Interop.downcallHandle(
-            "gst_gl_memory_copy_teximage",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_memory_copy_teximage",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_get_texture_format = Interop.downcallHandle(
-            "gst_gl_memory_get_texture_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_get_texture_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_get_texture_height = Interop.downcallHandle(
-            "gst_gl_memory_get_texture_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_get_texture_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_get_texture_id = Interop.downcallHandle(
-            "gst_gl_memory_get_texture_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_get_texture_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_get_texture_target = Interop.downcallHandle(
-            "gst_gl_memory_get_texture_target",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_get_texture_target",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_get_texture_width = Interop.downcallHandle(
-            "gst_gl_memory_get_texture_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_get_texture_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_init = Interop.downcallHandle(
-            "gst_gl_memory_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_read_pixels = Interop.downcallHandle(
-            "gst_gl_memory_read_pixels",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_read_pixels",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_texsubimage = Interop.downcallHandle(
-            "gst_gl_memory_texsubimage",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_texsubimage",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_init_once = Interop.downcallHandle(
-            "gst_gl_memory_init_once",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_gl_memory_init_once",
+                FunctionDescriptor.ofVoid(),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_setup_buffer = Interop.downcallHandle(
-            "gst_gl_memory_setup_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_memory_setup_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -606,7 +643,7 @@ public class GLMemory extends Struct {
             struct = GLMemory.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLMemory} struct.
          * @return A new instance of {@code GLMemory} with the fields 
          *         that were set in the Builder object.
@@ -621,10 +658,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMem(org.gstreamer.gl.GLBaseMemory mem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mem"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+                return this;
+            }
         }
         
         /**
@@ -633,10 +672,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTexId(int texId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), texId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tex_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), texId);
+                return this;
+            }
         }
         
         /**
@@ -645,10 +686,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTexTarget(org.gstreamer.gl.GLTextureTarget texTarget) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texTarget == null ? MemoryAddress.NULL : texTarget.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tex_target"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texTarget == null ? MemoryAddress.NULL : texTarget.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -657,10 +700,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTexFormat(org.gstreamer.gl.GLFormat texFormat) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -669,10 +714,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfo(org.gstreamer.video.VideoInfo info) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+                return this;
+            }
         }
         
         /**
@@ -681,10 +728,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValign(org.gstreamer.video.VideoAlignment valign) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("valign"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("valign"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
+                return this;
+            }
         }
         
         /**
@@ -693,10 +742,12 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPlane(int plane) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("plane"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), plane);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), plane);
+                return this;
+            }
         }
         
         /**
@@ -705,38 +756,48 @@ public class GLMemory extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTexScaling(float[] texScaling) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texScaling == null ? MemoryAddress.NULL : Interop.allocateNativeArray(texScaling, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tex_scaling"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (texScaling == null ? MemoryAddress.NULL : Interop.allocateNativeArray(texScaling, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setTextureWrapped(boolean textureWrapped) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(textureWrapped, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("texture_wrapped"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(textureWrapped, null).intValue());
+                return this;
+            }
         }
         
         public Builder setUnpackLength(int unpackLength) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), unpackLength);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unpack_length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), unpackLength);
+                return this;
+            }
         }
         
         public Builder setTexWidth(int texWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), texWidth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tex_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), texWidth);
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

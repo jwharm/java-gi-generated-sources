@@ -33,8 +33,8 @@ public class FrameClass extends Struct {
      * @return A new, uninitialized @{link FrameClass}
      */
     public static FrameClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FrameClass newInstance = new FrameClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FrameClass newInstance = new FrameClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,7 +45,7 @@ public class FrameClass extends Struct {
      */
     public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -53,24 +53,41 @@ public class FrameClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ComputeChildAllocationCallback} callback.
+     */
     @FunctionalInterface
     public interface ComputeChildAllocationCallback {
+    
         void run(org.gtk.gtk.Frame frame, org.gtk.gtk.Allocation allocation);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress frame, MemoryAddress allocation) {
-            run((org.gtk.gtk.Frame) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(frame)), org.gtk.gtk.Frame.fromAddress).marshal(frame, Ownership.NONE), (org.gtk.gtk.Allocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocation)), org.gtk.gtk.Allocation.fromAddress).marshal(allocation, Ownership.NONE));
+            run((org.gtk.gtk.Frame) Interop.register(frame, org.gtk.gtk.Frame.fromAddress).marshal(frame, null), (org.gtk.gtk.Allocation) Interop.register(allocation, org.gtk.gtk.Allocation.fromAddress).marshal(allocation, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ComputeChildAllocationCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ComputeChildAllocationCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +96,26 @@ public class FrameClass extends Struct {
      * @param computeChildAllocation The new value of the field {@code compute_child_allocation}
      */
     public void setComputeChildAllocation(ComputeChildAllocationCallback computeChildAllocation) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compute_child_allocation"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeChildAllocation == null ? MemoryAddress.NULL : computeChildAllocation.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compute_child_allocation"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (computeChildAllocation == null ? MemoryAddress.NULL : computeChildAllocation.toCallback()));
+        }
     }
     
     /**
      * Create a FrameClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FrameClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FrameClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FrameClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FrameClass(input, ownership);
+    public static final Marshal<Addressable, FrameClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FrameClass(input);
     
     /**
      * A {@link FrameClass.Builder} object constructs a {@link FrameClass} 
@@ -118,7 +139,7 @@ public class FrameClass extends Struct {
             struct = FrameClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FrameClass} struct.
          * @return A new instance of {@code FrameClass} with the fields 
          *         that were set in the Builder object.
@@ -133,24 +154,30 @@ public class FrameClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setComputeChildAllocation(ComputeChildAllocationCallback computeChildAllocation) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("compute_child_allocation"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeChildAllocation == null ? MemoryAddress.NULL : computeChildAllocation.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("compute_child_allocation"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (computeChildAllocation == null ? MemoryAddress.NULL : computeChildAllocation.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

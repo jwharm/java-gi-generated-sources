@@ -40,8 +40,8 @@ public class AttrShape extends Struct {
      * @return A new, uninitialized @{link AttrShape}
      */
     public static AttrShape allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrShape newInstance = new AttrShape(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrShape newInstance = new AttrShape(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class AttrShape extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,9 +60,11 @@ public class AttrShape extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -71,7 +73,7 @@ public class AttrShape extends Struct {
      */
     public org.pango.Rectangle getInkRect() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("ink_rect"));
-        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -79,9 +81,11 @@ public class AttrShape extends Struct {
      * @param inkRect The new value of the field {@code ink_rect}
      */
     public void setInkRect(org.pango.Rectangle inkRect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
+        }
     }
     
     /**
@@ -90,7 +94,7 @@ public class AttrShape extends Struct {
      */
     public org.pango.Rectangle getLogicalRect() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("logical_rect"));
-        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -98,9 +102,11 @@ public class AttrShape extends Struct {
      * @param logicalRect The new value of the field {@code logical_rect}
      */
     public void setLogicalRect(org.pango.Rectangle logicalRect) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
+        }
     }
     
     /**
@@ -108,10 +114,12 @@ public class AttrShape extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.foreign.MemoryAddress getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -119,9 +127,11 @@ public class AttrShape extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.foreign.MemoryAddress data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        }
     }
     
     /**
@@ -129,10 +139,12 @@ public class AttrShape extends Struct {
      * @return The value of the field {@code copy_func}
      */
     public org.pango.AttrDataCopyFunc getCopyFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -140,9 +152,11 @@ public class AttrShape extends Struct {
      * @param copyFunc The new value of the field {@code copy_func}
      */
     public void setCopyFunc(org.pango.AttrDataCopyFunc copyFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
+        }
     }
     
     /**
@@ -150,10 +164,12 @@ public class AttrShape extends Struct {
      * @return The value of the field {@code destroy_func}
      */
     public org.gtk.glib.DestroyNotify getDestroyFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -161,22 +177,26 @@ public class AttrShape extends Struct {
      * @param destroyFunc The new value of the field {@code destroy_func}
      */
     public void setDestroyFunc(org.gtk.glib.DestroyNotify destroyFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
+        }
     }
     
     /**
      * Create a AttrShape proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrShape(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrShape(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrShape> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrShape(input, ownership);
+    public static final Marshal<Addressable, AttrShape> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrShape(input);
     
     /**
      * Create a new shape attribute.
@@ -200,7 +220,9 @@ public class AttrShape extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -232,21 +254,23 @@ public class AttrShape extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
-            "pango_attr_shape_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_shape_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
-            "pango_attr_shape_new_with_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_shape_new_with_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -272,7 +296,7 @@ public class AttrShape extends Struct {
             struct = AttrShape.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrShape} struct.
          * @return A new instance of {@code AttrShape} with the fields 
          *         that were set in the Builder object.
@@ -287,10 +311,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -299,10 +325,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInkRect(org.pango.Rectangle inkRect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
+                return this;
+            }
         }
         
         /**
@@ -311,10 +339,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLogicalRect(org.pango.Rectangle logicalRect) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
+                return this;
+            }
         }
         
         /**
@@ -323,10 +353,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(java.lang.foreign.MemoryAddress data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+                return this;
+            }
         }
         
         /**
@@ -335,10 +367,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCopyFunc(org.pango.AttrDataCopyFunc copyFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -347,10 +381,12 @@ public class AttrShape extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDestroyFunc(org.gtk.glib.DestroyNotify destroyFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
+                return this;
+            }
         }
     }
 }

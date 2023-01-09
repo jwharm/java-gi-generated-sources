@@ -29,8 +29,8 @@ public class PipelineDepthStencilStateCreateFlags extends Struct {
      * @return A new, uninitialized @{link PipelineDepthStencilStateCreateFlags}
      */
     public static PipelineDepthStencilStateCreateFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineDepthStencilStateCreateFlags newInstance = new PipelineDepthStencilStateCreateFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineDepthStencilStateCreateFlags newInstance = new PipelineDepthStencilStateCreateFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineDepthStencilStateCreateFlags extends Struct {
     /**
      * Create a PipelineDepthStencilStateCreateFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineDepthStencilStateCreateFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineDepthStencilStateCreateFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineDepthStencilStateCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineDepthStencilStateCreateFlags(input, ownership);
+    public static final Marshal<Addressable, PipelineDepthStencilStateCreateFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineDepthStencilStateCreateFlags(input);
 }

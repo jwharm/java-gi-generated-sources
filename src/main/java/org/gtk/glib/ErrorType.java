@@ -10,34 +10,42 @@ import org.jetbrains.annotations.*;
  * of {@link TokenValue}, when the token is a {@link TokenType#ERROR}.
  */
 public enum ErrorType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * unknown error
      */
     UNKNOWN(0),
+    
     /**
      * unexpected end of file
      */
     UNEXP_EOF(1),
+    
     /**
      * unterminated string constant
      */
     UNEXP_EOF_IN_STRING(2),
+    
     /**
      * unterminated comment
      */
     UNEXP_EOF_IN_COMMENT(3),
+    
     /**
      * non-digit character in a number
      */
     NON_DIGIT_IN_CONST(4),
+    
     /**
      * digit beyond radix in a number
      */
     DIGIT_RADIX(5),
+    
     /**
      * non-decimal floating point number
      */
     FLOAT_RADIX(6),
+    
     /**
      * malformed floating point number
      */
@@ -46,15 +54,29 @@ public enum ErrorType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GErrorType";
     
     private final int value;
+    
+    /**
+     * Create a new ErrorType for the provided value
+     * @param numeric value the enum value
+     */
     ErrorType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ErrorType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ErrorType of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

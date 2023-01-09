@@ -73,26 +73,17 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     /**
      * Create a ListBox proxy instance for the provided memory address.
-     * <p>
-     * Because ListBox is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ListBox(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ListBox(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ListBox> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListBox(input, ownership);
+    public static final Marshal<Addressable, ListBox> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ListBox(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -108,7 +99,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Creates a new {@code GtkListBox} container.
      */
     public ListBox() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -190,8 +183,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void dragUnhighlightRow() {
         try {
-            DowncallHandles.gtk_list_box_drag_unhighlight_row.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_drag_unhighlight_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,8 +196,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_activate_on_single_click.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_activate_on_single_click.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,12 +211,11 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_adjustment.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_adjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) Interop.register(RESULT, org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -245,7 +235,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListBoxRow) Interop.register(RESULT, org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -262,7 +252,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListBoxRow) Interop.register(RESULT, org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -276,12 +266,11 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public @Nullable org.gtk.gtk.ListBoxRow getSelectedRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_row.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListBoxRow) Interop.register(RESULT, org.gtk.gtk.ListBoxRow.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -292,12 +281,11 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.glib.List getSelectedRows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_rows.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_rows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -307,8 +295,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_selection_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_selection_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,8 +310,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public boolean getShowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_list_box_get_show_separators.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_show_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,8 +350,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateFilter() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_filter.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_invalidate_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,8 +365,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateHeaders() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_headers.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_invalidate_headers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,8 +380,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void invalidateSort() {
         try {
-            DowncallHandles.gtk_list_box_invalidate_sort.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_invalidate_sort.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -439,8 +422,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void selectAll() {
         try {
-            DowncallHandles.gtk_list_box_select_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -662,8 +644,7 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public void unselectAll() {
         try {
-            DowncallHandles.gtk_list_box_unselect_all.invokeExact(
-                    handle());
+            DowncallHandles.gtk_list_box_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -697,71 +678,121 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateCursorRow} callback.
+     */
     @FunctionalInterface
     public interface ActivateCursorRow {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCursorRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateCursorRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<ListBox.ActivateCursorRow> onActivateCursorRow(ListBox.ActivateCursorRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate-cursor-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate-cursor-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code MoveCursor} callback.
+     */
     @FunctionalInterface
     public interface MoveCursor {
+    
         void run(org.gtk.gtk.MovementStep object, int p0, boolean p1, boolean p2);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox, int object, int p0, int p1, int p2) {
             run(org.gtk.gtk.MovementStep.of(object), p0, Marshal.integerToBoolean.marshal(p1, null).booleanValue(), Marshal.integerToBoolean.marshal(p2, null).booleanValue());
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), MoveCursor.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<ListBox.MoveCursor> onMoveCursor(ListBox.MoveCursor handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("move-cursor", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowActivated} callback.
+     */
     @FunctionalInterface
     public interface RowActivated {
+    
+        /**
+         * Emitted when a row has been activated by the user.
+         */
         void run(org.gtk.gtk.ListBoxRow row);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox, MemoryAddress row) {
-            run((org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(row)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, Ownership.NONE));
+            run((org.gtk.gtk.ListBoxRow) Interop.register(row, org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowActivated.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowActivated.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -771,28 +802,52 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBox.RowActivated> onRowActivated(ListBox.RowActivated handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-activated", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code RowSelected} callback.
+     */
     @FunctionalInterface
     public interface RowSelected {
+    
+        /**
+         * Emitted when a new row is selected, or (with a {@code null} {@code row})
+         * when the selection is cleared.
+         * <p>
+         * When the {@code box} is using {@link SelectionMode#MULTIPLE}, this signal will not
+         * give you the full picture of selection changes, and you should use
+         * the {@code Gtk.ListBox::selected-rows-changed} signal instead.
+         */
         void run(@Nullable org.gtk.gtk.ListBoxRow row);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox, MemoryAddress row) {
-            run((org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(row)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, Ownership.NONE));
+            run((org.gtk.gtk.ListBoxRow) Interop.register(row, org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RowSelected.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), RowSelected.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -807,28 +862,52 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBox.RowSelected> onRowSelected(ListBox.RowSelected handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("row-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("row-selected", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectAll} callback.
+     */
     @FunctionalInterface
     public interface SelectAll {
+    
+        /**
+         * Emitted to select all children of the box, if the selection
+         * mode permits it.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default binding for this signal is &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -843,28 +922,47 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBox.SelectAll> onSelectAll(ListBox.SelectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("select-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("select-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code SelectedRowsChanged} callback.
+     */
     @FunctionalInterface
     public interface SelectedRowsChanged {
+    
+        /**
+         * Emitted when the set of selected rows changes.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectedRowsChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SelectedRowsChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -874,54 +972,95 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBox.SelectedRowsChanged> onSelectedRowsChanged(ListBox.SelectedRowsChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("selected-rows-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("selected-rows-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code ToggleCursorRow} callback.
+     */
     @FunctionalInterface
     public interface ToggleCursorRow {
+    
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorRow.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ToggleCursorRow.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
     public Signal<ListBox.ToggleCursorRow> onToggleCursorRow(ListBox.ToggleCursorRow handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("toggle-cursor-row"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("toggle-cursor-row", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code UnselectAll} callback.
+     */
     @FunctionalInterface
     public interface UnselectAll {
+    
+        /**
+         * Emitted to unselect all children of the box, if the selection
+         * mode permits it.
+         * <p>
+         * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+         * <p>
+         * The default binding for this signal is
+         * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceListBox) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAll.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UnselectAll.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -937,9 +1076,10 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ListBox.UnselectAll> onUnselectAll(ListBox.UnselectAll handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("unselect-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("unselect-all", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -962,6 +1102,9 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1031,201 +1174,209 @@ public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_list_box_new = Interop.downcallHandle(
-            "gtk_list_box_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_append = Interop.downcallHandle(
-            "gtk_list_box_append",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_append",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_bind_model = Interop.downcallHandle(
-            "gtk_list_box_bind_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_bind_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_drag_highlight_row = Interop.downcallHandle(
-            "gtk_list_box_drag_highlight_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_drag_highlight_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_drag_unhighlight_row = Interop.downcallHandle(
-            "gtk_list_box_drag_unhighlight_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_drag_unhighlight_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_activate_on_single_click = Interop.downcallHandle(
-            "gtk_list_box_get_activate_on_single_click",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_activate_on_single_click",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_adjustment = Interop.downcallHandle(
-            "gtk_list_box_get_adjustment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_adjustment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_row_at_index = Interop.downcallHandle(
-            "gtk_list_box_get_row_at_index",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_get_row_at_index",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_row_at_y = Interop.downcallHandle(
-            "gtk_list_box_get_row_at_y",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_get_row_at_y",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_selected_row = Interop.downcallHandle(
-            "gtk_list_box_get_selected_row",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_selected_row",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_selected_rows = Interop.downcallHandle(
-            "gtk_list_box_get_selected_rows",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_selected_rows",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_selection_mode = Interop.downcallHandle(
-            "gtk_list_box_get_selection_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_selection_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_show_separators = Interop.downcallHandle(
-            "gtk_list_box_get_show_separators",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_get_show_separators",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_insert = Interop.downcallHandle(
-            "gtk_list_box_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_filter = Interop.downcallHandle(
-            "gtk_list_box_invalidate_filter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_invalidate_filter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_headers = Interop.downcallHandle(
-            "gtk_list_box_invalidate_headers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_invalidate_headers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_invalidate_sort = Interop.downcallHandle(
-            "gtk_list_box_invalidate_sort",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_invalidate_sort",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_prepend = Interop.downcallHandle(
-            "gtk_list_box_prepend",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_prepend",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_remove = Interop.downcallHandle(
-            "gtk_list_box_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_select_all = Interop.downcallHandle(
-            "gtk_list_box_select_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_select_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_select_row = Interop.downcallHandle(
-            "gtk_list_box_select_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_select_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_selected_foreach = Interop.downcallHandle(
-            "gtk_list_box_selected_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_selected_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_activate_on_single_click = Interop.downcallHandle(
-            "gtk_list_box_set_activate_on_single_click",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_set_activate_on_single_click",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_adjustment = Interop.downcallHandle(
-            "gtk_list_box_set_adjustment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_set_adjustment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_filter_func = Interop.downcallHandle(
-            "gtk_list_box_set_filter_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_set_filter_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_header_func = Interop.downcallHandle(
-            "gtk_list_box_set_header_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_set_header_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_placeholder = Interop.downcallHandle(
-            "gtk_list_box_set_placeholder",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_set_placeholder",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_selection_mode = Interop.downcallHandle(
-            "gtk_list_box_set_selection_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_set_selection_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_show_separators = Interop.downcallHandle(
-            "gtk_list_box_set_show_separators",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_list_box_set_show_separators",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_list_box_set_sort_func = Interop.downcallHandle(
-            "gtk_list_box_set_sort_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_set_sort_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_unselect_all = Interop.downcallHandle(
-            "gtk_list_box_unselect_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_unselect_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_unselect_row = Interop.downcallHandle(
-            "gtk_list_box_unselect_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_list_box_unselect_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_list_box_get_type = Interop.downcallHandle(
-            "gtk_list_box_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_list_box_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_list_box_get_type != null;
     }
 }

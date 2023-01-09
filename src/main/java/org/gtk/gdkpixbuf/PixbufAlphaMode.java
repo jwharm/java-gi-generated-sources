@@ -20,6 +20,7 @@ import org.jetbrains.annotations.*;
  * For now both cases fall back to a bilevel clipping mask.
  */
 public enum PixbufAlphaMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * A bilevel clipping mask (black and white)
      *  will be created and used to draw the image.  Pixels below 0.5 opacity
@@ -27,6 +28,7 @@ public enum PixbufAlphaMode implements io.github.jwharm.javagi.Enumeration {
      *  considered fully opaque.
      */
     BILEVEL(0),
+    
     /**
      * For now falls back to {@code GDK_PIXBUF_ALPHA_BILEVEL}.
      *  In the future it will do full alpha compositing.
@@ -36,15 +38,29 @@ public enum PixbufAlphaMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufAlphaMode";
     
     private final int value;
+    
+    /**
+     * Create a new PixbufAlphaMode for the provided value
+     * @param numeric value the enum value
+     */
     PixbufAlphaMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PixbufAlphaMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PixbufAlphaMode of(int value) {
         return switch (value) {
             case 0 -> BILEVEL;

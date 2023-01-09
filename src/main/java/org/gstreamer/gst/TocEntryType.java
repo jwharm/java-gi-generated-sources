@@ -11,30 +11,37 @@ import org.jetbrains.annotations.*;
  * There are two types of TOC entries: alternatives or parts in a sequence.
  */
 public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * entry is an angle (i.e. an alternative)
      */
     ANGLE(-3),
+    
     /**
      * entry is a version (i.e. alternative)
      */
     VERSION(-2),
+    
     /**
      * entry is an edition (i.e. alternative)
      */
     EDITION(-1),
+    
     /**
      * invalid entry type value
      */
     INVALID(0),
+    
     /**
      * entry is a title (i.e. a part of a sequence)
      */
     TITLE(1),
+    
     /**
      * entry is a track (i.e. a part of a sequence)
      */
     TRACK(2),
+    
     /**
      * entry is a chapter (i.e. a part of a sequence)
      */
@@ -43,15 +50,29 @@ public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstTocEntryType";
     
     private final int value;
+    
+    /**
+     * Create a new TocEntryType for the provided value
+     * @param numeric value the enum value
+     */
     TocEntryType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TocEntryType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TocEntryType of(int value) {
         return switch (value) {
             case -3 -> ANGLE;
@@ -75,8 +96,7 @@ public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
     public static java.lang.String getNick(org.gstreamer.gst.TocEntryType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_type_get_nick.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_type_get_nick.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,9 +106,9 @@ public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_toc_entry_type_get_nick = Interop.downcallHandle(
-            "gst_toc_entry_type_get_nick",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_toc_entry_type_get_nick",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

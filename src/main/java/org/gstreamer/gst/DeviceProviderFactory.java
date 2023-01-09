@@ -35,26 +35,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
     
     /**
      * Create a DeviceProviderFactory proxy instance for the provided memory address.
-     * <p>
-     * Because DeviceProviderFactory is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceProviderFactory(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected DeviceProviderFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceProviderFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderFactory(input, ownership);
+    public static final Marshal<Addressable, DeviceProviderFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderFactory(input);
     
     /**
      * Returns the device provider of the type defined by the given device
@@ -65,12 +56,13 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
     public @Nullable org.gstreamer.gst.DeviceProvider get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.DeviceProvider) Interop.register(RESULT, org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -82,8 +74,7 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
     public org.gtk.glib.Type getDeviceProviderType() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_device_provider_factory_get_device_provider_type.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_device_provider_factory_get_device_provider_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,15 +88,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * when there was no metadata with the given {@code key}.
      */
     public @Nullable java.lang.String getMetadata(java.lang.String key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_metadata.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(key, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_metadata.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(key, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -114,14 +107,15 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * metadata. Free with g_strfreev() when no longer needed.
      */
     public @Nullable PointerString getMetadataKeys() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_metadata_keys.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_metadata_keys.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -131,15 +125,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return {@code true} if {@code factory} matches or if {@code classes} is {@code null}.
      */
     public boolean hasClasses(@Nullable java.lang.String classes) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_device_provider_factory_has_classes.invokeExact(
-                    handle(),
-                    (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_device_provider_factory_has_classes.invokeExact(
+                        handle(),
+                        (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -149,15 +145,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return {@code true} if {@code factory} matches.
      */
     public boolean hasClassesv(@Nullable java.lang.String[] classes) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_device_provider_factory_has_classesv.invokeExact(
-                    handle(),
-                    (Addressable) (classes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(classes, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_device_provider_factory_has_classesv.invokeExact(
+                        handle(),
+                        (Addressable) (classes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(classes, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,14 +180,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * found, {@code null} otherwise
      */
     public static @Nullable org.gstreamer.gst.DeviceProviderFactory find(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_find.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_find.invokeExact(Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.DeviceProviderFactory) Interop.register(RESULT, org.gstreamer.gst.DeviceProviderFactory.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.DeviceProviderFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProviderFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -200,14 +201,17 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * if unable to create device provider
      */
     public static @Nullable org.gstreamer.gst.DeviceProvider getByName(java.lang.String factoryname) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_by_name.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_by_name.invokeExact(Marshal.stringToAddress.marshal(factoryname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.DeviceProvider) Interop.register(RESULT, org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -220,12 +224,13 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
     public static org.gtk.glib.List listGetDeviceProviders(org.gstreamer.gst.Rank minrank) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_list_get_device_providers.invokeExact(
-                    minrank.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_list_get_device_providers.invokeExact(minrank.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -244,6 +249,9 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      */
     public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -268,63 +276,71 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_device_provider_factory_get = Interop.downcallHandle(
-            "gst_device_provider_factory_get",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_get",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_get_device_provider_type = Interop.downcallHandle(
-            "gst_device_provider_factory_get_device_provider_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_get_device_provider_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_get_metadata = Interop.downcallHandle(
-            "gst_device_provider_factory_get_metadata",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_get_metadata",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_get_metadata_keys = Interop.downcallHandle(
-            "gst_device_provider_factory_get_metadata_keys",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_get_metadata_keys",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_has_classes = Interop.downcallHandle(
-            "gst_device_provider_factory_has_classes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_has_classes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_has_classesv = Interop.downcallHandle(
-            "gst_device_provider_factory_has_classesv",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_has_classesv",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_get_type = Interop.downcallHandle(
-            "gst_device_provider_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_device_provider_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_find = Interop.downcallHandle(
-            "gst_device_provider_factory_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_get_by_name = Interop.downcallHandle(
-            "gst_device_provider_factory_get_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_device_provider_factory_get_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_device_provider_factory_list_get_device_providers = Interop.downcallHandle(
-            "gst_device_provider_factory_list_get_device_providers",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_device_provider_factory_list_get_device_providers",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_device_provider_factory_get_type != null;
     }
 }

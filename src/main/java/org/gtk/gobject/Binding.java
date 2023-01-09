@@ -102,14 +102,16 @@ public class Binding extends org.gtk.gobject.GObject {
     /**
      * Create a Binding proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Binding(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Binding(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Binding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Binding(input, ownership);
+    public static final Marshal<Addressable, Binding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Binding(input);
     
     /**
      * Retrieves the {@link GObject} instance used as the source of the binding.
@@ -123,12 +125,13 @@ public class Binding extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -143,12 +146,13 @@ public class Binding extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject dupTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -158,8 +162,7 @@ public class Binding extends org.gtk.gobject.GObject {
     public org.gtk.gobject.BindingFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,12 +188,11 @@ public class Binding extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -201,8 +203,7 @@ public class Binding extends org.gtk.gobject.GObject {
     public java.lang.String getSourceProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,12 +229,11 @@ public class Binding extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gobject.GObject getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) Interop.register(RESULT, org.gtk.gobject.GObject.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -244,8 +244,7 @@ public class Binding extends org.gtk.gobject.GObject {
     public java.lang.String getTargetProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,8 +266,7 @@ public class Binding extends org.gtk.gobject.GObject {
      */
     public void unbind() {
         try {
-            DowncallHandles.g_binding_unbind.invokeExact(
-                    handle());
+            DowncallHandles.g_binding_unbind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -304,6 +302,9 @@ public class Binding extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -391,57 +392,65 @@ public class Binding extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
-            "g_binding_dup_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_dup_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
-            "g_binding_dup_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_dup_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
-            "g_binding_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_source = Interop.downcallHandle(
-            "g_binding_get_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_get_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
-            "g_binding_get_source_property",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_get_source_property",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_target = Interop.downcallHandle(
-            "g_binding_get_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_get_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
-            "g_binding_get_target_property",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_get_target_property",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_unbind = Interop.downcallHandle(
-            "g_binding_unbind",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_binding_unbind",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_binding_get_type = Interop.downcallHandle(
-            "g_binding_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_binding_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_binding_get_type != null;
     }
 }

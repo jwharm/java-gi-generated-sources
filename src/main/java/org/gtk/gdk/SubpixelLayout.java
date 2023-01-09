@@ -10,26 +10,32 @@ import org.jetbrains.annotations.*;
  * of physical pixels on an output device are laid out.
  */
 public enum SubpixelLayout implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The layout is not known
      */
     UNKNOWN(0),
+    
     /**
      * Not organized in this way
      */
     NONE(1),
+    
     /**
      * The layout is horizontal, the order is RGB
      */
     HORIZONTAL_RGB(2),
+    
     /**
      * The layout is horizontal, the order is BGR
      */
     HORIZONTAL_BGR(3),
+    
     /**
      * The layout is vertical, the order is RGB
      */
     VERTICAL_RGB(4),
+    
     /**
      * The layout is vertical, the order is BGR
      */
@@ -38,15 +44,29 @@ public enum SubpixelLayout implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkSubpixelLayout";
     
     private final int value;
+    
+    /**
+     * Create a new SubpixelLayout for the provided value
+     * @param numeric value the enum value
+     */
     SubpixelLayout(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SubpixelLayout for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SubpixelLayout of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

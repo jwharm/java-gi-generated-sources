@@ -51,26 +51,17 @@ public class AudioSink extends org.gstreamer.audio.AudioBaseSink {
     
     /**
      * Create a AudioSink proxy instance for the provided memory address.
-     * <p>
-     * Because AudioSink is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioSink(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AudioSink(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioSink(input, ownership);
+    public static final Marshal<Addressable, AudioSink> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioSink(input);
     
     /**
      * Get the gtype
@@ -102,6 +93,9 @@ public class AudioSink extends org.gstreamer.audio.AudioBaseSink {
      */
     public static class Builder extends org.gstreamer.audio.AudioBaseSink.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -126,9 +120,17 @@ public class AudioSink extends org.gstreamer.audio.AudioBaseSink {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_sink_get_type = Interop.downcallHandle(
-            "gst_audio_sink_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_sink_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_audio_sink_get_type != null;
     }
 }

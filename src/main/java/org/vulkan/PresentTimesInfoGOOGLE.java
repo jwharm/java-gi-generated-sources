@@ -29,8 +29,8 @@ public class PresentTimesInfoGOOGLE extends Struct {
      * @return A new, uninitialized @{link PresentTimesInfoGOOGLE}
      */
     public static PresentTimesInfoGOOGLE allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PresentTimesInfoGOOGLE newInstance = new PresentTimesInfoGOOGLE(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PresentTimesInfoGOOGLE newInstance = new PresentTimesInfoGOOGLE(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PresentTimesInfoGOOGLE extends Struct {
     /**
      * Create a PresentTimesInfoGOOGLE proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PresentTimesInfoGOOGLE(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PresentTimesInfoGOOGLE(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PresentTimesInfoGOOGLE> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PresentTimesInfoGOOGLE(input, ownership);
+    public static final Marshal<Addressable, PresentTimesInfoGOOGLE> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PresentTimesInfoGOOGLE(input);
 }

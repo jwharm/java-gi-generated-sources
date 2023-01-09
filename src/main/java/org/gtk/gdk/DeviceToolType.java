@@ -10,34 +10,42 @@ import org.jetbrains.annotations.*;
  * airbrush, pencil, etc.
  */
 public enum DeviceToolType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Tool is of an unknown type.
      */
     UNKNOWN(0),
+    
     /**
      * Tool is a standard tablet stylus.
      */
     PEN(1),
+    
     /**
      * Tool is standard tablet eraser.
      */
     ERASER(2),
+    
     /**
      * Tool is a brush stylus.
      */
     BRUSH(3),
+    
     /**
      * Tool is a pencil stylus.
      */
     PENCIL(4),
+    
     /**
      * Tool is an airbrush stylus.
      */
     AIRBRUSH(5),
+    
     /**
      * Tool is a mouse.
      */
     MOUSE(6),
+    
     /**
      * Tool is a lens cursor.
      */
@@ -46,15 +54,29 @@ public enum DeviceToolType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GdkDeviceToolType";
     
     private final int value;
+    
+    /**
+     * Create a new DeviceToolType for the provided value
+     * @param numeric value the enum value
+     */
     DeviceToolType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DeviceToolType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DeviceToolType of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

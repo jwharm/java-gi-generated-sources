@@ -38,6 +38,9 @@ public class DBusSignalFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusSignalFlags MATCH_ARG0_PATH = new DBusSignalFlags(4);
     
+    /**
+     * Create a new DBusSignalFlags with the provided value
+     */
     public DBusSignalFlags(int value) {
         super(value);
     }

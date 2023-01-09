@@ -90,6 +90,9 @@ public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SpawnFlags STDIN_FROM_DEV_NULL = new SpawnFlags(2048);
     
+    /**
+     * Create a new SpawnFlags with the provided value
+     */
     public SpawnFlags(int value) {
         super(value);
     }

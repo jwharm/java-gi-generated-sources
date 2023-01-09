@@ -12,226 +12,282 @@ import org.jetbrains.annotations.*;
  * @version 1.3.3
  */
 public enum OtMathConstantT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * scriptPercentScaleDown
      */
     SCRIPT_PERCENT_SCALE_DOWN(0),
+    
     /**
      * scriptScriptPercentScaleDown
      */
     SCRIPT_SCRIPT_PERCENT_SCALE_DOWN(1),
+    
     /**
      * delimitedSubFormulaMinHeight
      */
     DELIMITED_SUB_FORMULA_MIN_HEIGHT(2),
+    
     /**
      * displayOperatorMinHeight
      */
     DISPLAY_OPERATOR_MIN_HEIGHT(3),
+    
     /**
      * mathLeading
      */
     MATH_LEADING(4),
+    
     /**
      * axisHeight
      */
     AXIS_HEIGHT(5),
+    
     /**
      * accentBaseHeight
      */
     ACCENT_BASE_HEIGHT(6),
+    
     /**
      * flattenedAccentBaseHeight
      */
     FLATTENED_ACCENT_BASE_HEIGHT(7),
+    
     /**
      * subscriptShiftDown
      */
     SUBSCRIPT_SHIFT_DOWN(8),
+    
     /**
      * subscriptTopMax
      */
     SUBSCRIPT_TOP_MAX(9),
+    
     /**
      * subscriptBaselineDropMin
      */
     SUBSCRIPT_BASELINE_DROP_MIN(10),
+    
     /**
      * superscriptShiftUp
      */
     SUPERSCRIPT_SHIFT_UP(11),
+    
     /**
      * superscriptShiftUpCramped
      */
     SUPERSCRIPT_SHIFT_UP_CRAMPED(12),
+    
     /**
      * superscriptBottomMin
      */
     SUPERSCRIPT_BOTTOM_MIN(13),
+    
     /**
      * superscriptBaselineDropMax
      */
     SUPERSCRIPT_BASELINE_DROP_MAX(14),
+    
     /**
      * subSuperscriptGapMin
      */
     SUB_SUPERSCRIPT_GAP_MIN(15),
+    
     /**
      * superscriptBottomMaxWithSubscript
      */
     SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT(16),
+    
     /**
      * spaceAfterScript
      */
     SPACE_AFTER_SCRIPT(17),
+    
     /**
      * upperLimitGapMin
      */
     UPPER_LIMIT_GAP_MIN(18),
+    
     /**
      * upperLimitBaselineRiseMin
      */
     UPPER_LIMIT_BASELINE_RISE_MIN(19),
+    
     /**
      * lowerLimitGapMin
      */
     LOWER_LIMIT_GAP_MIN(20),
+    
     /**
      * lowerLimitBaselineDropMin
      */
     LOWER_LIMIT_BASELINE_DROP_MIN(21),
+    
     /**
      * stackTopShiftUp
      */
     STACK_TOP_SHIFT_UP(22),
+    
     /**
      * stackTopDisplayStyleShiftUp
      */
     STACK_TOP_DISPLAY_STYLE_SHIFT_UP(23),
+    
     /**
      * stackBottomShiftDown
      */
     STACK_BOTTOM_SHIFT_DOWN(24),
+    
     /**
      * stackBottomDisplayStyleShiftDown
      */
     STACK_BOTTOM_DISPLAY_STYLE_SHIFT_DOWN(25),
+    
     /**
      * stackGapMin
      */
     STACK_GAP_MIN(26),
+    
     /**
      * stackDisplayStyleGapMin
      */
     STACK_DISPLAY_STYLE_GAP_MIN(27),
+    
     /**
      * stretchStackTopShiftUp
      */
     STRETCH_STACK_TOP_SHIFT_UP(28),
+    
     /**
      * stretchStackBottomShiftDown
      */
     STRETCH_STACK_BOTTOM_SHIFT_DOWN(29),
+    
     /**
      * stretchStackGapAboveMin
      */
     STRETCH_STACK_GAP_ABOVE_MIN(30),
+    
     /**
      * stretchStackGapBelowMin
      */
     STRETCH_STACK_GAP_BELOW_MIN(31),
+    
     /**
      * fractionNumeratorShiftUp
      */
     FRACTION_NUMERATOR_SHIFT_UP(32),
+    
     /**
      * fractionNumeratorDisplayStyleShiftUp
      */
     FRACTION_NUMERATOR_DISPLAY_STYLE_SHIFT_UP(33),
+    
     /**
      * fractionDenominatorShiftDown
      */
     FRACTION_DENOMINATOR_SHIFT_DOWN(34),
+    
     /**
      * fractionDenominatorDisplayStyleShiftDown
      */
     FRACTION_DENOMINATOR_DISPLAY_STYLE_SHIFT_DOWN(35),
+    
     /**
      * fractionNumeratorGapMin
      */
     FRACTION_NUMERATOR_GAP_MIN(36),
+    
     /**
      * fractionNumDisplayStyleGapMin
      */
     FRACTION_NUM_DISPLAY_STYLE_GAP_MIN(37),
+    
     /**
      * fractionRuleThickness
      */
     FRACTION_RULE_THICKNESS(38),
+    
     /**
      * fractionDenominatorGapMin
      */
     FRACTION_DENOMINATOR_GAP_MIN(39),
+    
     /**
      * fractionDenomDisplayStyleGapMin
      */
     FRACTION_DENOM_DISPLAY_STYLE_GAP_MIN(40),
+    
     /**
      * skewedFractionHorizontalGap
      */
     SKEWED_FRACTION_HORIZONTAL_GAP(41),
+    
     /**
      * skewedFractionVerticalGap
      */
     SKEWED_FRACTION_VERTICAL_GAP(42),
+    
     /**
      * overbarVerticalGap
      */
     OVERBAR_VERTICAL_GAP(43),
+    
     /**
      * overbarRuleThickness
      */
     OVERBAR_RULE_THICKNESS(44),
+    
     /**
      * overbarExtraAscender
      */
     OVERBAR_EXTRA_ASCENDER(45),
+    
     /**
      * underbarVerticalGap
      */
     UNDERBAR_VERTICAL_GAP(46),
+    
     /**
      * underbarRuleThickness
      */
     UNDERBAR_RULE_THICKNESS(47),
+    
     /**
      * underbarExtraDescender
      */
     UNDERBAR_EXTRA_DESCENDER(48),
+    
     /**
      * radicalVerticalGap
      */
     RADICAL_VERTICAL_GAP(49),
+    
     /**
      * radicalDisplayStyleVerticalGap
      */
     RADICAL_DISPLAY_STYLE_VERTICAL_GAP(50),
+    
     /**
      * radicalRuleThickness
      */
     RADICAL_RULE_THICKNESS(51),
+    
     /**
      * radicalExtraAscender
      */
     RADICAL_EXTRA_ASCENDER(52),
+    
     /**
      * radicalKernBeforeDegree
      */
     RADICAL_KERN_BEFORE_DEGREE(53),
+    
     /**
      * radicalKernAfterDegree
      */
     RADICAL_KERN_AFTER_DEGREE(54),
+    
     /**
      * radicalDegreeBottomRaisePercent
      */
@@ -240,15 +296,29 @@ public enum OtMathConstantT implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "hb_ot_math_constant_t";
     
     private final int value;
+    
+    /**
+     * Create a new OtMathConstantT for the provided value
+     * @param numeric value the enum value
+     */
     OtMathConstantT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new OtMathConstantT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static OtMathConstantT of(int value) {
         return switch (value) {
             case 0 -> SCRIPT_PERCENT_SCALE_DOWN;

@@ -36,14 +36,16 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     /**
      * Create a IMMulticontext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IMMulticontext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IMMulticontext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IMMulticontext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMMulticontext(input, ownership);
+    public static final Marshal<Addressable, IMMulticontext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IMMulticontext(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -59,7 +61,8 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * Creates a new {@code GtkIMMulticontext}.
      */
     public IMMulticontext() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -69,8 +72,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     public java.lang.String getContextId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,12 +91,14 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * @param contextId the id to use
      */
     public void setContextId(@Nullable java.lang.String contextId) {
-        try {
-            DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(
-                    handle(),
-                    (Addressable) (contextId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(contextId, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(
+                        handle(),
+                        (Addressable) (contextId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(contextId, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -128,6 +132,9 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      */
     public static class Builder extends org.gtk.gtk.IMContext.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -152,27 +159,35 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
-            "gtk_im_multicontext_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_multicontext_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
-            "gtk_im_multicontext_get_context_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_multicontext_get_context_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
-            "gtk_im_multicontext_set_context_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_im_multicontext_set_context_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_im_multicontext_get_type = Interop.downcallHandle(
-            "gtk_im_multicontext_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_im_multicontext_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_im_multicontext_get_type != null;
     }
 }

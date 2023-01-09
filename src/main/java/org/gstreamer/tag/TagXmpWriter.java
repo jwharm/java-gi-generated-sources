@@ -15,8 +15,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagXmpWriterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterImpl(input, ownership);
+    public static final Marshal<Addressable, TagXmpWriterImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterImpl(input);
     
     /**
      * Adds all available XMP schemas to the configuration. Meaning that
@@ -24,8 +27,7 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      */
     default void addAllSchemas() {
         try {
-            DowncallHandles.gst_tag_xmp_writer_add_all_schemas.invokeExact(
-                    handle());
+            DowncallHandles.gst_tag_xmp_writer_add_all_schemas.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -36,12 +38,14 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * @param schema the schema to be added
      */
     default void addSchema(java.lang.String schema) {
-        try {
-            DowncallHandles.gst_tag_xmp_writer_add_schema.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(schema, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_xmp_writer_add_schema.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(schema, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -51,15 +55,17 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if it is going to be used
      */
     default boolean hasSchema(java.lang.String schema) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_tag_xmp_writer_has_schema.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(schema, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_tag_xmp_writer_has_schema.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(schema, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -68,8 +74,7 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      */
     default void removeAllSchemas() {
         try {
-            DowncallHandles.gst_tag_xmp_writer_remove_all_schemas.invokeExact(
-                    handle());
+            DowncallHandles.gst_tag_xmp_writer_remove_all_schemas.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,12 +86,14 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * @param schema the schema to remove
      */
     default void removeSchema(java.lang.String schema) {
-        try {
-            DowncallHandles.gst_tag_xmp_writer_remove_schema.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(schema, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_xmp_writer_remove_schema.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(schema, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -100,7 +107,9 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -122,62 +131,77 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_add_all_schemas = Interop.downcallHandle(
-            "gst_tag_xmp_writer_add_all_schemas",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_xmp_writer_add_all_schemas",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_add_schema = Interop.downcallHandle(
-            "gst_tag_xmp_writer_add_schema",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_xmp_writer_add_schema",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_has_schema = Interop.downcallHandle(
-            "gst_tag_xmp_writer_has_schema",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_xmp_writer_has_schema",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_remove_all_schemas = Interop.downcallHandle(
-            "gst_tag_xmp_writer_remove_all_schemas",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_xmp_writer_remove_all_schemas",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_remove_schema = Interop.downcallHandle(
-            "gst_tag_xmp_writer_remove_schema",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_xmp_writer_remove_schema",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_tag_list_to_xmp_buffer = Interop.downcallHandle(
-            "gst_tag_xmp_writer_tag_list_to_xmp_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_xmp_writer_tag_list_to_xmp_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_xmp_writer_get_type = Interop.downcallHandle(
-            "gst_tag_xmp_writer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_tag_xmp_writer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TagXmpWriterImpl type represents a native instance of the TagXmpWriter interface.
+     */
     class TagXmpWriterImpl extends org.gtk.gobject.GObject implements TagXmpWriter {
         
         static {
             GstTag.javagi$ensureInitialized();
         }
         
-        public TagXmpWriterImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TagXmpWriter for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TagXmpWriterImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_tag_xmp_writer_get_type != null;
     }
 }

@@ -42,26 +42,17 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     
     /**
      * Create a PreferencesWindow proxy instance for the provided memory address.
-     * <p>
-     * Because PreferencesWindow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PreferencesWindow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected PreferencesWindow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PreferencesWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesWindow(input, ownership);
+    public static final Marshal<Addressable, PreferencesWindow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesWindow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -77,7 +68,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      * Creates a new {@code AdwPreferencesWindow}.
      */
     public PreferencesWindow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -118,8 +111,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public void closeSubpage() {
         try {
-            DowncallHandles.adw_preferences_window_close_subpage.invokeExact(
-                    handle());
+            DowncallHandles.adw_preferences_window_close_subpage.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,8 +124,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public boolean getCanNavigateBack() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_window_get_can_navigate_back.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_can_navigate_back.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,8 +138,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public boolean getSearchEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_preferences_window_get_search_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_search_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,12 +152,11 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public @Nullable org.gnome.adw.PreferencesPage getVisiblePage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.PreferencesPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.PreferencesPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.PreferencesPage) Interop.register(RESULT, org.gnome.adw.PreferencesPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -177,8 +166,7 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     public @Nullable java.lang.String getVisiblePageName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,12 +265,14 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      * @param name the name of the page to make visible
      */
     public void setVisiblePageName(java.lang.String name) {
-        try {
-            DowncallHandles.adw_preferences_window_set_visible_page_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_preferences_window_set_visible_page_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -316,6 +306,9 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
      */
     public static class Builder extends org.gnome.adw.Window.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -386,93 +379,101 @@ public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle adw_preferences_window_new = Interop.downcallHandle(
-            "adw_preferences_window_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_add = Interop.downcallHandle(
-            "adw_preferences_window_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_add_toast = Interop.downcallHandle(
-            "adw_preferences_window_add_toast",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_add_toast",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_close_subpage = Interop.downcallHandle(
-            "adw_preferences_window_close_subpage",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_close_subpage",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_get_can_navigate_back = Interop.downcallHandle(
-            "adw_preferences_window_get_can_navigate_back",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_get_can_navigate_back",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_get_search_enabled = Interop.downcallHandle(
-            "adw_preferences_window_get_search_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_get_search_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page = Interop.downcallHandle(
-            "adw_preferences_window_get_visible_page",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_get_visible_page",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_get_visible_page_name = Interop.downcallHandle(
-            "adw_preferences_window_get_visible_page_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_get_visible_page_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_present_subpage = Interop.downcallHandle(
-            "adw_preferences_window_present_subpage",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_present_subpage",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_remove = Interop.downcallHandle(
-            "adw_preferences_window_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_set_can_navigate_back = Interop.downcallHandle(
-            "adw_preferences_window_set_can_navigate_back",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_preferences_window_set_can_navigate_back",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_set_search_enabled = Interop.downcallHandle(
-            "adw_preferences_window_set_search_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_preferences_window_set_search_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page = Interop.downcallHandle(
-            "adw_preferences_window_set_visible_page",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_set_visible_page",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_set_visible_page_name = Interop.downcallHandle(
-            "adw_preferences_window_set_visible_page_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_preferences_window_set_visible_page_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_preferences_window_get_type = Interop.downcallHandle(
-            "adw_preferences_window_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_preferences_window_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_preferences_window_get_type != null;
     }
 }

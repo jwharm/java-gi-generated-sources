@@ -29,8 +29,8 @@ public class PhysicalDeviceSamplerFilterMinmaxPropertiesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceSamplerFilterMinmaxPropertiesEXT}
      */
     public static PhysicalDeviceSamplerFilterMinmaxPropertiesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceSamplerFilterMinmaxPropertiesEXT newInstance = new PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceSamplerFilterMinmaxPropertiesEXT newInstance = new PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceSamplerFilterMinmaxPropertiesEXT extends Struct {
     /**
      * Create a PhysicalDeviceSamplerFilterMinmaxPropertiesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceSamplerFilterMinmaxPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceSamplerFilterMinmaxPropertiesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceSamplerFilterMinmaxPropertiesEXT(input);
 }

@@ -39,32 +39,22 @@ public class GLBufferPool extends org.gstreamer.gst.BufferPool {
     
     /**
      * Create a GLBufferPool proxy instance for the provided memory address.
-     * <p>
-     * Because GLBufferPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLBufferPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLBufferPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLBufferPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferPool(input, ownership);
+    public static final Marshal<Addressable, GLBufferPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferPool(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_buffer_pool_new.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_buffer_pool_new.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +62,9 @@ public class GLBufferPool extends org.gstreamer.gst.BufferPool {
     }
     
     public GLBufferPool(org.gstreamer.gl.GLContext context) {
-        super(constructNew(context), Ownership.NONE);
+        super(constructNew(context));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -85,12 +77,13 @@ public class GLBufferPool extends org.gstreamer.gst.BufferPool {
     public org.gstreamer.gl.GLAllocationParams getGlAllocationParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_buffer_pool_get_gl_allocation_params.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_buffer_pool_get_gl_allocation_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -123,6 +116,9 @@ public class GLBufferPool extends org.gstreamer.gst.BufferPool {
      */
     public static class Builder extends org.gstreamer.gst.BufferPool.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -147,21 +143,29 @@ public class GLBufferPool extends org.gstreamer.gst.BufferPool {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_buffer_pool_new = Interop.downcallHandle(
-            "gst_gl_buffer_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_buffer_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_buffer_pool_get_gl_allocation_params = Interop.downcallHandle(
-            "gst_gl_buffer_pool_get_gl_allocation_params",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_buffer_pool_get_gl_allocation_params",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_buffer_pool_get_type = Interop.downcallHandle(
-            "gst_gl_buffer_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_buffer_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_buffer_pool_get_type != null;
     }
 }

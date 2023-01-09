@@ -11,19 +11,40 @@ import org.jetbrains.annotations.*;
  * <p>
  * See {@link FontChooser#setFilterFunc}.
  */
+/**
+ * Functional interface declaration of the {@code FontFilterFunc} callback.
+ */
 @FunctionalInterface
 public interface FontFilterFunc {
-    boolean run(org.pango.FontFamily family, org.pango.FontFace face);
 
+    /**
+     * The type of function that is used for deciding what fonts get
+     * shown in a {@code GtkFontChooser}.
+     * <p>
+     * See {@link FontChooser#setFilterFunc}.
+     */
+    boolean run(org.pango.FontFamily family, org.pango.FontFace face);
+    
     @ApiStatus.Internal default int upcall(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
-        var RESULT = run((org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(family)), org.pango.FontFamily.fromAddress).marshal(family, Ownership.NONE), (org.pango.FontFace) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(face)), org.pango.FontFace.fromAddress).marshal(face, Ownership.NONE));
+        var RESULT = run((org.pango.FontFamily) Interop.register(family, org.pango.FontFamily.fromAddress).marshal(family, null), (org.pango.FontFace) Interop.register(face, org.pango.FontFace.fromAddress).marshal(face, null));
         return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FontFilterFunc.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), FontFilterFunc.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

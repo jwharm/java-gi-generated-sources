@@ -29,8 +29,8 @@ public class DescriptorImageInfo extends Struct {
      * @return A new, uninitialized @{link DescriptorImageInfo}
      */
     public static DescriptorImageInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DescriptorImageInfo newInstance = new DescriptorImageInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DescriptorImageInfo newInstance = new DescriptorImageInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DescriptorImageInfo extends Struct {
     /**
      * Create a DescriptorImageInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DescriptorImageInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DescriptorImageInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DescriptorImageInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorImageInfo(input, ownership);
+    public static final Marshal<Addressable, DescriptorImageInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorImageInfo(input);
 }

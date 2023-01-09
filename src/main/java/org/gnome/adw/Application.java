@@ -59,25 +59,29 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     /**
      * Create a Application proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Application(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Application(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Application> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Application(input, ownership);
+    public static final Marshal<Addressable, Application> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Application(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_new.invokeExact(
-                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(applicationId, null)),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.adw_application_new.invokeExact(
+                        (Addressable) (applicationId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(applicationId, SCOPE)),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -92,7 +96,8 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * @param flags The application flags
      */
     public Application(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
-        super(constructNew(applicationId, flags), Ownership.FULL);
+        super(constructNew(applicationId, flags));
+        this.takeOwnership();
     }
     
     /**
@@ -105,12 +110,11 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     public org.gnome.adw.StyleManager getStyleManager() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_get_style_manager.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_get_style_manager.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.StyleManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.StyleManager) Interop.register(RESULT, org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -143,6 +147,9 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      */
     public static class Builder extends org.gtk.gtk.Application.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -181,21 +188,29 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     private static class DowncallHandles {
         
         private static final MethodHandle adw_application_new = Interop.downcallHandle(
-            "adw_application_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_application_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
-            "adw_application_get_style_manager",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_application_get_style_manager",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_application_get_type = Interop.downcallHandle(
-            "adw_application_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_application_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_application_get_type != null;
     }
 }

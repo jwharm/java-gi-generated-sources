@@ -35,8 +35,8 @@ public class ParamSpecArray extends Struct {
      * @return A new, uninitialized @{link ParamSpecArray}
      */
     public static ParamSpecArray allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParamSpecArray newInstance = new ParamSpecArray(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ParamSpecArray newInstance = new ParamSpecArray(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class ParamSpecArray extends Struct {
      */
     public org.gtk.gobject.ParamSpec getParentInstance() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(((MemoryAddress) handle()).addOffset(OFFSET))), org.gtk.gobject.ParamSpec.fromAddress).marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return (org.gtk.gobject.ParamSpec) Interop.register(((MemoryAddress) handle()).addOffset(OFFSET), org.gtk.gobject.ParamSpec.fromAddress).marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,9 +55,11 @@ public class ParamSpecArray extends Struct {
      * @param parentInstance The new value of the field {@code parent_instance}
      */
     public void setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+        }
     }
     
     /**
@@ -65,10 +67,12 @@ public class ParamSpecArray extends Struct {
      * @return The value of the field {@code element_spec}
      */
     public org.gtk.gobject.ParamSpec getElementSpec() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gtk.gobject.ParamSpec) Interop.register(RESULT, org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -76,22 +80,26 @@ public class ParamSpecArray extends Struct {
      * @param elementSpec The new value of the field {@code element_spec}
      */
     public void setElementSpec(org.gtk.gobject.ParamSpec elementSpec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementSpec == null ? MemoryAddress.NULL : elementSpec.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementSpec == null ? MemoryAddress.NULL : elementSpec.handle()));
+        }
     }
     
     /**
      * Create a ParamSpecArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecArray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecArray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecArray(input, ownership);
+    public static final Marshal<Addressable, ParamSpecArray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecArray(input);
     
     /**
      * A {@link ParamSpecArray.Builder} object constructs a {@link ParamSpecArray} 
@@ -115,7 +123,7 @@ public class ParamSpecArray extends Struct {
             struct = ParamSpecArray.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ParamSpecArray} struct.
          * @return A new instance of {@code ParamSpecArray} with the fields 
          *         that were set in the Builder object.
@@ -130,10 +138,12 @@ public class ParamSpecArray extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+                return this;
+            }
         }
         
         /**
@@ -142,10 +152,12 @@ public class ParamSpecArray extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setElementSpec(org.gtk.gobject.ParamSpec elementSpec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (elementSpec == null ? MemoryAddress.NULL : elementSpec.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("element_spec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (elementSpec == null ? MemoryAddress.NULL : elementSpec.handle()));
+                return this;
+            }
         }
     }
 }

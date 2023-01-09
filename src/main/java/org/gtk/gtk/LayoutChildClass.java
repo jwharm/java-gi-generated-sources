@@ -31,8 +31,8 @@ public class LayoutChildClass extends Struct {
      * @return A new, uninitialized @{link LayoutChildClass}
      */
     public static LayoutChildClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutChildClass newInstance = new LayoutChildClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LayoutChildClass newInstance = new LayoutChildClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -40,14 +40,16 @@ public class LayoutChildClass extends Struct {
     /**
      * Create a LayoutChildClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutChildClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutChildClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutChildClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutChildClass(input, ownership);
+    public static final Marshal<Addressable, LayoutChildClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutChildClass(input);
     
     /**
      * A {@link LayoutChildClass.Builder} object constructs a {@link LayoutChildClass} 
@@ -71,7 +73,7 @@ public class LayoutChildClass extends Struct {
             struct = LayoutChildClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LayoutChildClass} struct.
          * @return A new instance of {@code LayoutChildClass} with the fields 
          *         that were set in the Builder object.
@@ -81,10 +83,12 @@ public class LayoutChildClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

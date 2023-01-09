@@ -58,6 +58,9 @@ public class SegmentFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SegmentFlags TRICKMODE_NO_AUDIO = new SegmentFlags(256);
     
+    /**
+     * Create a new SegmentFlags with the provided value
+     */
     public SegmentFlags(int value) {
         super(value);
     }

@@ -41,8 +41,8 @@ public class RTSPMessage extends Struct {
      * @return A new, uninitialized @{link RTSPMessage}
      */
     public static RTSPMessage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPMessage newInstance = new RTSPMessage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPMessage newInstance = new RTSPMessage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class RTSPMessage extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gstreamer.rtsp.RTSPMsgType getType_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.rtsp.RTSPMsgType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.rtsp.RTSPMsgType.of(RESULT);
+        }
     }
     
     /**
@@ -63,22 +65,26 @@ public class RTSPMessage extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gstreamer.rtsp.RTSPMsgType type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+        }
     }
     
     /**
      * Create a RTSPMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPMessage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPMessage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPMessage(input, ownership);
+    public static final Marshal<Addressable, RTSPMessage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPMessage(input);
     
     /**
      * Add a header with key {@code field} and {@code value} to {@code msg}. This function takes a copy
@@ -88,16 +94,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult addHeader(org.gstreamer.rtsp.RTSPHeaderField field, java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_add_header.invokeExact(
-                    handle(),
-                    field.getValue(),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_add_header.invokeExact(
+                        handle(),
+                        field.getValue(),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -108,16 +116,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult addHeaderByName(java.lang.String header, java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_add_header_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(header, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_add_header_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(header, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -145,17 +155,19 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}
      */
     public org.gstreamer.rtsp.RTSPResult copy(Out<org.gstreamer.rtsp.RTSPMessage> copy) {
-        MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_copy.invokeExact(
-                    handle(),
-                    (Addressable) copyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment copyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_copy.invokeExact(
+                        handle(),
+                        (Addressable) copyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    copy.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        copy.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -165,8 +177,7 @@ public class RTSPMessage extends Struct {
     public org.gstreamer.rtsp.RTSPResult dump() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_dump.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_dump.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +191,7 @@ public class RTSPMessage extends Struct {
     public org.gstreamer.rtsp.RTSPResult free() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_free.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,20 +210,22 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult getBody(Out<byte[]> data, Out<Integer> size) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_get_body.invokeExact(
-                    handle(),
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_get_body.invokeExact(
+                        handle(),
+                        (Addressable) dataPOINTER.address(),
+                        (Addressable) sizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -227,17 +239,19 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult getBodyBuffer(Out<org.gstreamer.gst.Buffer> buffer) {
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_get_body_buffer.invokeExact(
-                    handle(),
-                    (Addressable) bufferPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufferPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_get_body_buffer.invokeExact(
+                        handle(),
+                        (Addressable) bufferPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -250,19 +264,21 @@ public class RTSPMessage extends Struct {
      * was not found.
      */
     public org.gstreamer.rtsp.RTSPResult getHeader(org.gstreamer.rtsp.RTSPHeaderField field, Out<java.lang.String> value, int indx) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_get_header.invokeExact(
-                    handle(),
-                    field.getValue(),
-                    (Addressable) valuePOINTER.address(),
-                    indx);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_get_header.invokeExact(
+                        handle(),
+                        field.getValue(),
+                        (Addressable) valuePOINTER.address(),
+                        indx);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -275,19 +291,21 @@ public class RTSPMessage extends Struct {
      * was not found.
      */
     public org.gstreamer.rtsp.RTSPResult getHeaderByName(java.lang.String header, Out<java.lang.String> value, int index) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_get_header_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(header, null),
-                    (Addressable) valuePOINTER.address(),
-                    index);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_get_header_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(header, SCOPE),
+                        (Addressable) valuePOINTER.address(),
+                        index);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -297,8 +315,7 @@ public class RTSPMessage extends Struct {
     public org.gstreamer.rtsp.RTSPMsgType getType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_get_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_get_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,8 +330,7 @@ public class RTSPMessage extends Struct {
     public boolean hasBodyBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_has_body_buffer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_has_body_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,8 +345,7 @@ public class RTSPMessage extends Struct {
     public org.gstreamer.rtsp.RTSPResult init() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_init.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,16 +377,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult initRequest(org.gstreamer.rtsp.RTSPMethod method, java.lang.String uri) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_init_request.invokeExact(
-                    handle(),
-                    method.getValue(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_init_request.invokeExact(
+                        handle(),
+                        method.getValue(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -387,17 +404,19 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult initResponse(org.gstreamer.rtsp.RTSPStatusCode code, @Nullable java.lang.String reason, @Nullable org.gstreamer.rtsp.RTSPMessage request) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_init_response.invokeExact(
-                    handle(),
-                    code.getValue(),
-                    (Addressable) (reason == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reason, null)),
-                    (Addressable) (request == null ? MemoryAddress.NULL : request.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_init_response.invokeExact(
+                        handle(),
+                        code.getValue(),
+                        (Addressable) (reason == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reason, SCOPE)),
+                        (Addressable) (request == null ? MemoryAddress.NULL : request.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -406,15 +425,17 @@ public class RTSPMessage extends Struct {
      * @return {@code null}-terminated array of GstRTSPAuthCredential or {@code null}.
      */
     public PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential> parseAuthCredentials(org.gstreamer.rtsp.RTSPHeaderField field) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_message_parse_auth_credentials.invokeExact(
-                    handle(),
-                    field.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_message_parse_auth_credentials.invokeExact(
+                        handle(),
+                        field.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential>(RESULT, org.gstreamer.rtsp.RTSPAuthCredential.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential>(RESULT, org.gstreamer.rtsp.RTSPAuthCredential.fromAddress);
     }
     
     /**
@@ -423,17 +444,19 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult parseData(Out<Byte> channel) {
-        MemorySegment channelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_parse_data.invokeExact(
-                    handle(),
-                    (Addressable) channelPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment channelPOINTER = SCOPE.allocate(Interop.valueLayout.C_BYTE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_parse_data.invokeExact(
+                        handle(),
+                        (Addressable) channelPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    channel.set(channelPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        channel.set(channelPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -448,23 +471,25 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult parseRequest(@Nullable Out<org.gstreamer.rtsp.RTSPMethod> method, @Nullable Out<java.lang.String> uri, @Nullable Out<org.gstreamer.rtsp.RTSPVersion> version) {
-        MemorySegment methodPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment versionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_parse_request.invokeExact(
-                    handle(),
-                    (Addressable) (method == null ? MemoryAddress.NULL : (Addressable) methodPOINTER.address()),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()),
-                    (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment methodPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment uriPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment versionPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_parse_request.invokeExact(
+                        handle(),
+                        (Addressable) (method == null ? MemoryAddress.NULL : (Addressable) methodPOINTER.address()),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()),
+                        (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (method != null) method.set(new org.gstreamer.rtsp.RTSPMethod(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        if (method != null) method.set(new org.gstreamer.rtsp.RTSPMethod(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -479,23 +504,25 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult parseResponse(@Nullable Out<org.gstreamer.rtsp.RTSPStatusCode> code, @Nullable Out<java.lang.String> reason, @Nullable Out<org.gstreamer.rtsp.RTSPVersion> version) {
-        MemorySegment codePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment reasonPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment versionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_parse_response.invokeExact(
-                    handle(),
-                    (Addressable) (code == null ? MemoryAddress.NULL : (Addressable) codePOINTER.address()),
-                    (Addressable) (reason == null ? MemoryAddress.NULL : (Addressable) reasonPOINTER.address()),
-                    (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment codePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment reasonPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment versionPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_parse_response.invokeExact(
+                        handle(),
+                        (Addressable) (code == null ? MemoryAddress.NULL : (Addressable) codePOINTER.address()),
+                        (Addressable) (reason == null ? MemoryAddress.NULL : (Addressable) reasonPOINTER.address()),
+                        (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (code != null) code.set(org.gstreamer.rtsp.RTSPStatusCode.of(codePOINTER.get(Interop.valueLayout.C_INT, 0)));
+                    if (reason != null) reason.set(Marshal.addressToString.marshal(reasonPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        if (code != null) code.set(org.gstreamer.rtsp.RTSPStatusCode.of(codePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        if (reason != null) reason.set(Marshal.addressToString.marshal(reasonPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -526,16 +553,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}
      */
     public org.gstreamer.rtsp.RTSPResult removeHeaderByName(java.lang.String header, int index) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_remove_header_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(header, null),
-                    index);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_remove_header_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(header, SCOPE),
+                        index);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -546,16 +575,18 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult setBody(byte[] data, int size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_set_body.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_set_body.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -584,20 +615,22 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult stealBody(Out<byte[]> data, Out<Integer> size) {
-        MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_steal_body.invokeExact(
-                    handle(),
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dataPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment sizePOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_steal_body.invokeExact(
+                        handle(),
+                        (Addressable) dataPOINTER.address(),
+                        (Addressable) sizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+            data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -611,17 +644,19 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult stealBodyBuffer(Out<org.gstreamer.gst.Buffer> buffer) {
-        MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_steal_body_buffer.invokeExact(
-                    handle(),
-                    (Addressable) bufferPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufferPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_steal_body_buffer.invokeExact(
+                        handle(),
+                        (Addressable) bufferPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -632,16 +667,18 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult takeBody(byte[] data, int size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_take_body.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_take_body.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -671,16 +708,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult takeHeader(org.gstreamer.rtsp.RTSPHeaderField field, java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_take_header.invokeExact(
-                    handle(),
-                    field.getValue(),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_take_header.invokeExact(
+                        handle(),
+                        field.getValue(),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -691,16 +730,18 @@ public class RTSPMessage extends Struct {
      * @return a {@link RTSPResult}.
      */
     public org.gstreamer.rtsp.RTSPResult takeHeaderByName(java.lang.String header, java.lang.String value) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_take_header_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(header, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_message_take_header_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(header, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -713,8 +754,7 @@ public class RTSPMessage extends Struct {
     public org.gstreamer.rtsp.RTSPResult unset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_message_unset.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_message_unset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,189 +764,189 @@ public class RTSPMessage extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_message_add_header = Interop.downcallHandle(
-            "gst_rtsp_message_add_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_add_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_add_header_by_name = Interop.downcallHandle(
-            "gst_rtsp_message_add_header_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_add_header_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_append_headers = Interop.downcallHandle(
-            "gst_rtsp_message_append_headers",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_append_headers",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_copy = Interop.downcallHandle(
-            "gst_rtsp_message_copy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_copy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_dump = Interop.downcallHandle(
-            "gst_rtsp_message_dump",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_dump",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_free = Interop.downcallHandle(
-            "gst_rtsp_message_free",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_free",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_get_body = Interop.downcallHandle(
-            "gst_rtsp_message_get_body",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_get_body",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_get_body_buffer = Interop.downcallHandle(
-            "gst_rtsp_message_get_body_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_get_body_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_get_header = Interop.downcallHandle(
-            "gst_rtsp_message_get_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_get_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_get_header_by_name = Interop.downcallHandle(
-            "gst_rtsp_message_get_header_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_get_header_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_get_type = Interop.downcallHandle(
-            "gst_rtsp_message_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_has_body_buffer = Interop.downcallHandle(
-            "gst_rtsp_message_has_body_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_has_body_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_init = Interop.downcallHandle(
-            "gst_rtsp_message_init",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_init",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_init_data = Interop.downcallHandle(
-            "gst_rtsp_message_init_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_rtsp_message_init_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_init_request = Interop.downcallHandle(
-            "gst_rtsp_message_init_request",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_init_request",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_init_response = Interop.downcallHandle(
-            "gst_rtsp_message_init_response",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_init_response",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_parse_auth_credentials = Interop.downcallHandle(
-            "gst_rtsp_message_parse_auth_credentials",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_parse_auth_credentials",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_parse_data = Interop.downcallHandle(
-            "gst_rtsp_message_parse_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_parse_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_parse_request = Interop.downcallHandle(
-            "gst_rtsp_message_parse_request",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_parse_request",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_parse_response = Interop.downcallHandle(
-            "gst_rtsp_message_parse_response",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_parse_response",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_remove_header = Interop.downcallHandle(
-            "gst_rtsp_message_remove_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_remove_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_remove_header_by_name = Interop.downcallHandle(
-            "gst_rtsp_message_remove_header_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_remove_header_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_set_body = Interop.downcallHandle(
-            "gst_rtsp_message_set_body",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_set_body",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_set_body_buffer = Interop.downcallHandle(
-            "gst_rtsp_message_set_body_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_set_body_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_steal_body = Interop.downcallHandle(
-            "gst_rtsp_message_steal_body",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_steal_body",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_steal_body_buffer = Interop.downcallHandle(
-            "gst_rtsp_message_steal_body_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_steal_body_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_take_body = Interop.downcallHandle(
-            "gst_rtsp_message_take_body",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_message_take_body",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_take_body_buffer = Interop.downcallHandle(
-            "gst_rtsp_message_take_body_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_take_body_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_take_header = Interop.downcallHandle(
-            "gst_rtsp_message_take_header",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_take_header",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_take_header_by_name = Interop.downcallHandle(
-            "gst_rtsp_message_take_header_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_take_header_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_message_unset = Interop.downcallHandle(
-            "gst_rtsp_message_unset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_message_unset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -932,7 +972,7 @@ public class RTSPMessage extends Struct {
             struct = RTSPMessage.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPMessage} struct.
          * @return A new instance of {@code RTSPMessage} with the fields 
          *         that were set in the Builder object.
@@ -947,45 +987,57 @@ public class RTSPMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gstreamer.rtsp.RTSPMsgType type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
+                return this;
+            }
         }
         
         public Builder setHdrFields(java.lang.foreign.MemoryAddress[] hdrFields) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hdr_fields"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hdrFields == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hdrFields, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hdr_fields"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (hdrFields == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hdrFields, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setBody(PointerByte body) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("body"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (body == null ? MemoryAddress.NULL : body.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("body"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (body == null ? MemoryAddress.NULL : body.handle()));
+                return this;
+            }
         }
         
         public Builder setBodySize(int bodySize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("body_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bodySize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("body_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bodySize);
+                return this;
+            }
         }
         
         public Builder setBodyBuffer(org.gstreamer.gst.Buffer bodyBuffer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("body_buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bodyBuffer == null ? MemoryAddress.NULL : bodyBuffer.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("body_buffer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bodyBuffer == null ? MemoryAddress.NULL : bodyBuffer.handle()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

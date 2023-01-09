@@ -29,6 +29,9 @@ public class OutputStreamSpliceFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final OutputStreamSpliceFlags CLOSE_TARGET = new OutputStreamSpliceFlags(2);
     
+    /**
+     * Create a new OutputStreamSpliceFlags with the provided value
+     */
     public OutputStreamSpliceFlags(int value) {
         super(value);
     }

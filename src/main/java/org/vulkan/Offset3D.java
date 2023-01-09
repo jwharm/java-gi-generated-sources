@@ -29,8 +29,8 @@ public class Offset3D extends Struct {
      * @return A new, uninitialized @{link Offset3D}
      */
     public static Offset3D allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Offset3D newInstance = new Offset3D(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Offset3D newInstance = new Offset3D(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Offset3D extends Struct {
     /**
      * Create a Offset3D proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Offset3D(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Offset3D(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Offset3D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Offset3D(input, ownership);
+    public static final Marshal<Addressable, Offset3D> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Offset3D(input);
 }

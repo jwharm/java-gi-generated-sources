@@ -11,14 +11,17 @@ import org.jetbrains.annotations.*;
  * @version 2.28
  */
 public enum TlsRehandshakeMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Never allow rehandshaking
      */
     NEVER(0),
+    
     /**
      * Allow safe rehandshaking only
      */
     SAFELY(1),
+    
     /**
      * Allow unsafe rehandshaking
      */
@@ -27,15 +30,29 @@ public enum TlsRehandshakeMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTlsRehandshakeMode";
     
     private final int value;
+    
+    /**
+     * Create a new TlsRehandshakeMode for the provided value
+     * @param numeric value the enum value
+     */
     TlsRehandshakeMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TlsRehandshakeMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TlsRehandshakeMode of(int value) {
         return switch (value) {
             case 0 -> NEVER;

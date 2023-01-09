@@ -42,6 +42,9 @@ public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield
      */
     public static final EventControllerScrollFlags BOTH_AXES = new EventControllerScrollFlags(3);
     
+    /**
+     * Create a new EventControllerScrollFlags with the provided value
+     */
     public EventControllerScrollFlags(int value) {
         super(value);
     }

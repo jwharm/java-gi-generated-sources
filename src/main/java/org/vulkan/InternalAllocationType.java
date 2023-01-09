@@ -29,8 +29,8 @@ public class InternalAllocationType extends Struct {
      * @return A new, uninitialized @{link InternalAllocationType}
      */
     public static InternalAllocationType allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InternalAllocationType newInstance = new InternalAllocationType(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InternalAllocationType newInstance = new InternalAllocationType(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class InternalAllocationType extends Struct {
     /**
      * Create a InternalAllocationType proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InternalAllocationType(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InternalAllocationType(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InternalAllocationType> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InternalAllocationType(input, ownership);
+    public static final Marshal<Addressable, InternalAllocationType> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InternalAllocationType(input);
 }

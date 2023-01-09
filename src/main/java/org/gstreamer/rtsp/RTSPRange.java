@@ -35,8 +35,8 @@ public class RTSPRange extends Struct {
      * @return A new, uninitialized @{link RTSPRange}
      */
     public static RTSPRange allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPRange newInstance = new RTSPRange(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPRange newInstance = new RTSPRange(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,10 +46,12 @@ public class RTSPRange extends Struct {
      * @return The value of the field {@code min}
      */
     public int getMin() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -57,9 +59,11 @@ public class RTSPRange extends Struct {
      * @param min The new value of the field {@code min}
      */
     public void setMin(int min) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), min);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), min);
+        }
     }
     
     /**
@@ -67,10 +71,12 @@ public class RTSPRange extends Struct {
      * @return The value of the field {@code max}
      */
     public int getMax() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -78,22 +84,26 @@ public class RTSPRange extends Struct {
      * @param max The new value of the field {@code max}
      */
     public void setMax(int max) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), max);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), max);
+        }
     }
     
     /**
      * Create a RTSPRange proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPRange(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPRange(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPRange> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPRange(input, ownership);
+    public static final Marshal<Addressable, RTSPRange> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPRange(input);
     
     /**
      * Converts the range in-place between different types of units.
@@ -121,8 +131,7 @@ public class RTSPRange extends Struct {
      */
     public static void free(org.gstreamer.rtsp.RTSPTimeRange range) {
         try {
-            DowncallHandles.gst_rtsp_range_free.invokeExact(
-                    range.handle());
+            DowncallHandles.gst_rtsp_range_free.invokeExact(range.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,20 +151,22 @@ public class RTSPRange extends Struct {
      * @return {@code true} on success.
      */
     public static boolean getTimes(org.gstreamer.rtsp.RTSPTimeRange range, org.gstreamer.gst.ClockTime min, org.gstreamer.gst.ClockTime max) {
-        MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_range_get_times.invokeExact(
-                    range.handle(),
-                    (Addressable) minPOINTER.address(),
-                    (Addressable) maxPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_range_get_times.invokeExact(
+                        range.handle(),
+                        (Addressable) minPOINTER.address(),
+                        (Addressable) maxPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -165,17 +176,19 @@ public class RTSPRange extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     public static org.gstreamer.rtsp.RTSPResult parse(java.lang.String rangestr, Out<org.gstreamer.rtsp.RTSPTimeRange> range) {
-        MemorySegment rangePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_range_parse.invokeExact(
-                    Marshal.stringToAddress.marshal(rangestr, null),
-                    (Addressable) rangePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rangePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_range_parse.invokeExact(
+                        Marshal.stringToAddress.marshal(rangestr, SCOPE),
+                        (Addressable) rangePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    range.set(org.gstreamer.rtsp.RTSPTimeRange.fromAddress.marshal(rangePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        range.set(org.gstreamer.rtsp.RTSPTimeRange.fromAddress.marshal(rangePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -186,8 +199,7 @@ public class RTSPRange extends Struct {
     public static java.lang.String toString(org.gstreamer.rtsp.RTSPTimeRange range) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_range_to_string.invokeExact(
-                    range.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_range_to_string.invokeExact(range.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,33 +209,33 @@ public class RTSPRange extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_range_convert_units = Interop.downcallHandle(
-            "gst_rtsp_range_convert_units",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_range_convert_units",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_range_free = Interop.downcallHandle(
-            "gst_rtsp_range_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_range_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_range_get_times = Interop.downcallHandle(
-            "gst_rtsp_range_get_times",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_range_get_times",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_range_parse = Interop.downcallHandle(
-            "gst_rtsp_range_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_range_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_range_to_string = Interop.downcallHandle(
-            "gst_rtsp_range_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_range_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -249,7 +261,7 @@ public class RTSPRange extends Struct {
             struct = RTSPRange.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RTSPRange} struct.
          * @return A new instance of {@code RTSPRange} with the fields 
          *         that were set in the Builder object.
@@ -264,10 +276,12 @@ public class RTSPRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMin(int min) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), min);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), min);
+                return this;
+            }
         }
         
         /**
@@ -276,10 +290,12 @@ public class RTSPRange extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMax(int max) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), max);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), max);
+                return this;
+            }
         }
     }
 }

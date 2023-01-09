@@ -36,8 +36,8 @@ public class ObjectConstructParam extends Struct {
      * @return A new, uninitialized @{link ObjectConstructParam}
      */
     public static ObjectConstructParam allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectConstructParam newInstance = new ObjectConstructParam(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ObjectConstructParam newInstance = new ObjectConstructParam(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class ObjectConstructParam extends Struct {
      * @return The value of the field {@code pspec}
      */
     public org.gtk.gobject.ParamSpec getPspec() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gtk.gobject.ParamSpec) Interop.register(RESULT, org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class ObjectConstructParam extends Struct {
      * @param pspec The new value of the field {@code pspec}
      */
     public void setPspec(org.gtk.gobject.ParamSpec pspec) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pspec == null ? MemoryAddress.NULL : pspec.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pspec == null ? MemoryAddress.NULL : pspec.handle()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class ObjectConstructParam extends Struct {
      * @return The value of the field {@code value}
      */
     public org.gtk.gobject.Value getValue() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class ObjectConstructParam extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(org.gtk.gobject.Value value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+        }
     }
     
     /**
      * Create a ObjectConstructParam proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ObjectConstructParam(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ObjectConstructParam(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ObjectConstructParam> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ObjectConstructParam(input, ownership);
+    public static final Marshal<Addressable, ObjectConstructParam> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ObjectConstructParam(input);
     
     /**
      * A {@link ObjectConstructParam.Builder} object constructs a {@link ObjectConstructParam} 
@@ -118,7 +128,7 @@ public class ObjectConstructParam extends Struct {
             struct = ObjectConstructParam.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ObjectConstructParam} struct.
          * @return A new instance of {@code ObjectConstructParam} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class ObjectConstructParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPspec(org.gtk.gobject.ParamSpec pspec) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pspec == null ? MemoryAddress.NULL : pspec.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pspec"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pspec == null ? MemoryAddress.NULL : pspec.handle()));
+                return this;
+            }
         }
         
         /**
@@ -145,10 +157,12 @@ public class ObjectConstructParam extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(org.gtk.gobject.Value value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+                return this;
+            }
         }
     }
 }

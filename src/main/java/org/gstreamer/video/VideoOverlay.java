@@ -264,8 +264,11 @@ import org.jetbrains.annotations.*;
  */
 public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoOverlayImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayImpl(input, ownership);
+    public static final Marshal<Addressable, VideoOverlayImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayImpl(input);
     
     /**
      * Tell an overlay that it has been exposed. This will redraw the current frame
@@ -273,8 +276,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
      */
     default void expose() {
         try {
-            DowncallHandles.gst_video_overlay_expose.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_overlay_expose.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,8 +326,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
      */
     default void prepareWindowHandle() {
         try {
-            DowncallHandles.gst_video_overlay_prepare_window_handle.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_overlay_prepare_window_handle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,76 +443,91 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_expose = Interop.downcallHandle(
-            "gst_video_overlay_expose",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_expose",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_got_window_handle = Interop.downcallHandle(
-            "gst_video_overlay_got_window_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_video_overlay_got_window_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_handle_events = Interop.downcallHandle(
-            "gst_video_overlay_handle_events",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_handle_events",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_prepare_window_handle = Interop.downcallHandle(
-            "gst_video_overlay_prepare_window_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_prepare_window_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_set_render_rectangle = Interop.downcallHandle(
-            "gst_video_overlay_set_render_rectangle",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_set_render_rectangle",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_set_window_handle = Interop.downcallHandle(
-            "gst_video_overlay_set_window_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_video_overlay_set_window_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_get_type = Interop.downcallHandle(
-            "gst_video_overlay_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_overlay_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_install_properties = Interop.downcallHandle(
-            "gst_video_overlay_install_properties",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_overlay_install_properties",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_video_overlay_set_property = Interop.downcallHandle(
-            "gst_video_overlay_set_property",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_overlay_set_property",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
+    /**
+     * The VideoOverlayImpl type represents a native instance of the VideoOverlay interface.
+     */
     class VideoOverlayImpl extends org.gtk.gobject.GObject implements VideoOverlay {
         
         static {
             GstVideo.javagi$ensureInitialized();
         }
         
-        public VideoOverlayImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of VideoOverlay for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public VideoOverlayImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_overlay_get_type != null;
     }
 }

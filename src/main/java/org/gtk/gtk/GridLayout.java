@@ -41,14 +41,16 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     /**
      * Create a GridLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GridLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GridLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GridLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GridLayout(input, ownership);
+    public static final Marshal<Addressable, GridLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GridLayout(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -64,7 +66,8 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * Creates a new {@code GtkGridLayout}.
      */
     public GridLayout() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -74,8 +77,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     public int getBaselineRow() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_get_baseline_row.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_get_baseline_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +91,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     public boolean getColumnHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_get_column_homogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_get_column_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,8 +105,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_get_column_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_get_column_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,8 +141,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     public boolean getRowHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_get_row_homogeneous.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_get_row_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -156,8 +155,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_grid_layout_get_row_spacing.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_grid_layout_get_row_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,6 +283,9 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      */
     public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -365,87 +366,95 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_grid_layout_new = Interop.downcallHandle(
-            "gtk_grid_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_baseline_row = Interop.downcallHandle(
-            "gtk_grid_layout_get_baseline_row",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_get_baseline_row",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_column_homogeneous = Interop.downcallHandle(
-            "gtk_grid_layout_get_column_homogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_get_column_homogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_column_spacing = Interop.downcallHandle(
-            "gtk_grid_layout_get_column_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_get_column_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_baseline_position = Interop.downcallHandle(
-            "gtk_grid_layout_get_row_baseline_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_get_row_baseline_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_homogeneous = Interop.downcallHandle(
-            "gtk_grid_layout_get_row_homogeneous",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_get_row_homogeneous",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_row_spacing = Interop.downcallHandle(
-            "gtk_grid_layout_get_row_spacing",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_grid_layout_get_row_spacing",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_baseline_row = Interop.downcallHandle(
-            "gtk_grid_layout_set_baseline_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_baseline_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_column_homogeneous = Interop.downcallHandle(
-            "gtk_grid_layout_set_column_homogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_column_homogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_column_spacing = Interop.downcallHandle(
-            "gtk_grid_layout_set_column_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_column_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_baseline_position = Interop.downcallHandle(
-            "gtk_grid_layout_set_row_baseline_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_row_baseline_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_homogeneous = Interop.downcallHandle(
-            "gtk_grid_layout_set_row_homogeneous",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_row_homogeneous",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_set_row_spacing = Interop.downcallHandle(
-            "gtk_grid_layout_set_row_spacing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_grid_layout_set_row_spacing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_grid_layout_get_type = Interop.downcallHandle(
-            "gtk_grid_layout_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_grid_layout_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_grid_layout_get_type != null;
     }
 }

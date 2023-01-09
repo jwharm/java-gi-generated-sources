@@ -27,14 +27,16 @@ public class NativeVolumeMonitor extends org.gtk.gio.VolumeMonitor {
     /**
      * Create a NativeVolumeMonitor proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NativeVolumeMonitor(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NativeVolumeMonitor(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NativeVolumeMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeVolumeMonitor(input, ownership);
+    public static final Marshal<Addressable, NativeVolumeMonitor> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NativeVolumeMonitor(input);
     
     /**
      * Get the gtype
@@ -66,6 +68,9 @@ public class NativeVolumeMonitor extends org.gtk.gio.VolumeMonitor {
      */
     public static class Builder extends org.gtk.gio.VolumeMonitor.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -90,9 +95,17 @@ public class NativeVolumeMonitor extends org.gtk.gio.VolumeMonitor {
     private static class DowncallHandles {
         
         private static final MethodHandle g_native_volume_monitor_get_type = Interop.downcallHandle(
-            "g_native_volume_monitor_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_native_volume_monitor_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_native_volume_monitor_get_type != null;
     }
 }

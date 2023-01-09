@@ -18,6 +18,9 @@ public class ResourceLookupFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ResourceLookupFlags NONE = new ResourceLookupFlags(0);
     
+    /**
+     * Create a new ResourceLookupFlags with the provided value
+     */
     public ResourceLookupFlags(int value) {
         super(value);
     }

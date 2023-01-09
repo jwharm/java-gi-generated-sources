@@ -25,14 +25,16 @@ public class PlayerGMainContextSignalDispatcher extends org.gtk.gobject.GObject 
     /**
      * Create a PlayerGMainContextSignalDispatcher proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerGMainContextSignalDispatcher(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerGMainContextSignalDispatcher(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerGMainContextSignalDispatcher> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerGMainContextSignalDispatcher(input, ownership);
+    public static final Marshal<Addressable, PlayerGMainContextSignalDispatcher> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerGMainContextSignalDispatcher(input);
     
     /**
      * Get the gtype
@@ -57,12 +59,13 @@ public class PlayerGMainContextSignalDispatcher extends org.gtk.gobject.GObject 
     public static org.gstreamer.player.PlayerSignalDispatcher new_(@Nullable org.gtk.glib.MainContext applicationContext) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_g_main_context_signal_dispatcher_new.invokeExact(
-                    (Addressable) (applicationContext == null ? MemoryAddress.NULL : applicationContext.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_g_main_context_signal_dispatcher_new.invokeExact((Addressable) (applicationContext == null ? MemoryAddress.NULL : applicationContext.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.player.PlayerSignalDispatcher) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.player.PlayerSignalDispatcher.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.player.PlayerSignalDispatcher) Interop.register(RESULT, org.gstreamer.player.PlayerSignalDispatcher.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -81,6 +84,9 @@ public class PlayerGMainContextSignalDispatcher extends org.gtk.gobject.GObject 
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -111,15 +117,23 @@ public class PlayerGMainContextSignalDispatcher extends org.gtk.gobject.GObject 
     private static class DowncallHandles {
         
         private static final MethodHandle gst_player_g_main_context_signal_dispatcher_get_type = Interop.downcallHandle(
-            "gst_player_g_main_context_signal_dispatcher_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_player_g_main_context_signal_dispatcher_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_player_g_main_context_signal_dispatcher_new = Interop.downcallHandle(
-            "gst_player_g_main_context_signal_dispatcher_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_g_main_context_signal_dispatcher_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_player_g_main_context_signal_dispatcher_get_type != null;
     }
 }

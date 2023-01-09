@@ -28,14 +28,16 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     /**
      * Create a GrabBrokenEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GrabBrokenEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GrabBrokenEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GrabBrokenEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GrabBrokenEvent(input, ownership);
+    public static final Marshal<Addressable, GrabBrokenEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GrabBrokenEvent(input);
     
     /**
      * Extracts the grab surface from a grab broken event.
@@ -44,12 +46,11 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.Surface getGrabSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_grab_broken_event_get_grab_surface.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_grab_broken_event_get_grab_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -59,8 +60,7 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     public boolean getImplicit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_grab_broken_event_get_implicit.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_grab_broken_event_get_implicit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,21 +84,29 @@ public class GrabBrokenEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_grab_broken_event_get_grab_surface = Interop.downcallHandle(
-            "gdk_grab_broken_event_get_grab_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_grab_broken_event_get_grab_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_grab_broken_event_get_implicit = Interop.downcallHandle(
-            "gdk_grab_broken_event_get_implicit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_grab_broken_event_get_implicit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_grab_broken_event_get_type = Interop.downcallHandle(
-            "gdk_grab_broken_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_grab_broken_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_grab_broken_event_get_type != null;
     }
 }

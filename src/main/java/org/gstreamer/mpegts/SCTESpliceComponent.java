@@ -39,8 +39,8 @@ public class SCTESpliceComponent extends Struct {
      * @return A new, uninitialized @{link SCTESpliceComponent}
      */
     public static SCTESpliceComponent allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SCTESpliceComponent newInstance = new SCTESpliceComponent(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SCTESpliceComponent newInstance = new SCTESpliceComponent(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class SCTESpliceComponent extends Struct {
      * @return The value of the field {@code tag}
      */
     public byte getTag() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class SCTESpliceComponent extends Struct {
      * @param tag The new value of the field {@code tag}
      */
     public void setTag(byte tag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tag);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class SCTESpliceComponent extends Struct {
      * @return The value of the field {@code splice_time_specified}
      */
     public boolean getSpliceTimeSpecified() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class SCTESpliceComponent extends Struct {
      * @param spliceTimeSpecified The new value of the field {@code splice_time_specified}
      */
     public void setSpliceTimeSpecified(boolean spliceTimeSpecified) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceTimeSpecified, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceTimeSpecified, null).intValue());
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class SCTESpliceComponent extends Struct {
      * @return The value of the field {@code splice_time}
      */
     public long getSpliceTime() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class SCTESpliceComponent extends Struct {
      * @param spliceTime The new value of the field {@code splice_time}
      */
     public void setSpliceTime(long spliceTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), spliceTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), spliceTime);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class SCTESpliceComponent extends Struct {
      * @return The value of the field {@code utc_splice_time}
      */
     public int getUtcSpliceTime() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -124,28 +138,31 @@ public class SCTESpliceComponent extends Struct {
      * @param utcSpliceTime The new value of the field {@code utc_splice_time}
      */
     public void setUtcSpliceTime(int utcSpliceTime) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), utcSpliceTime);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), utcSpliceTime);
+        }
     }
     
     /**
      * Create a SCTESpliceComponent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SCTESpliceComponent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SCTESpliceComponent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SCTESpliceComponent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SCTESpliceComponent(input, ownership);
+    public static final Marshal<Addressable, SCTESpliceComponent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SCTESpliceComponent(input);
     
     private static MemoryAddress constructNew(byte tag) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_scte_splice_component_new.invokeExact(
-                    tag);
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_scte_splice_component_new.invokeExact(tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,15 +174,16 @@ public class SCTESpliceComponent extends Struct {
      * @param tag the elementary PID stream identifier
      */
     public SCTESpliceComponent(byte tag) {
-        super(constructNew(tag), Ownership.FULL);
+        super(constructNew(tag));
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_scte_splice_component_new = Interop.downcallHandle(
-            "gst_mpegts_scte_splice_component_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "gst_mpegts_scte_splice_component_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
     }
     
@@ -191,7 +209,7 @@ public class SCTESpliceComponent extends Struct {
             struct = SCTESpliceComponent.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SCTESpliceComponent} struct.
          * @return A new instance of {@code SCTESpliceComponent} with the fields 
          *         that were set in the Builder object.
@@ -206,10 +224,12 @@ public class SCTESpliceComponent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTag(byte tag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tag);
+                return this;
+            }
         }
         
         /**
@@ -218,10 +238,12 @@ public class SCTESpliceComponent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSpliceTimeSpecified(boolean spliceTimeSpecified) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(spliceTimeSpecified, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("splice_time_specified"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(spliceTimeSpecified, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -230,10 +252,12 @@ public class SCTESpliceComponent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSpliceTime(long spliceTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), spliceTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("splice_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), spliceTime);
+                return this;
+            }
         }
         
         /**
@@ -242,10 +266,12 @@ public class SCTESpliceComponent extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUtcSpliceTime(int utcSpliceTime) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), utcSpliceTime);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("utc_splice_time"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), utcSpliceTime);
+                return this;
+            }
         }
     }
 }

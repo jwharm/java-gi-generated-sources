@@ -38,8 +38,8 @@ public class GlyphInfo extends Struct {
      * @return A new, uninitialized @{link GlyphInfo}
      */
     public static GlyphInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphInfo newInstance = new GlyphInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GlyphInfo newInstance = new GlyphInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class GlyphInfo extends Struct {
      * @return The value of the field {@code glyph}
      */
     public org.pango.Glyph getGlyph() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Glyph(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.pango.Glyph(RESULT);
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class GlyphInfo extends Struct {
      * @param glyph The new value of the field {@code glyph}
      */
     public void setGlyph(org.pango.Glyph glyph) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        }
     }
     
     /**
@@ -71,7 +75,7 @@ public class GlyphInfo extends Struct {
      */
     public org.pango.GlyphGeometry getGeometry() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("geometry"));
-        return org.pango.GlyphGeometry.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.GlyphGeometry.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -79,9 +83,11 @@ public class GlyphInfo extends Struct {
      * @param geometry The new value of the field {@code geometry}
      */
     public void setGeometry(org.pango.GlyphGeometry geometry) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("geometry"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (geometry == null ? MemoryAddress.NULL : geometry.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("geometry"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (geometry == null ? MemoryAddress.NULL : geometry.handle()));
+        }
     }
     
     /**
@@ -90,7 +96,7 @@ public class GlyphInfo extends Struct {
      */
     public org.pango.GlyphVisAttr getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.GlyphVisAttr.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.GlyphVisAttr.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -98,22 +104,26 @@ public class GlyphInfo extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.GlyphVisAttr attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
      * Create a GlyphInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GlyphInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GlyphInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GlyphInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphInfo(input, ownership);
+    public static final Marshal<Addressable, GlyphInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GlyphInfo(input);
     
     /**
      * A {@link GlyphInfo.Builder} object constructs a {@link GlyphInfo} 
@@ -137,7 +147,7 @@ public class GlyphInfo extends Struct {
             struct = GlyphInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GlyphInfo} struct.
          * @return A new instance of {@code GlyphInfo} with the fields 
          *         that were set in the Builder object.
@@ -152,10 +162,12 @@ public class GlyphInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlyph(org.pango.Glyph glyph) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -164,10 +176,12 @@ public class GlyphInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGeometry(org.pango.GlyphGeometry geometry) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("geometry"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (geometry == null ? MemoryAddress.NULL : geometry.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("geometry"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (geometry == null ? MemoryAddress.NULL : geometry.handle()));
+                return this;
+            }
         }
         
         /**
@@ -176,10 +190,12 @@ public class GlyphInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.GlyphVisAttr attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
     }
 }

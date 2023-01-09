@@ -29,8 +29,8 @@ public class FenceGetFdInfoKHR extends Struct {
      * @return A new, uninitialized @{link FenceGetFdInfoKHR}
      */
     public static FenceGetFdInfoKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FenceGetFdInfoKHR newInstance = new FenceGetFdInfoKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FenceGetFdInfoKHR newInstance = new FenceGetFdInfoKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FenceGetFdInfoKHR extends Struct {
     /**
      * Create a FenceGetFdInfoKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FenceGetFdInfoKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FenceGetFdInfoKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FenceGetFdInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FenceGetFdInfoKHR(input, ownership);
+    public static final Marshal<Addressable, FenceGetFdInfoKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FenceGetFdInfoKHR(input);
 }

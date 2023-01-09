@@ -28,14 +28,16 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     /**
      * Create a KeyvalTrigger proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected KeyvalTrigger(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected KeyvalTrigger(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, KeyvalTrigger> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeyvalTrigger(input, ownership);
+    public static final Marshal<Addressable, KeyvalTrigger> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new KeyvalTrigger(input);
     
     private static MemoryAddress constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @param modifiers the modifiers that need to be present
      */
     public KeyvalTrigger(int keyval, org.gtk.gdk.ModifierType modifiers) {
-        super(constructNew(keyval, modifiers), Ownership.FULL);
+        super(constructNew(keyval, modifiers));
+        this.takeOwnership();
     }
     
     /**
@@ -67,8 +70,7 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     public int getKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_keyval.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,8 +85,7 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     public org.gtk.gdk.ModifierType getModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_modifiers.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_keyval_trigger_get_modifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,6 +122,9 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
      */
     public static class Builder extends org.gtk.gtk.ShortcutTrigger.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -167,27 +171,35 @@ public class KeyvalTrigger extends org.gtk.gtk.ShortcutTrigger {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_keyval_trigger_new = Interop.downcallHandle(
-            "gtk_keyval_trigger_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_keyval_trigger_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_keyval_trigger_get_keyval = Interop.downcallHandle(
-            "gtk_keyval_trigger_get_keyval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_keyval_trigger_get_keyval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_keyval_trigger_get_modifiers = Interop.downcallHandle(
-            "gtk_keyval_trigger_get_modifiers",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_keyval_trigger_get_modifiers",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_keyval_trigger_get_type = Interop.downcallHandle(
-            "gtk_keyval_trigger_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_keyval_trigger_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_keyval_trigger_get_type != null;
     }
 }

@@ -30,14 +30,16 @@ public class AnyFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.Li
     /**
      * Create a AnyFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AnyFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AnyFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AnyFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AnyFilter(input, ownership);
+    public static final Marshal<Addressable, AnyFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AnyFilter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -59,7 +61,8 @@ public class AnyFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.Li
      * has been added to it, the filter matches no item.
      */
     public AnyFilter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -92,6 +95,9 @@ public class AnyFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.Li
      */
     public static class Builder extends org.gtk.gtk.MultiFilter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -116,15 +122,23 @@ public class AnyFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.Li
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_any_filter_new = Interop.downcallHandle(
-            "gtk_any_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_any_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_any_filter_get_type = Interop.downcallHandle(
-            "gtk_any_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_any_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_any_filter_get_type != null;
     }
 }

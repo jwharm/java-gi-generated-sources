@@ -23,8 +23,11 @@ import org.jetbrains.annotations.*;
  */
 public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuilderScopeImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderScopeImpl(input, ownership);
+    public static final Marshal<Addressable, BuilderScopeImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuilderScopeImpl(input);
     
     /**
      * Get the gtype
@@ -45,20 +48,35 @@ public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_builder_scope_get_type = Interop.downcallHandle(
-            "gtk_builder_scope_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_builder_scope_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The BuilderScopeImpl type represents a native instance of the BuilderScope interface.
+     */
     class BuilderScopeImpl extends org.gtk.gobject.GObject implements BuilderScope {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public BuilderScopeImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of BuilderScope for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public BuilderScopeImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_builder_scope_get_type != null;
     }
 }

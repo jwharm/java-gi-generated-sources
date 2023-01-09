@@ -29,8 +29,8 @@ public class PipelineTessellationDomainOriginStateCreateInfo extends Struct {
      * @return A new, uninitialized @{link PipelineTessellationDomainOriginStateCreateInfo}
      */
     public static PipelineTessellationDomainOriginStateCreateInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineTessellationDomainOriginStateCreateInfo newInstance = new PipelineTessellationDomainOriginStateCreateInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineTessellationDomainOriginStateCreateInfo newInstance = new PipelineTessellationDomainOriginStateCreateInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineTessellationDomainOriginStateCreateInfo extends Struct {
     /**
      * Create a PipelineTessellationDomainOriginStateCreateInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineTessellationDomainOriginStateCreateInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineTessellationDomainOriginStateCreateInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineTessellationDomainOriginStateCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineTessellationDomainOriginStateCreateInfo(input, ownership);
+    public static final Marshal<Addressable, PipelineTessellationDomainOriginStateCreateInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineTessellationDomainOriginStateCreateInfo(input);
 }

@@ -33,8 +33,8 @@ public class ScriptIter extends Struct {
      * @return A new, uninitialized @{link ScriptIter}
      */
     public static ScriptIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ScriptIter newInstance = new ScriptIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ScriptIter newInstance = new ScriptIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,25 +42,29 @@ public class ScriptIter extends Struct {
     /**
      * Create a ScriptIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScriptIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScriptIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScriptIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScriptIter(input, ownership);
+    public static final Marshal<Addressable, ScriptIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScriptIter(input);
     
     private static MemoryAddress constructNew(java.lang.String text, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
-                    Marshal.stringToAddress.marshal(text, null),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -74,7 +78,8 @@ public class ScriptIter extends Struct {
      * @param length length of {@code text}, or -1 if {@code text} is nul-terminated
      */
     public ScriptIter(java.lang.String text, int length) {
-        super(constructNew(text, length), Ownership.FULL);
+        super(constructNew(text, length));
+        this.takeOwnership();
     }
     
     /**
@@ -82,8 +87,7 @@ public class ScriptIter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_script_iter_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_script_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,21 +108,23 @@ public class ScriptIter extends Struct {
      * @param script location to store script for range
      */
     public void getRange(@Nullable Out<java.lang.String> start, @Nullable Out<java.lang.String> end, @Nullable Out<org.pango.Script> script) {
-        MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment scriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_script_iter_get_range.invokeExact(
-                    handle(),
-                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
-                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()),
-                    (Addressable) (script == null ? MemoryAddress.NULL : (Addressable) scriptPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment startPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment endPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment scriptPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_script_iter_get_range.invokeExact(
+                        handle(),
+                        (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                        (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()),
+                        (Addressable) (script == null ? MemoryAddress.NULL : (Addressable) scriptPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (start != null) start.set(Marshal.addressToString.marshal(startPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (script != null) script.set(org.pango.Script.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
         }
-        if (start != null) start.set(Marshal.addressToString.marshal(startPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        if (script != null) script.set(org.pango.Script.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -131,8 +137,7 @@ public class ScriptIter extends Struct {
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_script_iter_next.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_script_iter_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,27 +147,27 @@ public class ScriptIter extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_script_iter_new = Interop.downcallHandle(
-            "pango_script_iter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_script_iter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_script_iter_free = Interop.downcallHandle(
-            "pango_script_iter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_script_iter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_script_iter_get_range = Interop.downcallHandle(
-            "pango_script_iter_get_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_script_iter_get_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_script_iter_next = Interop.downcallHandle(
-            "pango_script_iter_next",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_script_iter_next",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

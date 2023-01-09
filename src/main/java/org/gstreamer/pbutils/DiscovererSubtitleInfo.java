@@ -29,20 +29,21 @@ public class DiscovererSubtitleInfo extends org.gstreamer.pbutils.DiscovererStre
     /**
      * Create a DiscovererSubtitleInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererSubtitleInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererSubtitleInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererSubtitleInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererSubtitleInfo(input, ownership);
+    public static final Marshal<Addressable, DiscovererSubtitleInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererSubtitleInfo(input);
     
     public java.lang.String getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_subtitle_info_get_language.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_subtitle_info_get_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,6 +80,9 @@ public class DiscovererSubtitleInfo extends org.gstreamer.pbutils.DiscovererStre
      */
     public static class Builder extends org.gstreamer.pbutils.DiscovererStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -103,15 +107,23 @@ public class DiscovererSubtitleInfo extends org.gstreamer.pbutils.DiscovererStre
     private static class DowncallHandles {
         
         private static final MethodHandle gst_discoverer_subtitle_info_get_language = Interop.downcallHandle(
-            "gst_discoverer_subtitle_info_get_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_subtitle_info_get_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_subtitle_info_get_type = Interop.downcallHandle(
-            "gst_discoverer_subtitle_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_discoverer_subtitle_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_discoverer_subtitle_info_get_type != null;
     }
 }

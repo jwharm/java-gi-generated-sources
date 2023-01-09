@@ -72,14 +72,16 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     /**
      * Create a FileFilter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileFilter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileFilter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileFilter(input, ownership);
+    public static final Marshal<Addressable, FileFilter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileFilter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -108,20 +110,20 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * }</pre>
      */
     public FileFilter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromGvariant(org.gtk.glib.Variant variant) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(
-                    variant.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(variant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Deserialize a file filter from a {@code GVariant}.
      * <p>
@@ -132,7 +134,9 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      */
     public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
         var RESULT = constructNewFromGvariant(variant);
-        return (org.gtk.gtk.FileFilter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.FileFilter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.FileFilter) Interop.register(RESULT, org.gtk.gtk.FileFilter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -140,12 +144,14 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @param mimeType name of a MIME type
      */
     public void addMimeType(java.lang.String mimeType) {
-        try {
-            DowncallHandles.gtk_file_filter_add_mime_type.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(mimeType, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_file_filter_add_mime_type.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(mimeType, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -158,12 +164,14 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @param pattern a shell style glob
      */
     public void addPattern(java.lang.String pattern) {
-        try {
-            DowncallHandles.gtk_file_filter_add_pattern.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(pattern, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_file_filter_add_pattern.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(pattern, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -176,8 +184,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      */
     public void addPixbufFormats() {
         try {
-            DowncallHandles.gtk_file_filter_add_pixbuf_formats.invokeExact(
-                    handle());
+            DowncallHandles.gtk_file_filter_add_pixbuf_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,12 +201,14 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @param suffix filename suffix to match
      */
     public void addSuffix(java.lang.String suffix) {
-        try {
-            DowncallHandles.gtk_file_filter_add_suffix.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(suffix, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_file_filter_add_suffix.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(suffix, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -213,14 +222,15 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @return the attributes
      */
     public PointerString getAttributes() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_attributes.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_attributes.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -232,8 +242,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,12 +258,14 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      *   to remove any existing name.
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.gtk_file_filter_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_file_filter_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -265,12 +276,11 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     public org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_to_gvariant.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_to_gvariant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -303,6 +313,9 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      */
     public static class Builder extends org.gtk.gtk.Filter.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -341,69 +354,77 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_file_filter_new = Interop.downcallHandle(
-            "gtk_file_filter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_new_from_gvariant = Interop.downcallHandle(
-            "gtk_file_filter_new_from_gvariant",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_new_from_gvariant",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_add_mime_type = Interop.downcallHandle(
-            "gtk_file_filter_add_mime_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_add_mime_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_add_pattern = Interop.downcallHandle(
-            "gtk_file_filter_add_pattern",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_add_pattern",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_add_pixbuf_formats = Interop.downcallHandle(
-            "gtk_file_filter_add_pixbuf_formats",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_add_pixbuf_formats",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_add_suffix = Interop.downcallHandle(
-            "gtk_file_filter_add_suffix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_add_suffix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_get_attributes = Interop.downcallHandle(
-            "gtk_file_filter_get_attributes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_get_attributes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_get_name = Interop.downcallHandle(
-            "gtk_file_filter_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_set_name = Interop.downcallHandle(
-            "gtk_file_filter_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_to_gvariant = Interop.downcallHandle(
-            "gtk_file_filter_to_gvariant",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_file_filter_to_gvariant",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_file_filter_get_type = Interop.downcallHandle(
-            "gtk_file_filter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_file_filter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_file_filter_get_type != null;
     }
 }

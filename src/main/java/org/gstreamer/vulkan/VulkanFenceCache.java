@@ -27,32 +27,22 @@ public class VulkanFenceCache extends org.gstreamer.vulkan.VulkanHandlePool {
     
     /**
      * Create a VulkanFenceCache proxy instance for the provided memory address.
-     * <p>
-     * Because VulkanFenceCache is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanFenceCache(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VulkanFenceCache(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanFenceCache> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFenceCache(input, ownership);
+    public static final Marshal<Addressable, VulkanFenceCache> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFenceCache(input);
     
     private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanDevice device) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_fence_cache_new.invokeExact(
-                    device.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_fence_cache_new.invokeExact(device.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -60,7 +50,9 @@ public class VulkanFenceCache extends org.gstreamer.vulkan.VulkanHandlePool {
     }
     
     public VulkanFenceCache(org.gstreamer.vulkan.VulkanDevice device) {
-        super(constructNew(device), Ownership.NONE);
+        super(constructNew(device));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -93,6 +85,9 @@ public class VulkanFenceCache extends org.gstreamer.vulkan.VulkanHandlePool {
      */
     public static class Builder extends org.gstreamer.vulkan.VulkanHandlePool.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -117,15 +112,23 @@ public class VulkanFenceCache extends org.gstreamer.vulkan.VulkanHandlePool {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_fence_cache_new = Interop.downcallHandle(
-            "gst_vulkan_fence_cache_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_fence_cache_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_fence_cache_get_type = Interop.downcallHandle(
-            "gst_vulkan_fence_cache_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_vulkan_fence_cache_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_vulkan_fence_cache_get_type != null;
     }
 }

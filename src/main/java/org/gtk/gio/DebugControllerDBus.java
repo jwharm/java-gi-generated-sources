@@ -136,30 +136,34 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
     /**
      * Create a DebugControllerDBus proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugControllerDBus(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugControllerDBus(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugControllerDBus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerDBus(input, ownership);
+    public static final Marshal<Addressable, DebugControllerDBus> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerDBus(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(
-                    connection.handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(
+                        connection.handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -175,7 +179,8 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public DebugControllerDBus(org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        super(constructNew(connection, cancellable), Ownership.FULL);
+        super(constructNew(connection, cancellable));
+        this.takeOwnership();
     }
     
     /**
@@ -198,8 +203,7 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
      */
     public void stop() {
         try {
-            DowncallHandles.g_debug_controller_dbus_stop.invokeExact(
-                    handle());
+            DowncallHandles.g_debug_controller_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,20 +223,54 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Authorize} callback.
+     */
     @FunctionalInterface
     public interface Authorize {
+    
+        /**
+         * Emitted when a D-Bus peer is trying to change the debug settings and used
+         * to determine if that is authorized.
+         * <p>
+         * This signal is emitted in a dedicated worker thread, so handlers are
+         * allowed to perform blocking I/O. This means that, for example, it is
+         * appropriate to call {@code polkit_authority_check_authorization_sync()} to check
+         * authorization using polkit.
+         * <p>
+         * If {@code false} is returned then no further handlers are run and the request to
+         * change the debug settings is rejected.
+         * <p>
+         * Otherwise, if {@code true} is returned, signal emission continues. If no handlers
+         * return {@code false}, then the debug settings are allowed to be changed.
+         * <p>
+         * Signal handlers must not modify {@code invocation}, or cause it to return a value.
+         * <p>
+         * The default class handler just returns {@code true}.
+         */
         boolean run(org.gtk.gio.DBusMethodInvocation invocation);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDebugControllerDBus, MemoryAddress invocation) {
-            var RESULT = run((org.gtk.gio.DBusMethodInvocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(invocation)), org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusMethodInvocation) Interop.register(invocation, org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Authorize.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Authorize.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -258,9 +296,10 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<DebugControllerDBus.Authorize> onAuthorize(DebugControllerDBus.Authorize handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("authorize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("authorize", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -283,6 +322,9 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -322,21 +364,29 @@ public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
-            "g_debug_controller_dbus_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_debug_controller_dbus_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
-            "g_debug_controller_dbus_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_debug_controller_dbus_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_debug_controller_dbus_get_type = Interop.downcallHandle(
-            "g_debug_controller_dbus_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_debug_controller_dbus_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_debug_controller_dbus_get_type != null;
     }
 }

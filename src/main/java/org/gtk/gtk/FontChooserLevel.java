@@ -41,6 +41,9 @@ public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FontChooserLevel FEATURES = new FontChooserLevel(8);
     
+    /**
+     * Create a new FontChooserLevel with the provided value
+     */
     public FontChooserLevel(int value) {
         super(value);
     }

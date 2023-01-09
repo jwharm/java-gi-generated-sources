@@ -55,6 +55,9 @@ public class DBusProxyFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusProxyFlags NO_MATCH_RULE = new DBusProxyFlags(32);
     
+    /**
+     * Create a new DBusProxyFlags with the provided value
+     */
     public DBusProxyFlags(int value) {
         super(value);
     }

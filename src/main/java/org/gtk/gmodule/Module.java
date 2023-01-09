@@ -34,8 +34,8 @@ public class Module extends Struct {
      * @return A new, uninitialized @{link Module}
      */
     public static Module allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Module newInstance = new Module(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Module newInstance = new Module(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class Module extends Struct {
     /**
      * Create a Module proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Module(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Module(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Module> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Module(input, ownership);
+    public static final Marshal<Addressable, Module> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Module(input);
     
     /**
      * Closes a module.
@@ -59,8 +61,7 @@ public class Module extends Struct {
     public boolean close() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_module_close.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_module_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -73,8 +74,7 @@ public class Module extends Struct {
      */
     public void makeResident() {
         try {
-            DowncallHandles.g_module_make_resident.invokeExact(
-                    handle());
+            DowncallHandles.g_module_make_resident.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +89,7 @@ public class Module extends Struct {
     public java.lang.String name() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_module_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,18 +104,20 @@ public class Module extends Struct {
      * @return {@code true} on success
      */
     public boolean symbol(java.lang.String symbolName, @Nullable Out<java.lang.foreign.MemoryAddress> symbol) {
-        MemorySegment symbolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(symbolName, null),
-                    (Addressable) (symbol == null ? MemoryAddress.NULL : (Addressable) symbolPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment symbolPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(symbolName, SCOPE),
+                        (Addressable) (symbol == null ? MemoryAddress.NULL : (Addressable) symbolPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (symbol != null) symbol.set(symbolPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (symbol != null) symbol.set(symbolPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -141,15 +142,17 @@ public class Module extends Struct {
      *     prefix and suffix. This should be freed when no longer needed
      */
     public static java.lang.String buildPath(@Nullable java.lang.String directory, java.lang.String moduleName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
-                    (Addressable) (directory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(directory, null)),
-                    Marshal.stringToAddress.marshal(moduleName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
+                        (Addressable) (directory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(directory, SCOPE)),
+                        Marshal.stringToAddress.marshal(moduleName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -185,15 +188,17 @@ public class Module extends Struct {
      * @return a {@link Module} on success, or {@code null} on failure
      */
     public static org.gtk.gmodule.Module open(@Nullable java.lang.String fileName, org.gtk.gmodule.ModuleFlags flags) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_open.invokeExact(
-                    (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, null)),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_module_open.invokeExact(
+                        (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, SCOPE)),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -217,20 +222,22 @@ public class Module extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static org.gtk.gmodule.Module openFull(@Nullable java.lang.String fileName, org.gtk.gmodule.ModuleFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
-                    (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, null)),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
+                        (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, SCOPE)),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -250,63 +257,63 @@ public class Module extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_module_close = Interop.downcallHandle(
-            "g_module_close",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_module_close",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_make_resident = Interop.downcallHandle(
-            "g_module_make_resident",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_module_make_resident",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_name = Interop.downcallHandle(
-            "g_module_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_module_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_symbol = Interop.downcallHandle(
-            "g_module_symbol",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_module_symbol",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_build_path = Interop.downcallHandle(
-            "g_module_build_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_module_build_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_error = Interop.downcallHandle(
-            "g_module_error",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_module_error",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
-            "g_module_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_module_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_module_open = Interop.downcallHandle(
-            "g_module_open",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_module_open",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_module_open_full = Interop.downcallHandle(
-            "g_module_open_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_module_open_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_module_supported = Interop.downcallHandle(
-            "g_module_supported",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_module_supported",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

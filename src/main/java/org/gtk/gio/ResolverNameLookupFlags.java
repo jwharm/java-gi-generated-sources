@@ -28,6 +28,9 @@ public class ResolverNameLookupFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ResolverNameLookupFlags IPV6_ONLY = new ResolverNameLookupFlags(2);
     
+    /**
+     * Create a new ResolverNameLookupFlags with the provided value
+     */
     public ResolverNameLookupFlags(int value) {
         super(value);
     }

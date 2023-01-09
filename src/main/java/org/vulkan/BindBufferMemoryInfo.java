@@ -29,8 +29,8 @@ public class BindBufferMemoryInfo extends Struct {
      * @return A new, uninitialized @{link BindBufferMemoryInfo}
      */
     public static BindBufferMemoryInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BindBufferMemoryInfo newInstance = new BindBufferMemoryInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BindBufferMemoryInfo newInstance = new BindBufferMemoryInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BindBufferMemoryInfo extends Struct {
     /**
      * Create a BindBufferMemoryInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BindBufferMemoryInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BindBufferMemoryInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BindBufferMemoryInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BindBufferMemoryInfo(input, ownership);
+    public static final Marshal<Addressable, BindBufferMemoryInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BindBufferMemoryInfo(input);
 }

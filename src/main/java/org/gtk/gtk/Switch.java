@@ -50,26 +50,17 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     /**
      * Create a Switch proxy instance for the provided memory address.
-     * <p>
-     * Because Switch is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Switch(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Switch(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Switch> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Switch(input, ownership);
+    public static final Marshal<Addressable, Switch> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Switch(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -85,7 +76,9 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Creates a new {@code GtkSwitch} widget.
      */
     public Switch() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -95,8 +88,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_switch_get_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +102,7 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public boolean getState() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_switch_get_state.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,19 +157,40 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Activate} callback.
+     */
     @FunctionalInterface
     public interface Activate {
+    
+        /**
+         * Emitted to animate the switch.
+         * <p>
+         * Applications should never connect to this signal,
+         * but use the {@code Gtk.Switch:active} property.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSwitch) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Activate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -191,29 +203,62 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Switch.Activate> onActivate(Switch.Activate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("activate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code StateSet} callback.
+     */
     @FunctionalInterface
     public interface StateSet {
+    
+        /**
+         * Emitted to change the underlying state.
+         * <p>
+         * The ::state-set signal is emitted when the user changes the switch
+         * position. The default handler keeps the state in sync with the
+         * {@code Gtk.Switch:active} property.
+         * <p>
+         * To implement delayed state change, applications can connect to this
+         * signal, initiate the change of the underlying state, and call
+         * {@link Switch#setState} when the underlying state change is
+         * complete. The signal handler should return {@code true} to prevent the
+         * default handler from running.
+         * <p>
+         * Visually, the underlying state is represented by the trough color of
+         * the switch, while the {@code Gtk.Switch:active} property is
+         * represented by the position of the switch.
+         */
         boolean run(boolean state);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSwitch, int state) {
             var RESULT = run(Marshal.integerToBoolean.marshal(state, null).booleanValue());
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateSet.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StateSet.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -237,9 +282,10 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Switch.StateSet> onStateSet(Switch.StateSet handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("state-set"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("state-set", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -262,6 +308,9 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -310,39 +359,47 @@ public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
-            "gtk_switch_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_switch_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
-            "gtk_switch_get_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_switch_get_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
-            "gtk_switch_get_state",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_switch_get_state",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
-            "gtk_switch_set_active",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_switch_set_active",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
-            "gtk_switch_set_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_switch_set_state",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_switch_get_type = Interop.downcallHandle(
-            "gtk_switch_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_switch_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_switch_get_type != null;
     }
 }

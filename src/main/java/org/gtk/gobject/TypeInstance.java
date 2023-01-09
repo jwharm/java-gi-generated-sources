@@ -34,8 +34,8 @@ public class TypeInstance extends Struct {
      * @return A new, uninitialized @{link TypeInstance}
      */
     public static TypeInstance allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeInstance newInstance = new TypeInstance(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypeInstance newInstance = new TypeInstance(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class TypeInstance extends Struct {
     /**
      * Create a TypeInstance proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeInstance(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeInstance(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeInstance> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeInstance(input, ownership);
+    public static final Marshal<Addressable, TypeInstance> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeInstance(input);
     
     public @Nullable java.lang.foreign.MemoryAddress getPrivate(org.gtk.glib.Type privateType) {
         MemoryAddress RESULT;
@@ -67,9 +69,9 @@ public class TypeInstance extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_type_instance_get_private = Interop.downcallHandle(
-            "g_type_instance_get_private",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_instance_get_private",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -95,7 +97,7 @@ public class TypeInstance extends Struct {
             struct = TypeInstance.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypeInstance} struct.
          * @return A new instance of {@code TypeInstance} with the fields 
          *         that were set in the Builder object.
@@ -105,10 +107,12 @@ public class TypeInstance extends Struct {
         }
         
         public Builder setGClass(org.gtk.gobject.TypeClass gClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gClass == null ? MemoryAddress.NULL : gClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gClass == null ? MemoryAddress.NULL : gClass.handle()));
+                return this;
+            }
         }
     }
 }

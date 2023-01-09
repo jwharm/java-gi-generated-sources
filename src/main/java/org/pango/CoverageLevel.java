@@ -13,11 +13,13 @@ import org.jetbrains.annotations.*;
  * will be returned.
  */
 public enum CoverageLevel implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * The character is not representable with
      *   the font.
      */
     NONE(0),
+    
     /**
      * The character is represented in a
      *   way that may be comprehensible but is not the correct
@@ -26,12 +28,14 @@ public enum CoverageLevel implements io.github.jwharm.javagi.Enumeration {
      *   Cyrillic word.
      */
     FALLBACK(1),
+    
     /**
      * The character is represented as
      *   basically the correct graphical form, but with a stylistic
      *   variant inappropriate for the current script.
      */
     APPROXIMATE(2),
+    
     /**
      * The character is represented as the
      *   correct graphical form.
@@ -41,15 +45,29 @@ public enum CoverageLevel implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoCoverageLevel";
     
     private final int value;
+    
+    /**
+     * Create a new CoverageLevel for the provided value
+     * @param numeric value the enum value
+     */
     CoverageLevel(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new CoverageLevel for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static CoverageLevel of(int value) {
         return switch (value) {
             case 0 -> NONE;

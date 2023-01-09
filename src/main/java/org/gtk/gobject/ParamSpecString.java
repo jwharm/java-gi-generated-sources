@@ -38,16 +38,22 @@ public class ParamSpecString extends org.gtk.gobject.ParamSpec {
     /**
      * Create a ParamSpecString proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecString(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecString(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecString> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecString(input, ownership);
-
+    public static final Marshal<Addressable, ParamSpecString> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecString(input);
+    
     public static org.gtk.glib.Type getType() {
         return org.gtk.glib.Type.G_TYPE_PARAM;
+    }
+    
+    public static boolean isAvailable() {
+        return true;
     }
 }

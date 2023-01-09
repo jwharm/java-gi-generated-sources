@@ -11,75 +11,93 @@ import org.jetbrains.annotations.*;
  * This enumeration can be expanded at later date.
  */
 public enum License implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * No license specified
      */
     UNKNOWN(0),
+    
     /**
      * A license text is going to be specified by the
      *   developer
      */
     CUSTOM(1),
+    
     /**
      * The GNU General Public License, version 2.0 or later
      */
     GPL_2_0(2),
+    
     /**
      * The GNU General Public License, version 3.0 or later
      */
     GPL_3_0(3),
+    
     /**
      * The GNU Lesser General Public License, version 2.1 or later
      */
     LGPL_2_1(4),
+    
     /**
      * The GNU Lesser General Public License, version 3.0 or later
      */
     LGPL_3_0(5),
+    
     /**
      * The BSD standard license
      */
     BSD(6),
+    
     /**
      * The MIT/X11 standard license
      */
     MIT_X11(7),
+    
     /**
      * The Artistic License, version 2.0
      */
     ARTISTIC(8),
+    
     /**
      * The GNU General Public License, version 2.0 only
      */
     GPL_2_0_ONLY(9),
+    
     /**
      * The GNU General Public License, version 3.0 only
      */
     GPL_3_0_ONLY(10),
+    
     /**
      * The GNU Lesser General Public License, version 2.1 only
      */
     LGPL_2_1_ONLY(11),
+    
     /**
      * The GNU Lesser General Public License, version 3.0 only
      */
     LGPL_3_0_ONLY(12),
+    
     /**
      * The GNU Affero General Public License, version 3.0 or later
      */
     AGPL_3_0(13),
+    
     /**
      * The GNU Affero General Public License, version 3.0 only
      */
     AGPL_3_0_ONLY(14),
+    
     /**
      * The 3-clause BSD licence
      */
     BSD_3(15),
+    
     /**
      * The Apache License, version 2.0
      */
     APACHE_2_0(16),
+    
     /**
      * The Mozilla Public License, version 2.0
      */
@@ -88,15 +106,29 @@ public enum License implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkLicense";
     
     private final int value;
+    
+    /**
+     * Create a new License for the provided value
+     * @param numeric value the enum value
+     */
     License(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new License for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static License of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;

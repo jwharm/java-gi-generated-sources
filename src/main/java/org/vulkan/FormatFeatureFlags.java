@@ -29,8 +29,8 @@ public class FormatFeatureFlags extends Struct {
      * @return A new, uninitialized @{link FormatFeatureFlags}
      */
     public static FormatFeatureFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FormatFeatureFlags newInstance = new FormatFeatureFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FormatFeatureFlags newInstance = new FormatFeatureFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FormatFeatureFlags extends Struct {
     /**
      * Create a FormatFeatureFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FormatFeatureFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FormatFeatureFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FormatFeatureFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FormatFeatureFlags(input, ownership);
+    public static final Marshal<Addressable, FormatFeatureFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FormatFeatureFlags(input);
 }

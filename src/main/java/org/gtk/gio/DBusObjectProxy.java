@@ -35,25 +35,29 @@ public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.
     /**
      * Create a DBusObjectProxy proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusObjectProxy(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusObjectProxy(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusObjectProxy> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectProxy(input, ownership);
+    public static final Marshal<Addressable, DBusObjectProxy> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectProxy(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.DBusConnection connection, java.lang.String objectPath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
-                    connection.handle(),
-                    Marshal.stringToAddress.marshal(objectPath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
+                        connection.handle(),
+                        Marshal.stringToAddress.marshal(objectPath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -63,7 +67,8 @@ public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.
      * @param objectPath the object path
      */
     public DBusObjectProxy(org.gtk.gio.DBusConnection connection, java.lang.String objectPath) {
-        super(constructNew(connection, objectPath), Ownership.FULL);
+        super(constructNew(connection, objectPath));
+        this.takeOwnership();
     }
     
     /**
@@ -74,12 +79,11 @@ public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.
     public org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.DBusConnection) Interop.register(RESULT, org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -112,6 +116,9 @@ public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -158,21 +165,29 @@ public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.
     private static class DowncallHandles {
         
         private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
-            "g_dbus_object_proxy_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_object_proxy_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
-            "g_dbus_object_proxy_get_connection",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_object_proxy_get_connection",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_dbus_object_proxy_get_type = Interop.downcallHandle(
-            "g_dbus_object_proxy_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_object_proxy_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_object_proxy_get_type != null;
     }
 }

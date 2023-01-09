@@ -9,19 +9,23 @@ import org.jetbrains.annotations.*;
  * Passed to various keybinding signals for deleting text.
  */
 public enum DeleteType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Delete characters.
      */
     CHARS(0),
+    
     /**
      * Delete only the portion of the word to the
      *   left/right of cursor if we’re in the middle of a word.
      */
     WORD_ENDS(1),
+    
     /**
      * Delete words.
      */
     WORDS(2),
+    
     /**
      * Delete display-lines. Display-lines
      *   refers to the visible lines, with respect to the current line
@@ -29,20 +33,24 @@ public enum DeleteType implements io.github.jwharm.javagi.Enumeration {
      *   breaks in the input.
      */
     DISPLAY_LINES(3),
+    
     /**
      * Delete only the portion of the
      *   display-line to the left/right of cursor.
      */
     DISPLAY_LINE_ENDS(4),
+    
     /**
      * Delete to the end of the
      *   paragraph. Like C-k in Emacs (or its reverse).
      */
     PARAGRAPH_ENDS(5),
+    
     /**
      * Delete entire line. Like C-k in pico.
      */
     PARAGRAPHS(6),
+    
     /**
      * Delete only whitespace. Like M-\\ in Emacs.
      */
@@ -51,15 +59,29 @@ public enum DeleteType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkDeleteType";
     
     private final int value;
+    
+    /**
+     * Create a new DeleteType for the provided value
+     * @param numeric value the enum value
+     */
     DeleteType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new DeleteType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static DeleteType of(int value) {
         return switch (value) {
             case 0 -> CHARS;

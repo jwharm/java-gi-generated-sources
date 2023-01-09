@@ -40,8 +40,8 @@ public class OtColorLayerT extends Struct {
      * @return A new, uninitialized @{link OtColorLayerT}
      */
     public static OtColorLayerT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OtColorLayerT newInstance = new OtColorLayerT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OtColorLayerT newInstance = new OtColorLayerT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class OtColorLayerT extends Struct {
      * @return The value of the field {@code glyph}
      */
     public org.harfbuzz.CodepointT getGlyph() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.CodepointT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.CodepointT(RESULT);
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class OtColorLayerT extends Struct {
      * @param glyph The new value of the field {@code glyph}
      */
     public void setGlyph(org.harfbuzz.CodepointT glyph) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class OtColorLayerT extends Struct {
      * @return The value of the field {@code color_index}
      */
     public int getColorIndex() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,22 +89,26 @@ public class OtColorLayerT extends Struct {
      * @param colorIndex The new value of the field {@code color_index}
      */
     public void setColorIndex(int colorIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), colorIndex);
+        }
     }
     
     /**
      * Create a OtColorLayerT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OtColorLayerT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OtColorLayerT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OtColorLayerT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtColorLayerT(input, ownership);
+    public static final Marshal<Addressable, OtColorLayerT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OtColorLayerT(input);
     
     /**
      * A {@link OtColorLayerT.Builder} object constructs a {@link OtColorLayerT} 
@@ -122,7 +132,7 @@ public class OtColorLayerT extends Struct {
             struct = OtColorLayerT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link OtColorLayerT} struct.
          * @return A new instance of {@code OtColorLayerT} with the fields 
          *         that were set in the Builder object.
@@ -137,10 +147,12 @@ public class OtColorLayerT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlyph(org.harfbuzz.CodepointT glyph) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -149,10 +161,12 @@ public class OtColorLayerT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setColorIndex(int colorIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), colorIndex);
+                return this;
+            }
         }
     }
 }

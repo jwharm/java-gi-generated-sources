@@ -29,8 +29,8 @@ public class CommandBuffer extends Struct {
      * @return A new, uninitialized @{link CommandBuffer}
      */
     public static CommandBuffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CommandBuffer newInstance = new CommandBuffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CommandBuffer newInstance = new CommandBuffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CommandBuffer extends Struct {
     /**
      * Create a CommandBuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CommandBuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CommandBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CommandBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandBuffer(input, ownership);
+    public static final Marshal<Addressable, CommandBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CommandBuffer(input);
 }

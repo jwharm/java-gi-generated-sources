@@ -29,8 +29,8 @@ public class DiscovererPrivate extends Struct {
      * @return A new, uninitialized @{link DiscovererPrivate}
      */
     public static DiscovererPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DiscovererPrivate newInstance = new DiscovererPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DiscovererPrivate newInstance = new DiscovererPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DiscovererPrivate extends Struct {
     /**
      * Create a DiscovererPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererPrivate(input, ownership);
+    public static final Marshal<Addressable, DiscovererPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererPrivate(input);
 }

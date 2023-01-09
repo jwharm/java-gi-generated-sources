@@ -22,22 +22,27 @@ import org.jetbrains.annotations.*;
  * @version 2.26
  */
 public enum UnixSocketAddressType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * invalid
      */
     INVALID(0),
+    
     /**
      * anonymous
      */
     ANONYMOUS(1),
+    
     /**
      * a filesystem path
      */
     PATH(2),
+    
     /**
      * an abstract name
      */
     ABSTRACT(3),
+    
     /**
      * an abstract name, 0-padded
      *   to the full length of a unix socket name
@@ -47,15 +52,29 @@ public enum UnixSocketAddressType implements io.github.jwharm.javagi.Enumeration
     private static final java.lang.String C_TYPE_NAME = "GUnixSocketAddressType";
     
     private final int value;
+    
+    /**
+     * Create a new UnixSocketAddressType for the provided value
+     * @param numeric value the enum value
+     */
     UnixSocketAddressType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UnixSocketAddressType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UnixSocketAddressType of(int value) {
         return switch (value) {
             case 0 -> INVALID;

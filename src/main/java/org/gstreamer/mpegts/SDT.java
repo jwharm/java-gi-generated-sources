@@ -39,8 +39,8 @@ public class SDT extends Struct {
      * @return A new, uninitialized @{link SDT}
      */
     public static SDT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDT newInstance = new SDT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDT newInstance = new SDT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class SDT extends Struct {
      * @return The value of the field {@code original_network_id}
      */
     public short getOriginalNetworkId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class SDT extends Struct {
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
     public void setOriginalNetworkId(short originalNetworkId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class SDT extends Struct {
      * @return The value of the field {@code actual_ts}
      */
     public boolean getActualTs() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class SDT extends Struct {
      * @param actualTs The new value of the field {@code actual_ts}
      */
     public void setActualTs(boolean actualTs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class SDT extends Struct {
      * @return The value of the field {@code transport_stream_id}
      */
     public short getTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class SDT extends Struct {
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
     public void setTransportStreamId(short transportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class SDT extends Struct {
      * @return The value of the field {@code services}
      */
     public PointerProxy<org.gstreamer.mpegts.SDTService> getServices() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("services"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.SDTService>(RESULT, org.gstreamer.mpegts.SDTService.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("services"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.SDTService>(RESULT, org.gstreamer.mpegts.SDTService.fromAddress);
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class SDT extends Struct {
      * @param services The new value of the field {@code services}
      */
     public void setServices(org.gstreamer.mpegts.SDTService[] services) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("services"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("services"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a SDT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDT(input, ownership);
+    public static final Marshal<Addressable, SDT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDT(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -155,15 +173,16 @@ public class SDT extends Struct {
      * Allocates and initializes a {@link SDT}.
      */
     public SDT() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_sdt_new = Interop.downcallHandle(
-            "gst_mpegts_sdt_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_sdt_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -189,7 +208,7 @@ public class SDT extends Struct {
             struct = SDT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDT} struct.
          * @return A new instance of {@code SDT} with the fields 
          *         that were set in the Builder object.
@@ -204,10 +223,12 @@ public class SDT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOriginalNetworkId(short originalNetworkId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), originalNetworkId);
+                return this;
+            }
         }
         
         /**
@@ -216,10 +237,12 @@ public class SDT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setActualTs(boolean actualTs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
+                return this;
+            }
         }
         
         /**
@@ -228,10 +251,12 @@ public class SDT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransportStreamId(short transportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+                return this;
+            }
         }
         
         /**
@@ -240,10 +265,12 @@ public class SDT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setServices(org.gstreamer.mpegts.SDTService[] services) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("services"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("services"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

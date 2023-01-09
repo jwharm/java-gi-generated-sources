@@ -26,8 +26,11 @@ import org.jetbrains.annotations.*;
  */
 public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DevicePadImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DevicePadImpl(input, ownership);
+    public static final Marshal<Addressable, DevicePadImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DevicePadImpl(input);
     
     /**
      * Returns the group the given {@code feature} and {@code idx} belong to.
@@ -95,8 +98,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     default int getNGroups() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_groups.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_device_pad_get_n_groups.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,48 +124,63 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_feature_group = Interop.downcallHandle(
-            "gdk_device_pad_get_feature_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_device_pad_get_feature_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_group_n_modes = Interop.downcallHandle(
-            "gdk_device_pad_get_group_n_modes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_device_pad_get_group_n_modes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_n_features = Interop.downcallHandle(
-            "gdk_device_pad_get_n_features",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_device_pad_get_n_features",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_n_groups = Interop.downcallHandle(
-            "gdk_device_pad_get_n_groups",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_device_pad_get_n_groups",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gdk_device_pad_get_type = Interop.downcallHandle(
-            "gdk_device_pad_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_device_pad_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The DevicePadImpl type represents a native instance of the DevicePad interface.
+     */
     class DevicePadImpl extends org.gtk.gobject.GObject implements DevicePad {
         
         static {
             Gdk.javagi$ensureInitialized();
         }
         
-        public DevicePadImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of DevicePad for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public DevicePadImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_device_pad_get_type != null;
     }
 }

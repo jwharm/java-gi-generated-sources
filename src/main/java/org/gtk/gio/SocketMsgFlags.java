@@ -39,6 +39,9 @@ public class SocketMsgFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final SocketMsgFlags DONTROUTE = new SocketMsgFlags(4);
     
+    /**
+     * Create a new SocketMsgFlags with the provided value
+     */
     public SocketMsgFlags(int value) {
         super(value);
     }

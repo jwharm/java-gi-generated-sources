@@ -29,8 +29,8 @@ public class Buffer extends Struct {
      * @return A new, uninitialized @{link Buffer}
      */
     public static Buffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Buffer newInstance = new Buffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Buffer newInstance = new Buffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Buffer extends Struct {
     /**
      * Create a Buffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Buffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Buffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Buffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Buffer(input, ownership);
+    public static final Marshal<Addressable, Buffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Buffer(input);
 }

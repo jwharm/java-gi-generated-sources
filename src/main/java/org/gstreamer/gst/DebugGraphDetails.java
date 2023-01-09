@@ -51,6 +51,9 @@ public class DebugGraphDetails extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DebugGraphDetails VERBOSE = new DebugGraphDetails(-1);
     
+    /**
+     * Create a new DebugGraphDetails with the provided value
+     */
     public DebugGraphDetails(int value) {
         super(value);
     }

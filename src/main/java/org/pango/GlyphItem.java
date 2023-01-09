@@ -43,8 +43,8 @@ public class GlyphItem extends Struct {
      * @return A new, uninitialized @{link GlyphItem}
      */
     public static GlyphItem allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GlyphItem newInstance = new GlyphItem(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GlyphItem newInstance = new GlyphItem(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -54,10 +54,12 @@ public class GlyphItem extends Struct {
      * @return The value of the field {@code item}
      */
     public org.pango.Item getItem() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("item"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.pango.Item.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.pango.Item.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -65,9 +67,11 @@ public class GlyphItem extends Struct {
      * @param item The new value of the field {@code item}
      */
     public void setItem(org.pango.Item item) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : item.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (item == null ? MemoryAddress.NULL : item.handle()));
+        }
     }
     
     /**
@@ -75,10 +79,12 @@ public class GlyphItem extends Struct {
      * @return The value of the field {@code glyphs}
      */
     public org.pango.GlyphString getGlyphs() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.pango.GlyphString.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.pango.GlyphString.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -86,9 +92,11 @@ public class GlyphItem extends Struct {
      * @param glyphs The new value of the field {@code glyphs}
      */
     public void setGlyphs(org.pango.GlyphString glyphs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : glyphs.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyphs == null ? MemoryAddress.NULL : glyphs.handle()));
+        }
     }
     
     /**
@@ -96,10 +104,12 @@ public class GlyphItem extends Struct {
      * @return The value of the field {@code y_offset}
      */
     public int getYOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -107,9 +117,11 @@ public class GlyphItem extends Struct {
      * @param yOffset The new value of the field {@code y_offset}
      */
     public void setYOffset(int yOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), yOffset);
+        }
     }
     
     /**
@@ -117,10 +129,12 @@ public class GlyphItem extends Struct {
      * @return The value of the field {@code start_x_offset}
      */
     public int getStartXOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -128,9 +142,11 @@ public class GlyphItem extends Struct {
      * @param startXOffset The new value of the field {@code start_x_offset}
      */
     public void setStartXOffset(int startXOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startXOffset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), startXOffset);
+        }
     }
     
     /**
@@ -138,10 +154,12 @@ public class GlyphItem extends Struct {
      * @return The value of the field {@code end_x_offset}
      */
     public int getEndXOffset() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -149,22 +167,26 @@ public class GlyphItem extends Struct {
      * @param endXOffset The new value of the field {@code end_x_offset}
      */
     public void setEndXOffset(int endXOffset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endXOffset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), endXOffset);
+        }
     }
     
     /**
      * Create a GlyphItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GlyphItem(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GlyphItem(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GlyphItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphItem(input, ownership);
+    public static final Marshal<Addressable, GlyphItem> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GlyphItem(input);
     
     /**
      * Splits a shaped item ({@code PangoGlyphItem}) into multiple items based
@@ -192,16 +214,20 @@ public class GlyphItem extends Struct {
      *   g_slist_free().
      */
     public org.gtk.glib.SList applyAttrs(java.lang.String text, org.pango.AttrList list) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_apply_attrs.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    list.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_apply_attrs.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        list.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -211,12 +237,13 @@ public class GlyphItem extends Struct {
     public @Nullable org.pango.GlyphItem copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.GlyphItem.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.GlyphItem.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -224,8 +251,7 @@ public class GlyphItem extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_glyph_item_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_glyph_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,13 +273,15 @@ public class GlyphItem extends Struct {
      *   to be filled in with the resulting character widths.
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
-        try {
-            DowncallHandles.pango_glyph_item_get_logical_widths.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    Interop.allocateNativeArray(logicalWidths, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_glyph_item_get_logical_widths.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        Interop.allocateNativeArray(logicalWidths, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -271,14 +299,16 @@ public class GlyphItem extends Struct {
      *   negative values will give ugly results.
      */
     public void letterSpace(java.lang.String text, org.pango.LogAttr[] logAttrs, int letterSpacing) {
-        try {
-            DowncallHandles.pango_glyph_item_letter_space.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    Interop.allocateNativeArray(logAttrs, org.pango.LogAttr.getMemoryLayout(), false),
-                    letterSpacing);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.pango_glyph_item_letter_space.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        Interop.allocateNativeArray(logAttrs, org.pango.LogAttr.getMemoryLayout(), false, SCOPE),
+                        letterSpacing);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -302,54 +332,58 @@ public class GlyphItem extends Struct {
      *   with pango_glyph_item_free().
      */
     public @Nullable org.pango.GlyphItem split(java.lang.String text, int splitIndex) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_split.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(text, null),
-                    splitIndex);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_split.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(text, SCOPE),
+                        splitIndex);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.pango.GlyphItem.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.pango.GlyphItem.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
-            "pango_glyph_item_apply_attrs",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_glyph_item_apply_attrs",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
-            "pango_glyph_item_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_glyph_item_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
-            "pango_glyph_item_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_glyph_item_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
-            "pango_glyph_item_get_logical_widths",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_glyph_item_get_logical_widths",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
-            "pango_glyph_item_letter_space",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_glyph_item_letter_space",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
-            "pango_glyph_item_split",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "pango_glyph_item_split",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -375,7 +409,7 @@ public class GlyphItem extends Struct {
             struct = GlyphItem.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GlyphItem} struct.
          * @return A new instance of {@code GlyphItem} with the fields 
          *         that were set in the Builder object.
@@ -390,10 +424,12 @@ public class GlyphItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setItem(org.pango.Item item) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : item.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("item"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (item == null ? MemoryAddress.NULL : item.handle()));
+                return this;
+            }
         }
         
         /**
@@ -402,10 +438,12 @@ public class GlyphItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlyphs(org.pango.GlyphString glyphs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : glyphs.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (glyphs == null ? MemoryAddress.NULL : glyphs.handle()));
+                return this;
+            }
         }
         
         /**
@@ -415,10 +453,12 @@ public class GlyphItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYOffset(int yOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), yOffset);
+                return this;
+            }
         }
         
         /**
@@ -428,10 +468,12 @@ public class GlyphItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStartXOffset(int startXOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startXOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_x_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), startXOffset);
+                return this;
+            }
         }
         
         /**
@@ -441,10 +483,12 @@ public class GlyphItem extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEndXOffset(int endXOffset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endXOffset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_x_offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), endXOffset);
+                return this;
+            }
         }
     }
 }

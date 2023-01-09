@@ -127,8 +127,8 @@ public class Buffer extends Struct {
      * @return A new, uninitialized @{link Buffer}
      */
     public static Buffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Buffer newInstance = new Buffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Buffer newInstance = new Buffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -139,7 +139,7 @@ public class Buffer extends Struct {
      */
     public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -147,9 +147,11 @@ public class Buffer extends Struct {
      * @param miniObject The new value of the field {@code mini_object}
      */
     public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+        }
     }
     
     /**
@@ -157,10 +159,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code pool}
      */
     public org.gstreamer.gst.BufferPool getPool() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.gst.BufferPool) Interop.register(RESULT, org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -168,9 +172,11 @@ public class Buffer extends Struct {
      * @param pool The new value of the field {@code pool}
      */
     public void setPool(org.gstreamer.gst.BufferPool pool) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        }
     }
     
     /**
@@ -178,10 +184,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code pts}
      */
     public org.gstreamer.gst.ClockTime getPts() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -189,9 +197,11 @@ public class Buffer extends Struct {
      * @param pts The new value of the field {@code pts}
      */
     public void setPts(org.gstreamer.gst.ClockTime pts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+        }
     }
     
     /**
@@ -199,10 +209,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code dts}
      */
     public org.gstreamer.gst.ClockTime getDts() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -210,9 +222,11 @@ public class Buffer extends Struct {
      * @param dts The new value of the field {@code dts}
      */
     public void setDts(org.gstreamer.gst.ClockTime dts) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+        }
     }
     
     /**
@@ -220,10 +234,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code duration}
      */
     public org.gstreamer.gst.ClockTime getDuration() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.ClockTime(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.ClockTime(RESULT);
+        }
     }
     
     /**
@@ -231,9 +247,11 @@ public class Buffer extends Struct {
      * @param duration The new value of the field {@code duration}
      */
     public void setDuration(org.gstreamer.gst.ClockTime duration) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+        }
     }
     
     /**
@@ -241,10 +259,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code offset}
      */
     public long getOffset() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -252,9 +272,11 @@ public class Buffer extends Struct {
      * @param offset The new value of the field {@code offset}
      */
     public void setOffset(long offset) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+        }
     }
     
     /**
@@ -262,10 +284,12 @@ public class Buffer extends Struct {
      * @return The value of the field {@code offset_end}
      */
     public long getOffsetEnd() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -273,22 +297,26 @@ public class Buffer extends Struct {
      * @param offsetEnd The new value of the field {@code offset_end}
      */
     public void setOffsetEnd(long offsetEnd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offsetEnd);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), offsetEnd);
+        }
     }
     
     /**
      * Create a Buffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Buffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Buffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Buffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Buffer(input, ownership);
+    public static final Marshal<Addressable, Buffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Buffer(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -304,7 +332,8 @@ public class Buffer extends Struct {
      * Creates a newly allocated buffer without any data.
      */
     public Buffer() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewAllocate(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params) {
@@ -319,7 +348,7 @@ public class Buffer extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Tries to create a newly allocated buffer with data of the given size and
      * extra parameters from {@code allocator}. If the requested amount of memory can't be
@@ -336,21 +365,25 @@ public class Buffer extends Struct {
      */
     public static Buffer newAllocate(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params) {
         var RESULT = constructNewAllocate(allocator, size, params);
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewMemdup(byte[] data, long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_memdup.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_memdup.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new buffer of size {@code size} and fills it with a copy of {@code data}.
      * @param data data to copy into new buffer
@@ -359,21 +392,25 @@ public class Buffer extends Struct {
      */
     public static Buffer newMemdup(byte[] data, long size) {
         var RESULT = constructNewMemdup(data, size);
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWrapped(byte[] data, long size) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped.invokeExact(
-                    Interop.allocateNativeArray(data, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped.invokeExact(
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new buffer that wraps the given {@code data}. The memory will be freed
      * with g_free() and will be marked writable.
@@ -383,20 +420,21 @@ public class Buffer extends Struct {
      */
     public static Buffer newWrapped(byte[] data, long size) {
         var RESULT = constructNewWrapped(data, size);
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWrappedBytes(org.gtk.glib.Bytes bytes) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_bytes.invokeExact(
-                    bytes.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_bytes.invokeExact(bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Buffer} that wraps the given {@code bytes}. The data inside
      * {@code bytes} cannot be {@code null} and the resulting buffer will be marked as read only.
@@ -405,26 +443,30 @@ public class Buffer extends Struct {
      */
     public static Buffer newWrappedBytes(org.gtk.glib.Bytes bytes) {
         var RESULT = constructNewWrappedBytes(bytes);
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWrappedFull(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_full.invokeExact(
-                    flags.getValue(),
-                    Interop.allocateNativeArray(data, false),
-                    maxsize,
-                    offset,
-                    size,
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_full.invokeExact(
+                        flags.getValue(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        maxsize,
+                        offset,
+                        size,
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Allocates a new buffer that wraps the given memory. {@code data} must point to
      * {@code maxsize} of memory, the wrapped buffer will have the region from {@code offset} and
@@ -444,7 +486,9 @@ public class Buffer extends Struct {
      */
     public static Buffer newWrappedFull(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
         var RESULT = constructNewWrappedFull(flags, data, maxsize, offset, size, notify);
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -454,15 +498,17 @@ public class Buffer extends Struct {
      * @return The {@link CustomMeta} that was added to the buffer
      */
     public @Nullable org.gstreamer.gst.CustomMeta addCustomMeta(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_custom_meta.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_custom_meta.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -481,7 +527,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -499,7 +545,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.ParentBufferMeta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ParentBufferMeta.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -519,7 +565,7 @@ public class Buffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         info.yieldOwnership();
-        return org.gstreamer.gst.ProtectionMeta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ProtectionMeta.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -542,7 +588,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -563,7 +609,9 @@ public class Buffer extends Struct {
         }
         this.yieldOwnership();
         buf2.yieldOwnership();
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -608,7 +656,9 @@ public class Buffer extends Struct {
         }
         this.yieldOwnership();
         buf2.yieldOwnership();
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -619,12 +669,13 @@ public class Buffer extends Struct {
     public org.gstreamer.gst.Buffer copyDeep() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_copy_deep.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_copy_deep.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -683,7 +734,9 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -695,19 +748,21 @@ public class Buffer extends Struct {
      *    when {@code buffer} did not contain enough data.
      */
     public long extract(long offset, Out<byte[]> dest, long size) {
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_buffer_extract.invokeExact(
-                    handle(),
-                    offset,
-                    (Addressable) destPOINTER.address(),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment destPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_buffer_extract.invokeExact(
+                        handle(),
+                        offset,
+                        (Addressable) destPOINTER.address(),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
+            return RESULT;
         }
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT;
     }
     
     /**
@@ -720,20 +775,22 @@ public class Buffer extends Struct {
      * @param destSize A location where the size of {@code dest} can be written
      */
     public void extractDup(long offset, long size, Out<byte[]> dest, Out<Long> destSize) {
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment destSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_buffer_extract_dup.invokeExact(
-                    handle(),
-                    offset,
-                    size,
-                    (Addressable) destPOINTER.address(),
-                    (Addressable) destSizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment destPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment destSizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_buffer_extract_dup.invokeExact(
+                        handle(),
+                        offset,
+                        size,
+                        (Addressable) destPOINTER.address(),
+                        (Addressable) destSizePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    destSize.set(destSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), destSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE));
         }
-        destSize.set(destSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), destSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
     }
     
     /**
@@ -745,17 +802,19 @@ public class Buffer extends Struct {
      *    when {@code buffer} did not contain enough data.
      */
     public long fill(long offset, byte[] src, long size) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_buffer_fill.invokeExact(
-                    handle(),
-                    offset,
-                    Interop.allocateNativeArray(src, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_buffer_fill.invokeExact(
+                        handle(),
+                        offset,
+                        Interop.allocateNativeArray(src, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -778,25 +837,27 @@ public class Buffer extends Struct {
      * {@code buffer} and {@code idx}, {@code length} and {@code skip} will be filled.
      */
     public boolean findMemory(long offset, long size, Out<Integer> idx, Out<Integer> length, Out<Long> skip) {
-        MemorySegment idxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment skipPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_find_memory.invokeExact(
-                    handle(),
-                    offset,
-                    size,
-                    (Addressable) idxPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(),
-                    (Addressable) skipPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment idxPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment skipPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_find_memory.invokeExact(
+                        handle(),
+                        offset,
+                        size,
+                        (Addressable) idxPOINTER.address(),
+                        (Addressable) lengthPOINTER.address(),
+                        (Addressable) skipPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    idx.set(idxPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    skip.set(skipPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        idx.set(idxPOINTER.get(Interop.valueLayout.C_INT, 0));
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        skip.set(skipPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -829,12 +890,13 @@ public class Buffer extends Struct {
     public @Nullable org.gstreamer.gst.Memory getAllMemory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_all_memory.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_all_memory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -843,15 +905,17 @@ public class Buffer extends Struct {
      * @return the {@link CustomMeta}
      */
     public @Nullable org.gstreamer.gst.CustomMeta getCustomMeta(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_custom_meta.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_custom_meta.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -861,8 +925,7 @@ public class Buffer extends Struct {
     public org.gstreamer.gst.BufferFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_get_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_buffer_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,7 +947,9 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -907,7 +972,9 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -928,7 +995,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, null);
     }
     
     public int getNMeta(org.gtk.glib.Type apiType) {
@@ -962,7 +1029,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -972,8 +1039,7 @@ public class Buffer extends Struct {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_buffer_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_buffer_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -993,20 +1059,22 @@ public class Buffer extends Struct {
      * @return total size of the memory blocks in {@code buffer}.
      */
     public long getSizes(Out<Long> offset, Out<Long> maxsize) {
-        MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_buffer_get_sizes.invokeExact(
-                    handle(),
-                    (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
-                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment offsetPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_buffer_get_sizes.invokeExact(
+                        handle(),
+                        (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
+                        (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -1025,22 +1093,24 @@ public class Buffer extends Struct {
      * @return total size of {@code length} memory blocks starting at {@code idx} in {@code buffer}.
      */
     public long getSizesRange(int idx, int length, Out<Long> offset, Out<Long> maxsize) {
-        MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_buffer_get_sizes_range.invokeExact(
-                    handle(),
-                    idx,
-                    length,
-                    (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
-                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment offsetPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxsizePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_buffer_get_sizes_range.invokeExact(
+                        handle(),
+                        idx,
+                        length,
+                        (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
+                        (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -1092,8 +1162,7 @@ public class Buffer extends Struct {
     public boolean isAllMemoryWritable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_is_all_memory_writable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_buffer_is_all_memory_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1134,17 +1203,19 @@ public class Buffer extends Struct {
      * when there are no more items.
      */
     public @Nullable org.gstreamer.gst.Meta iterateMeta(@Nullable Out<java.lang.foreign.MemoryAddress> state) {
-        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_iterate_meta.invokeExact(
-                    handle(),
-                    (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment statePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_iterate_meta.invokeExact(
+                        handle(),
+                        (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, null);
         }
-        if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1159,18 +1230,20 @@ public class Buffer extends Struct {
      * {@code meta_api_type} or {@code null} when there are no more items.
      */
     public @Nullable org.gstreamer.gst.Meta iterateMetaFiltered(@Nullable Out<java.lang.foreign.MemoryAddress> state, org.gtk.glib.Type metaApiType) {
-        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_buffer_iterate_meta_filtered.invokeExact(
-                    handle(),
-                    (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()),
-                    metaApiType.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment statePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_buffer_iterate_meta_filtered.invokeExact(
+                        handle(),
+                        (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()),
+                        metaApiType.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, null);
         }
-        if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1247,17 +1320,19 @@ public class Buffer extends Struct {
      * @return 0 if the memory is equal.
      */
     public int memcmp(long offset, byte[] mem, long size) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_buffer_memcmp.invokeExact(
-                    handle(),
-                    offset,
-                    Interop.allocateNativeArray(mem, false),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_buffer_memcmp.invokeExact(
+                        handle(),
+                        offset,
+                        Interop.allocateNativeArray(mem, false, SCOPE),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -1290,8 +1365,7 @@ public class Buffer extends Struct {
     public int nMemory() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_buffer_n_memory.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_buffer_n_memory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1314,7 +1388,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -1341,8 +1415,7 @@ public class Buffer extends Struct {
      */
     public void removeAllMemory() {
         try {
-            DowncallHandles.gst_buffer_remove_all_memory.invokeExact(
-                    handle());
+            DowncallHandles.gst_buffer_remove_all_memory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1577,363 +1650,363 @@ public class Buffer extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_buffer_new = Interop.downcallHandle(
-            "gst_buffer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_new_allocate = Interop.downcallHandle(
-            "gst_buffer_new_allocate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_new_allocate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_new_memdup = Interop.downcallHandle(
-            "gst_buffer_new_memdup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_new_memdup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_new_wrapped = Interop.downcallHandle(
-            "gst_buffer_new_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_new_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_new_wrapped_bytes = Interop.downcallHandle(
-            "gst_buffer_new_wrapped_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_new_wrapped_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_new_wrapped_full = Interop.downcallHandle(
-            "gst_buffer_new_wrapped_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_new_wrapped_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_add_custom_meta = Interop.downcallHandle(
-            "gst_buffer_add_custom_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_add_custom_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_add_meta = Interop.downcallHandle(
-            "gst_buffer_add_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_add_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_add_parent_buffer_meta = Interop.downcallHandle(
-            "gst_buffer_add_parent_buffer_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_add_parent_buffer_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_add_protection_meta = Interop.downcallHandle(
-            "gst_buffer_add_protection_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_add_protection_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_add_reference_timestamp_meta = Interop.downcallHandle(
-            "gst_buffer_add_reference_timestamp_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_add_reference_timestamp_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_append = Interop.downcallHandle(
-            "gst_buffer_append",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_append",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_append_memory = Interop.downcallHandle(
-            "gst_buffer_append_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_append_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_append_region = Interop.downcallHandle(
-            "gst_buffer_append_region",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_append_region",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_copy_deep = Interop.downcallHandle(
-            "gst_buffer_copy_deep",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_copy_deep",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_copy_into = Interop.downcallHandle(
-            "gst_buffer_copy_into",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_copy_into",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_copy_region = Interop.downcallHandle(
-            "gst_buffer_copy_region",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_copy_region",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_extract = Interop.downcallHandle(
-            "gst_buffer_extract",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_extract",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_extract_dup = Interop.downcallHandle(
-            "gst_buffer_extract_dup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_extract_dup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_fill = Interop.downcallHandle(
-            "gst_buffer_fill",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_fill",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_find_memory = Interop.downcallHandle(
-            "gst_buffer_find_memory",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_find_memory",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_foreach_meta = Interop.downcallHandle(
-            "gst_buffer_foreach_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_foreach_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_all_memory = Interop.downcallHandle(
-            "gst_buffer_get_all_memory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_all_memory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_custom_meta = Interop.downcallHandle(
-            "gst_buffer_get_custom_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_custom_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_flags = Interop.downcallHandle(
-            "gst_buffer_get_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_memory = Interop.downcallHandle(
-            "gst_buffer_get_memory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_get_memory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_memory_range = Interop.downcallHandle(
-            "gst_buffer_get_memory_range",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_get_memory_range",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_meta = Interop.downcallHandle(
-            "gst_buffer_get_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_get_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_n_meta = Interop.downcallHandle(
-            "gst_buffer_get_n_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_get_n_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_reference_timestamp_meta = Interop.downcallHandle(
-            "gst_buffer_get_reference_timestamp_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_reference_timestamp_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_size = Interop.downcallHandle(
-            "gst_buffer_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_sizes = Interop.downcallHandle(
-            "gst_buffer_get_sizes",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_sizes",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_sizes_range = Interop.downcallHandle(
-            "gst_buffer_get_sizes_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_get_sizes_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_has_flags = Interop.downcallHandle(
-            "gst_buffer_has_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_has_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_insert_memory = Interop.downcallHandle(
-            "gst_buffer_insert_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_insert_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_is_all_memory_writable = Interop.downcallHandle(
-            "gst_buffer_is_all_memory_writable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_is_all_memory_writable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_is_memory_range_writable = Interop.downcallHandle(
-            "gst_buffer_is_memory_range_writable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_is_memory_range_writable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_iterate_meta = Interop.downcallHandle(
-            "gst_buffer_iterate_meta",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_iterate_meta",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_iterate_meta_filtered = Interop.downcallHandle(
-            "gst_buffer_iterate_meta_filtered",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_iterate_meta_filtered",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_map = Interop.downcallHandle(
-            "gst_buffer_map",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_map",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_map_range = Interop.downcallHandle(
-            "gst_buffer_map_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_map_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_memcmp = Interop.downcallHandle(
-            "gst_buffer_memcmp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_memcmp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_memset = Interop.downcallHandle(
-            "gst_buffer_memset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_memset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_n_memory = Interop.downcallHandle(
-            "gst_buffer_n_memory",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_n_memory",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_peek_memory = Interop.downcallHandle(
-            "gst_buffer_peek_memory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_peek_memory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_prepend_memory = Interop.downcallHandle(
-            "gst_buffer_prepend_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_prepend_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_remove_all_memory = Interop.downcallHandle(
-            "gst_buffer_remove_all_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_remove_all_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_remove_memory = Interop.downcallHandle(
-            "gst_buffer_remove_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_remove_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_remove_memory_range = Interop.downcallHandle(
-            "gst_buffer_remove_memory_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_remove_memory_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_remove_meta = Interop.downcallHandle(
-            "gst_buffer_remove_meta",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_remove_meta",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_replace_all_memory = Interop.downcallHandle(
-            "gst_buffer_replace_all_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_replace_all_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_replace_memory = Interop.downcallHandle(
-            "gst_buffer_replace_memory",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_replace_memory",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_replace_memory_range = Interop.downcallHandle(
-            "gst_buffer_replace_memory_range",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_replace_memory_range",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_resize = Interop.downcallHandle(
-            "gst_buffer_resize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_resize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_resize_range = Interop.downcallHandle(
-            "gst_buffer_resize_range",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_resize_range",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_set_flags = Interop.downcallHandle(
-            "gst_buffer_set_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_set_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_set_size = Interop.downcallHandle(
-            "gst_buffer_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_buffer_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_buffer_unmap = Interop.downcallHandle(
-            "gst_buffer_unmap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_buffer_unmap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_buffer_unset_flags = Interop.downcallHandle(
-            "gst_buffer_unset_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_unset_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_buffer_get_max_memory = Interop.downcallHandle(
-            "gst_buffer_get_max_memory",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_buffer_get_max_memory",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -1959,7 +2032,7 @@ public class Buffer extends Struct {
             struct = Buffer.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Buffer} struct.
          * @return A new instance of {@code Buffer} with the fields 
          *         that were set in the Builder object.
@@ -1974,10 +2047,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1986,10 +2061,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPool(org.gstreamer.gst.BufferPool pool) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+                return this;
+            }
         }
         
         /**
@@ -2000,10 +2077,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPts(org.gstreamer.gst.ClockTime pts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -2014,10 +2093,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDts(org.gstreamer.gst.ClockTime dts) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dts"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -2027,10 +2108,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDuration(org.gstreamer.gst.ClockTime duration) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("duration"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -2043,10 +2126,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffset(long offset) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offset);
+                return this;
+            }
         }
         
         /**
@@ -2056,10 +2141,12 @@ public class Buffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setOffsetEnd(long offsetEnd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offsetEnd);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), offsetEnd);
+                return this;
+            }
         }
     }
 }

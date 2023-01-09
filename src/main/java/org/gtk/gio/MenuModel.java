@@ -142,14 +142,16 @@ public class MenuModel extends org.gtk.gobject.GObject {
     /**
      * Create a MenuModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MenuModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MenuModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MenuModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuModel(input, ownership);
+    public static final Marshal<Addressable, MenuModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MenuModel(input);
     
     /**
      * Queries item at position {@code item_index} in {@code model} for the attribute
@@ -176,18 +178,20 @@ public class MenuModel extends org.gtk.gobject.GObject {
      *     type
      */
     public boolean getItemAttribute(int itemIndex, java.lang.String attribute, java.lang.String formatString, java.lang.Object... varargs) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_menu_model_get_item_attribute.invokeExact(
-                    handle(),
-                    itemIndex,
-                    Marshal.stringToAddress.marshal(attribute, null),
-                    Marshal.stringToAddress.marshal(formatString, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_menu_model_get_item_attribute.invokeExact(
+                        handle(),
+                        itemIndex,
+                        Marshal.stringToAddress.marshal(attribute, SCOPE),
+                        Marshal.stringToAddress.marshal(formatString, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -209,17 +213,21 @@ public class MenuModel extends org.gtk.gobject.GObject {
      * @return the value of the attribute
      */
     public @Nullable org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_attribute_value.invokeExact(
-                    handle(),
-                    itemIndex,
-                    Marshal.stringToAddress.marshal(attribute, null),
-                    (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_attribute_value.invokeExact(
+                        handle(),
+                        itemIndex,
+                        Marshal.stringToAddress.marshal(attribute, SCOPE),
+                        (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -233,16 +241,20 @@ public class MenuModel extends org.gtk.gobject.GObject {
      * @return the linked {@link MenuModel}, or {@code null}
      */
     public @Nullable org.gtk.gio.MenuModel getItemLink(int itemIndex, java.lang.String link) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_link.invokeExact(
-                    handle(),
-                    itemIndex,
-                    Marshal.stringToAddress.marshal(link, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_link.invokeExact(
+                        handle(),
+                        itemIndex,
+                        Marshal.stringToAddress.marshal(link, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.MenuModel) Interop.register(RESULT, org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -252,8 +264,7 @@ public class MenuModel extends org.gtk.gobject.GObject {
     public int getNItems() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_model_get_n_items.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_menu_model_get_n_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,8 +282,7 @@ public class MenuModel extends org.gtk.gobject.GObject {
     public boolean isMutable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_menu_model_is_mutable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_menu_model_is_mutable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +338,9 @@ public class MenuModel extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuAttributeIter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuAttributeIter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MenuAttributeIter) Interop.register(RESULT, org.gtk.gio.MenuAttributeIter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -348,7 +360,9 @@ public class MenuModel extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.MenuLinkIter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuLinkIter.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.MenuLinkIter) Interop.register(RESULT, org.gtk.gio.MenuLinkIter.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -365,19 +379,56 @@ public class MenuModel extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code ItemsChanged} callback.
+     */
     @FunctionalInterface
     public interface ItemsChanged {
+    
+        /**
+         * Emitted when a change has occurred to the menu.
+         * <p>
+         * The only changes that can occur to a menu is that items are removed
+         * or added.  Items may not change (except by being removed and added
+         * back in the same location).  This signal is capable of describing
+         * both of those changes (at the same time).
+         * <p>
+         * The signal means that starting at the index {@code position}, {@code removed}
+         * items were removed and {@code added} items were added in their place.  If
+         * {@code removed} is zero then only items were added.  If {@code added} is zero
+         * then only items were removed.
+         * <p>
+         * As an example, if the menu contains items a, b, c, d (in that
+         * order) and the signal (2, 1, 3) occurs then the new composition of
+         * the menu will be a, b, _, _, _, d (with each _ representing some
+         * new item).
+         * <p>
+         * Signal handlers may query the model (particularly the added items)
+         * and expect to see the results of the modification that is being
+         * reported.  The signal is emitted after the modification.
+         */
         void run(int position, int removed, int added);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceMenuModel, int position, int removed, int added) {
             run(position, removed, added);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ItemsChanged.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ItemsChanged.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -406,9 +457,10 @@ public class MenuModel extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MenuModel.ItemsChanged> onItemsChanged(MenuModel.ItemsChanged handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("items-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("items-changed", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -431,6 +483,9 @@ public class MenuModel extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -455,57 +510,65 @@ public class MenuModel extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_menu_model_get_item_attribute = Interop.downcallHandle(
-            "g_menu_model_get_item_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_menu_model_get_item_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_menu_model_get_item_attribute_value = Interop.downcallHandle(
-            "g_menu_model_get_item_attribute_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_model_get_item_attribute_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_model_get_item_link = Interop.downcallHandle(
-            "g_menu_model_get_item_link",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_model_get_item_link",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_model_get_n_items = Interop.downcallHandle(
-            "g_menu_model_get_n_items",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_model_get_n_items",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_model_is_mutable = Interop.downcallHandle(
-            "g_menu_model_is_mutable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_menu_model_is_mutable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_menu_model_items_changed = Interop.downcallHandle(
-            "g_menu_model_items_changed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_menu_model_items_changed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_menu_model_iterate_item_attributes = Interop.downcallHandle(
-            "g_menu_model_iterate_item_attributes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_menu_model_iterate_item_attributes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_menu_model_iterate_item_links = Interop.downcallHandle(
-            "g_menu_model_iterate_item_links",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_menu_model_iterate_item_links",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_menu_model_get_type = Interop.downcallHandle(
-            "g_menu_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_menu_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_menu_model_get_type != null;
     }
 }

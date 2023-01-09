@@ -31,6 +31,9 @@ public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ConnectFlags SWAPPED = new ConnectFlags(2);
     
+    /**
+     * Create a new ConnectFlags with the provided value
+     */
     public ConnectFlags(int value) {
         super(value);
     }

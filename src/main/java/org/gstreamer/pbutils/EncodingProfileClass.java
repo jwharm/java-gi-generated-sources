@@ -29,8 +29,8 @@ public class EncodingProfileClass extends Struct {
      * @return A new, uninitialized @{link EncodingProfileClass}
      */
     public static EncodingProfileClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EncodingProfileClass newInstance = new EncodingProfileClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EncodingProfileClass newInstance = new EncodingProfileClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class EncodingProfileClass extends Struct {
     /**
      * Create a EncodingProfileClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EncodingProfileClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EncodingProfileClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EncodingProfileClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingProfileClass(input, ownership);
+    public static final Marshal<Addressable, EncodingProfileClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EncodingProfileClass(input);
 }

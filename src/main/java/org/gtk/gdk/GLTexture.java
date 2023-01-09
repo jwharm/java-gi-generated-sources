@@ -28,14 +28,16 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
     /**
      * Create a GLTexture proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLTexture(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLTexture(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLTexture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLTexture(input, ownership);
+    public static final Marshal<Addressable, GLTexture> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLTexture(input);
     
     private static MemoryAddress constructNew(org.gtk.gdk.GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy) {
         MemoryAddress RESULT;
@@ -67,7 +69,8 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      *   are released
      */
     public GLTexture(org.gtk.gdk.GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(context, id, width, height, destroy), Ownership.FULL);
+        super(constructNew(context, id, width, height, destroy));
+        this.takeOwnership();
     }
     
     /**
@@ -79,8 +82,7 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      */
     public void release() {
         try {
-            DowncallHandles.gdk_gl_texture_release.invokeExact(
-                    handle());
+            DowncallHandles.gdk_gl_texture_release.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,6 +118,9 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      */
     public static class Builder extends org.gtk.gdk.Texture.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -140,21 +145,29 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_gl_texture_new = Interop.downcallHandle(
-            "gdk_gl_texture_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_gl_texture_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_gl_texture_release = Interop.downcallHandle(
-            "gdk_gl_texture_release",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_gl_texture_release",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_gl_texture_get_type = Interop.downcallHandle(
-            "gdk_gl_texture_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_gl_texture_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_gl_texture_get_type != null;
     }
 }

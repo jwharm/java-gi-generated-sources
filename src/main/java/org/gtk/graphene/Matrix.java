@@ -37,8 +37,8 @@ public class Matrix extends Struct {
      * @return A new, uninitialized @{link Matrix}
      */
     public static Matrix allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Matrix newInstance = new Matrix(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Matrix newInstance = new Matrix(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class Matrix extends Struct {
     /**
      * Create a Matrix proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Matrix(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Matrix(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Matrix> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input, ownership);
+    public static final Marshal<Addressable, Matrix> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -64,14 +66,16 @@ public class Matrix extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Matrix}.
      * @return the newly allocated matrix
      */
     public static Matrix alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -112,8 +116,7 @@ public class Matrix extends Struct {
     public float determinant() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_determinant.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_determinant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +183,7 @@ public class Matrix extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_matrix_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_matrix_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,8 +232,7 @@ public class Matrix extends Struct {
     public float getXScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_x_scale.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,8 +246,7 @@ public class Matrix extends Struct {
     public float getXTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_x_translation.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -260,8 +260,7 @@ public class Matrix extends Struct {
     public float getYScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_y_scale.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,8 +274,7 @@ public class Matrix extends Struct {
     public float getYTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_y_translation.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,8 +288,7 @@ public class Matrix extends Struct {
     public float getZScale() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_z_scale.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,8 +302,7 @@ public class Matrix extends Struct {
     public float getZTranslation() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_matrix_get_z_translation.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +344,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -359,15 +355,17 @@ public class Matrix extends Struct {
      * @return the initialized matrix
      */
     public org.gtk.graphene.Matrix initFromFloat(float[] v) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(v, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(v, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -385,7 +383,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -409,7 +407,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -438,7 +436,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -448,12 +446,11 @@ public class Matrix extends Struct {
     public org.gtk.graphene.Matrix initIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -490,7 +487,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -517,7 +514,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -540,7 +537,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -560,7 +557,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -581,7 +578,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -601,7 +598,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -619,7 +616,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -673,8 +670,7 @@ public class Matrix extends Struct {
     public boolean is2d() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_2d.invokeExact(
-                    handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_2d.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,8 +684,7 @@ public class Matrix extends Struct {
     public boolean isBackfaceVisible() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_backface_visible.invokeExact(
-                    handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_backface_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -703,8 +698,7 @@ public class Matrix extends Struct {
     public boolean isIdentity() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_identity.invokeExact(
-                    handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -718,8 +712,7 @@ public class Matrix extends Struct {
     public boolean isSingular() {
         boolean RESULT;
         try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_is_singular.invokeExact(
-                    handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_singular.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -807,8 +800,7 @@ public class Matrix extends Struct {
      */
     public void print() {
         try {
-            DowncallHandles.graphene_matrix_print.invokeExact(
-                    handle());
+            DowncallHandles.graphene_matrix_print.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1061,32 +1053,34 @@ public class Matrix extends Struct {
      *   transformation matrix
      */
     public boolean to2d(Out<Double> xx, Out<Double> yx, Out<Double> xy, Out<Double> yy, Out<Double> x0, Out<Double> y0) {
-        MemorySegment xxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment xyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment x0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment y0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        boolean RESULT;
-        try {
-            RESULT = (boolean) DowncallHandles.graphene_matrix_to_2d.invokeExact(
-                    handle(),
-                    (Addressable) xxPOINTER.address(),
-                    (Addressable) yxPOINTER.address(),
-                    (Addressable) xyPOINTER.address(),
-                    (Addressable) yyPOINTER.address(),
-                    (Addressable) x0POINTER.address(),
-                    (Addressable) y0POINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xxPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yxPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment xyPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yyPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment x0POINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment y0POINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            boolean RESULT;
+            try {
+                RESULT = (boolean) DowncallHandles.graphene_matrix_to_2d.invokeExact(
+                        handle(),
+                        (Addressable) xxPOINTER.address(),
+                        (Addressable) yxPOINTER.address(),
+                        (Addressable) xyPOINTER.address(),
+                        (Addressable) yyPOINTER.address(),
+                        (Addressable) x0POINTER.address(),
+                        (Addressable) y0POINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    xx.set(xxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    yx.set(yxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    xy.set(xyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    yy.set(yyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    x0.set(x0POINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    y0.set(y0POINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return RESULT;
         }
-        xx.set(xxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        yx.set(yxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        xy.set(xyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        yy.set(yyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        x0.set(x0POINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y0.set(y0POINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT;
     }
     
     /**
@@ -1097,15 +1091,17 @@ public class Matrix extends Struct {
      *   of holding at least 16 values.
      */
     public void toFloat(Out<float[]> v) {
-        MemorySegment vPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.graphene_matrix_to_float.invokeExact(
-                    handle(),
-                    (Addressable) vPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment vPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.graphene_matrix_to_float.invokeExact(
+                        handle(),
+                        (Addressable) vPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            v.set(MemorySegment.ofAddress(vPOINTER.get(Interop.valueLayout.ADDRESS, 0), 16 * Interop.valueLayout.C_FLOAT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_FLOAT));
         }
-        v.set(MemorySegment.ofAddress(vPOINTER.get(Interop.valueLayout.ADDRESS, 0), 16 * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT));
     }
     
     /**
@@ -1391,405 +1387,405 @@ public class Matrix extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_matrix_alloc = Interop.downcallHandle(
-            "graphene_matrix_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_decompose = Interop.downcallHandle(
-            "graphene_matrix_decompose",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_decompose",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_determinant = Interop.downcallHandle(
-            "graphene_matrix_determinant",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_determinant",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_equal = Interop.downcallHandle(
-            "graphene_matrix_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_equal_fast = Interop.downcallHandle(
-            "graphene_matrix_equal_fast",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_equal_fast",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_free = Interop.downcallHandle(
-            "graphene_matrix_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_row = Interop.downcallHandle(
-            "graphene_matrix_get_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_value = Interop.downcallHandle(
-            "graphene_matrix_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "graphene_matrix_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_x_scale = Interop.downcallHandle(
-            "graphene_matrix_get_x_scale",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_x_scale",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_x_translation = Interop.downcallHandle(
-            "graphene_matrix_get_x_translation",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_x_translation",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_y_scale = Interop.downcallHandle(
-            "graphene_matrix_get_y_scale",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_y_scale",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_y_translation = Interop.downcallHandle(
-            "graphene_matrix_get_y_translation",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_y_translation",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_z_scale = Interop.downcallHandle(
-            "graphene_matrix_get_z_scale",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_z_scale",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_get_z_translation = Interop.downcallHandle(
-            "graphene_matrix_get_z_translation",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_get_z_translation",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_from_2d = Interop.downcallHandle(
-            "graphene_matrix_init_from_2d",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "graphene_matrix_init_from_2d",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_from_float = Interop.downcallHandle(
-            "graphene_matrix_init_from_float",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_from_float",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_from_matrix = Interop.downcallHandle(
-            "graphene_matrix_init_from_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_from_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_from_vec4 = Interop.downcallHandle(
-            "graphene_matrix_init_from_vec4",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_from_vec4",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_frustum = Interop.downcallHandle(
-            "graphene_matrix_init_frustum",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_init_frustum",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_identity = Interop.downcallHandle(
-            "graphene_matrix_init_identity",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_identity",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_look_at = Interop.downcallHandle(
-            "graphene_matrix_init_look_at",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_look_at",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_ortho = Interop.downcallHandle(
-            "graphene_matrix_init_ortho",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_init_ortho",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_perspective = Interop.downcallHandle(
-            "graphene_matrix_init_perspective",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_init_perspective",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_rotate = Interop.downcallHandle(
-            "graphene_matrix_init_rotate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_rotate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_scale = Interop.downcallHandle(
-            "graphene_matrix_init_scale",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_init_scale",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_skew = Interop.downcallHandle(
-            "graphene_matrix_init_skew",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_init_skew",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_init_translate = Interop.downcallHandle(
-            "graphene_matrix_init_translate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_init_translate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_interpolate = Interop.downcallHandle(
-            "graphene_matrix_interpolate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_interpolate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_inverse = Interop.downcallHandle(
-            "graphene_matrix_inverse",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_inverse",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_is_2d = Interop.downcallHandle(
-            "graphene_matrix_is_2d",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_is_2d",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_is_backface_visible = Interop.downcallHandle(
-            "graphene_matrix_is_backface_visible",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_is_backface_visible",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_is_identity = Interop.downcallHandle(
-            "graphene_matrix_is_identity",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_is_identity",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_is_singular = Interop.downcallHandle(
-            "graphene_matrix_is_singular",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_is_singular",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_multiply = Interop.downcallHandle(
-            "graphene_matrix_multiply",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_multiply",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_near = Interop.downcallHandle(
-            "graphene_matrix_near",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_near",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_normalize = Interop.downcallHandle(
-            "graphene_matrix_normalize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_normalize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_perspective = Interop.downcallHandle(
-            "graphene_matrix_perspective",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_perspective",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_print = Interop.downcallHandle(
-            "graphene_matrix_print",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_print",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_project_point = Interop.downcallHandle(
-            "graphene_matrix_project_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_project_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_project_rect = Interop.downcallHandle(
-            "graphene_matrix_project_rect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_project_rect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_project_rect_bounds = Interop.downcallHandle(
-            "graphene_matrix_project_rect_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_project_rect_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate = Interop.downcallHandle(
-            "graphene_matrix_rotate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_rotate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate_euler = Interop.downcallHandle(
-            "graphene_matrix_rotate_euler",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_rotate_euler",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate_quaternion = Interop.downcallHandle(
-            "graphene_matrix_rotate_quaternion",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_rotate_quaternion",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate_x = Interop.downcallHandle(
-            "graphene_matrix_rotate_x",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_rotate_x",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate_y = Interop.downcallHandle(
-            "graphene_matrix_rotate_y",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_rotate_y",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_rotate_z = Interop.downcallHandle(
-            "graphene_matrix_rotate_z",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_rotate_z",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_scale = Interop.downcallHandle(
-            "graphene_matrix_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_skew_xy = Interop.downcallHandle(
-            "graphene_matrix_skew_xy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_skew_xy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_skew_xz = Interop.downcallHandle(
-            "graphene_matrix_skew_xz",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_skew_xz",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_skew_yz = Interop.downcallHandle(
-            "graphene_matrix_skew_yz",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "graphene_matrix_skew_yz",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle graphene_matrix_to_2d = Interop.downcallHandle(
-            "graphene_matrix_to_2d",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_to_2d",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_to_float = Interop.downcallHandle(
-            "graphene_matrix_to_float",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_to_float",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_bounds = Interop.downcallHandle(
-            "graphene_matrix_transform_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_box = Interop.downcallHandle(
-            "graphene_matrix_transform_box",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_box",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_point = Interop.downcallHandle(
-            "graphene_matrix_transform_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_point3d = Interop.downcallHandle(
-            "graphene_matrix_transform_point3d",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_point3d",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_ray = Interop.downcallHandle(
-            "graphene_matrix_transform_ray",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_ray",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_rect = Interop.downcallHandle(
-            "graphene_matrix_transform_rect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_rect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_sphere = Interop.downcallHandle(
-            "graphene_matrix_transform_sphere",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_sphere",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_vec3 = Interop.downcallHandle(
-            "graphene_matrix_transform_vec3",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_vec3",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transform_vec4 = Interop.downcallHandle(
-            "graphene_matrix_transform_vec4",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transform_vec4",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_translate = Interop.downcallHandle(
-            "graphene_matrix_translate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_translate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_transpose = Interop.downcallHandle(
-            "graphene_matrix_transpose",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_transpose",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_unproject_point3d = Interop.downcallHandle(
-            "graphene_matrix_unproject_point3d",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_unproject_point3d",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_untransform_bounds = Interop.downcallHandle(
-            "graphene_matrix_untransform_bounds",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_untransform_bounds",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_matrix_untransform_point = Interop.downcallHandle(
-            "graphene_matrix_untransform_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_matrix_untransform_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1815,7 +1811,7 @@ public class Matrix extends Struct {
             struct = Matrix.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Matrix} struct.
          * @return A new instance of {@code Matrix} with the fields 
          *         that were set in the Builder object.
@@ -1825,10 +1821,12 @@ public class Matrix extends Struct {
         }
         
         public Builder setValue(org.gtk.graphene.Simd4X4F value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
+                return this;
+            }
         }
     }
 }

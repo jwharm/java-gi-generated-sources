@@ -65,6 +65,9 @@ public class VideoFrameFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoFrameFlags BOTTOM_FIELD = new VideoFrameFlags(8);
     
+    /**
+     * Create a new VideoFrameFlags with the provided value
+     */
     public VideoFrameFlags(int value) {
         super(value);
     }

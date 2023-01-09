@@ -11,19 +11,23 @@ import org.jetbrains.annotations.*;
  * A value of this type is returned by {@link PrintOperation#run}.
  */
 public enum PrintOperationResult implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * An error has occurred.
      */
     ERROR(0),
+    
     /**
      * The print settings should be stored.
      */
     APPLY(1),
+    
     /**
      * The print operation has been canceled,
      *   the print settings should not be stored.
      */
     CANCEL(2),
+    
     /**
      * The print operation is not complete
      *   yet. This value will only be returned when running asynchronously.
@@ -33,15 +37,29 @@ public enum PrintOperationResult implements io.github.jwharm.javagi.Enumeration 
     private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationResult";
     
     private final int value;
+    
+    /**
+     * Create a new PrintOperationResult for the provided value
+     * @param numeric value the enum value
+     */
     PrintOperationResult(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PrintOperationResult for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PrintOperationResult of(int value) {
         return switch (value) {
             case 0 -> ERROR;

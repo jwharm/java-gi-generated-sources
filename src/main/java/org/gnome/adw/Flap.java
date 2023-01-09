@@ -82,26 +82,17 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     
     /**
      * Create a Flap proxy instance for the provided memory address.
-     * <p>
-     * Because Flap is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Flap(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Flap(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Flap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Flap(input, ownership);
+    public static final Marshal<Addressable, Flap> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Flap(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -117,7 +108,9 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * Creates a new {@code AdwFlap}.
      */
     public Flap() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -127,12 +120,11 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public @Nullable org.gtk.gtk.Widget getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_content.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -142,12 +134,11 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public @Nullable org.gtk.gtk.Widget getFlap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_flap.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_flap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -157,8 +148,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public org.gtk.gtk.PackType getFlapPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_flap_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_flap_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,8 +162,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public int getFoldDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_fold_duration.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_fold_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,8 +176,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public org.gnome.adw.FlapFoldPolicy getFoldPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_fold_policy.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_fold_policy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +189,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public org.gnome.adw.FoldThresholdPolicy getFoldThresholdPolicy() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_fold_threshold_policy.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_fold_threshold_policy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,8 +205,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getFolded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_folded.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_folded.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +219,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getLocked() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_locked.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_locked.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,8 +233,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getModal() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_modal.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_modal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,8 +247,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getRevealFlap() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_reveal_flap.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_reveal_flap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,12 +261,13 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public org.gnome.adw.SpringParams getRevealParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_reveal_params.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_reveal_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -297,8 +281,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public double getRevealProgress() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_flap_get_reveal_progress.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_flap_get_reveal_progress.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,12 +295,11 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public @Nullable org.gtk.gtk.Widget getSeparator() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_separator.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_separator.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -327,8 +309,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getSwipeToClose() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_swipe_to_close.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_swipe_to_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,8 +323,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public boolean getSwipeToOpen() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_swipe_to_open.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_swipe_to_open.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -357,8 +337,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     public org.gnome.adw.FlapTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_flap_get_transition_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_flap_get_transition_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -633,6 +612,9 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -881,195 +863,203 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     private static class DowncallHandles {
         
         private static final MethodHandle adw_flap_new = Interop.downcallHandle(
-            "adw_flap_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_content = Interop.downcallHandle(
-            "adw_flap_get_content",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_content",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_flap = Interop.downcallHandle(
-            "adw_flap_get_flap",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_flap",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_flap_position = Interop.downcallHandle(
-            "adw_flap_get_flap_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_flap_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_fold_duration = Interop.downcallHandle(
-            "adw_flap_get_fold_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_fold_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_fold_policy = Interop.downcallHandle(
-            "adw_flap_get_fold_policy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_fold_policy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_fold_threshold_policy = Interop.downcallHandle(
-            "adw_flap_get_fold_threshold_policy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_fold_threshold_policy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_folded = Interop.downcallHandle(
-            "adw_flap_get_folded",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_folded",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_locked = Interop.downcallHandle(
-            "adw_flap_get_locked",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_locked",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_modal = Interop.downcallHandle(
-            "adw_flap_get_modal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_modal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_reveal_flap = Interop.downcallHandle(
-            "adw_flap_get_reveal_flap",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_reveal_flap",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_reveal_params = Interop.downcallHandle(
-            "adw_flap_get_reveal_params",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_reveal_params",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_reveal_progress = Interop.downcallHandle(
-            "adw_flap_get_reveal_progress",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_reveal_progress",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_separator = Interop.downcallHandle(
-            "adw_flap_get_separator",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_separator",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_swipe_to_close = Interop.downcallHandle(
-            "adw_flap_get_swipe_to_close",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_swipe_to_close",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_swipe_to_open = Interop.downcallHandle(
-            "adw_flap_get_swipe_to_open",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_swipe_to_open",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_get_transition_type = Interop.downcallHandle(
-            "adw_flap_get_transition_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_get_transition_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_set_content = Interop.downcallHandle(
-            "adw_flap_set_content",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_set_content",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_set_flap = Interop.downcallHandle(
-            "adw_flap_set_flap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_set_flap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_set_flap_position = Interop.downcallHandle(
-            "adw_flap_set_flap_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_flap_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_fold_duration = Interop.downcallHandle(
-            "adw_flap_set_fold_duration",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_fold_duration",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_fold_policy = Interop.downcallHandle(
-            "adw_flap_set_fold_policy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_fold_policy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_fold_threshold_policy = Interop.downcallHandle(
-            "adw_flap_set_fold_threshold_policy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_fold_threshold_policy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_locked = Interop.downcallHandle(
-            "adw_flap_set_locked",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_locked",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_modal = Interop.downcallHandle(
-            "adw_flap_set_modal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_modal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_reveal_flap = Interop.downcallHandle(
-            "adw_flap_set_reveal_flap",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_reveal_flap",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_reveal_params = Interop.downcallHandle(
-            "adw_flap_set_reveal_params",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_set_reveal_params",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_set_separator = Interop.downcallHandle(
-            "adw_flap_set_separator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_flap_set_separator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_flap_set_swipe_to_close = Interop.downcallHandle(
-            "adw_flap_set_swipe_to_close",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_swipe_to_close",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_swipe_to_open = Interop.downcallHandle(
-            "adw_flap_set_swipe_to_open",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_swipe_to_open",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_set_transition_type = Interop.downcallHandle(
-            "adw_flap_set_transition_type",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_flap_set_transition_type",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_flap_get_type = Interop.downcallHandle(
-            "adw_flap_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_flap_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_flap_get_type != null;
     }
 }

@@ -37,8 +37,8 @@ public class RemoteActionGroupInterface extends Struct {
      * @return A new, uninitialized @{link RemoteActionGroupInterface}
      */
     public static RemoteActionGroupInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RemoteActionGroupInterface newInstance = new RemoteActionGroupInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RemoteActionGroupInterface newInstance = new RemoteActionGroupInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class RemoteActionGroupInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,24 +57,43 @@ public class RemoteActionGroupInterface extends Struct {
      * @param gIface The new value of the field {@code g_iface}
      */
     public void setGIface(org.gtk.gobject.TypeInterface gIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ActivateActionFullCallback} callback.
+     */
     @FunctionalInterface
     public interface ActivateActionFullCallback {
+    
         void run(org.gtk.gio.RemoteActionGroup remote, java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress remote, MemoryAddress actionName, MemoryAddress parameter, MemoryAddress platformData) {
-            run((org.gtk.gio.RemoteActionGroup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(remote)), org.gtk.gio.RemoteActionGroup.fromAddress).marshal(remote, Ownership.NONE), Marshal.addressToString.marshal(actionName, null), org.gtk.glib.Variant.fromAddress.marshal(parameter, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.RemoteActionGroup) Interop.register(remote, org.gtk.gio.RemoteActionGroup.fromAddress).marshal(remote, null), Marshal.addressToString.marshal(actionName, null), org.gtk.glib.Variant.fromAddress.marshal(parameter, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateActionFullCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ActivateActionFullCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -83,24 +102,43 @@ public class RemoteActionGroupInterface extends Struct {
      * @param activateActionFull The new value of the field {@code activate_action_full}
      */
     public void setActivateActionFull(ActivateActionFullCallback activateActionFull) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("activate_action_full"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateActionFull == null ? MemoryAddress.NULL : activateActionFull.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("activate_action_full"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateActionFull == null ? MemoryAddress.NULL : activateActionFull.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChangeActionStateFullCallback} callback.
+     */
     @FunctionalInterface
     public interface ChangeActionStateFullCallback {
+    
         void run(org.gtk.gio.RemoteActionGroup remote, java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress remote, MemoryAddress actionName, MemoryAddress value, MemoryAddress platformData) {
-            run((org.gtk.gio.RemoteActionGroup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(remote)), org.gtk.gio.RemoteActionGroup.fromAddress).marshal(remote, Ownership.NONE), Marshal.addressToString.marshal(actionName, null), org.gtk.glib.Variant.fromAddress.marshal(value, Ownership.NONE), org.gtk.glib.Variant.fromAddress.marshal(platformData, Ownership.NONE));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.RemoteActionGroup) Interop.register(remote, org.gtk.gio.RemoteActionGroup.fromAddress).marshal(remote, null), Marshal.addressToString.marshal(actionName, null), org.gtk.glib.Variant.fromAddress.marshal(value, null), org.gtk.glib.Variant.fromAddress.marshal(platformData, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeActionStateFullCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChangeActionStateFullCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -109,22 +147,26 @@ public class RemoteActionGroupInterface extends Struct {
      * @param changeActionStateFull The new value of the field {@code change_action_state_full}
      */
     public void setChangeActionStateFull(ChangeActionStateFullCallback changeActionStateFull) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("change_action_state_full"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeActionStateFull == null ? MemoryAddress.NULL : changeActionStateFull.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("change_action_state_full"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changeActionStateFull == null ? MemoryAddress.NULL : changeActionStateFull.toCallback()));
+        }
     }
     
     /**
      * Create a RemoteActionGroupInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RemoteActionGroupInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RemoteActionGroupInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RemoteActionGroupInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RemoteActionGroupInterface(input, ownership);
+    public static final Marshal<Addressable, RemoteActionGroupInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RemoteActionGroupInterface(input);
     
     /**
      * A {@link RemoteActionGroupInterface.Builder} object constructs a {@link RemoteActionGroupInterface} 
@@ -148,7 +190,7 @@ public class RemoteActionGroupInterface extends Struct {
             struct = RemoteActionGroupInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RemoteActionGroupInterface} struct.
          * @return A new instance of {@code RemoteActionGroupInterface} with the fields 
          *         that were set in the Builder object.
@@ -158,24 +200,30 @@ public class RemoteActionGroupInterface extends Struct {
         }
         
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setActivateActionFull(ActivateActionFullCallback activateActionFull) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("activate_action_full"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activateActionFull == null ? MemoryAddress.NULL : activateActionFull.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("activate_action_full"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (activateActionFull == null ? MemoryAddress.NULL : activateActionFull.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChangeActionStateFull(ChangeActionStateFullCallback changeActionStateFull) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("change_action_state_full"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (changeActionStateFull == null ? MemoryAddress.NULL : changeActionStateFull.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("change_action_state_full"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (changeActionStateFull == null ? MemoryAddress.NULL : changeActionStateFull.toCallback()));
+                return this;
+            }
         }
     }
 }

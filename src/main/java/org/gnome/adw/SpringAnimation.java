@@ -59,14 +59,16 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     /**
      * Create a SpringAnimation proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SpringAnimation(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SpringAnimation(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SpringAnimation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpringAnimation(input, ownership);
+    public static final Marshal<Addressable, SpringAnimation> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SpringAnimation(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Widget widget, double from, double to, org.gnome.adw.SpringParams springParams, org.gnome.adw.AnimationTarget target) {
         MemoryAddress RESULT;
@@ -97,7 +99,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * @param target a target value to animate
      */
     public SpringAnimation(org.gtk.gtk.Widget widget, double from, double to, org.gnome.adw.SpringParams springParams, org.gnome.adw.AnimationTarget target) {
-        super(constructNew(widget, from, to, springParams, target), Ownership.NONE);
+        super(constructNew(widget, from, to, springParams, target));
     }
     
     /**
@@ -107,8 +109,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public boolean getClamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_spring_animation_get_clamp.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_spring_animation_get_clamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,8 +123,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getEpsilon() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_epsilon.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_epsilon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,8 +139,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public int getEstimatedDuration() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_spring_animation_get_estimated_duration.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_spring_animation_get_estimated_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +153,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getInitialVelocity() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_initial_velocity.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_initial_velocity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,12 +167,11 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public org.gnome.adw.SpringParams getSpringParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_get_spring_params.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_get_spring_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -184,8 +181,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getValueFrom() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_from.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_from.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,8 +195,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getValueTo() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_to.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_value_to.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,8 +209,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     public double getVelocity() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_animation_get_velocity.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_animation_get_velocity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,6 +355,9 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      */
     public static class Builder extends org.gnome.adw.Animation.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -500,99 +497,107 @@ public class SpringAnimation extends org.gnome.adw.Animation {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_spring_animation_new = Interop.downcallHandle(
-            "adw_spring_animation_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_clamp = Interop.downcallHandle(
-            "adw_spring_animation_get_clamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_clamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_epsilon = Interop.downcallHandle(
-            "adw_spring_animation_get_epsilon",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_epsilon",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_estimated_duration = Interop.downcallHandle(
-            "adw_spring_animation_get_estimated_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_estimated_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_initial_velocity = Interop.downcallHandle(
-            "adw_spring_animation_get_initial_velocity",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_initial_velocity",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_spring_params = Interop.downcallHandle(
-            "adw_spring_animation_get_spring_params",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_spring_params",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_value_from = Interop.downcallHandle(
-            "adw_spring_animation_get_value_from",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_value_from",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_value_to = Interop.downcallHandle(
-            "adw_spring_animation_get_value_to",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_value_to",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_velocity = Interop.downcallHandle(
-            "adw_spring_animation_get_velocity",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_get_velocity",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_clamp = Interop.downcallHandle(
-            "adw_spring_animation_set_clamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_spring_animation_set_clamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_epsilon = Interop.downcallHandle(
-            "adw_spring_animation_set_epsilon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_animation_set_epsilon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_initial_velocity = Interop.downcallHandle(
-            "adw_spring_animation_set_initial_velocity",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_animation_set_initial_velocity",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_spring_params = Interop.downcallHandle(
-            "adw_spring_animation_set_spring_params",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_animation_set_spring_params",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_value_from = Interop.downcallHandle(
-            "adw_spring_animation_set_value_from",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_animation_set_value_from",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_set_value_to = Interop.downcallHandle(
-            "adw_spring_animation_set_value_to",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_animation_set_value_to",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_animation_get_type = Interop.downcallHandle(
-            "adw_spring_animation_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_spring_animation_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_spring_animation_get_type != null;
     }
 }

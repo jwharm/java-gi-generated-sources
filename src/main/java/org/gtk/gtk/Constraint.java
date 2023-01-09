@@ -41,14 +41,16 @@ public class Constraint extends org.gtk.gobject.GObject {
     /**
      * Create a Constraint proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Constraint(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Constraint(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Constraint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Constraint(input, ownership);
+    public static final Marshal<Addressable, Constraint> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Constraint(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
         MemoryAddress RESULT;
@@ -81,7 +83,8 @@ public class Constraint extends org.gtk.gobject.GObject {
      * @param strength the strength of the constraint
      */
     public Constraint(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength), Ownership.FULL);
+        super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewConstant(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
@@ -98,7 +101,7 @@ public class Constraint extends org.gtk.gobject.GObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new constraint representing a relation between a layout
      * attribute on a target and a constant value.
@@ -111,7 +114,9 @@ public class Constraint extends org.gtk.gobject.GObject {
      */
     public static Constraint newConstant(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
         var RESULT = constructNewConstant(target, targetAttribute, relation, constant, strength);
-        return (org.gtk.gtk.Constraint) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Constraint.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.Constraint) Interop.register(RESULT, org.gtk.gtk.Constraint.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -121,8 +126,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public double getConstant() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_constraint_get_constant.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_constraint_get_constant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,8 +141,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public double getMultiplier() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gtk_constraint_get_multiplier.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gtk_constraint_get_multiplier.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +155,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public org.gtk.gtk.ConstraintRelation getRelation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_relation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_relation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,12 +173,11 @@ public class Constraint extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.ConstraintTarget getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ConstraintTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ConstraintTarget) Interop.register(RESULT, org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -186,8 +187,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public org.gtk.gtk.ConstraintAttribute getSourceAttribute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_source_attribute.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_source_attribute.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,8 +201,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public int getStrength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_strength.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_strength.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,12 +219,11 @@ public class Constraint extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.ConstraintTarget getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_target.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_get_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.ConstraintTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ConstraintTarget) Interop.register(RESULT, org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -235,8 +233,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public org.gtk.gtk.ConstraintAttribute getTargetAttribute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_get_target_attribute.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_get_target_attribute.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,8 +248,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public boolean isAttached() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_attached.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_attached.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,8 +263,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public boolean isConstant() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_constant.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_constant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,8 +278,7 @@ public class Constraint extends org.gtk.gobject.GObject {
     public boolean isRequired() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_constraint_is_required.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_constraint_is_required.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,6 +315,9 @@ public class Constraint extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -447,87 +444,95 @@ public class Constraint extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_constraint_new = Interop.downcallHandle(
-            "gtk_constraint_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
-            false
+                "gtk_constraint_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_constraint_new_constant = Interop.downcallHandle(
-            "gtk_constraint_new_constant",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
-            false
+                "gtk_constraint_new_constant",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_constant = Interop.downcallHandle(
-            "gtk_constraint_get_constant",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_constant",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_multiplier = Interop.downcallHandle(
-            "gtk_constraint_get_multiplier",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_multiplier",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_relation = Interop.downcallHandle(
-            "gtk_constraint_get_relation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_relation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_source = Interop.downcallHandle(
-            "gtk_constraint_get_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_source_attribute = Interop.downcallHandle(
-            "gtk_constraint_get_source_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_source_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_strength = Interop.downcallHandle(
-            "gtk_constraint_get_strength",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_strength",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_target = Interop.downcallHandle(
-            "gtk_constraint_get_target",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_target",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_target_attribute = Interop.downcallHandle(
-            "gtk_constraint_get_target_attribute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_get_target_attribute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_is_attached = Interop.downcallHandle(
-            "gtk_constraint_is_attached",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_is_attached",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_is_constant = Interop.downcallHandle(
-            "gtk_constraint_is_constant",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_is_constant",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_is_required = Interop.downcallHandle(
-            "gtk_constraint_is_required",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_constraint_is_required",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_constraint_get_type = Interop.downcallHandle(
-            "gtk_constraint_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_constraint_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_constraint_get_type != null;
     }
 }

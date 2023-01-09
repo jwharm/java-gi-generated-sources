@@ -29,8 +29,8 @@ public class IndirectCommandsLayoutCreateInfoNVX extends Struct {
      * @return A new, uninitialized @{link IndirectCommandsLayoutCreateInfoNVX}
      */
     public static IndirectCommandsLayoutCreateInfoNVX allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        IndirectCommandsLayoutCreateInfoNVX newInstance = new IndirectCommandsLayoutCreateInfoNVX(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        IndirectCommandsLayoutCreateInfoNVX newInstance = new IndirectCommandsLayoutCreateInfoNVX(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class IndirectCommandsLayoutCreateInfoNVX extends Struct {
     /**
      * Create a IndirectCommandsLayoutCreateInfoNVX proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IndirectCommandsLayoutCreateInfoNVX(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IndirectCommandsLayoutCreateInfoNVX(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IndirectCommandsLayoutCreateInfoNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IndirectCommandsLayoutCreateInfoNVX(input, ownership);
+    public static final Marshal<Addressable, IndirectCommandsLayoutCreateInfoNVX> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IndirectCommandsLayoutCreateInfoNVX(input);
 }

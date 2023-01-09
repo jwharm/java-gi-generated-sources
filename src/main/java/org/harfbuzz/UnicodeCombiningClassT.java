@@ -14,230 +14,287 @@ import org.jetbrains.annotations.*;
  * being returned from hb_unicode_combining_class().&lt;/note&gt;
  */
 public enum UnicodeCombiningClassT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Spacing and enclosing marks; also many vowel and consonant signs, even if nonspacing
      */
     NOT_REORDERED(0),
+    
     /**
      * Marks which overlay a base letter or symbol
      */
     OVERLAY(1),
+    
     /**
      * Diacritic nukta marks in Brahmi-derived scripts
      */
     NUKTA(7),
+    
     /**
      * Hiragana/Katakana voicing marks
      */
     KANA_VOICING(8),
+    
     /**
      * Viramas
      */
     VIRAMA(9),
+    
     /**
      * [Hebrew]
      */
     CCC10(10),
+    
     /**
      * [Hebrew]
      */
     CCC11(11),
+    
     /**
      * [Hebrew]
      */
     CCC12(12),
+    
     /**
      * [Hebrew]
      */
     CCC13(13),
+    
     /**
      * [Hebrew]
      */
     CCC14(14),
+    
     /**
      * [Hebrew]
      */
     CCC15(15),
+    
     /**
      * [Hebrew]
      */
     CCC16(16),
+    
     /**
      * [Hebrew]
      */
     CCC17(17),
+    
     /**
      * [Hebrew]
      */
     CCC18(18),
+    
     /**
      * [Hebrew]
      */
     CCC19(19),
+    
     /**
      * [Hebrew]
      */
     CCC20(20),
+    
     /**
      * [Hebrew]
      */
     CCC21(21),
+    
     /**
      * [Hebrew]
      */
     CCC22(22),
+    
     /**
      * [Hebrew]
      */
     CCC23(23),
+    
     /**
      * [Hebrew]
      */
     CCC24(24),
+    
     /**
      * [Hebrew]
      */
     CCC25(25),
+    
     /**
      * [Hebrew]
      */
     CCC26(26),
+    
     /**
      * [Arabic]
      */
     CCC27(27),
+    
     /**
      * [Arabic]
      */
     CCC28(28),
+    
     /**
      * [Arabic]
      */
     CCC29(29),
+    
     /**
      * [Arabic]
      */
     CCC30(30),
+    
     /**
      * [Arabic]
      */
     CCC31(31),
+    
     /**
      * [Arabic]
      */
     CCC32(32),
+    
     /**
      * [Arabic]
      */
     CCC33(33),
+    
     /**
      * [Arabic]
      */
     CCC34(34),
+    
     /**
      * [Arabic]
      */
     CCC35(35),
+    
     /**
      * [Syriac]
      */
     CCC36(36),
+    
     /**
      * [Telugu]
      */
     CCC84(84),
+    
     /**
      * [Telugu]
      */
     CCC91(91),
+    
     /**
      * [Thai]
      */
     CCC103(103),
+    
     /**
      * [Thai]
      */
     CCC107(107),
+    
     /**
      * [Lao]
      */
     CCC118(118),
+    
     /**
      * [Lao]
      */
     CCC122(122),
+    
     /**
      * [Tibetan]
      */
     CCC129(129),
+    
     /**
      * [Tibetan]
      */
     CCC130(130),
+    
     /**
      * [Tibetan]
      */
     CCC133(132),
+    
     /**
      * Marks attached at the bottom left
      */
     ATTACHED_BELOW_LEFT(200),
+    
     /**
      * Marks attached directly below
      */
     ATTACHED_BELOW(202),
+    
     /**
      * Marks attached directly above
      */
     ATTACHED_ABOVE(214),
+    
     /**
      * Marks attached at the top right
      */
     ATTACHED_ABOVE_RIGHT(216),
+    
     /**
      * Distinct marks at the bottom left
      */
     BELOW_LEFT(218),
+    
     /**
      * Distinct marks directly below
      */
     BELOW(220),
+    
     /**
      * Distinct marks at the bottom right
      */
     BELOW_RIGHT(222),
+    
     /**
      * Distinct marks to the left
      */
     LEFT(224),
+    
     /**
      * Distinct marks to the right
      */
     RIGHT(226),
+    
     /**
      * Distinct marks at the top left
      */
     ABOVE_LEFT(228),
+    
     /**
      * Distinct marks directly above
      */
     ABOVE(230),
+    
     /**
      * Distinct marks at the top right
      */
     ABOVE_RIGHT(232),
+    
     /**
      * Distinct marks subtending two bases
      */
     DOUBLE_BELOW(233),
+    
     /**
      * Distinct marks extending above two bases
      */
     DOUBLE_ABOVE(234),
+    
     /**
      * Greek iota subscript only
      */
     IOTA_SUBSCRIPT(240),
+    
     /**
      * Invalid combining class
      */
@@ -246,15 +303,29 @@ public enum UnicodeCombiningClassT implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "hb_unicode_combining_class_t";
     
     private final int value;
+    
+    /**
+     * Create a new UnicodeCombiningClassT for the provided value
+     * @param numeric value the enum value
+     */
     UnicodeCombiningClassT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UnicodeCombiningClassT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UnicodeCombiningClassT of(int value) {
         return switch (value) {
             case 0 -> NOT_REORDERED;

@@ -61,8 +61,8 @@ public class InputMessage extends Struct {
      * @return A new, uninitialized @{link InputMessage}
      */
     public static InputMessage allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InputMessage newInstance = new InputMessage(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InputMessage newInstance = new InputMessage(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -72,10 +72,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code address}
      */
     public PointerProxy<org.gtk.gio.SocketAddress> getAddress() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("address"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.SocketAddress>(RESULT, org.gtk.gio.SocketAddress.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("address"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.SocketAddress>(RESULT, org.gtk.gio.SocketAddress.fromAddress);
+        }
     }
     
     /**
@@ -83,9 +85,11 @@ public class InputMessage extends Struct {
      * @param address The new value of the field {@code address}
      */
     public void setAddress(PointerProxy<org.gtk.gio.SocketAddress> address) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("address"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("address"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
+        }
     }
     
     /**
@@ -93,10 +97,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code vectors}
      */
     public PointerProxy<org.gtk.gio.InputVector> getVectors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.InputVector>(RESULT, org.gtk.gio.InputVector.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.InputVector>(RESULT, org.gtk.gio.InputVector.fromAddress);
+        }
     }
     
     /**
@@ -104,9 +110,11 @@ public class InputMessage extends Struct {
      * @param vectors The new value of the field {@code vectors}
      */
     public void setVectors(org.gtk.gio.InputVector[] vectors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -114,10 +122,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code num_vectors}
      */
     public int getNumVectors() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -125,9 +135,11 @@ public class InputMessage extends Struct {
      * @param numVectors The new value of the field {@code num_vectors}
      */
     public void setNumVectors(int numVectors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), numVectors);
+        }
     }
     
     /**
@@ -135,10 +147,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code bytes_received}
      */
     public long getBytesReceived() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -146,9 +160,11 @@ public class InputMessage extends Struct {
      * @param bytesReceived The new value of the field {@code bytes_received}
      */
     public void setBytesReceived(long bytesReceived) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bytesReceived);
+        }
     }
     
     /**
@@ -156,10 +172,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code flags}
      */
     public int getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -167,9 +185,11 @@ public class InputMessage extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(int flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+        }
     }
     
     /**
@@ -177,10 +197,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code control_messages}
      */
     public PointerProxy<org.gtk.gio.SocketControlMessage> getControlMessages() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.SocketControlMessage>(RESULT, org.gtk.gio.SocketControlMessage.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.gio.SocketControlMessage>(RESULT, org.gtk.gio.SocketControlMessage.fromAddress);
+        }
     }
     
     /**
@@ -188,9 +210,11 @@ public class InputMessage extends Struct {
      * @param controlMessages The new value of the field {@code control_messages}
      */
     public void setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false, SCOPE)));
+        }
     }
     
     /**
@@ -198,10 +222,12 @@ public class InputMessage extends Struct {
      * @return The value of the field {@code num_control_messages}
      */
     public PointerInteger getNumControlMessages() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -209,22 +235,26 @@ public class InputMessage extends Struct {
      * @param numControlMessages The new value of the field {@code num_control_messages}
      */
     public void setNumControlMessages(PointerInteger numControlMessages) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
+        }
     }
     
     /**
      * Create a InputMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InputMessage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InputMessage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InputMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InputMessage(input, ownership);
+    public static final Marshal<Addressable, InputMessage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InputMessage(input);
     
     /**
      * A {@link InputMessage.Builder} object constructs a {@link InputMessage} 
@@ -248,7 +278,7 @@ public class InputMessage extends Struct {
             struct = InputMessage.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link InputMessage} struct.
          * @return A new instance of {@code InputMessage} with the fields 
          *         that were set in the Builder object.
@@ -264,10 +294,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAddress(PointerProxy<org.gtk.gio.SocketAddress> address) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("address"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("address"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
+                return this;
+            }
         }
         
         /**
@@ -277,10 +309,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setVectors(org.gtk.gio.InputVector[] vectors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -289,10 +323,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumVectors(int numVectors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), numVectors);
+                return this;
+            }
         }
         
         /**
@@ -302,10 +338,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBytesReceived(long bytesReceived) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bytesReceived);
+                return this;
+            }
         }
         
         /**
@@ -315,10 +353,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         /**
@@ -328,10 +368,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -341,10 +383,12 @@ public class InputMessage extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNumControlMessages(PointerInteger numControlMessages) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
+                return this;
+            }
         }
     }
 }

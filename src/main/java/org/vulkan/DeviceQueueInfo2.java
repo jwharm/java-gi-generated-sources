@@ -29,8 +29,8 @@ public class DeviceQueueInfo2 extends Struct {
      * @return A new, uninitialized @{link DeviceQueueInfo2}
      */
     public static DeviceQueueInfo2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DeviceQueueInfo2 newInstance = new DeviceQueueInfo2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DeviceQueueInfo2 newInstance = new DeviceQueueInfo2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DeviceQueueInfo2 extends Struct {
     /**
      * Create a DeviceQueueInfo2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DeviceQueueInfo2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DeviceQueueInfo2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DeviceQueueInfo2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceQueueInfo2(input, ownership);
+    public static final Marshal<Addressable, DeviceQueueInfo2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DeviceQueueInfo2(input);
 }

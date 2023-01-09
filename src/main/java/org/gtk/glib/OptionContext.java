@@ -34,8 +34,8 @@ public class OptionContext extends Struct {
      * @return A new, uninitialized @{link OptionContext}
      */
     public static OptionContext allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        OptionContext newInstance = new OptionContext(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        OptionContext newInstance = new OptionContext(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class OptionContext extends Struct {
     /**
      * Create a OptionContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OptionContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OptionContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OptionContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OptionContext(input, ownership);
+    public static final Marshal<Addressable, OptionContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OptionContext(input);
     
     /**
      * Adds a {@link OptionGroup} to the {@code context}, so that parsing with {@code context}
@@ -78,13 +80,15 @@ public class OptionContext extends Struct {
      *    with gettext(), or {@code null}
      */
     public void addMainEntries(org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
-        try {
-            DowncallHandles.g_option_context_add_main_entries.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false),
-                    (Addressable) (translationDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translationDomain, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_context_add_main_entries.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false, SCOPE),
+                        (Addressable) (translationDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translationDomain, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -97,8 +101,7 @@ public class OptionContext extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_option_context_free.invokeExact(
-                    handle());
+            DowncallHandles.g_option_context_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,8 +114,7 @@ public class OptionContext extends Struct {
     public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_description.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +154,7 @@ public class OptionContext extends Struct {
     public boolean getHelpEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_help_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_help_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,8 +169,7 @@ public class OptionContext extends Struct {
     public boolean getIgnoreUnknownOptions() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_ignore_unknown_options.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_ignore_unknown_options.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,12 +185,11 @@ public class OptionContext extends Struct {
     public org.gtk.glib.OptionGroup getMainGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_main_group.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_main_group.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -202,8 +201,7 @@ public class OptionContext extends Struct {
     public boolean getStrictPosix() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_option_context_get_strict_posix.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_option_context_get_strict_posix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,8 +215,7 @@ public class OptionContext extends Struct {
     public java.lang.String getSummary() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_summary.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_summary.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,30 +251,32 @@ public class OptionContext extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean parse(Out<Integer> argc, @Nullable Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment argvPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
-                    handle(),
-                    (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()),
-                    (Addressable) (argv == null ? MemoryAddress.NULL : (Addressable) argvPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment argcPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment argvPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
+                        handle(),
+                        (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()),
+                        (Addressable) (argv == null ? MemoryAddress.NULL : (Addressable) argvPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
+            java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
+            for (int I = 0; I < argc.get().intValue(); I++) {
+                var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                argvARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+                }
+            argv.set(argvARRAY);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
-        for (int I = 0; I < argc.get().intValue(); I++) {
-            var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        argv.set(argvARRAY);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -306,20 +305,22 @@ public class OptionContext extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean parseStrv(@Nullable java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_option_context_parse_strv.invokeExact(
-                    handle(),
-                    (Addressable) (arguments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(arguments, false)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_option_context_parse_strv.invokeExact(
+                        handle(),
+                        (Addressable) (arguments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(arguments, false, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -332,12 +333,14 @@ public class OptionContext extends Struct {
      *   after the list of options, or {@code null}
      */
     public void setDescription(@Nullable java.lang.String description) {
-        try {
-            DowncallHandles.g_option_context_set_description.invokeExact(
-                    handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_context_set_description.invokeExact(
+                        handle(),
+                        (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -445,12 +448,14 @@ public class OptionContext extends Struct {
      *  before the list of options, or {@code null}
      */
     public void setSummary(@Nullable java.lang.String summary) {
-        try {
-            DowncallHandles.g_option_context_set_summary.invokeExact(
-                    handle(),
-                    (Addressable) (summary == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(summary, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_context_set_summary.invokeExact(
+                        handle(),
+                        (Addressable) (summary == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(summary, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -487,12 +492,14 @@ public class OptionContext extends Struct {
      * @param domain the domain to use
      */
     public void setTranslationDomain(java.lang.String domain) {
-        try {
-            DowncallHandles.g_option_context_set_translation_domain.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(domain, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_option_context_set_translation_domain.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(domain, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -523,142 +530,143 @@ public class OptionContext extends Struct {
      *    freed with g_option_context_free() after use.
      */
     public static org.gtk.glib.OptionContext new_(@Nullable java.lang.String parameterString) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_option_context_new.invokeExact(
-                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(parameterString, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_option_context_new.invokeExact((Addressable) (parameterString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(parameterString, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.OptionContext.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.OptionContext.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_option_context_add_group = Interop.downcallHandle(
-            "g_option_context_add_group",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_add_group",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_add_main_entries = Interop.downcallHandle(
-            "g_option_context_add_main_entries",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_add_main_entries",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_free = Interop.downcallHandle(
-            "g_option_context_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_description = Interop.downcallHandle(
-            "g_option_context_get_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_description",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_help = Interop.downcallHandle(
-            "g_option_context_get_help",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_help",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_help_enabled = Interop.downcallHandle(
-            "g_option_context_get_help_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_help_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_ignore_unknown_options = Interop.downcallHandle(
-            "g_option_context_get_ignore_unknown_options",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_ignore_unknown_options",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_main_group = Interop.downcallHandle(
-            "g_option_context_get_main_group",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_main_group",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_strict_posix = Interop.downcallHandle(
-            "g_option_context_get_strict_posix",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_strict_posix",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_get_summary = Interop.downcallHandle(
-            "g_option_context_get_summary",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_get_summary",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_parse = Interop.downcallHandle(
-            "g_option_context_parse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_parse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_parse_strv = Interop.downcallHandle(
-            "g_option_context_parse_strv",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_parse_strv",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_set_description = Interop.downcallHandle(
-            "g_option_context_set_description",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_set_description",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_set_help_enabled = Interop.downcallHandle(
-            "g_option_context_set_help_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_option_context_set_help_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_option_context_set_ignore_unknown_options = Interop.downcallHandle(
-            "g_option_context_set_ignore_unknown_options",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_option_context_set_ignore_unknown_options",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_option_context_set_main_group = Interop.downcallHandle(
-            "g_option_context_set_main_group",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_set_main_group",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_set_strict_posix = Interop.downcallHandle(
-            "g_option_context_set_strict_posix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_option_context_set_strict_posix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_option_context_set_summary = Interop.downcallHandle(
-            "g_option_context_set_summary",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_set_summary",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_set_translate_func = Interop.downcallHandle(
-            "g_option_context_set_translate_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_set_translate_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_set_translation_domain = Interop.downcallHandle(
-            "g_option_context_set_translation_domain",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_set_translation_domain",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_option_context_new = Interop.downcallHandle(
-            "g_option_context_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_option_context_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

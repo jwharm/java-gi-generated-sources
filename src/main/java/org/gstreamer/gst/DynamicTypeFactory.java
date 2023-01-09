@@ -45,26 +45,17 @@ public class DynamicTypeFactory extends org.gstreamer.gst.PluginFeature {
     
     /**
      * Create a DynamicTypeFactory proxy instance for the provided memory address.
-     * <p>
-     * Because DynamicTypeFactory is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DynamicTypeFactory(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected DynamicTypeFactory(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DynamicTypeFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DynamicTypeFactory(input, ownership);
+    public static final Marshal<Addressable, DynamicTypeFactory> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DynamicTypeFactory(input);
     
     /**
      * Get the gtype
@@ -81,14 +72,15 @@ public class DynamicTypeFactory extends org.gstreamer.gst.PluginFeature {
     }
     
     public static org.gtk.glib.Type load(java.lang.String factoryname) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_dynamic_type_factory_load.invokeExact(
-                    Marshal.stringToAddress.marshal(factoryname, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_dynamic_type_factory_load.invokeExact(Marshal.stringToAddress.marshal(factoryname, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -107,6 +99,9 @@ public class DynamicTypeFactory extends org.gstreamer.gst.PluginFeature {
      */
     public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -131,15 +126,23 @@ public class DynamicTypeFactory extends org.gstreamer.gst.PluginFeature {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_dynamic_type_factory_get_type = Interop.downcallHandle(
-            "gst_dynamic_type_factory_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_dynamic_type_factory_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_dynamic_type_factory_load = Interop.downcallHandle(
-            "gst_dynamic_type_factory_load",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_dynamic_type_factory_load",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_dynamic_type_factory_get_type != null;
     }
 }

@@ -63,25 +63,29 @@ public class TextMark extends org.gtk.gobject.GObject {
     /**
      * Create a TextMark proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TextMark(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TextMark(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TextMark> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextMark(input, ownership);
+    public static final Marshal<Addressable, TextMark> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TextMark(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String name, boolean leftGravity) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
-                    Marshal.booleanToInteger.marshal(leftGravity, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)),
+                        Marshal.booleanToInteger.marshal(leftGravity, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -100,7 +104,8 @@ public class TextMark extends org.gtk.gobject.GObject {
      * @param leftGravity whether the mark should have left gravity
      */
     public TextMark(@Nullable java.lang.String name, boolean leftGravity) {
-        super(constructNew(name, leftGravity), Ownership.FULL);
+        super(constructNew(name, leftGravity));
+        this.takeOwnership();
     }
     
     /**
@@ -112,12 +117,11 @@ public class TextMark extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextBuffer) Interop.register(RESULT, org.gtk.gtk.TextBuffer.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -130,8 +134,7 @@ public class TextMark extends org.gtk.gobject.GObject {
     public boolean getDeleted() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_deleted.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_deleted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,8 +148,7 @@ public class TextMark extends org.gtk.gobject.GObject {
     public boolean getLeftGravity() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_left_gravity.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_left_gravity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,8 +164,7 @@ public class TextMark extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,8 +180,7 @@ public class TextMark extends org.gtk.gobject.GObject {
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_text_mark_get_visible.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,6 +227,9 @@ public class TextMark extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -277,51 +280,59 @@ public class TextMark extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_text_mark_new = Interop.downcallHandle(
-            "gtk_text_mark_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_text_mark_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_buffer = Interop.downcallHandle(
-            "gtk_text_mark_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_mark_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_deleted = Interop.downcallHandle(
-            "gtk_text_mark_get_deleted",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_mark_get_deleted",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_left_gravity = Interop.downcallHandle(
-            "gtk_text_mark_get_left_gravity",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_mark_get_left_gravity",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_name = Interop.downcallHandle(
-            "gtk_text_mark_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_mark_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_visible = Interop.downcallHandle(
-            "gtk_text_mark_get_visible",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_text_mark_get_visible",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_set_visible = Interop.downcallHandle(
-            "gtk_text_mark_set_visible",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_text_mark_set_visible",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_text_mark_get_type = Interop.downcallHandle(
-            "gtk_text_mark_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_text_mark_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_text_mark_get_type != null;
     }
 }

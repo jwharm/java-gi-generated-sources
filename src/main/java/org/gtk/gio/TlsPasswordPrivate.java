@@ -29,8 +29,8 @@ public class TlsPasswordPrivate extends Struct {
      * @return A new, uninitialized @{link TlsPasswordPrivate}
      */
     public static TlsPasswordPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsPasswordPrivate newInstance = new TlsPasswordPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsPasswordPrivate newInstance = new TlsPasswordPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TlsPasswordPrivate extends Struct {
     /**
      * Create a TlsPasswordPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsPasswordPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsPasswordPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsPasswordPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsPasswordPrivate(input, ownership);
+    public static final Marshal<Addressable, TlsPasswordPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsPasswordPrivate(input);
 }

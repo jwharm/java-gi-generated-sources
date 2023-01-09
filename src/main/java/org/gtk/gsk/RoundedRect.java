@@ -47,8 +47,8 @@ public class RoundedRect extends Struct {
      * @return A new, uninitialized @{link RoundedRect}
      */
     public static RoundedRect allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RoundedRect newInstance = new RoundedRect(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RoundedRect newInstance = new RoundedRect(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -59,7 +59,7 @@ public class RoundedRect extends Struct {
      */
     public org.gtk.graphene.Rect getBounds() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("bounds"));
-        return org.gtk.graphene.Rect.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.graphene.Rect.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -67,9 +67,11 @@ public class RoundedRect extends Struct {
      * @param bounds The new value of the field {@code bounds}
      */
     public void setBounds(org.gtk.graphene.Rect bounds) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
+        }
     }
     
     /**
@@ -77,10 +79,12 @@ public class RoundedRect extends Struct {
      * @return The value of the field {@code corner}
      */
     public org.gtk.graphene.Size[] getCorner() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("corner"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.graphene.Size>(RESULT, org.gtk.graphene.Size.fromAddress).toArray((int) 4, org.gtk.graphene.Size.class);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gtk.graphene.Size>(RESULT, org.gtk.graphene.Size.fromAddress).toArray((int) 4, org.gtk.graphene.Size.class);
+        }
     }
     
     /**
@@ -88,22 +92,26 @@ public class RoundedRect extends Struct {
      * @param corner The new value of the field {@code corner}
      */
     public void setCorner(org.gtk.graphene.Size[] corner) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("corner"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a RoundedRect proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RoundedRect(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RoundedRect(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RoundedRect> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RoundedRect(input, ownership);
+    public static final Marshal<Addressable, RoundedRect> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RoundedRect(input);
     
     /**
      * Checks if the given {@code point} is inside the rounded rectangle.
@@ -164,7 +172,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -184,7 +192,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -204,7 +212,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -235,8 +243,7 @@ public class RoundedRect extends Struct {
     public boolean isRectilinear() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_rounded_rect_is_rectilinear.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_rounded_rect_is_rectilinear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -254,12 +261,11 @@ public class RoundedRect extends Struct {
     public org.gtk.gsk.RoundedRect normalize() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_normalize.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_normalize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -280,7 +286,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -310,69 +316,69 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_rounded_rect_contains_point = Interop.downcallHandle(
-            "gsk_rounded_rect_contains_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_contains_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_contains_rect = Interop.downcallHandle(
-            "gsk_rounded_rect_contains_rect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_contains_rect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_init = Interop.downcallHandle(
-            "gsk_rounded_rect_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_copy = Interop.downcallHandle(
-            "gsk_rounded_rect_init_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_init_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_init_from_rect = Interop.downcallHandle(
-            "gsk_rounded_rect_init_from_rect",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_rounded_rect_init_from_rect",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_intersects_rect = Interop.downcallHandle(
-            "gsk_rounded_rect_intersects_rect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_intersects_rect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_is_rectilinear = Interop.downcallHandle(
-            "gsk_rounded_rect_is_rectilinear",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_is_rectilinear",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_normalize = Interop.downcallHandle(
-            "gsk_rounded_rect_normalize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_rounded_rect_normalize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_offset = Interop.downcallHandle(
-            "gsk_rounded_rect_offset",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_rounded_rect_offset",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
         
         private static final MethodHandle gsk_rounded_rect_shrink = Interop.downcallHandle(
-            "gsk_rounded_rect_shrink",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
-            false
+                "gsk_rounded_rect_shrink",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT, Interop.valueLayout.C_FLOAT),
+                false
         );
     }
     
@@ -398,7 +404,7 @@ public class RoundedRect extends Struct {
             struct = RoundedRect.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RoundedRect} struct.
          * @return A new instance of {@code RoundedRect} with the fields 
          *         that were set in the Builder object.
@@ -413,10 +419,12 @@ public class RoundedRect extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBounds(org.gtk.graphene.Rect bounds) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
+                return this;
+            }
         }
         
         /**
@@ -425,10 +433,12 @@ public class RoundedRect extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCorner(org.gtk.graphene.Size[] corner) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("corner"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

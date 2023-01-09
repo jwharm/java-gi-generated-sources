@@ -39,26 +39,17 @@ public class LFOControlSource extends org.gstreamer.gst.ControlSource {
     
     /**
      * Create a LFOControlSource proxy instance for the provided memory address.
-     * <p>
-     * Because LFOControlSource is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LFOControlSource(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected LFOControlSource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LFOControlSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LFOControlSource(input, ownership);
+    public static final Marshal<Addressable, LFOControlSource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LFOControlSource(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -74,7 +65,8 @@ public class LFOControlSource extends org.gstreamer.gst.ControlSource {
      * This returns a new, unbound {@link LFOControlSource}.
      */
     public LFOControlSource() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -107,6 +99,9 @@ public class LFOControlSource extends org.gstreamer.gst.ControlSource {
      */
     public static class Builder extends org.gstreamer.gst.ControlSource.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -192,15 +187,23 @@ public class LFOControlSource extends org.gstreamer.gst.ControlSource {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_lfo_control_source_new = Interop.downcallHandle(
-            "gst_lfo_control_source_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_lfo_control_source_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_lfo_control_source_get_type = Interop.downcallHandle(
-            "gst_lfo_control_source_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_lfo_control_source_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_lfo_control_source_get_type != null;
     }
 }

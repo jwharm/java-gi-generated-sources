@@ -32,8 +32,8 @@ public class PlayerVideoRendererInterface extends Struct {
      * @return A new, uninitialized @{link PlayerVideoRendererInterface}
      */
     public static PlayerVideoRendererInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PlayerVideoRendererInterface newInstance = new PlayerVideoRendererInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PlayerVideoRendererInterface newInstance = new PlayerVideoRendererInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -44,7 +44,7 @@ public class PlayerVideoRendererInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParentIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -52,25 +52,42 @@ public class PlayerVideoRendererInterface extends Struct {
      * @param parentIface The new value of the field {@code parent_iface}
      */
     public void setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateVideoSinkCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateVideoSinkCallback {
+    
         org.gstreamer.gst.Element run(org.gstreamer.player.PlayerVideoRenderer self, org.gstreamer.player.Player player);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress player) {
-            var RESULT = run((org.gstreamer.player.PlayerVideoRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(self, Ownership.NONE), (org.gstreamer.player.Player) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(player)), org.gstreamer.player.Player.fromAddress).marshal(player, Ownership.NONE));
+            var RESULT = run((org.gstreamer.player.PlayerVideoRenderer) Interop.register(self, org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(self, null), (org.gstreamer.player.Player) Interop.register(player, org.gstreamer.player.Player.fromAddress).marshal(player, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateVideoSinkCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateVideoSinkCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -79,22 +96,26 @@ public class PlayerVideoRendererInterface extends Struct {
      * @param createVideoSink The new value of the field {@code create_video_sink}
      */
     public void setCreateVideoSink(CreateVideoSinkCallback createVideoSink) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_video_sink"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createVideoSink == null ? MemoryAddress.NULL : createVideoSink.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_video_sink"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createVideoSink == null ? MemoryAddress.NULL : createVideoSink.toCallback()));
+        }
     }
     
     /**
      * Create a PlayerVideoRendererInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerVideoRendererInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerVideoRendererInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerVideoRendererInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerVideoRendererInterface(input, ownership);
+    public static final Marshal<Addressable, PlayerVideoRendererInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerVideoRendererInterface(input);
     
     /**
      * A {@link PlayerVideoRendererInterface.Builder} object constructs a {@link PlayerVideoRendererInterface} 
@@ -118,7 +139,7 @@ public class PlayerVideoRendererInterface extends Struct {
             struct = PlayerVideoRendererInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PlayerVideoRendererInterface} struct.
          * @return A new instance of {@code PlayerVideoRendererInterface} with the fields 
          *         that were set in the Builder object.
@@ -128,17 +149,21 @@ public class PlayerVideoRendererInterface extends Struct {
         }
         
         public Builder setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+                return this;
+            }
         }
         
         public Builder setCreateVideoSink(CreateVideoSinkCallback createVideoSink) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_video_sink"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createVideoSink == null ? MemoryAddress.NULL : createVideoSink.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_video_sink"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createVideoSink == null ? MemoryAddress.NULL : createVideoSink.toCallback()));
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class TcpWrapperConnectionPrivate extends Struct {
      * @return A new, uninitialized @{link TcpWrapperConnectionPrivate}
      */
     public static TcpWrapperConnectionPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TcpWrapperConnectionPrivate newInstance = new TcpWrapperConnectionPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TcpWrapperConnectionPrivate newInstance = new TcpWrapperConnectionPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TcpWrapperConnectionPrivate extends Struct {
     /**
      * Create a TcpWrapperConnectionPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TcpWrapperConnectionPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TcpWrapperConnectionPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TcpWrapperConnectionPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnectionPrivate(input, ownership);
+    public static final Marshal<Addressable, TcpWrapperConnectionPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnectionPrivate(input);
 }

@@ -24,6 +24,9 @@ public class ObjectFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ObjectFlags LAST = new ObjectFlags(16);
     
+    /**
+     * Create a new ObjectFlags with the provided value
+     */
     public ObjectFlags(int value) {
         super(value);
     }

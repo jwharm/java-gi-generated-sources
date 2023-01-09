@@ -29,8 +29,8 @@ public class EventControllerLegacyClass extends Struct {
      * @return A new, uninitialized @{link EventControllerLegacyClass}
      */
     public static EventControllerLegacyClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        EventControllerLegacyClass newInstance = new EventControllerLegacyClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        EventControllerLegacyClass newInstance = new EventControllerLegacyClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class EventControllerLegacyClass extends Struct {
     /**
      * Create a EventControllerLegacyClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected EventControllerLegacyClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected EventControllerLegacyClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, EventControllerLegacyClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerLegacyClass(input, ownership);
+    public static final Marshal<Addressable, EventControllerLegacyClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerLegacyClass(input);
 }

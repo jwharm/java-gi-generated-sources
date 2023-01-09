@@ -27,6 +27,9 @@ public class MapFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MapFlags FLAG_LAST = new MapFlags(65536);
     
+    /**
+     * Create a new MapFlags with the provided value
+     */
     public MapFlags(int value) {
         super(value);
     }

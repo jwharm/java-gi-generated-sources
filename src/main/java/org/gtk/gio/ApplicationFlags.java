@@ -96,6 +96,9 @@ public class ApplicationFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ApplicationFlags REPLACE = new ApplicationFlags(256);
     
+    /**
+     * Create a new ApplicationFlags with the provided value
+     */
     public ApplicationFlags(int value) {
         super(value);
     }

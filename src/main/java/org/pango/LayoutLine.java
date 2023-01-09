@@ -44,8 +44,8 @@ public class LayoutLine extends Struct {
      * @return A new, uninitialized @{link LayoutLine}
      */
     public static LayoutLine allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LayoutLine newInstance = new LayoutLine(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LayoutLine newInstance = new LayoutLine(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -55,10 +55,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code layout}
      */
     public org.pango.Layout getLayout() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("layout"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layout"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.pango.Layout) Interop.register(RESULT, org.pango.Layout.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -66,9 +68,11 @@ public class LayoutLine extends Struct {
      * @param layout The new value of the field {@code layout}
      */
     public void setLayout(org.pango.Layout layout) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("layout"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("layout"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
+        }
     }
     
     /**
@@ -76,10 +80,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code start_index}
      */
     public int getStartIndex_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -87,9 +93,11 @@ public class LayoutLine extends Struct {
      * @param startIndex The new value of the field {@code start_index}
      */
     public void setStartIndex(int startIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), startIndex);
+        }
     }
     
     /**
@@ -97,10 +105,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code length}
      */
     public int getLength_() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -108,9 +118,11 @@ public class LayoutLine extends Struct {
      * @param length The new value of the field {@code length}
      */
     public void setLength(int length) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("length"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), length);
+        }
     }
     
     /**
@@ -118,10 +130,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code runs}
      */
     public org.gtk.glib.SList getRuns() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("runs"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("runs"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.SList.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -129,9 +143,11 @@ public class LayoutLine extends Struct {
      * @param runs The new value of the field {@code runs}
      */
     public void setRuns(org.gtk.glib.SList runs) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("runs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("runs"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
+        }
     }
     
     /**
@@ -139,10 +155,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code is_paragraph_start}
      */
     public int getIsParagraphStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -150,9 +168,11 @@ public class LayoutLine extends Struct {
      * @param isParagraphStart The new value of the field {@code is_paragraph_start}
      */
     public void setIsParagraphStart(int isParagraphStart) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isParagraphStart);
+        }
     }
     
     /**
@@ -160,10 +180,12 @@ public class LayoutLine extends Struct {
      * @return The value of the field {@code resolved_dir}
      */
     public int getResolvedDir() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -171,22 +193,26 @@ public class LayoutLine extends Struct {
      * @param resolvedDir The new value of the field {@code resolved_dir}
      */
     public void setResolvedDir(int resolvedDir) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), resolvedDir);
+        }
     }
     
     /**
      * Create a LayoutLine proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LayoutLine(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LayoutLine(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LayoutLine> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutLine(input, ownership);
+    public static final Marshal<Addressable, LayoutLine> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LayoutLine(input);
     
     /**
      * Computes the logical and ink extents of a layout line.
@@ -220,15 +246,17 @@ public class LayoutLine extends Struct {
      * @param height return location for the line height
      */
     public void getHeight(Out<Integer> height) {
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_line_get_height.invokeExact(
-                    handle(),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_line_get_height.invokeExact(
+                        handle(),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -238,8 +266,7 @@ public class LayoutLine extends Struct {
     public int getLength() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_line_get_length.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_line_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -276,8 +303,7 @@ public class LayoutLine extends Struct {
     public org.pango.Direction getResolvedDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_line_get_resolved_direction.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_line_get_resolved_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,8 +318,7 @@ public class LayoutLine extends Struct {
     public int getStartIndex() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_line_get_start_index.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_line_get_start_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,20 +349,22 @@ public class LayoutLine extends Struct {
      * @param nRanges The number of ranges stored in {@code ranges}
      */
     public void getXRanges(int startIndex, int endIndex, Out<int[]> ranges, Out<Integer> nRanges) {
-        MemorySegment rangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_line_get_x_ranges.invokeExact(
-                    handle(),
-                    startIndex,
-                    endIndex,
-                    (Addressable) rangesPOINTER.address(),
-                    (Addressable) nRangesPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment rangesPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment nRangesPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_line_get_x_ranges.invokeExact(
+                        handle(),
+                        startIndex,
+                        endIndex,
+                        (Addressable) rangesPOINTER.address(),
+                        (Addressable) nRangesPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nRanges.set(nRangesPOINTER.get(Interop.valueLayout.C_INT, 0));
+            ranges.set(MemorySegment.ofAddress(rangesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nRanges.get().intValue() * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT));
         }
-        nRanges.set(nRangesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        ranges.set(MemorySegment.ofAddress(rangesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nRanges.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
     }
     
     /**
@@ -349,17 +376,19 @@ public class LayoutLine extends Struct {
      * @param xPos location to store the x_offset (in Pango units)
      */
     public void indexToX(int index, boolean trailing, Out<Integer> xPos) {
-        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.pango_layout_line_index_to_x.invokeExact(
-                    handle(),
-                    index,
-                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
-                    (Addressable) xPosPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPosPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.pango_layout_line_index_to_x.invokeExact(
+                        handle(),
+                        index,
+                        Marshal.booleanToInteger.marshal(trailing, null).intValue(),
+                        (Addressable) xPosPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -369,8 +398,7 @@ public class LayoutLine extends Struct {
     public boolean isParagraphStart() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_layout_line_is_paragraph_start.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_layout_line_is_paragraph_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,12 +412,13 @@ public class LayoutLine extends Struct {
     public @Nullable org.pango.LayoutLine ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_layout_line_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_layout_line_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.LayoutLine.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -400,8 +429,7 @@ public class LayoutLine extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.pango_layout_line_unref.invokeExact(
-                    handle());
+            DowncallHandles.pango_layout_line_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -428,95 +456,97 @@ public class LayoutLine extends Struct {
      * @return {@code false} if {@code x_pos} was outside the line, {@code true} if inside
      */
     public boolean xToIndex(int xPos, Out<Integer> index, Out<Integer> trailing) {
-        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.pango_layout_line_x_to_index.invokeExact(
-                    handle(),
-                    xPos,
-                    (Addressable) indexPOINTER.address(),
-                    (Addressable) trailingPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment indexPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment trailingPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.pango_layout_line_x_to_index.invokeExact(
+                        handle(),
+                        xPos,
+                        (Addressable) indexPOINTER.address(),
+                        (Addressable) trailingPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_layout_line_get_extents = Interop.downcallHandle(
-            "pango_layout_line_get_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_height = Interop.downcallHandle(
-            "pango_layout_line_get_height",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_height",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_length = Interop.downcallHandle(
-            "pango_layout_line_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_pixel_extents = Interop.downcallHandle(
-            "pango_layout_line_get_pixel_extents",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_pixel_extents",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_resolved_direction = Interop.downcallHandle(
-            "pango_layout_line_get_resolved_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_resolved_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_start_index = Interop.downcallHandle(
-            "pango_layout_line_get_start_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_start_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_get_x_ranges = Interop.downcallHandle(
-            "pango_layout_line_get_x_ranges",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_get_x_ranges",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_index_to_x = Interop.downcallHandle(
-            "pango_layout_line_index_to_x",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_index_to_x",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_is_paragraph_start = Interop.downcallHandle(
-            "pango_layout_line_is_paragraph_start",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_is_paragraph_start",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_ref = Interop.downcallHandle(
-            "pango_layout_line_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_unref = Interop.downcallHandle(
-            "pango_layout_line_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_layout_line_x_to_index = Interop.downcallHandle(
-            "pango_layout_line_x_to_index",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_layout_line_x_to_index",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -542,7 +572,7 @@ public class LayoutLine extends Struct {
             struct = LayoutLine.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LayoutLine} struct.
          * @return A new instance of {@code LayoutLine} with the fields 
          *         that were set in the Builder object.
@@ -557,10 +587,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLayout(org.pango.Layout layout) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("layout"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("layout"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
+                return this;
+            }
         }
         
         /**
@@ -569,10 +601,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStartIndex(int startIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), startIndex);
+                return this;
+            }
         }
         
         /**
@@ -581,10 +615,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLength(int length) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("length"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), length);
+                return this;
+            }
         }
         
         /**
@@ -594,10 +630,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRuns(org.gtk.glib.SList runs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("runs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("runs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
+                return this;
+            }
         }
         
         /**
@@ -606,10 +644,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsParagraphStart(int isParagraphStart) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isParagraphStart);
+                return this;
+            }
         }
         
         /**
@@ -618,10 +658,12 @@ public class LayoutLine extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setResolvedDir(int resolvedDir) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), resolvedDir);
+                return this;
+            }
         }
     }
 }

@@ -47,8 +47,8 @@ public class Matrix extends Struct {
      * @return A new, uninitialized @{link Matrix}
      */
     public static Matrix allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Matrix newInstance = new Matrix(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Matrix newInstance = new Matrix(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,10 +58,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code xx}
      */
     public double getXx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("xx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -69,9 +71,11 @@ public class Matrix extends Struct {
      * @param xx The new value of the field {@code xx}
      */
     public void setXx(double xx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("xx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), xx);
+        }
     }
     
     /**
@@ -79,10 +83,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code xy}
      */
     public double getXy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("xy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -90,9 +96,11 @@ public class Matrix extends Struct {
      * @param xy The new value of the field {@code xy}
      */
     public void setXy(double xy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("xy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), xy);
+        }
     }
     
     /**
@@ -100,10 +108,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code yx}
      */
     public double getYx() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("yx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -111,9 +121,11 @@ public class Matrix extends Struct {
      * @param yx The new value of the field {@code yx}
      */
     public void setYx(double yx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("yx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), yx);
+        }
     }
     
     /**
@@ -121,10 +133,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code yy}
      */
     public double getYy() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("yy"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -132,9 +146,11 @@ public class Matrix extends Struct {
      * @param yy The new value of the field {@code yy}
      */
     public void setYy(double yy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("yy"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), yy);
+        }
     }
     
     /**
@@ -142,10 +158,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code x0}
      */
     public double getX0() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x0"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -153,9 +171,11 @@ public class Matrix extends Struct {
      * @param x0 The new value of the field {@code x0}
      */
     public void setX0(double x0) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("x0"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), x0);
+        }
     }
     
     /**
@@ -163,10 +183,12 @@ public class Matrix extends Struct {
      * @return The value of the field {@code y0}
      */
     public double getY0() {
-        var RESULT = (double) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y0"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (double) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -174,22 +196,26 @@ public class Matrix extends Struct {
      * @param y0 The new value of the field {@code y0}
      */
     public void setY0(double y0) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("y0"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), y0);
+        }
     }
     
     /**
      * Create a Matrix proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Matrix(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Matrix(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Matrix> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input, ownership);
+    public static final Marshal<Addressable, Matrix> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input);
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -214,12 +240,13 @@ public class Matrix extends Struct {
     public @Nullable org.pango.Matrix copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_matrix_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_matrix_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Matrix.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Matrix.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -227,8 +254,7 @@ public class Matrix extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.pango_matrix_free.invokeExact(
-                    handle());
+            DowncallHandles.pango_matrix_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,8 +272,7 @@ public class Matrix extends Struct {
     public double getFontScaleFactor() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_matrix_get_font_scale_factor.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.pango_matrix_get_font_scale_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,18 +291,20 @@ public class Matrix extends Struct {
      * @param yscale output scale factor perpendicular to the x direction
      */
     public void getFontScaleFactors(Out<Double> xscale, Out<Double> yscale) {
-        MemorySegment xscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(
-                    handle(),
-                    (Addressable) (xscale == null ? MemoryAddress.NULL : (Addressable) xscalePOINTER.address()),
-                    (Addressable) (yscale == null ? MemoryAddress.NULL : (Addressable) yscalePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xscalePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yscalePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(
+                        handle(),
+                        (Addressable) (xscale == null ? MemoryAddress.NULL : (Addressable) xscalePOINTER.address()),
+                        (Addressable) (yscale == null ? MemoryAddress.NULL : (Addressable) yscalePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (xscale != null) xscale.set(xscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (yscale != null) yscale.set(yscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        if (xscale != null) xscale.set(xscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (yscale != null) yscale.set(yscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -294,8 +321,7 @@ public class Matrix extends Struct {
     public double getSlantRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_matrix_get_slant_ratio.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.pango_matrix_get_slant_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -356,18 +382,20 @@ public class Matrix extends Struct {
      * @param dy in/out Y component of a distance vector
      */
     public void transformDistance(Out<Double> dx, Out<Double> dy) {
-        MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.pango_matrix_transform_distance.invokeExact(
-                    handle(),
-                    (Addressable) dxPOINTER.address(),
-                    (Addressable) dyPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment dxPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment dyPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.pango_matrix_transform_distance.invokeExact(
+                        handle(),
+                        (Addressable) dxPOINTER.address(),
+                        (Addressable) dyPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    dx.set(dxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    dy.set(dyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        dx.set(dxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        dy.set(dyPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -400,18 +428,20 @@ public class Matrix extends Struct {
      * @param y in/out Y position
      */
     public void transformPoint(Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.pango_matrix_transform_point.invokeExact(
-                    handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.pango_matrix_transform_point.invokeExact(
+                        handle(),
+                        (Addressable) xPOINTER.address(),
+                        (Addressable) yPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -467,81 +497,81 @@ public class Matrix extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_matrix_concat = Interop.downcallHandle(
-            "pango_matrix_concat",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_concat",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_copy = Interop.downcallHandle(
-            "pango_matrix_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_free = Interop.downcallHandle(
-            "pango_matrix_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_get_font_scale_factor = Interop.downcallHandle(
-            "pango_matrix_get_font_scale_factor",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_get_font_scale_factor",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_get_font_scale_factors = Interop.downcallHandle(
-            "pango_matrix_get_font_scale_factors",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_get_font_scale_factors",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_get_slant_ratio = Interop.downcallHandle(
-            "pango_matrix_get_slant_ratio",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_get_slant_ratio",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_rotate = Interop.downcallHandle(
-            "pango_matrix_rotate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_matrix_rotate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle pango_matrix_scale = Interop.downcallHandle(
-            "pango_matrix_scale",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_matrix_scale",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle pango_matrix_transform_distance = Interop.downcallHandle(
-            "pango_matrix_transform_distance",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_transform_distance",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_transform_pixel_rectangle = Interop.downcallHandle(
-            "pango_matrix_transform_pixel_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_transform_pixel_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_transform_point = Interop.downcallHandle(
-            "pango_matrix_transform_point",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_transform_point",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_transform_rectangle = Interop.downcallHandle(
-            "pango_matrix_transform_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_matrix_transform_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_matrix_translate = Interop.downcallHandle(
-            "pango_matrix_translate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "pango_matrix_translate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
     }
     
@@ -567,7 +597,7 @@ public class Matrix extends Struct {
             struct = Matrix.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Matrix} struct.
          * @return A new instance of {@code Matrix} with the fields 
          *         that were set in the Builder object.
@@ -582,10 +612,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setXx(double xx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("xx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("xx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), xx);
+                return this;
+            }
         }
         
         /**
@@ -594,10 +626,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setXy(double xy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("xy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("xy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), xy);
+                return this;
+            }
         }
         
         /**
@@ -606,10 +640,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYx(double yx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("yx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("yx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), yx);
+                return this;
+            }
         }
         
         /**
@@ -618,10 +654,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setYy(double yy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("yy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("yy"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), yy);
+                return this;
+            }
         }
         
         /**
@@ -630,10 +668,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setX0(double x0) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("x0"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("x0"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), x0);
+                return this;
+            }
         }
         
         /**
@@ -642,10 +682,12 @@ public class Matrix extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setY0(double y0) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("y0"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("y0"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), y0);
+                return this;
+            }
         }
     }
 }

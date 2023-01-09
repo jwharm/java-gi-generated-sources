@@ -28,14 +28,16 @@ public class LeafletPage extends org.gtk.gobject.GObject {
     /**
      * Create a LeafletPage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LeafletPage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LeafletPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LeafletPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LeafletPage(input, ownership);
+    public static final Marshal<Addressable, LeafletPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LeafletPage(input);
     
     /**
      * Gets the leaflet child to which {@code self} belongs.
@@ -44,12 +46,11 @@ public class LeafletPage extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -59,8 +60,7 @@ public class LeafletPage extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +74,7 @@ public class LeafletPage extends org.gtk.gobject.GObject {
     public boolean getNavigatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_leaflet_page_get_navigatable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_leaflet_page_get_navigatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -87,12 +86,14 @@ public class LeafletPage extends org.gtk.gobject.GObject {
      * @param name the new value to set
      */
     public void setName(@Nullable java.lang.String name) {
-        try {
-            DowncallHandles.adw_leaflet_page_set_name.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_leaflet_page_set_name.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -145,6 +146,9 @@ public class LeafletPage extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -208,39 +212,47 @@ public class LeafletPage extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_leaflet_page_get_child = Interop.downcallHandle(
-            "adw_leaflet_page_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_leaflet_page_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_leaflet_page_get_name = Interop.downcallHandle(
-            "adw_leaflet_page_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_leaflet_page_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_leaflet_page_get_navigatable = Interop.downcallHandle(
-            "adw_leaflet_page_get_navigatable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_leaflet_page_get_navigatable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_leaflet_page_set_name = Interop.downcallHandle(
-            "adw_leaflet_page_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_leaflet_page_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_leaflet_page_set_navigatable = Interop.downcallHandle(
-            "adw_leaflet_page_set_navigatable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_leaflet_page_set_navigatable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_leaflet_page_get_type = Interop.downcallHandle(
-            "adw_leaflet_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_leaflet_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_leaflet_page_get_type != null;
     }
 }

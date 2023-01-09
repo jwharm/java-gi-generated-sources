@@ -29,8 +29,8 @@ public class ATContextClass extends Struct {
      * @return A new, uninitialized @{link ATContextClass}
      */
     public static ATContextClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ATContextClass newInstance = new ATContextClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ATContextClass newInstance = new ATContextClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ATContextClass extends Struct {
     /**
      * Create a ATContextClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ATContextClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ATContextClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ATContextClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ATContextClass(input, ownership);
+    public static final Marshal<Addressable, ATContextClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ATContextClass(input);
 }

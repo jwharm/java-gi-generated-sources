@@ -38,8 +38,8 @@ public class AudioCdSrcClass extends Struct {
      * @return A new, uninitialized @{link AudioCdSrcClass}
      */
     public static AudioCdSrcClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioCdSrcClass newInstance = new AudioCdSrcClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioCdSrcClass newInstance = new AudioCdSrcClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,7 +50,7 @@ public class AudioCdSrcClass extends Struct {
      */
     public org.gstreamer.base.PushSrcClass getPushsrcClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pushsrc_class"));
-        return org.gstreamer.base.PushSrcClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.PushSrcClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -58,25 +58,44 @@ public class AudioCdSrcClass extends Struct {
      * @param pushsrcClass The new value of the field {@code pushsrc_class}
      */
     public void setPushsrcClass(org.gstreamer.base.PushSrcClass pushsrcClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pushsrc_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushsrcClass == null ? MemoryAddress.NULL : pushsrcClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pushsrc_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pushsrcClass == null ? MemoryAddress.NULL : pushsrcClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OpenCallback} callback.
+     */
     @FunctionalInterface
     public interface OpenCallback {
+    
         boolean run(org.gstreamer.audio.AudioCdSrc src, java.lang.String device);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress src, MemoryAddress device) {
-            var RESULT = run((org.gstreamer.audio.AudioCdSrc) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(src)), org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, Ownership.NONE), Marshal.addressToString.marshal(device, null));
-            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.audio.AudioCdSrc) Interop.register(src, org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, null), Marshal.addressToString.marshal(device, null));
+                return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OpenCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OpenCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -85,24 +104,41 @@ public class AudioCdSrcClass extends Struct {
      * @param open The new value of the field {@code open}
      */
     public void setOpen(OpenCallback open) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("open"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CloseCallback} callback.
+     */
     @FunctionalInterface
     public interface CloseCallback {
+    
         void run(org.gstreamer.audio.AudioCdSrc src);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress src) {
-            run((org.gstreamer.audio.AudioCdSrc) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(src)), org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, Ownership.NONE));
+            run((org.gstreamer.audio.AudioCdSrc) Interop.register(src, org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CloseCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -111,25 +147,43 @@ public class AudioCdSrcClass extends Struct {
      * @param close The new value of the field {@code close}
      */
     public void setClose(CloseCallback close) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("close"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ReadSectorCallback} callback.
+     */
     @FunctionalInterface
     public interface ReadSectorCallback {
+    
         org.gstreamer.gst.Buffer run(org.gstreamer.audio.AudioCdSrc src, int sector);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress src, int sector) {
-            var RESULT = run((org.gstreamer.audio.AudioCdSrc) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(src)), org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, Ownership.NONE), sector);
+            var RESULT = run((org.gstreamer.audio.AudioCdSrc) Interop.register(src, org.gstreamer.audio.AudioCdSrc.fromAddress).marshal(src, null), sector);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadSectorCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ReadSectorCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -138,22 +192,26 @@ public class AudioCdSrcClass extends Struct {
      * @param readSector The new value of the field {@code read_sector}
      */
     public void setReadSector(ReadSectorCallback readSector) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("read_sector"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readSector == null ? MemoryAddress.NULL : readSector.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("read_sector"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (readSector == null ? MemoryAddress.NULL : readSector.toCallback()));
+        }
     }
     
     /**
      * Create a AudioCdSrcClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioCdSrcClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioCdSrcClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioCdSrcClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrcClass(input, ownership);
+    public static final Marshal<Addressable, AudioCdSrcClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrcClass(input);
     
     /**
      * A {@link AudioCdSrcClass.Builder} object constructs a {@link AudioCdSrcClass} 
@@ -177,7 +235,7 @@ public class AudioCdSrcClass extends Struct {
             struct = AudioCdSrcClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AudioCdSrcClass} struct.
          * @return A new instance of {@code AudioCdSrcClass} with the fields 
          *         that were set in the Builder object.
@@ -192,38 +250,48 @@ public class AudioCdSrcClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPushsrcClass(org.gstreamer.base.PushSrcClass pushsrcClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pushsrc_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushsrcClass == null ? MemoryAddress.NULL : pushsrcClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pushsrc_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pushsrcClass == null ? MemoryAddress.NULL : pushsrcClass.handle()));
+                return this;
+            }
         }
         
         public Builder setOpen(OpenCallback open) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("open"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("open"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (open == null ? MemoryAddress.NULL : open.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClose(CloseCallback close) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("close"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("close"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (close == null ? MemoryAddress.NULL : close.toCallback()));
+                return this;
+            }
         }
         
         public Builder setReadSector(ReadSectorCallback readSector) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("read_sector"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readSector == null ? MemoryAddress.NULL : readSector.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("read_sector"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (readSector == null ? MemoryAddress.NULL : readSector.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

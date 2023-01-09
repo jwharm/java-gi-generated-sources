@@ -29,8 +29,8 @@ public class Context extends Struct {
      * @return A new, uninitialized @{link Context}
      */
     public static Context allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Context newInstance = new Context(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Context newInstance = new Context(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Context extends Struct {
     /**
      * Create a Context proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Context(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Context(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Context> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Context(input, ownership);
+    public static final Marshal<Addressable, Context> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Context(input);
 }

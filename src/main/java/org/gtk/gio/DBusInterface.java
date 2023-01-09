@@ -13,8 +13,11 @@ import org.jetbrains.annotations.*;
  */
 public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusInterfaceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceImpl(input, ownership);
+    public static final Marshal<Addressable, DBusInterfaceImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceImpl(input);
     
     /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
@@ -24,12 +27,13 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.DBusObject getObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_dup_object.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_dup_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.DBusObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusObject.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.DBusObject) Interop.register(RESULT, org.gtk.gio.DBusObject.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -40,12 +44,11 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.DBusInterfaceInfo getInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.DBusInterfaceInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gio.DBusInterfaceInfo.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -83,41 +86,56 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_dup_object = Interop.downcallHandle(
-            "g_dbus_interface_dup_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_dup_object",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_get_info = Interop.downcallHandle(
-            "g_dbus_interface_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_set_object = Interop.downcallHandle(
-            "g_dbus_interface_set_object",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dbus_interface_set_object",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_get_type = Interop.downcallHandle(
-            "g_dbus_interface_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dbus_interface_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The DBusInterfaceImpl type represents a native instance of the DBusInterface interface.
+     */
     class DBusInterfaceImpl extends org.gtk.gobject.GObject implements DBusInterface {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public DBusInterfaceImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of DBusInterface for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public DBusInterfaceImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dbus_interface_get_type != null;
     }
 }

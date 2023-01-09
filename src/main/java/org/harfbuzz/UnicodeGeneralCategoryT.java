@@ -10,122 +10,152 @@ import org.jetbrains.annotations.*;
  * the Unicode Character Database.
  */
 public enum UnicodeGeneralCategoryT implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * [Cc]
      */
     CONTROL(0),
+    
     /**
      * [Cf]
      */
     FORMAT(1),
+    
     /**
      * [Cn]
      */
     UNASSIGNED(2),
+    
     /**
      * [Co]
      */
     PRIVATE_USE(3),
+    
     /**
      * [Cs]
      */
     SURROGATE(4),
+    
     /**
      * [Ll]
      */
     LOWERCASE_LETTER(5),
+    
     /**
      * [Lm]
      */
     MODIFIER_LETTER(6),
+    
     /**
      * [Lo]
      */
     OTHER_LETTER(7),
+    
     /**
      * [Lt]
      */
     TITLECASE_LETTER(8),
+    
     /**
      * [Lu]
      */
     UPPERCASE_LETTER(9),
+    
     /**
      * [Mc]
      */
     SPACING_MARK(10),
+    
     /**
      * [Me]
      */
     ENCLOSING_MARK(11),
+    
     /**
      * [Mn]
      */
     NON_SPACING_MARK(12),
+    
     /**
      * [Nd]
      */
     DECIMAL_NUMBER(13),
+    
     /**
      * [Nl]
      */
     LETTER_NUMBER(14),
+    
     /**
      * [No]
      */
     OTHER_NUMBER(15),
+    
     /**
      * [Pc]
      */
     CONNECT_PUNCTUATION(16),
+    
     /**
      * [Pd]
      */
     DASH_PUNCTUATION(17),
+    
     /**
      * [Pe]
      */
     CLOSE_PUNCTUATION(18),
+    
     /**
      * [Pf]
      */
     FINAL_PUNCTUATION(19),
+    
     /**
      * [Pi]
      */
     INITIAL_PUNCTUATION(20),
+    
     /**
      * [Po]
      */
     OTHER_PUNCTUATION(21),
+    
     /**
      * [Ps]
      */
     OPEN_PUNCTUATION(22),
+    
     /**
      * [Sc]
      */
     CURRENCY_SYMBOL(23),
+    
     /**
      * [Sk]
      */
     MODIFIER_SYMBOL(24),
+    
     /**
      * [Sm]
      */
     MATH_SYMBOL(25),
+    
     /**
      * [So]
      */
     OTHER_SYMBOL(26),
+    
     /**
      * [Zl]
      */
     LINE_SEPARATOR(27),
+    
     /**
      * [Zp]
      */
     PARAGRAPH_SEPARATOR(28),
+    
     /**
      * [Zs]
      */
@@ -134,15 +164,29 @@ public enum UnicodeGeneralCategoryT implements io.github.jwharm.javagi.Enumerati
     private static final java.lang.String C_TYPE_NAME = "hb_unicode_general_category_t";
     
     private final int value;
+    
+    /**
+     * Create a new UnicodeGeneralCategoryT for the provided value
+     * @param numeric value the enum value
+     */
     UnicodeGeneralCategoryT(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new UnicodeGeneralCategoryT for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static UnicodeGeneralCategoryT of(int value) {
         return switch (value) {
             case 0 -> CONTROL;

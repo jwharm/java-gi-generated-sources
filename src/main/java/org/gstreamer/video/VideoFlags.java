@@ -29,6 +29,9 @@ public class VideoFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoFlags PREMULTIPLIED_ALPHA = new VideoFlags(2);
     
+    /**
+     * Create a new VideoFlags with the provided value
+     */
     public VideoFlags(int value) {
         super(value);
     }

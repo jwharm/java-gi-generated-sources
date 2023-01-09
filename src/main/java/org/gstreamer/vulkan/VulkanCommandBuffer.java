@@ -35,8 +35,8 @@ public class VulkanCommandBuffer extends Struct {
      * @return A new, uninitialized @{link VulkanCommandBuffer}
      */
     public static VulkanCommandBuffer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanCommandBuffer newInstance = new VulkanCommandBuffer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanCommandBuffer newInstance = new VulkanCommandBuffer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class VulkanCommandBuffer extends Struct {
      */
     public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,9 +55,11 @@ public class VulkanCommandBuffer extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.gst.MiniObject parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -66,7 +68,7 @@ public class VulkanCommandBuffer extends Struct {
      */
     public org.vulkan.CommandBuffer getCmd() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("cmd"));
-        return org.vulkan.CommandBuffer.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.CommandBuffer.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -74,9 +76,11 @@ public class VulkanCommandBuffer extends Struct {
      * @param cmd The new value of the field {@code cmd}
      */
     public void setCmd(org.vulkan.CommandBuffer cmd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
+        }
     }
     
     /**
@@ -84,10 +88,12 @@ public class VulkanCommandBuffer extends Struct {
      * @return The value of the field {@code pool}
      */
     public org.gstreamer.vulkan.VulkanCommandPool getPool() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return (org.gstreamer.vulkan.VulkanCommandPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanCommandPool.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return (org.gstreamer.vulkan.VulkanCommandPool) Interop.register(RESULT, org.gstreamer.vulkan.VulkanCommandPool.fromAddress).marshal(RESULT, null);
+        }
     }
     
     /**
@@ -95,9 +101,11 @@ public class VulkanCommandBuffer extends Struct {
      * @param pool The new value of the field {@code pool}
      */
     public void setPool(org.gstreamer.vulkan.VulkanCommandPool pool) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+        }
     }
     
     /**
@@ -106,7 +114,7 @@ public class VulkanCommandBuffer extends Struct {
      */
     public org.vulkan.CommandBufferLevel getLevel() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("level"));
-        return org.vulkan.CommandBufferLevel.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.CommandBufferLevel.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -114,22 +122,26 @@ public class VulkanCommandBuffer extends Struct {
      * @param level The new value of the field {@code level}
      */
     public void setLevel(org.vulkan.CommandBufferLevel level) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("level"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
+        }
     }
     
     /**
      * Create a VulkanCommandBuffer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanCommandBuffer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanCommandBuffer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanCommandBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanCommandBuffer(input, ownership);
+    public static final Marshal<Addressable, VulkanCommandBuffer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanCommandBuffer(input);
     
     private static MemoryAddress constructNewWrapped(org.vulkan.CommandBuffer cmd, org.vulkan.CommandBufferLevel level) {
         MemoryAddress RESULT;
@@ -142,10 +154,12 @@ public class VulkanCommandBuffer extends Struct {
         }
         return RESULT;
     }
-    
+        
     public static VulkanCommandBuffer newWrapped(org.vulkan.CommandBuffer cmd, org.vulkan.CommandBufferLevel level) {
         var RESULT = constructNewWrapped(cmd, level);
-        return org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -155,12 +169,13 @@ public class VulkanCommandBuffer extends Struct {
     public org.gstreamer.vulkan.VulkanCommandBuffer ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_buffer_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_buffer_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -169,8 +184,7 @@ public class VulkanCommandBuffer extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gst_vulkan_command_buffer_unref.invokeExact(
-                    handle());
+            DowncallHandles.gst_vulkan_command_buffer_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,21 +194,21 @@ public class VulkanCommandBuffer extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_vulkan_command_buffer_new_wrapped = Interop.downcallHandle(
-            "gst_vulkan_command_buffer_new_wrapped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_buffer_new_wrapped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_buffer_ref = Interop.downcallHandle(
-            "gst_vulkan_command_buffer_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_buffer_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_vulkan_command_buffer_unref = Interop.downcallHandle(
-            "gst_vulkan_command_buffer_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_vulkan_command_buffer_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -220,7 +234,7 @@ public class VulkanCommandBuffer extends Struct {
             struct = VulkanCommandBuffer.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanCommandBuffer} struct.
          * @return A new instance of {@code VulkanCommandBuffer} with the fields 
          *         that were set in the Builder object.
@@ -235,10 +249,12 @@ public class VulkanCommandBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.gst.MiniObject parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -247,10 +263,12 @@ public class VulkanCommandBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCmd(org.vulkan.CommandBuffer cmd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
+                return this;
+            }
         }
         
         /**
@@ -259,10 +277,12 @@ public class VulkanCommandBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPool(org.gstreamer.vulkan.VulkanCommandPool pool) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pool"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
+                return this;
+            }
         }
         
         /**
@@ -271,17 +291,21 @@ public class VulkanCommandBuffer extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLevel(org.vulkan.CommandBufferLevel level) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
+                return this;
+            }
         }
         
         public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

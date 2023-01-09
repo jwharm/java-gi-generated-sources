@@ -29,8 +29,8 @@ public class PhysicalDeviceBlendOperationAdvancedPropertiesEXT extends Struct {
      * @return A new, uninitialized @{link PhysicalDeviceBlendOperationAdvancedPropertiesEXT}
      */
     public static PhysicalDeviceBlendOperationAdvancedPropertiesEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PhysicalDeviceBlendOperationAdvancedPropertiesEXT newInstance = new PhysicalDeviceBlendOperationAdvancedPropertiesEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PhysicalDeviceBlendOperationAdvancedPropertiesEXT newInstance = new PhysicalDeviceBlendOperationAdvancedPropertiesEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PhysicalDeviceBlendOperationAdvancedPropertiesEXT extends Struct {
     /**
      * Create a PhysicalDeviceBlendOperationAdvancedPropertiesEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PhysicalDeviceBlendOperationAdvancedPropertiesEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PhysicalDeviceBlendOperationAdvancedPropertiesEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PhysicalDeviceBlendOperationAdvancedPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceBlendOperationAdvancedPropertiesEXT(input, ownership);
+    public static final Marshal<Addressable, PhysicalDeviceBlendOperationAdvancedPropertiesEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceBlendOperationAdvancedPropertiesEXT(input);
 }

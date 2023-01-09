@@ -30,14 +30,16 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     /**
      * Create a PlanarAudioAdapter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlanarAudioAdapter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlanarAudioAdapter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlanarAudioAdapter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlanarAudioAdapter(input, ownership);
+    public static final Marshal<Addressable, PlanarAudioAdapter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlanarAudioAdapter(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -53,7 +55,8 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      * Creates a new {@link PlanarAudioAdapter}. Free with g_object_unref().
      */
     public PlanarAudioAdapter() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -65,8 +68,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     public long available() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_available.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,8 +80,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_planar_audio_adapter_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_planar_audio_adapter_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +104,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     public long distanceFromDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_distance_from_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_distance_from_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,8 +119,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.ClockTime dtsAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_dts_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_dts_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,7 +170,9 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -182,8 +183,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     public long offsetAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_offset_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_offset_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,17 +203,19 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      * @return The previously seen dts.
      */
     public org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_dts.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_dts.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -229,17 +231,19 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      * @return The previous seen offset.
      */
     public long prevOffset(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_offset.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_offset.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return RESULT;
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT;
     }
     
     /**
@@ -255,17 +259,19 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      * @return The previously seen pts.
      */
     public org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
-        MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_pts.invokeExact(
-                    handle(),
-                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment distancePOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_pts.invokeExact(
+                        handle(),
+                        (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new org.gstreamer.gst.ClockTime(RESULT);
         }
-        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
     /**
@@ -276,8 +282,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.ClockTime ptsAtDiscont() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_pts_at_discont.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_planar_audio_adapter_pts_at_discont.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,7 +331,9 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -359,6 +366,9 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -383,99 +393,107 @@ public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_planar_audio_adapter_new = Interop.downcallHandle(
-            "gst_planar_audio_adapter_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_available = Interop.downcallHandle(
-            "gst_planar_audio_adapter_available",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_available",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_clear = Interop.downcallHandle(
-            "gst_planar_audio_adapter_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_configure = Interop.downcallHandle(
-            "gst_planar_audio_adapter_configure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_configure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_distance_from_discont = Interop.downcallHandle(
-            "gst_planar_audio_adapter_distance_from_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_distance_from_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_dts_at_discont = Interop.downcallHandle(
-            "gst_planar_audio_adapter_dts_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_dts_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_flush = Interop.downcallHandle(
-            "gst_planar_audio_adapter_flush",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_planar_audio_adapter_flush",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_get_buffer = Interop.downcallHandle(
-            "gst_planar_audio_adapter_get_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_planar_audio_adapter_get_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_offset_at_discont = Interop.downcallHandle(
-            "gst_planar_audio_adapter_offset_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_offset_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_prev_dts = Interop.downcallHandle(
-            "gst_planar_audio_adapter_prev_dts",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_prev_dts",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_prev_offset = Interop.downcallHandle(
-            "gst_planar_audio_adapter_prev_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_prev_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_prev_pts = Interop.downcallHandle(
-            "gst_planar_audio_adapter_prev_pts",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_prev_pts",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_pts_at_discont = Interop.downcallHandle(
-            "gst_planar_audio_adapter_pts_at_discont",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_pts_at_discont",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_push = Interop.downcallHandle(
-            "gst_planar_audio_adapter_push",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_planar_audio_adapter_push",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_take_buffer = Interop.downcallHandle(
-            "gst_planar_audio_adapter_take_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_planar_audio_adapter_take_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_planar_audio_adapter_get_type = Interop.downcallHandle(
-            "gst_planar_audio_adapter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_planar_audio_adapter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_planar_audio_adapter_get_type != null;
     }
 }

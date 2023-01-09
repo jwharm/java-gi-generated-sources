@@ -32,14 +32,16 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
     /**
      * Create a SliceListModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SliceListModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SliceListModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SliceListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SliceListModel(input, ownership);
+    public static final Marshal<Addressable, SliceListModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SliceListModel(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, int offset, int size) {
         MemoryAddress RESULT;
@@ -65,7 +67,8 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
      * @param size maximum size of the slice
      */
     public SliceListModel(@Nullable org.gtk.gio.ListModel model, int offset, int size) {
-        super(constructNew(model, offset, size), Ownership.FULL);
+        super(constructNew(model, offset, size));
+        this.takeOwnership();
     }
     
     /**
@@ -75,12 +78,11 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_slice_list_model_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_slice_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -90,8 +92,7 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
     public int getOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_offset.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,8 +106,7 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_slice_list_model_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,6 +194,9 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -273,51 +276,59 @@ public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_slice_list_model_new = Interop.downcallHandle(
-            "gtk_slice_list_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_slice_list_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_get_model = Interop.downcallHandle(
-            "gtk_slice_list_model_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_slice_list_model_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_get_offset = Interop.downcallHandle(
-            "gtk_slice_list_model_get_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_slice_list_model_get_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_get_size = Interop.downcallHandle(
-            "gtk_slice_list_model_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_slice_list_model_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_set_model = Interop.downcallHandle(
-            "gtk_slice_list_model_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_slice_list_model_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_set_offset = Interop.downcallHandle(
-            "gtk_slice_list_model_set_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_slice_list_model_set_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_set_size = Interop.downcallHandle(
-            "gtk_slice_list_model_set_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_slice_list_model_set_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_slice_list_model_get_type = Interop.downcallHandle(
-            "gtk_slice_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_slice_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_slice_list_model_get_type != null;
     }
 }

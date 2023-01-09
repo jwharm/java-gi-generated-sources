@@ -29,8 +29,8 @@ public class AttachmentDescriptionFlagBits extends Struct {
      * @return A new, uninitialized @{link AttachmentDescriptionFlagBits}
      */
     public static AttachmentDescriptionFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttachmentDescriptionFlagBits newInstance = new AttachmentDescriptionFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttachmentDescriptionFlagBits newInstance = new AttachmentDescriptionFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AttachmentDescriptionFlagBits extends Struct {
     /**
      * Create a AttachmentDescriptionFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttachmentDescriptionFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttachmentDescriptionFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttachmentDescriptionFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttachmentDescriptionFlagBits(input, ownership);
+    public static final Marshal<Addressable, AttachmentDescriptionFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttachmentDescriptionFlagBits(input);
 }

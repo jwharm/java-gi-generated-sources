@@ -32,8 +32,8 @@ public class Timer extends Struct {
      * @return A new, uninitialized @{link Timer}
      */
     public static Timer allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Timer newInstance = new Timer(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Timer newInstance = new Timer(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,14 +41,16 @@ public class Timer extends Struct {
     /**
      * Create a Timer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Timer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Timer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Timer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Timer(input, ownership);
+    public static final Marshal<Addressable, Timer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Timer(input);
     
     /**
      * Resumes a timer that has previously been stopped with
@@ -57,8 +59,7 @@ public class Timer extends Struct {
      */
     public void continue_() {
         try {
-            DowncallHandles.g_timer_continue.invokeExact(
-                    handle());
+            DowncallHandles.g_timer_continue.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,8 +70,7 @@ public class Timer extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_timer_destroy.invokeExact(
-                    handle());
+            DowncallHandles.g_timer_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,8 +108,7 @@ public class Timer extends Struct {
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_timer_is_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_timer_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,8 +122,7 @@ public class Timer extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.g_timer_reset.invokeExact(
-                    handle());
+            DowncallHandles.g_timer_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,8 +136,7 @@ public class Timer extends Struct {
      */
     public void start() {
         try {
-            DowncallHandles.g_timer_start.invokeExact(
-                    handle());
+            DowncallHandles.g_timer_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,8 +148,7 @@ public class Timer extends Struct {
      */
     public void stop() {
         try {
-            DowncallHandles.g_timer_stop.invokeExact(
-                    handle());
+            DowncallHandles.g_timer_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,57 +166,57 @@ public class Timer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Timer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Timer.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_timer_continue = Interop.downcallHandle(
-            "g_timer_continue",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_continue",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_destroy = Interop.downcallHandle(
-            "g_timer_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_elapsed = Interop.downcallHandle(
-            "g_timer_elapsed",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_elapsed",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_is_active = Interop.downcallHandle(
-            "g_timer_is_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_is_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_reset = Interop.downcallHandle(
-            "g_timer_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_start = Interop.downcallHandle(
-            "g_timer_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_stop = Interop.downcallHandle(
-            "g_timer_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_timer_new = Interop.downcallHandle(
-            "g_timer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_timer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

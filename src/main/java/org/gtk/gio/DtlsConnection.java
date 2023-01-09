@@ -29,8 +29,11 @@ import org.jetbrains.annotations.*;
  */
 public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DtlsConnectionImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsConnectionImpl(input, ownership);
+    public static final Marshal<Addressable, DtlsConnectionImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DtlsConnectionImpl(input);
     
     /**
      * Close the DTLS connection. This is equivalent to calling
@@ -57,20 +60,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean close(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_close.invokeExact(
-                    handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_close.invokeExact(
+                        handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -102,20 +107,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean closeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_close_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_close_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,12 +154,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsCertificate getCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_certificate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -176,21 +182,23 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean getChannelBindingData(org.gtk.gio.TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_channel_binding_data.invokeExact(
-                    handle(),
-                    type.getValue(),
-                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_get_channel_binding_data.invokeExact(
+                        handle(),
+                        type.getValue(),
+                        (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -207,8 +215,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getCiphersuiteName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_ciphersuite_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_ciphersuite_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,12 +230,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsDatabase getDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_database.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_database.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsDatabase) Interop.register(RESULT, org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -240,12 +246,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsInteraction getInteraction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_interaction.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_interaction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsInteraction) Interop.register(RESULT, org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -261,8 +266,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable java.lang.String getNegotiatedProtocol() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_negotiated_protocol.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_negotiated_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,12 +282,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gtk.gio.TlsCertificate getPeerCertificate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_peer_certificate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dtls_connection_get_peer_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) Interop.register(RESULT, org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -295,8 +298,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_peer_certificate_errors.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_peer_certificate_errors.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,8 +315,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_protocol_version.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_protocol_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,8 +334,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_rehandshake_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_rehandshake_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,8 +350,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     default boolean getRequireCloseNotify() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_get_require_close_notify.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_require_close_notify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,20 +389,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean handshake(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_handshake.invokeExact(
-                    handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_handshake.invokeExact(
+                        handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -435,20 +436,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean handshakeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_handshake_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_handshake_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -466,12 +469,14 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      *   array of ALPN protocol names (eg, "http/1.1", "h2"), or {@code null}
      */
     default void setAdvertisedProtocols(@Nullable java.lang.String[] protocols) {
-        try {
-            DowncallHandles.g_dtls_connection_set_advertised_protocols.invokeExact(
-                    handle(),
-                    (Addressable) (protocols == null ? MemoryAddress.NULL : Interop.allocateNativeArray(protocols, false)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_dtls_connection_set_advertised_protocols.invokeExact(
+                        handle(),
+                        (Addressable) (protocols == null ? MemoryAddress.NULL : Interop.allocateNativeArray(protocols, false, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -632,22 +637,24 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(shutdownRead, null).intValue(),
-                    Marshal.booleanToInteger.marshal(shutdownWrite, null).intValue(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_shutdown.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(shutdownRead, null).intValue(),
+                        Marshal.booleanToInteger.marshal(shutdownWrite, null).intValue(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -683,20 +690,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean shutdownFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dtls_connection_shutdown_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_dtls_connection_shutdown_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -713,20 +722,79 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code AcceptCertificate} callback.
+     */
     @FunctionalInterface
     public interface AcceptCertificate {
+    
+        /**
+         * Emitted during the TLS handshake after the peer certificate has
+         * been received. You can examine {@code peer_cert}'s certification path by
+         * calling g_tls_certificate_get_issuer() on it.
+         * <p>
+         * For a client-side connection, {@code peer_cert} is the server's
+         * certificate, and the signal will only be emitted if the
+         * certificate was not acceptable according to {@code conn}'s
+         * {@link DtlsClientConnection}:validation_flags. If you would like the
+         * certificate to be accepted despite {@code errors}, return {@code true} from the
+         * signal handler. Otherwise, if no handler accepts the certificate,
+         * the handshake will fail with {@link TlsError#BAD_CERTIFICATE}.
+         * <p>
+         * GLib guarantees that if certificate verification fails, this signal
+         * will be emitted with at least one error will be set in {@code errors}, but
+         * it does not guarantee that all possible errors will be set.
+         * Accordingly, you may not safely decide to ignore any particular
+         * type of error. For example, it would be incorrect to ignore
+         * {@link TlsCertificateFlags#EXPIRED} if you want to allow expired
+         * certificates, because this could potentially be the only error flag
+         * set even if other problems exist with the certificate.
+         * <p>
+         * For a server-side connection, {@code peer_cert} is the certificate
+         * presented by the client, if this was requested via the server's
+         * {@link DtlsServerConnection}:authentication_mode. On the server side,
+         * the signal is always emitted when the client presents a
+         * certificate, and the certificate will only be accepted if a
+         * handler returns {@code true}.
+         * <p>
+         * Note that if this signal is emitted as part of asynchronous I/O
+         * in the main thread, then you should not attempt to interact with
+         * the user before returning from the signal handler. If you want to
+         * let the user decide whether or not to accept the certificate, you
+         * would have to return {@code false} from the signal handler on the first
+         * attempt, and then after the connection attempt returns a
+         * {@link TlsError#BAD_CERTIFICATE}, you can interact with the user, and
+         * if the user decides to accept the certificate, remember that fact,
+         * create a new connection, and return {@code true} from the signal handler
+         * the next time.
+         * <p>
+         * If you are doing I/O in another thread, you do not
+         * need to worry about this, and can simply block in the signal
+         * handler until the UI thread returns an answer.
+         */
         boolean run(org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceDtlsConnection, MemoryAddress peerCert, int errors) {
-            var RESULT = run((org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(peerCert)), org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            var RESULT = run((org.gtk.gio.TlsCertificate) Interop.register(peerCert, org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, null), new org.gtk.gio.TlsCertificateFlags(errors));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcceptCertificate.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AcceptCertificate.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -777,9 +845,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<DtlsConnection.AcceptCertificate> onAcceptCertificate(DtlsConnection.AcceptCertificate handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("accept-certificate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("accept-certificate", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -791,209 +860,224 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_close = Interop.downcallHandle(
-            "g_dtls_connection_close",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_close",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_close_async = Interop.downcallHandle(
-            "g_dtls_connection_close_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_close_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_close_finish = Interop.downcallHandle(
-            "g_dtls_connection_close_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_close_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_emit_accept_certificate = Interop.downcallHandle(
-            "g_dtls_connection_emit_accept_certificate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_dtls_connection_emit_accept_certificate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_certificate = Interop.downcallHandle(
-            "g_dtls_connection_get_certificate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_certificate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_channel_binding_data = Interop.downcallHandle(
-            "g_dtls_connection_get_channel_binding_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_channel_binding_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_ciphersuite_name = Interop.downcallHandle(
-            "g_dtls_connection_get_ciphersuite_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_ciphersuite_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_database = Interop.downcallHandle(
-            "g_dtls_connection_get_database",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_database",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_interaction = Interop.downcallHandle(
-            "g_dtls_connection_get_interaction",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_interaction",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_negotiated_protocol = Interop.downcallHandle(
-            "g_dtls_connection_get_negotiated_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_negotiated_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_peer_certificate = Interop.downcallHandle(
-            "g_dtls_connection_get_peer_certificate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_peer_certificate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_peer_certificate_errors = Interop.downcallHandle(
-            "g_dtls_connection_get_peer_certificate_errors",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_peer_certificate_errors",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_protocol_version = Interop.downcallHandle(
-            "g_dtls_connection_get_protocol_version",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_protocol_version",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_rehandshake_mode = Interop.downcallHandle(
-            "g_dtls_connection_get_rehandshake_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_rehandshake_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_require_close_notify = Interop.downcallHandle(
-            "g_dtls_connection_get_require_close_notify",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_get_require_close_notify",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_handshake = Interop.downcallHandle(
-            "g_dtls_connection_handshake",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_handshake",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_handshake_async = Interop.downcallHandle(
-            "g_dtls_connection_handshake_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_handshake_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_handshake_finish = Interop.downcallHandle(
-            "g_dtls_connection_handshake_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_handshake_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_advertised_protocols = Interop.downcallHandle(
-            "g_dtls_connection_set_advertised_protocols",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_set_advertised_protocols",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_certificate = Interop.downcallHandle(
-            "g_dtls_connection_set_certificate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_set_certificate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_database = Interop.downcallHandle(
-            "g_dtls_connection_set_database",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_set_database",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_interaction = Interop.downcallHandle(
-            "g_dtls_connection_set_interaction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_set_interaction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_rehandshake_mode = Interop.downcallHandle(
-            "g_dtls_connection_set_rehandshake_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_dtls_connection_set_rehandshake_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_set_require_close_notify = Interop.downcallHandle(
-            "g_dtls_connection_set_require_close_notify",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_dtls_connection_set_require_close_notify",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_shutdown = Interop.downcallHandle(
-            "g_dtls_connection_shutdown",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_shutdown",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_shutdown_async = Interop.downcallHandle(
-            "g_dtls_connection_shutdown_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_shutdown_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_shutdown_finish = Interop.downcallHandle(
-            "g_dtls_connection_shutdown_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_dtls_connection_shutdown_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_dtls_connection_get_type = Interop.downcallHandle(
-            "g_dtls_connection_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_dtls_connection_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The DtlsConnectionImpl type represents a native instance of the DtlsConnection interface.
+     */
     class DtlsConnectionImpl extends org.gtk.gobject.GObject implements DtlsConnection {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public DtlsConnectionImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of DtlsConnection for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public DtlsConnectionImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_dtls_connection_get_type != null;
     }
 }

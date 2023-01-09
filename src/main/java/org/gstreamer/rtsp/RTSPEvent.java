@@ -22,6 +22,9 @@ public class RTSPEvent extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTSPEvent WRITE = new RTSPEvent(2);
     
+    /**
+     * Create a new RTSPEvent with the provided value
+     */
     public RTSPEvent(int value) {
         super(value);
     }

@@ -29,8 +29,8 @@ public class TimedAnimationClass extends Struct {
      * @return A new, uninitialized @{link TimedAnimationClass}
      */
     public static TimedAnimationClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimedAnimationClass newInstance = new TimedAnimationClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimedAnimationClass newInstance = new TimedAnimationClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TimedAnimationClass extends Struct {
     /**
      * Create a TimedAnimationClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimedAnimationClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimedAnimationClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimedAnimationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedAnimationClass(input, ownership);
+    public static final Marshal<Addressable, TimedAnimationClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimedAnimationClass(input);
 }

@@ -40,8 +40,8 @@ public class AtscVCT extends Struct {
      * @return A new, uninitialized @{link AtscVCT}
      */
     public static AtscVCT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscVCT newInstance = new AtscVCT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscVCT newInstance = new AtscVCT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class AtscVCT extends Struct {
      * @return The value of the field {@code transport_stream_id}
      */
     public short getTransportStreamId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class AtscVCT extends Struct {
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
     public void setTransportStreamId(short transportStreamId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class AtscVCT extends Struct {
      * @return The value of the field {@code protocol_version}
      */
     public byte getProtocolVersion() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class AtscVCT extends Struct {
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
     public void setProtocolVersion(byte protocolVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class AtscVCT extends Struct {
      * @return The value of the field {@code sources}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscVCTSource> getSources() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sources"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscVCTSource>(RESULT, org.gstreamer.mpegts.AtscVCTSource.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sources"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscVCTSource>(RESULT, org.gstreamer.mpegts.AtscVCTSource.fromAddress);
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class AtscVCT extends Struct {
      * @param sources The new value of the field {@code sources}
      */
     public void setSources(org.gstreamer.mpegts.AtscVCTSource[] sources) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sources"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sources == null ? MemoryAddress.NULL : Interop.allocateNativeArray(sources, org.gstreamer.mpegts.AtscVCTSource.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sources"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sources == null ? MemoryAddress.NULL : Interop.allocateNativeArray(sources, org.gstreamer.mpegts.AtscVCTSource.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class AtscVCT extends Struct {
      * @return The value of the field {@code descriptors}
      */
     public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+        }
     }
     
     /**
@@ -125,22 +139,26 @@ public class AtscVCT extends Struct {
      * @param descriptors The new value of the field {@code descriptors}
      */
     public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscVCT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscVCT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscVCT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscVCT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscVCT(input, ownership);
+    public static final Marshal<Addressable, AtscVCT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscVCT(input);
     
     /**
      * A {@link AtscVCT.Builder} object constructs a {@link AtscVCT} 
@@ -164,7 +182,7 @@ public class AtscVCT extends Struct {
             struct = AtscVCT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscVCT} struct.
          * @return A new instance of {@code AtscVCT} with the fields 
          *         that were set in the Builder object.
@@ -179,10 +197,12 @@ public class AtscVCT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransportStreamId(short transportStreamId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), transportStreamId);
+                return this;
+            }
         }
         
         /**
@@ -191,10 +211,12 @@ public class AtscVCT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProtocolVersion(byte protocolVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+                return this;
+            }
         }
         
         /**
@@ -203,10 +225,12 @@ public class AtscVCT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSources(org.gstreamer.mpegts.AtscVCTSource[] sources) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sources"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sources == null ? MemoryAddress.NULL : Interop.allocateNativeArray(sources, org.gstreamer.mpegts.AtscVCTSource.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sources"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sources == null ? MemoryAddress.NULL : Interop.allocateNativeArray(sources, org.gstreamer.mpegts.AtscVCTSource.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -215,10 +239,12 @@ public class AtscVCT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

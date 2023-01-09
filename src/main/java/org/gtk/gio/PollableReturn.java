@@ -18,14 +18,17 @@ import org.jetbrains.annotations.*;
  * @version 2.60
  */
 public enum PollableReturn implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Generic error condition for when an operation fails.
      */
     FAILED(0),
+    
     /**
      * The operation was successfully finished.
      */
     OK(1),
+    
     /**
      * The operation would block.
      */
@@ -34,15 +37,29 @@ public enum PollableReturn implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GPollableReturn";
     
     private final int value;
+    
+    /**
+     * Create a new PollableReturn for the provided value
+     * @param numeric value the enum value
+     */
     PollableReturn(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new PollableReturn for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static PollableReturn of(int value) {
         return switch (value) {
             case 0 -> FAILED;

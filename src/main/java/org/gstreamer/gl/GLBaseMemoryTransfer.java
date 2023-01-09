@@ -21,6 +21,9 @@ public class GLBaseMemoryTransfer extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLBaseMemoryTransfer UPLOAD = new GLBaseMemoryTransfer(2097152);
     
+    /**
+     * Create a new GLBaseMemoryTransfer with the provided value
+     */
     public GLBaseMemoryTransfer(int value) {
         super(value);
     }

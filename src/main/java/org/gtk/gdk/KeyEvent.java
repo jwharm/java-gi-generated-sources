@@ -28,14 +28,16 @@ public class KeyEvent extends org.gtk.gdk.Event {
     /**
      * Create a KeyEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected KeyEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected KeyEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, KeyEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeyEvent(input, ownership);
+    public static final Marshal<Addressable, KeyEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new KeyEvent(input);
     
     /**
      * Extracts the consumed modifiers from a key event.
@@ -44,8 +46,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.ModifierType getConsumedModifiers() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_consumed_modifiers.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_consumed_modifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,8 +60,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getKeycode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_keycode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_keycode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +74,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getKeyval() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_keyval.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +88,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getLayout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_layout.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,8 +102,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public int getLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_level.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_get_level.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,20 +119,22 @@ public class KeyEvent extends org.gtk.gdk.Event {
      * @return {@code true} on success
      */
     public boolean getMatch(Out<Integer> keyval, Out<org.gtk.gdk.ModifierType> modifiers) {
-        MemorySegment keyvalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment modifiersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_key_event_get_match.invokeExact(
-                    handle(),
-                    (Addressable) keyvalPOINTER.address(),
-                    (Addressable) modifiersPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment keyvalPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment modifiersPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_key_event_get_match.invokeExact(
+                        handle(),
+                        (Addressable) keyvalPOINTER.address(),
+                        (Addressable) modifiersPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    keyval.set(keyvalPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    modifiers.set(new org.gtk.gdk.ModifierType(modifiersPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        keyval.set(keyvalPOINTER.get(Interop.valueLayout.C_INT, 0));
-        modifiers.set(new org.gtk.gdk.ModifierType(modifiersPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -145,8 +144,7 @@ public class KeyEvent extends org.gtk.gdk.Event {
     public boolean isModifier() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_key_event_is_modifier.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_key_event_is_modifier.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,57 +194,65 @@ public class KeyEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_key_event_get_consumed_modifiers = Interop.downcallHandle(
-            "gdk_key_event_get_consumed_modifiers",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_get_consumed_modifiers",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_keycode = Interop.downcallHandle(
-            "gdk_key_event_get_keycode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_get_keycode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_keyval = Interop.downcallHandle(
-            "gdk_key_event_get_keyval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_get_keyval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_layout = Interop.downcallHandle(
-            "gdk_key_event_get_layout",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_get_layout",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_level = Interop.downcallHandle(
-            "gdk_key_event_get_level",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_get_level",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_match = Interop.downcallHandle(
-            "gdk_key_event_get_match",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_key_event_get_match",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_key_event_is_modifier = Interop.downcallHandle(
-            "gdk_key_event_is_modifier",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_key_event_is_modifier",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_key_event_matches = Interop.downcallHandle(
-            "gdk_key_event_matches",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_key_event_matches",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_key_event_get_type = Interop.downcallHandle(
-            "gdk_key_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_key_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_key_event_get_type != null;
     }
 }

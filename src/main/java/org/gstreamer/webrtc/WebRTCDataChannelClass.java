@@ -29,8 +29,8 @@ public class WebRTCDataChannelClass extends Struct {
      * @return A new, uninitialized @{link WebRTCDataChannelClass}
      */
     public static WebRTCDataChannelClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        WebRTCDataChannelClass newInstance = new WebRTCDataChannelClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        WebRTCDataChannelClass newInstance = new WebRTCDataChannelClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class WebRTCDataChannelClass extends Struct {
     /**
      * Create a WebRTCDataChannelClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected WebRTCDataChannelClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected WebRTCDataChannelClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, WebRTCDataChannelClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCDataChannelClass(input, ownership);
+    public static final Marshal<Addressable, WebRTCDataChannelClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCDataChannelClass(input);
 }

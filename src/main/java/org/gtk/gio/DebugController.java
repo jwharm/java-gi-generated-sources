@@ -25,8 +25,11 @@ import org.jetbrains.annotations.*;
  */
 public interface DebugController extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugControllerImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerImpl(input, ownership);
+    public static final Marshal<Addressable, DebugControllerImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerImpl(input);
     
     /**
      * Get the value of {@link DebugController}:debug-enabled.
@@ -35,8 +38,7 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
     default boolean getDebugEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_debug_controller_get_debug_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_debug_controller_get_debug_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,34 +78,49 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
-            "g_debug_controller_get_debug_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_debug_controller_get_debug_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
-            "g_debug_controller_set_debug_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_debug_controller_set_debug_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_debug_controller_get_type = Interop.downcallHandle(
-            "g_debug_controller_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_debug_controller_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The DebugControllerImpl type represents a native instance of the DebugController interface.
+     */
     class DebugControllerImpl extends org.gtk.gobject.GObject implements DebugController {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public DebugControllerImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of DebugController for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public DebugControllerImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_debug_controller_get_type != null;
     }
 }

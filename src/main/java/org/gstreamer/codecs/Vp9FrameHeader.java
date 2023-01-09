@@ -74,8 +74,8 @@ public class Vp9FrameHeader extends Struct {
      * @return A new, uninitialized @{link Vp9FrameHeader}
      */
     public static Vp9FrameHeader allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Vp9FrameHeader newInstance = new Vp9FrameHeader(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Vp9FrameHeader newInstance = new Vp9FrameHeader(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -85,10 +85,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code profile}
      */
     public byte getProfile() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("profile"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("profile"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -96,9 +98,11 @@ public class Vp9FrameHeader extends Struct {
      * @param profile The new value of the field {@code profile}
      */
     public void setProfile(byte profile) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("profile"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), profile);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("profile"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), profile);
+        }
     }
     
     /**
@@ -106,10 +110,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code bit_depth}
      */
     public byte getBitDepth() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -117,9 +123,11 @@ public class Vp9FrameHeader extends Struct {
      * @param bitDepth The new value of the field {@code bit_depth}
      */
     public void setBitDepth(byte bitDepth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitDepth);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), bitDepth);
+        }
     }
     
     /**
@@ -127,10 +135,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code subsampling_x}
      */
     public byte getSubsamplingX() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -138,9 +148,11 @@ public class Vp9FrameHeader extends Struct {
      * @param subsamplingX The new value of the field {@code subsampling_x}
      */
     public void setSubsamplingX(byte subsamplingX) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), subsamplingX);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), subsamplingX);
+        }
     }
     
     /**
@@ -148,10 +160,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code subsampling_y}
      */
     public byte getSubsamplingY() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -159,9 +173,11 @@ public class Vp9FrameHeader extends Struct {
      * @param subsamplingY The new value of the field {@code subsampling_y}
      */
     public void setSubsamplingY(byte subsamplingY) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), subsamplingY);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), subsamplingY);
+        }
     }
     
     /**
@@ -169,10 +185,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code color_space}
      */
     public byte getColorSpace() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -180,9 +198,11 @@ public class Vp9FrameHeader extends Struct {
      * @param colorSpace The new value of the field {@code color_space}
      */
     public void setColorSpace(byte colorSpace) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorSpace);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), colorSpace);
+        }
     }
     
     /**
@@ -190,10 +210,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code color_range}
      */
     public byte getColorRange() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -201,9 +223,11 @@ public class Vp9FrameHeader extends Struct {
      * @param colorRange The new value of the field {@code color_range}
      */
     public void setColorRange(byte colorRange) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorRange);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), colorRange);
+        }
     }
     
     /**
@@ -211,10 +235,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code show_existing_frame}
      */
     public byte getShowExistingFrame() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -222,9 +248,11 @@ public class Vp9FrameHeader extends Struct {
      * @param showExistingFrame The new value of the field {@code show_existing_frame}
      */
     public void setShowExistingFrame(byte showExistingFrame) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), showExistingFrame);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), showExistingFrame);
+        }
     }
     
     /**
@@ -232,10 +260,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code frame_to_show_map_idx}
      */
     public byte getFrameToShowMapIdx() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -243,9 +273,11 @@ public class Vp9FrameHeader extends Struct {
      * @param frameToShowMapIdx The new value of the field {@code frame_to_show_map_idx}
      */
     public void setFrameToShowMapIdx(byte frameToShowMapIdx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameToShowMapIdx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frameToShowMapIdx);
+        }
     }
     
     /**
@@ -253,10 +285,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code frame_type}
      */
     public byte getFrameType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -264,9 +298,11 @@ public class Vp9FrameHeader extends Struct {
      * @param frameType The new value of the field {@code frame_type}
      */
     public void setFrameType(byte frameType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frameType);
+        }
     }
     
     /**
@@ -274,10 +310,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code show_frame}
      */
     public byte getShowFrame() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -285,9 +323,11 @@ public class Vp9FrameHeader extends Struct {
      * @param showFrame The new value of the field {@code show_frame}
      */
     public void setShowFrame(byte showFrame) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), showFrame);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), showFrame);
+        }
     }
     
     /**
@@ -295,10 +335,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code error_resilient_mode}
      */
     public byte getErrorResilientMode() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -306,9 +348,11 @@ public class Vp9FrameHeader extends Struct {
      * @param errorResilientMode The new value of the field {@code error_resilient_mode}
      */
     public void setErrorResilientMode(byte errorResilientMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorResilientMode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), errorResilientMode);
+        }
     }
     
     /**
@@ -316,10 +360,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code width}
      */
     public int getWidth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -327,9 +373,11 @@ public class Vp9FrameHeader extends Struct {
      * @param width The new value of the field {@code width}
      */
     public void setWidth(int width) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), width);
+        }
     }
     
     /**
@@ -337,10 +385,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code height}
      */
     public int getHeight() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -348,9 +398,11 @@ public class Vp9FrameHeader extends Struct {
      * @param height The new value of the field {@code height}
      */
     public void setHeight(int height) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), height);
+        }
     }
     
     /**
@@ -358,10 +410,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code render_and_frame_size_different}
      */
     public byte getRenderAndFrameSizeDifferent() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -369,9 +423,11 @@ public class Vp9FrameHeader extends Struct {
      * @param renderAndFrameSizeDifferent The new value of the field {@code render_and_frame_size_different}
      */
     public void setRenderAndFrameSizeDifferent(byte renderAndFrameSizeDifferent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderAndFrameSizeDifferent);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), renderAndFrameSizeDifferent);
+        }
     }
     
     /**
@@ -379,10 +435,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code render_width}
      */
     public int getRenderWidth() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -390,9 +448,11 @@ public class Vp9FrameHeader extends Struct {
      * @param renderWidth The new value of the field {@code render_width}
      */
     public void setRenderWidth(int renderWidth) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderWidth);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), renderWidth);
+        }
     }
     
     /**
@@ -400,10 +460,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code render_height}
      */
     public int getRenderHeight() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -411,9 +473,11 @@ public class Vp9FrameHeader extends Struct {
      * @param renderHeight The new value of the field {@code render_height}
      */
     public void setRenderHeight(int renderHeight) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderHeight);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), renderHeight);
+        }
     }
     
     /**
@@ -421,10 +485,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code intra_only}
      */
     public byte getIntraOnly() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -432,9 +498,11 @@ public class Vp9FrameHeader extends Struct {
      * @param intraOnly The new value of the field {@code intra_only}
      */
     public void setIntraOnly(byte intraOnly) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), intraOnly);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), intraOnly);
+        }
     }
     
     /**
@@ -442,10 +510,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code reset_frame_context}
      */
     public byte getResetFrameContext() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -453,9 +523,11 @@ public class Vp9FrameHeader extends Struct {
      * @param resetFrameContext The new value of the field {@code reset_frame_context}
      */
     public void setResetFrameContext(byte resetFrameContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resetFrameContext);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), resetFrameContext);
+        }
     }
     
     /**
@@ -463,10 +535,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code refresh_frame_flags}
      */
     public byte getRefreshFrameFlags() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -474,9 +548,11 @@ public class Vp9FrameHeader extends Struct {
      * @param refreshFrameFlags The new value of the field {@code refresh_frame_flags}
      */
     public void setRefreshFrameFlags(byte refreshFrameFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refreshFrameFlags);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), refreshFrameFlags);
+        }
     }
     
     /**
@@ -484,10 +560,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code ref_frame_idx}
      */
     public byte[] getRefFrameIdx() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 3, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 3, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -495,9 +573,11 @@ public class Vp9FrameHeader extends Struct {
      * @param refFrameIdx The new value of the field {@code ref_frame_idx}
      */
     public void setRefFrameIdx(byte[] refFrameIdx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFrameIdx == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameIdx, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFrameIdx == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameIdx, false, SCOPE)));
+        }
     }
     
     /**
@@ -505,10 +585,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code ref_frame_sign_bias}
      */
     public byte[] getRefFrameSignBias() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return MemorySegment.ofAddress(RESULT, 4, SCOPE).toArray(Interop.valueLayout.C_BYTE);
+        }
     }
     
     /**
@@ -516,9 +598,11 @@ public class Vp9FrameHeader extends Struct {
      * @param refFrameSignBias The new value of the field {@code ref_frame_sign_bias}
      */
     public void setRefFrameSignBias(byte[] refFrameSignBias) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFrameSignBias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameSignBias, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFrameSignBias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameSignBias, false, SCOPE)));
+        }
     }
     
     /**
@@ -526,10 +610,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code allow_high_precision_mv}
      */
     public byte getAllowHighPrecisionMv() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -537,9 +623,11 @@ public class Vp9FrameHeader extends Struct {
      * @param allowHighPrecisionMv The new value of the field {@code allow_high_precision_mv}
      */
     public void setAllowHighPrecisionMv(byte allowHighPrecisionMv) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allowHighPrecisionMv);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), allowHighPrecisionMv);
+        }
     }
     
     /**
@@ -547,10 +635,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code interpolation_filter}
      */
     public byte getInterpolationFilter() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -558,9 +648,11 @@ public class Vp9FrameHeader extends Struct {
      * @param interpolationFilter The new value of the field {@code interpolation_filter}
      */
     public void setInterpolationFilter(byte interpolationFilter) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), interpolationFilter);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), interpolationFilter);
+        }
     }
     
     /**
@@ -568,10 +660,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code refresh_frame_context}
      */
     public byte getRefreshFrameContext() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -579,9 +673,11 @@ public class Vp9FrameHeader extends Struct {
      * @param refreshFrameContext The new value of the field {@code refresh_frame_context}
      */
     public void setRefreshFrameContext(byte refreshFrameContext) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refreshFrameContext);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), refreshFrameContext);
+        }
     }
     
     /**
@@ -589,10 +685,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code frame_parallel_decoding_mode}
      */
     public byte getFrameParallelDecodingMode() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -600,9 +698,11 @@ public class Vp9FrameHeader extends Struct {
      * @param frameParallelDecodingMode The new value of the field {@code frame_parallel_decoding_mode}
      */
     public void setFrameParallelDecodingMode(byte frameParallelDecodingMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameParallelDecodingMode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frameParallelDecodingMode);
+        }
     }
     
     /**
@@ -610,10 +710,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code frame_context_idx}
      */
     public byte getFrameContextIdx() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -621,9 +723,11 @@ public class Vp9FrameHeader extends Struct {
      * @param frameContextIdx The new value of the field {@code frame_context_idx}
      */
     public void setFrameContextIdx(byte frameContextIdx) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameContextIdx);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frameContextIdx);
+        }
     }
     
     /**
@@ -632,7 +736,7 @@ public class Vp9FrameHeader extends Struct {
      */
     public org.gstreamer.codecs.Vp9LoopFilterParams getLoopFilterParams() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("loop_filter_params"));
-        return org.gstreamer.codecs.Vp9LoopFilterParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9LoopFilterParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -640,9 +744,11 @@ public class Vp9FrameHeader extends Struct {
      * @param loopFilterParams The new value of the field {@code loop_filter_params}
      */
     public void setLoopFilterParams(org.gstreamer.codecs.Vp9LoopFilterParams loopFilterParams) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterParams == null ? MemoryAddress.NULL : loopFilterParams.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_params"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loopFilterParams == null ? MemoryAddress.NULL : loopFilterParams.handle()));
+        }
     }
     
     /**
@@ -651,7 +757,7 @@ public class Vp9FrameHeader extends Struct {
      */
     public org.gstreamer.codecs.Vp9QuantizationParams getQuantizationParams() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("quantization_params"));
-        return org.gstreamer.codecs.Vp9QuantizationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9QuantizationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -659,9 +765,11 @@ public class Vp9FrameHeader extends Struct {
      * @param quantizationParams The new value of the field {@code quantization_params}
      */
     public void setQuantizationParams(org.gstreamer.codecs.Vp9QuantizationParams quantizationParams) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("quantization_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quantizationParams == null ? MemoryAddress.NULL : quantizationParams.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("quantization_params"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quantizationParams == null ? MemoryAddress.NULL : quantizationParams.handle()));
+        }
     }
     
     /**
@@ -670,7 +778,7 @@ public class Vp9FrameHeader extends Struct {
      */
     public org.gstreamer.codecs.Vp9SegmentationParams getSegmentationParams() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("segmentation_params"));
-        return org.gstreamer.codecs.Vp9SegmentationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9SegmentationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -678,9 +786,11 @@ public class Vp9FrameHeader extends Struct {
      * @param segmentationParams The new value of the field {@code segmentation_params}
      */
     public void setSegmentationParams(org.gstreamer.codecs.Vp9SegmentationParams segmentationParams) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("segmentation_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationParams == null ? MemoryAddress.NULL : segmentationParams.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("segmentation_params"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segmentationParams == null ? MemoryAddress.NULL : segmentationParams.handle()));
+        }
     }
     
     /**
@@ -688,10 +798,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code tile_cols_log2}
      */
     public byte getTileColsLog2() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -699,9 +811,11 @@ public class Vp9FrameHeader extends Struct {
      * @param tileColsLog2 The new value of the field {@code tile_cols_log2}
      */
     public void setTileColsLog2(byte tileColsLog2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileColsLog2);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tileColsLog2);
+        }
     }
     
     /**
@@ -709,10 +823,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code tile_rows_log2}
      */
     public byte getTileRowsLog2() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -720,9 +836,11 @@ public class Vp9FrameHeader extends Struct {
      * @param tileRowsLog2 The new value of the field {@code tile_rows_log2}
      */
     public void setTileRowsLog2(byte tileRowsLog2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileRowsLog2);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), tileRowsLog2);
+        }
     }
     
     /**
@@ -730,10 +848,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code header_size_in_bytes}
      */
     public short getHeaderSizeInBytes() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -741,9 +861,11 @@ public class Vp9FrameHeader extends Struct {
      * @param headerSizeInBytes The new value of the field {@code header_size_in_bytes}
      */
     public void setHeaderSizeInBytes(short headerSizeInBytes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), headerSizeInBytes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), headerSizeInBytes);
+        }
     }
     
     /**
@@ -751,10 +873,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code tx_mode}
      */
     public org.gstreamer.codecs.Vp9TxMode getTxMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.codecs.Vp9TxMode.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.codecs.Vp9TxMode.of(RESULT);
+        }
     }
     
     /**
@@ -762,9 +886,11 @@ public class Vp9FrameHeader extends Struct {
      * @param txMode The new value of the field {@code tx_mode}
      */
     public void setTxMode(org.gstreamer.codecs.Vp9TxMode txMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (txMode == null ? MemoryAddress.NULL : txMode.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (txMode == null ? MemoryAddress.NULL : txMode.getValue()));
+        }
     }
     
     /**
@@ -772,10 +898,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code reference_mode}
      */
     public org.gstreamer.codecs.Vp9ReferenceMode getReferenceMode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.codecs.Vp9ReferenceMode.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.codecs.Vp9ReferenceMode.of(RESULT);
+        }
     }
     
     /**
@@ -783,9 +911,11 @@ public class Vp9FrameHeader extends Struct {
      * @param referenceMode The new value of the field {@code reference_mode}
      */
     public void setReferenceMode(org.gstreamer.codecs.Vp9ReferenceMode referenceMode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (referenceMode == null ? MemoryAddress.NULL : referenceMode.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (referenceMode == null ? MemoryAddress.NULL : referenceMode.getValue()));
+        }
     }
     
     /**
@@ -794,7 +924,7 @@ public class Vp9FrameHeader extends Struct {
      */
     public org.gstreamer.codecs.Vp9DeltaProbabilities getDeltaProbabilities() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("delta_probabilities"));
-        return org.gstreamer.codecs.Vp9DeltaProbabilities.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9DeltaProbabilities.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -802,9 +932,11 @@ public class Vp9FrameHeader extends Struct {
      * @param deltaProbabilities The new value of the field {@code delta_probabilities}
      */
     public void setDeltaProbabilities(org.gstreamer.codecs.Vp9DeltaProbabilities deltaProbabilities) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("delta_probabilities"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deltaProbabilities == null ? MemoryAddress.NULL : deltaProbabilities.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("delta_probabilities"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deltaProbabilities == null ? MemoryAddress.NULL : deltaProbabilities.handle()));
+        }
     }
     
     /**
@@ -812,10 +944,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code lossless_flag}
      */
     public byte getLosslessFlag() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -823,9 +957,11 @@ public class Vp9FrameHeader extends Struct {
      * @param losslessFlag The new value of the field {@code lossless_flag}
      */
     public void setLosslessFlag(byte losslessFlag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), losslessFlag);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), losslessFlag);
+        }
     }
     
     /**
@@ -833,10 +969,12 @@ public class Vp9FrameHeader extends Struct {
      * @return The value of the field {@code frame_header_length_in_bytes}
      */
     public int getFrameHeaderLengthInBytes() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -844,22 +982,26 @@ public class Vp9FrameHeader extends Struct {
      * @param frameHeaderLengthInBytes The new value of the field {@code frame_header_length_in_bytes}
      */
     public void setFrameHeaderLengthInBytes(int frameHeaderLengthInBytes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameHeaderLengthInBytes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frameHeaderLengthInBytes);
+        }
     }
     
     /**
      * Create a Vp9FrameHeader proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Vp9FrameHeader(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Vp9FrameHeader(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Vp9FrameHeader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9FrameHeader(input, ownership);
+    public static final Marshal<Addressable, Vp9FrameHeader> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Vp9FrameHeader(input);
     
     /**
      * A {@link Vp9FrameHeader.Builder} object constructs a {@link Vp9FrameHeader} 
@@ -883,7 +1025,7 @@ public class Vp9FrameHeader extends Struct {
             struct = Vp9FrameHeader.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Vp9FrameHeader} struct.
          * @return A new instance of {@code Vp9FrameHeader} with the fields 
          *         that were set in the Builder object.
@@ -898,10 +1040,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProfile(byte profile) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("profile"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), profile);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("profile"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), profile);
+                return this;
+            }
         }
         
         /**
@@ -910,10 +1054,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBitDepth(byte bitDepth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitDepth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("bit_depth"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), bitDepth);
+                return this;
+            }
         }
         
         /**
@@ -922,10 +1068,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSubsamplingX(byte subsamplingX) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), subsamplingX);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("subsampling_x"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), subsamplingX);
+                return this;
+            }
         }
         
         /**
@@ -934,10 +1082,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSubsamplingY(byte subsamplingY) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), subsamplingY);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("subsampling_y"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), subsamplingY);
+                return this;
+            }
         }
         
         /**
@@ -946,10 +1096,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setColorSpace(byte colorSpace) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorSpace);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color_space"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), colorSpace);
+                return this;
+            }
         }
         
         /**
@@ -959,10 +1111,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setColorRange(byte colorRange) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorRange);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("color_range"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), colorRange);
+                return this;
+            }
         }
         
         /**
@@ -972,10 +1126,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShowExistingFrame(byte showExistingFrame) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), showExistingFrame);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("show_existing_frame"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), showExistingFrame);
+                return this;
+            }
         }
         
         /**
@@ -985,10 +1141,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrameToShowMapIdx(byte frameToShowMapIdx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameToShowMapIdx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_to_show_map_idx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameToShowMapIdx);
+                return this;
+            }
         }
         
         /**
@@ -997,10 +1155,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrameType(byte frameType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameType);
+                return this;
+            }
         }
         
         /**
@@ -1009,10 +1169,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setShowFrame(byte showFrame) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), showFrame);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("show_frame"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), showFrame);
+                return this;
+            }
         }
         
         /**
@@ -1022,10 +1184,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setErrorResilientMode(byte errorResilientMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorResilientMode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("error_resilient_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), errorResilientMode);
+                return this;
+            }
         }
         
         /**
@@ -1034,10 +1198,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setWidth(int width) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), width);
+                return this;
+            }
         }
         
         /**
@@ -1046,10 +1212,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHeight(int height) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), height);
+                return this;
+            }
         }
         
         /**
@@ -1059,10 +1227,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRenderAndFrameSizeDifferent(byte renderAndFrameSizeDifferent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderAndFrameSizeDifferent);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render_and_frame_size_different"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), renderAndFrameSizeDifferent);
+                return this;
+            }
         }
         
         /**
@@ -1071,10 +1241,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRenderWidth(int renderWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderWidth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), renderWidth);
+                return this;
+            }
         }
         
         /**
@@ -1083,10 +1255,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRenderHeight(int renderHeight) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderHeight);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("render_height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), renderHeight);
+                return this;
+            }
         }
         
         /**
@@ -1095,10 +1269,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIntraOnly(byte intraOnly) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), intraOnly);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("intra_only"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), intraOnly);
+                return this;
+            }
         }
         
         /**
@@ -1108,10 +1284,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setResetFrameContext(byte resetFrameContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resetFrameContext);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reset_frame_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), resetFrameContext);
+                return this;
+            }
         }
         
         /**
@@ -1121,10 +1299,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefreshFrameFlags(byte refreshFrameFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refreshFrameFlags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refreshFrameFlags);
+                return this;
+            }
         }
         
         /**
@@ -1133,10 +1313,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefFrameIdx(byte[] refFrameIdx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFrameIdx == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameIdx, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_idx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFrameIdx == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameIdx, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1147,10 +1329,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefFrameSignBias(byte[] refFrameSignBias) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (refFrameSignBias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameSignBias, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_frame_sign_bias"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (refFrameSignBias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(refFrameSignBias, false, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -1160,10 +1344,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAllowHighPrecisionMv(byte allowHighPrecisionMv) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allowHighPrecisionMv);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("allow_high_precision_mv"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), allowHighPrecisionMv);
+                return this;
+            }
         }
         
         /**
@@ -1173,10 +1359,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInterpolationFilter(byte interpolationFilter) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), interpolationFilter);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("interpolation_filter"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), interpolationFilter);
+                return this;
+            }
         }
         
         /**
@@ -1186,10 +1374,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setRefreshFrameContext(byte refreshFrameContext) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refreshFrameContext);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("refresh_frame_context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refreshFrameContext);
+                return this;
+            }
         }
         
         /**
@@ -1199,10 +1389,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrameParallelDecodingMode(byte frameParallelDecodingMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameParallelDecodingMode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_parallel_decoding_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameParallelDecodingMode);
+                return this;
+            }
         }
         
         /**
@@ -1211,10 +1403,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrameContextIdx(byte frameContextIdx) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameContextIdx);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_context_idx"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameContextIdx);
+                return this;
+            }
         }
         
         /**
@@ -1223,10 +1417,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLoopFilterParams(org.gstreamer.codecs.Vp9LoopFilterParams loopFilterParams) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterParams == null ? MemoryAddress.NULL : loopFilterParams.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_params"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (loopFilterParams == null ? MemoryAddress.NULL : loopFilterParams.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1235,10 +1431,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setQuantizationParams(org.gstreamer.codecs.Vp9QuantizationParams quantizationParams) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("quantization_params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quantizationParams == null ? MemoryAddress.NULL : quantizationParams.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("quantization_params"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quantizationParams == null ? MemoryAddress.NULL : quantizationParams.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1247,10 +1445,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSegmentationParams(org.gstreamer.codecs.Vp9SegmentationParams segmentationParams) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("segmentation_params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationParams == null ? MemoryAddress.NULL : segmentationParams.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("segmentation_params"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (segmentationParams == null ? MemoryAddress.NULL : segmentationParams.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1259,10 +1459,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTileColsLog2(byte tileColsLog2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileColsLog2);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_cols_log2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tileColsLog2);
+                return this;
+            }
         }
         
         /**
@@ -1271,17 +1473,21 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTileRowsLog2(byte tileRowsLog2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileRowsLog2);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tile_rows_log2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), tileRowsLog2);
+                return this;
+            }
         }
         
         public Builder setHeaderSizeInBytes(short headerSizeInBytes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), headerSizeInBytes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("header_size_in_bytes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), headerSizeInBytes);
+                return this;
+            }
         }
         
         /**
@@ -1290,10 +1496,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTxMode(org.gstreamer.codecs.Vp9TxMode txMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (txMode == null ? MemoryAddress.NULL : txMode.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tx_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (txMode == null ? MemoryAddress.NULL : txMode.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1303,10 +1511,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setReferenceMode(org.gstreamer.codecs.Vp9ReferenceMode referenceMode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (referenceMode == null ? MemoryAddress.NULL : referenceMode.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reference_mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (referenceMode == null ? MemoryAddress.NULL : referenceMode.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -1315,10 +1525,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDeltaProbabilities(org.gstreamer.codecs.Vp9DeltaProbabilities deltaProbabilities) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("delta_probabilities"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deltaProbabilities == null ? MemoryAddress.NULL : deltaProbabilities.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("delta_probabilities"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deltaProbabilities == null ? MemoryAddress.NULL : deltaProbabilities.handle()));
+                return this;
+            }
         }
         
         /**
@@ -1327,10 +1539,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLosslessFlag(byte losslessFlag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), losslessFlag);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lossless_flag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), losslessFlag);
+                return this;
+            }
         }
         
         /**
@@ -1339,10 +1553,12 @@ public class Vp9FrameHeader extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrameHeaderLengthInBytes(int frameHeaderLengthInBytes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameHeaderLengthInBytes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frame_header_length_in_bytes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frameHeaderLengthInBytes);
+                return this;
+            }
         }
     }
 }

@@ -29,8 +29,8 @@ public class TreeStorePrivate extends Struct {
      * @return A new, uninitialized @{link TreeStorePrivate}
      */
     public static TreeStorePrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeStorePrivate newInstance = new TreeStorePrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeStorePrivate newInstance = new TreeStorePrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class TreeStorePrivate extends Struct {
     /**
      * Create a TreeStorePrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeStorePrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeStorePrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeStorePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeStorePrivate(input, ownership);
+    public static final Marshal<Addressable, TreeStorePrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeStorePrivate(input);
 }

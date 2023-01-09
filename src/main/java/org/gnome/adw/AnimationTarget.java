@@ -29,14 +29,16 @@ public class AnimationTarget extends org.gtk.gobject.GObject {
     /**
      * Create a AnimationTarget proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AnimationTarget(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AnimationTarget(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AnimationTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AnimationTarget(input, ownership);
+    public static final Marshal<Addressable, AnimationTarget> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AnimationTarget(input);
     
     /**
      * Get the gtype
@@ -68,6 +70,9 @@ public class AnimationTarget extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -92,9 +97,17 @@ public class AnimationTarget extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_animation_target_get_type = Interop.downcallHandle(
-            "adw_animation_target_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_animation_target_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_animation_target_get_type != null;
     }
 }

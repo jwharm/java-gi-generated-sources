@@ -29,8 +29,8 @@ public class CssProviderPrivate extends Struct {
      * @return A new, uninitialized @{link CssProviderPrivate}
      */
     public static CssProviderPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CssProviderPrivate newInstance = new CssProviderPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CssProviderPrivate newInstance = new CssProviderPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CssProviderPrivate extends Struct {
     /**
      * Create a CssProviderPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CssProviderPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CssProviderPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CssProviderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CssProviderPrivate(input, ownership);
+    public static final Marshal<Addressable, CssProviderPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CssProviderPrivate(input);
 }

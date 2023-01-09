@@ -36,8 +36,8 @@ public class AttrFontDesc extends Struct {
      * @return A new, uninitialized @{link AttrFontDesc}
      */
     public static AttrFontDesc allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrFontDesc newInstance = new AttrFontDesc(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrFontDesc newInstance = new AttrFontDesc(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,7 +48,7 @@ public class AttrFontDesc extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -56,9 +56,11 @@ public class AttrFontDesc extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -66,10 +68,12 @@ public class AttrFontDesc extends Struct {
      * @return The value of the field {@code desc}
      */
     public org.pango.FontDescription getDesc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("desc"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("desc"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.pango.FontDescription.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -77,22 +81,26 @@ public class AttrFontDesc extends Struct {
      * @param desc The new value of the field {@code desc}
      */
     public void setDesc(org.pango.FontDescription desc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("desc"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("desc"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
+        }
     }
     
     /**
      * Create a AttrFontDesc proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrFontDesc(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrFontDesc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrFontDesc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrFontDesc(input, ownership);
+    public static final Marshal<Addressable, AttrFontDesc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrFontDesc(input);
     
     /**
      * Create a new font description attribute.
@@ -107,20 +115,21 @@ public class AttrFontDesc extends Struct {
     public static org.pango.Attribute new_(org.pango.FontDescription desc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_desc_new.invokeExact(
-                    desc.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_desc_new.invokeExact(desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
-            "pango_attr_font_desc_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_font_desc_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -146,7 +155,7 @@ public class AttrFontDesc extends Struct {
             struct = AttrFontDesc.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrFontDesc} struct.
          * @return A new instance of {@code AttrFontDesc} with the fields 
          *         that were set in the Builder object.
@@ -161,10 +170,12 @@ public class AttrFontDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -173,10 +184,12 @@ public class AttrFontDesc extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDesc(org.pango.FontDescription desc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("desc"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("desc"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (desc == null ? MemoryAddress.NULL : desc.handle()));
+                return this;
+            }
         }
     }
 }

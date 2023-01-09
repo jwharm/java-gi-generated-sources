@@ -15,18 +15,22 @@ import org.jetbrains.annotations.*;
  * {@code GST_RANK_PRIMARY}.
  */
 public enum Rank implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * will be chosen last or not at all
      */
     NONE(0),
+    
     /**
      * unlikely to be chosen
      */
     MARGINAL(64),
+    
     /**
      * likely to be chosen
      */
     SECONDARY(128),
+    
     /**
      * will be chosen first
      */
@@ -35,15 +39,29 @@ public enum Rank implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstRank";
     
     private final int value;
+    
+    /**
+     * Create a new Rank for the provided value
+     * @param numeric value the enum value
+     */
     Rank(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Rank for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Rank of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -48,8 +48,11 @@ import org.jetbrains.annotations.*;
  */
 public interface TagSetter extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TagSetterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagSetterImpl(input, ownership);
+    public static final Marshal<Addressable, TagSetterImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TagSetterImpl(input);
     
     /**
      * Adds the given tag / value pairs on the setter using the given merge mode.
@@ -59,14 +62,16 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param varArgs tag / value pairs to set
      */
     default void addTagValist(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
-        try {
-            DowncallHandles.gst_tag_setter_add_tag_valist.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_setter_add_tag_valist.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -78,14 +83,16 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param varArgs tag / GValue pairs to set
      */
     default void addTagValistValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
-        try {
-            DowncallHandles.gst_tag_setter_add_tag_valist_values.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varArgs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_setter_add_tag_valist_values.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varArgs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -96,14 +103,16 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param value GValue to set for the tag
      */
     default void addTagValue(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, org.gtk.gobject.Value value) {
-        try {
-            DowncallHandles.gst_tag_setter_add_tag_value.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    value.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_setter_add_tag_value.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        value.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -115,14 +124,16 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param varargs more tag / GValue pairs to set
      */
     default void addTagValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_tag_setter_add_tag_values.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_setter_add_tag_values.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -134,14 +145,16 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param varargs more tag / value pairs to set
      */
     default void addTags(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gst_tag_setter_add_tags.invokeExact(
-                    handle(),
-                    mode.getValue(),
-                    Marshal.stringToAddress.marshal(tag, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_tag_setter_add_tags.invokeExact(
+                        handle(),
+                        mode.getValue(),
+                        Marshal.stringToAddress.marshal(tag, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -156,12 +169,11 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
     default @Nullable org.gstreamer.gst.TagList getTagList() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_tag_setter_get_tag_list.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_tag_setter_get_tag_list.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -172,8 +184,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
     default org.gstreamer.gst.TagMergeMode getTagMergeMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_tag_setter_get_tag_merge_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_tag_setter_get_tag_merge_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,8 +213,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      */
     default void resetTags() {
         try {
-            DowncallHandles.gst_tag_setter_reset_tags.invokeExact(
-                    handle());
+            DowncallHandles.gst_tag_setter_reset_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,90 +254,105 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_add_tag_valist = Interop.downcallHandle(
-            "gst_tag_setter_add_tag_valist",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_add_tag_valist",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_add_tag_valist_values = Interop.downcallHandle(
-            "gst_tag_setter_add_tag_valist_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_add_tag_valist_values",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_add_tag_value = Interop.downcallHandle(
-            "gst_tag_setter_add_tag_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_add_tag_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_add_tag_values = Interop.downcallHandle(
-            "gst_tag_setter_add_tag_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tag_setter_add_tag_values",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_add_tags = Interop.downcallHandle(
-            "gst_tag_setter_add_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gst_tag_setter_add_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_get_tag_list = Interop.downcallHandle(
-            "gst_tag_setter_get_tag_list",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_get_tag_list",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_get_tag_merge_mode = Interop.downcallHandle(
-            "gst_tag_setter_get_tag_merge_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_get_tag_merge_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_merge_tags = Interop.downcallHandle(
-            "gst_tag_setter_merge_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_setter_merge_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_reset_tags = Interop.downcallHandle(
-            "gst_tag_setter_reset_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_tag_setter_reset_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_set_tag_merge_mode = Interop.downcallHandle(
-            "gst_tag_setter_set_tag_merge_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_tag_setter_set_tag_merge_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gst_tag_setter_get_type = Interop.downcallHandle(
-            "gst_tag_setter_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_tag_setter_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The TagSetterImpl type represents a native instance of the TagSetter interface.
+     */
     class TagSetterImpl extends org.gtk.gobject.GObject implements TagSetter {
         
         static {
             Gst.javagi$ensureInitialized();
         }
         
-        public TagSetterImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of TagSetter for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public TagSetterImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_tag_setter_get_type != null;
     }
 }

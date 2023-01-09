@@ -27,6 +27,9 @@ public class BaseSrcFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BaseSrcFlags LAST = new BaseSrcFlags(1048576);
     
+    /**
+     * Create a new BaseSrcFlags with the provided value
+     */
     public BaseSrcFlags(int value) {
         super(value);
     }

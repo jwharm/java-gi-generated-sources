@@ -55,26 +55,17 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     
     /**
      * Create a ExpanderRow proxy instance for the provided memory address.
-     * <p>
-     * Because ExpanderRow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExpanderRow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ExpanderRow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExpanderRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExpanderRow(input, ownership);
+    public static final Marshal<Addressable, ExpanderRow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExpanderRow(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -90,7 +81,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      * Creates a new {@code AdwExpanderRow}.
      */
     public ExpanderRow() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -144,8 +137,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getEnableExpansion() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_enable_expansion.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_enable_expansion.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,8 +151,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getExpanded() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_expanded.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_expanded.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +165,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,8 +179,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public boolean getShowEnableSwitch() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_expander_row_get_show_enable_switch.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_expander_row_get_show_enable_switch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,8 +193,7 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     public java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_subtitle.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_expander_row_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,12 +243,14 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      * @param iconName the icon name
      */
     public void setIconName(@Nullable java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_expander_row_set_icon_name.invokeExact(
-                    handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_expander_row_set_icon_name.invokeExact(
+                        handle(),
+                        (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -286,12 +276,14 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      * @param subtitle the subtitle
      */
     public void setSubtitle(java.lang.String subtitle) {
-        try {
-            DowncallHandles.adw_expander_row_set_subtitle.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(subtitle, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_expander_row_set_subtitle.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(subtitle, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -325,6 +317,9 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
      */
     public static class Builder extends org.gnome.adw.PreferencesRow.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -407,99 +402,107 @@ public class ExpanderRow extends org.gnome.adw.PreferencesRow implements org.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle adw_expander_row_new = Interop.downcallHandle(
-            "adw_expander_row_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_add_action = Interop.downcallHandle(
-            "adw_expander_row_add_action",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_add_action",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_add_prefix = Interop.downcallHandle(
-            "adw_expander_row_add_prefix",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_add_prefix",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_add_row = Interop.downcallHandle(
-            "adw_expander_row_add_row",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_add_row",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_enable_expansion = Interop.downcallHandle(
-            "adw_expander_row_get_enable_expansion",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_get_enable_expansion",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_expanded = Interop.downcallHandle(
-            "adw_expander_row_get_expanded",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_get_expanded",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_icon_name = Interop.downcallHandle(
-            "adw_expander_row_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_show_enable_switch = Interop.downcallHandle(
-            "adw_expander_row_get_show_enable_switch",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_get_show_enable_switch",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_subtitle = Interop.downcallHandle(
-            "adw_expander_row_get_subtitle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_get_subtitle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_remove = Interop.downcallHandle(
-            "adw_expander_row_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_set_enable_expansion = Interop.downcallHandle(
-            "adw_expander_row_set_enable_expansion",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_expander_row_set_enable_expansion",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_expander_row_set_expanded = Interop.downcallHandle(
-            "adw_expander_row_set_expanded",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_expander_row_set_expanded",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_expander_row_set_icon_name = Interop.downcallHandle(
-            "adw_expander_row_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_set_show_enable_switch = Interop.downcallHandle(
-            "adw_expander_row_set_show_enable_switch",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_expander_row_set_show_enable_switch",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_expander_row_set_subtitle = Interop.downcallHandle(
-            "adw_expander_row_set_subtitle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_expander_row_set_subtitle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_expander_row_get_type = Interop.downcallHandle(
-            "adw_expander_row_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_expander_row_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_expander_row_get_type != null;
     }
 }

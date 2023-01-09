@@ -37,8 +37,8 @@ public class Triangle extends Struct {
      * @return A new, uninitialized @{link Triangle}
      */
     public static Triangle allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Triangle newInstance = new Triangle(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Triangle newInstance = new Triangle(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,14 +46,16 @@ public class Triangle extends Struct {
     /**
      * Create a Triangle proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Triangle(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Triangle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Triangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Triangle(input, ownership);
+    public static final Marshal<Addressable, Triangle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Triangle(input);
     
     private static MemoryAddress constructAlloc() {
         MemoryAddress RESULT;
@@ -64,7 +66,7 @@ public class Triangle extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Allocates a new {@link Triangle}.
      * <p>
@@ -75,7 +77,9 @@ public class Triangle extends Struct {
      */
     public static Triangle alloc() {
         var RESULT = constructAlloc();
-        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -117,8 +121,7 @@ public class Triangle extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.graphene_triangle_free.invokeExact(
-                    handle());
+            DowncallHandles.graphene_triangle_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,8 +134,7 @@ public class Triangle extends Struct {
     public float getArea() {
         float RESULT;
         try {
-            RESULT = (float) DowncallHandles.graphene_triangle_get_area.invokeExact(
-                    handle());
+            RESULT = (float) DowncallHandles.graphene_triangle_get_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,17 +325,19 @@ public class Triangle extends Struct {
      * @return the initialized {@link Triangle}
      */
     public org.gtk.graphene.Triangle initFromFloat(float[] a, float[] b, float[] c) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_float.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(a, false),
-                    Interop.allocateNativeArray(b, false),
-                    Interop.allocateNativeArray(c, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_float.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(a, false, SCOPE),
+                        Interop.allocateNativeArray(b, false, SCOPE),
+                        Interop.allocateNativeArray(c, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -354,7 +358,7 @@ public class Triangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -375,105 +379,105 @@ public class Triangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle graphene_triangle_alloc = Interop.downcallHandle(
-            "graphene_triangle_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_contains_point = Interop.downcallHandle(
-            "graphene_triangle_contains_point",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_contains_point",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_equal = Interop.downcallHandle(
-            "graphene_triangle_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_free = Interop.downcallHandle(
-            "graphene_triangle_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_area = Interop.downcallHandle(
-            "graphene_triangle_get_area",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_area",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_barycoords = Interop.downcallHandle(
-            "graphene_triangle_get_barycoords",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_barycoords",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_bounding_box = Interop.downcallHandle(
-            "graphene_triangle_get_bounding_box",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_bounding_box",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_midpoint = Interop.downcallHandle(
-            "graphene_triangle_get_midpoint",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_midpoint",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_normal = Interop.downcallHandle(
-            "graphene_triangle_get_normal",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_normal",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_plane = Interop.downcallHandle(
-            "graphene_triangle_get_plane",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_plane",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_points = Interop.downcallHandle(
-            "graphene_triangle_get_points",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_points",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_uv = Interop.downcallHandle(
-            "graphene_triangle_get_uv",
-            FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_uv",
+                FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_get_vertices = Interop.downcallHandle(
-            "graphene_triangle_get_vertices",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_get_vertices",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_init_from_float = Interop.downcallHandle(
-            "graphene_triangle_init_from_float",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_init_from_float",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_init_from_point3d = Interop.downcallHandle(
-            "graphene_triangle_init_from_point3d",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_init_from_point3d",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle graphene_triangle_init_from_vec3 = Interop.downcallHandle(
-            "graphene_triangle_init_from_vec3",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "graphene_triangle_init_from_vec3",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -499,7 +503,7 @@ public class Triangle extends Struct {
             struct = Triangle.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Triangle} struct.
          * @return A new instance of {@code Triangle} with the fields 
          *         that were set in the Builder object.
@@ -509,24 +513,30 @@ public class Triangle extends Struct {
         }
         
         public Builder setA(org.gtk.graphene.Vec3 a) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("a"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (a == null ? MemoryAddress.NULL : a.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("a"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (a == null ? MemoryAddress.NULL : a.handle()));
+                return this;
+            }
         }
         
         public Builder setB(org.gtk.graphene.Vec3 b) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("b"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (b == null ? MemoryAddress.NULL : b.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("b"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (b == null ? MemoryAddress.NULL : b.handle()));
+                return this;
+            }
         }
         
         public Builder setC(org.gtk.graphene.Vec3 c) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("c"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("c"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
+                return this;
+            }
         }
     }
 }

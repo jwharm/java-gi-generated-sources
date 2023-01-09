@@ -43,32 +43,22 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
     
     /**
      * Create a ApplicationWindow proxy instance for the provided memory address.
-     * <p>
-     * Because ApplicationWindow is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ApplicationWindow(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ApplicationWindow(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ApplicationWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationWindow(input, ownership);
+    public static final Marshal<Addressable, ApplicationWindow> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationWindow(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Application app) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(
-                    app.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_new.invokeExact(app.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +70,9 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * @param app an application instance
      */
     public ApplicationWindow(org.gtk.gtk.Application app) {
-        super(constructNew(app), Ownership.NONE);
+        super(constructNew(app));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -92,12 +84,11 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
     public @Nullable org.gtk.gtk.Widget getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_get_content.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_application_window_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -146,6 +137,9 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      */
     public static class Builder extends org.gtk.gtk.ApplicationWindow.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -183,27 +177,35 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
     private static class DowncallHandles {
         
         private static final MethodHandle adw_application_window_new = Interop.downcallHandle(
-            "adw_application_window_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_application_window_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_application_window_get_content = Interop.downcallHandle(
-            "adw_application_window_get_content",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_application_window_get_content",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_application_window_set_content = Interop.downcallHandle(
-            "adw_application_window_set_content",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_application_window_set_content",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_application_window_get_type = Interop.downcallHandle(
-            "adw_application_window_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_application_window_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_application_window_get_type != null;
     }
 }

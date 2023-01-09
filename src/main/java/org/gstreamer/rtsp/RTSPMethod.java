@@ -82,6 +82,9 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTSPMethod POST = new RTSPMethod(4096);
     
+    /**
+     * Create a new RTSPMethod with the provided value
+     */
     public RTSPMethod(int value) {
         super(value);
     }
@@ -94,8 +97,7 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
     public static java.lang.String asText(org.gstreamer.rtsp.RTSPMethod method) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_method_as_text.invokeExact(
-                    method.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_method_as_text.invokeExact(method.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,9 +134,9 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_method_as_text = Interop.downcallHandle(
-            "gst_rtsp_method_as_text",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_method_as_text",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -56,8 +56,8 @@ public class FontMetrics extends Struct {
      * @return A new, uninitialized @{link FontMetrics}
      */
     public static FontMetrics allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FontMetrics newInstance = new FontMetrics(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FontMetrics newInstance = new FontMetrics(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -65,14 +65,16 @@ public class FontMetrics extends Struct {
     /**
      * Create a FontMetrics proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FontMetrics(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FontMetrics(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FontMetrics> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontMetrics(input, ownership);
+    public static final Marshal<Addressable, FontMetrics> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FontMetrics(input);
     
     /**
      * Gets the approximate character width for a font metrics structure.
@@ -85,8 +87,7 @@ public class FontMetrics extends Struct {
     public int getApproximateCharWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_approximate_char_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_approximate_char_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,8 +107,7 @@ public class FontMetrics extends Struct {
     public int getApproximateDigitWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_approximate_digit_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_approximate_digit_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,8 +126,7 @@ public class FontMetrics extends Struct {
     public int getAscent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_ascent.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_ascent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,8 +145,7 @@ public class FontMetrics extends Struct {
     public int getDescent() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_descent.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_descent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,8 +164,7 @@ public class FontMetrics extends Struct {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +181,7 @@ public class FontMetrics extends Struct {
     public int getStrikethroughPosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_strikethrough_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_strikethrough_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,8 +195,7 @@ public class FontMetrics extends Struct {
     public int getStrikethroughThickness() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_strikethrough_thickness.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_strikethrough_thickness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,8 +213,7 @@ public class FontMetrics extends Struct {
     public int getUnderlinePosition() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_underline_position.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_underline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +227,7 @@ public class FontMetrics extends Struct {
     public int getUnderlineThickness() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_font_metrics_get_underline_thickness.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.pango_font_metrics_get_underline_thickness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,12 +241,13 @@ public class FontMetrics extends Struct {
     public @Nullable org.pango.FontMetrics ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_font_metrics_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_metrics_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.pango.FontMetrics.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.pango.FontMetrics.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -263,8 +257,7 @@ public class FontMetrics extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.pango_font_metrics_unref.invokeExact(
-                    handle());
+            DowncallHandles.pango_font_metrics_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,69 +266,69 @@ public class FontMetrics extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
-            "pango_font_metrics_get_approximate_char_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_approximate_char_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
-            "pango_font_metrics_get_approximate_digit_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_approximate_digit_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
-            "pango_font_metrics_get_ascent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_ascent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
-            "pango_font_metrics_get_descent",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_descent",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
-            "pango_font_metrics_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
-            "pango_font_metrics_get_strikethrough_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_strikethrough_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
-            "pango_font_metrics_get_strikethrough_thickness",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_strikethrough_thickness",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
-            "pango_font_metrics_get_underline_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_underline_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
-            "pango_font_metrics_get_underline_thickness",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_get_underline_thickness",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
-            "pango_font_metrics_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
-            "pango_font_metrics_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "pango_font_metrics_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -361,7 +354,7 @@ public class FontMetrics extends Struct {
             struct = FontMetrics.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FontMetrics} struct.
          * @return A new instance of {@code FontMetrics} with the fields 
          *         that were set in the Builder object.
@@ -371,73 +364,93 @@ public class FontMetrics extends Struct {
         }
         
         public Builder setRefCount(int refCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+                return this;
+            }
         }
         
         public Builder setAscent(int ascent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ascent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ascent);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ascent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), ascent);
+                return this;
+            }
         }
         
         public Builder setDescent(int descent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("descent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), descent);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("descent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), descent);
+                return this;
+            }
         }
         
         public Builder setHeight(int height) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("height"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("height"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), height);
+                return this;
+            }
         }
         
         public Builder setApproximateCharWidth(int approximateCharWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("approximate_char_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateCharWidth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("approximate_char_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), approximateCharWidth);
+                return this;
+            }
         }
         
         public Builder setApproximateDigitWidth(int approximateDigitWidth) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("approximate_digit_width"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateDigitWidth);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("approximate_digit_width"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), approximateDigitWidth);
+                return this;
+            }
         }
         
         public Builder setUnderlinePosition(int underlinePosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("underline_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlinePosition);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("underline_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), underlinePosition);
+                return this;
+            }
         }
         
         public Builder setUnderlineThickness(int underlineThickness) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("underline_thickness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlineThickness);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("underline_thickness"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), underlineThickness);
+                return this;
+            }
         }
         
         public Builder setStrikethroughPosition(int strikethroughPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughPosition);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), strikethroughPosition);
+                return this;
+            }
         }
         
         public Builder setStrikethroughThickness(int strikethroughThickness) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_thickness"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughThickness);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_thickness"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), strikethroughThickness);
+                return this;
+            }
         }
     }
 }

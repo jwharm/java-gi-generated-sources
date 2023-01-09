@@ -66,6 +66,9 @@ public class VideoFormatFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoFormatFlags TILED = new VideoFormatFlags(256);
     
+    /**
+     * Create a new VideoFormatFlags with the provided value
+     */
     public VideoFormatFlags(int value) {
         super(value);
     }

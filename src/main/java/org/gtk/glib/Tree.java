@@ -34,8 +34,8 @@ public class Tree extends Struct {
      * @return A new, uninitialized @{link Tree}
      */
     public static Tree allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Tree newInstance = new Tree(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Tree newInstance = new Tree(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,20 +43,21 @@ public class Tree extends Struct {
     /**
      * Create a Tree proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Tree(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Tree(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Tree> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Tree(input, ownership);
+    public static final Marshal<Addressable, Tree> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Tree(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.CompareFunc keyCompareFunc) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_new.invokeExact(
-                    (Addressable) keyCompareFunc.toCallback());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_new.invokeExact((Addressable) keyCompareFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,7 +73,8 @@ public class Tree extends Struct {
      *   after the second.
      */
     public Tree(org.gtk.glib.CompareFunc keyCompareFunc) {
-        super(constructNew(keyCompareFunc), Ownership.FULL);
+        super(constructNew(keyCompareFunc));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFull(org.gtk.glib.CompareDataFunc keyCompareFunc, org.gtk.glib.DestroyNotify keyDestroyFunc, org.gtk.glib.DestroyNotify valueDestroyFunc) {
@@ -88,7 +90,7 @@ public class Tree extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Tree} like g_tree_new() and allows to specify functions
      * to free the memory allocated for the key and value that get called when
@@ -104,7 +106,9 @@ public class Tree extends Struct {
      */
     public static Tree newFull(org.gtk.glib.CompareDataFunc keyCompareFunc, org.gtk.glib.DestroyNotify keyDestroyFunc, org.gtk.glib.DestroyNotify valueDestroyFunc) {
         var RESULT = constructNewFull(keyCompareFunc, keyDestroyFunc, valueDestroyFunc);
-        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Tree.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewWithData(org.gtk.glib.CompareDataFunc keyCompareFunc) {
@@ -118,7 +122,7 @@ public class Tree extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link Tree} with a comparison function that accepts user data.
      * See g_tree_new() for more details.
@@ -127,7 +131,9 @@ public class Tree extends Struct {
      */
     public static Tree newWithData(org.gtk.glib.CompareDataFunc keyCompareFunc) {
         var RESULT = constructNewWithData(keyCompareFunc);
-        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Tree.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -140,8 +146,7 @@ public class Tree extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_tree_destroy.invokeExact(
-                    handle());
+            DowncallHandles.g_tree_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,8 +209,7 @@ public class Tree extends Struct {
     public int height() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tree_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +263,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -293,21 +297,23 @@ public class Tree extends Struct {
      * @return {@code true} if the key was found in the {@link Tree}
      */
     public boolean lookupExtended(@Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_tree_lookup_extended.invokeExact(
-                    handle(),
-                    (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
-                    (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
-                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment origKeyPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_tree_lookup_extended.invokeExact(
+                        handle(),
+                        (Addressable) (lookupKey == null ? MemoryAddress.NULL : (Addressable) lookupKey),
+                        (Addressable) (origKey == null ? MemoryAddress.NULL : (Addressable) origKeyPOINTER.address()),
+                        (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
+                    if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -327,7 +333,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -351,7 +357,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -361,8 +367,7 @@ public class Tree extends Struct {
     public int nnodes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_tree_nnodes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_tree_nnodes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,12 +382,11 @@ public class Tree extends Struct {
     public @Nullable org.gtk.glib.TreeNode nodeFirst() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_first.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_first.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -393,12 +397,11 @@ public class Tree extends Struct {
     public @Nullable org.gtk.glib.TreeNode nodeLast() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_last.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_last.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -410,12 +413,13 @@ public class Tree extends Struct {
     public org.gtk.glib.Tree ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Tree.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -451,8 +455,7 @@ public class Tree extends Struct {
      */
     public void removeAll() {
         try {
-            DowncallHandles.g_tree_remove_all.invokeExact(
-                    handle());
+            DowncallHandles.g_tree_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,7 +502,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -553,7 +556,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -611,8 +614,7 @@ public class Tree extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_tree_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_tree_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -639,171 +641,171 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_tree_new = Interop.downcallHandle(
-            "g_tree_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_new_full = Interop.downcallHandle(
-            "g_tree_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_new_with_data = Interop.downcallHandle(
-            "g_tree_new_with_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_new_with_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_destroy = Interop.downcallHandle(
-            "g_tree_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_foreach = Interop.downcallHandle(
-            "g_tree_foreach",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_foreach",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_foreach_node = Interop.downcallHandle(
-            "g_tree_foreach_node",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_foreach_node",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_height = Interop.downcallHandle(
-            "g_tree_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_insert = Interop.downcallHandle(
-            "g_tree_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_insert_node = Interop.downcallHandle(
-            "g_tree_insert_node",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_insert_node",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_lookup = Interop.downcallHandle(
-            "g_tree_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_lookup_extended = Interop.downcallHandle(
-            "g_tree_lookup_extended",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_lookup_extended",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_lookup_node = Interop.downcallHandle(
-            "g_tree_lookup_node",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_lookup_node",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_lower_bound = Interop.downcallHandle(
-            "g_tree_lower_bound",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_lower_bound",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_nnodes = Interop.downcallHandle(
-            "g_tree_nnodes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_nnodes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_node_first = Interop.downcallHandle(
-            "g_tree_node_first",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_first",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_node_last = Interop.downcallHandle(
-            "g_tree_node_last",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_node_last",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_ref = Interop.downcallHandle(
-            "g_tree_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_remove = Interop.downcallHandle(
-            "g_tree_remove",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_remove",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_remove_all = Interop.downcallHandle(
-            "g_tree_remove_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_remove_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_replace = Interop.downcallHandle(
-            "g_tree_replace",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_replace",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_replace_node = Interop.downcallHandle(
-            "g_tree_replace_node",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_replace_node",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_search = Interop.downcallHandle(
-            "g_tree_search",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_search",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_search_node = Interop.downcallHandle(
-            "g_tree_search_node",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_search_node",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_steal = Interop.downcallHandle(
-            "g_tree_steal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_steal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_traverse = Interop.downcallHandle(
-            "g_tree_traverse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_traverse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_unref = Interop.downcallHandle(
-            "g_tree_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_tree_upper_bound = Interop.downcallHandle(
-            "g_tree_upper_bound",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_tree_upper_bound",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -25,10 +25,12 @@ import org.jetbrains.annotations.*;
  * @version 2.38
  */
 public enum TestFileType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * a file that was included in the distribution tarball
      */
     DIST(0),
+    
     /**
      * a file that was built on the compiling machine
      */
@@ -37,15 +39,29 @@ public enum TestFileType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GTestFileType";
     
     private final int value;
+    
+    /**
+     * Create a new TestFileType for the provided value
+     * @param numeric value the enum value
+     */
     TestFileType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TestFileType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TestFileType of(int value) {
         return switch (value) {
             case 0 -> DIST;

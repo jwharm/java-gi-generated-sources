@@ -104,6 +104,9 @@ public class BufferFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final BufferFlags LAST = new BufferFlags(1048576);
     
+    /**
+     * Create a new BufferFlags with the provided value
+     */
     public BufferFlags(int value) {
         super(value);
     }

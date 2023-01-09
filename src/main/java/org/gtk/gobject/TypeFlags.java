@@ -36,6 +36,9 @@ public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TypeFlags FINAL = new TypeFlags(64);
     
+    /**
+     * Create a new TypeFlags with the provided value
+     */
     public TypeFlags(int value) {
         super(value);
     }

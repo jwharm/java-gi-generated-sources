@@ -10,6 +10,9 @@ import org.jetbrains.annotations.*;
  */
 public class Glyph extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new Glyph with the provided value
+     */
     public Glyph(int value) {
         super(value);
     }

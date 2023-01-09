@@ -29,8 +29,8 @@ public class NativeInterface extends Struct {
      * @return A new, uninitialized @{link NativeInterface}
      */
     public static NativeInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        NativeInterface newInstance = new NativeInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        NativeInterface newInstance = new NativeInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class NativeInterface extends Struct {
     /**
      * Create a NativeInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NativeInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected NativeInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, NativeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeInterface(input, ownership);
+    public static final Marshal<Addressable, NativeInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NativeInterface(input);
 }

@@ -46,6 +46,9 @@ public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileSetContentsFlags ONLY_EXISTING = new FileSetContentsFlags(4);
     
+    /**
+     * Create a new FileSetContentsFlags with the provided value
+     */
     public FileSetContentsFlags(int value) {
         super(value);
     }

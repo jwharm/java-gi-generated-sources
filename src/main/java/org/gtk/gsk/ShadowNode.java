@@ -28,26 +28,30 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a ShadowNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ShadowNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ShadowNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ShadowNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShadowNode(input, ownership);
+    public static final Marshal<Addressable, ShadowNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ShadowNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, org.gtk.gsk.Shadow[] shadows, long nShadows) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_new.invokeExact(
-                    child.handle(),
-                    Interop.allocateNativeArray(shadows, org.gtk.gsk.Shadow.getMemoryLayout(), false),
-                    nShadows);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_new.invokeExact(
+                        child.handle(),
+                        Interop.allocateNativeArray(shadows, org.gtk.gsk.Shadow.getMemoryLayout(), false, SCOPE),
+                        nShadows);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -58,7 +62,8 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * @param nShadows number of entries in the {@code shadows} array
      */
     public ShadowNode(org.gtk.gsk.RenderNode child, org.gtk.gsk.Shadow[] shadows, long nShadows) {
-        super(constructNew(child, shadows, nShadows), Ownership.FULL);
+        super(constructNew(child, shadows, nShadows));
+        this.takeOwnership();
     }
     
     /**
@@ -68,12 +73,11 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -83,8 +87,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
     public long getNShadows() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_shadow_node_get_n_shadows.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gsk_shadow_node_get_n_shadows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +108,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.Shadow.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Shadow.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -125,33 +128,41 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_shadow_node_new = Interop.downcallHandle(
-            "gsk_shadow_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_shadow_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_shadow_node_get_child = Interop.downcallHandle(
-            "gsk_shadow_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shadow_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shadow_node_get_n_shadows = Interop.downcallHandle(
-            "gsk_shadow_node_get_n_shadows",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_shadow_node_get_n_shadows",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_shadow_node_get_shadow = Interop.downcallHandle(
-            "gsk_shadow_node_get_shadow",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gsk_shadow_node_get_shadow",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gsk_shadow_node_get_type = Interop.downcallHandle(
-            "gsk_shadow_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_shadow_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_shadow_node_get_type != null;
     }
 }

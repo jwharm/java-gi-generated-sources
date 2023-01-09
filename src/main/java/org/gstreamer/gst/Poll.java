@@ -54,8 +54,8 @@ public class Poll extends Struct {
      * @return A new, uninitialized @{link Poll}
      */
     public static Poll allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Poll newInstance = new Poll(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Poll newInstance = new Poll(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -63,14 +63,16 @@ public class Poll extends Struct {
     /**
      * Create a Poll proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Poll(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Poll(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Poll> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Poll(input, ownership);
+    public static final Marshal<Addressable, Poll> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Poll(input);
     
     /**
      * Add a file descriptor to the file descriptor set.
@@ -264,8 +266,7 @@ public class Poll extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_poll_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_poll_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,8 +301,7 @@ public class Poll extends Struct {
     public boolean readControl() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_poll_read_control.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_poll_read_control.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,8 +336,7 @@ public class Poll extends Struct {
      */
     public void restart() {
         try {
-            DowncallHandles.gst_poll_restart.invokeExact(
-                    handle());
+            DowncallHandles.gst_poll_restart.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -432,8 +431,7 @@ public class Poll extends Struct {
     public boolean writeControl() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_poll_write_control.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_poll_write_control.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -453,12 +451,13 @@ public class Poll extends Struct {
     public static @Nullable org.gstreamer.gst.Poll new_(boolean controllable) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_poll_new.invokeExact(
-                    Marshal.booleanToInteger.marshal(controllable, null).intValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_poll_new.invokeExact(Marshal.booleanToInteger.marshal(controllable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -479,135 +478,137 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_poll_add_fd = Interop.downcallHandle(
-            "gst_poll_add_fd",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_add_fd",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_can_read = Interop.downcallHandle(
-            "gst_poll_fd_can_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_can_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_can_write = Interop.downcallHandle(
-            "gst_poll_fd_can_write",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_can_write",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_ctl_pri = Interop.downcallHandle(
-            "gst_poll_fd_ctl_pri",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_fd_ctl_pri",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_ctl_read = Interop.downcallHandle(
-            "gst_poll_fd_ctl_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_fd_ctl_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_ctl_write = Interop.downcallHandle(
-            "gst_poll_fd_ctl_write",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_fd_ctl_write",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_has_closed = Interop.downcallHandle(
-            "gst_poll_fd_has_closed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_has_closed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_has_error = Interop.downcallHandle(
-            "gst_poll_fd_has_error",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_has_error",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_has_pri = Interop.downcallHandle(
-            "gst_poll_fd_has_pri",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_has_pri",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_fd_ignored = Interop.downcallHandle(
-            "gst_poll_fd_ignored",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_fd_ignored",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_free = Interop.downcallHandle(
-            "gst_poll_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_get_read_gpollfd = Interop.downcallHandle(
-            "gst_poll_get_read_gpollfd",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_get_read_gpollfd",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_read_control = Interop.downcallHandle(
-            "gst_poll_read_control",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_read_control",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_remove_fd = Interop.downcallHandle(
-            "gst_poll_remove_fd",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_remove_fd",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_restart = Interop.downcallHandle(
-            "gst_poll_restart",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_restart",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_set_controllable = Interop.downcallHandle(
-            "gst_poll_set_controllable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_set_controllable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_set_flushing = Interop.downcallHandle(
-            "gst_poll_set_flushing",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_set_flushing",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_wait = Interop.downcallHandle(
-            "gst_poll_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_poll_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_poll_write_control = Interop.downcallHandle(
-            "gst_poll_write_control",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_write_control",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_poll_new = Interop.downcallHandle(
-            "gst_poll_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_poll_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_poll_new_timer = Interop.downcallHandle(
-            "gst_poll_new_timer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_poll_new_timer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -10,20 +10,24 @@ import org.jetbrains.annotations.*;
  * position.
  */
 public enum TabAlign implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the text appears to the right of the tab stop position
      */
     LEFT(0),
+    
     /**
      * the text appears to the left of the tab stop position
      *   until the available space is filled. Since: 1.50
      */
     RIGHT(1),
+    
     /**
      * the text is centered at the tab stop position
      *   until the available space is filled. Since: 1.50
      */
     CENTER(2),
+    
     /**
      * text before the first occurrence of the decimal point
      *   character appears to the left of the tab stop position (until the available
@@ -34,15 +38,29 @@ public enum TabAlign implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoTabAlign";
     
     private final int value;
+    
+    /**
+     * Create a new TabAlign for the provided value
+     * @param numeric value the enum value
+     */
     TabAlign(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new TabAlign for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static TabAlign of(int value) {
         return switch (value) {
             case 0 -> LEFT;

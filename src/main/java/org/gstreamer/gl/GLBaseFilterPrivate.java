@@ -29,8 +29,8 @@ public class GLBaseFilterPrivate extends Struct {
      * @return A new, uninitialized @{link GLBaseFilterPrivate}
      */
     public static GLBaseFilterPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLBaseFilterPrivate newInstance = new GLBaseFilterPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLBaseFilterPrivate newInstance = new GLBaseFilterPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLBaseFilterPrivate extends Struct {
     /**
      * Create a GLBaseFilterPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLBaseFilterPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLBaseFilterPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLBaseFilterPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseFilterPrivate(input, ownership);
+    public static final Marshal<Addressable, GLBaseFilterPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseFilterPrivate(input);
 }

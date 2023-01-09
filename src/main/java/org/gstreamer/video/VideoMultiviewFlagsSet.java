@@ -28,14 +28,16 @@ public class VideoMultiviewFlagsSet extends org.gstreamer.gst.FlagSet {
     /**
      * Create a VideoMultiviewFlagsSet proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoMultiviewFlagsSet(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoMultiviewFlagsSet(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoMultiviewFlagsSet> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMultiviewFlagsSet(input, ownership);
+    public static final Marshal<Addressable, VideoMultiviewFlagsSet> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoMultiviewFlagsSet(input);
     
     /**
      * Get the gtype
@@ -54,9 +56,17 @@ public class VideoMultiviewFlagsSet extends org.gstreamer.gst.FlagSet {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_multiview_flagset_get_type = Interop.downcallHandle(
-            "gst_video_multiview_flagset_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_multiview_flagset_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_multiview_flagset_get_type != null;
     }
 }

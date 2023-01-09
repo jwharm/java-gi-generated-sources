@@ -46,14 +46,16 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     /**
      * Create a SortListModel proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SortListModel(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SortListModel(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SortListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SortListModel(input, ownership);
+    public static final Marshal<Addressable, SortListModel> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SortListModel(input);
     
     private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Sorter sorter) {
         MemoryAddress RESULT;
@@ -75,7 +77,8 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
      * @param sorter the {@code GtkSorter} to sort {@code model} with,
      */
     public SortListModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Sorter sorter) {
-        super(constructNew(model, sorter), Ownership.FULL);
+        super(constructNew(model, sorter));
+        this.takeOwnership();
     }
     
     /**
@@ -87,8 +90,7 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     public boolean getIncremental() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_incremental.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_incremental.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,12 +104,11 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_model.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) Interop.register(RESULT, org.gtk.gio.ListModel.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -133,8 +134,7 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     public int getPending() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_pending.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_sort_list_model_get_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,12 +148,11 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_sorter.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_sort_list_model_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Sorter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Sorter) Interop.register(RESULT, org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -245,6 +244,9 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -335,57 +337,65 @@ public class SortListModel extends org.gtk.gobject.GObject implements org.gtk.gi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_sort_list_model_new = Interop.downcallHandle(
-            "gtk_sort_list_model_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_incremental = Interop.downcallHandle(
-            "gtk_sort_list_model_get_incremental",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_get_incremental",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_model = Interop.downcallHandle(
-            "gtk_sort_list_model_get_model",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_get_model",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_pending = Interop.downcallHandle(
-            "gtk_sort_list_model_get_pending",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_get_pending",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_sorter = Interop.downcallHandle(
-            "gtk_sort_list_model_get_sorter",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_get_sorter",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_incremental = Interop.downcallHandle(
-            "gtk_sort_list_model_set_incremental",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_sort_list_model_set_incremental",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_model = Interop.downcallHandle(
-            "gtk_sort_list_model_set_model",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_set_model",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_set_sorter = Interop.downcallHandle(
-            "gtk_sort_list_model_set_sorter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_sort_list_model_set_sorter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_sort_list_model_get_type = Interop.downcallHandle(
-            "gtk_sort_list_model_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_sort_list_model_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_sort_list_model_get_type != null;
     }
 }

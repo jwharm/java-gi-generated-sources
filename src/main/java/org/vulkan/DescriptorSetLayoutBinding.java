@@ -29,8 +29,8 @@ public class DescriptorSetLayoutBinding extends Struct {
      * @return A new, uninitialized @{link DescriptorSetLayoutBinding}
      */
     public static DescriptorSetLayoutBinding allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DescriptorSetLayoutBinding newInstance = new DescriptorSetLayoutBinding(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DescriptorSetLayoutBinding newInstance = new DescriptorSetLayoutBinding(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class DescriptorSetLayoutBinding extends Struct {
     /**
      * Create a DescriptorSetLayoutBinding proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DescriptorSetLayoutBinding(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DescriptorSetLayoutBinding(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DescriptorSetLayoutBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetLayoutBinding(input, ownership);
+    public static final Marshal<Addressable, DescriptorSetLayoutBinding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetLayoutBinding(input);
 }

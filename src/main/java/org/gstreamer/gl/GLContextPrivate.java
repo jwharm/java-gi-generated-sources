@@ -29,8 +29,8 @@ public class GLContextPrivate extends Struct {
      * @return A new, uninitialized @{link GLContextPrivate}
      */
     public static GLContextPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLContextPrivate newInstance = new GLContextPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLContextPrivate newInstance = new GLContextPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class GLContextPrivate extends Struct {
     /**
      * Create a GLContextPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLContextPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLContextPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLContextPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLContextPrivate(input, ownership);
+    public static final Marshal<Addressable, GLContextPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLContextPrivate(input);
 }

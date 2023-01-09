@@ -22,22 +22,27 @@ import org.jetbrains.annotations.*;
  * @version 1.16
  */
 public enum Gravity implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
      */
     SOUTH(0),
+    
     /**
      * Glyphs are rotated 90 degrees counter-clockwise. &lt;img align="right" valign="center" src="m-east.png"&gt;
      */
     EAST(1),
+    
     /**
      * Glyphs are upside-down. &lt;img align="right" valign="cener" src="m-north.png"&gt;
      */
     NORTH(2),
+    
     /**
      * Glyphs are rotated 90 degrees clockwise. &lt;img align="right" valign="center" src="m-west.png"&gt;
      */
     WEST(3),
+    
     /**
      * Gravity is resolved from the context matrix
      */
@@ -46,15 +51,29 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoGravity";
     
     private final int value;
+    
+    /**
+     * Create a new Gravity for the provided value
+     * @param numeric value the enum value
+     */
     Gravity(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Gravity for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Gravity of(int value) {
         return switch (value) {
             case 0 -> SOUTH;
@@ -76,8 +95,7 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     public static org.pango.Gravity getForMatrix(@Nullable org.pango.Matrix matrix) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(
-                    (Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact((Addressable) (matrix == null ? MemoryAddress.NULL : matrix.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,8 +178,7 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     public static double toRotation(org.pango.Gravity gravity) {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(
-                    gravity.getValue());
+            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,27 +188,27 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
-            "pango_gravity_get_for_matrix",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "pango_gravity_get_for_matrix",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
-            "pango_gravity_get_for_script",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_gravity_get_for_script",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
-            "pango_gravity_get_for_script_and_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "pango_gravity_get_for_script_and_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
-            "pango_gravity_to_rotation",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
-            false
+                "pango_gravity_to_rotation",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

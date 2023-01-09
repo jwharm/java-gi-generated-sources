@@ -26,6 +26,9 @@ public class ShapeFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ShapeFlags ROUND_POSITIONS = new ShapeFlags(1);
     
+    /**
+     * Create a new ShapeFlags with the provided value
+     */
     public ShapeFlags(int value) {
         super(value);
     }

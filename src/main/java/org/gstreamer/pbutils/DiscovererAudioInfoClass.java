@@ -10,12 +10,14 @@ public class DiscovererAudioInfoClass extends org.gtk.gobject.ObjectClass {
     /**
      * Create a DiscovererAudioInfoClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererAudioInfoClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererAudioInfoClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererAudioInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererAudioInfoClass(input, ownership);
+    public static final Marshal<Addressable, DiscovererAudioInfoClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererAudioInfoClass(input);
 }

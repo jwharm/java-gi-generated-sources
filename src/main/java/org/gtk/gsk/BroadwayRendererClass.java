@@ -29,8 +29,8 @@ public class BroadwayRendererClass extends Struct {
      * @return A new, uninitialized @{link BroadwayRendererClass}
      */
     public static BroadwayRendererClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        BroadwayRendererClass newInstance = new BroadwayRendererClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        BroadwayRendererClass newInstance = new BroadwayRendererClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class BroadwayRendererClass extends Struct {
     /**
      * Create a BroadwayRendererClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BroadwayRendererClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BroadwayRendererClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BroadwayRendererClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BroadwayRendererClass(input, ownership);
+    public static final Marshal<Addressable, BroadwayRendererClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BroadwayRendererClass(input);
 }

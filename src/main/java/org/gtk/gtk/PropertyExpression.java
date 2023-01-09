@@ -28,27 +28,31 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
     /**
      * Create a PropertyExpression proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PropertyExpression(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PropertyExpression(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PropertyExpression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PropertyExpression(input, ownership);
+    public static final Marshal<Addressable, PropertyExpression> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PropertyExpression(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.Type thisType, @Nullable org.gtk.gtk.Expression expression, java.lang.String propertyName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_new.invokeExact(
-                    thisType.getValue().longValue(),
-                    (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()),
-                    Marshal.stringToAddress.marshal(propertyName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_new.invokeExact(
+                        thisType.getValue().longValue(),
+                        (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            expression.yieldOwnership();
+            return RESULT;
         }
-        expression.yieldOwnership();
-        return RESULT;
     }
     
     /**
@@ -69,7 +73,8 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
      * @param propertyName name of the property
      */
     public PropertyExpression(org.gtk.glib.Type thisType, @Nullable org.gtk.gtk.Expression expression, java.lang.String propertyName) {
-        super(constructNew(thisType, expression, propertyName), Ownership.FULL);
+        super(constructNew(thisType, expression, propertyName));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewForPspec(@Nullable org.gtk.gtk.Expression expression, org.gtk.gobject.ParamSpec pspec) {
@@ -84,7 +89,7 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
         expression.yieldOwnership();
         return RESULT;
     }
-    
+        
     /**
      * Creates an expression that looks up a property.
      * <p>
@@ -102,7 +107,9 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
      */
     public static PropertyExpression newForPspec(@Nullable org.gtk.gtk.Expression expression, org.gtk.gobject.ParamSpec pspec) {
         var RESULT = constructNewForPspec(expression, pspec);
-        return (org.gtk.gtk.PropertyExpression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PropertyExpression.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.PropertyExpression) Interop.register(RESULT, org.gtk.gtk.PropertyExpression.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -113,12 +120,11 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
     public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_get_expression.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) Interop.register(RESULT, org.gtk.gtk.Expression.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -129,12 +135,11 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
     public org.gtk.gobject.ParamSpec getPspec() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_get_pspec.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_property_expression_get_pspec.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.ParamSpec) Interop.register(RESULT, org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -154,33 +159,41 @@ public class PropertyExpression extends org.gtk.gtk.Expression {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_property_expression_new = Interop.downcallHandle(
-            "gtk_property_expression_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_property_expression_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_property_expression_new_for_pspec = Interop.downcallHandle(
-            "gtk_property_expression_new_for_pspec",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_property_expression_new_for_pspec",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_property_expression_get_expression = Interop.downcallHandle(
-            "gtk_property_expression_get_expression",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_property_expression_get_expression",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_property_expression_get_pspec = Interop.downcallHandle(
-            "gtk_property_expression_get_pspec",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_property_expression_get_pspec",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_property_expression_get_type = Interop.downcallHandle(
-            "gtk_property_expression_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_property_expression_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_property_expression_get_type != null;
     }
 }

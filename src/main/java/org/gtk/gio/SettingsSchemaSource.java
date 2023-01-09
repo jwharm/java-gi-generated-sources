@@ -33,8 +33,8 @@ public class SettingsSchemaSource extends Struct {
      * @return A new, uninitialized @{link SettingsSchemaSource}
      */
     public static SettingsSchemaSource allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SettingsSchemaSource newInstance = new SettingsSchemaSource(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SettingsSchemaSource newInstance = new SettingsSchemaSource(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,33 +42,37 @@ public class SettingsSchemaSource extends Struct {
     /**
      * Create a SettingsSchemaSource proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SettingsSchemaSource(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SettingsSchemaSource(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SettingsSchemaSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchemaSource(input, ownership);
+    public static final Marshal<Addressable, SettingsSchemaSource> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchemaSource(input);
     
     private static MemoryAddress constructNewFromDirectory(java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(
-                    Marshal.stringToAddress.marshal(directory, null),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    Marshal.booleanToInteger.marshal(trusted, null).intValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(
+                        Marshal.stringToAddress.marshal(directory, SCOPE),
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                        Marshal.booleanToInteger.marshal(trusted, null).intValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
-    
+        
     /**
      * Attempts to create a new schema source corresponding to the contents
      * of the given directory.
@@ -108,7 +112,9 @@ public class SettingsSchemaSource extends Struct {
      */
     public static SettingsSchemaSource newFromDirectory(java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         var RESULT = constructNewFromDirectory(directory, parent, trusted);
-        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -131,14 +137,16 @@ public class SettingsSchemaSource extends Struct {
      *   of relocatable schemas, in no defined order
      */
     public void listSchemas(boolean recursive, java.lang.String[] nonRelocatable, java.lang.String[] relocatable) {
-        try {
-            DowncallHandles.g_settings_schema_source_list_schemas.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(recursive, null).intValue(),
-                    Interop.allocateNativeArray(nonRelocatable, false),
-                    Interop.allocateNativeArray(relocatable, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_settings_schema_source_list_schemas.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(recursive, null).intValue(),
+                        Interop.allocateNativeArray(nonRelocatable, false, SCOPE),
+                        Interop.allocateNativeArray(relocatable, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -158,16 +166,20 @@ public class SettingsSchemaSource extends Struct {
      * @return a new {@link SettingsSchema}
      */
     public @Nullable org.gtk.gio.SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(schemaId, null),
-                    Marshal.booleanToInteger.marshal(recursive, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(schemaId, SCOPE),
+                        Marshal.booleanToInteger.marshal(recursive, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -177,12 +189,13 @@ public class SettingsSchemaSource extends Struct {
     public org.gtk.gio.SettingsSchemaSource ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -190,8 +203,7 @@ public class SettingsSchemaSource extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_settings_schema_source_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_settings_schema_source_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,45 +232,45 @@ public class SettingsSchemaSource extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
-            "g_settings_schema_source_new_from_directory",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_source_new_from_directory",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_source_list_schemas = Interop.downcallHandle(
-            "g_settings_schema_source_list_schemas",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_source_list_schemas",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
-            "g_settings_schema_source_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_settings_schema_source_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
-            "g_settings_schema_source_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_source_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
-            "g_settings_schema_source_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_source_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
-            "g_settings_schema_source_get_default",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_settings_schema_source_get_default",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

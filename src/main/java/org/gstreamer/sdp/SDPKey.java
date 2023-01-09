@@ -36,8 +36,8 @@ public class SDPKey extends Struct {
      * @return A new, uninitialized @{link SDPKey}
      */
     public static SDPKey allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SDPKey newInstance = new SDPKey(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SDPKey newInstance = new SDPKey(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class SDPKey extends Struct {
      * @return The value of the field {@code type}
      */
     public java.lang.String getType() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class SDPKey extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(java.lang.String type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(type, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(type, SCOPE)));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class SDPKey extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.String getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class SDPKey extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.String data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, SCOPE)));
+        }
     }
     
     /**
      * Create a SDPKey proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SDPKey(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SDPKey(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SDPKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPKey(input, ownership);
+    public static final Marshal<Addressable, SDPKey> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SDPKey(input);
     
     /**
      * A {@link SDPKey.Builder} object constructs a {@link SDPKey} 
@@ -118,7 +128,7 @@ public class SDPKey extends Struct {
             struct = SDPKey.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SDPKey} struct.
          * @return A new instance of {@code SDPKey} with the fields 
          *         that were set in the Builder object.
@@ -133,10 +143,12 @@ public class SDPKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(java.lang.String type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(type, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(type, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -145,10 +157,12 @@ public class SDPKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(java.lang.String data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, SCOPE)));
+                return this;
+            }
         }
     }
 }

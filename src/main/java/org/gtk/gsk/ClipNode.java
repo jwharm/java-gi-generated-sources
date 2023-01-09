@@ -28,14 +28,16 @@ public class ClipNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a ClipNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ClipNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ClipNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ClipNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClipNode(input, ownership);
+    public static final Marshal<Addressable, ClipNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ClipNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, org.gtk.graphene.Rect clip) {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class ClipNode extends org.gtk.gsk.RenderNode {
      * @param clip The clip to apply
      */
     public ClipNode(org.gtk.gsk.RenderNode child, org.gtk.graphene.Rect clip) {
-        super(constructNew(child, clip), Ownership.FULL);
+        super(constructNew(child, clip));
+        this.takeOwnership();
     }
     
     /**
@@ -66,12 +69,11 @@ public class ClipNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_clip_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_clip_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -81,12 +83,11 @@ public class ClipNode extends org.gtk.gsk.RenderNode {
     public org.gtk.graphene.Rect getClip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_clip_node_get_clip.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_clip_node_get_clip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -106,27 +107,35 @@ public class ClipNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_clip_node_new = Interop.downcallHandle(
-            "gsk_clip_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_clip_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_clip_node_get_child = Interop.downcallHandle(
-            "gsk_clip_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_clip_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_clip_node_get_clip = Interop.downcallHandle(
-            "gsk_clip_node_get_clip",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_clip_node_get_clip",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_clip_node_get_type = Interop.downcallHandle(
-            "gsk_clip_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_clip_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_clip_node_get_type != null;
     }
 }

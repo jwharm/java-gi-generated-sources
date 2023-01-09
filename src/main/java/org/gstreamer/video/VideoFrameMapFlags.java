@@ -26,6 +26,9 @@ public class VideoFrameMapFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoFrameMapFlags LAST = new VideoFrameMapFlags(16777216);
     
+    /**
+     * Create a new VideoFrameMapFlags with the provided value
+     */
     public VideoFrameMapFlags(int value) {
         super(value);
     }

@@ -29,25 +29,29 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     /**
      * Create a DebugNode proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DebugNode(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DebugNode(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DebugNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugNode(input, ownership);
+    public static final Marshal<Addressable, DebugNode> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DebugNode(input);
     
     private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, java.lang.String message) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_new.invokeExact(
-                    child.handle(),
-                    Marshal.stringToAddress.marshal(message, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_new.invokeExact(
+                        child.handle(),
+                        Marshal.stringToAddress.marshal(message, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -59,7 +63,8 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
      * @param message The debug message
      */
     public DebugNode(org.gtk.gsk.RenderNode child, java.lang.String message) {
-        super(constructNew(child, message), Ownership.FULL);
+        super(constructNew(child, message));
+        this.takeOwnership();
     }
     
     /**
@@ -69,12 +74,11 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) Interop.register(RESULT, org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -84,8 +88,7 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     public java.lang.String getMessage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_message.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_debug_node_get_message.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,27 +112,35 @@ public class DebugNode extends org.gtk.gsk.RenderNode {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_debug_node_new = Interop.downcallHandle(
-            "gsk_debug_node_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_debug_node_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_debug_node_get_child = Interop.downcallHandle(
-            "gsk_debug_node_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_debug_node_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_debug_node_get_message = Interop.downcallHandle(
-            "gsk_debug_node_get_message",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_debug_node_get_message",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_debug_node_get_type = Interop.downcallHandle(
-            "gsk_debug_node_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_debug_node_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_debug_node_get_type != null;
     }
 }

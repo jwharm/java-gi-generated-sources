@@ -32,26 +32,17 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     
     /**
      * Create a CellRendererToggle proxy instance for the provided memory address.
-     * <p>
-     * Because CellRendererToggle is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CellRendererToggle(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected CellRendererToggle(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CellRendererToggle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererToggle(input, ownership);
+    public static final Marshal<Addressable, CellRendererToggle> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererToggle(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -73,7 +64,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * the model.
      */
     public CellRendererToggle() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -84,8 +77,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_activatable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +92,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_active.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,8 +106,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public boolean getRadio() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_radio.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_radio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,19 +175,43 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Toggled} callback.
+     */
     @FunctionalInterface
     public interface Toggled {
+    
+        /**
+         * The ::toggled signal is emitted when the cell is toggled.
+         * <p>
+         * It is the responsibility of the application to update the model
+         * with the correct value to store at {@code path}.  Often this is simply the
+         * opposite of the value currently stored at {@code path}.
+         */
         void run(java.lang.String path);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceCellRendererToggle, MemoryAddress path) {
-            run(Marshal.addressToString.marshal(path, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run(Marshal.addressToString.marshal(path, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Toggled.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Toggled.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -211,9 +225,10 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<CellRendererToggle.Toggled> onToggled(CellRendererToggle.Toggled handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("toggled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("toggled", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -236,6 +251,9 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      */
     public static class Builder extends org.gtk.gtk.CellRenderer.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -284,51 +302,59 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_cell_renderer_toggle_new = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_toggle_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_activatable = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_get_activatable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_toggle_get_activatable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_active = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_get_active",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_toggle_get_active",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_radio = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_get_radio",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_cell_renderer_toggle_get_radio",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_activatable = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_set_activatable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_renderer_toggle_set_activatable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_active = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_set_active",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_renderer_toggle_set_active",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_set_radio = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_set_radio",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_cell_renderer_toggle_set_radio",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_cell_renderer_toggle_get_type = Interop.downcallHandle(
-            "gtk_cell_renderer_toggle_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_cell_renderer_toggle_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_cell_renderer_toggle_get_type != null;
     }
 }

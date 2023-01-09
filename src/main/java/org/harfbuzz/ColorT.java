@@ -11,6 +11,9 @@ import org.jetbrains.annotations.*;
  */
 public class ColorT extends io.github.jwharm.javagi.Alias<Integer> {
     
+    /**
+     * Create a new ColorT with the provided value
+     */
     public ColorT(int value) {
         super(value);
     }

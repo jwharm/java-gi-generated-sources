@@ -186,8 +186,8 @@ public class VariantType extends Struct {
      * @return A new, uninitialized @{link VariantType}
      */
     public static VariantType allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantType newInstance = new VariantType(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VariantType newInstance = new VariantType(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -195,24 +195,27 @@ public class VariantType extends Struct {
     /**
      * Create a VariantType proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VariantType(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VariantType(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VariantType> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantType(input, ownership);
+    public static final Marshal<Addressable, VariantType> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VariantType(input);
     
     private static MemoryAddress constructNew(java.lang.String typeString) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new.invokeExact(
-                    Marshal.stringToAddress.marshal(typeString, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new.invokeExact(Marshal.stringToAddress.marshal(typeString, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -225,20 +228,20 @@ public class VariantType extends Struct {
      * @param typeString a valid GVariant type string
      */
     public VariantType(java.lang.String typeString) {
-        super(constructNew(typeString), Ownership.FULL);
+        super(constructNew(typeString));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewArray(org.gtk.glib.VariantType element) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_array.invokeExact(
-                    element.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_array.invokeExact(element.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs the type corresponding to an array of elements of the
      * type {@code type}.
@@ -251,7 +254,9 @@ public class VariantType extends Struct {
      */
     public static VariantType newArray(org.gtk.glib.VariantType element) {
         var RESULT = constructNewArray(element);
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewDictEntry(org.gtk.glib.VariantType key, org.gtk.glib.VariantType value) {
@@ -265,7 +270,7 @@ public class VariantType extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs the type corresponding to a dictionary entry with a key
      * of type {@code key} and a value of type {@code value}.
@@ -279,20 +284,21 @@ public class VariantType extends Struct {
      */
     public static VariantType newDictEntry(org.gtk.glib.VariantType key, org.gtk.glib.VariantType value) {
         var RESULT = constructNewDictEntry(key, value);
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewMaybe(org.gtk.glib.VariantType element) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_maybe.invokeExact(
-                    element.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_maybe.invokeExact(element.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Constructs the type corresponding to a maybe instance containing
      * type {@code type} or Nothing.
@@ -305,21 +311,25 @@ public class VariantType extends Struct {
      */
     public static VariantType newMaybe(org.gtk.glib.VariantType element) {
         var RESULT = constructNewMaybe(element);
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewTuple(org.gtk.glib.VariantType[] items, int length) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_tuple.invokeExact(
-                    Interop.allocateNativeArray(items, org.gtk.glib.VariantType.getMemoryLayout(), false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_tuple.invokeExact(
+                        Interop.allocateNativeArray(items, org.gtk.glib.VariantType.getMemoryLayout(), false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Constructs a new tuple type, from {@code items}.
      * <p>
@@ -335,7 +345,9 @@ public class VariantType extends Struct {
      */
     public static VariantType newTuple(org.gtk.glib.VariantType[] items, int length) {
         var RESULT = constructNewTuple(items, length);
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -348,12 +360,13 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -367,8 +380,7 @@ public class VariantType extends Struct {
     public java.lang.String dupString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_dup_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_dup_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -386,12 +398,11 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType element() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_element.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_element.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -444,12 +455,11 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType first() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_first.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_first.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -463,8 +473,7 @@ public class VariantType extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_variant_type_free.invokeExact(
-                    handle());
+            DowncallHandles.g_variant_type_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,8 +490,7 @@ public class VariantType extends Struct {
     public long getStringLength() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_type_get_string_length.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_variant_type_get_string_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -502,8 +510,7 @@ public class VariantType extends Struct {
     public int hash() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_hash.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,8 +531,7 @@ public class VariantType extends Struct {
     public boolean isArray() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_array.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_array.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,8 +555,7 @@ public class VariantType extends Struct {
     public boolean isBasic() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_basic.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_basic.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -573,8 +578,7 @@ public class VariantType extends Struct {
     public boolean isContainer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_container.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_container.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -599,8 +603,7 @@ public class VariantType extends Struct {
     public boolean isDefinite() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_definite.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_definite.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -621,8 +624,7 @@ public class VariantType extends Struct {
     public boolean isDictEntry() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_dict_entry.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_dict_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -643,8 +645,7 @@ public class VariantType extends Struct {
     public boolean isMaybe() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_maybe.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_maybe.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -689,8 +690,7 @@ public class VariantType extends Struct {
     public boolean isTuple() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_tuple.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_tuple.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -706,8 +706,7 @@ public class VariantType extends Struct {
     public boolean isVariant() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_variant_type_is_variant.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_variant_type_is_variant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -727,12 +726,11 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType key() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_key.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -752,8 +750,7 @@ public class VariantType extends Struct {
     public long nItems() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_variant_type_n_items.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_variant_type_n_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -779,12 +776,11 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType next() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_next.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -800,8 +796,7 @@ public class VariantType extends Struct {
     public java.lang.String peekString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_peek_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_peek_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -819,34 +814,35 @@ public class VariantType extends Struct {
     public org.gtk.glib.VariantType value() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
     }
     
     public static org.gtk.glib.VariantType checked(java.lang.String arg0) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_type_checked_.invokeExact(
-                    Marshal.stringToAddress.marshal(arg0, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_variant_type_checked_.invokeExact(Marshal.stringToAddress.marshal(arg0, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public static long stringGetDepth(java.lang.String typeString) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_variant_type_string_get_depth_.invokeExact(
-                    Marshal.stringToAddress.marshal(typeString, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_variant_type_string_get_depth_.invokeExact(Marshal.stringToAddress.marshal(typeString, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -859,14 +855,15 @@ public class VariantType extends Struct {
      * Since 2.24
      */
     public static boolean stringIsValid(java.lang.String typeString) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_variant_type_string_is_valid.invokeExact(
-                    Marshal.stringToAddress.marshal(typeString, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_variant_type_string_is_valid.invokeExact(Marshal.stringToAddress.marshal(typeString, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -889,206 +886,208 @@ public class VariantType extends Struct {
      * @return {@code true} if a valid type string was found
      */
     public static boolean stringScan(java.lang.String string, @Nullable java.lang.String limit, @Nullable Out<java.lang.String> endptr) {
-        MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null),
-                    (Addressable) (limit == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(limit, null)),
-                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment endptrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        (Addressable) (limit == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(limit, SCOPE)),
+                        (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_variant_type_new = Interop.downcallHandle(
-            "g_variant_type_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_new_array = Interop.downcallHandle(
-            "g_variant_type_new_array",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_new_array",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_new_dict_entry = Interop.downcallHandle(
-            "g_variant_type_new_dict_entry",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_new_dict_entry",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_new_maybe = Interop.downcallHandle(
-            "g_variant_type_new_maybe",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_new_maybe",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_new_tuple = Interop.downcallHandle(
-            "g_variant_type_new_tuple",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_variant_type_new_tuple",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_variant_type_copy = Interop.downcallHandle(
-            "g_variant_type_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_dup_string = Interop.downcallHandle(
-            "g_variant_type_dup_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_dup_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_element = Interop.downcallHandle(
-            "g_variant_type_element",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_element",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_equal = Interop.downcallHandle(
-            "g_variant_type_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_first = Interop.downcallHandle(
-            "g_variant_type_first",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_first",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_free = Interop.downcallHandle(
-            "g_variant_type_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_get_string_length = Interop.downcallHandle(
-            "g_variant_type_get_string_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_get_string_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_hash = Interop.downcallHandle(
-            "g_variant_type_hash",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_hash",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_array = Interop.downcallHandle(
-            "g_variant_type_is_array",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_array",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_basic = Interop.downcallHandle(
-            "g_variant_type_is_basic",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_basic",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_container = Interop.downcallHandle(
-            "g_variant_type_is_container",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_container",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_definite = Interop.downcallHandle(
-            "g_variant_type_is_definite",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_definite",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_dict_entry = Interop.downcallHandle(
-            "g_variant_type_is_dict_entry",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_dict_entry",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_maybe = Interop.downcallHandle(
-            "g_variant_type_is_maybe",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_maybe",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_subtype_of = Interop.downcallHandle(
-            "g_variant_type_is_subtype_of",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_subtype_of",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_tuple = Interop.downcallHandle(
-            "g_variant_type_is_tuple",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_tuple",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_is_variant = Interop.downcallHandle(
-            "g_variant_type_is_variant",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_is_variant",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_key = Interop.downcallHandle(
-            "g_variant_type_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_n_items = Interop.downcallHandle(
-            "g_variant_type_n_items",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_n_items",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_next = Interop.downcallHandle(
-            "g_variant_type_next",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_next",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_peek_string = Interop.downcallHandle(
-            "g_variant_type_peek_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_peek_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_value = Interop.downcallHandle(
-            "g_variant_type_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_checked_ = Interop.downcallHandle(
-            "g_variant_type_checked_",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_checked_",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_string_get_depth_ = Interop.downcallHandle(
-            "g_variant_type_string_get_depth_",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_string_get_depth_",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_string_is_valid = Interop.downcallHandle(
-            "g_variant_type_string_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_string_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_type_string_scan = Interop.downcallHandle(
-            "g_variant_type_string_scan",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_type_string_scan",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -62,6 +62,9 @@ public class MarkupCollectType extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MarkupCollectType OPTIONAL = new MarkupCollectType(65536);
     
+    /**
+     * Create a new MarkupCollectType with the provided value
+     */
     public MarkupCollectType(int value) {
         super(value);
     }

@@ -33,14 +33,16 @@ public class ATContext extends org.gtk.gobject.GObject {
     /**
      * Create a ATContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ATContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ATContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ATContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ATContext(input, ownership);
+    public static final Marshal<Addressable, ATContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ATContext(input);
     
     private static MemoryAddress constructCreate(org.gtk.gtk.AccessibleRole accessibleRole, org.gtk.gtk.Accessible accessible, org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
@@ -54,7 +56,7 @@ public class ATContext extends org.gtk.gobject.GObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code GtkATContext} instance for the given accessible role,
      * accessible instance, and display connection.
@@ -68,7 +70,9 @@ public class ATContext extends org.gtk.gobject.GObject {
      */
     public static ATContext create(org.gtk.gtk.AccessibleRole accessibleRole, org.gtk.gtk.Accessible accessible, org.gtk.gdk.Display display) {
         var RESULT = constructCreate(accessibleRole, accessible, display);
-        return (org.gtk.gtk.ATContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ATContext.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.ATContext) Interop.register(RESULT, org.gtk.gtk.ATContext.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -78,12 +82,11 @@ public class ATContext extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Accessible getAccessible() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Accessible) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Accessible.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Accessible) Interop.register(RESULT, org.gtk.gtk.Accessible.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -93,8 +96,7 @@ public class ATContext extends org.gtk.gobject.GObject {
     public org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,19 +117,38 @@ public class ATContext extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code StateChange} callback.
+     */
     @FunctionalInterface
     public interface StateChange {
+    
+        /**
+         * Emitted when the attributes of the accessible for the
+         * {@code GtkATContext} instance change.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceATContext) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateChange.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StateChange.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -138,9 +159,10 @@ public class ATContext extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<ATContext.StateChange> onStateChange(ATContext.StateChange handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("state-change"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("state-change", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -163,6 +185,9 @@ public class ATContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -223,27 +248,35 @@ public class ATContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_at_context_create = Interop.downcallHandle(
-            "gtk_at_context_create",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_at_context_create",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_at_context_get_accessible = Interop.downcallHandle(
-            "gtk_at_context_get_accessible",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_at_context_get_accessible",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_at_context_get_accessible_role = Interop.downcallHandle(
-            "gtk_at_context_get_accessible_role",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_at_context_get_accessible_role",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_at_context_get_type = Interop.downcallHandle(
-            "gtk_at_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_at_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_at_context_get_type != null;
     }
 }

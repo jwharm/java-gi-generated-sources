@@ -29,8 +29,8 @@ public class AudioDecoderPrivate extends Struct {
      * @return A new, uninitialized @{link AudioDecoderPrivate}
      */
     public static AudioDecoderPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioDecoderPrivate newInstance = new AudioDecoderPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioDecoderPrivate newInstance = new AudioDecoderPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AudioDecoderPrivate extends Struct {
     /**
      * Create a AudioDecoderPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioDecoderPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioDecoderPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioDecoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioDecoderPrivate(input, ownership);
+    public static final Marshal<Addressable, AudioDecoderPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioDecoderPrivate(input);
 }

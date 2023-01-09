@@ -25,14 +25,16 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
     /**
      * Create a PlayerVideoOverlayVideoRenderer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayerVideoOverlayVideoRenderer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayerVideoOverlayVideoRenderer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayerVideoOverlayVideoRenderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerVideoOverlayVideoRenderer(input, ownership);
+    public static final Marshal<Addressable, PlayerVideoOverlayVideoRenderer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayerVideoOverlayVideoRenderer(input);
     
     /**
      * Tell an overlay that it has been exposed. This will redraw the current frame
@@ -40,8 +42,7 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
      */
     public void expose() {
         try {
-            DowncallHandles.gst_player_video_overlay_video_renderer_expose.invokeExact(
-                    handle());
+            DowncallHandles.gst_player_video_overlay_video_renderer_expose.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -56,31 +57,32 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
      * @param height the height of the render area inside the window
      */
     public void getRenderRectangle(Out<Integer> x, Out<Integer> y, Out<Integer> width, Out<Integer> height) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        try {
-            DowncallHandles.gst_player_video_overlay_video_renderer_get_render_rectangle.invokeExact(
-                    handle(),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
-                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
-                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment widthPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemorySegment heightPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            try {
+                DowncallHandles.gst_player_video_overlay_video_renderer_get_render_rectangle.invokeExact(
+                        handle(),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                        (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                        (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+                    if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
         }
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     public @Nullable java.lang.foreign.MemoryAddress getWindowHandle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_get_window_handle.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_get_window_handle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,12 +150,13 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
     public static org.gstreamer.player.PlayerVideoRenderer new_(@Nullable java.lang.foreign.MemoryAddress windowHandle) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_new.invokeExact(
-                    (Addressable) (windowHandle == null ? MemoryAddress.NULL : (Addressable) windowHandle));
+            RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_new.invokeExact((Addressable) (windowHandle == null ? MemoryAddress.NULL : (Addressable) windowHandle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.player.PlayerVideoRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.player.PlayerVideoRenderer) Interop.register(RESULT, org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public static org.gstreamer.player.PlayerVideoRenderer newWithSink(@Nullable java.lang.foreign.MemoryAddress windowHandle, org.gstreamer.gst.Element videoSink) {
@@ -165,7 +168,9 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.player.PlayerVideoRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.player.PlayerVideoRenderer) Interop.register(RESULT, org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -184,6 +189,9 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -220,51 +228,59 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject imp
     private static class DowncallHandles {
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_expose = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_expose",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_expose",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_get_render_rectangle = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_get_render_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_get_render_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_get_window_handle = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_get_window_handle",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_get_window_handle",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_set_render_rectangle = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_set_render_rectangle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_player_video_overlay_video_renderer_set_render_rectangle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_set_window_handle = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_set_window_handle",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_set_window_handle",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_get_type = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_player_video_overlay_video_renderer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_new = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_player_video_overlay_video_renderer_new_with_sink = Interop.downcallHandle(
-            "gst_player_video_overlay_video_renderer_new_with_sink",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_player_video_overlay_video_renderer_new_with_sink",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_player_video_overlay_video_renderer_get_type != null;
     }
 }

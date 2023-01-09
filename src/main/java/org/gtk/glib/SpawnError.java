@@ -9,101 +9,139 @@ import org.jetbrains.annotations.*;
  * Error codes returned by spawning processes.
  */
 public enum SpawnError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Fork failed due to lack of memory.
      */
     FORK(0),
+    
     /**
      * Read or select on pipes failed.
      */
     READ(1),
+    
     /**
      * Changing to working directory failed.
      */
     CHDIR(2),
+    
     /**
      * execv() returned {@code EACCES}
      */
     ACCES(3),
+    
     /**
      * execv() returned {@code EPERM}
      */
     PERM(4),
+    
     /**
      * execv() returned {@code E2BIG}
      */
     TOO_BIG(5),
+    
     /**
      * execv() returned {@code ENOEXEC}
      */
     NOEXEC(6),
+    
     /**
      * execv() returned {@code ENAMETOOLONG}
      */
     NAMETOOLONG(7),
+    
     /**
      * execv() returned {@code ENOENT}
      */
     NOENT(8),
+    
     /**
      * execv() returned {@code ENOMEM}
      */
     NOMEM(9),
+    
     /**
      * execv() returned {@code ENOTDIR}
      */
     NOTDIR(10),
+    
     /**
      * execv() returned {@code ELOOP}
      */
     LOOP(11),
+    
     /**
      * execv() returned {@code ETXTBUSY}
      */
     TXTBUSY(12),
+    
     /**
      * execv() returned {@code EIO}
      */
     IO(13),
+    
     /**
      * execv() returned {@code ENFILE}
      */
     NFILE(14),
+    
     /**
      * execv() returned {@code EMFILE}
      */
     MFILE(15),
+    
     /**
      * execv() returned {@code EINVAL}
      */
     INVAL(16),
+    
     /**
      * execv() returned {@code EISDIR}
      */
     ISDIR(17),
+    
     /**
      * execv() returned {@code ELIBBAD}
      */
     LIBBAD(18),
+    
     /**
      * Some other fatal failure,
      *   {@code error->message} should explain.
      */
     FAILED(19);
+    
+    /**
+     * deprecated alias for {@link SpawnError#TOO_BIG} (deprecated since GLib 2.32)
+     */
     public static final SpawnError _2BIG = TOO_BIG;
     
     private static final java.lang.String C_TYPE_NAME = "GSpawnError";
     
     private final int value;
+    
+    /**
+     * Create a new SpawnError for the provided value
+     * @param numeric value the enum value
+     */
     SpawnError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new SpawnError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static SpawnError of(int value) {
         return switch (value) {
             case 0 -> FORK;

@@ -43,26 +43,41 @@ public class H264DecoderClass extends Struct {
      * @return A new, uninitialized @{link H264DecoderClass}
      */
     public static H264DecoderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H264DecoderClass newInstance = new H264DecoderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H264DecoderClass newInstance = new H264DecoderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code NewSequenceCallback} callback.
+     */
     @FunctionalInterface
     public interface NewSequenceCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, java.lang.foreign.MemoryAddress sps, int maxDpbSize);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress sps, int maxDpbSize) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), sps, maxDpbSize);
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), sps, maxDpbSize);
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewSequenceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewSequenceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -71,25 +86,42 @@ public class H264DecoderClass extends Struct {
      * @param newSequence The new value of the field {@code new_sequence}
      */
     public void setNewSequence(NewSequenceCallback newSequence) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface NewPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.video.VideoCodecFrame frame, org.gstreamer.codecs.H264Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress frame, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -98,25 +130,42 @@ public class H264DecoderClass extends Struct {
      * @param newPicture The new value of the field {@code new_picture}
      */
     public void setNewPicture(NewPictureCallback newPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code NewFieldPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface NewFieldPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.codecs.H264Picture firstField, org.gstreamer.codecs.H264Picture secondField);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress firstField, MemoryAddress secondField) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(firstField, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(secondField, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(firstField, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(secondField, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NewFieldPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), NewFieldPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -125,25 +174,42 @@ public class H264DecoderClass extends Struct {
      * @param newFieldPicture The new value of the field {@code new_field_picture}
      */
     public void setNewFieldPicture(NewFieldPictureCallback newFieldPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("new_field_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newFieldPicture == null ? MemoryAddress.NULL : newFieldPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("new_field_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newFieldPicture == null ? MemoryAddress.NULL : newFieldPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code StartPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface StartPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.codecs.H264Picture picture, org.gstreamer.codecs.H264Slice slice, org.gstreamer.codecs.H264Dpb dpb);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture, MemoryAddress slice, MemoryAddress dpb) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, Ownership.NONE), org.gstreamer.codecs.H264Slice.fromAddress.marshal(slice, Ownership.NONE), org.gstreamer.codecs.H264Dpb.fromAddress.marshal(dpb, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, null), org.gstreamer.codecs.H264Slice.fromAddress.marshal(slice, null), org.gstreamer.codecs.H264Dpb.fromAddress.marshal(dpb, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), StartPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -152,25 +218,44 @@ public class H264DecoderClass extends Struct {
      * @param startPicture The new value of the field {@code start_picture}
      */
     public void setStartPicture(StartPictureCallback startPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DecodeSliceCallback} callback.
+     */
     @FunctionalInterface
     public interface DecodeSliceCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.codecs.H264Picture picture, org.gstreamer.codecs.H264Slice slice, PointerProxy<org.gstreamer.codecs.H264Picture> refPicList0, PointerProxy<org.gstreamer.codecs.H264Picture> refPicList1);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture, MemoryAddress slice, MemoryAddress refPicList0, MemoryAddress refPicList1) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, Ownership.NONE), org.gstreamer.codecs.H264Slice.fromAddress.marshal(slice, Ownership.NONE), new PointerProxy<org.gstreamer.codecs.H264Picture>(refPicList0, org.gstreamer.codecs.H264Picture.fromAddress), new PointerProxy<org.gstreamer.codecs.H264Picture>(refPicList1, org.gstreamer.codecs.H264Picture.fromAddress));
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, null), org.gstreamer.codecs.H264Slice.fromAddress.marshal(slice, null), new PointerProxy<org.gstreamer.codecs.H264Picture>(refPicList0, org.gstreamer.codecs.H264Picture.fromAddress), new PointerProxy<org.gstreamer.codecs.H264Picture>(refPicList1, org.gstreamer.codecs.H264Picture.fromAddress));
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DecodeSliceCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DecodeSliceCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -179,25 +264,42 @@ public class H264DecoderClass extends Struct {
      * @param decodeSlice The new value of the field {@code decode_slice}
      */
     public void setDecodeSlice(DecodeSliceCallback decodeSlice) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("decode_slice"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decodeSlice == null ? MemoryAddress.NULL : decodeSlice.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("decode_slice"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decodeSlice == null ? MemoryAddress.NULL : decodeSlice.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface EndPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.codecs.H264Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, Ownership.NONE));
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -206,25 +308,42 @@ public class H264DecoderClass extends Struct {
      * @param endPicture The new value of the field {@code end_picture}
      */
     public void setEndPicture(EndPictureCallback endPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code OutputPictureCallback} callback.
+     */
     @FunctionalInterface
     public interface OutputPictureCallback {
+    
         org.gstreamer.gst.FlowReturn run(org.gstreamer.codecs.H264Decoder decoder, org.gstreamer.video.VideoCodecFrame frame, org.gstreamer.codecs.H264Picture picture);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, MemoryAddress frame, MemoryAddress picture) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, Ownership.FULL), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, Ownership.FULL));
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(frame, null), org.gstreamer.codecs.H264Picture.fromAddress.marshal(picture, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OutputPictureCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), OutputPictureCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -233,25 +352,42 @@ public class H264DecoderClass extends Struct {
      * @param outputPicture The new value of the field {@code output_picture}
      */
     public void setOutputPicture(OutputPictureCallback outputPicture) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetPreferredOutputDelayCallback} callback.
+     */
     @FunctionalInterface
     public interface GetPreferredOutputDelayCallback {
+    
         int run(org.gstreamer.codecs.H264Decoder decoder, boolean live);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress decoder, int live) {
-            var RESULT = run((org.gstreamer.codecs.H264Decoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(decoder)), org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, Ownership.NONE), Marshal.integerToBoolean.marshal(live, null).booleanValue());
+            var RESULT = run((org.gstreamer.codecs.H264Decoder) Interop.register(decoder, org.gstreamer.codecs.H264Decoder.fromAddress).marshal(decoder, null), Marshal.integerToBoolean.marshal(live, null).booleanValue());
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetPreferredOutputDelayCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetPreferredOutputDelayCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -260,22 +396,26 @@ public class H264DecoderClass extends Struct {
      * @param getPreferredOutputDelay The new value of the field {@code get_preferred_output_delay}
      */
     public void setGetPreferredOutputDelay(GetPreferredOutputDelayCallback getPreferredOutputDelay) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+        }
     }
     
     /**
      * Create a H264DecoderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H264DecoderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H264DecoderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H264DecoderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264DecoderClass(input, ownership);
+    public static final Marshal<Addressable, H264DecoderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H264DecoderClass(input);
     
     /**
      * A {@link H264DecoderClass.Builder} object constructs a {@link H264DecoderClass} 
@@ -299,7 +439,7 @@ public class H264DecoderClass extends Struct {
             struct = H264DecoderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link H264DecoderClass} struct.
          * @return A new instance of {@code H264DecoderClass} with the fields 
          *         that were set in the Builder object.
@@ -309,73 +449,93 @@ public class H264DecoderClass extends Struct {
         }
         
         public Builder setParentClass(org.gstreamer.video.VideoDecoderClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setNewSequence(NewSequenceCallback newSequence) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_sequence"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newSequence == null ? MemoryAddress.NULL : newSequence.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNewPicture(NewPictureCallback newPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newPicture == null ? MemoryAddress.NULL : newPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setNewFieldPicture(NewFieldPictureCallback newFieldPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("new_field_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (newFieldPicture == null ? MemoryAddress.NULL : newFieldPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("new_field_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (newFieldPicture == null ? MemoryAddress.NULL : newFieldPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setStartPicture(StartPictureCallback startPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (startPicture == null ? MemoryAddress.NULL : startPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDecodeSlice(DecodeSliceCallback decodeSlice) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("decode_slice"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decodeSlice == null ? MemoryAddress.NULL : decodeSlice.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("decode_slice"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (decodeSlice == null ? MemoryAddress.NULL : decodeSlice.toCallback()));
+                return this;
+            }
         }
         
         public Builder setEndPicture(EndPictureCallback endPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (endPicture == null ? MemoryAddress.NULL : endPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setOutputPicture(OutputPictureCallback outputPicture) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("output_picture"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (outputPicture == null ? MemoryAddress.NULL : outputPicture.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetPreferredOutputDelay(GetPreferredOutputDelayCallback getPreferredOutputDelay) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_preferred_output_delay"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getPreferredOutputDelay == null ? MemoryAddress.NULL : getPreferredOutputDelay.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

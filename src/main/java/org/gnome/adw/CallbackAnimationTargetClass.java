@@ -29,8 +29,8 @@ public class CallbackAnimationTargetClass extends Struct {
      * @return A new, uninitialized @{link CallbackAnimationTargetClass}
      */
     public static CallbackAnimationTargetClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CallbackAnimationTargetClass newInstance = new CallbackAnimationTargetClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CallbackAnimationTargetClass newInstance = new CallbackAnimationTargetClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CallbackAnimationTargetClass extends Struct {
     /**
      * Create a CallbackAnimationTargetClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CallbackAnimationTargetClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CallbackAnimationTargetClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CallbackAnimationTargetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAnimationTargetClass(input, ownership);
+    public static final Marshal<Addressable, CallbackAnimationTargetClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CallbackAnimationTargetClass(input);
 }

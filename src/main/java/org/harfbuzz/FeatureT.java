@@ -41,8 +41,8 @@ public class FeatureT extends Struct {
      * @return A new, uninitialized @{link FeatureT}
      */
     public static FeatureT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FeatureT newInstance = new FeatureT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FeatureT newInstance = new FeatureT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,10 +52,12 @@ public class FeatureT extends Struct {
      * @return The value of the field {@code tag}
      */
     public org.harfbuzz.TagT getTag() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.harfbuzz.TagT(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.harfbuzz.TagT(RESULT);
+        }
     }
     
     /**
@@ -63,9 +65,11 @@ public class FeatureT extends Struct {
      * @param tag The new value of the field {@code tag}
      */
     public void setTag(org.harfbuzz.TagT tag) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+        }
     }
     
     /**
@@ -73,10 +77,12 @@ public class FeatureT extends Struct {
      * @return The value of the field {@code value}
      */
     public int getValue() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -84,9 +90,11 @@ public class FeatureT extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(int value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), value);
+        }
     }
     
     /**
@@ -94,10 +102,12 @@ public class FeatureT extends Struct {
      * @return The value of the field {@code start}
      */
     public int getStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -105,9 +115,11 @@ public class FeatureT extends Struct {
      * @param start The new value of the field {@code start}
      */
     public void setStart(int start) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), start);
+        }
     }
     
     /**
@@ -115,10 +127,12 @@ public class FeatureT extends Struct {
      * @return The value of the field {@code end}
      */
     public int getEnd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -126,22 +140,26 @@ public class FeatureT extends Struct {
      * @param end The new value of the field {@code end}
      */
     public void setEnd(int end) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), end);
+        }
     }
     
     /**
      * Create a FeatureT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FeatureT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FeatureT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FeatureT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FeatureT(input, ownership);
+    public static final Marshal<Addressable, FeatureT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FeatureT(input);
     
     /**
      * Converts a {@link FeatureT} into a {@code NULL}-terminated string in the format
@@ -151,29 +169,31 @@ public class FeatureT extends Struct {
      * @param size the allocated size of {@code buf}
      */
     public void String(Out<java.lang.String[]> buf, int size) {
-        MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.hb_feature_to_string.invokeExact(
-                    handle(),
-                    (Addressable) bufPOINTER.address(),
-                    size);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment bufPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.hb_feature_to_string.invokeExact(
+                        handle(),
+                        (Addressable) bufPOINTER.address(),
+                        size);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            java.lang.String[] bufARRAY = new java.lang.String[size];
+            for (int I = 0; I < size; I++) {
+                var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+                }
+            buf.set(bufARRAY);
         }
-        java.lang.String[] bufARRAY = new java.lang.String[size];
-        for (int I = 0; I < size; I++) {
-            var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        buf.set(bufARRAY);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
-            "hb_feature_to_string",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "hb_feature_to_string",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -199,7 +219,7 @@ public class FeatureT extends Struct {
             struct = FeatureT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FeatureT} struct.
          * @return A new instance of {@code FeatureT} with the fields 
          *         that were set in the Builder object.
@@ -214,10 +234,12 @@ public class FeatureT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTag(org.harfbuzz.TagT tag) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("tag"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
+                return this;
+            }
         }
         
         /**
@@ -228,10 +250,12 @@ public class FeatureT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(int value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), value);
+                return this;
+            }
         }
         
         /**
@@ -240,10 +264,12 @@ public class FeatureT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStart(int start) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), start);
+                return this;
+            }
         }
         
         /**
@@ -252,10 +278,12 @@ public class FeatureT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEnd(int end) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), end);
+                return this;
+            }
         }
     }
 }

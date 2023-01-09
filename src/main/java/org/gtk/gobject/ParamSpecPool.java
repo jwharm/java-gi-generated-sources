@@ -36,8 +36,8 @@ public class ParamSpecPool extends Struct {
      * @return A new, uninitialized @{link ParamSpecPool}
      */
     public static ParamSpecPool allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParamSpecPool newInstance = new ParamSpecPool(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ParamSpecPool newInstance = new ParamSpecPool(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,14 +45,16 @@ public class ParamSpecPool extends Struct {
     /**
      * Create a ParamSpecPool proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecPool(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecPool(input, ownership);
+    public static final Marshal<Addressable, ParamSpecPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecPool(input);
     
     /**
      * Inserts a {@link ParamSpec} in the pool.
@@ -80,23 +82,25 @@ public class ParamSpecPool extends Struct {
      *          owned by {@code owner_type} in the pool
      */
     public org.gtk.gobject.ParamSpec[] list(org.gtk.glib.Type ownerType, Out<Integer> nPspecsP) {
-        MemorySegment nPspecsPPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list.invokeExact(
-                    handle(),
-                    ownerType.getValue().longValue(),
-                    (Addressable) nPspecsPPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment nPspecsPPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_list.invokeExact(
+                        handle(),
+                        ownerType.getValue().longValue(),
+                        (Addressable) nPspecsPPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nPspecsP.set(nPspecsPPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nPspecsP.get().intValue()];
+            for (int I = 0; I < nPspecsP.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = (org.gtk.gobject.ParamSpec) Interop.register(OBJ, org.gtk.gobject.ParamSpec.fromAddress).marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        nPspecsP.set(nPspecsPPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nPspecsP.get().intValue()];
-        for (int I = 0; I < nPspecsP.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.gtk.gobject.ParamSpec.fromAddress).marshal(OBJ, Ownership.CONTAINER);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -116,7 +120,7 @@ public class ParamSpecPool extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -129,17 +133,19 @@ public class ParamSpecPool extends Struct {
      * matching {@link ParamSpec} was found.
      */
     public @Nullable org.gtk.gobject.ParamSpec lookup(java.lang.String paramName, org.gtk.glib.Type ownerType, boolean walkAncestors) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(paramName, null),
-                    ownerType.getValue().longValue(),
-                    Marshal.booleanToInteger.marshal(walkAncestors, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(paramName, SCOPE),
+                        ownerType.getValue().longValue(),
+                        Marshal.booleanToInteger.marshal(walkAncestors, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gobject.ParamSpec) Interop.register(RESULT, org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -169,50 +175,51 @@ public class ParamSpecPool extends Struct {
     public static org.gtk.gobject.ParamSpecPool new_(boolean typePrefixing) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_new.invokeExact(
-                    Marshal.booleanToInteger.marshal(typePrefixing, null).intValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_param_spec_pool_new.invokeExact(Marshal.booleanToInteger.marshal(typePrefixing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.ParamSpecPool.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gobject.ParamSpecPool.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_param_spec_pool_insert = Interop.downcallHandle(
-            "g_param_spec_pool_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_param_spec_pool_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_param_spec_pool_list = Interop.downcallHandle(
-            "g_param_spec_pool_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_param_spec_pool_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_param_spec_pool_list_owned = Interop.downcallHandle(
-            "g_param_spec_pool_list_owned",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_param_spec_pool_list_owned",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_param_spec_pool_lookup = Interop.downcallHandle(
-            "g_param_spec_pool_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "g_param_spec_pool_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_param_spec_pool_remove = Interop.downcallHandle(
-            "g_param_spec_pool_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_param_spec_pool_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_param_spec_pool_new = Interop.downcallHandle(
-            "g_param_spec_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_param_spec_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

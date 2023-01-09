@@ -29,8 +29,8 @@ public class ApplicationInfo extends Struct {
      * @return A new, uninitialized @{link ApplicationInfo}
      */
     public static ApplicationInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ApplicationInfo newInstance = new ApplicationInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ApplicationInfo newInstance = new ApplicationInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ApplicationInfo extends Struct {
     /**
      * Create a ApplicationInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ApplicationInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ApplicationInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ApplicationInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationInfo(input, ownership);
+    public static final Marshal<Addressable, ApplicationInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationInfo(input);
 }

@@ -27,6 +27,9 @@ public class VideoOverlayFormatFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoOverlayFormatFlags GLOBAL_ALPHA = new VideoOverlayFormatFlags(2);
     
+    /**
+     * Create a new VideoOverlayFormatFlags with the provided value
+     */
     public VideoOverlayFormatFlags(int value) {
         super(value);
     }

@@ -40,8 +40,8 @@ public class ToplevelLayout extends Struct {
      * @return A new, uninitialized @{link ToplevelLayout}
      */
     public static ToplevelLayout allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ToplevelLayout newInstance = new ToplevelLayout(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ToplevelLayout newInstance = new ToplevelLayout(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,14 +49,16 @@ public class ToplevelLayout extends Struct {
     /**
      * Create a ToplevelLayout proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ToplevelLayout(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ToplevelLayout(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ToplevelLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelLayout(input, ownership);
+    public static final Marshal<Addressable, ToplevelLayout> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelLayout(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -78,7 +80,8 @@ public class ToplevelLayout extends Struct {
      * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
     public ToplevelLayout() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -88,12 +91,13 @@ public class ToplevelLayout extends Struct {
     public org.gtk.gdk.ToplevelLayout copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -122,17 +126,19 @@ public class ToplevelLayout extends Struct {
      * @return whether the {@code layout} specifies the fullscreen state for the toplevel
      */
     public boolean getFullscreen(Out<Boolean> fullscreen) {
-        MemorySegment fullscreenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_fullscreen.invokeExact(
-                    handle(),
-                    (Addressable) fullscreenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment fullscreenPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_fullscreen.invokeExact(
+                        handle(),
+                        (Addressable) fullscreenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    fullscreen.set(fullscreenPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        fullscreen.set(fullscreenPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -143,12 +149,11 @@ public class ToplevelLayout extends Struct {
     public @Nullable org.gtk.gdk.Monitor getFullscreenMonitor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_get_fullscreen_monitor.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_get_fullscreen_monitor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Monitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Monitor.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Monitor) Interop.register(RESULT, org.gtk.gdk.Monitor.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -159,17 +164,19 @@ public class ToplevelLayout extends Struct {
      * @return whether the {@code layout} specifies the maximized state for the toplevel
      */
     public boolean getMaximized(Out<Boolean> maximized) {
-        MemorySegment maximizedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_maximized.invokeExact(
-                    handle(),
-                    (Addressable) maximizedPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment maximizedPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_maximized.invokeExact(
+                        handle(),
+                        (Addressable) maximizedPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    maximized.set(maximizedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        maximized.set(maximizedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -180,8 +187,7 @@ public class ToplevelLayout extends Struct {
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_resizable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_toplevel_layout_get_resizable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,12 +201,13 @@ public class ToplevelLayout extends Struct {
     public org.gtk.gdk.ToplevelLayout ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -255,8 +262,7 @@ public class ToplevelLayout extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.gdk_toplevel_layout_unref.invokeExact(
-                    handle());
+            DowncallHandles.gdk_toplevel_layout_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -265,75 +271,75 @@ public class ToplevelLayout extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_toplevel_layout_new = Interop.downcallHandle(
-            "gdk_toplevel_layout_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_copy = Interop.downcallHandle(
-            "gdk_toplevel_layout_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_equal = Interop.downcallHandle(
-            "gdk_toplevel_layout_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_fullscreen = Interop.downcallHandle(
-            "gdk_toplevel_layout_get_fullscreen",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_layout_get_fullscreen",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_fullscreen_monitor = Interop.downcallHandle(
-            "gdk_toplevel_layout_get_fullscreen_monitor",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_get_fullscreen_monitor",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_maximized = Interop.downcallHandle(
-            "gdk_toplevel_layout_get_maximized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_layout_get_maximized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_get_resizable = Interop.downcallHandle(
-            "gdk_toplevel_layout_get_resizable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_get_resizable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_ref = Interop.downcallHandle(
-            "gdk_toplevel_layout_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_fullscreen = Interop.downcallHandle(
-            "gdk_toplevel_layout_set_fullscreen",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_set_fullscreen",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_maximized = Interop.downcallHandle(
-            "gdk_toplevel_layout_set_maximized",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_layout_set_maximized",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_set_resizable = Interop.downcallHandle(
-            "gdk_toplevel_layout_set_resizable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_toplevel_layout_set_resizable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_toplevel_layout_unref = Interop.downcallHandle(
-            "gdk_toplevel_layout_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_toplevel_layout_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

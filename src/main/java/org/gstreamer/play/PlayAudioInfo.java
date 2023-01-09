@@ -29,20 +29,21 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     /**
      * Create a PlayAudioInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PlayAudioInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PlayAudioInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PlayAudioInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayAudioInfo(input, ownership);
+    public static final Marshal<Addressable, PlayAudioInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PlayAudioInfo(input);
     
     public int getBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_audio_info_get_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_audio_info_get_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,8 +53,7 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     public int getChannels() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_audio_info_get_channels.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_audio_info_get_channels.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,8 +63,7 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     public @Nullable java.lang.String getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_audio_info_get_language.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_audio_info_get_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,8 +73,7 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     public int getMaxBitrate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_audio_info_get_max_bitrate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_audio_info_get_max_bitrate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,8 +83,7 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     public int getSampleRate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_audio_info_get_sample_rate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_audio_info_get_sample_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,6 +120,9 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
      */
     public static class Builder extends org.gstreamer.play.PlayStreamInfo.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -147,39 +147,47 @@ public class PlayAudioInfo extends org.gstreamer.play.PlayStreamInfo {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_play_audio_info_get_bitrate = Interop.downcallHandle(
-            "gst_play_audio_info_get_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_audio_info_get_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_audio_info_get_channels = Interop.downcallHandle(
-            "gst_play_audio_info_get_channels",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_audio_info_get_channels",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_audio_info_get_language = Interop.downcallHandle(
-            "gst_play_audio_info_get_language",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_audio_info_get_language",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_audio_info_get_max_bitrate = Interop.downcallHandle(
-            "gst_play_audio_info_get_max_bitrate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_audio_info_get_max_bitrate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_audio_info_get_sample_rate = Interop.downcallHandle(
-            "gst_play_audio_info_get_sample_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_audio_info_get_sample_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_audio_info_get_type = Interop.downcallHandle(
-            "gst_play_audio_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_play_audio_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_play_audio_info_get_type != null;
     }
 }

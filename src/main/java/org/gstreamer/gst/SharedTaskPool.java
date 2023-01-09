@@ -32,26 +32,17 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
     
     /**
      * Create a SharedTaskPool proxy instance for the provided memory address.
-     * <p>
-     * Because SharedTaskPool is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SharedTaskPool(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected SharedTaskPool(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SharedTaskPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SharedTaskPool(input, ownership);
+    public static final Marshal<Addressable, SharedTaskPool> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SharedTaskPool(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -72,14 +63,14 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
      * would cause obvious deadlocks if they happen to share the same thread.
      */
     public SharedTaskPool() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     public int getMaxThreads() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_shared_task_pool_get_max_threads.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_shared_task_pool_get_max_threads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,6 +125,9 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
      */
     public static class Builder extends org.gstreamer.gst.TaskPool.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -158,27 +152,35 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_shared_task_pool_new = Interop.downcallHandle(
-            "gst_shared_task_pool_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_shared_task_pool_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_shared_task_pool_get_max_threads = Interop.downcallHandle(
-            "gst_shared_task_pool_get_max_threads",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_shared_task_pool_get_max_threads",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_shared_task_pool_set_max_threads = Interop.downcallHandle(
-            "gst_shared_task_pool_set_max_threads",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_shared_task_pool_set_max_threads",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_shared_task_pool_get_type = Interop.downcallHandle(
-            "gst_shared_task_pool_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_shared_task_pool_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_shared_task_pool_get_type != null;
     }
 }

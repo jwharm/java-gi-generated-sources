@@ -29,8 +29,8 @@ public class SubgroupFeatureFlags extends Struct {
      * @return A new, uninitialized @{link SubgroupFeatureFlags}
      */
     public static SubgroupFeatureFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SubgroupFeatureFlags newInstance = new SubgroupFeatureFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SubgroupFeatureFlags newInstance = new SubgroupFeatureFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SubgroupFeatureFlags extends Struct {
     /**
      * Create a SubgroupFeatureFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SubgroupFeatureFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SubgroupFeatureFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SubgroupFeatureFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SubgroupFeatureFlags(input, ownership);
+    public static final Marshal<Addressable, SubgroupFeatureFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SubgroupFeatureFlags(input);
 }

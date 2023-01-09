@@ -34,32 +34,22 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a GLUpload proxy instance for the provided memory address.
-     * <p>
-     * Because GLUpload is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLUpload(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected GLUpload(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLUpload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLUpload(input, ownership);
+    public static final Marshal<Addressable, GLUpload> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLUpload(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_upload_new.invokeExact(
-                    context.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_upload_new.invokeExact(context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,22 +57,25 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
     }
     
     public GLUpload(org.gstreamer.gl.GLContext context) {
-        super(constructNew(context), Ownership.FULL);
+        super(constructNew(context));
+        this.takeOwnership();
     }
     
     public void getCaps(@Nullable Out<org.gstreamer.gst.Caps> inCaps, @Nullable Out<org.gstreamer.gst.Caps> outCaps) {
-        MemorySegment inCapsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment outCapsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_gl_upload_get_caps.invokeExact(
-                    handle(),
-                    (Addressable) (inCaps == null ? MemoryAddress.NULL : (Addressable) inCapsPOINTER.address()),
-                    (Addressable) (outCaps == null ? MemoryAddress.NULL : (Addressable) outCapsPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment inCapsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment outCapsPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_gl_upload_get_caps.invokeExact(
+                        handle(),
+                        (Addressable) (inCaps == null ? MemoryAddress.NULL : (Addressable) inCapsPOINTER.address()),
+                        (Addressable) (outCaps == null ? MemoryAddress.NULL : (Addressable) outCapsPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (inCaps != null) inCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(inCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+                    if (outCaps != null) outCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(outCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         }
-        if (inCaps != null) inCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(inCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (outCaps != null) outCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(outCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -93,18 +86,20 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
      * @return whether the upload was successful
      */
     public org.gstreamer.gl.GLUploadReturn performWithBuffer(org.gstreamer.gst.Buffer buffer, Out<org.gstreamer.gst.Buffer> outbufPtr) {
-        MemorySegment outbufPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_upload_perform_with_buffer.invokeExact(
-                    handle(),
-                    buffer.handle(),
-                    (Addressable) outbufPtrPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment outbufPtrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_upload_perform_with_buffer.invokeExact(
+                        handle(),
+                        buffer.handle(),
+                        (Addressable) outbufPtrPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.gl.GLUploadReturn.of(RESULT);
         }
-        outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.gl.GLUploadReturn.of(RESULT);
     }
     
     /**
@@ -164,7 +159,9 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -188,7 +185,9 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -207,6 +206,9 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -231,57 +233,65 @@ public class GLUpload extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_upload_new = Interop.downcallHandle(
-            "gst_gl_upload_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_get_caps = Interop.downcallHandle(
-            "gst_gl_upload_get_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_get_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_perform_with_buffer = Interop.downcallHandle(
-            "gst_gl_upload_perform_with_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_perform_with_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_propose_allocation = Interop.downcallHandle(
-            "gst_gl_upload_propose_allocation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_propose_allocation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_set_caps = Interop.downcallHandle(
-            "gst_gl_upload_set_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_set_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_set_context = Interop.downcallHandle(
-            "gst_gl_upload_set_context",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_set_context",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_transform_caps = Interop.downcallHandle(
-            "gst_gl_upload_transform_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_transform_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_get_type = Interop.downcallHandle(
-            "gst_gl_upload_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_gl_upload_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_gl_upload_get_input_template_caps = Interop.downcallHandle(
-            "gst_gl_upload_get_input_template_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_upload_get_input_template_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_gl_upload_get_type != null;
     }
 }

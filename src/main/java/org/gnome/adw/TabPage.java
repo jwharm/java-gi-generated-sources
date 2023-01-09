@@ -28,14 +28,16 @@ public class TabPage extends org.gtk.gobject.GObject {
     /**
      * Create a TabPage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TabPage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TabPage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TabPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabPage(input, ownership);
+    public static final Marshal<Addressable, TabPage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TabPage(input);
     
     /**
      * Gets the child of {@code self}.
@@ -44,12 +46,11 @@ public class TabPage extends org.gtk.gobject.GObject {
     public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_child.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -59,12 +60,11 @@ public class TabPage extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -74,8 +74,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public boolean getIndicatorActivatable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_page_get_indicator_activatable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_indicator_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,12 +88,11 @@ public class TabPage extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gio.Icon getIndicatorIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_icon.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) Interop.register(RESULT, org.gtk.gio.Icon.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -104,8 +102,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public java.lang.String getIndicatorTooltip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_tooltip.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_tooltip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -119,8 +116,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public boolean getLoading() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_page_get_loading.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,8 +130,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_page_get_needs_attention.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_needs_attention.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,12 +146,11 @@ public class TabPage extends org.gtk.gobject.GObject {
     public @Nullable org.gnome.adw.TabPage getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) Interop.register(RESULT, org.gnome.adw.TabPage.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -168,8 +162,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public boolean getPinned() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_page_get_pinned.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_pinned.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,8 +176,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public boolean getSelected() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_tab_page_get_selected.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,8 +190,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_title.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,8 +204,7 @@ public class TabPage extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getTooltip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_tooltip.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_tooltip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -296,12 +286,14 @@ public class TabPage extends org.gtk.gobject.GObject {
      * @param tooltip the indicator tooltip of {@code self}
      */
     public void setIndicatorTooltip(java.lang.String tooltip) {
-        try {
-            DowncallHandles.adw_tab_page_set_indicator_tooltip.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tooltip, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_tab_page_set_indicator_tooltip.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tooltip, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -350,12 +342,14 @@ public class TabPage extends org.gtk.gobject.GObject {
      * @param title the title of {@code self}
      */
     public void setTitle(java.lang.String title) {
-        try {
-            DowncallHandles.adw_tab_page_set_title.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(title, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_tab_page_set_title.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(title, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -369,12 +363,14 @@ public class TabPage extends org.gtk.gobject.GObject {
      * @param tooltip the tooltip of {@code self}
      */
     public void setTooltip(java.lang.String tooltip) {
-        try {
-            DowncallHandles.adw_tab_page_set_tooltip.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(tooltip, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_tab_page_set_tooltip.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(tooltip, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -408,6 +404,9 @@ public class TabPage extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -613,129 +612,137 @@ public class TabPage extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_tab_page_get_child = Interop.downcallHandle(
-            "adw_tab_page_get_child",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_child",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_icon = Interop.downcallHandle(
-            "adw_tab_page_get_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_activatable = Interop.downcallHandle(
-            "adw_tab_page_get_indicator_activatable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_indicator_activatable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_icon = Interop.downcallHandle(
-            "adw_tab_page_get_indicator_icon",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_indicator_icon",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_indicator_tooltip = Interop.downcallHandle(
-            "adw_tab_page_get_indicator_tooltip",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_indicator_tooltip",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_loading = Interop.downcallHandle(
-            "adw_tab_page_get_loading",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_loading",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_needs_attention = Interop.downcallHandle(
-            "adw_tab_page_get_needs_attention",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_needs_attention",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_parent = Interop.downcallHandle(
-            "adw_tab_page_get_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_pinned = Interop.downcallHandle(
-            "adw_tab_page_get_pinned",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_pinned",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_selected = Interop.downcallHandle(
-            "adw_tab_page_get_selected",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_selected",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_title = Interop.downcallHandle(
-            "adw_tab_page_get_title",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_title",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_tooltip = Interop.downcallHandle(
-            "adw_tab_page_get_tooltip",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_get_tooltip",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_icon = Interop.downcallHandle(
-            "adw_tab_page_set_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_set_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_activatable = Interop.downcallHandle(
-            "adw_tab_page_set_indicator_activatable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_page_set_indicator_activatable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_icon = Interop.downcallHandle(
-            "adw_tab_page_set_indicator_icon",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_set_indicator_icon",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_indicator_tooltip = Interop.downcallHandle(
-            "adw_tab_page_set_indicator_tooltip",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_set_indicator_tooltip",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_loading = Interop.downcallHandle(
-            "adw_tab_page_set_loading",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_page_set_loading",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_needs_attention = Interop.downcallHandle(
-            "adw_tab_page_set_needs_attention",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_tab_page_set_needs_attention",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_title = Interop.downcallHandle(
-            "adw_tab_page_set_title",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_set_title",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_set_tooltip = Interop.downcallHandle(
-            "adw_tab_page_set_tooltip",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_tab_page_set_tooltip",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_tab_page_get_type = Interop.downcallHandle(
-            "adw_tab_page_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_tab_page_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_tab_page_get_type != null;
     }
 }

@@ -109,6 +109,9 @@ public class RegistrationId extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RegistrationId OTHER_HEVC = new RegistrationId(1212503619);
     
+    /**
+     * Create a new RegistrationId with the provided value
+     */
     public RegistrationId(int value) {
         super(value);
     }

@@ -31,6 +31,9 @@ public class DBusCallFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DBusCallFlags ALLOW_INTERACTIVE_AUTHORIZATION = new DBusCallFlags(2);
     
+    /**
+     * Create a new DBusCallFlags with the provided value
+     */
     public DBusCallFlags(int value) {
         super(value);
     }

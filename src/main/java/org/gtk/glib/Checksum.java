@@ -36,8 +36,8 @@ public class Checksum extends Struct {
      * @return A new, uninitialized @{link Checksum}
      */
     public static Checksum allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Checksum newInstance = new Checksum(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Checksum newInstance = new Checksum(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,20 +45,21 @@ public class Checksum extends Struct {
     /**
      * Create a Checksum proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Checksum(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Checksum(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Checksum> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Checksum(input, ownership);
+    public static final Marshal<Addressable, Checksum> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Checksum(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.ChecksumType checksumType) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_checksum_new.invokeExact(
-                    checksumType.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_checksum_new.invokeExact(checksumType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,7 +83,8 @@ public class Checksum extends Struct {
      * @param checksumType the desired type of checksum
      */
     public Checksum(org.gtk.glib.ChecksumType checksumType) {
-        super(constructNew(checksumType), Ownership.FULL);
+        super(constructNew(checksumType));
+        this.takeOwnership();
     }
     
     /**
@@ -95,12 +97,13 @@ public class Checksum extends Struct {
     public org.gtk.glib.Checksum copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_checksum_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_checksum_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Checksum.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Checksum.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -108,8 +111,7 @@ public class Checksum extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_checksum_free.invokeExact(
-                    handle());
+            DowncallHandles.g_checksum_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,16 +128,18 @@ public class Checksum extends Struct {
      *   After the call it contains the length of the digest.
      */
     public void getDigest(byte[] buffer, Out<Long> digestLen) {
-        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.g_checksum_get_digest.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(buffer, false),
-                    (Addressable) digestLenPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment digestLenPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.g_checksum_get_digest.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(buffer, false, SCOPE),
+                        (Addressable) digestLenPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        digestLen.set(digestLenPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -152,8 +156,7 @@ public class Checksum extends Struct {
     public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_checksum_get_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_checksum_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,8 +168,7 @@ public class Checksum extends Struct {
      */
     public void reset() {
         try {
-            DowncallHandles.g_checksum_reset.invokeExact(
-                    handle());
+            DowncallHandles.g_checksum_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,13 +182,15 @@ public class Checksum extends Struct {
      * @param length size of the buffer, or -1 if it is a null-terminated string.
      */
     public void update(byte[] data, long length) {
-        try {
-            DowncallHandles.g_checksum_update.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(data, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_checksum_update.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(data, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -199,8 +203,7 @@ public class Checksum extends Struct {
     public static long typeGetLength(org.gtk.glib.ChecksumType checksumType) {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(
-                    checksumType.getValue());
+            RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(checksumType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,51 +213,51 @@ public class Checksum extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_checksum_new = Interop.downcallHandle(
-            "g_checksum_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_checksum_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_checksum_copy = Interop.downcallHandle(
-            "g_checksum_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_checksum_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_checksum_free = Interop.downcallHandle(
-            "g_checksum_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_checksum_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_checksum_get_digest = Interop.downcallHandle(
-            "g_checksum_get_digest",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_checksum_get_digest",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_checksum_get_string = Interop.downcallHandle(
-            "g_checksum_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_checksum_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_checksum_reset = Interop.downcallHandle(
-            "g_checksum_reset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_checksum_reset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_checksum_update = Interop.downcallHandle(
-            "g_checksum_update",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_checksum_update",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_checksum_type_get_length = Interop.downcallHandle(
-            "g_checksum_type_get_length",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "g_checksum_type_get_length",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

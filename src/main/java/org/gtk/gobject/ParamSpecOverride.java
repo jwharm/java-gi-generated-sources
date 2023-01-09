@@ -42,16 +42,22 @@ public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
     /**
      * Create a ParamSpecOverride proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecOverride(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecOverride(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecOverride> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecOverride(input, ownership);
-
+    public static final Marshal<Addressable, ParamSpecOverride> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecOverride(input);
+    
     public static org.gtk.glib.Type getType() {
         return org.gtk.glib.Type.G_TYPE_PARAM;
+    }
+    
+    public static boolean isAvailable() {
+        return true;
     }
 }

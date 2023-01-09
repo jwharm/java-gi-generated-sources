@@ -51,14 +51,16 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
     /**
      * Create a SocketControlMessage proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SocketControlMessage(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SocketControlMessage(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketControlMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketControlMessage(input, ownership);
+    public static final Marshal<Addressable, SocketControlMessage> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketControlMessage(input);
     
     /**
      * Returns the "level" (i.e. the originating protocol) of the control message.
@@ -68,8 +70,7 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
     public int getLevel() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_control_message_get_level.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_socket_control_message_get_level.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,8 +85,7 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
     public int getMsgType() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_socket_control_message_get_msg_type.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_socket_control_message_get_msg_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +100,7 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_socket_control_message_get_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_socket_control_message_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,17 +154,21 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
      * @return the deserialized message or {@code null}
      */
     public static org.gtk.gio.SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_control_message_deserialize.invokeExact(
-                    level,
-                    type,
-                    size,
-                    Interop.allocateNativeArray(data, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_socket_control_message_deserialize.invokeExact(
+                        level,
+                        type,
+                        size,
+                        Interop.allocateNativeArray(data, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gtk.gio.SocketControlMessage) Interop.register(RESULT, org.gtk.gio.SocketControlMessage.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gtk.gio.SocketControlMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketControlMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -184,6 +187,9 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -208,39 +214,47 @@ public class SocketControlMessage extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle g_socket_control_message_get_level = Interop.downcallHandle(
-            "g_socket_control_message_get_level",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_control_message_get_level",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_control_message_get_msg_type = Interop.downcallHandle(
-            "g_socket_control_message_get_msg_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_control_message_get_msg_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_control_message_get_size = Interop.downcallHandle(
-            "g_socket_control_message_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_control_message_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_control_message_serialize = Interop.downcallHandle(
-            "g_socket_control_message_serialize",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_control_message_serialize",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_socket_control_message_get_type = Interop.downcallHandle(
-            "g_socket_control_message_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_control_message_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_socket_control_message_deserialize = Interop.downcallHandle(
-            "g_socket_control_message_deserialize",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_control_message_deserialize",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_control_message_get_type != null;
     }
 }

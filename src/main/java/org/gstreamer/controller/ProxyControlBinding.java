@@ -32,39 +32,32 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a ProxyControlBinding proxy instance for the provided memory address.
-     * <p>
-     * Because ProxyControlBinding is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProxyControlBinding(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected ProxyControlBinding(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProxyControlBinding> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProxyControlBinding(input);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.GstObject refObject, java.lang.String refPropertyName) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_proxy_control_binding_new.invokeExact(
+                        object.handle(),
+                        Marshal.stringToAddress.marshal(propertyName, SCOPE),
+                        refObject.handle(),
+                        Marshal.stringToAddress.marshal(refPropertyName, SCOPE));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, ProxyControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyControlBinding(input, ownership);
-    
-    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.GstObject refObject, java.lang.String refPropertyName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_proxy_control_binding_new.invokeExact(
-                    object.handle(),
-                    Marshal.stringToAddress.marshal(propertyName, null),
-                    refObject.handle(),
-                    Marshal.stringToAddress.marshal(refPropertyName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -78,7 +71,9 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
      * @param refPropertyName the property_name in {@code ref_object} to control
      */
     public ProxyControlBinding(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.GstObject refObject, java.lang.String refPropertyName) {
-        super(constructNew(object, propertyName, refObject, refPropertyName), Ownership.NONE);
+        super(constructNew(object, propertyName, refObject, refPropertyName));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -111,6 +106,9 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
      */
     public static class Builder extends org.gstreamer.gst.ControlBinding.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -135,15 +133,23 @@ public class ProxyControlBinding extends org.gstreamer.gst.ControlBinding {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_proxy_control_binding_new = Interop.downcallHandle(
-            "gst_proxy_control_binding_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_proxy_control_binding_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_proxy_control_binding_get_type = Interop.downcallHandle(
-            "gst_proxy_control_binding_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_proxy_control_binding_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_proxy_control_binding_get_type != null;
     }
 }

@@ -24,32 +24,22 @@ public class Play extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Play proxy instance for the provided memory address.
-     * <p>
-     * Because Play is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Play(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Play(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Play> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Play(input, ownership);
+    public static final Marshal<Addressable, Play> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Play(input);
     
     private static MemoryAddress constructNew(@Nullable org.gstreamer.play.PlayVideoRenderer videoRenderer) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_new.invokeExact(
-                    (Addressable) (videoRenderer == null ? MemoryAddress.NULL : videoRenderer.handle()));
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_new.invokeExact((Addressable) (videoRenderer == null ? MemoryAddress.NULL : videoRenderer.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -66,7 +56,8 @@ public class Play extends org.gstreamer.gst.GstObject {
      * @param videoRenderer GstPlayVideoRenderer to use
      */
     public Play(@Nullable org.gstreamer.play.PlayVideoRenderer videoRenderer) {
-        super(constructNew(videoRenderer), Ownership.FULL);
+        super(constructNew(videoRenderer));
+        this.takeOwnership();
     }
     
     /**
@@ -76,8 +67,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public long getAudioVideoOffset() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_play_get_audio_video_offset.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_play_get_audio_video_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,12 +102,13 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_config.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_config.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -129,12 +120,13 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.play.PlayAudioInfo getCurrentAudioTrack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_audio_track.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_audio_track.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.play.PlayAudioInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayAudioInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.play.PlayAudioInfo) Interop.register(RESULT, org.gstreamer.play.PlayAudioInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -146,12 +138,13 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.play.PlaySubtitleInfo getCurrentSubtitleTrack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_subtitle_track.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_subtitle_track.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.play.PlaySubtitleInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlaySubtitleInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.play.PlaySubtitleInfo) Interop.register(RESULT, org.gstreamer.play.PlaySubtitleInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -163,19 +156,19 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.play.PlayVideoInfo getCurrentVideoTrack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_video_track.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_video_track.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.play.PlayVideoInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayVideoInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.play.PlayVideoInfo) Interop.register(RESULT, org.gstreamer.play.PlayVideoInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public @Nullable java.lang.String getCurrentVisualization() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_visualization.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_current_visualization.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,8 +183,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_play_get_duration.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_play_get_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,12 +199,13 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable org.gstreamer.play.PlayMediaInfo getMediaInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_media_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_media_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.play.PlayMediaInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayMediaInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.play.PlayMediaInfo) Interop.register(RESULT, org.gstreamer.play.PlayMediaInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -233,12 +226,13 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Bus getMessageBus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_message_bus.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_message_bus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Bus) Interop.register(RESULT, org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -248,8 +242,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.video.VideoMultiviewFlags getMultiviewFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_get_multiview_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_get_multiview_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -263,8 +256,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.video.VideoMultiviewFramePacking getMultiviewMode() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_get_multiview_mode.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_get_multiview_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,8 +266,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public boolean getMute() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_get_mute.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_get_mute.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,19 +276,19 @@ public class Play extends org.gstreamer.gst.GstObject {
     public org.gstreamer.gst.Element getPipeline() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_pipeline.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_pipeline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.gst.Element) Interop.register(RESULT, org.gstreamer.gst.Element.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.gst.ClockTime getPosition() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_play_get_position.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_play_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,8 +298,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public double getRate() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gst_play_get_rate.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gst_play_get_rate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,8 +313,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getSubtitleUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_subtitle_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_subtitle_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,8 +327,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public long getSubtitleVideoOffset() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_play_get_subtitle_video_offset.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_play_get_subtitle_video_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,8 +342,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public @Nullable java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_uri.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,7 +372,9 @@ public class Play extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -395,8 +384,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public double getVolume() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.gst_play_get_volume.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.gst_play_get_volume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,8 +399,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public boolean hasColorBalance() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_has_color_balance.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_play_has_color_balance.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -424,8 +411,7 @@ public class Play extends org.gstreamer.gst.GstObject {
      */
     public void pause() {
         try {
-            DowncallHandles.gst_play_pause.invokeExact(
-                    handle());
+            DowncallHandles.gst_play_pause.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,8 +422,7 @@ public class Play extends org.gstreamer.gst.GstObject {
      */
     public void play() {
         try {
-            DowncallHandles.gst_play_play.invokeExact(
-                    handle());
+            DowncallHandles.gst_play_play.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -632,12 +617,14 @@ public class Play extends org.gstreamer.gst.GstObject {
      * @param uri subtitle URI
      */
     public void setSubtitleUri(@Nullable java.lang.String uri) {
-        try {
-            DowncallHandles.gst_play_set_subtitle_uri.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_play_set_subtitle_uri.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -660,12 +647,14 @@ public class Play extends org.gstreamer.gst.GstObject {
      * @param uri next URI to play.
      */
     public void setUri(@Nullable java.lang.String uri) {
-        try {
-            DowncallHandles.gst_play_set_uri.invokeExact(
-                    handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_play_set_uri.invokeExact(
+                        handle(),
+                        (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -696,15 +685,17 @@ public class Play extends org.gstreamer.gst.GstObject {
     }
     
     public boolean setVisualization(@Nullable java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_play_set_visualization.invokeExact(
-                    handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_play_set_visualization.invokeExact(
+                        handle(),
+                        (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -741,8 +732,7 @@ public class Play extends org.gstreamer.gst.GstObject {
      */
     public void stop() {
         try {
-            DowncallHandles.gst_play_stop.invokeExact(
-                    handle());
+            DowncallHandles.gst_play_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -765,8 +755,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public static int configGetPositionUpdateInterval(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_config_get_position_update_interval.invokeExact(
-                    config.handle());
+            RESULT = (int) DowncallHandles.gst_play_config_get_position_update_interval.invokeExact(config.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -776,8 +765,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public static boolean configGetSeekAccurate(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_config_get_seek_accurate.invokeExact(
-                    config.handle());
+            RESULT = (int) DowncallHandles.gst_play_config_get_seek_accurate.invokeExact(config.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -793,8 +781,7 @@ public class Play extends org.gstreamer.gst.GstObject {
     public static @Nullable java.lang.String configGetUserAgent(org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_config_get_user_agent.invokeExact(
-                    config.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_config_get_user_agent.invokeExact(config.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -848,53 +835,51 @@ public class Play extends org.gstreamer.gst.GstObject {
      * @param agent the string to use as user agent
      */
     public static void configSetUserAgent(org.gstreamer.gst.Structure config, @Nullable java.lang.String agent) {
-        try {
-            DowncallHandles.gst_play_config_set_user_agent.invokeExact(
-                    config.handle(),
-                    (Addressable) (agent == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(agent, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_play_config_set_user_agent.invokeExact(
+                        config.handle(),
+                        (Addressable) (agent == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(agent, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     public static org.gtk.glib.List getAudioStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_audio_streams.invokeExact(
-                    info.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_audio_streams.invokeExact(info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     public static org.gtk.glib.List getSubtitleStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_subtitle_streams.invokeExact(
-                    info.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_subtitle_streams.invokeExact(info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     public static org.gtk.glib.List getVideoStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_video_streams.invokeExact(
-                    info.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_play_get_video_streams.invokeExact(info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     public static boolean isPlayMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_play_is_play_message.invokeExact(
-                    msg.handle());
+            RESULT = (int) DowncallHandles.gst_play_is_play_message.invokeExact(msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -907,21 +892,22 @@ public class Play extends org.gstreamer.gst.GstObject {
      */
     public static void visualizationsFree(PointerProxy<org.gstreamer.play.PlayVisualization> viss) {
         try {
-            DowncallHandles.gst_play_visualizations_free.invokeExact(
-                    viss.handle());
+            DowncallHandles.gst_play_visualizations_free.invokeExact(viss.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     public static PointerProxy<org.gstreamer.play.PlayVisualization> visualizationsGet() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_play_visualizations_get.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_play_visualizations_get.invokeExact();
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.play.PlayVisualization>(RESULT, org.gstreamer.play.PlayVisualization.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.play.PlayVisualization>(RESULT, org.gstreamer.play.PlayVisualization.fromAddress);
     }
     
     /**
@@ -940,6 +926,9 @@ public class Play extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -1066,357 +1055,365 @@ public class Play extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_play_new = Interop.downcallHandle(
-            "gst_play_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_audio_video_offset = Interop.downcallHandle(
-            "gst_play_get_audio_video_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_audio_video_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_color_balance = Interop.downcallHandle(
-            "gst_play_get_color_balance",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_get_color_balance",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_get_config = Interop.downcallHandle(
-            "gst_play_get_config",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_config",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_current_audio_track = Interop.downcallHandle(
-            "gst_play_get_current_audio_track",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_current_audio_track",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_current_subtitle_track = Interop.downcallHandle(
-            "gst_play_get_current_subtitle_track",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_current_subtitle_track",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_current_video_track = Interop.downcallHandle(
-            "gst_play_get_current_video_track",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_current_video_track",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_current_visualization = Interop.downcallHandle(
-            "gst_play_get_current_visualization",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_current_visualization",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_duration = Interop.downcallHandle(
-            "gst_play_get_duration",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_duration",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_media_info = Interop.downcallHandle(
-            "gst_play_get_media_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_media_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_message_bus = Interop.downcallHandle(
-            "gst_play_get_message_bus",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_message_bus",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_multiview_flags = Interop.downcallHandle(
-            "gst_play_get_multiview_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_multiview_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_multiview_mode = Interop.downcallHandle(
-            "gst_play_get_multiview_mode",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_multiview_mode",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_mute = Interop.downcallHandle(
-            "gst_play_get_mute",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_mute",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_pipeline = Interop.downcallHandle(
-            "gst_play_get_pipeline",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_pipeline",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_position = Interop.downcallHandle(
-            "gst_play_get_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_rate = Interop.downcallHandle(
-            "gst_play_get_rate",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_rate",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_subtitle_uri = Interop.downcallHandle(
-            "gst_play_get_subtitle_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_subtitle_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_subtitle_video_offset = Interop.downcallHandle(
-            "gst_play_get_subtitle_video_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_subtitle_video_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_uri = Interop.downcallHandle(
-            "gst_play_get_uri",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_uri",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_video_snapshot = Interop.downcallHandle(
-            "gst_play_get_video_snapshot",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_video_snapshot",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_volume = Interop.downcallHandle(
-            "gst_play_get_volume",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_volume",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_has_color_balance = Interop.downcallHandle(
-            "gst_play_has_color_balance",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_has_color_balance",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_pause = Interop.downcallHandle(
-            "gst_play_pause",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_pause",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_play = Interop.downcallHandle(
-            "gst_play_play",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_play",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_seek = Interop.downcallHandle(
-            "gst_play_seek",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_play_seek",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_play_set_audio_track = Interop.downcallHandle(
-            "gst_play_set_audio_track",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_audio_track",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_audio_track_enabled = Interop.downcallHandle(
-            "gst_play_set_audio_track_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_audio_track_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_audio_video_offset = Interop.downcallHandle(
-            "gst_play_set_audio_video_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_play_set_audio_video_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_play_set_color_balance = Interop.downcallHandle(
-            "gst_play_set_color_balance",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_play_set_color_balance",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_play_set_config = Interop.downcallHandle(
-            "gst_play_set_config",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_set_config",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_set_multiview_flags = Interop.downcallHandle(
-            "gst_play_set_multiview_flags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_multiview_flags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_multiview_mode = Interop.downcallHandle(
-            "gst_play_set_multiview_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_multiview_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_mute = Interop.downcallHandle(
-            "gst_play_set_mute",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_mute",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_rate = Interop.downcallHandle(
-            "gst_play_set_rate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_play_set_rate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_play_set_subtitle_track = Interop.downcallHandle(
-            "gst_play_set_subtitle_track",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_subtitle_track",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_subtitle_track_enabled = Interop.downcallHandle(
-            "gst_play_set_subtitle_track_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_subtitle_track_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_subtitle_uri = Interop.downcallHandle(
-            "gst_play_set_subtitle_uri",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_set_subtitle_uri",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_set_subtitle_video_offset = Interop.downcallHandle(
-            "gst_play_set_subtitle_video_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_play_set_subtitle_video_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_play_set_uri = Interop.downcallHandle(
-            "gst_play_set_uri",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_set_uri",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_set_video_track = Interop.downcallHandle(
-            "gst_play_set_video_track",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_video_track",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_video_track_enabled = Interop.downcallHandle(
-            "gst_play_set_video_track_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_video_track_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_visualization = Interop.downcallHandle(
-            "gst_play_set_visualization",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_set_visualization",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_set_visualization_enabled = Interop.downcallHandle(
-            "gst_play_set_visualization_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_set_visualization_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_set_volume = Interop.downcallHandle(
-            "gst_play_set_volume",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "gst_play_set_volume",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle gst_play_stop = Interop.downcallHandle(
-            "gst_play_stop",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_stop",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_type = Interop.downcallHandle(
-            "gst_play_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_play_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_play_config_get_position_update_interval = Interop.downcallHandle(
-            "gst_play_config_get_position_update_interval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_config_get_position_update_interval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_config_get_seek_accurate = Interop.downcallHandle(
-            "gst_play_config_get_seek_accurate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_config_get_seek_accurate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_config_get_user_agent = Interop.downcallHandle(
-            "gst_play_config_get_user_agent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_config_get_user_agent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_config_set_position_update_interval = Interop.downcallHandle(
-            "gst_play_config_set_position_update_interval",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_config_set_position_update_interval",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_config_set_seek_accurate = Interop.downcallHandle(
-            "gst_play_config_set_seek_accurate",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_play_config_set_seek_accurate",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_play_config_set_user_agent = Interop.downcallHandle(
-            "gst_play_config_set_user_agent",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_config_set_user_agent",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_audio_streams = Interop.downcallHandle(
-            "gst_play_get_audio_streams",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_audio_streams",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_subtitle_streams = Interop.downcallHandle(
-            "gst_play_get_subtitle_streams",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_subtitle_streams",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_get_video_streams = Interop.downcallHandle(
-            "gst_play_get_video_streams",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_get_video_streams",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_is_play_message = Interop.downcallHandle(
-            "gst_play_is_play_message",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_is_play_message",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_visualizations_free = Interop.downcallHandle(
-            "gst_play_visualizations_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_play_visualizations_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_play_visualizations_get = Interop.downcallHandle(
-            "gst_play_visualizations_get",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_play_visualizations_get",
+                FunctionDescriptor.ofVoid(),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_play_get_type != null;
     }
 }

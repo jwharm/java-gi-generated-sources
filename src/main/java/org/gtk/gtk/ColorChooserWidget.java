@@ -49,26 +49,17 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
     
     /**
      * Create a ColorChooserWidget proxy instance for the provided memory address.
-     * <p>
-     * Because ColorChooserWidget is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ColorChooserWidget(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ColorChooserWidget(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ColorChooserWidget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorChooserWidget(input, ownership);
+    public static final Marshal<Addressable, ColorChooserWidget> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ColorChooserWidget(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -84,7 +75,9 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      * Creates a new {@code GtkColorChooserWidget}.
      */
     public ColorChooserWidget() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -117,6 +110,9 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -154,15 +150,23 @@ public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gt
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
-            "gtk_color_chooser_widget_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_color_chooser_widget_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_color_chooser_widget_get_type = Interop.downcallHandle(
-            "gtk_color_chooser_widget_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_color_chooser_widget_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_color_chooser_widget_get_type != null;
     }
 }

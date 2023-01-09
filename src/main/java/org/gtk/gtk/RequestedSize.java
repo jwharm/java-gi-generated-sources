@@ -38,8 +38,8 @@ public class RequestedSize extends Struct {
      * @return A new, uninitialized @{link RequestedSize}
      */
     public static RequestedSize allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RequestedSize newInstance = new RequestedSize(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RequestedSize newInstance = new RequestedSize(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class RequestedSize extends Struct {
      * @return The value of the field {@code data}
      */
     public java.lang.foreign.MemoryAddress getData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class RequestedSize extends Struct {
      * @param data The new value of the field {@code data}
      */
     public void setData(java.lang.foreign.MemoryAddress data) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class RequestedSize extends Struct {
      * @return The value of the field {@code minimum_size}
      */
     public int getMinimumSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class RequestedSize extends Struct {
      * @param minimumSize The new value of the field {@code minimum_size}
      */
     public void setMinimumSize(int minimumSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimumSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minimumSize);
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class RequestedSize extends Struct {
      * @return The value of the field {@code natural_size}
      */
     public int getNaturalSize() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -102,22 +112,26 @@ public class RequestedSize extends Struct {
      * @param naturalSize The new value of the field {@code natural_size}
      */
     public void setNaturalSize(int naturalSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), naturalSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), naturalSize);
+        }
     }
     
     /**
      * Create a RequestedSize proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RequestedSize(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RequestedSize(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RequestedSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RequestedSize(input, ownership);
+    public static final Marshal<Addressable, RequestedSize> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RequestedSize(input);
     
     /**
      * A {@link RequestedSize.Builder} object constructs a {@link RequestedSize} 
@@ -141,7 +155,7 @@ public class RequestedSize extends Struct {
             struct = RequestedSize.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link RequestedSize} struct.
          * @return A new instance of {@code RequestedSize} with the fields 
          *         that were set in the Builder object.
@@ -156,10 +170,12 @@ public class RequestedSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setData(java.lang.foreign.MemoryAddress data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+                return this;
+            }
         }
         
         /**
@@ -168,10 +184,12 @@ public class RequestedSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinimumSize(int minimumSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimumSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("minimum_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minimumSize);
+                return this;
+            }
         }
         
         /**
@@ -180,10 +198,12 @@ public class RequestedSize extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNaturalSize(int naturalSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), naturalSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("natural_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), naturalSize);
+                return this;
+            }
         }
     }
 }

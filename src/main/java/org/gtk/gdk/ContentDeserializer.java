@@ -38,14 +38,16 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     /**
      * Create a ContentDeserializer proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ContentDeserializer(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ContentDeserializer(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ContentDeserializer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentDeserializer(input, ownership);
+    public static final Marshal<Addressable, ContentDeserializer> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ContentDeserializer(input);
     
     /**
      * Gets the cancellable for the current operation.
@@ -56,12 +58,11 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public @Nullable org.gtk.gio.Cancellable getCancellable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_cancellable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) Interop.register(RESULT, org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -71,8 +72,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gdk_content_deserializer_get_gtype.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gdk_content_deserializer_get_gtype.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,12 +88,11 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public org.gtk.gio.InputStream getInputStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_input_stream.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_input_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) Interop.register(RESULT, org.gtk.gio.InputStream.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -103,8 +102,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_mime_type.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_mime_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,8 +118,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_content_deserializer_get_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_content_deserializer_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,8 +134,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public @Nullable java.lang.foreign.MemoryAddress getTaskData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_task_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_task_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,8 +148,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_user_data.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,12 +162,11 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     public org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_value.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -197,8 +191,7 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
      */
     public void returnSuccess() {
         try {
-            DowncallHandles.gdk_content_deserializer_return_success.invokeExact(
-                    handle());
+            DowncallHandles.gdk_content_deserializer_return_success.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,6 +242,9 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -273,75 +269,83 @@ public class ContentDeserializer extends org.gtk.gobject.GObject implements org.
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_content_deserializer_get_cancellable = Interop.downcallHandle(
-            "gdk_content_deserializer_get_cancellable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_cancellable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_gtype = Interop.downcallHandle(
-            "gdk_content_deserializer_get_gtype",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_gtype",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_input_stream = Interop.downcallHandle(
-            "gdk_content_deserializer_get_input_stream",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_input_stream",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_mime_type = Interop.downcallHandle(
-            "gdk_content_deserializer_get_mime_type",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_mime_type",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_priority = Interop.downcallHandle(
-            "gdk_content_deserializer_get_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_task_data = Interop.downcallHandle(
-            "gdk_content_deserializer_get_task_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_task_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_user_data = Interop.downcallHandle(
-            "gdk_content_deserializer_get_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_value = Interop.downcallHandle(
-            "gdk_content_deserializer_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_return_error = Interop.downcallHandle(
-            "gdk_content_deserializer_return_error",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_return_error",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_return_success = Interop.downcallHandle(
-            "gdk_content_deserializer_return_success",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_return_success",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_set_task_data = Interop.downcallHandle(
-            "gdk_content_deserializer_set_task_data",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_content_deserializer_set_task_data",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_content_deserializer_get_type = Interop.downcallHandle(
-            "gdk_content_deserializer_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_content_deserializer_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_content_deserializer_get_type != null;
     }
 }

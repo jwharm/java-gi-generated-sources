@@ -33,8 +33,8 @@ public class KeyFile extends Struct {
      * @return A new, uninitialized @{link KeyFile}
      */
     public static KeyFile allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        KeyFile newInstance = new KeyFile(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        KeyFile newInstance = new KeyFile(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,14 +42,16 @@ public class KeyFile extends Struct {
     /**
      * Create a KeyFile proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected KeyFile(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected KeyFile(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, KeyFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeyFile(input, ownership);
+    public static final Marshal<Addressable, KeyFile> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new KeyFile(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -68,7 +70,8 @@ public class KeyFile extends Struct {
      * read an existing key file.
      */
     public KeyFile() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -78,8 +81,7 @@ public class KeyFile extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.g_key_file_free.invokeExact(
-                    handle());
+            DowncallHandles.g_key_file_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,21 +102,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -134,29 +138,31 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean[] getBooleanList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) lengthPOINTER.address(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) lengthPOINTER.address(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            boolean[] resultARRAY = new boolean[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
+                resultARRAY[I] = Marshal.integerToBoolean.marshal(OBJ, null).booleanValue();
+            }
+            return resultARRAY;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        boolean[] resultARRAY = new boolean[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
-            resultARRAY[I] = Marshal.integerToBoolean.marshal(OBJ, null).booleanValue();
-        }
-        return resultARRAY;
     }
     
     /**
@@ -174,21 +180,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(
-                    handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(
+                        handle(),
+                        (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, SCOPE)),
+                        (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -206,21 +214,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        double RESULT;
-        try {
-            RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            double RESULT;
+            try {
+                RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -240,24 +250,26 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public double[] getDoubleList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) lengthPOINTER.address(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) lengthPOINTER.address(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_DOUBLE);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE);
     }
     
     /**
@@ -269,17 +281,19 @@ public class KeyFile extends Struct {
      *   Use g_strfreev() to free it.
      */
     public PointerString getGroups(Out<Long> length) {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new PointerString(RESULT);
         }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new PointerString(RESULT);
     }
     
     /**
@@ -293,21 +307,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -326,21 +342,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -361,24 +379,26 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int[] getIntegerList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) lengthPOINTER.address(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) lengthPOINTER.address(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), SCOPE).toArray(Interop.valueLayout.C_INT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
     /**
@@ -394,23 +414,25 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public PointerString getKeys(java.lang.String groupName, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return new PointerString(RESULT);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new PointerString(RESULT);
     }
     
     /**
@@ -430,17 +452,19 @@ public class KeyFile extends Struct {
      *   found or the entry in the file was was untranslated
      */
     public @Nullable java.lang.String getLocaleForKey(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_for_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_for_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -464,22 +488,24 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -507,30 +533,32 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String[] getLocaleStringList(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, SCOPE)),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -540,8 +568,7 @@ public class KeyFile extends Struct {
     public @Nullable java.lang.String getStartGroup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_start_group.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_start_group.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,21 +591,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -596,29 +625,31 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String[] getStringList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+            for (int I = 0; I < length.get().intValue(); I++) {
+                var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
+                resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
+            }
+            return resultARRAY;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
-        for (int I = 0; I < length.get().intValue(); I++) {
-            var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
-        }
-        return resultARRAY;
     }
     
     /**
@@ -632,21 +663,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -664,21 +697,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -688,15 +723,17 @@ public class KeyFile extends Struct {
      * otherwise.
      */
     public boolean hasGroup(java.lang.String groupName) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_has_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_has_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -716,21 +753,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -742,21 +781,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromBytes(org.gtk.glib.Bytes bytes, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_bytes.invokeExact(
-                    handle(),
-                    bytes.handle(),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_load_from_bytes.invokeExact(
+                        handle(),
+                        bytes.handle(),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -769,22 +810,24 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromData(java.lang.String data, long length, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(data, null),
-                    length,
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(data, SCOPE),
+                        length,
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -801,24 +844,26 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromDataDirs(java.lang.String file, @Nullable Out<java.lang.String> fullPath, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment fullPathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -840,25 +885,27 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, @Nullable Out<java.lang.String> fullPath, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    Interop.allocateNativeArray(searchDirs, false),
-                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment fullPathPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        Interop.allocateNativeArray(searchDirs, false, SCOPE),
+                        (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -876,21 +923,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean loadFromFile(java.lang.String file, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(file, null),
-                    flags.getValue(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(file, SCOPE),
+                        flags.getValue(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -900,12 +949,13 @@ public class KeyFile extends Struct {
     public org.gtk.glib.KeyFile ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_key_file_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.KeyFile.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.KeyFile.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -919,21 +969,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(
-                    handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(
+                        handle(),
+                        (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, SCOPE)),
+                        (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -944,20 +996,22 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -968,21 +1022,23 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -998,20 +1054,22 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(filename, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(filename, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1022,14 +1080,16 @@ public class KeyFile extends Struct {
      * @param value {@code true} or {@code false}
      */
     public void setBoolean(java.lang.String groupName, java.lang.String key, boolean value) {
-        try {
-            DowncallHandles.g_key_file_set_boolean.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.booleanToInteger.marshal(value, null).intValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_boolean.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.booleanToInteger.marshal(value, null).intValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1043,15 +1103,17 @@ public class KeyFile extends Struct {
      * @param length length of {@code list}
      */
     public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
-        try {
-            DowncallHandles.g_key_file_set_boolean_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Interop.allocateNativeArray(list, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_boolean_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Interop.allocateNativeArray(list, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1071,22 +1133,24 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(
-                    handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
-                    Marshal.stringToAddress.marshal(comment, null),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(
+                        handle(),
+                        (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, SCOPE)),
+                        (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, SCOPE)),
+                        Marshal.stringToAddress.marshal(comment, SCOPE),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1097,14 +1161,16 @@ public class KeyFile extends Struct {
      * @param value a double value
      */
     public void setDouble(java.lang.String groupName, java.lang.String key, double value) {
-        try {
-            DowncallHandles.g_key_file_set_double.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_double.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1117,15 +1183,17 @@ public class KeyFile extends Struct {
      * @param length number of double values in {@code list}
      */
     public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
-        try {
-            DowncallHandles.g_key_file_set_double_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Interop.allocateNativeArray(list, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_double_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Interop.allocateNativeArray(list, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1137,14 +1205,16 @@ public class KeyFile extends Struct {
      * @param value an integer value
      */
     public void setInt64(java.lang.String groupName, java.lang.String key, long value) {
-        try {
-            DowncallHandles.g_key_file_set_int64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_int64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1156,14 +1226,16 @@ public class KeyFile extends Struct {
      * @param value an integer value
      */
     public void setInteger(java.lang.String groupName, java.lang.String key, int value) {
-        try {
-            DowncallHandles.g_key_file_set_integer.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_integer.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1176,15 +1248,17 @@ public class KeyFile extends Struct {
      * @param length number of integer values in {@code list}
      */
     public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
-        try {
-            DowncallHandles.g_key_file_set_integer_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Interop.allocateNativeArray(list, false),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_integer_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Interop.allocateNativeArray(list, false, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1213,15 +1287,17 @@ public class KeyFile extends Struct {
      * @param string a string
      */
     public void setLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String string) {
-        try {
-            DowncallHandles.g_key_file_set_locale_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(locale, null),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_locale_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(locale, SCOPE),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1236,16 +1312,18 @@ public class KeyFile extends Struct {
      * @param length the length of {@code list}
      */
     public void setLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String[] list, long length) {
-        try {
-            DowncallHandles.g_key_file_set_locale_string_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(locale, null),
-                    Interop.allocateNativeArray(list, true),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_locale_string_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(locale, SCOPE),
+                        Interop.allocateNativeArray(list, true, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1260,14 +1338,16 @@ public class KeyFile extends Struct {
      * @param string a string
      */
     public void setString(java.lang.String groupName, java.lang.String key, java.lang.String string) {
-        try {
-            DowncallHandles.g_key_file_set_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1281,15 +1361,17 @@ public class KeyFile extends Struct {
      * @param length number of string values in {@code list}
      */
     public void setStringList(java.lang.String groupName, java.lang.String key, java.lang.String[] list, long length) {
-        try {
-            DowncallHandles.g_key_file_set_string_list.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Interop.allocateNativeArray(list, true),
-                    length);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_string_list.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Interop.allocateNativeArray(list, true, SCOPE),
+                        length);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1301,14 +1383,16 @@ public class KeyFile extends Struct {
      * @param value an integer value
      */
     public void setUint64(java.lang.String groupName, java.lang.String key, long value) {
-        try {
-            DowncallHandles.g_key_file_set_uint64.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    value);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_uint64.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        value);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1324,14 +1408,16 @@ public class KeyFile extends Struct {
      * @param value a string
      */
     public void setValue(java.lang.String groupName, java.lang.String key, java.lang.String value) {
-        try {
-            DowncallHandles.g_key_file_set_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(groupName, null),
-                    Marshal.stringToAddress.marshal(key, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_key_file_set_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(groupName, SCOPE),
+                        Marshal.stringToAddress.marshal(key, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -1347,22 +1433,24 @@ public class KeyFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public java.lang.String toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(
-                    handle(),
-                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment lengthPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(
+                        handle(),
+                        (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+                    if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1371,8 +1459,7 @@ public class KeyFile extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_key_file_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_key_file_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1391,303 +1478,303 @@ public class KeyFile extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_key_file_new = Interop.downcallHandle(
-            "g_key_file_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_free = Interop.downcallHandle(
-            "g_key_file_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_boolean = Interop.downcallHandle(
-            "g_key_file_get_boolean",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_boolean",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_boolean_list = Interop.downcallHandle(
-            "g_key_file_get_boolean_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_boolean_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_comment = Interop.downcallHandle(
-            "g_key_file_get_comment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_comment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_double = Interop.downcallHandle(
-            "g_key_file_get_double",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_double",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_double_list = Interop.downcallHandle(
-            "g_key_file_get_double_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_double_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_groups = Interop.downcallHandle(
-            "g_key_file_get_groups",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_groups",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_int64 = Interop.downcallHandle(
-            "g_key_file_get_int64",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_int64",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_integer = Interop.downcallHandle(
-            "g_key_file_get_integer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_integer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_integer_list = Interop.downcallHandle(
-            "g_key_file_get_integer_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_integer_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_keys = Interop.downcallHandle(
-            "g_key_file_get_keys",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_keys",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_locale_for_key = Interop.downcallHandle(
-            "g_key_file_get_locale_for_key",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_locale_for_key",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_locale_string = Interop.downcallHandle(
-            "g_key_file_get_locale_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_locale_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_locale_string_list = Interop.downcallHandle(
-            "g_key_file_get_locale_string_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_locale_string_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_start_group = Interop.downcallHandle(
-            "g_key_file_get_start_group",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_start_group",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_string = Interop.downcallHandle(
-            "g_key_file_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_string_list = Interop.downcallHandle(
-            "g_key_file_get_string_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_string_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_uint64 = Interop.downcallHandle(
-            "g_key_file_get_uint64",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_uint64",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_get_value = Interop.downcallHandle(
-            "g_key_file_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_has_group = Interop.downcallHandle(
-            "g_key_file_has_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_has_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_has_key = Interop.downcallHandle(
-            "g_key_file_has_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_has_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_load_from_bytes = Interop.downcallHandle(
-            "g_key_file_load_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_load_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_load_from_data = Interop.downcallHandle(
-            "g_key_file_load_from_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_load_from_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_load_from_data_dirs = Interop.downcallHandle(
-            "g_key_file_load_from_data_dirs",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_load_from_data_dirs",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_load_from_dirs = Interop.downcallHandle(
-            "g_key_file_load_from_dirs",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_load_from_dirs",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_load_from_file = Interop.downcallHandle(
-            "g_key_file_load_from_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_load_from_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_ref = Interop.downcallHandle(
-            "g_key_file_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_remove_comment = Interop.downcallHandle(
-            "g_key_file_remove_comment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_remove_comment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_remove_group = Interop.downcallHandle(
-            "g_key_file_remove_group",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_remove_group",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_remove_key = Interop.downcallHandle(
-            "g_key_file_remove_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_remove_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_save_to_file = Interop.downcallHandle(
-            "g_key_file_save_to_file",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_save_to_file",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_set_boolean = Interop.downcallHandle(
-            "g_key_file_set_boolean",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_key_file_set_boolean",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_key_file_set_boolean_list = Interop.downcallHandle(
-            "g_key_file_set_boolean_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_boolean_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_comment = Interop.downcallHandle(
-            "g_key_file_set_comment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_set_comment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_set_double = Interop.downcallHandle(
-            "g_key_file_set_double",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "g_key_file_set_double",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle g_key_file_set_double_list = Interop.downcallHandle(
-            "g_key_file_set_double_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_double_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_int64 = Interop.downcallHandle(
-            "g_key_file_set_int64",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_int64",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_integer = Interop.downcallHandle(
-            "g_key_file_set_integer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_key_file_set_integer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_key_file_set_integer_list = Interop.downcallHandle(
-            "g_key_file_set_integer_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_integer_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_list_separator = Interop.downcallHandle(
-            "g_key_file_set_list_separator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
-            false
+                "g_key_file_set_list_separator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE),
+                false
         );
         
         private static final MethodHandle g_key_file_set_locale_string = Interop.downcallHandle(
-            "g_key_file_set_locale_string",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_set_locale_string",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_set_locale_string_list = Interop.downcallHandle(
-            "g_key_file_set_locale_string_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_locale_string_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_string = Interop.downcallHandle(
-            "g_key_file_set_string",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_set_string",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_set_string_list = Interop.downcallHandle(
-            "g_key_file_set_string_list",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_string_list",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_uint64 = Interop.downcallHandle(
-            "g_key_file_set_uint64",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_key_file_set_uint64",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_key_file_set_value = Interop.downcallHandle(
-            "g_key_file_set_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_set_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_to_data = Interop.downcallHandle(
-            "g_key_file_to_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_to_data",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_unref = Interop.downcallHandle(
-            "g_key_file_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_key_file_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
-            "g_key_file_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "g_key_file_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

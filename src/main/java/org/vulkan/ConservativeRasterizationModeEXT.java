@@ -29,8 +29,8 @@ public class ConservativeRasterizationModeEXT extends Struct {
      * @return A new, uninitialized @{link ConservativeRasterizationModeEXT}
      */
     public static ConservativeRasterizationModeEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ConservativeRasterizationModeEXT newInstance = new ConservativeRasterizationModeEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ConservativeRasterizationModeEXT newInstance = new ConservativeRasterizationModeEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ConservativeRasterizationModeEXT extends Struct {
     /**
      * Create a ConservativeRasterizationModeEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ConservativeRasterizationModeEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ConservativeRasterizationModeEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ConservativeRasterizationModeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConservativeRasterizationModeEXT(input, ownership);
+    public static final Marshal<Addressable, ConservativeRasterizationModeEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ConservativeRasterizationModeEXT(input);
 }

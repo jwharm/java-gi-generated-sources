@@ -37,8 +37,8 @@ public class ObjectClass extends Struct {
      * @return A new, uninitialized @{link ObjectClass}
      */
     public static ObjectClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectClass newInstance = new ObjectClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ObjectClass newInstance = new ObjectClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class ObjectClass extends Struct {
      */
     public org.gtk.gobject.InitiallyUnownedClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.InitiallyUnownedClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.InitiallyUnownedClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,9 +57,11 @@ public class ObjectClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
@@ -67,10 +69,12 @@ public class ObjectClass extends Struct {
      * @return The value of the field {@code path_string_separator}
      */
     public java.lang.String getPathStringSeparator() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -78,24 +82,41 @@ public class ObjectClass extends Struct {
      * @param pathStringSeparator The new value of the field {@code path_string_separator}
      */
     public void setPathStringSeparator(java.lang.String pathStringSeparator) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pathStringSeparator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(pathStringSeparator, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pathStringSeparator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(pathStringSeparator, SCOPE)));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DeepNotifyCallback} callback.
+     */
     @FunctionalInterface
     public interface DeepNotifyCallback {
+    
         void run(org.gstreamer.gst.GstObject object, org.gstreamer.gst.GstObject orig, org.gtk.gobject.ParamSpec pspec);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress object, MemoryAddress orig, MemoryAddress pspec) {
-            run((org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gstreamer.gst.GstObject.fromAddress).marshal(object, Ownership.NONE), (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(orig)), org.gstreamer.gst.GstObject.fromAddress).marshal(orig, Ownership.NONE), (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pspec)), org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, Ownership.NONE));
+            run((org.gstreamer.gst.GstObject) Interop.register(object, org.gstreamer.gst.GstObject.fromAddress).marshal(object, null), (org.gstreamer.gst.GstObject) Interop.register(orig, org.gstreamer.gst.GstObject.fromAddress).marshal(orig, null), (org.gtk.gobject.ParamSpec) Interop.register(pspec, org.gtk.gobject.ParamSpec.fromAddress).marshal(pspec, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeepNotifyCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DeepNotifyCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -104,22 +125,26 @@ public class ObjectClass extends Struct {
      * @param deepNotify The new value of the field {@code deep_notify}
      */
     public void setDeepNotify(DeepNotifyCallback deepNotify) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("deep_notify"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deepNotify == null ? MemoryAddress.NULL : deepNotify.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("deep_notify"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deepNotify == null ? MemoryAddress.NULL : deepNotify.toCallback()));
+        }
     }
     
     /**
      * Create a ObjectClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ObjectClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ObjectClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ObjectClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ObjectClass(input, ownership);
+    public static final Marshal<Addressable, ObjectClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ObjectClass(input);
     
     /**
      * A {@link ObjectClass.Builder} object constructs a {@link ObjectClass} 
@@ -143,7 +168,7 @@ public class ObjectClass extends Struct {
             struct = ObjectClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ObjectClass} struct.
          * @return A new instance of {@code ObjectClass} with the fields 
          *         that were set in the Builder object.
@@ -158,10 +183,12 @@ public class ObjectClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         /**
@@ -170,24 +197,30 @@ public class ObjectClass extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setPathStringSeparator(java.lang.String pathStringSeparator) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pathStringSeparator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(pathStringSeparator, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("path_string_separator"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pathStringSeparator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(pathStringSeparator, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setDeepNotify(DeepNotifyCallback deepNotify) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("deep_notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deepNotify == null ? MemoryAddress.NULL : deepNotify.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("deep_notify"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (deepNotify == null ? MemoryAddress.NULL : deepNotify.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

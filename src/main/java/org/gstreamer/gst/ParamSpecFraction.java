@@ -41,8 +41,8 @@ public class ParamSpecFraction extends Struct {
      * @return A new, uninitialized @{link ParamSpecFraction}
      */
     public static ParamSpecFraction allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ParamSpecFraction newInstance = new ParamSpecFraction(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ParamSpecFraction newInstance = new ParamSpecFraction(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,7 +53,7 @@ public class ParamSpecFraction extends Struct {
      */
     public org.gtk.gobject.ParamSpec getParentInstance() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(((MemoryAddress) handle()).addOffset(OFFSET))), org.gtk.gobject.ParamSpec.fromAddress).marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return (org.gtk.gobject.ParamSpec) Interop.register(((MemoryAddress) handle()).addOffset(OFFSET), org.gtk.gobject.ParamSpec.fromAddress).marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -61,9 +61,11 @@ public class ParamSpecFraction extends Struct {
      * @param parentInstance The new value of the field {@code parent_instance}
      */
     public void setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+        }
     }
     
     /**
@@ -71,10 +73,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code min_num}
      */
     public int getMinNum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +86,11 @@ public class ParamSpecFraction extends Struct {
      * @param minNum The new value of the field {@code min_num}
      */
     public void setMinNum(int minNum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minNum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minNum);
+        }
     }
     
     /**
@@ -92,10 +98,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code min_den}
      */
     public int getMinDen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +111,11 @@ public class ParamSpecFraction extends Struct {
      * @param minDen The new value of the field {@code min_den}
      */
     public void setMinDen(int minDen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDen);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minDen);
+        }
     }
     
     /**
@@ -113,10 +123,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code max_num}
      */
     public int getMaxNum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -124,9 +136,11 @@ public class ParamSpecFraction extends Struct {
      * @param maxNum The new value of the field {@code max_num}
      */
     public void setMaxNum(int maxNum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxNum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxNum);
+        }
     }
     
     /**
@@ -134,10 +148,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code max_den}
      */
     public int getMaxDen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -145,9 +161,11 @@ public class ParamSpecFraction extends Struct {
      * @param maxDen The new value of the field {@code max_den}
      */
     public void setMaxDen(int maxDen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDen);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), maxDen);
+        }
     }
     
     /**
@@ -155,10 +173,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code def_num}
      */
     public int getDefNum() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -166,9 +186,11 @@ public class ParamSpecFraction extends Struct {
      * @param defNum The new value of the field {@code def_num}
      */
     public void setDefNum(int defNum) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defNum);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), defNum);
+        }
     }
     
     /**
@@ -176,10 +198,12 @@ public class ParamSpecFraction extends Struct {
      * @return The value of the field {@code def_den}
      */
     public int getDefDen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -187,22 +211,26 @@ public class ParamSpecFraction extends Struct {
      * @param defDen The new value of the field {@code def_den}
      */
     public void setDefDen(int defDen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defDen);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), defDen);
+        }
     }
     
     /**
      * Create a ParamSpecFraction proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ParamSpecFraction(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ParamSpecFraction(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ParamSpecFraction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecFraction(input, ownership);
+    public static final Marshal<Addressable, ParamSpecFraction> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecFraction(input);
     
     /**
      * A {@link ParamSpecFraction.Builder} object constructs a {@link ParamSpecFraction} 
@@ -226,7 +254,7 @@ public class ParamSpecFraction extends Struct {
             struct = ParamSpecFraction.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ParamSpecFraction} struct.
          * @return A new instance of {@code ParamSpecFraction} with the fields 
          *         that were set in the Builder object.
@@ -241,10 +269,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
+                return this;
+            }
         }
         
         /**
@@ -253,10 +283,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinNum(int minNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minNum);
+                return this;
+            }
         }
         
         /**
@@ -265,10 +297,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinDen(int minDen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minDen);
+                return this;
+            }
         }
         
         /**
@@ -277,10 +311,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxNum(int maxNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxNum);
+                return this;
+            }
         }
         
         /**
@@ -289,10 +325,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMaxDen(int maxDen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), maxDen);
+                return this;
+            }
         }
         
         /**
@@ -301,10 +339,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDefNum(int defNum) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defNum);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), defNum);
+                return this;
+            }
         }
         
         /**
@@ -313,10 +353,12 @@ public class ParamSpecFraction extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDefDen(int defDen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defDen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), defDen);
+                return this;
+            }
         }
     }
 }

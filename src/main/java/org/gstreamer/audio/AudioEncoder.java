@@ -124,26 +124,17 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     
     /**
      * Create a AudioEncoder proxy instance for the provided memory address.
-     * <p>
-     * Because AudioEncoder is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioEncoder(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AudioEncoder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioEncoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioEncoder(input, ownership);
+    public static final Marshal<Addressable, AudioEncoder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioEncoder(input);
     
     /**
      * Helper function that allocates a buffer to hold an encoded audio frame
@@ -160,7 +151,9 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -203,28 +196,29 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
     public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        try {
-            DowncallHandles.gst_audio_encoder_get_allocator.invokeExact(
-                    handle(),
-                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment allocatorPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            try {
+                DowncallHandles.gst_audio_encoder_get_allocator.invokeExact(
+                        handle(),
+                        (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                        (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) Interop.register(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            params.yieldOwnership();
         }
-        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        params.yieldOwnership();
     }
     
     public org.gstreamer.audio.AudioInfo getAudioInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_encoder_get_audio_info.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_encoder_get_audio_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -236,8 +230,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean getDrainable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_drainable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_drainable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,8 +240,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public int getFrameMax() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_max.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_max.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,8 +250,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public int getFrameSamplesMax() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_samples_max.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_samples_max.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,8 +260,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public int getFrameSamplesMin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_samples_min.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_frame_samples_min.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,8 +276,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean getHardMin() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_hard_min.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_hard_min.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,8 +286,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean getHardResync() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_hard_resync.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_hard_resync.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,25 +300,26 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param max a pointer to storage to hold maximum latency
      */
     public void getLatency(@Nullable org.gstreamer.gst.ClockTime min, @Nullable org.gstreamer.gst.ClockTime max) {
-        MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_audio_encoder_get_latency.invokeExact(
-                    handle(),
-                    (Addressable) (min == null ? MemoryAddress.NULL : (Addressable) minPOINTER.address()),
-                    (Addressable) (max == null ? MemoryAddress.NULL : (Addressable) maxPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment minPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemorySegment maxPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            try {
+                DowncallHandles.gst_audio_encoder_get_latency.invokeExact(
+                        handle(),
+                        (Addressable) (min == null ? MemoryAddress.NULL : (Addressable) minPOINTER.address()),
+                        (Addressable) (max == null ? MemoryAddress.NULL : (Addressable) maxPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (min != null) min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
+                    if (max != null) max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
         }
-        if (min != null) min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (max != null) max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     public int getLookahead() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_lookahead.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_lookahead.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,8 +335,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean getMarkGranule() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_mark_granule.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_mark_granule.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,8 +351,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean getPerfectTimestamp() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_get_perfect_timestamp.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_get_perfect_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,8 +367,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public org.gstreamer.gst.ClockTime getTolerance() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_encoder_get_tolerance.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_encoder_get_tolerance.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -421,8 +407,7 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     public boolean negotiate() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_encoder_negotiate.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_encoder_negotiate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,7 +432,9 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -719,6 +706,9 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
      */
     public static class Builder extends org.gstreamer.gst.Element.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -767,201 +757,209 @@ public class AudioEncoder extends org.gstreamer.gst.Element implements org.gstre
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_encoder_allocate_output_buffer = Interop.downcallHandle(
-            "gst_audio_encoder_allocate_output_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_encoder_allocate_output_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_finish_frame = Interop.downcallHandle(
-            "gst_audio_encoder_finish_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_finish_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_allocator = Interop.downcallHandle(
-            "gst_audio_encoder_get_allocator",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_allocator",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_audio_info = Interop.downcallHandle(
-            "gst_audio_encoder_get_audio_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_audio_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_drainable = Interop.downcallHandle(
-            "gst_audio_encoder_get_drainable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_drainable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_frame_max = Interop.downcallHandle(
-            "gst_audio_encoder_get_frame_max",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_frame_max",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_frame_samples_max = Interop.downcallHandle(
-            "gst_audio_encoder_get_frame_samples_max",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_frame_samples_max",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_frame_samples_min = Interop.downcallHandle(
-            "gst_audio_encoder_get_frame_samples_min",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_frame_samples_min",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_hard_min = Interop.downcallHandle(
-            "gst_audio_encoder_get_hard_min",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_hard_min",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_hard_resync = Interop.downcallHandle(
-            "gst_audio_encoder_get_hard_resync",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_hard_resync",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_latency = Interop.downcallHandle(
-            "gst_audio_encoder_get_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_lookahead = Interop.downcallHandle(
-            "gst_audio_encoder_get_lookahead",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_lookahead",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_mark_granule = Interop.downcallHandle(
-            "gst_audio_encoder_get_mark_granule",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_mark_granule",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_perfect_timestamp = Interop.downcallHandle(
-            "gst_audio_encoder_get_perfect_timestamp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_perfect_timestamp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_tolerance = Interop.downcallHandle(
-            "gst_audio_encoder_get_tolerance",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_get_tolerance",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_merge_tags = Interop.downcallHandle(
-            "gst_audio_encoder_merge_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_merge_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_negotiate = Interop.downcallHandle(
-            "gst_audio_encoder_negotiate",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_negotiate",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_proxy_getcaps = Interop.downcallHandle(
-            "gst_audio_encoder_proxy_getcaps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_proxy_getcaps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_allocation_caps = Interop.downcallHandle(
-            "gst_audio_encoder_set_allocation_caps",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_set_allocation_caps",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_drainable = Interop.downcallHandle(
-            "gst_audio_encoder_set_drainable",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_drainable",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_frame_max = Interop.downcallHandle(
-            "gst_audio_encoder_set_frame_max",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_frame_max",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_frame_samples_max = Interop.downcallHandle(
-            "gst_audio_encoder_set_frame_samples_max",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_frame_samples_max",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_frame_samples_min = Interop.downcallHandle(
-            "gst_audio_encoder_set_frame_samples_min",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_frame_samples_min",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_hard_min = Interop.downcallHandle(
-            "gst_audio_encoder_set_hard_min",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_hard_min",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_hard_resync = Interop.downcallHandle(
-            "gst_audio_encoder_set_hard_resync",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_hard_resync",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_headers = Interop.downcallHandle(
-            "gst_audio_encoder_set_headers",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_set_headers",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_latency = Interop.downcallHandle(
-            "gst_audio_encoder_set_latency",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_encoder_set_latency",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_lookahead = Interop.downcallHandle(
-            "gst_audio_encoder_set_lookahead",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_lookahead",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_mark_granule = Interop.downcallHandle(
-            "gst_audio_encoder_set_mark_granule",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_mark_granule",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_output_format = Interop.downcallHandle(
-            "gst_audio_encoder_set_output_format",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_encoder_set_output_format",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_perfect_timestamp = Interop.downcallHandle(
-            "gst_audio_encoder_set_perfect_timestamp",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_encoder_set_perfect_timestamp",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_set_tolerance = Interop.downcallHandle(
-            "gst_audio_encoder_set_tolerance",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_encoder_set_tolerance",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_encoder_get_type = Interop.downcallHandle(
-            "gst_audio_encoder_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_encoder_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_audio_encoder_get_type != null;
     }
 }

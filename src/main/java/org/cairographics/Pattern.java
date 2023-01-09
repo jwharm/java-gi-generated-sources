@@ -29,8 +29,8 @@ public class Pattern extends Struct {
      * @return A new, uninitialized @{link Pattern}
      */
     public static Pattern allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Pattern newInstance = new Pattern(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Pattern newInstance = new Pattern(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Pattern extends Struct {
     /**
      * Create a Pattern proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Pattern(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Pattern(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Pattern> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Pattern(input, ownership);
+    public static final Marshal<Addressable, Pattern> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Pattern(input);
 }

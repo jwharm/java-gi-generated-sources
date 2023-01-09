@@ -45,14 +45,16 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
     /**
      * Create a BuilderCScope proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BuilderCScope(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BuilderCScope(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BuilderCScope> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderCScope(input, ownership);
+    public static final Marshal<Addressable, BuilderCScope> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BuilderCScope(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -72,7 +74,8 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
      * custom callbacks via {@link BuilderCScope#addCallbackSymbol}.
      */
     public BuilderCScope() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -88,13 +91,15 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
      * @param callbackSymbol The callback pointer
      */
     public void addCallbackSymbol(java.lang.String callbackName, org.gtk.gobject.Callback callbackSymbol) {
-        try {
-            DowncallHandles.gtk_builder_cscope_add_callback_symbol.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(callbackName, null),
-                    (Addressable) callbackSymbol.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_builder_cscope_add_callback_symbol.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(callbackName, SCOPE),
+                        (Addressable) callbackSymbol.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -108,14 +113,16 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
      * @param varargs A list of callback name and callback symbol pairs terminated with {@code null}
      */
     public void addCallbackSymbols(java.lang.String firstCallbackName, org.gtk.gobject.Callback firstCallbackSymbol, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gtk_builder_cscope_add_callback_symbols.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(firstCallbackName, null),
-                    (Addressable) firstCallbackSymbol.toCallback(),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_builder_cscope_add_callback_symbols.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(firstCallbackName, SCOPE),
+                        (Addressable) firstCallbackSymbol.toCallback(),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -127,15 +134,17 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
      *   in {@code builder} for {@code callback_name}
      */
     public @Nullable org.gtk.gobject.Callback lookupCallbackSymbol(java.lang.String callbackName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_builder_cscope_lookup_callback_symbol.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(callbackName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_builder_cscope_lookup_callback_symbol.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(callbackName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return null /* Unsupported parameter type */;
         }
-        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -168,6 +177,9 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -192,33 +204,41 @@ public class BuilderCScope extends org.gtk.gobject.GObject implements org.gtk.gt
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_builder_cscope_new = Interop.downcallHandle(
-            "gtk_builder_cscope_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_cscope_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_cscope_add_callback_symbol = Interop.downcallHandle(
-            "gtk_builder_cscope_add_callback_symbol",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_cscope_add_callback_symbol",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_cscope_add_callback_symbols = Interop.downcallHandle(
-            "gtk_builder_cscope_add_callback_symbols",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_builder_cscope_add_callback_symbols",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_builder_cscope_lookup_callback_symbol = Interop.downcallHandle(
-            "gtk_builder_cscope_lookup_callback_symbol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_builder_cscope_lookup_callback_symbol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_builder_cscope_get_type = Interop.downcallHandle(
-            "gtk_builder_cscope_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_builder_cscope_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_builder_cscope_get_type != null;
     }
 }

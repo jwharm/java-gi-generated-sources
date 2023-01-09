@@ -76,8 +76,8 @@ public class Toc extends Struct {
      * @return A new, uninitialized @{link Toc}
      */
     public static Toc allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Toc newInstance = new Toc(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Toc newInstance = new Toc(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -85,20 +85,21 @@ public class Toc extends Struct {
     /**
      * Create a Toc proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Toc(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Toc(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Toc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Toc(input, ownership);
+    public static final Marshal<Addressable, Toc> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Toc(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gst.TocScope scope) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_new.invokeExact(
-                    scope.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_toc_new.invokeExact(scope.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,7 +111,8 @@ public class Toc extends Struct {
      * @param scope scope of this TOC
      */
     public Toc(org.gstreamer.gst.TocScope scope) {
-        super(constructNew(scope), Ownership.FULL);
+        super(constructNew(scope));
+        this.takeOwnership();
     }
     
     /**
@@ -130,8 +132,7 @@ public class Toc extends Struct {
     
     public void dump() {
         try {
-            DowncallHandles.gst_toc_dump.invokeExact(
-                    handle());
+            DowncallHandles.gst_toc_dump.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,15 +145,17 @@ public class Toc extends Struct {
      * {@code uid} from the {@code toc}, or {@code null} if not found.
      */
     public @Nullable org.gstreamer.gst.TocEntry findEntry(java.lang.String uid) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_find_entry.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uid, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_toc_find_entry.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uid, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.TocEntry.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.TocEntry.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -162,19 +165,17 @@ public class Toc extends Struct {
     public org.gtk.glib.List getEntries() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_entries.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_entries.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     public org.gstreamer.gst.TocScope getScope() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_toc_get_scope.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_toc_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,12 +189,11 @@ public class Toc extends Struct {
     public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_tags.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -230,57 +230,57 @@ public class Toc extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_toc_new = Interop.downcallHandle(
-            "gst_toc_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_toc_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_toc_append_entry = Interop.downcallHandle(
-            "gst_toc_append_entry",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_append_entry",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_dump = Interop.downcallHandle(
-            "gst_toc_dump",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_dump",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_find_entry = Interop.downcallHandle(
-            "gst_toc_find_entry",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_find_entry",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_get_entries = Interop.downcallHandle(
-            "gst_toc_get_entries",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_get_entries",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_get_scope = Interop.downcallHandle(
-            "gst_toc_get_scope",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_get_scope",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_get_tags = Interop.downcallHandle(
-            "gst_toc_get_tags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_get_tags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_toc_merge_tags = Interop.downcallHandle(
-            "gst_toc_merge_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_toc_merge_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_toc_set_tags = Interop.downcallHandle(
-            "gst_toc_set_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_toc_set_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -37,8 +37,8 @@ public class AtscEIT extends Struct {
      * @return A new, uninitialized @{link AtscEIT}
      */
     public static AtscEIT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscEIT newInstance = new AtscEIT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscEIT newInstance = new AtscEIT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class AtscEIT extends Struct {
      * @return The value of the field {@code source_id}
      */
     public short getSourceId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class AtscEIT extends Struct {
      * @param sourceId The new value of the field {@code source_id}
      */
     public void setSourceId(short sourceId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), sourceId);
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class AtscEIT extends Struct {
      * @return The value of the field {@code protocol_version}
      */
     public byte getProtocolVersion() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class AtscEIT extends Struct {
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
     public void setProtocolVersion(byte protocolVersion) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class AtscEIT extends Struct {
      * @return The value of the field {@code events}
      */
     public PointerProxy<org.gstreamer.mpegts.AtscEITEvent> getEvents() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.AtscEITEvent>(RESULT, org.gstreamer.mpegts.AtscEITEvent.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.AtscEITEvent>(RESULT, org.gstreamer.mpegts.AtscEITEvent.fromAddress);
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class AtscEIT extends Struct {
      * @param events The new value of the field {@code events}
      */
     public void setEvents(org.gstreamer.mpegts.AtscEITEvent[] events) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("events"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscEIT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscEIT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscEIT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscEIT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscEIT(input, ownership);
+    public static final Marshal<Addressable, AtscEIT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscEIT(input);
     
     /**
      * A {@link AtscEIT.Builder} object constructs a {@link AtscEIT} 
@@ -140,7 +154,7 @@ public class AtscEIT extends Struct {
             struct = AtscEIT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscEIT} struct.
          * @return A new instance of {@code AtscEIT} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class AtscEIT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSourceId(short sourceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sourceId);
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class AtscEIT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setProtocolVersion(byte protocolVersion) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), protocolVersion);
+                return this;
+            }
         }
         
         /**
@@ -179,10 +197,12 @@ public class AtscEIT extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setEvents(org.gstreamer.mpegts.AtscEITEvent[] events) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("events"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("events"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

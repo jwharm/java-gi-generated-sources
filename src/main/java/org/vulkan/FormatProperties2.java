@@ -29,8 +29,8 @@ public class FormatProperties2 extends Struct {
      * @return A new, uninitialized @{link FormatProperties2}
      */
     public static FormatProperties2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FormatProperties2 newInstance = new FormatProperties2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FormatProperties2 newInstance = new FormatProperties2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FormatProperties2 extends Struct {
     /**
      * Create a FormatProperties2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FormatProperties2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FormatProperties2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FormatProperties2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FormatProperties2(input, ownership);
+    public static final Marshal<Addressable, FormatProperties2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FormatProperties2(input);
 }

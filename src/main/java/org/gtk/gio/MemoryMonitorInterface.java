@@ -36,25 +36,40 @@ public class MemoryMonitorInterface extends Struct {
      * @return A new, uninitialized @{link MemoryMonitorInterface}
      */
     public static MemoryMonitorInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryMonitorInterface newInstance = new MemoryMonitorInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryMonitorInterface newInstance = new MemoryMonitorInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
     
+    /**
+     * Functional interface declaration of the {@code LowMemoryWarningCallback} callback.
+     */
     @FunctionalInterface
     public interface LowMemoryWarningCallback {
+    
         void run(org.gtk.gio.MemoryMonitor monitor, org.gtk.gio.MemoryMonitorWarningLevel level);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress monitor, int level) {
-            run((org.gtk.gio.MemoryMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gio.MemoryMonitor.fromAddress).marshal(monitor, Ownership.NONE), org.gtk.gio.MemoryMonitorWarningLevel.of(level));
+            run((org.gtk.gio.MemoryMonitor) Interop.register(monitor, org.gtk.gio.MemoryMonitor.fromAddress).marshal(monitor, null), org.gtk.gio.MemoryMonitorWarningLevel.of(level));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LowMemoryWarningCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LowMemoryWarningCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -63,22 +78,26 @@ public class MemoryMonitorInterface extends Struct {
      * @param lowMemoryWarning The new value of the field {@code low_memory_warning}
      */
     public void setLowMemoryWarning(LowMemoryWarningCallback lowMemoryWarning) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("low_memory_warning"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lowMemoryWarning == null ? MemoryAddress.NULL : lowMemoryWarning.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("low_memory_warning"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lowMemoryWarning == null ? MemoryAddress.NULL : lowMemoryWarning.toCallback()));
+        }
     }
     
     /**
      * Create a MemoryMonitorInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryMonitorInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryMonitorInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryMonitorInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryMonitorInterface(input, ownership);
+    public static final Marshal<Addressable, MemoryMonitorInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryMonitorInterface(input);
     
     /**
      * A {@link MemoryMonitorInterface.Builder} object constructs a {@link MemoryMonitorInterface} 
@@ -102,7 +121,7 @@ public class MemoryMonitorInterface extends Struct {
             struct = MemoryMonitorInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MemoryMonitorInterface} struct.
          * @return A new instance of {@code MemoryMonitorInterface} with the fields 
          *         that were set in the Builder object.
@@ -117,17 +136,21 @@ public class MemoryMonitorInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+                return this;
+            }
         }
         
         public Builder setLowMemoryWarning(LowMemoryWarningCallback lowMemoryWarning) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("low_memory_warning"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lowMemoryWarning == null ? MemoryAddress.NULL : lowMemoryWarning.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("low_memory_warning"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lowMemoryWarning == null ? MemoryAddress.NULL : lowMemoryWarning.toCallback()));
+                return this;
+            }
         }
     }
 }

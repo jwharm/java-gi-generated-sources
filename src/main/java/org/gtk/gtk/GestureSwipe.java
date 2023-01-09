@@ -39,14 +39,16 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
     /**
      * Create a GestureSwipe proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureSwipe(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureSwipe(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureSwipe> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureSwipe(input, ownership);
+    public static final Marshal<Addressable, GestureSwipe> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureSwipe(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -62,7 +64,8 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * Returns a newly created {@code GtkGesture} that recognizes swipes.
      */
     public GestureSwipe() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -76,20 +79,22 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * @return whether velocity could be calculated
      */
     public boolean getVelocity(Out<Double> velocityX, Out<Double> velocityY) {
-        MemorySegment velocityXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(
-                    handle(),
-                    (Addressable) velocityXPOINTER.address(),
-                    (Addressable) velocityYPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment velocityXPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment velocityYPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(
+                        handle(),
+                        (Addressable) velocityXPOINTER.address(),
+                        (Addressable) velocityYPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    velocityX.set(velocityXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    velocityY.set(velocityYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        velocityX.set(velocityXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        velocityY.set(velocityYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -106,19 +111,39 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Swipe} callback.
+     */
     @FunctionalInterface
     public interface Swipe {
+    
+        /**
+         * Emitted when the recognized gesture is finished.
+         * <p>
+         * Velocity and direction are a product of previously recorded events.
+         */
         void run(double velocityX, double velocityY);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureSwipe, double velocityX, double velocityY) {
             run(velocityX, velocityY);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Swipe.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Swipe.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -130,9 +155,10 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureSwipe.Swipe> onSwipe(GestureSwipe.Swipe handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("swipe", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -155,6 +181,9 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
      */
     public static class Builder extends org.gtk.gtk.GestureSingle.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -179,21 +208,29 @@ public class GestureSwipe extends org.gtk.gtk.GestureSingle {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
-            "gtk_gesture_swipe_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_swipe_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
-            "gtk_gesture_swipe_get_velocity",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_swipe_get_velocity",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_swipe_get_type = Interop.downcallHandle(
-            "gtk_gesture_swipe_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_swipe_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_swipe_get_type != null;
     }
 }

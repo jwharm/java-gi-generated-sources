@@ -38,8 +38,8 @@ public class FormatDefinition extends Struct {
      * @return A new, uninitialized @{link FormatDefinition}
      */
     public static FormatDefinition allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FormatDefinition newInstance = new FormatDefinition(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FormatDefinition newInstance = new FormatDefinition(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,10 +49,12 @@ public class FormatDefinition extends Struct {
      * @return The value of the field {@code value}
      */
     public org.gstreamer.gst.Format getValue() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.Format.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.Format.of(RESULT);
+        }
     }
     
     /**
@@ -60,9 +62,11 @@ public class FormatDefinition extends Struct {
      * @param value The new value of the field {@code value}
      */
     public void setValue(org.gstreamer.gst.Format value) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.getValue()));
+        }
     }
     
     /**
@@ -70,10 +74,12 @@ public class FormatDefinition extends Struct {
      * @return The value of the field {@code nick}
      */
     public java.lang.String getNick() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nick"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nick"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -81,9 +87,11 @@ public class FormatDefinition extends Struct {
      * @param nick The new value of the field {@code nick}
      */
     public void setNick(java.lang.String nick) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nick, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nick"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nick, SCOPE)));
+        }
     }
     
     /**
@@ -91,10 +99,12 @@ public class FormatDefinition extends Struct {
      * @return The value of the field {@code description}
      */
     public java.lang.String getDescription() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -102,9 +112,11 @@ public class FormatDefinition extends Struct {
      * @param description The new value of the field {@code description}
      */
     public void setDescription(java.lang.String description) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+        }
     }
     
     /**
@@ -112,10 +124,12 @@ public class FormatDefinition extends Struct {
      * @return The value of the field {@code quark}
      */
     public org.gtk.glib.Quark getQuark() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("quark"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Quark(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("quark"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Quark(RESULT);
+        }
     }
     
     /**
@@ -123,22 +137,26 @@ public class FormatDefinition extends Struct {
      * @param quark The new value of the field {@code quark}
      */
     public void setQuark(org.gtk.glib.Quark quark) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("quark"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quark == null ? MemoryAddress.NULL : quark.getValue().intValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("quark"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quark == null ? MemoryAddress.NULL : quark.getValue().intValue()));
+        }
     }
     
     /**
      * Create a FormatDefinition proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FormatDefinition(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FormatDefinition(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FormatDefinition> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FormatDefinition(input, ownership);
+    public static final Marshal<Addressable, FormatDefinition> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FormatDefinition(input);
     
     /**
      * A {@link FormatDefinition.Builder} object constructs a {@link FormatDefinition} 
@@ -162,7 +180,7 @@ public class FormatDefinition extends Struct {
             struct = FormatDefinition.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FormatDefinition} struct.
          * @return A new instance of {@code FormatDefinition} with the fields 
          *         that were set in the Builder object.
@@ -177,10 +195,12 @@ public class FormatDefinition extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setValue(org.gstreamer.gst.Format value) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("value"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (value == null ? MemoryAddress.NULL : value.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -189,10 +209,12 @@ public class FormatDefinition extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNick(java.lang.String nick) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nick, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nick"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nick, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -201,10 +223,12 @@ public class FormatDefinition extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setDescription(java.lang.String description) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("description"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -213,10 +237,12 @@ public class FormatDefinition extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setQuark(org.gtk.glib.Quark quark) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("quark"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (quark == null ? MemoryAddress.NULL : quark.getValue().intValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("quark"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (quark == null ? MemoryAddress.NULL : quark.getValue().intValue()));
+                return this;
+            }
         }
     }
 }

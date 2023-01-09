@@ -40,8 +40,8 @@ public class MetaInfo extends Struct {
      * @return A new, uninitialized @{link MetaInfo}
      */
     public static MetaInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MetaInfo newInstance = new MetaInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MetaInfo newInstance = new MetaInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,10 +51,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code api}
      */
     public org.gtk.glib.Type getApi() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("api"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("api"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -62,9 +64,11 @@ public class MetaInfo extends Struct {
      * @param api The new value of the field {@code api}
      */
     public void setApi(org.gtk.glib.Type api) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("api"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (api == null ? MemoryAddress.NULL : api.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("api"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (api == null ? MemoryAddress.NULL : api.getValue().longValue()));
+        }
     }
     
     /**
@@ -72,10 +76,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code type}
      */
     public org.gtk.glib.Type getType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -83,9 +89,11 @@ public class MetaInfo extends Struct {
      * @param type The new value of the field {@code type}
      */
     public void setType(org.gtk.glib.Type type) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+        }
     }
     
     /**
@@ -93,10 +101,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code size}
      */
     public long getSize() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -104,9 +114,11 @@ public class MetaInfo extends Struct {
      * @param size The new value of the field {@code size}
      */
     public void setSize(long size) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), size);
+        }
     }
     
     /**
@@ -114,10 +126,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code init_func}
      */
     public org.gstreamer.gst.MetaInitFunction getInitFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -125,9 +139,11 @@ public class MetaInfo extends Struct {
      * @param initFunc The new value of the field {@code init_func}
      */
     public void setInitFunc(org.gstreamer.gst.MetaInitFunction initFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initFunc == null ? MemoryAddress.NULL : (Addressable) initFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (initFunc == null ? MemoryAddress.NULL : (Addressable) initFunc.toCallback()));
+        }
     }
     
     /**
@@ -135,10 +151,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code free_func}
      */
     public org.gstreamer.gst.MetaFreeFunction getFreeFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -146,9 +164,11 @@ public class MetaInfo extends Struct {
      * @param freeFunc The new value of the field {@code free_func}
      */
     public void setFreeFunc(org.gstreamer.gst.MetaFreeFunction freeFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
+        }
     }
     
     /**
@@ -156,10 +176,12 @@ public class MetaInfo extends Struct {
      * @return The value of the field {@code transform_func}
      */
     public org.gstreamer.gst.MetaTransformFunction getTransformFunc() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -167,28 +189,31 @@ public class MetaInfo extends Struct {
      * @param transformFunc The new value of the field {@code transform_func}
      */
     public void setTransformFunc(org.gstreamer.gst.MetaTransformFunction transformFunc) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()));
+        }
     }
     
     /**
      * Create a MetaInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MetaInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MetaInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MetaInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MetaInfo(input, ownership);
+    public static final Marshal<Addressable, MetaInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MetaInfo(input);
     
     public boolean isCustom() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_meta_info_is_custom.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_meta_info_is_custom.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,9 +223,9 @@ public class MetaInfo extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_meta_info_is_custom = Interop.downcallHandle(
-            "gst_meta_info_is_custom",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_info_is_custom",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -226,7 +251,7 @@ public class MetaInfo extends Struct {
             struct = MetaInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MetaInfo} struct.
          * @return A new instance of {@code MetaInfo} with the fields 
          *         that were set in the Builder object.
@@ -241,10 +266,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setApi(org.gtk.glib.Type api) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("api"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (api == null ? MemoryAddress.NULL : api.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("api"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (api == null ? MemoryAddress.NULL : api.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -253,10 +280,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setType(org.gtk.glib.Type type) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -265,10 +294,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSize(long size) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), size);
+                return this;
+            }
         }
         
         /**
@@ -277,10 +308,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInitFunc(org.gstreamer.gst.MetaInitFunction initFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initFunc == null ? MemoryAddress.NULL : (Addressable) initFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("init_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (initFunc == null ? MemoryAddress.NULL : (Addressable) initFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -289,10 +322,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFreeFunc(org.gstreamer.gst.MetaFreeFunction freeFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("free_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -301,10 +336,12 @@ public class MetaInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setTransformFunc(org.gstreamer.gst.MetaTransformFunction transformFunc) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("transform_func"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()));
+                return this;
+            }
         }
     }
 }

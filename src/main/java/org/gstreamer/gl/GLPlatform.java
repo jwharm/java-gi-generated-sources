@@ -45,26 +45,29 @@ public class GLPlatform extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLPlatform ANY = new GLPlatform(-1);
     
+    /**
+     * Create a new GLPlatform with the provided value
+     */
     public GLPlatform(int value) {
         super(value);
     }
     
     public static org.gstreamer.gl.GLPlatform fromString(java.lang.String platformS) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_platform_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(platformS, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_platform_from_string.invokeExact(Marshal.stringToAddress.marshal(platformS, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gstreamer.gl.GLPlatform(RESULT);
         }
-        return new org.gstreamer.gl.GLPlatform(RESULT);
     }
     
     public static java.lang.String toString(org.gstreamer.gl.GLPlatform platform) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_gl_platform_to_string.invokeExact(
-                    platform.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_gl_platform_to_string.invokeExact(platform.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -101,15 +104,15 @@ public class GLPlatform extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_platform_from_string = Interop.downcallHandle(
-            "gst_gl_platform_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_platform_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_platform_to_string = Interop.downcallHandle(
-            "gst_gl_platform_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_platform_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

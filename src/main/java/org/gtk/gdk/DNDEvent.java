@@ -28,14 +28,16 @@ public class DNDEvent extends org.gtk.gdk.Event {
     /**
      * Create a DNDEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DNDEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DNDEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DNDEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DNDEvent(input, ownership);
+    public static final Marshal<Addressable, DNDEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DNDEvent(input);
     
     /**
      * Gets the {@code GdkDrop} object from a DND event.
@@ -44,12 +46,11 @@ public class DNDEvent extends org.gtk.gdk.Event {
     public @Nullable org.gtk.gdk.Drop getDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_dnd_event_get_drop.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_dnd_event_get_drop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Drop) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Drop.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Drop) Interop.register(RESULT, org.gtk.gdk.Drop.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -69,15 +70,23 @@ public class DNDEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_dnd_event_get_drop = Interop.downcallHandle(
-            "gdk_dnd_event_get_drop",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_dnd_event_get_drop",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_dnd_event_get_type = Interop.downcallHandle(
-            "gdk_dnd_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_dnd_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_dnd_event_get_type != null;
     }
 }

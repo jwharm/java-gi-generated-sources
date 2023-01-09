@@ -16,6 +16,9 @@ import org.jetbrains.annotations.*;
  */
 public class RefString extends io.github.jwharm.javagi.Alias<Byte> {
     
+    /**
+     * Create a new RefString with the provided value
+     */
     public RefString(byte value) {
         super(value);
     }

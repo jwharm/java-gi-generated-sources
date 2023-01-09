@@ -29,8 +29,8 @@ public class ObjectType extends Struct {
      * @return A new, uninitialized @{link ObjectType}
      */
     public static ObjectType allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ObjectType newInstance = new ObjectType(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ObjectType newInstance = new ObjectType(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ObjectType extends Struct {
     /**
      * Create a ObjectType proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ObjectType(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ObjectType(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ObjectType> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ObjectType(input, ownership);
+    public static final Marshal<Addressable, ObjectType> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ObjectType(input);
 }

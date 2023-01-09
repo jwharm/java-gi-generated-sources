@@ -30,14 +30,16 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
     /**
      * Create a IconPaintable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected IconPaintable(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected IconPaintable(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, IconPaintable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IconPaintable(input, ownership);
+    public static final Marshal<Addressable, IconPaintable> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new IconPaintable(input);
     
     private static MemoryAddress constructNewForFile(org.gtk.gio.File file, int size, int scale) {
         MemoryAddress RESULT;
@@ -51,7 +53,7 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@code GtkIconPaintable} for a file with a given size and scale.
      * <p>
@@ -64,7 +66,9 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
      */
     public static IconPaintable newForFile(org.gtk.gio.File file, int size, int scale) {
         var RESULT = constructNewForFile(file, size, scale);
-        return (org.gtk.gtk.IconPaintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.IconPaintable.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gtk.IconPaintable) Interop.register(RESULT, org.gtk.gtk.IconPaintable.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -76,12 +80,13 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_file.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.File) Interop.register(RESULT, org.gtk.gio.File.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -100,8 +105,7 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,8 +125,7 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
     public boolean isSymbolic() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_icon_paintable_is_symbolic.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_icon_paintable_is_symbolic.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,6 +162,9 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -216,33 +222,41 @@ public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gd
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_icon_paintable_new_for_file = Interop.downcallHandle(
-            "gtk_icon_paintable_new_for_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gtk_icon_paintable_new_for_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_icon_paintable_get_file = Interop.downcallHandle(
-            "gtk_icon_paintable_get_file",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_icon_paintable_get_file",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_icon_paintable_get_icon_name = Interop.downcallHandle(
-            "gtk_icon_paintable_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_icon_paintable_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_icon_paintable_is_symbolic = Interop.downcallHandle(
-            "gtk_icon_paintable_is_symbolic",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_icon_paintable_is_symbolic",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_icon_paintable_get_type = Interop.downcallHandle(
-            "gtk_icon_paintable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_icon_paintable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_icon_paintable_get_type != null;
     }
 }

@@ -36,8 +36,8 @@ public class TestConfig extends Struct {
      * @return A new, uninitialized @{link TestConfig}
      */
     public static TestConfig allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestConfig newInstance = new TestConfig(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TestConfig newInstance = new TestConfig(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_initialized}
      */
     public boolean getTestInitialized() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class TestConfig extends Struct {
      * @param testInitialized The new value of the field {@code test_initialized}
      */
     public void setTestInitialized(boolean testInitialized) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testInitialized, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testInitialized, null).intValue());
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_quick}
      */
     public boolean getTestQuick() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class TestConfig extends Struct {
      * @param testQuick The new value of the field {@code test_quick}
      */
     public void setTestQuick(boolean testQuick) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testQuick, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testQuick, null).intValue());
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_perf}
      */
     public boolean getTestPerf() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -100,9 +110,11 @@ public class TestConfig extends Struct {
      * @param testPerf The new value of the field {@code test_perf}
      */
     public void setTestPerf(boolean testPerf) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testPerf, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testPerf, null).intValue());
+        }
     }
     
     /**
@@ -110,10 +122,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_verbose}
      */
     public boolean getTestVerbose() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -121,9 +135,11 @@ public class TestConfig extends Struct {
      * @param testVerbose The new value of the field {@code test_verbose}
      */
     public void setTestVerbose(boolean testVerbose) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testVerbose, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testVerbose, null).intValue());
+        }
     }
     
     /**
@@ -131,10 +147,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_quiet}
      */
     public boolean getTestQuiet() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -142,9 +160,11 @@ public class TestConfig extends Struct {
      * @param testQuiet The new value of the field {@code test_quiet}
      */
     public void setTestQuiet(boolean testQuiet) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testQuiet, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testQuiet, null).intValue());
+        }
     }
     
     /**
@@ -152,10 +172,12 @@ public class TestConfig extends Struct {
      * @return The value of the field {@code test_undefined}
      */
     public boolean getTestUndefined() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
+        }
     }
     
     /**
@@ -163,22 +185,26 @@ public class TestConfig extends Struct {
      * @param testUndefined The new value of the field {@code test_undefined}
      */
     public void setTestUndefined(boolean testUndefined) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testUndefined, null).intValue());
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testUndefined, null).intValue());
+        }
     }
     
     /**
      * Create a TestConfig proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestConfig(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TestConfig(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestConfig> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestConfig(input, ownership);
+    public static final Marshal<Addressable, TestConfig> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestConfig(input);
     
     /**
      * A {@link TestConfig.Builder} object constructs a {@link TestConfig} 
@@ -202,7 +228,7 @@ public class TestConfig extends Struct {
             struct = TestConfig.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TestConfig} struct.
          * @return A new instance of {@code TestConfig} with the fields 
          *         that were set in the Builder object.
@@ -212,45 +238,57 @@ public class TestConfig extends Struct {
         }
         
         public Builder setTestInitialized(boolean testInitialized) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testInitialized, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_initialized"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testInitialized, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTestQuick(boolean testQuick) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testQuick, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_quick"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testQuick, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTestPerf(boolean testPerf) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testPerf, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_perf"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testPerf, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTestVerbose(boolean testVerbose) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testVerbose, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_verbose"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testVerbose, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTestQuiet(boolean testQuiet) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testQuiet, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_quiet"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testQuiet, null).intValue());
+                return this;
+            }
         }
         
         public Builder setTestUndefined(boolean testUndefined) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(testUndefined, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("test_undefined"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(testUndefined, null).intValue());
+                return this;
+            }
         }
     }
 }

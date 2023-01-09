@@ -40,26 +40,17 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     
     /**
      * Create a AudioBaseSink proxy instance for the provided memory address.
-     * <p>
-     * Because AudioBaseSink is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioBaseSink(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected AudioBaseSink(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioBaseSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSink(input, ownership);
+    public static final Marshal<Addressable, AudioBaseSink> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSink(input);
     
     /**
      * Create and return the {@link AudioRingBuffer} for {@code sink}. This function will
@@ -70,12 +61,11 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_sink_create_ringbuffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_sink_create_ringbuffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gstreamer.audio.AudioRingBuffer) Interop.register(RESULT, org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -85,8 +75,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public org.gstreamer.gst.ClockTime getAlignmentThreshold() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_alignment_threshold.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_alignment_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,8 +89,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public org.gstreamer.gst.ClockTime getDiscontWait() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_discont_wait.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_discont_wait.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,8 +103,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public long getDriftTolerance() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_drift_tolerance.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_audio_base_sink_get_drift_tolerance.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,8 +118,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public boolean getProvideClock() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_base_sink_get_provide_clock.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_base_sink_get_provide_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,8 +132,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     public org.gstreamer.audio.AudioBaseSinkSlaveMethod getSlaveMethod() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_audio_base_sink_get_slave_method.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_audio_base_sink_get_slave_method.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,8 +148,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      */
     public void reportDeviceFailure() {
         try {
-            DowncallHandles.gst_audio_base_sink_report_device_failure.invokeExact(
-                    handle());
+            DowncallHandles.gst_audio_base_sink_report_device_failure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,6 +281,9 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      */
     public static class Builder extends org.gstreamer.base.BaseSink.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -381,87 +368,95 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_audio_base_sink_create_ringbuffer = Interop.downcallHandle(
-            "gst_audio_base_sink_create_ringbuffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_create_ringbuffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_alignment_threshold = Interop.downcallHandle(
-            "gst_audio_base_sink_get_alignment_threshold",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_get_alignment_threshold",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_discont_wait = Interop.downcallHandle(
-            "gst_audio_base_sink_get_discont_wait",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_get_discont_wait",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_drift_tolerance = Interop.downcallHandle(
-            "gst_audio_base_sink_get_drift_tolerance",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_get_drift_tolerance",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_provide_clock = Interop.downcallHandle(
-            "gst_audio_base_sink_get_provide_clock",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_get_provide_clock",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_slave_method = Interop.downcallHandle(
-            "gst_audio_base_sink_get_slave_method",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_get_slave_method",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_report_device_failure = Interop.downcallHandle(
-            "gst_audio_base_sink_report_device_failure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_report_device_failure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_alignment_threshold = Interop.downcallHandle(
-            "gst_audio_base_sink_set_alignment_threshold",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_base_sink_set_alignment_threshold",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_custom_slaving_callback = Interop.downcallHandle(
-            "gst_audio_base_sink_set_custom_slaving_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_audio_base_sink_set_custom_slaving_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_discont_wait = Interop.downcallHandle(
-            "gst_audio_base_sink_set_discont_wait",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_base_sink_set_discont_wait",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_drift_tolerance = Interop.downcallHandle(
-            "gst_audio_base_sink_set_drift_tolerance",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_base_sink_set_drift_tolerance",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_provide_clock = Interop.downcallHandle(
-            "gst_audio_base_sink_set_provide_clock",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_base_sink_set_provide_clock",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_set_slave_method = Interop.downcallHandle(
-            "gst_audio_base_sink_set_slave_method",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_audio_base_sink_set_slave_method",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_audio_base_sink_get_type = Interop.downcallHandle(
-            "gst_audio_base_sink_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_audio_base_sink_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_audio_base_sink_get_type != null;
     }
 }

@@ -29,8 +29,8 @@ public class PadControllerClass extends Struct {
      * @return A new, uninitialized @{link PadControllerClass}
      */
     public static PadControllerClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PadControllerClass newInstance = new PadControllerClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PadControllerClass newInstance = new PadControllerClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PadControllerClass extends Struct {
     /**
      * Create a PadControllerClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PadControllerClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PadControllerClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PadControllerClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadControllerClass(input, ownership);
+    public static final Marshal<Addressable, PadControllerClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PadControllerClass(input);
 }

@@ -45,8 +45,8 @@ public class SignalQuery extends Struct {
      * @return A new, uninitialized @{link SignalQuery}
      */
     public static SignalQuery allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SignalQuery newInstance = new SignalQuery(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SignalQuery newInstance = new SignalQuery(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -56,10 +56,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code signal_id}
      */
     public int getSignalId() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -67,9 +69,11 @@ public class SignalQuery extends Struct {
      * @param signalId The new value of the field {@code signal_id}
      */
     public void setSignalId(int signalId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), signalId);
+        }
     }
     
     /**
@@ -77,10 +81,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code signal_name}
      */
     public java.lang.String getSignalName() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -88,9 +94,11 @@ public class SignalQuery extends Struct {
      * @param signalName The new value of the field {@code signal_name}
      */
     public void setSignalName(java.lang.String signalName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(signalName, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signalName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(signalName, SCOPE)));
+        }
     }
     
     /**
@@ -98,10 +106,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code itype}
      */
     public org.gtk.glib.Type getItype() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("itype"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("itype"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -109,9 +119,11 @@ public class SignalQuery extends Struct {
      * @param itype The new value of the field {@code itype}
      */
     public void setItype(org.gtk.glib.Type itype) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("itype"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (itype == null ? MemoryAddress.NULL : itype.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("itype"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (itype == null ? MemoryAddress.NULL : itype.getValue().longValue()));
+        }
     }
     
     /**
@@ -119,10 +131,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code signal_flags}
      */
     public org.gtk.gobject.SignalFlags getSignalFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.SignalFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.gobject.SignalFlags(RESULT);
+        }
     }
     
     /**
@@ -130,9 +144,11 @@ public class SignalQuery extends Struct {
      * @param signalFlags The new value of the field {@code signal_flags}
      */
     public void setSignalFlags(org.gtk.gobject.SignalFlags signalFlags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalFlags == null ? MemoryAddress.NULL : signalFlags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signalFlags == null ? MemoryAddress.NULL : signalFlags.getValue()));
+        }
     }
     
     /**
@@ -140,10 +156,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code return_type}
      */
     public org.gtk.glib.Type getReturnType() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Type(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (long) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gtk.glib.Type(RESULT);
+        }
     }
     
     /**
@@ -151,9 +169,11 @@ public class SignalQuery extends Struct {
      * @param returnType The new value of the field {@code return_type}
      */
     public void setReturnType(org.gtk.glib.Type returnType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (returnType == null ? MemoryAddress.NULL : returnType.getValue().longValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (returnType == null ? MemoryAddress.NULL : returnType.getValue().longValue()));
+        }
     }
     
     /**
@@ -161,10 +181,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code n_params}
      */
     public int getNParams() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -172,9 +194,11 @@ public class SignalQuery extends Struct {
      * @param nParams The new value of the field {@code n_params}
      */
     public void setNParams(int nParams) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nParams);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nParams);
+        }
     }
     
     /**
@@ -182,10 +206,12 @@ public class SignalQuery extends Struct {
      * @return The value of the field {@code param_types}
      */
     public PointerLong getParamTypes() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerLong(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerLong(RESULT);
+        }
     }
     
     /**
@@ -193,22 +219,26 @@ public class SignalQuery extends Struct {
      * @param paramTypes The new value of the field {@code param_types}
      */
     public void setParamTypes(org.gtk.glib.Type[] paramTypes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paramTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (paramTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE)));
+        }
     }
     
     /**
      * Create a SignalQuery proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SignalQuery(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SignalQuery(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SignalQuery> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SignalQuery(input, ownership);
+    public static final Marshal<Addressable, SignalQuery> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SignalQuery(input);
     
     /**
      * A {@link SignalQuery.Builder} object constructs a {@link SignalQuery} 
@@ -232,7 +262,7 @@ public class SignalQuery extends Struct {
             struct = SignalQuery.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link SignalQuery} struct.
          * @return A new instance of {@code SignalQuery} with the fields 
          *         that were set in the Builder object.
@@ -248,10 +278,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSignalId(int signalId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), signalId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("signal_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), signalId);
+                return this;
+            }
         }
         
         /**
@@ -260,10 +292,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSignalName(java.lang.String signalName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(signalName, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("signal_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signalName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(signalName, SCOPE)));
+                return this;
+            }
         }
         
         /**
@@ -272,10 +306,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setItype(org.gtk.glib.Type itype) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("itype"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (itype == null ? MemoryAddress.NULL : itype.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("itype"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (itype == null ? MemoryAddress.NULL : itype.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -284,10 +320,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSignalFlags(org.gtk.gobject.SignalFlags signalFlags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signalFlags == null ? MemoryAddress.NULL : signalFlags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("signal_flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (signalFlags == null ? MemoryAddress.NULL : signalFlags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -296,10 +334,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setReturnType(org.gtk.glib.Type returnType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (returnType == null ? MemoryAddress.NULL : returnType.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("return_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (returnType == null ? MemoryAddress.NULL : returnType.getValue().longValue()));
+                return this;
+            }
         }
         
         /**
@@ -308,10 +348,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNParams(int nParams) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nParams);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_params"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nParams);
+                return this;
+            }
         }
         
         /**
@@ -326,10 +368,12 @@ public class SignalQuery extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParamTypes(org.gtk.glib.Type[] paramTypes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (paramTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("param_types"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (paramTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

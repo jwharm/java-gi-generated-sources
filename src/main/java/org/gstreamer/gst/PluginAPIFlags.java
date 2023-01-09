@@ -16,6 +16,9 @@ public class PluginAPIFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final PluginAPIFlags MEMBERS = new PluginAPIFlags(1);
     
+    /**
+     * Create a new PluginAPIFlags with the provided value
+     */
     public PluginAPIFlags(int value) {
         super(value);
     }

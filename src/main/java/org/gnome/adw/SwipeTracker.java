@@ -38,20 +38,21 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     /**
      * Create a SwipeTracker proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SwipeTracker(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SwipeTracker(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SwipeTracker> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwipeTracker(input, ownership);
+    public static final Marshal<Addressable, SwipeTracker> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SwipeTracker(input);
     
     private static MemoryAddress constructNew(org.gnome.adw.Swipeable swipeable) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(
-                    swipeable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(swipeable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -63,7 +64,8 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @param swipeable a widget to add the tracker on
      */
     public SwipeTracker(org.gnome.adw.Swipeable swipeable) {
-        super(constructNew(swipeable), Ownership.FULL);
+        super(constructNew(swipeable));
+        this.takeOwnership();
     }
     
     /**
@@ -73,8 +75,7 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     public boolean getAllowLongSwipes() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_long_swipes.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_long_swipes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,8 +89,7 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     public boolean getAllowMouseDrag() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_mouse_drag.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_allow_mouse_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +103,7 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     public boolean getEnabled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_enabled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -118,8 +117,7 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     public boolean getReversed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_reversed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_swipe_tracker_get_reversed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,12 +131,11 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     public org.gnome.adw.Swipeable getSwipeable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_get_swipeable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_get_swipeable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.Swipeable.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gnome.adw.Swipeable) Interop.register(RESULT, org.gnome.adw.Swipeable.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -237,19 +234,38 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code BeginSwipe} callback.
+     */
     @FunctionalInterface
     public interface BeginSwipe {
+    
+        /**
+         * This signal is emitted right before a swipe will be started, after the
+         * drag threshold has been passed.
+         */
         void run();
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker) {
             run();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginSwipe.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), BeginSwipe.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -260,28 +276,52 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.BeginSwipe> onBeginSwipe(SwipeTracker.BeginSwipe handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("begin-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("begin-swipe", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code EndSwipe} callback.
+     */
     @FunctionalInterface
     public interface EndSwipe {
+    
+        /**
+         * This signal is emitted as soon as the gesture has stopped.
+         * <p>
+         * The user is expected to animate the deceleration from the current progress
+         * value to {@code to} with an animation using {@code velocity} as the initial velocity,
+         * provided in pixels per second. {@link SpringAnimation} is usually a good
+         * fit for this.
+         */
         void run(double velocity, double to);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, double velocity, double to) {
             run(velocity, to);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndSwipe.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EndSwipe.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -296,28 +336,50 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.EndSwipe> onEndSwipe(SwipeTracker.EndSwipe handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("end-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("end-swipe", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Prepare} callback.
+     */
     @FunctionalInterface
     public interface Prepare {
+    
+        /**
+         * This signal is emitted when a possible swipe is detected.
+         * <p>
+         * The {@code direction} value can be used to restrict the swipe to a certain
+         * direction.
+         */
         void run(org.gnome.adw.NavigationDirection direction);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, int direction) {
             run(org.gnome.adw.NavigationDirection.of(direction));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Prepare.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Prepare.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -330,28 +392,47 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.Prepare> onPrepare(SwipeTracker.Prepare handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("prepare"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("prepare", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code UpdateSwipe} callback.
+     */
     @FunctionalInterface
     public interface UpdateSwipe {
+    
+        /**
+         * This signal is emitted every time the progress value changes.
+         */
         void run(double progress);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, double progress) {
             run(progress);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateSwipe.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), UpdateSwipe.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -361,9 +442,10 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SwipeTracker.UpdateSwipe> onUpdateSwipe(SwipeTracker.UpdateSwipe handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("update-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("update-swipe", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -386,6 +468,9 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -474,75 +559,83 @@ public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk
     private static class DowncallHandles {
         
         private static final MethodHandle adw_swipe_tracker_new = Interop.downcallHandle(
-            "adw_swipe_tracker_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_long_swipes = Interop.downcallHandle(
-            "adw_swipe_tracker_get_allow_long_swipes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_get_allow_long_swipes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_allow_mouse_drag = Interop.downcallHandle(
-            "adw_swipe_tracker_get_allow_mouse_drag",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_get_allow_mouse_drag",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_enabled = Interop.downcallHandle(
-            "adw_swipe_tracker_get_enabled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_get_enabled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_reversed = Interop.downcallHandle(
-            "adw_swipe_tracker_get_reversed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_get_reversed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_swipeable = Interop.downcallHandle(
-            "adw_swipe_tracker_get_swipeable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_swipe_tracker_get_swipeable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_long_swipes = Interop.downcallHandle(
-            "adw_swipe_tracker_set_allow_long_swipes",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_swipe_tracker_set_allow_long_swipes",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_allow_mouse_drag = Interop.downcallHandle(
-            "adw_swipe_tracker_set_allow_mouse_drag",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_swipe_tracker_set_allow_mouse_drag",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_enabled = Interop.downcallHandle(
-            "adw_swipe_tracker_set_enabled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_swipe_tracker_set_enabled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_set_reversed = Interop.downcallHandle(
-            "adw_swipe_tracker_set_reversed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_swipe_tracker_set_reversed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_shift_position = Interop.downcallHandle(
-            "adw_swipe_tracker_shift_position",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_swipe_tracker_shift_position",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_swipe_tracker_get_type = Interop.downcallHandle(
-            "adw_swipe_tracker_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_swipe_tracker_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_swipe_tracker_get_type != null;
     }
 }

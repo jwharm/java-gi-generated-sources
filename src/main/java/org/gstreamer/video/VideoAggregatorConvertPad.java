@@ -34,26 +34,17 @@ public class VideoAggregatorConvertPad extends org.gstreamer.video.VideoAggregat
     
     /**
      * Create a VideoAggregatorConvertPad proxy instance for the provided memory address.
-     * <p>
-     * Because VideoAggregatorConvertPad is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAggregatorConvertPad(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VideoAggregatorConvertPad(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAggregatorConvertPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorConvertPad(input, ownership);
+    public static final Marshal<Addressable, VideoAggregatorConvertPad> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorConvertPad(input);
     
     /**
      * Requests the pad to check and update the converter before the next usage to
@@ -61,8 +52,7 @@ public class VideoAggregatorConvertPad extends org.gstreamer.video.VideoAggregat
      */
     public void updateConversionInfo() {
         try {
-            DowncallHandles.gst_video_aggregator_convert_pad_update_conversion_info.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_aggregator_convert_pad_update_conversion_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,6 +88,9 @@ public class VideoAggregatorConvertPad extends org.gstreamer.video.VideoAggregat
      */
     public static class Builder extends org.gstreamer.video.VideoAggregatorPad.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -128,15 +121,23 @@ public class VideoAggregatorConvertPad extends org.gstreamer.video.VideoAggregat
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_aggregator_convert_pad_update_conversion_info = Interop.downcallHandle(
-            "gst_video_aggregator_convert_pad_update_conversion_info",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_aggregator_convert_pad_update_conversion_info",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_aggregator_convert_pad_get_type = Interop.downcallHandle(
-            "gst_video_aggregator_convert_pad_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_aggregator_convert_pad_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_aggregator_convert_pad_get_type != null;
     }
 }

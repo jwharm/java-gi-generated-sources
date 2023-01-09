@@ -40,8 +40,8 @@ public class ChildProxyInterface extends Struct {
      * @return A new, uninitialized @{link ChildProxyInterface}
      */
     public static ChildProxyInterface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ChildProxyInterface newInstance = new ChildProxyInterface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ChildProxyInterface newInstance = new ChildProxyInterface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -52,7 +52,7 @@ public class ChildProxyInterface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -60,25 +60,45 @@ public class ChildProxyInterface extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gtk.gobject.TypeInterface parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetChildByNameCallback} callback.
+     */
     @FunctionalInterface
     public interface GetChildByNameCallback {
+    
         @Nullable org.gtk.gobject.GObject run(org.gstreamer.gst.ChildProxy parent, java.lang.String name);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress parent, MemoryAddress name) {
-            var RESULT = run((org.gstreamer.gst.ChildProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, Ownership.NONE), Marshal.addressToString.marshal(name, null));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gstreamer.gst.ChildProxy) Interop.register(parent, org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, null), Marshal.addressToString.marshal(name, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetChildByNameCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetChildByNameCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -87,25 +107,43 @@ public class ChildProxyInterface extends Struct {
      * @param getChildByName The new value of the field {@code get_child_by_name}
      */
     public void setGetChildByName(GetChildByNameCallback getChildByName) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildByName == null ? MemoryAddress.NULL : getChildByName.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_name"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildByName == null ? MemoryAddress.NULL : getChildByName.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetChildByIndexCallback} callback.
+     */
     @FunctionalInterface
     public interface GetChildByIndexCallback {
+    
         @Nullable org.gtk.gobject.GObject run(org.gstreamer.gst.ChildProxy parent, int index);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress parent, int index) {
-            var RESULT = run((org.gstreamer.gst.ChildProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, Ownership.NONE), index);
+            var RESULT = run((org.gstreamer.gst.ChildProxy) Interop.register(parent, org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, null), index);
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetChildByIndexCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetChildByIndexCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -114,25 +152,42 @@ public class ChildProxyInterface extends Struct {
      * @param getChildByIndex The new value of the field {@code get_child_by_index}
      */
     public void setGetChildByIndex(GetChildByIndexCallback getChildByIndex) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_index"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildByIndex == null ? MemoryAddress.NULL : getChildByIndex.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_index"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildByIndex == null ? MemoryAddress.NULL : getChildByIndex.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetChildrenCountCallback} callback.
+     */
     @FunctionalInterface
     public interface GetChildrenCountCallback {
+    
         int run(org.gstreamer.gst.ChildProxy parent);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress parent) {
-            var RESULT = run((org.gstreamer.gst.ChildProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, Ownership.NONE));
+            var RESULT = run((org.gstreamer.gst.ChildProxy) Interop.register(parent, org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, null));
             return RESULT;
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetChildrenCountCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetChildrenCountCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -141,24 +196,43 @@ public class ChildProxyInterface extends Struct {
      * @param getChildrenCount The new value of the field {@code get_children_count}
      */
     public void setGetChildrenCount(GetChildrenCountCallback getChildrenCount) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_children_count"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildrenCount == null ? MemoryAddress.NULL : getChildrenCount.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_children_count"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildrenCount == null ? MemoryAddress.NULL : getChildrenCount.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChildAddedCallback} callback.
+     */
     @FunctionalInterface
     public interface ChildAddedCallback {
+    
         void run(org.gstreamer.gst.ChildProxy parent, org.gtk.gobject.GObject child, java.lang.String name);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress parent, MemoryAddress child, MemoryAddress name) {
-            run((org.gstreamer.gst.ChildProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, Ownership.NONE), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gobject.GObject.fromAddress).marshal(child, Ownership.NONE), Marshal.addressToString.marshal(name, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gstreamer.gst.ChildProxy) Interop.register(parent, org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, null), (org.gtk.gobject.GObject) Interop.register(child, org.gtk.gobject.GObject.fromAddress).marshal(child, null), Marshal.addressToString.marshal(name, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildAddedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChildAddedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -167,24 +241,43 @@ public class ChildProxyInterface extends Struct {
      * @param childAdded The new value of the field {@code child_added}
      */
     public void setChildAdded(ChildAddedCallback childAdded) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("child_added"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (childAdded == null ? MemoryAddress.NULL : childAdded.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("child_added"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (childAdded == null ? MemoryAddress.NULL : childAdded.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ChildRemovedCallback} callback.
+     */
     @FunctionalInterface
     public interface ChildRemovedCallback {
+    
         void run(org.gstreamer.gst.ChildProxy parent, org.gtk.gobject.GObject child, java.lang.String name);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress parent, MemoryAddress child, MemoryAddress name) {
-            run((org.gstreamer.gst.ChildProxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, Ownership.NONE), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gobject.GObject.fromAddress).marshal(child, Ownership.NONE), Marshal.addressToString.marshal(name, null));
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gstreamer.gst.ChildProxy) Interop.register(parent, org.gstreamer.gst.ChildProxy.fromAddress).marshal(parent, null), (org.gtk.gobject.GObject) Interop.register(child, org.gtk.gobject.GObject.fromAddress).marshal(child, null), Marshal.addressToString.marshal(name, null));
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildRemovedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ChildRemovedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -193,22 +286,26 @@ public class ChildProxyInterface extends Struct {
      * @param childRemoved The new value of the field {@code child_removed}
      */
     public void setChildRemoved(ChildRemovedCallback childRemoved) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("child_removed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (childRemoved == null ? MemoryAddress.NULL : childRemoved.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("child_removed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (childRemoved == null ? MemoryAddress.NULL : childRemoved.toCallback()));
+        }
     }
     
     /**
      * Create a ChildProxyInterface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ChildProxyInterface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ChildProxyInterface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ChildProxyInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ChildProxyInterface(input, ownership);
+    public static final Marshal<Addressable, ChildProxyInterface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ChildProxyInterface(input);
     
     /**
      * A {@link ChildProxyInterface.Builder} object constructs a {@link ChildProxyInterface} 
@@ -232,7 +329,7 @@ public class ChildProxyInterface extends Struct {
             struct = ChildProxyInterface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link ChildProxyInterface} struct.
          * @return A new instance of {@code ChildProxyInterface} with the fields 
          *         that were set in the Builder object.
@@ -247,52 +344,66 @@ public class ChildProxyInterface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gtk.gobject.TypeInterface parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         public Builder setGetChildByName(GetChildByNameCallback getChildByName) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildByName == null ? MemoryAddress.NULL : getChildByName.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildByName == null ? MemoryAddress.NULL : getChildByName.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetChildByIndex(GetChildByIndexCallback getChildByIndex) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_index"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildByIndex == null ? MemoryAddress.NULL : getChildByIndex.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_child_by_index"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildByIndex == null ? MemoryAddress.NULL : getChildByIndex.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetChildrenCount(GetChildrenCountCallback getChildrenCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_children_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getChildrenCount == null ? MemoryAddress.NULL : getChildrenCount.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_children_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getChildrenCount == null ? MemoryAddress.NULL : getChildrenCount.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChildAdded(ChildAddedCallback childAdded) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("child_added"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (childAdded == null ? MemoryAddress.NULL : childAdded.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("child_added"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (childAdded == null ? MemoryAddress.NULL : childAdded.toCallback()));
+                return this;
+            }
         }
         
         public Builder setChildRemoved(ChildRemovedCallback childRemoved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("child_removed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (childRemoved == null ? MemoryAddress.NULL : childRemoved.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("child_removed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (childRemoved == null ? MemoryAddress.NULL : childRemoved.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

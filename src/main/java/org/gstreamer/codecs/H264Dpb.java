@@ -29,8 +29,8 @@ public class H264Dpb extends Struct {
      * @return A new, uninitialized @{link H264Dpb}
      */
     public static H264Dpb allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        H264Dpb newInstance = new H264Dpb(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        H264Dpb newInstance = new H264Dpb(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,14 +38,16 @@ public class H264Dpb extends Struct {
     /**
      * Create a H264Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected H264Dpb(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected H264Dpb(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, H264Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264Dpb(input, ownership);
+    public static final Marshal<Addressable, H264Dpb> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new H264Dpb(input);
     
     /**
      * Store the {@code picture}
@@ -79,7 +81,9 @@ public class H264Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -87,8 +91,7 @@ public class H264Dpb extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_h264_dpb_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_h264_dpb_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -99,8 +102,7 @@ public class H264Dpb extends Struct {
      */
     public void deleteUnused() {
         try {
-            DowncallHandles.gst_h264_dpb_delete_unused.invokeExact(
-                    handle());
+            DowncallHandles.gst_h264_dpb_delete_unused.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,8 +113,7 @@ public class H264Dpb extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_h264_dpb_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_h264_dpb_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,8 +122,7 @@ public class H264Dpb extends Struct {
     public boolean getInterlaced() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h264_dpb_get_interlaced.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h264_dpb_get_interlaced.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,7 +143,7 @@ public class H264Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -153,19 +153,19 @@ public class H264Dpb extends Struct {
     public org.gstreamer.codecs.H264Picture getLowestFrameNumShortRef() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_h264_dpb_get_lowest_frame_num_short_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_h264_dpb_get_lowest_frame_num_short_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public int getMaxNumFrames() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h264_dpb_get_max_num_frames.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h264_dpb_get_max_num_frames.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,18 +181,21 @@ public class H264Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public PointerProxy<org.gstreamer.codecs.H264Picture> getPicturesAll() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_h264_dpb_get_pictures_all.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_h264_dpb_get_pictures_all.invokeExact(handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerProxy<org.gstreamer.codecs.H264Picture>(RESULT, org.gstreamer.codecs.H264Picture.fromAddress);
         }
-        return new PointerProxy<org.gstreamer.codecs.H264Picture>(RESULT, org.gstreamer.codecs.H264Picture.fromAddress);
     }
     
     /**
@@ -203,13 +206,15 @@ public class H264Dpb extends Struct {
      *   of {@link H264Picture} pointer
      */
     public void getPicturesLongTermRef(boolean includeSecondField, org.gstreamer.codecs.H264Picture[] out) {
-        try {
-            DowncallHandles.gst_h264_dpb_get_pictures_long_term_ref.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(includeSecondField, null).intValue(),
-                    Interop.allocateNativeArray(out, org.gstreamer.codecs.H264Picture.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_h264_dpb_get_pictures_long_term_ref.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(includeSecondField, null).intValue(),
+                        Interop.allocateNativeArray(out, org.gstreamer.codecs.H264Picture.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -222,14 +227,16 @@ public class H264Dpb extends Struct {
      *   of {@link H264Picture} pointers
      */
     public void getPicturesShortTermRef(boolean includeNonExisting, boolean includeSecondField, org.gstreamer.codecs.H264Picture[] out) {
-        try {
-            DowncallHandles.gst_h264_dpb_get_pictures_short_term_ref.invokeExact(
-                    handle(),
-                    Marshal.booleanToInteger.marshal(includeNonExisting, null).intValue(),
-                    Marshal.booleanToInteger.marshal(includeSecondField, null).intValue(),
-                    Interop.allocateNativeArray(out, org.gstreamer.codecs.H264Picture.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_h264_dpb_get_pictures_short_term_ref.invokeExact(
+                        handle(),
+                        Marshal.booleanToInteger.marshal(includeNonExisting, null).intValue(),
+                        Marshal.booleanToInteger.marshal(includeSecondField, null).intValue(),
+                        Interop.allocateNativeArray(out, org.gstreamer.codecs.H264Picture.getMemoryLayout(), false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -247,14 +254,13 @@ public class H264Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, null);
     }
     
     public int getSize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h264_dpb_get_size.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h264_dpb_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,8 +270,7 @@ public class H264Dpb extends Struct {
     public boolean hasEmptyFrameBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h264_dpb_has_empty_frame_buffer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h264_dpb_has_empty_frame_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,8 +282,7 @@ public class H264Dpb extends Struct {
      */
     public void markAllNonRef() {
         try {
-            DowncallHandles.gst_h264_dpb_mark_all_non_ref.invokeExact(
-                    handle());
+            DowncallHandles.gst_h264_dpb_mark_all_non_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,8 +304,7 @@ public class H264Dpb extends Struct {
     public int numRefFrames() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_h264_dpb_num_ref_frames.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_h264_dpb_num_ref_frames.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,159 +390,159 @@ public class H264Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.codecs.H264Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.H264Dpb.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_h264_dpb_add = Interop.downcallHandle(
-            "gst_h264_dpb_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_bump = Interop.downcallHandle(
-            "gst_h264_dpb_bump",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_bump",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_clear = Interop.downcallHandle(
-            "gst_h264_dpb_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_delete_unused = Interop.downcallHandle(
-            "gst_h264_dpb_delete_unused",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_delete_unused",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_free = Interop.downcallHandle(
-            "gst_h264_dpb_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_interlaced = Interop.downcallHandle(
-            "gst_h264_dpb_get_interlaced",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_interlaced",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_long_ref_by_long_term_pic_num = Interop.downcallHandle(
-            "gst_h264_dpb_get_long_ref_by_long_term_pic_num",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_get_long_ref_by_long_term_pic_num",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_lowest_frame_num_short_ref = Interop.downcallHandle(
-            "gst_h264_dpb_get_lowest_frame_num_short_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_lowest_frame_num_short_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_max_num_frames = Interop.downcallHandle(
-            "gst_h264_dpb_get_max_num_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_max_num_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_picture = Interop.downcallHandle(
-            "gst_h264_dpb_get_picture",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_get_picture",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_pictures_all = Interop.downcallHandle(
-            "gst_h264_dpb_get_pictures_all",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_pictures_all",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_pictures_long_term_ref = Interop.downcallHandle(
-            "gst_h264_dpb_get_pictures_long_term_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_pictures_long_term_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_pictures_short_term_ref = Interop.downcallHandle(
-            "gst_h264_dpb_get_pictures_short_term_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_pictures_short_term_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_short_ref_by_pic_num = Interop.downcallHandle(
-            "gst_h264_dpb_get_short_ref_by_pic_num",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_get_short_ref_by_pic_num",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_get_size = Interop.downcallHandle(
-            "gst_h264_dpb_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_has_empty_frame_buffer = Interop.downcallHandle(
-            "gst_h264_dpb_has_empty_frame_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_has_empty_frame_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_mark_all_non_ref = Interop.downcallHandle(
-            "gst_h264_dpb_mark_all_non_ref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_mark_all_non_ref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_needs_bump = Interop.downcallHandle(
-            "gst_h264_dpb_needs_bump",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_needs_bump",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_num_ref_frames = Interop.downcallHandle(
-            "gst_h264_dpb_num_ref_frames",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_num_ref_frames",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_perform_memory_management_control_operation = Interop.downcallHandle(
-            "gst_h264_dpb_perform_memory_management_control_operation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_perform_memory_management_control_operation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_set_interlaced = Interop.downcallHandle(
-            "gst_h264_dpb_set_interlaced",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_set_interlaced",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_set_last_output = Interop.downcallHandle(
-            "gst_h264_dpb_set_last_output",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_set_last_output",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_set_max_num_frames = Interop.downcallHandle(
-            "gst_h264_dpb_set_max_num_frames",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_set_max_num_frames",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_set_max_num_reorder_frames = Interop.downcallHandle(
-            "gst_h264_dpb_set_max_num_reorder_frames",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_h264_dpb_set_max_num_reorder_frames",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_h264_dpb_new = Interop.downcallHandle(
-            "gst_h264_dpb_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gst_h264_dpb_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

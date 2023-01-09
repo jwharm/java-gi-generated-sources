@@ -12,47 +12,58 @@ import org.jetbrains.annotations.*;
  * application-defined response ids.
  */
 public enum ResponseType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Returned if an action widget has no response id,
      *   or if the dialog gets programmatically hidden or destroyed
      */
     NONE(-1),
+    
     /**
      * Generic response id, not used by GTK dialogs
      */
     REJECT(-2),
+    
     /**
      * Generic response id, not used by GTK dialogs
      */
     ACCEPT(-3),
+    
     /**
      * Returned if the dialog is deleted
      */
     DELETE_EVENT(-4),
+    
     /**
      * Returned by OK buttons in GTK dialogs
      */
     OK(-5),
+    
     /**
      * Returned by Cancel buttons in GTK dialogs
      */
     CANCEL(-6),
+    
     /**
      * Returned by Close buttons in GTK dialogs
      */
     CLOSE(-7),
+    
     /**
      * Returned by Yes buttons in GTK dialogs
      */
     YES(-8),
+    
     /**
      * Returned by No buttons in GTK dialogs
      */
     NO(-9),
+    
     /**
      * Returned by Apply buttons in GTK dialogs
      */
     APPLY(-10),
+    
     /**
      * Returned by Help buttons in GTK dialogs
      */
@@ -61,15 +72,29 @@ public enum ResponseType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkResponseType";
     
     private final int value;
+    
+    /**
+     * Create a new ResponseType for the provided value
+     * @param numeric value the enum value
+     */
     ResponseType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ResponseType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ResponseType of(int value) {
         return switch (value) {
             case -1 -> NONE;

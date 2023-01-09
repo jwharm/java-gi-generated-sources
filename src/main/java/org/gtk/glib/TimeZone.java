@@ -34,8 +34,8 @@ public class TimeZone extends Struct {
      * @return A new, uninitialized @{link TimeZone}
      */
     public static TimeZone allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TimeZone newInstance = new TimeZone(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TimeZone newInstance = new TimeZone(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,24 +43,27 @@ public class TimeZone extends Struct {
     /**
      * Create a TimeZone proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TimeZone(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TimeZone(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TimeZone> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimeZone(input, ownership);
+    public static final Marshal<Addressable, TimeZone> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TimeZone(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String identifier) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new.invokeExact(
-                    (Addressable) (identifier == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(identifier, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new.invokeExact((Addressable) (identifier == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(identifier, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -76,20 +79,22 @@ public class TimeZone extends Struct {
      */
     @Deprecated
     public TimeZone(@Nullable java.lang.String identifier) {
-        super(constructNew(identifier), Ownership.FULL);
+        super(constructNew(identifier));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewIdentifier(@Nullable java.lang.String identifier) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new_identifier.invokeExact(
-                    (Addressable) (identifier == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(identifier, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new_identifier.invokeExact((Addressable) (identifier == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(identifier, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a {@link TimeZone} corresponding to {@code identifier}. If {@code identifier} cannot be
      * parsed or loaded, {@code null} is returned.
@@ -162,7 +167,9 @@ public class TimeZone extends Struct {
      */
     public static TimeZone newIdentifier(@Nullable java.lang.String identifier) {
         var RESULT = constructNewIdentifier(identifier);
-        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewLocal() {
@@ -174,7 +181,7 @@ public class TimeZone extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@link TimeZone} corresponding to local time.  The local time
      * zone may change between invocations to this function; for example,
@@ -189,20 +196,21 @@ public class TimeZone extends Struct {
      */
     public static TimeZone newLocal() {
         var RESULT = constructNewLocal();
-        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewOffset(int seconds) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new_offset.invokeExact(
-                    seconds);
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_new_offset.invokeExact(seconds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@link TimeZone} corresponding to the given constant offset from UTC,
      * in seconds.
@@ -220,7 +228,9 @@ public class TimeZone extends Struct {
      */
     public static TimeZone newOffset(int seconds) {
         var RESULT = constructNewOffset(seconds);
-        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewUtc() {
@@ -232,7 +242,7 @@ public class TimeZone extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@link TimeZone} corresponding to UTC.
      * <p>
@@ -245,7 +255,9 @@ public class TimeZone extends Struct {
      */
     public static TimeZone newUtc() {
         var RESULT = constructNewUtc();
-        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -354,8 +366,7 @@ public class TimeZone extends Struct {
     public java.lang.String getIdentifier() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_identifier.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_get_identifier.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,12 +421,13 @@ public class TimeZone extends Struct {
     public org.gtk.glib.TimeZone ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_time_zone_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -423,8 +435,7 @@ public class TimeZone extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_time_zone_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_time_zone_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,81 +444,81 @@ public class TimeZone extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_time_zone_new = Interop.downcallHandle(
-            "g_time_zone_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_new_identifier = Interop.downcallHandle(
-            "g_time_zone_new_identifier",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_new_identifier",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_new_local = Interop.downcallHandle(
-            "g_time_zone_new_local",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_new_local",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_new_offset = Interop.downcallHandle(
-            "g_time_zone_new_offset",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_time_zone_new_offset",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_time_zone_new_utc = Interop.downcallHandle(
-            "g_time_zone_new_utc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_new_utc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_adjust_time = Interop.downcallHandle(
-            "g_time_zone_adjust_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_adjust_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_find_interval = Interop.downcallHandle(
-            "g_time_zone_find_interval",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "g_time_zone_find_interval",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_time_zone_get_abbreviation = Interop.downcallHandle(
-            "g_time_zone_get_abbreviation",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_time_zone_get_abbreviation",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_time_zone_get_identifier = Interop.downcallHandle(
-            "g_time_zone_get_identifier",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_get_identifier",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_get_offset = Interop.downcallHandle(
-            "g_time_zone_get_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_time_zone_get_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_time_zone_is_dst = Interop.downcallHandle(
-            "g_time_zone_is_dst",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_time_zone_is_dst",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_time_zone_ref = Interop.downcallHandle(
-            "g_time_zone_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_time_zone_unref = Interop.downcallHandle(
-            "g_time_zone_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_time_zone_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

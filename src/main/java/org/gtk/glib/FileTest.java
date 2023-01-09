@@ -40,6 +40,9 @@ public class FileTest extends io.github.jwharm.javagi.Bitfield {
      */
     public static final FileTest EXISTS = new FileTest(16);
     
+    /**
+     * Create a new FileTest with the provided value
+     */
     public FileTest(int value) {
         super(value);
     }

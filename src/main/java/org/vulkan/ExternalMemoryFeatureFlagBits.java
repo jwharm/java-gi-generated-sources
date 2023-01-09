@@ -29,8 +29,8 @@ public class ExternalMemoryFeatureFlagBits extends Struct {
      * @return A new, uninitialized @{link ExternalMemoryFeatureFlagBits}
      */
     public static ExternalMemoryFeatureFlagBits allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalMemoryFeatureFlagBits newInstance = new ExternalMemoryFeatureFlagBits(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalMemoryFeatureFlagBits newInstance = new ExternalMemoryFeatureFlagBits(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalMemoryFeatureFlagBits extends Struct {
     /**
      * Create a ExternalMemoryFeatureFlagBits proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalMemoryFeatureFlagBits(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalMemoryFeatureFlagBits(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalMemoryFeatureFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalMemoryFeatureFlagBits(input, ownership);
+    public static final Marshal<Addressable, ExternalMemoryFeatureFlagBits> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalMemoryFeatureFlagBits(input);
 }

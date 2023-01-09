@@ -9,19 +9,23 @@ import org.jetbrains.annotations.*;
  * The various interpolation modes available.
  */
 public enum InterpolationMode implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * steps-like interpolation, default
      */
     NONE(0),
+    
     /**
      * linear interpolation
      */
     LINEAR(1),
+    
     /**
      * cubic interpolation (natural), may overshoot
      *   the min or max values set by the control point, but is more 'curvy'
      */
     CUBIC(2),
+    
     /**
      * monotonic cubic interpolation, will not
      *   produce any values outside of the min-max range set by the control points
@@ -32,15 +36,29 @@ public enum InterpolationMode implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstInterpolationMode";
     
     private final int value;
+    
+    /**
+     * Create a new InterpolationMode for the provided value
+     * @param numeric value the enum value
+     */
     InterpolationMode(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new InterpolationMode for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static InterpolationMode of(int value) {
         return switch (value) {
             case 0 -> NONE;

@@ -9,22 +9,27 @@ import org.jetbrains.annotations.*;
  * Different dithering methods to use.
  */
 public enum VideoDitherMethod implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no dithering
      */
     NONE(0),
+    
     /**
      * propagate rounding errors downwards
      */
     VERTERR(1),
+    
     /**
      * Dither with floyd-steinberg error diffusion
      */
     FLOYD_STEINBERG(2),
+    
     /**
      * Dither with Sierra Lite error diffusion
      */
     SIERRA_LITE(3),
+    
     /**
      * ordered dither using a bayer pattern
      */
@@ -33,15 +38,29 @@ public enum VideoDitherMethod implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoDitherMethod";
     
     private final int value;
+    
+    /**
+     * Create a new VideoDitherMethod for the provided value
+     * @param numeric value the enum value
+     */
     VideoDitherMethod(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoDitherMethod for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoDitherMethod of(int value) {
         return switch (value) {
             case 0 -> NONE;

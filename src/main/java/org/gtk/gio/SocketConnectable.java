@@ -65,8 +65,11 @@ import org.jetbrains.annotations.*;
  */
 public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SocketConnectableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectableImpl(input, ownership);
+    public static final Marshal<Addressable, SocketConnectableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectableImpl(input);
     
     /**
      * Creates a {@link SocketAddressEnumerator} for {@code connectable}.
@@ -75,12 +78,13 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.SocketAddressEnumerator enumerate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_enumerate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_enumerate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.SocketAddressEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.SocketAddressEnumerator) Interop.register(RESULT, org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -96,12 +100,13 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gio.SocketAddressEnumerator proxyEnumerate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_proxy_enumerate.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_proxy_enumerate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.SocketAddressEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.SocketAddressEnumerator) Interop.register(RESULT, org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -117,8 +122,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     default java.lang.String toString_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,41 +148,56 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_enumerate = Interop.downcallHandle(
-            "g_socket_connectable_enumerate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connectable_enumerate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_proxy_enumerate = Interop.downcallHandle(
-            "g_socket_connectable_proxy_enumerate",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connectable_proxy_enumerate",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_to_string = Interop.downcallHandle(
-            "g_socket_connectable_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_socket_connectable_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle g_socket_connectable_get_type = Interop.downcallHandle(
-            "g_socket_connectable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_socket_connectable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The SocketConnectableImpl type represents a native instance of the SocketConnectable interface.
+     */
     class SocketConnectableImpl extends org.gtk.gobject.GObject implements SocketConnectable {
         
         static {
             Gio.javagi$ensureInitialized();
         }
         
-        public SocketConnectableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of SocketConnectable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public SocketConnectableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_socket_connectable_get_type != null;
     }
 }

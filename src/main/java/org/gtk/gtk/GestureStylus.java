@@ -31,14 +31,16 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     /**
      * Create a GestureStylus proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GestureStylus(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GestureStylus(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GestureStylus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureStylus(input, ownership);
+    public static final Marshal<Addressable, GestureStylus> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GestureStylus(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -54,7 +56,8 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * Creates a new {@code GtkGestureStylus}.
      */
     public GestureStylus() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -69,16 +72,18 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if there is a current value for the axes
      */
     public boolean getAxes(org.gtk.gdk.AxisUse[] axes, double[] values) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axes.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(Enumeration.getValues(axes), false),
-                    Interop.allocateNativeArray(values, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axes.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(Enumeration.getValues(axes), false, SCOPE),
+                        Interop.allocateNativeArray(values, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -93,18 +98,20 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if there is a current value for the axis
      */
     public boolean getAxis(org.gtk.gdk.AxisUse axis, Out<Double> value) {
-        MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axis.invokeExact(
-                    handle(),
-                    axis.getValue(),
-                    (Addressable) valuePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment valuePOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_axis.invokeExact(
+                        handle(),
+                        axis.getValue(),
+                        (Addressable) valuePOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -126,25 +133,27 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return {@code true} if there is a backlog to unfold in the current state.
      */
     public boolean getBacklog(Out<org.gtk.gdk.TimeCoord[]> backlog, Out<Integer> nElems) {
-        MemorySegment backlogPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment nElemsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_backlog.invokeExact(
-                    handle(),
-                    (Addressable) backlogPOINTER.address(),
-                    (Addressable) nElemsPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment backlogPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemorySegment nElemsPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gtk_gesture_stylus_get_backlog.invokeExact(
+                        handle(),
+                        (Addressable) backlogPOINTER.address(),
+                        (Addressable) nElemsPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    nElems.set(nElemsPOINTER.get(Interop.valueLayout.C_INT, 0));
+            org.gtk.gdk.TimeCoord[] backlogARRAY = new org.gtk.gdk.TimeCoord[nElems.get().intValue()];
+            for (int I = 0; I < nElems.get().intValue(); I++) {
+                var OBJ = backlogPOINTER.get(Interop.valueLayout.ADDRESS, I);
+                backlogARRAY[I] = org.gtk.gdk.TimeCoord.fromAddress.marshal(OBJ, null);
+                }
+            backlog.set(backlogARRAY);
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        nElems.set(nElemsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        org.gtk.gdk.TimeCoord[] backlogARRAY = new org.gtk.gdk.TimeCoord[nElems.get().intValue()];
-        for (int I = 0; I < nElems.get().intValue(); I++) {
-            var OBJ = backlogPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            backlogARRAY[I] = org.gtk.gdk.TimeCoord.fromAddress.marshal(OBJ, Ownership.FULL);
-        }
-        backlog.set(backlogARRAY);
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -159,12 +168,11 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     public @Nullable org.gtk.gdk.DeviceTool getDeviceTool() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_stylus_get_device_tool.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_gesture_stylus_get_device_tool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.DeviceTool.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.DeviceTool) Interop.register(RESULT, org.gtk.gdk.DeviceTool.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -181,19 +189,37 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code Down} callback.
+     */
     @FunctionalInterface
     public interface Down {
+    
+        /**
+         * Emitted when the stylus touches the device.
+         */
         void run(double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureStylus, double x, double y) {
             run(x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Down.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Down.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -203,28 +229,47 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Down> onDown(GestureStylus.Down handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("down"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("down", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Motion} callback.
+     */
     @FunctionalInterface
     public interface Motion {
+    
+        /**
+         * Emitted when the stylus moves while touching the device.
+         */
         void run(double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureStylus, double x, double y) {
             run(x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Motion.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Motion.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -234,28 +279,47 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Motion> onMotion(GestureStylus.Motion handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("motion"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("motion", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Proximity} callback.
+     */
     @FunctionalInterface
     public interface Proximity {
+    
+        /**
+         * Emitted when the stylus is in proximity of the device.
+         */
         void run(double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureStylus, double x, double y) {
             run(x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Proximity.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Proximity.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -265,28 +329,47 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Proximity> onProximity(GestureStylus.Proximity handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("proximity"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("proximity", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Up} callback.
+     */
     @FunctionalInterface
     public interface Up {
+    
+        /**
+         * Emitted when the stylus no longer touches the device.
+         */
         void run(double x, double y);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceGestureStylus, double x, double y) {
             run(x, y);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Up.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Up.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -296,9 +379,10 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<GestureStylus.Up> onUp(GestureStylus.Up handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("up"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("up", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -321,6 +405,9 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
      */
     public static class Builder extends org.gtk.gtk.GestureSingle.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -345,39 +432,47 @@ public class GestureStylus extends org.gtk.gtk.GestureSingle {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_gesture_stylus_new = Interop.downcallHandle(
-            "gtk_gesture_stylus_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_stylus_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axes = Interop.downcallHandle(
-            "gtk_gesture_stylus_get_axes",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_stylus_get_axes",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_axis = Interop.downcallHandle(
-            "gtk_gesture_stylus_get_axis",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_stylus_get_axis",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_backlog = Interop.downcallHandle(
-            "gtk_gesture_stylus_get_backlog",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_stylus_get_backlog",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_device_tool = Interop.downcallHandle(
-            "gtk_gesture_stylus_get_device_tool",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_gesture_stylus_get_device_tool",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_gesture_stylus_get_type = Interop.downcallHandle(
-            "gtk_gesture_stylus_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_gesture_stylus_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_gesture_stylus_get_type != null;
     }
 }

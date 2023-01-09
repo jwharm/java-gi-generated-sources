@@ -25,6 +25,9 @@ public class VideoResamplerFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoResamplerFlags HALF_TAPS = new VideoResamplerFlags(1);
     
+    /**
+     * Create a new VideoResamplerFlags with the provided value
+     */
     public VideoResamplerFlags(int value) {
         super(value);
     }

@@ -39,8 +39,8 @@ public class DBusInterfaceIface extends Struct {
      * @return A new, uninitialized @{link DBusInterfaceIface}
      */
     public static DBusInterfaceIface allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        DBusInterfaceIface newInstance = new DBusInterfaceIface(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        DBusInterfaceIface newInstance = new DBusInterfaceIface(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,7 +51,7 @@ public class DBusInterfaceIface extends Struct {
      */
     public org.gtk.gobject.TypeInterface getParentIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_iface"));
-        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -59,25 +59,42 @@ public class DBusInterfaceIface extends Struct {
      * @param parentIface The new value of the field {@code parent_iface}
      */
     public void setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetInfoCallback} callback.
+     */
     @FunctionalInterface
     public interface GetInfoCallback {
+    
         org.gtk.gio.DBusInterfaceInfo run(org.gtk.gio.DBusInterface interface_);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress interface_) {
-            var RESULT = run((org.gtk.gio.DBusInterface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusInterface) Interop.register(interface_, org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetInfoCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetInfoCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -86,25 +103,42 @@ public class DBusInterfaceIface extends Struct {
      * @param getInfo The new value of the field {@code get_info}
      */
     public void setGetInfo(GetInfoCallback getInfo) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInfo == null ? MemoryAddress.NULL : getInfo.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getInfo == null ? MemoryAddress.NULL : getInfo.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code GetObjectCallback} callback.
+     */
     @FunctionalInterface
     public interface GetObjectCallback {
+    
         @Nullable org.gtk.gio.DBusObject run(org.gtk.gio.DBusInterface interface_);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress interface_) {
-            var RESULT = run((org.gtk.gio.DBusInterface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusInterface) Interop.register(interface_, org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, null));
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetObjectCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), GetObjectCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -113,24 +147,41 @@ public class DBusInterfaceIface extends Struct {
      * @param getObject The new value of the field {@code get_object}
      */
     public void setGetObject(GetObjectCallback getObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SetObjectCallback} callback.
+     */
     @FunctionalInterface
     public interface SetObjectCallback {
+    
         void run(org.gtk.gio.DBusInterface interface_, @Nullable org.gtk.gio.DBusObject object);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress interface_, MemoryAddress object) {
-            run((org.gtk.gio.DBusInterface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, Ownership.NONE), (org.gtk.gio.DBusObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gio.DBusObject.fromAddress).marshal(object, Ownership.NONE));
+            run((org.gtk.gio.DBusInterface) Interop.register(interface_, org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, null), (org.gtk.gio.DBusObject) Interop.register(object, org.gtk.gio.DBusObject.fromAddress).marshal(object, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetObjectCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SetObjectCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -139,25 +190,43 @@ public class DBusInterfaceIface extends Struct {
      * @param setObject The new value of the field {@code set_object}
      */
     public void setSetObject(SetObjectCallback setObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("set_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setObject == null ? MemoryAddress.NULL : setObject.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("set_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setObject == null ? MemoryAddress.NULL : setObject.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code DupObjectCallback} callback.
+     */
     @FunctionalInterface
     public interface DupObjectCallback {
+    
         @Nullable org.gtk.gio.DBusObject run(org.gtk.gio.DBusInterface interface_);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress interface_) {
-            var RESULT = run((org.gtk.gio.DBusInterface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.DBusInterface) Interop.register(interface_, org.gtk.gio.DBusInterface.fromAddress).marshal(interface_, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DupObjectCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), DupObjectCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -166,22 +235,26 @@ public class DBusInterfaceIface extends Struct {
      * @param dupObject The new value of the field {@code dup_object}
      */
     public void setDupObject(DupObjectCallback dupObject) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("dup_object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dupObject == null ? MemoryAddress.NULL : dupObject.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("dup_object"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dupObject == null ? MemoryAddress.NULL : dupObject.toCallback()));
+        }
     }
     
     /**
      * Create a DBusInterfaceIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DBusInterfaceIface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DBusInterfaceIface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DBusInterfaceIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceIface(input, ownership);
+    public static final Marshal<Addressable, DBusInterfaceIface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceIface(input);
     
     /**
      * A {@link DBusInterfaceIface.Builder} object constructs a {@link DBusInterfaceIface} 
@@ -205,7 +278,7 @@ public class DBusInterfaceIface extends Struct {
             struct = DBusInterfaceIface.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link DBusInterfaceIface} struct.
          * @return A new instance of {@code DBusInterfaceIface} with the fields 
          *         that were set in the Builder object.
@@ -220,38 +293,48 @@ public class DBusInterfaceIface extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParentIface(org.gtk.gobject.TypeInterface parentIface) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_iface"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentIface == null ? MemoryAddress.NULL : parentIface.handle()));
+                return this;
+            }
         }
         
         public Builder setGetInfo(GetInfoCallback getInfo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getInfo == null ? MemoryAddress.NULL : getInfo.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getInfo == null ? MemoryAddress.NULL : getInfo.toCallback()));
+                return this;
+            }
         }
         
         public Builder setGetObject(GetObjectCallback getObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("get_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (getObject == null ? MemoryAddress.NULL : getObject.toCallback()));
+                return this;
+            }
         }
         
         public Builder setSetObject(SetObjectCallback setObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("set_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setObject == null ? MemoryAddress.NULL : setObject.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("set_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (setObject == null ? MemoryAddress.NULL : setObject.toCallback()));
+                return this;
+            }
         }
         
         public Builder setDupObject(DupObjectCallback dupObject) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("dup_object"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dupObject == null ? MemoryAddress.NULL : dupObject.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("dup_object"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (dupObject == null ? MemoryAddress.NULL : dupObject.toCallback()));
+                return this;
+            }
         }
     }
 }

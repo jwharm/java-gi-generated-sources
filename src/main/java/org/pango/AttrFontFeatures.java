@@ -37,8 +37,8 @@ public class AttrFontFeatures extends Struct {
      * @return A new, uninitialized @{link AttrFontFeatures}
      */
     public static AttrFontFeatures allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AttrFontFeatures newInstance = new AttrFontFeatures(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AttrFontFeatures newInstance = new AttrFontFeatures(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -49,7 +49,7 @@ public class AttrFontFeatures extends Struct {
      */
     public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -57,9 +57,11 @@ public class AttrFontFeatures extends Struct {
      * @param attr The new value of the field {@code attr}
      */
     public void setAttr(org.pango.Attribute attr) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+        }
     }
     
     /**
@@ -67,10 +69,12 @@ public class AttrFontFeatures extends Struct {
      * @return The value of the field {@code features}
      */
     public java.lang.String getFeatures() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("features"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("features"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -78,22 +82,26 @@ public class AttrFontFeatures extends Struct {
      * @param features The new value of the field {@code features}
      */
     public void setFeatures(java.lang.String features) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("features"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("features"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, SCOPE)));
+        }
     }
     
     /**
      * Create a AttrFontFeatures proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AttrFontFeatures(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AttrFontFeatures(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AttrFontFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrFontFeatures(input, ownership);
+    public static final Marshal<Addressable, AttrFontFeatures> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AttrFontFeatures(input);
     
     /**
      * Create a new font features tag attribute.
@@ -107,22 +115,25 @@ public class AttrFontFeatures extends Struct {
      *   {@link Attribute#destroy}
      */
     public static org.pango.Attribute new_(java.lang.String features) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(
-                    Marshal.stringToAddress.marshal(features, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(Marshal.stringToAddress.marshal(features, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.pango.Attribute.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
-            "pango_attr_font_features_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "pango_attr_font_features_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -148,7 +159,7 @@ public class AttrFontFeatures extends Struct {
             struct = AttrFontFeatures.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AttrFontFeatures} struct.
          * @return A new instance of {@code AttrFontFeatures} with the fields 
          *         that were set in the Builder object.
@@ -163,10 +174,12 @@ public class AttrFontFeatures extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setAttr(org.pango.Attribute attr) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("attr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
+                return this;
+            }
         }
         
         /**
@@ -175,10 +188,12 @@ public class AttrFontFeatures extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFeatures(java.lang.String features) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("features"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("features"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, SCOPE)));
+                return this;
+            }
         }
     }
 }

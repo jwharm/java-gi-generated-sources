@@ -33,14 +33,16 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
     /**
      * Create a SimpleActionGroup proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SimpleActionGroup(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SimpleActionGroup(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SimpleActionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleActionGroup(input, ownership);
+    public static final Marshal<Addressable, SimpleActionGroup> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SimpleActionGroup(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -56,7 +58,8 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
      * Creates a new, empty, {@link SimpleActionGroup}.
      */
     public SimpleActionGroup() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -69,14 +72,16 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
      */
     @Deprecated
     public void addEntries(org.gtk.gio.ActionEntry[] entries, int nEntries) {
-        try {
-            DowncallHandles.g_simple_action_group_add_entries.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false),
-                    nEntries,
-                    (Addressable) MemoryAddress.NULL);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_simple_action_group_add_entries.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false, SCOPE),
+                        nEntries,
+                        (Addressable) MemoryAddress.NULL);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -111,15 +116,17 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
      */
     @Deprecated
     public org.gtk.gio.Action lookup(java.lang.String actionName) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return (org.gtk.gio.Action) Interop.register(RESULT, org.gtk.gio.Action.fromAddress).marshal(RESULT, null);
         }
-        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -131,12 +138,14 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
      */
     @Deprecated
     public void remove(java.lang.String actionName) {
-        try {
-            DowncallHandles.g_simple_action_group_remove.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(actionName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_simple_action_group_remove.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(actionName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -170,6 +179,9 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -194,39 +206,47 @@ public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gt
     private static class DowncallHandles {
         
         private static final MethodHandle g_simple_action_group_new = Interop.downcallHandle(
-            "g_simple_action_group_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_group_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_group_add_entries = Interop.downcallHandle(
-            "g_simple_action_group_add_entries",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_group_add_entries",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_group_insert = Interop.downcallHandle(
-            "g_simple_action_group_insert",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_group_insert",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_group_lookup = Interop.downcallHandle(
-            "g_simple_action_group_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_group_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_group_remove = Interop.downcallHandle(
-            "g_simple_action_group_remove",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_simple_action_group_remove",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_simple_action_group_get_type = Interop.downcallHandle(
-            "g_simple_action_group_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_simple_action_group_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_simple_action_group_get_type != null;
     }
 }

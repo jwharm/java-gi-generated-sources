@@ -49,26 +49,17 @@ public class Allocator extends org.gstreamer.gst.GstObject {
     
     /**
      * Create a Allocator proxy instance for the provided memory address.
-     * <p>
-     * Because Allocator is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Allocator(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Allocator(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Allocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Allocator(input, ownership);
+    public static final Marshal<Addressable, Allocator> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Allocator(input);
     
     /**
      * Use {@code allocator} to allocate a new memory block with memory that is at least
@@ -100,7 +91,9 @@ public class Allocator extends org.gstreamer.gst.GstObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -123,8 +116,7 @@ public class Allocator extends org.gstreamer.gst.GstObject {
      */
     public void setDefault() {
         try {
-            DowncallHandles.gst_allocator_set_default.invokeExact(
-                    handle());
+            DowncallHandles.gst_allocator_set_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,14 +145,17 @@ public class Allocator extends org.gstreamer.gst.GstObject {
      * the allocator with {@code name} was not registered.
      */
     public static @Nullable org.gstreamer.gst.Allocator find(@Nullable java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_allocator_find.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_allocator_find.invokeExact((Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = (org.gstreamer.gst.Allocator) Interop.register(RESULT, org.gstreamer.gst.Allocator.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return (org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Allocator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,14 +164,16 @@ public class Allocator extends org.gstreamer.gst.GstObject {
      * @param allocator {@link Allocator}
      */
     public static void register(java.lang.String name, org.gstreamer.gst.Allocator allocator) {
-        try {
-            DowncallHandles.gst_allocator_register.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    allocator.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_allocator_register.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        allocator.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            allocator.yieldOwnership();
         }
-        allocator.yieldOwnership();
     }
     
     /**
@@ -195,6 +192,9 @@ public class Allocator extends org.gstreamer.gst.GstObject {
      */
     public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -219,39 +219,47 @@ public class Allocator extends org.gstreamer.gst.GstObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_allocator_alloc = Interop.downcallHandle(
-            "gst_allocator_alloc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocator_alloc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocator_free = Interop.downcallHandle(
-            "gst_allocator_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocator_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocator_set_default = Interop.downcallHandle(
-            "gst_allocator_set_default",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocator_set_default",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocator_get_type = Interop.downcallHandle(
-            "gst_allocator_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_allocator_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_allocator_find = Interop.downcallHandle(
-            "gst_allocator_find",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocator_find",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_allocator_register = Interop.downcallHandle(
-            "gst_allocator_register",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_allocator_register",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_allocator_get_type != null;
     }
 }

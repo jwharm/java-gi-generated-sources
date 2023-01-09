@@ -12,50 +12,62 @@ import org.jetbrains.annotations.*;
  * This enumeration simply provides some common, predefined values.
  */
 public enum Weight implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * the thin weight (= 100) Since: 1.24
      */
     THIN(100),
+    
     /**
      * the ultralight weight (= 200)
      */
     ULTRALIGHT(200),
+    
     /**
      * the light weight (= 300)
      */
     LIGHT(300),
+    
     /**
      * the semilight weight (= 350) Since: 1.36.7
      */
     SEMILIGHT(350),
+    
     /**
      * the book weight (= 380) Since: 1.24)
      */
     BOOK(380),
+    
     /**
      * the default weight (= 400)
      */
     NORMAL(400),
+    
     /**
      * the medium weight (= 500) Since: 1.24
      */
     MEDIUM(500),
+    
     /**
      * the semibold weight (= 600)
      */
     SEMIBOLD(600),
+    
     /**
      * the bold weight (= 700)
      */
     BOLD(700),
+    
     /**
      * the ultrabold weight (= 800)
      */
     ULTRABOLD(800),
+    
     /**
      * the heavy weight (= 900)
      */
     HEAVY(900),
+    
     /**
      * the ultraheavy weight (= 1000) Since: 1.24
      */
@@ -64,15 +76,29 @@ public enum Weight implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoWeight";
     
     private final int value;
+    
+    /**
+     * Create a new Weight for the provided value
+     * @param numeric value the enum value
+     */
     Weight(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Weight for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Weight of(int value) {
         return switch (value) {
             case 100 -> THIN;

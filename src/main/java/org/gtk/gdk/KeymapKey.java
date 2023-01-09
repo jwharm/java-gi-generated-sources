@@ -36,8 +36,8 @@ public class KeymapKey extends Struct {
      * @return A new, uninitialized @{link KeymapKey}
      */
     public static KeymapKey allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        KeymapKey newInstance = new KeymapKey(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        KeymapKey newInstance = new KeymapKey(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class KeymapKey extends Struct {
      * @return The value of the field {@code keycode}
      */
     public int getKeycode() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class KeymapKey extends Struct {
      * @param keycode The new value of the field {@code keycode}
      */
     public void setKeycode(int keycode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), keycode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), keycode);
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class KeymapKey extends Struct {
      * @return The value of the field {@code group}
      */
     public int getGroup() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("group"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("group"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class KeymapKey extends Struct {
      * @param group The new value of the field {@code group}
      */
     public void setGroup(int group) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("group"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), group);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("group"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), group);
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class KeymapKey extends Struct {
      * @return The value of the field {@code level}
      */
     public int getLevel() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("level"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -100,22 +110,26 @@ public class KeymapKey extends Struct {
      * @param level The new value of the field {@code level}
      */
     public void setLevel(int level) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("level"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), level);
+        }
     }
     
     /**
      * Create a KeymapKey proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected KeymapKey(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected KeymapKey(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, KeymapKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeymapKey(input, ownership);
+    public static final Marshal<Addressable, KeymapKey> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new KeymapKey(input);
     
     /**
      * A {@link KeymapKey.Builder} object constructs a {@link KeymapKey} 
@@ -139,7 +153,7 @@ public class KeymapKey extends Struct {
             struct = KeymapKey.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link KeymapKey} struct.
          * @return A new instance of {@code KeymapKey} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class KeymapKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setKeycode(int keycode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), keycode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), keycode);
+                return this;
+            }
         }
         
         /**
@@ -170,10 +186,12 @@ public class KeymapKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGroup(int group) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("group"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), group);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("group"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), group);
+                return this;
+            }
         }
         
         /**
@@ -187,10 +205,12 @@ public class KeymapKey extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setLevel(int level) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("level"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("level"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), level);
+                return this;
+            }
         }
     }
 }

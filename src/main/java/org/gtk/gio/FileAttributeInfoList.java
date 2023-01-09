@@ -36,8 +36,8 @@ public class FileAttributeInfoList extends Struct {
      * @return A new, uninitialized @{link FileAttributeInfoList}
      */
     public static FileAttributeInfoList allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileAttributeInfoList newInstance = new FileAttributeInfoList(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileAttributeInfoList newInstance = new FileAttributeInfoList(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class FileAttributeInfoList extends Struct {
      * @return The value of the field {@code infos}
      */
     public org.gtk.gio.FileAttributeInfo getInfos() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("infos"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class FileAttributeInfoList extends Struct {
      * @param infos The new value of the field {@code infos}
      */
     public void setInfos(org.gtk.gio.FileAttributeInfo infos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class FileAttributeInfoList extends Struct {
      * @return The value of the field {@code n_infos}
      */
     public int getNInfos() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,22 +85,26 @@ public class FileAttributeInfoList extends Struct {
      * @param nInfos The new value of the field {@code n_infos}
      */
     public void setNInfos(int nInfos) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nInfos);
+        }
     }
     
     /**
      * Create a FileAttributeInfoList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileAttributeInfoList(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileAttributeInfoList(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileAttributeInfoList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeInfoList(input, ownership);
+    public static final Marshal<Addressable, FileAttributeInfoList> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeInfoList(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -110,7 +120,8 @@ public class FileAttributeInfoList extends Struct {
      * Creates a new file attribute info list.
      */
     public FileAttributeInfoList() {
-        super(constructNew(), Ownership.FULL);
+        super(constructNew());
+        this.takeOwnership();
     }
     
     /**
@@ -121,14 +132,16 @@ public class FileAttributeInfoList extends Struct {
      * @param flags {@link FileAttributeInfoFlags} for the attribute.
      */
     public void add(java.lang.String name, org.gtk.gio.FileAttributeType type, org.gtk.gio.FileAttributeInfoFlags flags) {
-        try {
-            DowncallHandles.g_file_attribute_info_list_add.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null),
-                    type.getValue(),
-                    flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_file_attribute_info_list_add.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        type.getValue(),
+                        flags.getValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -139,12 +152,13 @@ public class FileAttributeInfoList extends Struct {
     public org.gtk.gio.FileAttributeInfoList dup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_dup.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_dup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -154,15 +168,17 @@ public class FileAttributeInfoList extends Struct {
      * attribute isn't found.
      */
     public org.gtk.gio.FileAttributeInfo lookup(java.lang.String name) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_lookup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_lookup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -172,12 +188,13 @@ public class FileAttributeInfoList extends Struct {
     public org.gtk.gio.FileAttributeInfoList ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -186,8 +203,7 @@ public class FileAttributeInfoList extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_file_attribute_info_list_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_file_attribute_info_list_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,39 +212,39 @@ public class FileAttributeInfoList extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_file_attribute_info_list_new = Interop.downcallHandle(
-            "g_file_attribute_info_list_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_info_list_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_info_list_add = Interop.downcallHandle(
-            "g_file_attribute_info_list_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_file_attribute_info_list_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_file_attribute_info_list_dup = Interop.downcallHandle(
-            "g_file_attribute_info_list_dup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_info_list_dup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_info_list_lookup = Interop.downcallHandle(
-            "g_file_attribute_info_list_lookup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_info_list_lookup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_info_list_ref = Interop.downcallHandle(
-            "g_file_attribute_info_list_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_info_list_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_file_attribute_info_list_unref = Interop.downcallHandle(
-            "g_file_attribute_info_list_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_file_attribute_info_list_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -254,7 +270,7 @@ public class FileAttributeInfoList extends Struct {
             struct = FileAttributeInfoList.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link FileAttributeInfoList} struct.
          * @return A new instance of {@code FileAttributeInfoList} with the fields 
          *         that were set in the Builder object.
@@ -269,10 +285,12 @@ public class FileAttributeInfoList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfos(org.gtk.gio.FileAttributeInfo infos) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("infos"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("infos"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
+                return this;
+            }
         }
         
         /**
@@ -281,10 +299,12 @@ public class FileAttributeInfoList extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setNInfos(int nInfos) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nInfos);
+                return this;
+            }
         }
     }
 }

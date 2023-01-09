@@ -29,8 +29,8 @@ public class CullModeFlags extends Struct {
      * @return A new, uninitialized @{link CullModeFlags}
      */
     public static CullModeFlags allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        CullModeFlags newInstance = new CullModeFlags(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        CullModeFlags newInstance = new CullModeFlags(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class CullModeFlags extends Struct {
     /**
      * Create a CullModeFlags proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected CullModeFlags(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected CullModeFlags(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, CullModeFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CullModeFlags(input, ownership);
+    public static final Marshal<Addressable, CullModeFlags> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new CullModeFlags(input);
 }

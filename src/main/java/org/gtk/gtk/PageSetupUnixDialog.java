@@ -34,37 +34,30 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     
     /**
      * Create a PageSetupUnixDialog proxy instance for the provided memory address.
-     * <p>
-     * Because PageSetupUnixDialog is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PageSetupUnixDialog(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected PageSetupUnixDialog(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PageSetupUnixDialog> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PageSetupUnixDialog(input);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_new.invokeExact(
+                        (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, SCOPE)),
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, PageSetupUnixDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PageSetupUnixDialog(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_new.invokeExact(
-                    (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, null)),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -73,7 +66,9 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * @param parent transient parent of the dialog
      */
     public PageSetupUnixDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        super(constructNew(title, parent), Ownership.NONE);
+        super(constructNew(title, parent));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -83,12 +78,11 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     public org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_page_setup.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_page_setup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) Interop.register(RESULT, org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -98,12 +92,11 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     public @Nullable org.gtk.gtk.PrintSettings getPrintSettings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_print_settings.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_print_settings.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PrintSettings) Interop.register(RESULT, org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -166,6 +159,9 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      */
     public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -190,39 +186,47 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_page_setup_unix_dialog_new = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_page_setup_unix_dialog_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_page_setup_unix_dialog_get_page_setup = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_get_page_setup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_page_setup_unix_dialog_get_page_setup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_page_setup_unix_dialog_get_print_settings = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_get_print_settings",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_page_setup_unix_dialog_get_print_settings",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_page_setup_unix_dialog_set_page_setup = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_set_page_setup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_page_setup_unix_dialog_set_page_setup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_page_setup_unix_dialog_set_print_settings = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_set_print_settings",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_page_setup_unix_dialog_set_print_settings",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_page_setup_unix_dialog_get_type = Interop.downcallHandle(
-            "gtk_page_setup_unix_dialog_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_page_setup_unix_dialog_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_page_setup_unix_dialog_get_type != null;
     }
 }

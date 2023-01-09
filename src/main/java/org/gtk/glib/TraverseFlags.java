@@ -47,6 +47,9 @@ public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TraverseFlags NON_LEAFS = new TraverseFlags(2);
     
+    /**
+     * Create a new TraverseFlags with the provided value
+     */
     public TraverseFlags(int value) {
         super(value);
     }

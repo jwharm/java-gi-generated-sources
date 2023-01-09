@@ -10,10 +10,12 @@ import org.jetbrains.annotations.*;
  * @version 1.16
  */
 public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Unknown type of CC
      */
     UNKNOWN(0),
+    
     /**
      * CEA-608 as byte pairs. Note that
      *      this format is not recommended since is does not specify to
@@ -24,6 +26,7 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
      *      with 0xFC for the first field and 0xFD for the second field.
      */
     CEA608_RAW(1),
+    
     /**
      * CEA-608 as byte triplets as defined
      *      in SMPTE S334-1 Annex A. The second and third byte of the byte triplet
@@ -35,12 +38,14 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
      *      625-line field 1 and line 318 for 625-line field 2).
      */
     CEA608_S334_1A(2),
+    
     /**
      * CEA-708 as cc_data byte triplets. They
      *      can also contain 608-in-708 and the first byte of each triplet has to
      *      be inspected for detecting the type.
      */
     CEA708_RAW(3),
+    
     /**
      * CEA-708 (and optionally CEA-608) in
      *      a CDP (Caption Distribution Packet) defined by SMPTE S-334-2.
@@ -51,15 +56,29 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstVideoCaptionType";
     
     private final int value;
+    
+    /**
+     * Create a new VideoCaptionType for the provided value
+     * @param numeric value the enum value
+     */
     VideoCaptionType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoCaptionType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoCaptionType of(int value) {
         return switch (value) {
             case 0 -> UNKNOWN;
@@ -80,8 +99,7 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.video.VideoCaptionType fromCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_caption_type_from_caps.invokeExact(
-                    caps.handle());
+            RESULT = (int) DowncallHandles.gst_video_caption_type_from_caps.invokeExact(caps.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,26 +114,27 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
     public static org.gstreamer.gst.Caps toCaps(org.gstreamer.video.VideoCaptionType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_type_to_caps.invokeExact(
-                    type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_type_to_caps.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_caption_type_from_caps = Interop.downcallHandle(
-            "gst_video_caption_type_from_caps",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_caption_type_from_caps",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_caption_type_to_caps = Interop.downcallHandle(
-            "gst_video_caption_type_to_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_caption_type_to_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

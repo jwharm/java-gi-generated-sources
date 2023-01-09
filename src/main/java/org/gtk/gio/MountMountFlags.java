@@ -17,6 +17,9 @@ public class MountMountFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final MountMountFlags NONE = new MountMountFlags(0);
     
+    /**
+     * Create a new MountMountFlags with the provided value
+     */
     public MountMountFlags(int value) {
         super(value);
     }

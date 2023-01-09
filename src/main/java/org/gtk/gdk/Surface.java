@@ -36,14 +36,16 @@ public class Surface extends org.gtk.gobject.GObject {
     /**
      * Create a Surface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Surface(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Surface(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Surface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Surface(input, ownership);
+    public static final Marshal<Addressable, Surface> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Surface(input);
     
     private static MemoryAddress constructNewPopup(org.gtk.gdk.Surface parent, boolean autohide) {
         MemoryAddress RESULT;
@@ -56,7 +58,7 @@ public class Surface extends org.gtk.gobject.GObject {
         }
         return RESULT;
     }
-    
+        
     /**
      * Create a new popup surface.
      * <p>
@@ -68,20 +70,21 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public static Surface newPopup(org.gtk.gdk.Surface parent, boolean autohide) {
         var RESULT = constructNewPopup(parent, autohide);
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewToplevel(org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(
-                    display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_new_toplevel.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new toplevel surface.
      * @param display the display to create the surface on
@@ -89,7 +92,9 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public static Surface newToplevel(org.gtk.gdk.Display display) {
         var RESULT = constructNewToplevel(display);
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -100,8 +105,7 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public void beep() {
         try {
-            DowncallHandles.gdk_surface_beep.invokeExact(
-                    handle());
+            DowncallHandles.gdk_surface_beep.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,12 +118,13 @@ public class Surface extends org.gtk.gobject.GObject {
     public org.gtk.gdk.CairoContext createCairoContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_cairo_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_cairo_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.CairoContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.CairoContext.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gdk.CairoContext) Interop.register(RESULT, org.gtk.gdk.CairoContext.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -133,19 +138,21 @@ public class Surface extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gdk.GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_gl_context.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_gl_context.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gdk.GLContext) Interop.register(RESULT, org.gtk.gdk.GLContext.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.GLContext.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -182,7 +189,9 @@ public class Surface extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Surface.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.cairographics.Surface.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -194,19 +203,21 @@ public class Surface extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gdk.VulkanContext createVulkanContext() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_vulkan_context.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gdk_surface_create_vulkan_context.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            var OBJECT = (org.gtk.gdk.VulkanContext) Interop.register(RESULT, org.gtk.gdk.VulkanContext.fromAddress).marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gdk.VulkanContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.VulkanContext.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -222,8 +233,7 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public void destroy() {
         try {
-            DowncallHandles.gdk_surface_destroy.invokeExact(
-                    handle());
+            DowncallHandles.gdk_surface_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,12 +252,11 @@ public class Surface extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Cursor getCursor() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_cursor.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_cursor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Cursor) Interop.register(RESULT, org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -270,7 +279,7 @@ public class Surface extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Cursor) Interop.register(RESULT, org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -285,24 +294,26 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return {@code true} if the device is over the surface
      */
     public boolean getDevicePosition(org.gtk.gdk.Device device, Out<Double> x, Out<Double> y, @Nullable Out<org.gtk.gdk.ModifierType> mask) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment maskPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_device_position.invokeExact(
-                    handle(),
-                    device.handle(),
-                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
-                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
-                    (Addressable) (mask == null ? MemoryAddress.NULL : (Addressable) maskPOINTER.address()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment maskPOINTER = SCOPE.allocate(Interop.valueLayout.C_INT);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_surface_get_device_position.invokeExact(
+                        handle(),
+                        device.handle(),
+                        (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                        (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                        (Addressable) (mask == null ? MemoryAddress.NULL : (Addressable) maskPOINTER.address()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    if (mask != null) mask.set(new org.gtk.gdk.ModifierType(maskPOINTER.get(Interop.valueLayout.C_INT, 0)));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        if (mask != null) mask.set(new org.gtk.gdk.ModifierType(maskPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -312,12 +323,11 @@ public class Surface extends org.gtk.gobject.GObject {
     public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -330,12 +340,11 @@ public class Surface extends org.gtk.gobject.GObject {
     public org.gtk.gdk.FrameClock getFrameClock() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_frame_clock.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_surface_get_frame_clock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.FrameClock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.FrameClock.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.FrameClock) Interop.register(RESULT, org.gtk.gdk.FrameClock.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -348,8 +357,7 @@ public class Surface extends org.gtk.gobject.GObject {
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_height.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,8 +374,7 @@ public class Surface extends org.gtk.gobject.GObject {
     public boolean getMapped() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_mapped.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_mapped.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,8 +398,7 @@ public class Surface extends org.gtk.gobject.GObject {
     public int getScaleFactor() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_scale_factor.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_scale_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,8 +415,7 @@ public class Surface extends org.gtk.gobject.GObject {
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_get_width.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_surface_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,8 +432,7 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public void hide() {
         try {
-            DowncallHandles.gdk_surface_hide.invokeExact(
-                    handle());
+            DowncallHandles.gdk_surface_hide.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -441,8 +445,7 @@ public class Surface extends org.gtk.gobject.GObject {
     public boolean isDestroyed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_surface_is_destroyed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_surface_is_destroyed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -458,8 +461,7 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public void queueRender() {
         try {
-            DowncallHandles.gdk_surface_queue_render.invokeExact(
-                    handle());
+            DowncallHandles.gdk_surface_queue_render.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -472,8 +474,7 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public void requestLayout() {
         try {
-            DowncallHandles.gdk_surface_request_layout.invokeExact(
-                    handle());
+            DowncallHandles.gdk_surface_request_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,21 +590,23 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return {@code true} if the coordinates were successfully translated
      */
     public boolean translateCoordinates(org.gtk.gdk.Surface to, Out<Double> x, Out<Double> y) {
-        MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gdk_surface_translate_coordinates.invokeExact(
-                    handle(),
-                    to.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment xPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment yPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gdk_surface_translate_coordinates.invokeExact(
+                        handle(),
+                        to.handle(),
+                        (Addressable) xPOINTER.address(),
+                        (Addressable) yPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -620,19 +623,37 @@ public class Surface extends org.gtk.gobject.GObject {
         return new org.gtk.glib.Type(RESULT);
     }
     
+    /**
+     * Functional interface declaration of the {@code EnterMonitor} callback.
+     */
     @FunctionalInterface
     public interface EnterMonitor {
+    
+        /**
+         * Emitted when {@code surface} starts being present on the monitor.
+         */
         void run(org.gtk.gdk.Monitor monitor);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSurface, MemoryAddress monitor) {
-            run((org.gtk.gdk.Monitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gdk.Monitor.fromAddress).marshal(monitor, Ownership.NONE));
+            run((org.gtk.gdk.Monitor) Interop.register(monitor, org.gtk.gdk.Monitor.fromAddress).marshal(monitor, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EnterMonitor.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), EnterMonitor.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -642,29 +663,48 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.EnterMonitor> onEnterMonitor(Surface.EnterMonitor handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("enter-monitor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("enter-monitor", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Event} callback.
+     */
     @FunctionalInterface
     public interface Event {
+    
+        /**
+         * Emitted when GDK receives an input event for {@code surface}.
+         */
         boolean run(org.gtk.gdk.Event event);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSurface, MemoryAddress event) {
-            var RESULT = run((org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(event)), org.gtk.gdk.Event.fromAddress).marshal(event, Ownership.NONE));
+            var RESULT = run((org.gtk.gdk.Event) Interop.register(event, org.gtk.gdk.Event.fromAddress).marshal(event, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Event.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Event.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -674,28 +714,51 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Event> onEvent(Surface.Event handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("event", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Layout} callback.
+     */
     @FunctionalInterface
     public interface Layout {
+    
+        /**
+         * Emitted when the size of {@code surface} is changed, or when relayout should
+         * be performed.
+         * <p>
+         * Surface size is reported in ”application pixels”, not
+         * ”device pixels” (see gdk_surface_get_scale_factor()).
+         */
         void run(int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSurface, int width, int height) {
             run(width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Layout.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Layout.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -709,28 +772,47 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Layout> onLayout(Surface.Layout handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("layout"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("layout", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code LeaveMonitor} callback.
+     */
     @FunctionalInterface
     public interface LeaveMonitor {
+    
+        /**
+         * Emitted when {@code surface} stops being present on the monitor.
+         */
         void run(org.gtk.gdk.Monitor monitor);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress sourceSurface, MemoryAddress monitor) {
-            run((org.gtk.gdk.Monitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(monitor)), org.gtk.gdk.Monitor.fromAddress).marshal(monitor, Ownership.NONE));
+            run((org.gtk.gdk.Monitor) Interop.register(monitor, org.gtk.gdk.Monitor.fromAddress).marshal(monitor, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LeaveMonitor.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LeaveMonitor.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -740,29 +822,48 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.LeaveMonitor> onLeaveMonitor(Surface.LeaveMonitor handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("leave-monitor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("leave-monitor", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Functional interface declaration of the {@code Render} callback.
+     */
     @FunctionalInterface
     public interface Render {
+    
+        /**
+         * Emitted when part of the surface needs to be redrawn.
+         */
         boolean run(org.cairographics.Region region);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress sourceSurface, MemoryAddress region) {
-            var RESULT = run(org.cairographics.Region.fromAddress.marshal(region, Ownership.NONE));
+            var RESULT = run(org.cairographics.Region.fromAddress.marshal(region, null));
             return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Render.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), Render.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -772,9 +873,10 @@ public class Surface extends org.gtk.gobject.GObject {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Surface.Render> onRender(Surface.Render handler) {
+        MemorySession SCOPE = MemorySession.openImplicit();
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(), Interop.allocateNativeString("render"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+                handle(), Interop.allocateNativeString("render", SCOPE), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
             return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -797,6 +899,9 @@ public class Surface extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -898,165 +1003,173 @@ public class Surface extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_surface_new_popup = Interop.downcallHandle(
-            "gdk_surface_new_popup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_surface_new_popup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_surface_new_toplevel = Interop.downcallHandle(
-            "gdk_surface_new_toplevel",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_new_toplevel",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_beep = Interop.downcallHandle(
-            "gdk_surface_beep",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_beep",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_create_cairo_context = Interop.downcallHandle(
-            "gdk_surface_create_cairo_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_create_cairo_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_create_gl_context = Interop.downcallHandle(
-            "gdk_surface_create_gl_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_create_gl_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_create_similar_surface = Interop.downcallHandle(
-            "gdk_surface_create_similar_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_surface_create_similar_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_surface_create_vulkan_context = Interop.downcallHandle(
-            "gdk_surface_create_vulkan_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_create_vulkan_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_destroy = Interop.downcallHandle(
-            "gdk_surface_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_cursor = Interop.downcallHandle(
-            "gdk_surface_get_cursor",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_cursor",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_device_cursor = Interop.downcallHandle(
-            "gdk_surface_get_device_cursor",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_device_cursor",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_device_position = Interop.downcallHandle(
-            "gdk_surface_get_device_position",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gdk_surface_get_device_position",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_display = Interop.downcallHandle(
-            "gdk_surface_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_frame_clock = Interop.downcallHandle(
-            "gdk_surface_get_frame_clock",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_frame_clock",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_height = Interop.downcallHandle(
-            "gdk_surface_get_height",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_height",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_mapped = Interop.downcallHandle(
-            "gdk_surface_get_mapped",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_mapped",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_scale_factor = Interop.downcallHandle(
-            "gdk_surface_get_scale_factor",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_scale_factor",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_width = Interop.downcallHandle(
-            "gdk_surface_get_width",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_get_width",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_hide = Interop.downcallHandle(
-            "gdk_surface_hide",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_hide",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_is_destroyed = Interop.downcallHandle(
-            "gdk_surface_is_destroyed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_is_destroyed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_queue_render = Interop.downcallHandle(
-            "gdk_surface_queue_render",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_queue_render",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_request_layout = Interop.downcallHandle(
-            "gdk_surface_request_layout",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_request_layout",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_set_cursor = Interop.downcallHandle(
-            "gdk_surface_set_cursor",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_set_cursor",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_set_device_cursor = Interop.downcallHandle(
-            "gdk_surface_set_device_cursor",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_set_device_cursor",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_set_input_region = Interop.downcallHandle(
-            "gdk_surface_set_input_region",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_set_input_region",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_set_opaque_region = Interop.downcallHandle(
-            "gdk_surface_set_opaque_region",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_set_opaque_region",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_translate_coordinates = Interop.downcallHandle(
-            "gdk_surface_translate_coordinates",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_surface_translate_coordinates",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_surface_get_type = Interop.downcallHandle(
-            "gdk_surface_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_surface_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_surface_get_type != null;
     }
 }

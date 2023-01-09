@@ -29,8 +29,8 @@ public class AudioAggregatorPadPrivate extends Struct {
      * @return A new, uninitialized @{link AudioAggregatorPadPrivate}
      */
     public static AudioAggregatorPadPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AudioAggregatorPadPrivate newInstance = new AudioAggregatorPadPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AudioAggregatorPadPrivate newInstance = new AudioAggregatorPadPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AudioAggregatorPadPrivate extends Struct {
     /**
      * Create a AudioAggregatorPadPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AudioAggregatorPadPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AudioAggregatorPadPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AudioAggregatorPadPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorPadPrivate(input, ownership);
+    public static final Marshal<Addressable, AudioAggregatorPadPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregatorPadPrivate(input);
 }

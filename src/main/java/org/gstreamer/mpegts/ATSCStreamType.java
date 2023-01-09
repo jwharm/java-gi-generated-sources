@@ -12,30 +12,37 @@ import org.jetbrains.annotations.*;
  * @version 1.20
  */
 public enum ATSCStreamType implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * DigiCipher II video | Identical to ITU-T Rec. H.262 | ISO/IEC 13818-2 Video
      */
     DCII_VIDEO(128),
+    
     /**
      * ATSC A/53 Audio | AC-3
      */
     AUDIO_AC3(129),
+    
     /**
      * SCTE-27 Subtitling
      */
     SUBTITLING(130),
+    
     /**
      * SCTE-19 Isochronous data | Reserved
      */
     ISOCH_DATA(131),
+    
     /**
      * SCTE-35 Splice Information Table
      */
     SIT(134),
+    
     /**
      * E-AC-3 A/52:2018
      */
     AUDIO_EAC3(135),
+    
     /**
      * E-AC-3 A/107 (ATSC 2.0)
      */
@@ -44,15 +51,29 @@ public enum ATSCStreamType implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsATSCStreamType";
     
     private final int value;
+    
+    /**
+     * Create a new ATSCStreamType for the provided value
+     * @param numeric value the enum value
+     */
     ATSCStreamType(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ATSCStreamType for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ATSCStreamType of(int value) {
         return switch (value) {
             case 128 -> DCII_VIDEO;

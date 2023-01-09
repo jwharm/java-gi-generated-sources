@@ -29,8 +29,8 @@ public class InputAttachmentAspectReferenceKHR extends Struct {
      * @return A new, uninitialized @{link InputAttachmentAspectReferenceKHR}
      */
     public static InputAttachmentAspectReferenceKHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InputAttachmentAspectReferenceKHR newInstance = new InputAttachmentAspectReferenceKHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InputAttachmentAspectReferenceKHR newInstance = new InputAttachmentAspectReferenceKHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class InputAttachmentAspectReferenceKHR extends Struct {
     /**
      * Create a InputAttachmentAspectReferenceKHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InputAttachmentAspectReferenceKHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InputAttachmentAspectReferenceKHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InputAttachmentAspectReferenceKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InputAttachmentAspectReferenceKHR(input, ownership);
+    public static final Marshal<Addressable, InputAttachmentAspectReferenceKHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InputAttachmentAspectReferenceKHR(input);
 }

@@ -38,26 +38,29 @@ public class GLSLProfile extends io.github.jwharm.javagi.Bitfield {
      */
     public static final GLSLProfile ANY = new GLSLProfile(-1);
     
+    /**
+     * Create a new GLSLProfile with the provided value
+     */
     public GLSLProfile(int value) {
         super(value);
     }
     
     public static org.gstreamer.gl.GLSLProfile fromString(java.lang.String string) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_glsl_profile_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(string, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_glsl_profile_from_string.invokeExact(Marshal.stringToAddress.marshal(string, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gstreamer.gl.GLSLProfile(RESULT);
         }
-        return new org.gstreamer.gl.GLSLProfile(RESULT);
     }
     
     public static @Nullable java.lang.String toString(org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_glsl_profile_to_string.invokeExact(
-                    profile.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gst_glsl_profile_to_string.invokeExact(profile.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -94,15 +97,15 @@ public class GLSLProfile extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_glsl_profile_from_string = Interop.downcallHandle(
-            "gst_glsl_profile_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_glsl_profile_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_glsl_profile_to_string = Interop.downcallHandle(
-            "gst_glsl_profile_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_glsl_profile_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

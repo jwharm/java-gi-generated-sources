@@ -36,8 +36,8 @@ public class TestLogMsg extends Struct {
      * @return A new, uninitialized @{link TestLogMsg}
      */
     public static TestLogMsg allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestLogMsg newInstance = new TestLogMsg(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TestLogMsg newInstance = new TestLogMsg(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,10 +47,12 @@ public class TestLogMsg extends Struct {
      * @return The value of the field {@code log_type}
      */
     public org.gtk.glib.TestLogType getLogType() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gtk.glib.TestLogType.of(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gtk.glib.TestLogType.of(RESULT);
+        }
     }
     
     /**
@@ -58,9 +60,11 @@ public class TestLogMsg extends Struct {
      * @param logType The new value of the field {@code log_type}
      */
     public void setLogType(org.gtk.glib.TestLogType logType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
+        }
     }
     
     /**
@@ -68,10 +72,12 @@ public class TestLogMsg extends Struct {
      * @return The value of the field {@code n_strings}
      */
     public int getNStrings() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -79,9 +85,11 @@ public class TestLogMsg extends Struct {
      * @param nStrings The new value of the field {@code n_strings}
      */
     public void setNStrings(int nStrings) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nStrings);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nStrings);
+        }
     }
     
     /**
@@ -89,10 +97,12 @@ public class TestLogMsg extends Struct {
      * @return The value of the field {@code strings}
      */
     public PointerString getStrings() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("strings"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerString(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("strings"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerString(RESULT);
+        }
     }
     
     /**
@@ -100,9 +110,11 @@ public class TestLogMsg extends Struct {
      * @param strings The new value of the field {@code strings}
      */
     public void setStrings(PointerString strings) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("strings"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("strings"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
+        }
     }
     
     /**
@@ -110,10 +122,12 @@ public class TestLogMsg extends Struct {
      * @return The value of the field {@code n_nums}
      */
     public int getNNums() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -121,9 +135,11 @@ public class TestLogMsg extends Struct {
      * @param nNums The new value of the field {@code n_nums}
      */
     public void setNNums(int nNums) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nNums);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), nNums);
+        }
     }
     
     /**
@@ -131,10 +147,12 @@ public class TestLogMsg extends Struct {
      * @return The value of the field {@code nums}
      */
     public PointerDouble getNums() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nums"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerDouble(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nums"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerDouble(RESULT);
+        }
     }
     
     /**
@@ -142,30 +160,33 @@ public class TestLogMsg extends Struct {
      * @param nums The new value of the field {@code nums}
      */
     public void setNums(PointerDouble nums) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("nums"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("nums"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
+        }
     }
     
     /**
      * Create a TestLogMsg proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestLogMsg(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TestLogMsg(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestLogMsg> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestLogMsg(input, ownership);
+    public static final Marshal<Addressable, TestLogMsg> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestLogMsg(input);
     
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
      */
     public void free() {
         try {
-            DowncallHandles.g_test_log_msg_free.invokeExact(
-                    handle());
+            DowncallHandles.g_test_log_msg_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,9 +195,9 @@ public class TestLogMsg extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_log_msg_free = Interop.downcallHandle(
-            "g_test_log_msg_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_log_msg_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -202,7 +223,7 @@ public class TestLogMsg extends Struct {
             struct = TestLogMsg.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TestLogMsg} struct.
          * @return A new instance of {@code TestLogMsg} with the fields 
          *         that were set in the Builder object.
@@ -212,38 +233,48 @@ public class TestLogMsg extends Struct {
         }
         
         public Builder setLogType(org.gtk.glib.TestLogType logType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
+                return this;
+            }
         }
         
         public Builder setNStrings(int nStrings) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nStrings);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nStrings);
+                return this;
+            }
         }
         
         public Builder setStrings(PointerString strings) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("strings"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("strings"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
+                return this;
+            }
         }
         
         public Builder setNNums(int nNums) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nNums);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), nNums);
+                return this;
+            }
         }
         
         public Builder setNums(PointerDouble nums) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("nums"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("nums"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
+                return this;
+            }
         }
     }
 }

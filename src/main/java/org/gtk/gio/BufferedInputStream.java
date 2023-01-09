@@ -44,20 +44,21 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     /**
      * Create a BufferedInputStream proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected BufferedInputStream(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected BufferedInputStream(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, BufferedInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferedInputStream(input, ownership);
+    public static final Marshal<Addressable, BufferedInputStream> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new BufferedInputStream(input);
     
     private static MemoryAddress constructNew(org.gtk.gio.InputStream baseStream) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new.invokeExact(
-                    baseStream.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new.invokeExact(baseStream.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,7 +71,8 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param baseStream a {@link InputStream}
      */
     public BufferedInputStream(org.gtk.gio.InputStream baseStream) {
-        super(constructNew(baseStream), Ownership.FULL);
+        super(constructNew(baseStream));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewSized(org.gtk.gio.InputStream baseStream, long size) {
@@ -84,7 +86,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@link BufferedInputStream} from the given {@code base_stream},
      * with a buffer set to {@code size}.
@@ -94,7 +96,9 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      */
     public static BufferedInputStream newSized(org.gtk.gio.InputStream baseStream, long size) {
         var RESULT = constructNewSized(baseStream, size);
-        return (org.gtk.gio.BufferedInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.BufferedInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.BufferedInputStream) Interop.register(RESULT, org.gtk.gio.BufferedInputStream.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -129,21 +133,23 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long fill(long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_buffered_input_stream_fill.invokeExact(
-                    handle(),
-                    count,
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_buffered_input_stream_fill.invokeExact(
+                        handle(),
+                        count,
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -179,20 +185,22 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public long fillFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_buffered_input_stream_fill_finish.invokeExact(
-                    handle(),
-                    result.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_buffered_input_stream_fill_finish.invokeExact(
+                        handle(),
+                        result.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -202,8 +210,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     public long getAvailable() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_buffered_input_stream_get_available.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_buffered_input_stream_get_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,8 +224,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     public long getBufferSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_buffered_input_stream_get_buffer_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_buffered_input_stream_get_buffer_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,17 +241,19 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @return a {@code gsize} of the number of bytes peeked, or -1 on error.
      */
     public long peek(byte[] buffer, long offset, long count) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.g_buffered_input_stream_peek.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(buffer, false),
-                    offset,
-                    count);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.g_buffered_input_stream_peek.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(buffer, false, SCOPE),
+                        offset,
+                        count);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -256,17 +264,19 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @return read-only buffer
      */
     public byte[] peekBuffer(Out<Long> count) {
-        MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_peek_buffer.invokeExact(
-                    handle(),
-                    (Addressable) countPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment countPOINTER = SCOPE.allocate(Interop.valueLayout.C_LONG);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_peek_buffer.invokeExact(
+                        handle(),
+                        (Addressable) countPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    count.set(countPOINTER.get(Interop.valueLayout.C_LONG, 0));
+            return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), count.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), SCOPE).toArray(Interop.valueLayout.C_BYTE);
         }
-        count.set(countPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), count.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -288,20 +298,22 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int readInt(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_buffered_input_stream_read_byte.invokeExact(
-                    handle(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.g_buffered_input_stream_read_byte.invokeExact(
+                        handle(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
     }
     
     /**
@@ -350,6 +362,9 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      */
     public static class Builder extends org.gtk.gio.FilterInputStream.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -380,75 +395,83 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     private static class DowncallHandles {
         
         private static final MethodHandle g_buffered_input_stream_new = Interop.downcallHandle(
-            "g_buffered_input_stream_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_new_sized = Interop.downcallHandle(
-            "g_buffered_input_stream_new_sized",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_input_stream_new_sized",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill = Interop.downcallHandle(
-            "g_buffered_input_stream_fill",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_fill",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill_async = Interop.downcallHandle(
-            "g_buffered_input_stream_fill_async",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_fill_async",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_fill_finish = Interop.downcallHandle(
-            "g_buffered_input_stream_fill_finish",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_fill_finish",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_get_available = Interop.downcallHandle(
-            "g_buffered_input_stream_get_available",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_get_available",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_get_buffer_size = Interop.downcallHandle(
-            "g_buffered_input_stream_get_buffer_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_get_buffer_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_peek = Interop.downcallHandle(
-            "g_buffered_input_stream_peek",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_input_stream_peek",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_peek_buffer = Interop.downcallHandle(
-            "g_buffered_input_stream_peek_buffer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_peek_buffer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_read_byte = Interop.downcallHandle(
-            "g_buffered_input_stream_read_byte",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_buffered_input_stream_read_byte",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_set_buffer_size = Interop.downcallHandle(
-            "g_buffered_input_stream_set_buffer_size",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_input_stream_set_buffer_size",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_buffered_input_stream_get_type = Interop.downcallHandle(
-            "g_buffered_input_stream_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "g_buffered_input_stream_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.g_buffered_input_stream_get_type != null;
     }
 }

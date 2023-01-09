@@ -33,8 +33,8 @@ public class RTSPConnection extends Struct {
      * @return A new, uninitialized @{link RTSPConnection}
      */
     public static RTSPConnection allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RTSPConnection newInstance = new RTSPConnection(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RTSPConnection newInstance = new RTSPConnection(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,22 +42,23 @@ public class RTSPConnection extends Struct {
     /**
      * Create a RTSPConnection proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RTSPConnection(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RTSPConnection(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RTSPConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPConnection(input, ownership);
+    public static final Marshal<Addressable, RTSPConnection> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RTSPConnection(input);
     
     /**
      * Clear the list of authentication directives stored in {@code conn}.
      */
     public void clearAuthParams() {
         try {
-            DowncallHandles.gst_rtsp_connection_clear_auth_params.invokeExact(
-                    handle());
+            DowncallHandles.gst_rtsp_connection_clear_auth_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -71,8 +72,7 @@ public class RTSPConnection extends Struct {
     public org.gstreamer.rtsp.RTSPResult close() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_close.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,8 +226,7 @@ public class RTSPConnection extends Struct {
     public org.gstreamer.rtsp.RTSPResult free() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_free.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,8 +241,7 @@ public class RTSPConnection extends Struct {
     public boolean getIgnoreXServerReply() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_ignore_x_server_reply.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_ignore_x_server_reply.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,8 +256,7 @@ public class RTSPConnection extends Struct {
     public java.lang.String getIp() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_ip.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_ip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,19 +271,17 @@ public class RTSPConnection extends Struct {
     public org.gtk.gio.Socket getReadSocket() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_read_socket.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_read_socket.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Socket) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Socket.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Socket) Interop.register(RESULT, org.gtk.gio.Socket.fromAddress).marshal(RESULT, null);
     }
     
     public boolean getRememberSessionId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_remember_session_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_remember_session_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -306,19 +301,19 @@ public class RTSPConnection extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public org.gtk.gio.TlsConnection getTls() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls.invokeExact(
-                    handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls.invokeExact(handle(),(Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (org.gtk.gio.TlsConnection) Interop.register(RESULT, org.gtk.gio.TlsConnection.fromAddress).marshal(RESULT, null);
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return (org.gtk.gio.TlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsConnection.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -332,12 +327,13 @@ public class RTSPConnection extends Struct {
     public org.gtk.gio.TlsDatabase getTlsDatabase() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_database.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_database.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.TlsDatabase) Interop.register(RESULT, org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -350,12 +346,13 @@ public class RTSPConnection extends Struct {
     public org.gtk.gio.TlsInteraction getTlsInteraction() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_interaction.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_interaction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gio.TlsInteraction) Interop.register(RESULT, org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -375,8 +372,7 @@ public class RTSPConnection extends Struct {
     public org.gtk.gio.TlsCertificateFlags getTlsValidationFlags() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_tls_validation_flags.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_get_tls_validation_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -390,8 +386,7 @@ public class RTSPConnection extends Struct {
     public java.lang.String getTunnelid() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tunnelid.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tunnelid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,12 +401,13 @@ public class RTSPConnection extends Struct {
     public org.gstreamer.rtsp.RTSPUrl getUrl() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_url.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_url.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -422,12 +418,11 @@ public class RTSPConnection extends Struct {
     public org.gtk.gio.Socket getWriteSocket() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_write_socket.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_write_socket.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gio.Socket) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Socket.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Socket) Interop.register(RESULT, org.gtk.gio.Socket.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -437,8 +432,7 @@ public class RTSPConnection extends Struct {
     public boolean isTunneled() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_is_tunneled.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_is_tunneled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,8 +464,7 @@ public class RTSPConnection extends Struct {
     public long nextTimeoutUsec() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_rtsp_connection_next_timeout_usec.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_rtsp_connection_next_timeout_usec.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -640,8 +633,7 @@ public class RTSPConnection extends Struct {
     public org.gstreamer.rtsp.RTSPResult resetTimeout() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_reset_timeout.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_rtsp_connection_reset_timeout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -685,17 +677,19 @@ public class RTSPConnection extends Struct {
      */
     @Deprecated
     public org.gstreamer.rtsp.RTSPResult sendMessages(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, org.gtk.glib.TimeVal timeout) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false),
-                    nMessages,
-                    timeout.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false, SCOPE),
+                        nMessages,
+                        timeout.handle());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -710,17 +704,19 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on Since.
      */
     public org.gstreamer.rtsp.RTSPResult sendMessagesUsec(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, long timeout) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages_usec.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false),
-                    nMessages,
-                    timeout);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages_usec.invokeExact(
+                        handle(),
+                        Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false, SCOPE),
+                        nMessages,
+                        timeout);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -777,17 +773,19 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult setAuth(org.gstreamer.rtsp.RTSPAuthMethod method, java.lang.String user, java.lang.String pass) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_set_auth.invokeExact(
-                    handle(),
-                    method.getValue(),
-                    Marshal.stringToAddress.marshal(user, null),
-                    Marshal.stringToAddress.marshal(pass, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_set_auth.invokeExact(
+                        handle(),
+                        method.getValue(),
+                        Marshal.stringToAddress.marshal(user, SCOPE),
+                        Marshal.stringToAddress.marshal(pass, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -800,13 +798,15 @@ public class RTSPConnection extends Struct {
      * @param value value
      */
     public void setAuthParam(java.lang.String param, java.lang.String value) {
-        try {
-            DowncallHandles.gst_rtsp_connection_set_auth_param.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(param, null),
-                    Marshal.stringToAddress.marshal(value, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_rtsp_connection_set_auth_param.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(param, SCOPE),
+                        Marshal.stringToAddress.marshal(value, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -863,12 +863,14 @@ public class RTSPConnection extends Struct {
      * @param ip an ip address
      */
     public void setIp(java.lang.String ip) {
-        try {
-            DowncallHandles.gst_rtsp_connection_set_ip.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(ip, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gst_rtsp_connection_set_ip.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(ip, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -879,16 +881,18 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     public org.gstreamer.rtsp.RTSPResult setProxy(java.lang.String host, int port) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_set_proxy.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(host, null),
-                    port);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_set_proxy.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(host, SCOPE),
+                        port);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -1060,18 +1064,20 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
     public static org.gstreamer.rtsp.RTSPResult accept(org.gtk.gio.Socket socket, Out<org.gstreamer.rtsp.RTSPConnection> conn, @Nullable org.gtk.gio.Cancellable cancellable) {
-        MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_accept.invokeExact(
-                    socket.handle(),
-                    (Addressable) connPOINTER.address(),
-                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment connPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_accept.invokeExact(
+                        socket.handle(),
+                        (Addressable) connPOINTER.address(),
+                        (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -1085,17 +1091,19 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
     public static org.gstreamer.rtsp.RTSPResult create(org.gstreamer.rtsp.RTSPUrl url, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_create.invokeExact(
-                    url.handle(),
-                    (Addressable) connPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment connPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_create.invokeExact(
+                        url.handle(),
+                        (Addressable) connPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     /**
@@ -1110,340 +1118,342 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
     public static org.gstreamer.rtsp.RTSPResult createFromSocket(org.gtk.gio.Socket socket, java.lang.String ip, short port, java.lang.String initialBuffer, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_rtsp_connection_create_from_socket.invokeExact(
-                    socket.handle(),
-                    Marshal.stringToAddress.marshal(ip, null),
-                    port,
-                    Marshal.stringToAddress.marshal(initialBuffer, null),
-                    (Addressable) connPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment connPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_rtsp_connection_create_from_socket.invokeExact(
+                        socket.handle(),
+                        Marshal.stringToAddress.marshal(ip, SCOPE),
+                        port,
+                        Marshal.stringToAddress.marshal(initialBuffer, SCOPE),
+                        (Addressable) connPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return org.gstreamer.rtsp.RTSPResult.of(RESULT);
         }
-        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_rtsp_connection_clear_auth_params = Interop.downcallHandle(
-            "gst_rtsp_connection_clear_auth_params",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_clear_auth_params",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_close = Interop.downcallHandle(
-            "gst_rtsp_connection_close",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_close",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_connect = Interop.downcallHandle(
-            "gst_rtsp_connection_connect",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_connect",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_connect_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_connect_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_connect_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_connect_with_response = Interop.downcallHandle(
-            "gst_rtsp_connection_connect_with_response",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_connect_with_response",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_connect_with_response_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_connect_with_response_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_connect_with_response_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_do_tunnel = Interop.downcallHandle(
-            "gst_rtsp_connection_do_tunnel",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_do_tunnel",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_flush = Interop.downcallHandle(
-            "gst_rtsp_connection_flush",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_flush",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_free = Interop.downcallHandle(
-            "gst_rtsp_connection_free",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_free",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_ignore_x_server_reply = Interop.downcallHandle(
-            "gst_rtsp_connection_get_ignore_x_server_reply",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_ignore_x_server_reply",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_ip = Interop.downcallHandle(
-            "gst_rtsp_connection_get_ip",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_ip",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_read_socket = Interop.downcallHandle(
-            "gst_rtsp_connection_get_read_socket",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_read_socket",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_remember_session_id = Interop.downcallHandle(
-            "gst_rtsp_connection_get_remember_session_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_remember_session_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_tls = Interop.downcallHandle(
-            "gst_rtsp_connection_get_tls",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_tls",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_tls_database = Interop.downcallHandle(
-            "gst_rtsp_connection_get_tls_database",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_tls_database",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_tls_interaction = Interop.downcallHandle(
-            "gst_rtsp_connection_get_tls_interaction",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_tls_interaction",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_tls_validation_flags = Interop.downcallHandle(
-            "gst_rtsp_connection_get_tls_validation_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_tls_validation_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_tunnelid = Interop.downcallHandle(
-            "gst_rtsp_connection_get_tunnelid",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_tunnelid",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_url = Interop.downcallHandle(
-            "gst_rtsp_connection_get_url",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_url",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_get_write_socket = Interop.downcallHandle(
-            "gst_rtsp_connection_get_write_socket",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_get_write_socket",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_is_tunneled = Interop.downcallHandle(
-            "gst_rtsp_connection_is_tunneled",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_is_tunneled",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_next_timeout = Interop.downcallHandle(
-            "gst_rtsp_connection_next_timeout",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_next_timeout",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_next_timeout_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_next_timeout_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_next_timeout_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_poll = Interop.downcallHandle(
-            "gst_rtsp_connection_poll",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_poll",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_poll_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_poll_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_poll_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_read = Interop.downcallHandle(
-            "gst_rtsp_connection_read",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_read",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_read_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_read_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_read_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_receive = Interop.downcallHandle(
-            "gst_rtsp_connection_receive",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_receive",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_receive_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_receive_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_receive_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_reset_timeout = Interop.downcallHandle(
-            "gst_rtsp_connection_reset_timeout",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_reset_timeout",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_send = Interop.downcallHandle(
-            "gst_rtsp_connection_send",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_send",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_send_messages = Interop.downcallHandle(
-            "gst_rtsp_connection_send_messages",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_send_messages",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_send_messages_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_send_messages_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_send_messages_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_send_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_send_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_send_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_accept_certificate_func = Interop.downcallHandle(
-            "gst_rtsp_connection_set_accept_certificate_func",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_accept_certificate_func",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_auth = Interop.downcallHandle(
-            "gst_rtsp_connection_set_auth",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_auth",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_auth_param = Interop.downcallHandle(
-            "gst_rtsp_connection_set_auth_param",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_auth_param",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_content_length_limit = Interop.downcallHandle(
-            "gst_rtsp_connection_set_content_length_limit",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_content_length_limit",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_http_mode = Interop.downcallHandle(
-            "gst_rtsp_connection_set_http_mode",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_http_mode",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_ignore_x_server_reply = Interop.downcallHandle(
-            "gst_rtsp_connection_set_ignore_x_server_reply",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_ignore_x_server_reply",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_ip = Interop.downcallHandle(
-            "gst_rtsp_connection_set_ip",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_ip",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_proxy = Interop.downcallHandle(
-            "gst_rtsp_connection_set_proxy",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_proxy",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_qos_dscp = Interop.downcallHandle(
-            "gst_rtsp_connection_set_qos_dscp",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_qos_dscp",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_remember_session_id = Interop.downcallHandle(
-            "gst_rtsp_connection_set_remember_session_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_remember_session_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_tls_database = Interop.downcallHandle(
-            "gst_rtsp_connection_set_tls_database",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_tls_database",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_tls_interaction = Interop.downcallHandle(
-            "gst_rtsp_connection_set_tls_interaction",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_set_tls_interaction",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_tls_validation_flags = Interop.downcallHandle(
-            "gst_rtsp_connection_set_tls_validation_flags",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_tls_validation_flags",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_set_tunneled = Interop.downcallHandle(
-            "gst_rtsp_connection_set_tunneled",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_rtsp_connection_set_tunneled",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_write = Interop.downcallHandle(
-            "gst_rtsp_connection_write",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_write",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_write_usec = Interop.downcallHandle(
-            "gst_rtsp_connection_write_usec",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_rtsp_connection_write_usec",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_accept = Interop.downcallHandle(
-            "gst_rtsp_connection_accept",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_accept",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_create = Interop.downcallHandle(
-            "gst_rtsp_connection_create",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_create",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_rtsp_connection_create_from_socket = Interop.downcallHandle(
-            "gst_rtsp_connection_create_from_socket",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_rtsp_connection_create_from_socket",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_SHORT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

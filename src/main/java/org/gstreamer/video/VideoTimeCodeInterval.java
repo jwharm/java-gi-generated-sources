@@ -39,8 +39,8 @@ public class VideoTimeCodeInterval extends Struct {
      * @return A new, uninitialized @{link VideoTimeCodeInterval}
      */
     public static VideoTimeCodeInterval allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoTimeCodeInterval newInstance = new VideoTimeCodeInterval(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoTimeCodeInterval newInstance = new VideoTimeCodeInterval(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class VideoTimeCodeInterval extends Struct {
      * @return The value of the field {@code hours}
      */
     public int getHours() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hours"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hours"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class VideoTimeCodeInterval extends Struct {
      * @param hours The new value of the field {@code hours}
      */
     public void setHours(int hours) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("hours"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("hours"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), hours);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class VideoTimeCodeInterval extends Struct {
      * @return The value of the field {@code minutes}
      */
     public int getMinutes() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class VideoTimeCodeInterval extends Struct {
      * @param minutes The new value of the field {@code minutes}
      */
     public void setMinutes(int minutes) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), minutes);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class VideoTimeCodeInterval extends Struct {
      * @return The value of the field {@code seconds}
      */
     public int getSeconds() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class VideoTimeCodeInterval extends Struct {
      * @param seconds The new value of the field {@code seconds}
      */
     public void setSeconds(int seconds) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), seconds);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class VideoTimeCodeInterval extends Struct {
      * @return The value of the field {@code frames}
      */
     public int getFrames() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -124,22 +138,26 @@ public class VideoTimeCodeInterval extends Struct {
      * @param frames The new value of the field {@code frames}
      */
     public void setFrames(int frames) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), frames);
+        }
     }
     
     /**
      * Create a VideoTimeCodeInterval proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoTimeCodeInterval(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoTimeCodeInterval(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoTimeCodeInterval> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeInterval(input, ownership);
+    public static final Marshal<Addressable, VideoTimeCodeInterval> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeInterval(input);
     
     private static MemoryAddress constructNew(int hours, int minutes, int seconds, int frames) {
         MemoryAddress RESULT;
@@ -156,20 +174,22 @@ public class VideoTimeCodeInterval extends Struct {
     }
     
     public VideoTimeCodeInterval(int hours, int minutes, int seconds, int frames) {
-        super(constructNew(hours, minutes, seconds, frames), Ownership.FULL);
+        super(constructNew(hours, minutes, seconds, frames));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFromString(java.lang.String tcInterStr) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_new_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(tcInterStr, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_new_from_string.invokeExact(Marshal.stringToAddress.marshal(tcInterStr, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * {@code tc_inter_str} must only have ":" as separators.
      * @param tcInterStr The string that represents the {@link VideoTimeCodeInterval}
@@ -178,7 +198,9 @@ public class VideoTimeCodeInterval extends Struct {
      */
     public static VideoTimeCodeInterval newFromString(java.lang.String tcInterStr) {
         var RESULT = constructNewFromString(tcInterStr);
-        return org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -186,8 +208,7 @@ public class VideoTimeCodeInterval extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.gst_video_time_code_interval_clear.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_time_code_interval_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,12 +217,13 @@ public class VideoTimeCodeInterval extends Struct {
     public org.gstreamer.video.VideoTimeCodeInterval copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -209,8 +231,7 @@ public class VideoTimeCodeInterval extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_time_code_interval_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_time_code_interval_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,39 +260,39 @@ public class VideoTimeCodeInterval extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_time_code_interval_new = Interop.downcallHandle(
-            "gst_video_time_code_interval_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_time_code_interval_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_time_code_interval_new_from_string = Interop.downcallHandle(
-            "gst_video_time_code_interval_new_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_time_code_interval_new_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_time_code_interval_clear = Interop.downcallHandle(
-            "gst_video_time_code_interval_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_time_code_interval_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_time_code_interval_copy = Interop.downcallHandle(
-            "gst_video_time_code_interval_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_time_code_interval_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_time_code_interval_free = Interop.downcallHandle(
-            "gst_video_time_code_interval_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_time_code_interval_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_time_code_interval_init = Interop.downcallHandle(
-            "gst_video_time_code_interval_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_time_code_interval_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -297,7 +318,7 @@ public class VideoTimeCodeInterval extends Struct {
             struct = VideoTimeCodeInterval.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link VideoTimeCodeInterval} struct.
          * @return A new instance of {@code VideoTimeCodeInterval} with the fields 
          *         that were set in the Builder object.
@@ -312,10 +333,12 @@ public class VideoTimeCodeInterval extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setHours(int hours) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("hours"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("hours"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), hours);
+                return this;
+            }
         }
         
         /**
@@ -324,10 +347,12 @@ public class VideoTimeCodeInterval extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMinutes(int minutes) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), minutes);
+                return this;
+            }
         }
         
         /**
@@ -336,10 +361,12 @@ public class VideoTimeCodeInterval extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setSeconds(int seconds) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), seconds);
+                return this;
+            }
         }
         
         /**
@@ -348,10 +375,12 @@ public class VideoTimeCodeInterval extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFrames(int frames) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("frames"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("frames"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), frames);
+                return this;
+            }
         }
     }
 }

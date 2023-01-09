@@ -28,14 +28,16 @@ public class ValueArray extends io.github.jwharm.javagi.ObjectBase {
     /**
      * Create a ValueArray proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ValueArray(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ValueArray(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ValueArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValueArray(input, ownership);
+    public static final Marshal<Addressable, ValueArray> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ValueArray(input);
     
     /**
      * Get the gtype
@@ -90,8 +92,7 @@ public class ValueArray extends io.github.jwharm.javagi.ObjectBase {
     public static int getSize(org.gtk.gobject.Value value) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_value_array_get_size.invokeExact(
-                    value.handle());
+            RESULT = (int) DowncallHandles.gst_value_array_get_size.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,7 +115,7 @@ public class ValueArray extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -132,7 +133,7 @@ public class ValueArray extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -153,45 +154,53 @@ public class ValueArray extends io.github.jwharm.javagi.ObjectBase {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_value_array_get_type = Interop.downcallHandle(
-            "gst_value_array_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_value_array_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_value_array_append_and_take_value = Interop.downcallHandle(
-            "gst_value_array_append_and_take_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_value_array_append_and_take_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_value_array_append_value = Interop.downcallHandle(
-            "gst_value_array_append_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_value_array_append_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_value_array_get_size = Interop.downcallHandle(
-            "gst_value_array_get_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_value_array_get_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_value_array_get_value = Interop.downcallHandle(
-            "gst_value_array_get_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_value_array_get_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_value_array_init = Interop.downcallHandle(
-            "gst_value_array_init",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_value_array_init",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_value_array_prepend_value = Interop.downcallHandle(
-            "gst_value_array_prepend_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_value_array_prepend_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_value_array_get_type != null;
     }
 }

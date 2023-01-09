@@ -42,6 +42,9 @@ public class RTSPLowerTrans extends io.github.jwharm.javagi.Bitfield {
      */
     public static final RTSPLowerTrans TLS = new RTSPLowerTrans(32);
     
+    /**
+     * Create a new RTSPLowerTrans with the provided value
+     */
     public RTSPLowerTrans(int value) {
         super(value);
     }

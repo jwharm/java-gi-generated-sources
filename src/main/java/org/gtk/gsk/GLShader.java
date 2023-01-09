@@ -136,26 +136,27 @@ public class GLShader extends org.gtk.gobject.GObject {
     /**
      * Create a GLShader proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLShader(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLShader(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLShader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLShader(input, ownership);
+    public static final Marshal<Addressable, GLShader> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLShader(input);
     
     private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes sourcecode) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_bytes.invokeExact(
-                    sourcecode.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_bytes.invokeExact(sourcecode.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a {@code GskGLShader} that will render pixels using the specified code.
      * @param sourcecode GLSL sourcecode for the shader, as a {@code GBytes}
@@ -163,20 +164,23 @@ public class GLShader extends org.gtk.gobject.GObject {
      */
     public static GLShader newFromBytes(org.gtk.glib.Bytes sourcecode) {
         var RESULT = constructNewFromBytes(sourcecode);
-        return (org.gtk.gsk.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gsk.GLShader) Interop.register(RESULT, org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     private static MemoryAddress constructNewFromResource(java.lang.String resourcePath) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_resource.invokeExact(
-                    Marshal.stringToAddress.marshal(resourcePath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_resource.invokeExact(Marshal.stringToAddress.marshal(resourcePath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a {@code GskGLShader} that will render pixels using the specified code.
      * @param resourcePath path to a resource that contains the GLSL sourcecode for
@@ -185,7 +189,9 @@ public class GLShader extends org.gtk.gobject.GObject {
      */
     public static GLShader newFromResource(java.lang.String resourcePath) {
         var RESULT = constructNewFromResource(resourcePath);
-        return (org.gtk.gsk.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gtk.gsk.GLShader) Interop.register(RESULT, org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -206,20 +212,22 @@ public class GLShader extends org.gtk.gobject.GObject {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean compile(org.gtk.gsk.Renderer renderer) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_compile.invokeExact(
-                    handle(),
-                    renderer.handle(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment GERROR = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gsk_gl_shader_compile.invokeExact(
+                        handle(),
+                        renderer.handle(),
+                        (Addressable) GERROR);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -229,15 +237,17 @@ public class GLShader extends org.gtk.gobject.GObject {
      * @return The index of the uniform, or -1
      */
     public int findUniformByName(java.lang.String name) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_find_uniform_by_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gsk_gl_shader_find_uniform_by_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -264,7 +274,9 @@ public class GLShader extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -293,7 +305,9 @@ public class GLShader extends org.gtk.gobject.GObject {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -447,8 +461,7 @@ public class GLShader extends org.gtk.gobject.GObject {
     public long getArgsSize() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gsk_gl_shader_get_args_size.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gsk_gl_shader_get_args_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -466,8 +479,7 @@ public class GLShader extends org.gtk.gobject.GObject {
     public int getNTextures() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_textures.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_textures.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -481,8 +493,7 @@ public class GLShader extends org.gtk.gobject.GObject {
     public int getNUniforms() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_uniforms.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gsk_gl_shader_get_n_uniforms.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -497,8 +508,7 @@ public class GLShader extends org.gtk.gobject.GObject {
     public @Nullable java.lang.String getResource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_resource.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_resource.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,12 +522,11 @@ public class GLShader extends org.gtk.gobject.GObject {
     public org.gtk.glib.Bytes getSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_source.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -601,6 +610,9 @@ public class GLShader extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -645,135 +657,143 @@ public class GLShader extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gsk_gl_shader_new_from_bytes = Interop.downcallHandle(
-            "gsk_gl_shader_new_from_bytes",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_new_from_bytes",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_new_from_resource = Interop.downcallHandle(
-            "gsk_gl_shader_new_from_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_new_from_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_compile = Interop.downcallHandle(
-            "gsk_gl_shader_compile",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_compile",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_find_uniform_by_name = Interop.downcallHandle(
-            "gsk_gl_shader_find_uniform_by_name",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_find_uniform_by_name",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_format_args = Interop.downcallHandle(
-            "gsk_gl_shader_format_args",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gsk_gl_shader_format_args",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gsk_gl_shader_format_args_va = Interop.downcallHandle(
-            "gsk_gl_shader_format_args_va",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_format_args_va",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_bool = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_bool",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_arg_bool",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_float = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_float",
-            FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_arg_float",
+                FunctionDescriptor.of(Interop.valueLayout.C_FLOAT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_int = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_int",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_arg_int",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_uint = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_uint",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_arg_uint",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_vec2 = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_vec2",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_arg_vec2",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_vec3 = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_vec3",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_arg_vec3",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_arg_vec4 = Interop.downcallHandle(
-            "gsk_gl_shader_get_arg_vec4",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_arg_vec4",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_args_size = Interop.downcallHandle(
-            "gsk_gl_shader_get_args_size",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_args_size",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_n_textures = Interop.downcallHandle(
-            "gsk_gl_shader_get_n_textures",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_n_textures",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_n_uniforms = Interop.downcallHandle(
-            "gsk_gl_shader_get_n_uniforms",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_n_uniforms",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_resource = Interop.downcallHandle(
-            "gsk_gl_shader_get_resource",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_resource",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_source = Interop.downcallHandle(
-            "gsk_gl_shader_get_source",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gsk_gl_shader_get_source",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_uniform_name = Interop.downcallHandle(
-            "gsk_gl_shader_get_uniform_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_uniform_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_uniform_offset = Interop.downcallHandle(
-            "gsk_gl_shader_get_uniform_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_uniform_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_uniform_type = Interop.downcallHandle(
-            "gsk_gl_shader_get_uniform_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gsk_gl_shader_get_uniform_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gsk_gl_shader_get_type = Interop.downcallHandle(
-            "gsk_gl_shader_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gsk_gl_shader_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gsk_gl_shader_get_type != null;
     }
 }

@@ -29,8 +29,8 @@ public class ProtectedSubmitInfo extends Struct {
      * @return A new, uninitialized @{link ProtectedSubmitInfo}
      */
     public static ProtectedSubmitInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ProtectedSubmitInfo newInstance = new ProtectedSubmitInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ProtectedSubmitInfo newInstance = new ProtectedSubmitInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ProtectedSubmitInfo extends Struct {
     /**
      * Create a ProtectedSubmitInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ProtectedSubmitInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ProtectedSubmitInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ProtectedSubmitInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProtectedSubmitInfo(input, ownership);
+    public static final Marshal<Addressable, ProtectedSubmitInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ProtectedSubmitInfo(input);
 }

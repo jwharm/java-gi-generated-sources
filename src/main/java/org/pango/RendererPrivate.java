@@ -29,8 +29,8 @@ public class RendererPrivate extends Struct {
      * @return A new, uninitialized @{link RendererPrivate}
      */
     public static RendererPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        RendererPrivate newInstance = new RendererPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        RendererPrivate newInstance = new RendererPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class RendererPrivate extends Struct {
     /**
      * Create a RendererPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected RendererPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected RendererPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, RendererPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RendererPrivate(input, ownership);
+    public static final Marshal<Addressable, RendererPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new RendererPrivate(input);
 }

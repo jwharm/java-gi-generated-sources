@@ -37,8 +37,8 @@ public class InterfaceInfo extends Struct {
      * @return A new, uninitialized @{link InterfaceInfo}
      */
     public static InterfaceInfo allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        InterfaceInfo newInstance = new InterfaceInfo(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        InterfaceInfo newInstance = new InterfaceInfo(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,10 +48,12 @@ public class InterfaceInfo extends Struct {
      * @return The value of the field {@code interface_init}
      */
     public org.gtk.gobject.InterfaceInitFunc getInterfaceInit() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -59,9 +61,11 @@ public class InterfaceInfo extends Struct {
      * @param interfaceInit The new value of the field {@code interface_init}
      */
     public void setInterfaceInit(org.gtk.gobject.InterfaceInitFunc interfaceInit) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
+        }
     }
     
     /**
@@ -69,10 +73,12 @@ public class InterfaceInfo extends Struct {
      * @return The value of the field {@code interface_finalize}
      */
     public org.gtk.gobject.InterfaceFinalizeFunc getInterfaceFinalize() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return null /* Unsupported parameter type */;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return null /* Unsupported parameter type */;
+        }
     }
     
     /**
@@ -80,9 +86,11 @@ public class InterfaceInfo extends Struct {
      * @param interfaceFinalize The new value of the field {@code interface_finalize}
      */
     public void setInterfaceFinalize(org.gtk.gobject.InterfaceFinalizeFunc interfaceFinalize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
+        }
     }
     
     /**
@@ -90,10 +98,12 @@ public class InterfaceInfo extends Struct {
      * @return The value of the field {@code interface_data}
      */
     public java.lang.foreign.MemoryAddress getInterfaceData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -101,22 +111,26 @@ public class InterfaceInfo extends Struct {
      * @param interfaceData The new value of the field {@code interface_data}
      */
     public void setInterfaceData(java.lang.foreign.MemoryAddress interfaceData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));
+        }
     }
     
     /**
      * Create a InterfaceInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected InterfaceInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected InterfaceInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, InterfaceInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InterfaceInfo(input, ownership);
+    public static final Marshal<Addressable, InterfaceInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new InterfaceInfo(input);
     
     /**
      * A {@link InterfaceInfo.Builder} object constructs a {@link InterfaceInfo} 
@@ -140,7 +154,7 @@ public class InterfaceInfo extends Struct {
             struct = InterfaceInfo.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link InterfaceInfo} struct.
          * @return A new instance of {@code InterfaceInfo} with the fields 
          *         that were set in the Builder object.
@@ -155,10 +169,12 @@ public class InterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInterfaceInit(org.gtk.gobject.InterfaceInitFunc interfaceInit) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -167,10 +183,12 @@ public class InterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInterfaceFinalize(org.gtk.gobject.InterfaceFinalizeFunc interfaceFinalize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
+                return this;
+            }
         }
         
         /**
@@ -179,10 +197,12 @@ public class InterfaceInfo extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInterfaceData(java.lang.foreign.MemoryAddress interfaceData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));
+                return this;
+            }
         }
     }
 }

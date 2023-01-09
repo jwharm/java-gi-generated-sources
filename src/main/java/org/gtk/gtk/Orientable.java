@@ -14,8 +14,11 @@ import org.jetbrains.annotations.*;
  */
 public interface Orientable extends io.github.jwharm.javagi.Proxy {
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OrientableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OrientableImpl(input, ownership);
+    public static final Marshal<Addressable, OrientableImpl> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OrientableImpl(input);
     
     /**
      * Retrieves the orientation of the {@code orientable}.
@@ -24,8 +27,7 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
     default org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_orientable_get_orientation.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_orientable_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,34 +67,49 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
         
         @ApiStatus.Internal
         static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
-            "gtk_orientable_get_orientation",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_orientable_get_orientation",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
-            "gtk_orientable_set_orientation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_orientable_set_orientation",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         @ApiStatus.Internal
         static final MethodHandle gtk_orientable_get_type = Interop.downcallHandle(
-            "gtk_orientable_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_orientable_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
     }
     
+    /**
+     * The OrientableImpl type represents a native instance of the Orientable interface.
+     */
     class OrientableImpl extends org.gtk.gobject.GObject implements Orientable {
         
         static {
             Gtk.javagi$ensureInitialized();
         }
         
-        public OrientableImpl(Addressable address, Ownership ownership) {
-            super(address, ownership);
+        /**
+         * Creates a new instance of Orientable for the provided memory address.
+         * @param address the memory address of the instance
+         */
+        public OrientableImpl(Addressable address) {
+            super(address);
         }
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_orientable_get_type != null;
     }
 }

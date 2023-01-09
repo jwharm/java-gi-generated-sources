@@ -66,26 +66,17 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     /**
      * Create a Scrollbar proxy instance for the provided memory address.
-     * <p>
-     * Because Scrollbar is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Scrollbar(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected Scrollbar(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Scrollbar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Scrollbar(input, ownership);
+    public static final Marshal<Addressable, Scrollbar> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Scrollbar(input);
     
     private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         MemoryAddress RESULT;
@@ -106,7 +97,9 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      *   to create a new adjustment.
      */
     public Scrollbar(org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
-        super(constructNew(orientation, adjustment), Ownership.NONE);
+        super(constructNew(orientation, adjustment));
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -116,12 +109,11 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) Interop.register(RESULT, org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -168,6 +160,9 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -203,27 +198,35 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_scrollbar_new = Interop.downcallHandle(
-            "gtk_scrollbar_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_scrollbar_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_scrollbar_get_adjustment = Interop.downcallHandle(
-            "gtk_scrollbar_get_adjustment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_scrollbar_get_adjustment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_scrollbar_set_adjustment = Interop.downcallHandle(
-            "gtk_scrollbar_set_adjustment",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_scrollbar_set_adjustment",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_scrollbar_get_type = Interop.downcallHandle(
-            "gtk_scrollbar_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_scrollbar_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_scrollbar_get_type != null;
     }
 }

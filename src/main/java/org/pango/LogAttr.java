@@ -50,8 +50,8 @@ public class LogAttr extends Struct {
      * @return A new, uninitialized @{link LogAttr}
      */
     public static LogAttr allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        LogAttr newInstance = new LogAttr(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        LogAttr newInstance = new LogAttr(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -61,10 +61,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_line_break}
      */
     public int getIsLineBreak() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -72,9 +74,11 @@ public class LogAttr extends Struct {
      * @param isLineBreak The new value of the field {@code is_line_break}
      */
     public void setIsLineBreak(int isLineBreak) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isLineBreak);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isLineBreak);
+        }
     }
     
     /**
@@ -82,10 +86,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_mandatory_break}
      */
     public int getIsMandatoryBreak() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -93,9 +99,11 @@ public class LogAttr extends Struct {
      * @param isMandatoryBreak The new value of the field {@code is_mandatory_break}
      */
     public void setIsMandatoryBreak(int isMandatoryBreak) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isMandatoryBreak);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isMandatoryBreak);
+        }
     }
     
     /**
@@ -103,10 +111,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_char_break}
      */
     public int getIsCharBreak() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -114,9 +124,11 @@ public class LogAttr extends Struct {
      * @param isCharBreak The new value of the field {@code is_char_break}
      */
     public void setIsCharBreak(int isCharBreak) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCharBreak);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isCharBreak);
+        }
     }
     
     /**
@@ -124,10 +136,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_white}
      */
     public int getIsWhite() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -135,9 +149,11 @@ public class LogAttr extends Struct {
      * @param isWhite The new value of the field {@code is_white}
      */
     public void setIsWhite(int isWhite) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWhite);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isWhite);
+        }
     }
     
     /**
@@ -145,10 +161,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_cursor_position}
      */
     public int getIsCursorPosition() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -156,9 +174,11 @@ public class LogAttr extends Struct {
      * @param isCursorPosition The new value of the field {@code is_cursor_position}
      */
     public void setIsCursorPosition(int isCursorPosition) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCursorPosition);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isCursorPosition);
+        }
     }
     
     /**
@@ -166,10 +186,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_word_start}
      */
     public int getIsWordStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -177,9 +199,11 @@ public class LogAttr extends Struct {
      * @param isWordStart The new value of the field {@code is_word_start}
      */
     public void setIsWordStart(int isWordStart) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordStart);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isWordStart);
+        }
     }
     
     /**
@@ -187,10 +211,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_word_end}
      */
     public int getIsWordEnd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -198,9 +224,11 @@ public class LogAttr extends Struct {
      * @param isWordEnd The new value of the field {@code is_word_end}
      */
     public void setIsWordEnd(int isWordEnd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordEnd);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isWordEnd);
+        }
     }
     
     /**
@@ -208,10 +236,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_sentence_boundary}
      */
     public int getIsSentenceBoundary() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -219,9 +249,11 @@ public class LogAttr extends Struct {
      * @param isSentenceBoundary The new value of the field {@code is_sentence_boundary}
      */
     public void setIsSentenceBoundary(int isSentenceBoundary) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceBoundary);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceBoundary);
+        }
     }
     
     /**
@@ -229,10 +261,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_sentence_start}
      */
     public int getIsSentenceStart() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -240,9 +274,11 @@ public class LogAttr extends Struct {
      * @param isSentenceStart The new value of the field {@code is_sentence_start}
      */
     public void setIsSentenceStart(int isSentenceStart) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceStart);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceStart);
+        }
     }
     
     /**
@@ -250,10 +286,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_sentence_end}
      */
     public int getIsSentenceEnd() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -261,9 +299,11 @@ public class LogAttr extends Struct {
      * @param isSentenceEnd The new value of the field {@code is_sentence_end}
      */
     public void setIsSentenceEnd(int isSentenceEnd) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceEnd);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceEnd);
+        }
     }
     
     /**
@@ -271,10 +311,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code backspace_deletes_character}
      */
     public int getBackspaceDeletesCharacter() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -282,9 +324,11 @@ public class LogAttr extends Struct {
      * @param backspaceDeletesCharacter The new value of the field {@code backspace_deletes_character}
      */
     public void setBackspaceDeletesCharacter(int backspaceDeletesCharacter) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspaceDeletesCharacter);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), backspaceDeletesCharacter);
+        }
     }
     
     /**
@@ -292,10 +336,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_expandable_space}
      */
     public int getIsExpandableSpace() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -303,9 +349,11 @@ public class LogAttr extends Struct {
      * @param isExpandableSpace The new value of the field {@code is_expandable_space}
      */
     public void setIsExpandableSpace(int isExpandableSpace) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isExpandableSpace);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isExpandableSpace);
+        }
     }
     
     /**
@@ -313,10 +361,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code is_word_boundary}
      */
     public int getIsWordBoundary() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -324,9 +374,11 @@ public class LogAttr extends Struct {
      * @param isWordBoundary The new value of the field {@code is_word_boundary}
      */
     public void setIsWordBoundary(int isWordBoundary) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordBoundary);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), isWordBoundary);
+        }
     }
     
     /**
@@ -334,10 +386,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code break_inserts_hyphen}
      */
     public int getBreakInsertsHyphen() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -345,9 +399,11 @@ public class LogAttr extends Struct {
      * @param breakInsertsHyphen The new value of the field {@code break_inserts_hyphen}
      */
     public void setBreakInsertsHyphen(int breakInsertsHyphen) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakInsertsHyphen);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), breakInsertsHyphen);
+        }
     }
     
     /**
@@ -355,10 +411,12 @@ public class LogAttr extends Struct {
      * @return The value of the field {@code break_removes_preceding}
      */
     public int getBreakRemovesPreceding() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -366,22 +424,26 @@ public class LogAttr extends Struct {
      * @param breakRemovesPreceding The new value of the field {@code break_removes_preceding}
      */
     public void setBreakRemovesPreceding(int breakRemovesPreceding) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakRemovesPreceding);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), breakRemovesPreceding);
+        }
     }
     
     /**
      * Create a LogAttr proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected LogAttr(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected LogAttr(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, LogAttr> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogAttr(input, ownership);
+    public static final Marshal<Addressable, LogAttr> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new LogAttr(input);
     
     /**
      * A {@link LogAttr.Builder} object constructs a {@link LogAttr} 
@@ -405,7 +467,7 @@ public class LogAttr extends Struct {
             struct = LogAttr.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link LogAttr} struct.
          * @return A new instance of {@code LogAttr} with the fields 
          *         that were set in the Builder object.
@@ -420,10 +482,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsLineBreak(int isLineBreak) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isLineBreak);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_line_break"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isLineBreak);
+                return this;
+            }
         }
         
         /**
@@ -432,10 +496,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsMandatoryBreak(int isMandatoryBreak) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isMandatoryBreak);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_mandatory_break"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isMandatoryBreak);
+                return this;
+            }
         }
         
         /**
@@ -444,10 +510,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsCharBreak(int isCharBreak) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCharBreak);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_char_break"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isCharBreak);
+                return this;
+            }
         }
         
         /**
@@ -456,10 +524,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsWhite(int isWhite) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWhite);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_white"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isWhite);
+                return this;
+            }
         }
         
         /**
@@ -472,10 +542,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsCursorPosition(int isCursorPosition) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isCursorPosition);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_cursor_position"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isCursorPosition);
+                return this;
+            }
         }
         
         /**
@@ -484,10 +556,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsWordStart(int isWordStart) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordStart);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_word_start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isWordStart);
+                return this;
+            }
         }
         
         /**
@@ -498,10 +572,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsWordEnd(int isWordEnd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordEnd);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_word_end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isWordEnd);
+                return this;
+            }
         }
         
         /**
@@ -516,10 +592,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsSentenceBoundary(int isSentenceBoundary) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceBoundary);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_boundary"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceBoundary);
+                return this;
+            }
         }
         
         /**
@@ -528,10 +606,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsSentenceStart(int isSentenceStart) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceStart);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_start"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceStart);
+                return this;
+            }
         }
         
         /**
@@ -543,10 +623,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsSentenceEnd(int isSentenceEnd) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSentenceEnd);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_sentence_end"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isSentenceEnd);
+                return this;
+            }
         }
         
         /**
@@ -561,10 +643,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBackspaceDeletesCharacter(int backspaceDeletesCharacter) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), backspaceDeletesCharacter);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("backspace_deletes_character"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), backspaceDeletesCharacter);
+                return this;
+            }
         }
         
         /**
@@ -574,10 +658,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsExpandableSpace(int isExpandableSpace) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isExpandableSpace);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_expandable_space"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isExpandableSpace);
+                return this;
+            }
         }
         
         /**
@@ -591,10 +677,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setIsWordBoundary(int isWordBoundary) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWordBoundary);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("is_word_boundary"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), isWordBoundary);
+                return this;
+            }
         }
         
         /**
@@ -604,10 +692,12 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBreakInsertsHyphen(int breakInsertsHyphen) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakInsertsHyphen);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("break_inserts_hyphen"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), breakInsertsHyphen);
+                return this;
+            }
         }
         
         /**
@@ -617,17 +707,21 @@ public class LogAttr extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setBreakRemovesPreceding(int breakRemovesPreceding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), breakRemovesPreceding);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("break_removes_preceding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), breakRemovesPreceding);
+                return this;
+            }
         }
         
         public Builder setReserved(int reserved) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), reserved);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("reserved"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), reserved);
+                return this;
+            }
         }
     }
 }

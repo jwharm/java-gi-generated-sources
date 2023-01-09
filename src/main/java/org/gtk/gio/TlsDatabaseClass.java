@@ -51,8 +51,8 @@ public class TlsDatabaseClass extends Struct {
      * @return A new, uninitialized @{link TlsDatabaseClass}
      */
     public static TlsDatabaseClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TlsDatabaseClass newInstance = new TlsDatabaseClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TlsDatabaseClass newInstance = new TlsDatabaseClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -63,7 +63,7 @@ public class TlsDatabaseClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -71,25 +71,44 @@ public class TlsDatabaseClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VerifyChainCallback} callback.
+     */
     @FunctionalInterface
     public interface VerifyChainCallback {
+    
         org.gtk.gio.TlsCertificateFlags run(org.gtk.gio.TlsDatabase self, org.gtk.gio.TlsCertificate chain, java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress chain, MemoryAddress purpose, MemoryAddress identity, MemoryAddress interaction, int flags, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(chain)), org.gtk.gio.TlsCertificate.fromAddress).marshal(chain, Ownership.NONE), Marshal.addressToString.marshal(purpose, null), (org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(identity)), org.gtk.gio.SocketConnectable.fromAddress).marshal(identity, Ownership.NONE), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), new org.gtk.gio.TlsDatabaseVerifyFlags(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT.getValue();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.TlsCertificate) Interop.register(chain, org.gtk.gio.TlsCertificate.fromAddress).marshal(chain, null), Marshal.addressToString.marshal(purpose, null), (org.gtk.gio.SocketConnectable) Interop.register(identity, org.gtk.gio.SocketConnectable.fromAddress).marshal(identity, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), new org.gtk.gio.TlsDatabaseVerifyFlags(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                return RESULT.getValue();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VerifyChainCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VerifyChainCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -98,24 +117,43 @@ public class TlsDatabaseClass extends Struct {
      * @param verifyChain The new value of the field {@code verify_chain}
      */
     public void setVerifyChain(VerifyChainCallback verifyChain) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("verify_chain"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChain == null ? MemoryAddress.NULL : verifyChain.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChain == null ? MemoryAddress.NULL : verifyChain.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VerifyChainAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface VerifyChainAsyncCallback {
+    
         void run(org.gtk.gio.TlsDatabase self, org.gtk.gio.TlsCertificate chain, java.lang.String purpose, @Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseVerifyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress chain, MemoryAddress purpose, MemoryAddress identity, MemoryAddress interaction, int flags, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(chain)), org.gtk.gio.TlsCertificate.fromAddress).marshal(chain, Ownership.NONE), Marshal.addressToString.marshal(purpose, null), (org.gtk.gio.SocketConnectable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(identity)), org.gtk.gio.SocketConnectable.fromAddress).marshal(identity, Ownership.NONE), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), new org.gtk.gio.TlsDatabaseVerifyFlags(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.TlsCertificate) Interop.register(chain, org.gtk.gio.TlsCertificate.fromAddress).marshal(chain, null), Marshal.addressToString.marshal(purpose, null), (org.gtk.gio.SocketConnectable) Interop.register(identity, org.gtk.gio.SocketConnectable.fromAddress).marshal(identity, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), new org.gtk.gio.TlsDatabaseVerifyFlags(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VerifyChainAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VerifyChainAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -124,25 +162,42 @@ public class TlsDatabaseClass extends Struct {
      * @param verifyChainAsync The new value of the field {@code verify_chain_async}
      */
     public void setVerifyChainAsync(VerifyChainAsyncCallback verifyChainAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainAsync == null ? MemoryAddress.NULL : verifyChainAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChainAsync == null ? MemoryAddress.NULL : verifyChainAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code VerifyChainFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface VerifyChainFinishCallback {
+    
         org.gtk.gio.TlsCertificateFlags run(org.gtk.gio.TlsDatabase self, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default int upcall(MemoryAddress self, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
             return RESULT.getValue();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VerifyChainFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), VerifyChainFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -151,25 +206,44 @@ public class TlsDatabaseClass extends Struct {
      * @param verifyChainFinish The new value of the field {@code verify_chain_finish}
      */
     public void setVerifyChainFinish(VerifyChainFinishCallback verifyChainFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainFinish == null ? MemoryAddress.NULL : verifyChainFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChainFinish == null ? MemoryAddress.NULL : verifyChainFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code CreateCertificateHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface CreateCertificateHandleCallback {
+    
         @Nullable java.lang.String run(org.gtk.gio.TlsDatabase self, org.gtk.gio.TlsCertificate certificate);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress certificate) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(certificate)), org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.TlsCertificate) Interop.register(certificate, org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, null));
+                return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, SCOPE)).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateCertificateHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), CreateCertificateHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -178,25 +252,45 @@ public class TlsDatabaseClass extends Struct {
      * @param createCertificateHandle The new value of the field {@code create_certificate_handle}
      */
     public void setCreateCertificateHandle(CreateCertificateHandleCallback createCertificateHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("create_certificate_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCertificateHandle == null ? MemoryAddress.NULL : createCertificateHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("create_certificate_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createCertificateHandle == null ? MemoryAddress.NULL : createCertificateHandle.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateForHandleCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateForHandleCallback {
+    
         @Nullable org.gtk.gio.TlsCertificate run(org.gtk.gio.TlsDatabase self, java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress handle, MemoryAddress interaction, int flags, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), Marshal.addressToString.marshal(handle, null), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), Marshal.addressToString.marshal(handle, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateForHandleCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateForHandleCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -205,24 +299,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateForHandle The new value of the field {@code lookup_certificate_for_handle}
      */
     public void setLookupCertificateForHandle(LookupCertificateForHandleCallback lookupCertificateForHandle) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandle == null ? MemoryAddress.NULL : lookupCertificateForHandle.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandle == null ? MemoryAddress.NULL : lookupCertificateForHandle.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateForHandleAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateForHandleAsyncCallback {
+    
         void run(org.gtk.gio.TlsDatabase self, java.lang.String handle, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress handle, MemoryAddress interaction, int flags, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), Marshal.addressToString.marshal(handle, null), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), Marshal.addressToString.marshal(handle, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateForHandleAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateForHandleAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -231,25 +344,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateForHandleAsync The new value of the field {@code lookup_certificate_for_handle_async}
      */
     public void setLookupCertificateForHandleAsync(LookupCertificateForHandleAsyncCallback lookupCertificateForHandleAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleAsync == null ? MemoryAddress.NULL : lookupCertificateForHandleAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandleAsync == null ? MemoryAddress.NULL : lookupCertificateForHandleAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateForHandleFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateForHandleFinishCallback {
+    
         org.gtk.gio.TlsCertificate run(org.gtk.gio.TlsDatabase self, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateForHandleFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateForHandleFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -258,25 +389,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateForHandleFinish The new value of the field {@code lookup_certificate_for_handle_finish}
      */
     public void setLookupCertificateForHandleFinish(LookupCertificateForHandleFinishCallback lookupCertificateForHandleFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleFinish == null ? MemoryAddress.NULL : lookupCertificateForHandleFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandleFinish == null ? MemoryAddress.NULL : lookupCertificateForHandleFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateIssuerCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateIssuerCallback {
+    
         org.gtk.gio.TlsCertificate run(org.gtk.gio.TlsDatabase self, org.gtk.gio.TlsCertificate certificate, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress certificate, MemoryAddress interaction, int flags, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(certificate)), org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, Ownership.NONE), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.TlsCertificate) Interop.register(certificate, org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateIssuerCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateIssuerCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -285,24 +434,41 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateIssuer The new value of the field {@code lookup_certificate_issuer}
      */
     public void setLookupCertificateIssuer(LookupCertificateIssuerCallback lookupCertificateIssuer) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuer == null ? MemoryAddress.NULL : lookupCertificateIssuer.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuer == null ? MemoryAddress.NULL : lookupCertificateIssuer.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateIssuerAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateIssuerAsyncCallback {
+    
         void run(org.gtk.gio.TlsDatabase self, org.gtk.gio.TlsCertificate certificate, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress certificate, MemoryAddress interaction, int flags, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(certificate)), org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, Ownership.NONE), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.TlsCertificate) Interop.register(certificate, org.gtk.gio.TlsCertificate.fromAddress).marshal(certificate, null), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateIssuerAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateIssuerAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -311,25 +477,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateIssuerAsync The new value of the field {@code lookup_certificate_issuer_async}
      */
     public void setLookupCertificateIssuerAsync(LookupCertificateIssuerAsyncCallback lookupCertificateIssuerAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerAsync == null ? MemoryAddress.NULL : lookupCertificateIssuerAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuerAsync == null ? MemoryAddress.NULL : lookupCertificateIssuerAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificateIssuerFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificateIssuerFinishCallback {
+    
         org.gtk.gio.TlsCertificate run(org.gtk.gio.TlsDatabase self, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificateIssuerFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificateIssuerFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -338,25 +522,45 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificateIssuerFinish The new value of the field {@code lookup_certificate_issuer_finish}
      */
     public void setLookupCertificateIssuerFinish(LookupCertificateIssuerFinishCallback lookupCertificateIssuerFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerFinish == null ? MemoryAddress.NULL : lookupCertificateIssuerFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuerFinish == null ? MemoryAddress.NULL : lookupCertificateIssuerFinish.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificatesIssuedByCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificatesIssuedByCallback {
+    
         org.gtk.glib.List run(org.gtk.gio.TlsDatabase self, PointerByte issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress issuerRawDn, MemoryAddress interaction, int flags, MemoryAddress cancellable) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), new PointerByte(issuerRawDn), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
-            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), new PointerByte(issuerRawDn), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null));
+                RESULT.yieldOwnership();
+                return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificatesIssuedByCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificatesIssuedByCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -365,24 +569,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificatesIssuedBy The new value of the field {@code lookup_certificates_issued_by}
      */
     public void setLookupCertificatesIssuedBy(LookupCertificatesIssuedByCallback lookupCertificatesIssuedBy) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedBy == null ? MemoryAddress.NULL : lookupCertificatesIssuedBy.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedBy == null ? MemoryAddress.NULL : lookupCertificatesIssuedBy.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificatesIssuedByAsyncCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificatesIssuedByAsyncCallback {
+    
         void run(org.gtk.gio.TlsDatabase self, PointerByte issuerRawDn, @Nullable org.gtk.gio.TlsInteraction interaction, org.gtk.gio.TlsDatabaseLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress self, MemoryAddress issuerRawDn, MemoryAddress interaction, int flags, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
-            run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), new PointerByte(issuerRawDn), (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interaction)), org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, Ownership.NONE), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), new PointerByte(issuerRawDn), (org.gtk.gio.TlsInteraction) Interop.register(interaction, org.gtk.gio.TlsInteraction.fromAddress).marshal(interaction, null), org.gtk.gio.TlsDatabaseLookupFlags.of(flags), (org.gtk.gio.Cancellable) Interop.register(cancellable, org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, null), null /* Unsupported parameter type */);
+            }
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificatesIssuedByAsyncCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificatesIssuedByAsyncCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -391,25 +614,43 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificatesIssuedByAsync The new value of the field {@code lookup_certificates_issued_by_async}
      */
     public void setLookupCertificatesIssuedByAsync(LookupCertificatesIssuedByAsyncCallback lookupCertificatesIssuedByAsync) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_async"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByAsync == null ? MemoryAddress.NULL : lookupCertificatesIssuedByAsync.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_async"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedByAsync == null ? MemoryAddress.NULL : lookupCertificatesIssuedByAsync.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code LookupCertificatesIssuedByFinishCallback} callback.
+     */
     @FunctionalInterface
     public interface LookupCertificatesIssuedByFinishCallback {
+    
         org.gtk.glib.List run(org.gtk.gio.TlsDatabase self, org.gtk.gio.AsyncResult result);
-
+        
         @ApiStatus.Internal default Addressable upcall(MemoryAddress self, MemoryAddress result) {
-            var RESULT = run((org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gtk.gio.TlsDatabase.fromAddress).marshal(self, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            var RESULT = run((org.gtk.gio.TlsDatabase) Interop.register(self, org.gtk.gio.TlsDatabase.fromAddress).marshal(self, null), (org.gtk.gio.AsyncResult) Interop.register(result, org.gtk.gio.AsyncResult.fromAddress).marshal(result, null));
+            RESULT.yieldOwnership();
             return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LookupCertificatesIssuedByFinishCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), LookupCertificatesIssuedByFinishCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -418,22 +659,26 @@ public class TlsDatabaseClass extends Struct {
      * @param lookupCertificatesIssuedByFinish The new value of the field {@code lookup_certificates_issued_by_finish}
      */
     public void setLookupCertificatesIssuedByFinish(LookupCertificatesIssuedByFinishCallback lookupCertificatesIssuedByFinish) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_finish"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByFinish == null ? MemoryAddress.NULL : lookupCertificatesIssuedByFinish.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_finish"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedByFinish == null ? MemoryAddress.NULL : lookupCertificatesIssuedByFinish.toCallback()));
+        }
     }
     
     /**
      * Create a TlsDatabaseClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TlsDatabaseClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TlsDatabaseClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TlsDatabaseClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsDatabaseClass(input, ownership);
+    public static final Marshal<Addressable, TlsDatabaseClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TlsDatabaseClass(input);
     
     /**
      * A {@link TlsDatabaseClass.Builder} object constructs a {@link TlsDatabaseClass} 
@@ -457,7 +702,7 @@ public class TlsDatabaseClass extends Struct {
             struct = TlsDatabaseClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TlsDatabaseClass} struct.
          * @return A new instance of {@code TlsDatabaseClass} with the fields 
          *         that were set in the Builder object.
@@ -467,108 +712,138 @@ public class TlsDatabaseClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setVerifyChain(VerifyChainCallback verifyChain) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChain == null ? MemoryAddress.NULL : verifyChain.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("verify_chain"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChain == null ? MemoryAddress.NULL : verifyChain.toCallback()));
+                return this;
+            }
         }
         
         public Builder setVerifyChainAsync(VerifyChainAsyncCallback verifyChainAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainAsync == null ? MemoryAddress.NULL : verifyChainAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChainAsync == null ? MemoryAddress.NULL : verifyChainAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setVerifyChainFinish(VerifyChainFinishCallback verifyChainFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (verifyChainFinish == null ? MemoryAddress.NULL : verifyChainFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("verify_chain_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (verifyChainFinish == null ? MemoryAddress.NULL : verifyChainFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setCreateCertificateHandle(CreateCertificateHandleCallback createCertificateHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("create_certificate_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createCertificateHandle == null ? MemoryAddress.NULL : createCertificateHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("create_certificate_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (createCertificateHandle == null ? MemoryAddress.NULL : createCertificateHandle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateForHandle(LookupCertificateForHandleCallback lookupCertificateForHandle) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandle == null ? MemoryAddress.NULL : lookupCertificateForHandle.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandle == null ? MemoryAddress.NULL : lookupCertificateForHandle.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateForHandleAsync(LookupCertificateForHandleAsyncCallback lookupCertificateForHandleAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleAsync == null ? MemoryAddress.NULL : lookupCertificateForHandleAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandleAsync == null ? MemoryAddress.NULL : lookupCertificateForHandleAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateForHandleFinish(LookupCertificateForHandleFinishCallback lookupCertificateForHandleFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateForHandleFinish == null ? MemoryAddress.NULL : lookupCertificateForHandleFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_for_handle_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateForHandleFinish == null ? MemoryAddress.NULL : lookupCertificateForHandleFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateIssuer(LookupCertificateIssuerCallback lookupCertificateIssuer) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuer == null ? MemoryAddress.NULL : lookupCertificateIssuer.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuer == null ? MemoryAddress.NULL : lookupCertificateIssuer.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateIssuerAsync(LookupCertificateIssuerAsyncCallback lookupCertificateIssuerAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerAsync == null ? MemoryAddress.NULL : lookupCertificateIssuerAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuerAsync == null ? MemoryAddress.NULL : lookupCertificateIssuerAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificateIssuerFinish(LookupCertificateIssuerFinishCallback lookupCertificateIssuerFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificateIssuerFinish == null ? MemoryAddress.NULL : lookupCertificateIssuerFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificate_issuer_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificateIssuerFinish == null ? MemoryAddress.NULL : lookupCertificateIssuerFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificatesIssuedBy(LookupCertificatesIssuedByCallback lookupCertificatesIssuedBy) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedBy == null ? MemoryAddress.NULL : lookupCertificatesIssuedBy.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedBy == null ? MemoryAddress.NULL : lookupCertificatesIssuedBy.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificatesIssuedByAsync(LookupCertificatesIssuedByAsyncCallback lookupCertificatesIssuedByAsync) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByAsync == null ? MemoryAddress.NULL : lookupCertificatesIssuedByAsync.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_async"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedByAsync == null ? MemoryAddress.NULL : lookupCertificatesIssuedByAsync.toCallback()));
+                return this;
+            }
         }
         
         public Builder setLookupCertificatesIssuedByFinish(LookupCertificatesIssuedByFinishCallback lookupCertificatesIssuedByFinish) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lookupCertificatesIssuedByFinish == null ? MemoryAddress.NULL : lookupCertificatesIssuedByFinish.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("lookup_certificates_issued_by_finish"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (lookupCertificatesIssuedByFinish == null ? MemoryAddress.NULL : lookupCertificatesIssuedByFinish.toCallback()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

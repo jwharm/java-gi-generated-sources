@@ -29,26 +29,17 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     
     /**
      * Create a VideoAggregatorPad proxy instance for the provided memory address.
-     * <p>
-     * Because VideoAggregatorPad is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoAggregatorPad(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected VideoAggregatorPad(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoAggregatorPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorPad(input, ownership);
+    public static final Marshal<Addressable, VideoAggregatorPad> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorPad(input);
     
     /**
      * Returns the currently queued buffer that is going to be used
@@ -64,12 +55,11 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     public org.gstreamer.gst.Buffer getCurrentBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_current_buffer.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_current_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -86,12 +76,11 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     public org.gstreamer.video.VideoFrame getPreparedFrame() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_prepared_frame.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_prepared_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoFrame.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoFrame.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -105,8 +94,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     public boolean hasCurrentBuffer() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_video_aggregator_pad_has_current_buffer.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_video_aggregator_pad_has_current_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,6 +145,9 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
      */
     public static class Builder extends org.gstreamer.base.AggregatorPad.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -199,33 +190,41 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_aggregator_pad_get_current_buffer = Interop.downcallHandle(
-            "gst_video_aggregator_pad_get_current_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_aggregator_pad_get_current_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_aggregator_pad_get_prepared_frame = Interop.downcallHandle(
-            "gst_video_aggregator_pad_get_prepared_frame",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_aggregator_pad_get_prepared_frame",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_aggregator_pad_has_current_buffer = Interop.downcallHandle(
-            "gst_video_aggregator_pad_has_current_buffer",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_aggregator_pad_has_current_buffer",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_aggregator_pad_set_needs_alpha = Interop.downcallHandle(
-            "gst_video_aggregator_pad_set_needs_alpha",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_aggregator_pad_set_needs_alpha",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_aggregator_pad_get_type = Interop.downcallHandle(
-            "gst_video_aggregator_pad_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_video_aggregator_pad_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_video_aggregator_pad_get_type != null;
     }
 }

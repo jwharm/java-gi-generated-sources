@@ -29,8 +29,8 @@ public class MountOperationPrivate extends Struct {
      * @return A new, uninitialized @{link MountOperationPrivate}
      */
     public static MountOperationPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MountOperationPrivate newInstance = new MountOperationPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MountOperationPrivate newInstance = new MountOperationPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MountOperationPrivate extends Struct {
     /**
      * Create a MountOperationPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MountOperationPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MountOperationPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MountOperationPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MountOperationPrivate(input, ownership);
+    public static final Marshal<Addressable, MountOperationPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MountOperationPrivate(input);
 }

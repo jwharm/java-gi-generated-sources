@@ -82,41 +82,34 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     
     /**
      * Create a MessageDialog proxy instance for the provided memory address.
-     * <p>
-     * Because MessageDialog is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MessageDialog(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected MessageDialog(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MessageDialog> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialog(input);
+    
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new.invokeExact(
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                        flags.getValue(),
+                        type.getValue(),
+                        buttons.getValue(),
+                        (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, SCOPE)),
+                        varargs);
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, MessageDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialog(input, ownership);
-    
-    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new.invokeExact(
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    flags.getValue(),
-                    type.getValue(),
-                    buttons.getValue(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -134,25 +127,29 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param varargs arguments for {@code message_format}
      */
     public MessageDialog(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        super(constructNew(parent, flags, type, buttons, messageFormat, varargs), Ownership.NONE);
+        super(constructNew(parent, flags, type, buttons, messageFormat, varargs));
+        this.refSink();
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewWithMarkup(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new_with_markup.invokeExact(
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    flags.getValue(),
-                    type.getValue(),
-                    buttons.getValue(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new_with_markup.invokeExact(
+                        (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                        flags.getValue(),
+                        type.getValue(),
+                        buttons.getValue(),
+                        (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, SCOPE)),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
-    
+        
     /**
      * Creates a new message dialog.
      * <p>
@@ -191,7 +188,10 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      */
     public static MessageDialog newWithMarkup(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
         var RESULT = constructNewWithMarkup(parent, flags, type, buttons, messageFormat, varargs);
-        return (org.gtk.gtk.MessageDialog) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MessageDialog.fromAddress).marshal(RESULT, Ownership.NONE);
+        var OBJECT = (org.gtk.gtk.MessageDialog) Interop.register(RESULT, org.gtk.gtk.MessageDialog.fromAddress).marshal(RESULT, null);
+        OBJECT.refSink();
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -215,13 +215,15 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param varargs arguments for {@code message_format}
      */
     public void formatSecondaryMarkup(java.lang.String messageFormat, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gtk_message_dialog_format_secondary_markup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(messageFormat, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_message_dialog_format_secondary_markup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(messageFormat, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -231,13 +233,15 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param varargs arguments for {@code message_format}
      */
     public void formatSecondaryText(@Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.gtk_message_dialog_format_secondary_text.invokeExact(
-                    handle(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_message_dialog_format_secondary_text.invokeExact(
+                        handle(),
+                        (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, SCOPE)),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -254,12 +258,11 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     public org.gtk.gtk.Widget getMessageArea() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_get_message_area.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_get_message_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) Interop.register(RESULT, org.gtk.gtk.Widget.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -267,12 +270,14 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param str string with Pango markup
      */
     public void setMarkup(java.lang.String str) {
-        try {
-            DowncallHandles.gtk_message_dialog_set_markup.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(str, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.gtk_message_dialog_set_markup.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(str, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -306,6 +311,9 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -411,45 +419,53 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_message_dialog_new = Interop.downcallHandle(
-            "gtk_message_dialog_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_message_dialog_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_message_dialog_new_with_markup = Interop.downcallHandle(
-            "gtk_message_dialog_new_with_markup",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_message_dialog_new_with_markup",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_markup = Interop.downcallHandle(
-            "gtk_message_dialog_format_secondary_markup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_message_dialog_format_secondary_markup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_message_dialog_format_secondary_text = Interop.downcallHandle(
-            "gtk_message_dialog_format_secondary_text",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "gtk_message_dialog_format_secondary_text",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
-            "gtk_message_dialog_get_message_area",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_message_dialog_get_message_area",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
-            "gtk_message_dialog_set_markup",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_message_dialog_set_markup",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_message_dialog_get_type = Interop.downcallHandle(
-            "gtk_message_dialog_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_message_dialog_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_message_dialog_get_type != null;
     }
 }

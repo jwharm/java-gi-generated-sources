@@ -29,8 +29,8 @@ public class PipelineViewportWScalingStateCreateInfoNV extends Struct {
      * @return A new, uninitialized @{link PipelineViewportWScalingStateCreateInfoNV}
      */
     public static PipelineViewportWScalingStateCreateInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PipelineViewportWScalingStateCreateInfoNV newInstance = new PipelineViewportWScalingStateCreateInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PipelineViewportWScalingStateCreateInfoNV newInstance = new PipelineViewportWScalingStateCreateInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class PipelineViewportWScalingStateCreateInfoNV extends Struct {
     /**
      * Create a PipelineViewportWScalingStateCreateInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PipelineViewportWScalingStateCreateInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PipelineViewportWScalingStateCreateInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PipelineViewportWScalingStateCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineViewportWScalingStateCreateInfoNV(input, ownership);
+    public static final Marshal<Addressable, PipelineViewportWScalingStateCreateInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PipelineViewportWScalingStateCreateInfoNV(input);
 }

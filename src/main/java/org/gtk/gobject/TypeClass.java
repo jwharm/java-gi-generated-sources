@@ -34,8 +34,8 @@ public class TypeClass extends Struct {
      * @return A new, uninitialized @{link TypeClass}
      */
     public static TypeClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TypeClass newInstance = new TypeClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TypeClass newInstance = new TypeClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class TypeClass extends Struct {
     /**
      * Create a TypeClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TypeClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TypeClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TypeClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeClass(input, ownership);
+    public static final Marshal<Addressable, TypeClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TypeClass(input);
     
     /**
      * Registers a private structure for an instantiatable type.
@@ -143,8 +145,7 @@ public class TypeClass extends Struct {
     public int getInstancePrivateOffset() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_type_class_get_instance_private_offset.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_type_class_get_instance_private_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,12 +179,11 @@ public class TypeClass extends Struct {
     public org.gtk.gobject.TypeClass peekParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_parent.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -194,8 +194,7 @@ public class TypeClass extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_type_class_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_type_class_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,8 +208,7 @@ public class TypeClass extends Struct {
      */
     public void unrefUncached() {
         try {
-            DowncallHandles.g_type_class_unref_uncached.invokeExact(
-                    handle());
+            DowncallHandles.g_type_class_unref_uncached.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,12 +238,11 @@ public class TypeClass extends Struct {
     public static org.gtk.gobject.TypeClass peek(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(
-                    type.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -259,12 +256,11 @@ public class TypeClass extends Struct {
     public static org.gtk.gobject.TypeClass peekStatic(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(
-                    type.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -278,74 +274,73 @@ public class TypeClass extends Struct {
     public static org.gtk.gobject.TypeClass ref(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(
-                    type.getValue().longValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_type_class_add_private = Interop.downcallHandle(
-            "g_type_class_add_private",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_class_add_private",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
-            "g_type_class_get_instance_private_offset",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_class_get_instance_private_offset",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
-            "g_type_class_get_private",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_class_get_private",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
-            "g_type_class_peek_parent",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_class_peek_parent",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_class_unref = Interop.downcallHandle(
-            "g_type_class_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_type_class_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
-            "g_type_class_unref_uncached",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_type_class_unref_uncached",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
-            "g_type_class_adjust_private_offset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_type_class_adjust_private_offset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_type_class_peek = Interop.downcallHandle(
-            "g_type_class_peek",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_class_peek",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
-            "g_type_class_peek_static",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_class_peek_static",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_type_class_ref = Interop.downcallHandle(
-            "g_type_class_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_type_class_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
     }
     
@@ -371,7 +366,7 @@ public class TypeClass extends Struct {
             struct = TypeClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TypeClass} struct.
          * @return A new instance of {@code TypeClass} with the fields 
          *         that were set in the Builder object.
@@ -381,10 +376,12 @@ public class TypeClass extends Struct {
         }
         
         public Builder setGType(org.gtk.glib.Type gType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
+                return this;
+            }
         }
     }
 }

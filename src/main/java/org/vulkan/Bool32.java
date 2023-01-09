@@ -29,8 +29,8 @@ public class Bool32 extends Struct {
      * @return A new, uninitialized @{link Bool32}
      */
     public static Bool32 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Bool32 newInstance = new Bool32(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Bool32 newInstance = new Bool32(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class Bool32 extends Struct {
     /**
      * Create a Bool32 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Bool32(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Bool32(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Bool32> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bool32(input, ownership);
+    public static final Marshal<Addressable, Bool32> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Bool32(input);
 }

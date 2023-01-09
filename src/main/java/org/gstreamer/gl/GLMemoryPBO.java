@@ -39,8 +39,8 @@ public class GLMemoryPBO extends Struct {
      * @return A new, uninitialized @{link GLMemoryPBO}
      */
     public static GLMemoryPBO allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLMemoryPBO newInstance = new GLMemoryPBO(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLMemoryPBO newInstance = new GLMemoryPBO(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,14 +48,16 @@ public class GLMemoryPBO extends Struct {
     /**
      * Create a GLMemoryPBO proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLMemoryPBO(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLMemoryPBO(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLMemoryPBO> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryPBO(input, ownership);
+    public static final Marshal<Addressable, GLMemoryPBO> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryPBO(input);
     
     /**
      * Copies {@code gl_mem} into the texture specified by {@code tex_id}.  The format of {@code tex_id}
@@ -103,8 +105,7 @@ public class GLMemoryPBO extends Struct {
      */
     public void downloadTransfer() {
         try {
-            DowncallHandles.gst_gl_memory_pbo_download_transfer.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_memory_pbo_download_transfer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -115,8 +116,7 @@ public class GLMemoryPBO extends Struct {
      */
     public void uploadTransfer() {
         try {
-            DowncallHandles.gst_gl_memory_pbo_upload_transfer.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_memory_pbo_upload_transfer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,27 +133,27 @@ public class GLMemoryPBO extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_memory_pbo_copy_into_texture = Interop.downcallHandle(
-            "gst_gl_memory_pbo_copy_into_texture",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_memory_pbo_copy_into_texture",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_pbo_download_transfer = Interop.downcallHandle(
-            "gst_gl_memory_pbo_download_transfer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_pbo_download_transfer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_pbo_upload_transfer = Interop.downcallHandle(
-            "gst_gl_memory_pbo_upload_transfer",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_memory_pbo_upload_transfer",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_memory_pbo_init_once = Interop.downcallHandle(
-            "gst_gl_memory_pbo_init_once",
-            FunctionDescriptor.ofVoid(),
-            false
+                "gst_gl_memory_pbo_init_once",
+                FunctionDescriptor.ofVoid(),
+                false
         );
     }
     
@@ -179,7 +179,7 @@ public class GLMemoryPBO extends Struct {
             struct = GLMemoryPBO.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLMemoryPBO} struct.
          * @return A new instance of {@code GLMemoryPBO} with the fields 
          *         that were set in the Builder object.
@@ -189,24 +189,30 @@ public class GLMemoryPBO extends Struct {
         }
         
         public Builder setMem(org.gstreamer.gl.GLMemory mem) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mem"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
+                return this;
+            }
         }
         
         public Builder setPbo(org.gstreamer.gl.GLBuffer pbo) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("pbo"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pbo == null ? MemoryAddress.NULL : pbo.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("pbo"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pbo == null ? MemoryAddress.NULL : pbo.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

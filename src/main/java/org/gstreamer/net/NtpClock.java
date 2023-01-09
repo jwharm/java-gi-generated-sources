@@ -28,39 +28,32 @@ public class NtpClock extends org.gstreamer.net.NetClientClock {
     
     /**
      * Create a NtpClock proxy instance for the provided memory address.
-     * <p>
-     * Because NtpClock is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected NtpClock(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
+    protected NtpClock(Addressable address) {
+        super(address);
+    }
+    
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NtpClock> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new NtpClock(input);
+    
+    private static MemoryAddress constructNew(java.lang.String name, java.lang.String remoteAddress, int remotePort, org.gstreamer.gst.ClockTime baseTime) {
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
             try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+                RESULT = (MemoryAddress) DowncallHandles.gst_ntp_clock_new.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Marshal.stringToAddress.marshal(remoteAddress, SCOPE),
+                        remotePort,
+                        baseTime.getValue().longValue());
             } catch (Throwable ERR) {
                 throw new AssertionError("Unexpected exception occured: ", ERR);
             }
+            return RESULT;
         }
-    }
-    
-    @ApiStatus.Internal
-    public static final Marshal<Addressable, NtpClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NtpClock(input, ownership);
-    
-    private static MemoryAddress constructNew(java.lang.String name, java.lang.String remoteAddress, int remotePort, org.gstreamer.gst.ClockTime baseTime) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_ntp_clock_new.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Marshal.stringToAddress.marshal(remoteAddress, null),
-                    remotePort,
-                    baseTime.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
     }
     
     /**
@@ -72,7 +65,8 @@ public class NtpClock extends org.gstreamer.net.NetClientClock {
      * @param baseTime initial time of the clock
      */
     public NtpClock(java.lang.String name, java.lang.String remoteAddress, int remotePort, org.gstreamer.gst.ClockTime baseTime) {
-        super(constructNew(name, remoteAddress, remotePort, baseTime), Ownership.FULL);
+        super(constructNew(name, remoteAddress, remotePort, baseTime));
+        this.takeOwnership();
     }
     
     /**
@@ -105,6 +99,9 @@ public class NtpClock extends org.gstreamer.net.NetClientClock {
      */
     public static class Builder extends org.gstreamer.net.NetClientClock.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -129,15 +126,23 @@ public class NtpClock extends org.gstreamer.net.NetClientClock {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_ntp_clock_new = Interop.downcallHandle(
-            "gst_ntp_clock_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
-            false
+                "gst_ntp_clock_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_ntp_clock_get_type = Interop.downcallHandle(
-            "gst_ntp_clock_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_ntp_clock_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_ntp_clock_get_type != null;
     }
 }

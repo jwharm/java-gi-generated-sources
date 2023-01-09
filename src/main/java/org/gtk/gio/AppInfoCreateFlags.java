@@ -32,6 +32,9 @@ public class AppInfoCreateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final AppInfoCreateFlags SUPPORTS_STARTUP_NOTIFICATION = new AppInfoCreateFlags(4);
     
+    /**
+     * Create a new AppInfoCreateFlags with the provided value
+     */
     public AppInfoCreateFlags(int value) {
         super(value);
     }

@@ -42,8 +42,8 @@ public class GLQuery extends Struct {
      * @return A new, uninitialized @{link GLQuery}
      */
     public static GLQuery allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLQuery newInstance = new GLQuery(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLQuery newInstance = new GLQuery(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -51,22 +51,23 @@ public class GLQuery extends Struct {
     /**
      * Create a GLQuery proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLQuery(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLQuery(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLQuery> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLQuery(input, ownership);
+    public static final Marshal<Addressable, GLQuery> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLQuery(input);
     
     /**
      * Record the result of a counter
      */
     public void counter() {
         try {
-            DowncallHandles.gst_gl_query_counter.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_query_counter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,8 +78,7 @@ public class GLQuery extends Struct {
      */
     public void end() {
         try {
-            DowncallHandles.gst_gl_query_end.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_query_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +89,7 @@ public class GLQuery extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gst_gl_query_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_query_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +109,7 @@ public class GLQuery extends Struct {
     public long result() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_gl_query_result.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_gl_query_result.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,8 +121,7 @@ public class GLQuery extends Struct {
      */
     public void start() {
         try {
-            DowncallHandles.gst_gl_query_start.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_query_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,8 +132,7 @@ public class GLQuery extends Struct {
      */
     public void unset() {
         try {
-            DowncallHandles.gst_gl_query_unset.invokeExact(
-                    handle());
+            DowncallHandles.gst_gl_query_unset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,18 +149,20 @@ public class GLQuery extends Struct {
      * @return whether {@code context_ptr} contains a {@link GLContext}
      */
     public static boolean localGlContext(org.gstreamer.gst.Element element, org.gstreamer.gst.PadDirection direction, Out<org.gstreamer.gl.GLContext> contextPtr) {
-        MemorySegment contextPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_gl_query_local_gl_context.invokeExact(
-                    element.handle(),
-                    direction.getValue(),
-                    (Addressable) contextPtrPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment contextPtrPOINTER = SCOPE.allocate(Interop.valueLayout.ADDRESS);
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_gl_query_local_gl_context.invokeExact(
+                        element.handle(),
+                        direction.getValue(),
+                        (Addressable) contextPtrPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    contextPtr.set((org.gstreamer.gl.GLContext) Interop.register(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), org.gstreamer.gl.GLContext.fromAddress).marshal(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        contextPtr.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,63 +180,63 @@ public class GLQuery extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gl.GLQuery.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLQuery.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_query_counter = Interop.downcallHandle(
-            "gst_gl_query_counter",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_counter",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_end = Interop.downcallHandle(
-            "gst_gl_query_end",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_end",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_free = Interop.downcallHandle(
-            "gst_gl_query_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_init = Interop.downcallHandle(
-            "gst_gl_query_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_query_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_gl_query_result = Interop.downcallHandle(
-            "gst_gl_query_result",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_result",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_start = Interop.downcallHandle(
-            "gst_gl_query_start",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_start",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_unset = Interop.downcallHandle(
-            "gst_gl_query_unset",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_unset",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_local_gl_context = Interop.downcallHandle(
-            "gst_gl_query_local_gl_context",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_gl_query_local_gl_context",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_gl_query_new = Interop.downcallHandle(
-            "gst_gl_query_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_query_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -264,7 +262,7 @@ public class GLQuery extends Struct {
             struct = GLQuery.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLQuery} struct.
          * @return A new instance of {@code GLQuery} with the fields 
          *         that were set in the Builder object.
@@ -274,52 +272,66 @@ public class GLQuery extends Struct {
         }
         
         public Builder setContext(org.gstreamer.gl.GLContext context) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
+                return this;
+            }
         }
         
         public Builder setQueryType(int queryType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("query_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), queryType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("query_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), queryType);
+                return this;
+            }
         }
         
         public Builder setQueryId(int queryId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("query_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), queryId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("query_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), queryId);
+                return this;
+            }
         }
         
         public Builder setSupported(boolean supported) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(supported, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("supported"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(supported, null).intValue());
+                return this;
+            }
         }
         
         public Builder setStartCalled(boolean startCalled) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("start_called"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(startCalled, null).intValue());
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("start_called"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), Marshal.booleanToInteger.marshal(startCalled, null).intValue());
+                return this;
+            }
         }
         
         public Builder setDebug(org.gstreamer.gl.GLAsyncDebug debug) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("debug"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (debug == null ? MemoryAddress.NULL : debug.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("debug"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (debug == null ? MemoryAddress.NULL : debug.handle()));
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

@@ -35,8 +35,8 @@ public class PixbufLoaderClass extends Struct {
      * @return A new, uninitialized @{link PixbufLoaderClass}
      */
     public static PixbufLoaderClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        PixbufLoaderClass newInstance = new PixbufLoaderClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        PixbufLoaderClass newInstance = new PixbufLoaderClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,7 +47,7 @@ public class PixbufLoaderClass extends Struct {
      */
     public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -55,24 +55,41 @@ public class PixbufLoaderClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code SizePreparedCallback} callback.
+     */
     @FunctionalInterface
     public interface SizePreparedCallback {
+    
         void run(org.gtk.gdkpixbuf.PixbufLoader loader, int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress loader, int width, int height) {
-            run((org.gtk.gdkpixbuf.PixbufLoader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(loader)), org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, Ownership.NONE), width, height);
+            run((org.gtk.gdkpixbuf.PixbufLoader) Interop.register(loader, org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, null), width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SizePreparedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), SizePreparedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -81,24 +98,41 @@ public class PixbufLoaderClass extends Struct {
      * @param sizePrepared The new value of the field {@code size_prepared}
      */
     public void setSizePrepared(SizePreparedCallback sizePrepared) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("size_prepared"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizePrepared == null ? MemoryAddress.NULL : sizePrepared.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("size_prepared"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sizePrepared == null ? MemoryAddress.NULL : sizePrepared.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AreaPreparedCallback} callback.
+     */
     @FunctionalInterface
     public interface AreaPreparedCallback {
+    
         void run(org.gtk.gdkpixbuf.PixbufLoader loader);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress loader) {
-            run((org.gtk.gdkpixbuf.PixbufLoader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(loader)), org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, Ownership.NONE));
+            run((org.gtk.gdkpixbuf.PixbufLoader) Interop.register(loader, org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AreaPreparedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AreaPreparedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -107,24 +141,41 @@ public class PixbufLoaderClass extends Struct {
      * @param areaPrepared The new value of the field {@code area_prepared}
      */
     public void setAreaPrepared(AreaPreparedCallback areaPrepared) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("area_prepared"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaPrepared == null ? MemoryAddress.NULL : areaPrepared.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("area_prepared"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (areaPrepared == null ? MemoryAddress.NULL : areaPrepared.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code AreaUpdatedCallback} callback.
+     */
     @FunctionalInterface
     public interface AreaUpdatedCallback {
+    
         void run(org.gtk.gdkpixbuf.PixbufLoader loader, int x, int y, int width, int height);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress loader, int x, int y, int width, int height) {
-            run((org.gtk.gdkpixbuf.PixbufLoader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(loader)), org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, Ownership.NONE), x, y, width, height);
+            run((org.gtk.gdkpixbuf.PixbufLoader) Interop.register(loader, org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, null), x, y, width, height);
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AreaUpdatedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), AreaUpdatedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -133,24 +184,41 @@ public class PixbufLoaderClass extends Struct {
      * @param areaUpdated The new value of the field {@code area_updated}
      */
     public void setAreaUpdated(AreaUpdatedCallback areaUpdated) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("area_updated"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaUpdated == null ? MemoryAddress.NULL : areaUpdated.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("area_updated"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (areaUpdated == null ? MemoryAddress.NULL : areaUpdated.toCallback()));
+        }
     }
     
+    /**
+     * Functional interface declaration of the {@code ClosedCallback} callback.
+     */
     @FunctionalInterface
     public interface ClosedCallback {
+    
         void run(org.gtk.gdkpixbuf.PixbufLoader loader);
-
+        
         @ApiStatus.Internal default void upcall(MemoryAddress loader) {
-            run((org.gtk.gdkpixbuf.PixbufLoader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(loader)), org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, Ownership.NONE));
+            run((org.gtk.gdkpixbuf.PixbufLoader) Interop.register(loader, org.gtk.gdkpixbuf.PixbufLoader.fromAddress).marshal(loader, null));
         }
         
+        /**
+         * Describes the parameter types of the native callback function.
+         */
         @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
-        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClosedCallback.class, DESCRIPTOR);
         
+        /**
+         * The method handle for the callback.
+         */
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), ClosedCallback.class, DESCRIPTOR);
+        
+        /**
+         * Creates a callback that can be called from native code and executes the {@code run} method.
+         * @return the memory address of the callback function
+         */
         default MemoryAddress toCallback() {
-            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
         }
     }
     
@@ -159,22 +227,26 @@ public class PixbufLoaderClass extends Struct {
      * @param closed The new value of the field {@code closed}
      */
     public void setClosed(ClosedCallback closed) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("closed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("closed"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+        }
     }
     
     /**
      * Create a PixbufLoaderClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected PixbufLoaderClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected PixbufLoaderClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, PixbufLoaderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufLoaderClass(input, ownership);
+    public static final Marshal<Addressable, PixbufLoaderClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new PixbufLoaderClass(input);
     
     /**
      * A {@link PixbufLoaderClass.Builder} object constructs a {@link PixbufLoaderClass} 
@@ -198,7 +270,7 @@ public class PixbufLoaderClass extends Struct {
             struct = PixbufLoaderClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufLoaderClass} struct.
          * @return A new instance of {@code PixbufLoaderClass} with the fields 
          *         that were set in the Builder object.
@@ -208,38 +280,48 @@ public class PixbufLoaderClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
         
         public Builder setSizePrepared(SizePreparedCallback sizePrepared) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("size_prepared"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizePrepared == null ? MemoryAddress.NULL : sizePrepared.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("size_prepared"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sizePrepared == null ? MemoryAddress.NULL : sizePrepared.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAreaPrepared(AreaPreparedCallback areaPrepared) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("area_prepared"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaPrepared == null ? MemoryAddress.NULL : areaPrepared.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("area_prepared"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (areaPrepared == null ? MemoryAddress.NULL : areaPrepared.toCallback()));
+                return this;
+            }
         }
         
         public Builder setAreaUpdated(AreaUpdatedCallback areaUpdated) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("area_updated"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (areaUpdated == null ? MemoryAddress.NULL : areaUpdated.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("area_updated"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (areaUpdated == null ? MemoryAddress.NULL : areaUpdated.toCallback()));
+                return this;
+            }
         }
         
         public Builder setClosed(ClosedCallback closed) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("closed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("closed"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (closed == null ? MemoryAddress.NULL : closed.toCallback()));
+                return this;
+            }
         }
     }
 }

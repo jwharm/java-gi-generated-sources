@@ -29,8 +29,8 @@ public class VideoBufferPoolPrivate extends Struct {
      * @return A new, uninitialized @{link VideoBufferPoolPrivate}
      */
     public static VideoBufferPoolPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoBufferPoolPrivate newInstance = new VideoBufferPoolPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoBufferPoolPrivate newInstance = new VideoBufferPoolPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VideoBufferPoolPrivate extends Struct {
     /**
      * Create a VideoBufferPoolPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoBufferPoolPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoBufferPoolPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoBufferPoolPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoBufferPoolPrivate(input, ownership);
+    public static final Marshal<Addressable, VideoBufferPoolPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoBufferPoolPrivate(input);
 }

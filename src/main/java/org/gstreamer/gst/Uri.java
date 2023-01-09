@@ -34,8 +34,8 @@ public class Uri extends Struct {
      * @return A new, uninitialized @{link Uri}
      */
     public static Uri allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Uri newInstance = new Uri(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Uri newInstance = new Uri(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,30 +43,34 @@ public class Uri extends Struct {
     /**
      * Create a Uri proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Uri(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Uri(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Uri> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Uri(input, ownership);
+    public static final Marshal<Addressable, Uri> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Uri(input);
     
     private static MemoryAddress constructNew(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_new.invokeExact(
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
-                    port,
-                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_new.invokeExact(
+                        (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, SCOPE)),
+                        (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, SCOPE)),
+                        (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, SCOPE)),
+                        port,
+                        (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, SCOPE)),
+                        (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, SCOPE)),
+                        (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return RESULT;
         }
-        return RESULT;
     }
     
     /**
@@ -85,7 +89,8 @@ public class Uri extends Struct {
      * @param fragment The fragment name for the new URI.
      */
     public Uri(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        super(constructNew(scheme, userinfo, host, port, path, query, fragment), Ownership.FULL);
+        super(constructNew(scheme, userinfo, host, port, path, query, fragment));
+        this.takeOwnership();
     }
     
     /**
@@ -95,15 +100,17 @@ public class Uri extends Struct {
      * @return {@code true} if the path was appended successfully.
      */
     public boolean appendPath(java.lang.String relativePath) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_append_path.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(relativePath, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_append_path.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(relativePath, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -112,15 +119,17 @@ public class Uri extends Struct {
      * @return {@code true} if the path was appended successfully.
      */
     public boolean appendPathSegment(java.lang.String pathSegment) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_append_path_segment.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(pathSegment, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_append_path_segment.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(pathSegment, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,15 +156,19 @@ public class Uri extends Struct {
      * @return A new {@link Uri} object.
      */
     public org.gstreamer.gst.Uri fromStringWithBase(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_with_base.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_with_base.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -166,8 +179,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getFragment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_fragment.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_fragment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,8 +194,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getHost() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_host.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_host.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -208,12 +219,13 @@ public class Uri extends Struct {
     public @Nullable org.gtk.glib.HashTable getMediaFragmentTable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_media_fragment_table.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_media_fragment_table.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.HashTable.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -224,8 +236,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,12 +252,13 @@ public class Uri extends Struct {
     public org.gtk.glib.List getPathSegments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path_segments.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path_segments.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.List.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -257,8 +269,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getPathString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -273,8 +284,7 @@ public class Uri extends Struct {
     public int getPort() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_uri_get_port.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_uri_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,12 +299,11 @@ public class Uri extends Struct {
     public org.gtk.glib.List getQueryKeys() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_keys.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_keys.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -305,8 +314,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getQueryString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -326,12 +334,13 @@ public class Uri extends Struct {
     public @Nullable org.gtk.glib.HashTable getQueryTable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_table.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_table.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.HashTable.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -344,15 +353,17 @@ public class Uri extends Struct {
      * @return The value for the given key, or {@code null} if not found.
      */
     public @Nullable java.lang.String getQueryValue(java.lang.String queryKey) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(queryKey, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(queryKey, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -363,8 +374,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_scheme.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,8 +389,7 @@ public class Uri extends Struct {
     public @Nullable java.lang.String getUserinfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_userinfo.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_userinfo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,8 +404,7 @@ public class Uri extends Struct {
     public boolean isNormalized() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_uri_is_normalized.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_uri_is_normalized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,8 +424,7 @@ public class Uri extends Struct {
     public boolean isWritable() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_uri_is_writable.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_uri_is_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,7 +449,9 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -457,13 +466,14 @@ public class Uri extends Struct {
     public org.gstreamer.gst.Uri makeWritable() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_make_writable.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_make_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -481,21 +491,25 @@ public class Uri extends Struct {
      * @return The new URI joined onto {@code base}.
      */
     public org.gstreamer.gst.Uri newWithBase(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_new_with_base.invokeExact(
-                    handle(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
-                    port,
-                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_new_with_base.invokeExact(
+                        handle(),
+                        (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, SCOPE)),
+                        (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, SCOPE)),
+                        (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, SCOPE)),
+                        port,
+                        (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, SCOPE)),
+                        (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, SCOPE)),
+                        (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -510,8 +524,7 @@ public class Uri extends Struct {
     public boolean normalize() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_uri_normalize.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_uri_normalize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,15 +537,17 @@ public class Uri extends Struct {
      * @return {@code true} if {@code query_key} exists in the URI query table.
      */
     public boolean queryHasKey(java.lang.String queryKey) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_query_has_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(queryKey, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_query_has_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(queryKey, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -541,15 +556,17 @@ public class Uri extends Struct {
      * @return {@code true} if the key existed in the table and was removed.
      */
     public boolean removeQueryKey(java.lang.String queryKey) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_remove_query_key.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(queryKey, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_remove_query_key.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(queryKey, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -559,15 +576,17 @@ public class Uri extends Struct {
      * @return {@code true} if the fragment was set/unset successfully.
      */
     public boolean setFragment(@Nullable java.lang.String fragment) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_fragment.invokeExact(
-                    handle(),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_fragment.invokeExact(
+                        handle(),
+                        (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -576,15 +595,17 @@ public class Uri extends Struct {
      * @return {@code true} if the host was set/unset successfully.
      */
     public boolean setHost(java.lang.String host) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_host.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(host, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_host.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(host, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -594,15 +615,17 @@ public class Uri extends Struct {
      * @return {@code true} if the path was set successfully.
      */
     public boolean setPath(java.lang.String path) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_path.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_path.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -631,15 +654,17 @@ public class Uri extends Struct {
      * @return {@code true} if the path was set successfully.
      */
     public boolean setPathString(java.lang.String path) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_path_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(path, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_path_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(path, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -666,15 +691,17 @@ public class Uri extends Struct {
      * @return {@code true} if the query table was set successfully.
      */
     public boolean setQueryString(java.lang.String query) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_query_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(query, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_query_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(query, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -706,16 +733,18 @@ public class Uri extends Struct {
      * @return {@code true} if the query table was successfully updated.
      */
     public boolean setQueryValue(java.lang.String queryKey, @Nullable java.lang.String queryValue) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_query_value.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(queryKey, null),
-                    (Addressable) (queryValue == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(queryValue, null)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_query_value.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(queryKey, SCOPE),
+                        (Addressable) (queryValue == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(queryValue, SCOPE)));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -724,15 +753,17 @@ public class Uri extends Struct {
      * @return {@code true} if the scheme was set/unset successfully.
      */
     public boolean setScheme(java.lang.String scheme) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_scheme.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(scheme, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_scheme.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(scheme, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -741,15 +772,17 @@ public class Uri extends Struct {
      * @return {@code true} if the user information was set/unset successfully.
      */
     public boolean setUserinfo(java.lang.String userinfo) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_set_userinfo.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(userinfo, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_set_userinfo.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(userinfo, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -763,8 +796,7 @@ public class Uri extends Struct {
     public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_to_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_uri_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -783,15 +815,17 @@ public class Uri extends Struct {
      */
     @Deprecated
     public static java.lang.String construct(java.lang.String protocol, java.lang.String location) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_construct.invokeExact(
-                    Marshal.stringToAddress.marshal(protocol, null),
-                    Marshal.stringToAddress.marshal(location, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_construct.invokeExact(
+                        Marshal.stringToAddress.marshal(protocol, SCOPE),
+                        Marshal.stringToAddress.marshal(location, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -801,14 +835,17 @@ public class Uri extends Struct {
      * @return A new {@link Uri} object, or NULL.
      */
     public static @Nullable org.gstreamer.gst.Uri fromString(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -829,14 +866,17 @@ public class Uri extends Struct {
      * @return A new {@link Uri} object, or NULL.
      */
     public static @Nullable org.gstreamer.gst.Uri fromStringEscaped(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_escaped.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_escaped.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            var OBJECT = org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, null);
+            OBJECT.takeOwnership();
+            return OBJECT;
         }
-        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -852,14 +892,15 @@ public class Uri extends Struct {
      *     empty string is returned.
      */
     public static @Nullable java.lang.String getLocation(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_location.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_location.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -869,14 +910,15 @@ public class Uri extends Struct {
      * @return The protocol for this URI.
      */
     public static @Nullable java.lang.String getProtocol(java.lang.String uri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_protocol.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_protocol.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -886,15 +928,17 @@ public class Uri extends Struct {
      * @return {@code true} if the protocol matches.
      */
     public static boolean hasProtocol(java.lang.String uri, java.lang.String protocol) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_has_protocol.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null),
-                    Marshal.stringToAddress.marshal(protocol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_has_protocol.invokeExact(
+                        Marshal.stringToAddress.marshal(uri, SCOPE),
+                        Marshal.stringToAddress.marshal(protocol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -904,14 +948,15 @@ public class Uri extends Struct {
      * @return {@code true} if the string is a valid URI
      */
     public static boolean isValid(java.lang.String uri) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_is_valid.invokeExact(
-                    Marshal.stringToAddress.marshal(uri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_is_valid.invokeExact(Marshal.stringToAddress.marshal(uri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -923,15 +968,17 @@ public class Uri extends Struct {
      *          the two URIs.
      */
     public static java.lang.String joinStrings(java.lang.String baseUri, java.lang.String refUri) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_uri_join_strings.invokeExact(
-                    Marshal.stringToAddress.marshal(baseUri, null),
-                    Marshal.stringToAddress.marshal(refUri, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_uri_join_strings.invokeExact(
+                        Marshal.stringToAddress.marshal(baseUri, SCOPE),
+                        Marshal.stringToAddress.marshal(refUri, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.addressToString.marshal(RESULT, null);
         }
-        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -943,15 +990,17 @@ public class Uri extends Struct {
      * @return {@code true}
      */
     public static boolean protocolIsSupported(org.gstreamer.gst.URIType type, java.lang.String protocol) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_protocol_is_supported.invokeExact(
-                    type.getValue(),
-                    Marshal.stringToAddress.marshal(protocol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_protocol_is_supported.invokeExact(
+                        type.getValue(),
+                        Marshal.stringToAddress.marshal(protocol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -962,304 +1011,305 @@ public class Uri extends Struct {
      * @return {@code true} if the string is a valid protocol identifier, {@code false} otherwise.
      */
     public static boolean protocolIsValid(java.lang.String protocol) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_uri_protocol_is_valid.invokeExact(
-                    Marshal.stringToAddress.marshal(protocol, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_uri_protocol_is_valid.invokeExact(Marshal.stringToAddress.marshal(protocol, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_uri_new = Interop.downcallHandle(
-            "gst_uri_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_append_path = Interop.downcallHandle(
-            "gst_uri_append_path",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_append_path",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_append_path_segment = Interop.downcallHandle(
-            "gst_uri_append_path_segment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_append_path_segment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_equal = Interop.downcallHandle(
-            "gst_uri_equal",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_equal",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_from_string_with_base = Interop.downcallHandle(
-            "gst_uri_from_string_with_base",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_from_string_with_base",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_fragment = Interop.downcallHandle(
-            "gst_uri_get_fragment",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_fragment",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_host = Interop.downcallHandle(
-            "gst_uri_get_host",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_host",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_media_fragment_table = Interop.downcallHandle(
-            "gst_uri_get_media_fragment_table",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_media_fragment_table",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_path = Interop.downcallHandle(
-            "gst_uri_get_path",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_path",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_path_segments = Interop.downcallHandle(
-            "gst_uri_get_path_segments",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_path_segments",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_path_string = Interop.downcallHandle(
-            "gst_uri_get_path_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_path_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_port = Interop.downcallHandle(
-            "gst_uri_get_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_query_keys = Interop.downcallHandle(
-            "gst_uri_get_query_keys",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_query_keys",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_query_string = Interop.downcallHandle(
-            "gst_uri_get_query_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_query_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_query_table = Interop.downcallHandle(
-            "gst_uri_get_query_table",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_query_table",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_query_value = Interop.downcallHandle(
-            "gst_uri_get_query_value",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_query_value",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_scheme = Interop.downcallHandle(
-            "gst_uri_get_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_userinfo = Interop.downcallHandle(
-            "gst_uri_get_userinfo",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_userinfo",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_is_normalized = Interop.downcallHandle(
-            "gst_uri_is_normalized",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_is_normalized",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_is_writable = Interop.downcallHandle(
-            "gst_uri_is_writable",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_is_writable",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_join = Interop.downcallHandle(
-            "gst_uri_join",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_join",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_make_writable = Interop.downcallHandle(
-            "gst_uri_make_writable",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_make_writable",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_new_with_base = Interop.downcallHandle(
-            "gst_uri_new_with_base",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_new_with_base",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_normalize = Interop.downcallHandle(
-            "gst_uri_normalize",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_normalize",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_query_has_key = Interop.downcallHandle(
-            "gst_uri_query_has_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_query_has_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_remove_query_key = Interop.downcallHandle(
-            "gst_uri_remove_query_key",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_remove_query_key",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_fragment = Interop.downcallHandle(
-            "gst_uri_set_fragment",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_fragment",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_host = Interop.downcallHandle(
-            "gst_uri_set_host",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_host",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_path = Interop.downcallHandle(
-            "gst_uri_set_path",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_path",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_path_segments = Interop.downcallHandle(
-            "gst_uri_set_path_segments",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_path_segments",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_path_string = Interop.downcallHandle(
-            "gst_uri_set_path_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_path_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_port = Interop.downcallHandle(
-            "gst_uri_set_port",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_uri_set_port",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_uri_set_query_string = Interop.downcallHandle(
-            "gst_uri_set_query_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_query_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_query_table = Interop.downcallHandle(
-            "gst_uri_set_query_table",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_query_table",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_query_value = Interop.downcallHandle(
-            "gst_uri_set_query_value",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_query_value",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_scheme = Interop.downcallHandle(
-            "gst_uri_set_scheme",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_scheme",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_set_userinfo = Interop.downcallHandle(
-            "gst_uri_set_userinfo",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_set_userinfo",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_to_string = Interop.downcallHandle(
-            "gst_uri_to_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_to_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_construct = Interop.downcallHandle(
-            "gst_uri_construct",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_construct",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_from_string = Interop.downcallHandle(
-            "gst_uri_from_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_from_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_from_string_escaped = Interop.downcallHandle(
-            "gst_uri_from_string_escaped",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_from_string_escaped",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_location = Interop.downcallHandle(
-            "gst_uri_get_location",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_location",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_get_protocol = Interop.downcallHandle(
-            "gst_uri_get_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_get_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_has_protocol = Interop.downcallHandle(
-            "gst_uri_has_protocol",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_has_protocol",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_is_valid = Interop.downcallHandle(
-            "gst_uri_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_join_strings = Interop.downcallHandle(
-            "gst_uri_join_strings",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_join_strings",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_protocol_is_supported = Interop.downcallHandle(
-            "gst_uri_protocol_is_supported",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_protocol_is_supported",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_uri_protocol_is_valid = Interop.downcallHandle(
-            "gst_uri_protocol_is_valid",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_uri_protocol_is_valid",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

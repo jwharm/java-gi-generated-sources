@@ -29,8 +29,8 @@ public class VulkanDescriptorPoolPrivate extends Struct {
      * @return A new, uninitialized @{link VulkanDescriptorPoolPrivate}
      */
     public static VulkanDescriptorPoolPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanDescriptorPoolPrivate newInstance = new VulkanDescriptorPoolPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanDescriptorPoolPrivate newInstance = new VulkanDescriptorPoolPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VulkanDescriptorPoolPrivate extends Struct {
     /**
      * Create a VulkanDescriptorPoolPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanDescriptorPoolPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanDescriptorPoolPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanDescriptorPoolPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorPoolPrivate(input, ownership);
+    public static final Marshal<Addressable, VulkanDescriptorPoolPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorPoolPrivate(input);
 }

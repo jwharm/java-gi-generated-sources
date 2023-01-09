@@ -38,8 +38,8 @@ public class VariantBuilder extends Struct {
      * @return A new, uninitialized @{link VariantBuilder}
      */
     public static VariantBuilder allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VariantBuilder newInstance = new VariantBuilder(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VariantBuilder newInstance = new VariantBuilder(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -47,20 +47,21 @@ public class VariantBuilder extends Struct {
     /**
      * Create a VariantBuilder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VariantBuilder(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VariantBuilder(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VariantBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantBuilder(input, ownership);
+    public static final Marshal<Addressable, VariantBuilder> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VariantBuilder(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.VariantType type) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(
-                    type.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +81,8 @@ public class VariantBuilder extends Struct {
      * @param type a container type
      */
     public VariantBuilder(org.gtk.glib.VariantType type) {
-        super(constructNew(type), Ownership.FULL);
+        super(constructNew(type));
+        this.takeOwnership();
     }
     
     /**
@@ -117,13 +119,15 @@ public class VariantBuilder extends Struct {
      * @param varargs arguments, as per {@code format_string}
      */
     public void add(java.lang.String formatString, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_variant_builder_add.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(formatString, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_variant_builder_add.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(formatString, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -157,13 +161,15 @@ public class VariantBuilder extends Struct {
      * @param varargs arguments as per {@code format}
      */
     public void addParsed(java.lang.String format, java.lang.Object... varargs) {
-        try {
-            DowncallHandles.g_variant_builder_add_parsed.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(format, null),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_variant_builder_add_parsed.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(format, SCOPE),
+                        varargs);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -208,8 +214,7 @@ public class VariantBuilder extends Struct {
      */
     public void clear() {
         try {
-            DowncallHandles.g_variant_builder_clear.invokeExact(
-                    handle());
+            DowncallHandles.g_variant_builder_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,8 +230,7 @@ public class VariantBuilder extends Struct {
      */
     public void close() {
         try {
-            DowncallHandles.g_variant_builder_close.invokeExact(
-                    handle());
+            DowncallHandles.g_variant_builder_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,12 +259,11 @@ public class VariantBuilder extends Struct {
     public org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -364,12 +367,13 @@ public class VariantBuilder extends Struct {
     public org.gtk.glib.VariantBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.VariantBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.VariantBuilder.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -383,8 +387,7 @@ public class VariantBuilder extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_variant_builder_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_variant_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,69 +397,69 @@ public class VariantBuilder extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
-            "g_variant_builder_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_add = Interop.downcallHandle(
-            "g_variant_builder_add",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_variant_builder_add",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_variant_builder_add_parsed = Interop.downcallHandle(
-            "g_variant_builder_add_parsed",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
+                "g_variant_builder_add_parsed",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                true
         );
         
         private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
-            "g_variant_builder_add_value",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_add_value",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
-            "g_variant_builder_clear",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_clear",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
-            "g_variant_builder_close",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_close",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
-            "g_variant_builder_end",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_end",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
-            "g_variant_builder_init",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_init",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
-            "g_variant_builder_open",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_open",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
-            "g_variant_builder_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
-            "g_variant_builder_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_variant_builder_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

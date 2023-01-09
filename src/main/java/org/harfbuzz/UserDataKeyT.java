@@ -34,8 +34,8 @@ public class UserDataKeyT extends Struct {
      * @return A new, uninitialized @{link UserDataKeyT}
      */
     public static UserDataKeyT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        UserDataKeyT newInstance = new UserDataKeyT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        UserDataKeyT newInstance = new UserDataKeyT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,14 +43,16 @@ public class UserDataKeyT extends Struct {
     /**
      * Create a UserDataKeyT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected UserDataKeyT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected UserDataKeyT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, UserDataKeyT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UserDataKeyT(input, ownership);
+    public static final Marshal<Addressable, UserDataKeyT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new UserDataKeyT(input);
     
     /**
      * A {@link UserDataKeyT.Builder} object constructs a {@link UserDataKeyT} 
@@ -74,7 +76,7 @@ public class UserDataKeyT extends Struct {
             struct = UserDataKeyT.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link UserDataKeyT} struct.
          * @return A new instance of {@code UserDataKeyT} with the fields 
          *         that were set in the Builder object.
@@ -84,10 +86,12 @@ public class UserDataKeyT extends Struct {
         }
         
         public Builder setUnused(byte unused) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("unused"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), unused);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("unused"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), unused);
+                return this;
+            }
         }
     }
 }

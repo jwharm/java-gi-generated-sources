@@ -10,6 +10,7 @@ import org.jetbrains.annotations.*;
  * @version 4.8
  */
 public enum ContentFit implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Make the content fill the entire allocation,
      *   without taking its aspect ratio in consideration. The resulting
@@ -17,6 +18,7 @@ public enum ContentFit implements io.github.jwharm.javagi.Enumeration {
      *   from the allocation aspect ratio.
      */
     FILL(0),
+    
     /**
      * Scale the content to fit the allocation,
      *   while taking its aspect ratio in consideration. The resulting
@@ -24,6 +26,7 @@ public enum ContentFit implements io.github.jwharm.javagi.Enumeration {
      *   from the allocation aspect ratio.
      */
     CONTAIN(1),
+    
     /**
      * Cover the entire allocation, while taking
      *   the content aspect ratio in consideration. The resulting content
@@ -31,6 +34,7 @@ public enum ContentFit implements io.github.jwharm.javagi.Enumeration {
      *   allocation aspect ratio.
      */
     COVER(2),
+    
     /**
      * The content is scaled down to fit the
      *   allocation, if needed, otherwise its original size is used.
@@ -40,15 +44,29 @@ public enum ContentFit implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GtkContentFit";
     
     private final int value;
+    
+    /**
+     * Create a new ContentFit for the provided value
+     * @param numeric value the enum value
+     */
     ContentFit(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new ContentFit for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static ContentFit of(int value) {
         return switch (value) {
             case 0 -> FILL;

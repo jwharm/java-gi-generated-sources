@@ -31,8 +31,8 @@ public class MultiSorterClass extends Struct {
      * @return A new, uninitialized @{link MultiSorterClass}
      */
     public static MultiSorterClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MultiSorterClass newInstance = new MultiSorterClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MultiSorterClass newInstance = new MultiSorterClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -43,7 +43,7 @@ public class MultiSorterClass extends Struct {
      */
     public org.gtk.gtk.SorterClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return org.gtk.gtk.SorterClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.SorterClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -51,22 +51,26 @@ public class MultiSorterClass extends Struct {
      * @param parentClass The new value of the field {@code parent_class}
      */
     public void setParentClass(org.gtk.gtk.SorterClass parentClass) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+        }
     }
     
     /**
      * Create a MultiSorterClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MultiSorterClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MultiSorterClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MultiSorterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MultiSorterClass(input, ownership);
+    public static final Marshal<Addressable, MultiSorterClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MultiSorterClass(input);
     
     /**
      * A {@link MultiSorterClass.Builder} object constructs a {@link MultiSorterClass} 
@@ -90,7 +94,7 @@ public class MultiSorterClass extends Struct {
             struct = MultiSorterClass.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link MultiSorterClass} struct.
          * @return A new instance of {@code MultiSorterClass} with the fields 
          *         that were set in the Builder object.
@@ -100,10 +104,12 @@ public class MultiSorterClass extends Struct {
         }
         
         public Builder setParentClass(org.gtk.gtk.SorterClass parentClass) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+                return this;
+            }
         }
     }
 }

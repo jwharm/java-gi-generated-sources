@@ -29,8 +29,8 @@ public class FileIOStreamPrivate extends Struct {
      * @return A new, uninitialized @{link FileIOStreamPrivate}
      */
     public static FileIOStreamPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        FileIOStreamPrivate newInstance = new FileIOStreamPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        FileIOStreamPrivate newInstance = new FileIOStreamPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class FileIOStreamPrivate extends Struct {
     /**
      * Create a FileIOStreamPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FileIOStreamPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FileIOStreamPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FileIOStreamPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileIOStreamPrivate(input, ownership);
+    public static final Marshal<Addressable, FileIOStreamPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FileIOStreamPrivate(input);
 }

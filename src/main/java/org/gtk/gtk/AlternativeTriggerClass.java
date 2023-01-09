@@ -29,8 +29,8 @@ public class AlternativeTriggerClass extends Struct {
      * @return A new, uninitialized @{link AlternativeTriggerClass}
      */
     public static AlternativeTriggerClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AlternativeTriggerClass newInstance = new AlternativeTriggerClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AlternativeTriggerClass newInstance = new AlternativeTriggerClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AlternativeTriggerClass extends Struct {
     /**
      * Create a AlternativeTriggerClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AlternativeTriggerClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AlternativeTriggerClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AlternativeTriggerClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AlternativeTriggerClass(input, ownership);
+    public static final Marshal<Addressable, AlternativeTriggerClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AlternativeTriggerClass(input);
 }

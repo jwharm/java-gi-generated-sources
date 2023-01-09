@@ -29,8 +29,8 @@ public class MemoryTextureClass extends Struct {
      * @return A new, uninitialized @{link MemoryTextureClass}
      */
     public static MemoryTextureClass allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        MemoryTextureClass newInstance = new MemoryTextureClass(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        MemoryTextureClass newInstance = new MemoryTextureClass(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class MemoryTextureClass extends Struct {
     /**
      * Create a MemoryTextureClass proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected MemoryTextureClass(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected MemoryTextureClass(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, MemoryTextureClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryTextureClass(input, ownership);
+    public static final Marshal<Addressable, MemoryTextureClass> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new MemoryTextureClass(input);
 }

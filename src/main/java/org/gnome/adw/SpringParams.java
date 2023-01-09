@@ -62,8 +62,8 @@ public class SpringParams extends Struct {
      * @return A new, uninitialized @{link SpringParams}
      */
     public static SpringParams allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SpringParams newInstance = new SpringParams(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SpringParams newInstance = new SpringParams(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -71,14 +71,16 @@ public class SpringParams extends Struct {
     /**
      * Create a SpringParams proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SpringParams(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SpringParams(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SpringParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpringParams(input, ownership);
+    public static final Marshal<Addressable, SpringParams> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SpringParams(input);
     
     private static MemoryAddress constructNew(double dampingRatio, double mass, double stiffness) {
         MemoryAddress RESULT;
@@ -114,7 +116,8 @@ public class SpringParams extends Struct {
      * @param stiffness the stiffness of the spring
      */
     public SpringParams(double dampingRatio, double mass, double stiffness) {
-        super(constructNew(dampingRatio, mass, stiffness), Ownership.FULL);
+        super(constructNew(dampingRatio, mass, stiffness));
+        this.takeOwnership();
     }
     
     private static MemoryAddress constructNewFull(double damping, double mass, double stiffness) {
@@ -129,7 +132,7 @@ public class SpringParams extends Struct {
         }
         return RESULT;
     }
-    
+        
     /**
      * Creates a new {@code AdwSpringParams} from {@code mass}, {@code stiffness} and {@code damping}.
      * <p>
@@ -142,7 +145,9 @@ public class SpringParams extends Struct {
      */
     public static SpringParams newFull(double damping, double mass, double stiffness) {
         var RESULT = constructNewFull(damping, mass, stiffness);
-        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -152,8 +157,7 @@ public class SpringParams extends Struct {
     public double getDamping() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_damping.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,8 +171,7 @@ public class SpringParams extends Struct {
     public double getDampingRatio() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_damping_ratio.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,8 +185,7 @@ public class SpringParams extends Struct {
     public double getMass() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_mass.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_mass.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,8 +199,7 @@ public class SpringParams extends Struct {
     public double getStiffness() {
         double RESULT;
         try {
-            RESULT = (double) DowncallHandles.adw_spring_params_get_stiffness.invokeExact(
-                    handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_stiffness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,12 +213,13 @@ public class SpringParams extends Struct {
     public org.gnome.adw.SpringParams ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -227,8 +229,7 @@ public class SpringParams extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.adw_spring_params_unref.invokeExact(
-                    handle());
+            DowncallHandles.adw_spring_params_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,51 +238,51 @@ public class SpringParams extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle adw_spring_params_new = Interop.downcallHandle(
-            "adw_spring_params_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_params_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_params_new_full = Interop.downcallHandle(
-            "adw_spring_params_new_full",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
-            false
+                "adw_spring_params_new_full",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
+                false
         );
         
         private static final MethodHandle adw_spring_params_get_damping = Interop.downcallHandle(
-            "adw_spring_params_get_damping",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_get_damping",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_params_get_damping_ratio = Interop.downcallHandle(
-            "adw_spring_params_get_damping_ratio",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_get_damping_ratio",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_params_get_mass = Interop.downcallHandle(
-            "adw_spring_params_get_mass",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_get_mass",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_params_get_stiffness = Interop.downcallHandle(
-            "adw_spring_params_get_stiffness",
-            FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_get_stiffness",
+                FunctionDescriptor.of(Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_params_ref = Interop.downcallHandle(
-            "adw_spring_params_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_spring_params_unref = Interop.downcallHandle(
-            "adw_spring_params_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "adw_spring_params_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }

@@ -29,8 +29,8 @@ public class SparseImageFormatProperties2KHR extends Struct {
      * @return A new, uninitialized @{link SparseImageFormatProperties2KHR}
      */
     public static SparseImageFormatProperties2KHR allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        SparseImageFormatProperties2KHR newInstance = new SparseImageFormatProperties2KHR(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        SparseImageFormatProperties2KHR newInstance = new SparseImageFormatProperties2KHR(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class SparseImageFormatProperties2KHR extends Struct {
     /**
      * Create a SparseImageFormatProperties2KHR proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected SparseImageFormatProperties2KHR(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected SparseImageFormatProperties2KHR(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, SparseImageFormatProperties2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageFormatProperties2KHR(input, ownership);
+    public static final Marshal<Addressable, SparseImageFormatProperties2KHR> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageFormatProperties2KHR(input);
 }

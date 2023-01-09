@@ -29,8 +29,8 @@ public class ValidationCacheCreateInfoEXT extends Struct {
      * @return A new, uninitialized @{link ValidationCacheCreateInfoEXT}
      */
     public static ValidationCacheCreateInfoEXT allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ValidationCacheCreateInfoEXT newInstance = new ValidationCacheCreateInfoEXT(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ValidationCacheCreateInfoEXT newInstance = new ValidationCacheCreateInfoEXT(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ValidationCacheCreateInfoEXT extends Struct {
     /**
      * Create a ValidationCacheCreateInfoEXT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ValidationCacheCreateInfoEXT(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ValidationCacheCreateInfoEXT(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ValidationCacheCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValidationCacheCreateInfoEXT(input, ownership);
+    public static final Marshal<Addressable, ValidationCacheCreateInfoEXT> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ValidationCacheCreateInfoEXT(input);
 }

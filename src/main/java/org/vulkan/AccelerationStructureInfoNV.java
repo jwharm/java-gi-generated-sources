@@ -29,8 +29,8 @@ public class AccelerationStructureInfoNV extends Struct {
      * @return A new, uninitialized @{link AccelerationStructureInfoNV}
      */
     public static AccelerationStructureInfoNV allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AccelerationStructureInfoNV newInstance = new AccelerationStructureInfoNV(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AccelerationStructureInfoNV newInstance = new AccelerationStructureInfoNV(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class AccelerationStructureInfoNV extends Struct {
     /**
      * Create a AccelerationStructureInfoNV proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AccelerationStructureInfoNV(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AccelerationStructureInfoNV(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AccelerationStructureInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AccelerationStructureInfoNV(input, ownership);
+    public static final Marshal<Addressable, AccelerationStructureInfoNV> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AccelerationStructureInfoNV(input);
 }

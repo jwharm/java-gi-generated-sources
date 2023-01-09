@@ -54,8 +54,8 @@ public class Meta extends Struct {
      * @return A new, uninitialized @{link Meta}
      */
     public static Meta allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Meta newInstance = new Meta(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Meta newInstance = new Meta(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -65,10 +65,12 @@ public class Meta extends Struct {
      * @return The value of the field {@code flags}
      */
     public org.gstreamer.gst.MetaFlags getFlags() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.MetaFlags(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new org.gstreamer.gst.MetaFlags(RESULT);
+        }
     }
     
     /**
@@ -76,9 +78,11 @@ public class Meta extends Struct {
      * @param flags The new value of the field {@code flags}
      */
     public void setFlags(org.gstreamer.gst.MetaFlags flags) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+        }
     }
     
     /**
@@ -86,10 +90,12 @@ public class Meta extends Struct {
      * @return The value of the field {@code info}
      */
     public org.gstreamer.gst.MetaInfo getInfo_() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -97,22 +103,26 @@ public class Meta extends Struct {
      * @param info The new value of the field {@code info}
      */
     public void setInfo(org.gstreamer.gst.MetaInfo info) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+        }
     }
     
     /**
      * Create a Meta proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Meta(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Meta(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Meta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Meta(input, ownership);
+    public static final Marshal<Addressable, Meta> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Meta(input);
     
     /**
      * Meta sequence number compare function. Can be used as {@link org.gtk.glib.CompareFunc}
@@ -140,8 +150,7 @@ public class Meta extends Struct {
     public long getSeqnum() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.gst_meta_get_seqnum.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.gst_meta_get_seqnum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,14 +158,15 @@ public class Meta extends Struct {
     }
     
     public static PointerString apiTypeGetTags(org.gtk.glib.Type api) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_meta_api_type_get_tags.invokeExact(
-                    api.getValue().longValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_meta_api_type_get_tags.invokeExact(api.getValue().longValue());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new PointerString(RESULT);
         }
-        return new PointerString(RESULT);
     }
     
     /**
@@ -185,15 +195,17 @@ public class Meta extends Struct {
      * @return a unique GType for {@code api}.
      */
     public static org.gtk.glib.Type apiTypeRegister(java.lang.String api, java.lang.String[] tags) {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.gst_meta_api_type_register.invokeExact(
-                    Marshal.stringToAddress.marshal(api, null),
-                    Interop.allocateNativeArray(tags, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            long RESULT;
+            try {
+                RESULT = (long) DowncallHandles.gst_meta_api_type_register.invokeExact(
+                        Marshal.stringToAddress.marshal(api, SCOPE),
+                        Interop.allocateNativeArray(tags, false, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return new org.gtk.glib.Type(RESULT);
         }
-        return new org.gtk.glib.Type(RESULT);
     }
     
     /**
@@ -204,14 +216,15 @@ public class Meta extends Struct {
      * {@code null} when no such metainfo exists.
      */
     public static @Nullable org.gstreamer.gst.MetaInfo getInfo(java.lang.String impl) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_meta_get_info.invokeExact(
-                    Marshal.stringToAddress.marshal(impl, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_meta_get_info.invokeExact(Marshal.stringToAddress.marshal(impl, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -229,19 +242,21 @@ public class Meta extends Struct {
      * access metadata.
      */
     public static org.gstreamer.gst.MetaInfo register(org.gtk.glib.Type api, java.lang.String impl, long size, org.gstreamer.gst.MetaInitFunction initFunc, org.gstreamer.gst.MetaFreeFunction freeFunc, org.gstreamer.gst.MetaTransformFunction transformFunc) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_meta_register.invokeExact(
-                    api.getValue().longValue(),
-                    Marshal.stringToAddress.marshal(impl, null),
-                    size,
-                    (Addressable) initFunc.toCallback(),
-                    (Addressable) freeFunc.toCallback(),
-                    (Addressable) transformFunc.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_meta_register.invokeExact(
+                        api.getValue().longValue(),
+                        Marshal.stringToAddress.marshal(impl, SCOPE),
+                        size,
+                        (Addressable) initFunc.toCallback(),
+                        (Addressable) freeFunc.toCallback(),
+                        (Addressable) transformFunc.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -266,68 +281,70 @@ public class Meta extends Struct {
      * access metadata.
      */
     public static org.gstreamer.gst.MetaInfo registerCustom(java.lang.String name, java.lang.String[] tags, @Nullable org.gstreamer.gst.CustomMetaTransformFunction transformFunc, org.gtk.glib.DestroyNotify destroyData) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_meta_register_custom.invokeExact(
-                    Marshal.stringToAddress.marshal(name, null),
-                    Interop.allocateNativeArray(tags, false),
-                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()),
-                    (Addressable) MemoryAddress.NULL,
-                    (Addressable) destroyData.toCallback());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemoryAddress RESULT;
+            try {
+                RESULT = (MemoryAddress) DowncallHandles.gst_meta_register_custom.invokeExact(
+                        Marshal.stringToAddress.marshal(name, SCOPE),
+                        Interop.allocateNativeArray(tags, false, SCOPE),
+                        (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()),
+                        (Addressable) MemoryAddress.NULL,
+                        (Addressable) destroyData.toCallback());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, null);
         }
-        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_meta_compare_seqnum = Interop.downcallHandle(
-            "gst_meta_compare_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_compare_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_meta_get_seqnum = Interop.downcallHandle(
-            "gst_meta_get_seqnum",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_get_seqnum",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_meta_api_type_get_tags = Interop.downcallHandle(
-            "gst_meta_api_type_get_tags",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG),
-            false
+                "gst_meta_api_type_get_tags",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_meta_api_type_has_tag = Interop.downcallHandle(
-            "gst_meta_api_type_has_tag",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
-            false
+                "gst_meta_api_type_has_tag",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_meta_api_type_register = Interop.downcallHandle(
-            "gst_meta_api_type_register",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_api_type_register",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_meta_get_info = Interop.downcallHandle(
-            "gst_meta_get_info",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_get_info",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_meta_register = Interop.downcallHandle(
-            "gst_meta_register",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_register",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_meta_register_custom = Interop.downcallHandle(
-            "gst_meta_register_custom",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_meta_register_custom",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -353,7 +370,7 @@ public class Meta extends Struct {
             struct = Meta.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Meta} struct.
          * @return A new instance of {@code Meta} with the fields 
          *         that were set in the Builder object.
@@ -368,10 +385,12 @@ public class Meta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setFlags(org.gstreamer.gst.MetaFlags flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
+                return this;
+            }
         }
         
         /**
@@ -380,10 +399,12 @@ public class Meta extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setInfo(org.gstreamer.gst.MetaInfo info) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("info"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("info"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
+                return this;
+            }
         }
     }
 }

@@ -37,6 +37,9 @@ public class VideoCodecFrameFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final VideoCodecFrameFlags CORRUPTED = new VideoCodecFrameFlags(16);
     
+    /**
+     * Create a new VideoCodecFrameFlags with the provided value
+     */
     public VideoCodecFrameFlags(int value) {
         super(value);
     }

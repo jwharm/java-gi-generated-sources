@@ -36,6 +36,9 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
      */
     public static final DragAction ASK = new DragAction(8);
     
+    /**
+     * Create a new DragAction with the provided value
+     */
     public DragAction(int value) {
         super(value);
     }
@@ -52,8 +55,7 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
     public static boolean isUnique(org.gtk.gdk.DragAction action) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(
-                    action.getValue());
+            RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,9 +92,9 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
-            "gdk_drag_action_is_unique",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gdk_drag_action_is_unique",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

@@ -33,8 +33,8 @@ public class VideoDither extends Struct {
      * @return A new, uninitialized @{link VideoDither}
      */
     public static VideoDither allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VideoDither newInstance = new VideoDither(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VideoDither newInstance = new VideoDither(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -42,22 +42,23 @@ public class VideoDither extends Struct {
     /**
      * Create a VideoDither proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VideoDither(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VideoDither(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VideoDither> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoDither(input, ownership);
+    public static final Marshal<Addressable, VideoDither> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VideoDither(input);
     
     /**
      * Free {@code dither}
      */
     public void free() {
         try {
-            DowncallHandles.gst_video_dither_free.invokeExact(
-                    handle());
+            DowncallHandles.gst_video_dither_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,27 +113,27 @@ public class VideoDither extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.video.VideoDither.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoDither.fromAddress.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_video_dither_free = Interop.downcallHandle(
-            "gst_video_dither_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_video_dither_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_video_dither_line = Interop.downcallHandle(
-            "gst_video_dither_line",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_video_dither_line",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gst_video_dither_new = Interop.downcallHandle(
-            "gst_video_dither_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gst_video_dither_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
     }
 }

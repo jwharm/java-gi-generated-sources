@@ -70,26 +70,17 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     /**
      * Create a ButtonContent proxy instance for the provided memory address.
-     * <p>
-     * Because ButtonContent is an {@code InitiallyUnowned} instance, when 
-     * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ButtonContent(Addressable address, Ownership ownership) {
-        super(address, Ownership.FULL);
-        if (ownership == Ownership.NONE) {
-            try {
-                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
-            } catch (Throwable ERR) {
-                throw new AssertionError("Unexpected exception occured: ", ERR);
-            }
-        }
+    protected ButtonContent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ButtonContent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ButtonContent(input, ownership);
+    public static final Marshal<Addressable, ButtonContent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ButtonContent(input);
     
     private static MemoryAddress constructNew() {
         MemoryAddress RESULT;
@@ -105,7 +96,9 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Creates a new {@code AdwButtonContent}.
      */
     public ButtonContent() {
-        super(constructNew(), Ownership.NONE);
+        super(constructNew());
+        this.refSink();
+        this.takeOwnership();
     }
     
     /**
@@ -115,8 +108,7 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_icon_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -130,8 +122,7 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_label.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_button_content_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,8 +136,7 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.adw_button_content_get_use_underline.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.adw_button_content_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,12 +150,14 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param iconName the new icon name
      */
     public void setIconName(java.lang.String iconName) {
-        try {
-            DowncallHandles.adw_button_content_set_icon_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(iconName, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_button_content_set_icon_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(iconName, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -174,12 +166,14 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * @param label the new label
      */
     public void setLabel(java.lang.String label) {
-        try {
-            DowncallHandles.adw_button_content_set_label.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(label, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.adw_button_content_set_label.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(label, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -231,6 +225,9 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      */
     public static class Builder extends org.gtk.gtk.Widget.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -294,51 +291,59 @@ public class ButtonContent extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     private static class DowncallHandles {
         
         private static final MethodHandle adw_button_content_new = Interop.downcallHandle(
-            "adw_button_content_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_get_icon_name = Interop.downcallHandle(
-            "adw_button_content_get_icon_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_get_icon_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_get_label = Interop.downcallHandle(
-            "adw_button_content_get_label",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_get_label",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_get_use_underline = Interop.downcallHandle(
-            "adw_button_content_get_use_underline",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_get_use_underline",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_set_icon_name = Interop.downcallHandle(
-            "adw_button_content_set_icon_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_set_icon_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_set_label = Interop.downcallHandle(
-            "adw_button_content_set_label",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "adw_button_content_set_label",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle adw_button_content_set_use_underline = Interop.downcallHandle(
-            "adw_button_content_set_use_underline",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "adw_button_content_set_use_underline",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle adw_button_content_get_type = Interop.downcallHandle(
-            "adw_button_content_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "adw_button_content_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.adw_button_content_get_type != null;
     }
 }

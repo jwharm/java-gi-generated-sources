@@ -28,14 +28,16 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
     /**
      * Create a FixedLayoutChild proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected FixedLayoutChild(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected FixedLayoutChild(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, FixedLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FixedLayoutChild(input, ownership);
+    public static final Marshal<Addressable, FixedLayoutChild> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new FixedLayoutChild(input);
     
     /**
      * Retrieves the transformation of the child.
@@ -44,12 +46,11 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
     public @Nullable org.gtk.gsk.Transform getTransform() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_layout_child_get_transform.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_layout_child_get_transform.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -96,6 +97,9 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -131,21 +135,29 @@ public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_fixed_layout_child_get_transform = Interop.downcallHandle(
-            "gtk_fixed_layout_child_get_transform",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_layout_child_get_transform",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_layout_child_set_transform = Interop.downcallHandle(
-            "gtk_fixed_layout_child_set_transform",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_fixed_layout_child_set_transform",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_fixed_layout_child_get_type = Interop.downcallHandle(
-            "gtk_fixed_layout_child_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_fixed_layout_child_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_fixed_layout_child_get_type != null;
     }
 }

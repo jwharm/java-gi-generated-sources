@@ -34,8 +34,8 @@ public class T2DeliverySystemCell extends Struct {
      * @return A new, uninitialized @{link T2DeliverySystemCell}
      */
     public static T2DeliverySystemCell allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        T2DeliverySystemCell newInstance = new T2DeliverySystemCell(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        T2DeliverySystemCell newInstance = new T2DeliverySystemCell(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -45,10 +45,12 @@ public class T2DeliverySystemCell extends Struct {
      * @return The value of the field {@code cell_id}
      */
     public short getCellId() {
-        var RESULT = (short) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (short) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -56,9 +58,11 @@ public class T2DeliverySystemCell extends Struct {
      * @param cellId The new value of the field {@code cell_id}
      */
     public void setCellId(short cellId) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cellId);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), cellId);
+        }
     }
     
     /**
@@ -66,10 +70,12 @@ public class T2DeliverySystemCell extends Struct {
      * @return The value of the field {@code centre_frequencies}
      */
     public PointerInteger getCentreFrequencies() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerInteger(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerInteger(RESULT);
+        }
     }
     
     /**
@@ -77,9 +83,11 @@ public class T2DeliverySystemCell extends Struct {
      * @param centreFrequencies The new value of the field {@code centre_frequencies}
      */
     public void setCentreFrequencies(int[] centreFrequencies) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (centreFrequencies == null ? MemoryAddress.NULL : Interop.allocateNativeArray(centreFrequencies, false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (centreFrequencies == null ? MemoryAddress.NULL : Interop.allocateNativeArray(centreFrequencies, false, SCOPE)));
+        }
     }
     
     /**
@@ -87,10 +95,12 @@ public class T2DeliverySystemCell extends Struct {
      * @return The value of the field {@code sub_cells}
      */
     public PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCellExtension> getSubCells() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCellExtension>(RESULT, org.gstreamer.mpegts.T2DeliverySystemCellExtension.fromAddress);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerProxy<org.gstreamer.mpegts.T2DeliverySystemCellExtension>(RESULT, org.gstreamer.mpegts.T2DeliverySystemCellExtension.fromAddress);
+        }
     }
     
     /**
@@ -98,22 +108,26 @@ public class T2DeliverySystemCell extends Struct {
      * @param subCells The new value of the field {@code sub_cells}
      */
     public void setSubCells(org.gstreamer.mpegts.T2DeliverySystemCellExtension[] subCells) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subCells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subCells, org.gstreamer.mpegts.T2DeliverySystemCellExtension.getMemoryLayout(), false)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subCells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subCells, org.gstreamer.mpegts.T2DeliverySystemCellExtension.getMemoryLayout(), false, SCOPE)));
+        }
     }
     
     /**
      * Create a T2DeliverySystemCell proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected T2DeliverySystemCell(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected T2DeliverySystemCell(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, T2DeliverySystemCell> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new T2DeliverySystemCell(input, ownership);
+    public static final Marshal<Addressable, T2DeliverySystemCell> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new T2DeliverySystemCell(input);
     
     /**
      * A {@link T2DeliverySystemCell.Builder} object constructs a {@link T2DeliverySystemCell} 
@@ -137,7 +151,7 @@ public class T2DeliverySystemCell extends Struct {
             struct = T2DeliverySystemCell.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link T2DeliverySystemCell} struct.
          * @return A new instance of {@code T2DeliverySystemCell} with the fields 
          *         that were set in the Builder object.
@@ -152,10 +166,12 @@ public class T2DeliverySystemCell extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCellId(short cellId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cellId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cell_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), cellId);
+                return this;
+            }
         }
         
         /**
@@ -164,17 +180,21 @@ public class T2DeliverySystemCell extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCentreFrequencies(int[] centreFrequencies) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (centreFrequencies == null ? MemoryAddress.NULL : Interop.allocateNativeArray(centreFrequencies, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("centre_frequencies"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (centreFrequencies == null ? MemoryAddress.NULL : Interop.allocateNativeArray(centreFrequencies, false, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setSubCells(org.gstreamer.mpegts.T2DeliverySystemCellExtension[] subCells) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subCells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subCells, org.gstreamer.mpegts.T2DeliverySystemCellExtension.getMemoryLayout(), false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("sub_cells"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (subCells == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subCells, org.gstreamer.mpegts.T2DeliverySystemCellExtension.getMemoryLayout(), false, SCOPE)));
+                return this;
+            }
         }
     }
 }

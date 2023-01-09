@@ -42,8 +42,8 @@ public class TreeIter extends Struct {
      * @return A new, uninitialized @{link TreeIter}
      */
     public static TreeIter allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TreeIter newInstance = new TreeIter(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TreeIter newInstance = new TreeIter(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -53,10 +53,12 @@ public class TreeIter extends Struct {
      * @return The value of the field {@code stamp}
      */
     public int getStamp() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -64,9 +66,11 @@ public class TreeIter extends Struct {
      * @param stamp The new value of the field {@code stamp}
      */
     public void setStamp(int stamp) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stamp);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), stamp);
+        }
     }
     
     /**
@@ -74,10 +78,12 @@ public class TreeIter extends Struct {
      * @return The value of the field {@code user_data}
      */
     public java.lang.foreign.MemoryAddress getUserData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -85,9 +91,11 @@ public class TreeIter extends Struct {
      * @param userData The new value of the field {@code user_data}
      */
     public void setUserData(java.lang.foreign.MemoryAddress userData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+        }
     }
     
     /**
@@ -95,10 +103,12 @@ public class TreeIter extends Struct {
      * @return The value of the field {@code user_data2}
      */
     public java.lang.foreign.MemoryAddress getUserData2() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -106,9 +116,11 @@ public class TreeIter extends Struct {
      * @param userData2 The new value of the field {@code user_data2}
      */
     public void setUserData2(java.lang.foreign.MemoryAddress userData2) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
+        }
     }
     
     /**
@@ -116,10 +128,12 @@ public class TreeIter extends Struct {
      * @return The value of the field {@code user_data3}
      */
     public java.lang.foreign.MemoryAddress getUserData3() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -127,22 +141,26 @@ public class TreeIter extends Struct {
      * @param userData3 The new value of the field {@code user_data3}
      */
     public void setUserData3(java.lang.foreign.MemoryAddress userData3) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));
+        }
     }
     
     /**
      * Create a TreeIter proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TreeIter(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TreeIter(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TreeIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeIter(input, ownership);
+    public static final Marshal<Addressable, TreeIter> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TreeIter(input);
     
     /**
      * Creates a dynamically allocated tree iterator as a copy of {@code iter}.
@@ -156,12 +174,13 @@ public class TreeIter extends Struct {
     public org.gtk.gtk.TreeIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_iter_copy.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_iter_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.gtk.TreeIter.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.gtk.TreeIter.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -171,8 +190,7 @@ public class TreeIter extends Struct {
      */
     public void free() {
         try {
-            DowncallHandles.gtk_tree_iter_free.invokeExact(
-                    handle());
+            DowncallHandles.gtk_tree_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,15 +199,15 @@ public class TreeIter extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
-            "gtk_tree_iter_copy",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_iter_copy",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
-            "gtk_tree_iter_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gtk_tree_iter_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -215,7 +233,7 @@ public class TreeIter extends Struct {
             struct = TreeIter.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link TreeIter} struct.
          * @return A new instance of {@code TreeIter} with the fields 
          *         that were set in the Builder object.
@@ -230,10 +248,12 @@ public class TreeIter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setStamp(int stamp) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stamp);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), stamp);
+                return this;
+            }
         }
         
         /**
@@ -242,10 +262,12 @@ public class TreeIter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
+                return this;
+            }
         }
         
         /**
@@ -254,10 +276,12 @@ public class TreeIter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData2(java.lang.foreign.MemoryAddress userData2) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
+                return this;
+            }
         }
         
         /**
@@ -266,10 +290,12 @@ public class TreeIter extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setUserData3(java.lang.foreign.MemoryAddress userData3) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));
+                return this;
+            }
         }
     }
 }

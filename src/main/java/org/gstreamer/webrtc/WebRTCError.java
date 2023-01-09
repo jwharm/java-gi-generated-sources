@@ -10,38 +10,47 @@ import org.jetbrains.annotations.*;
  * @version 1.20
  */
 public enum WebRTCError implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * data-channel-failure
      */
     DATA_CHANNEL_FAILURE(0),
+    
     /**
      * dtls-failure
      */
     DTLS_FAILURE(1),
+    
     /**
      * fingerprint-failure
      */
     FINGERPRINT_FAILURE(2),
+    
     /**
      * sctp-failure
      */
     SCTP_FAILURE(3),
+    
     /**
      * sdp-syntax-error
      */
     SDP_SYNTAX_ERROR(4),
+    
     /**
      * hardware-encoder-not-available
      */
     HARDWARE_ENCODER_NOT_AVAILABLE(5),
+    
     /**
      * encoder-error
      */
     ENCODER_ERROR(6),
+    
     /**
      * invalid-state (part of WebIDL specification)
      */
     INVALID_STATE(7),
+    
     /**
      * GStreamer-specific failure, not matching any other value from the specification
      */
@@ -50,15 +59,29 @@ public enum WebRTCError implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "GstWebRTCError";
     
     private final int value;
+    
+    /**
+     * Create a new WebRTCError for the provided value
+     * @param numeric value the enum value
+     */
     WebRTCError(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new WebRTCError for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static WebRTCError of(int value) {
         return switch (value) {
             case 0 -> DATA_CHANNEL_FAILURE;
@@ -87,9 +110,9 @@ public enum WebRTCError implements io.github.jwharm.javagi.Enumeration {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_webrtc_error_quark = Interop.downcallHandle(
-            "gst_webrtc_error_quark",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT),
-            false
+                "gst_webrtc_error_quark",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT),
+                false
         );
     }
 }

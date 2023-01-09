@@ -49,8 +49,8 @@ public class Source extends Struct {
      * @return A new, uninitialized @{link Source}
      */
     public static Source allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        Source newInstance = new Source(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        Source newInstance = new Source(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -58,14 +58,16 @@ public class Source extends Struct {
     /**
      * Create a Source proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected Source(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected Source(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, Source> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Source(input, ownership);
+    public static final Marshal<Addressable, Source> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new Source(input);
     
     private static MemoryAddress constructNew(org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
         MemoryAddress RESULT;
@@ -93,7 +95,8 @@ public class Source extends Struct {
      * @param structSize size of the {@link Source} structure to create.
      */
     public Source(org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
-        super(constructNew(sourceFuncs, structSize), Ownership.FULL);
+        super(constructNew(sourceFuncs, structSize));
+        this.takeOwnership();
     }
     
     /**
@@ -223,8 +226,7 @@ public class Source extends Struct {
      */
     public void destroy() {
         try {
-            DowncallHandles.g_source_destroy.invokeExact(
-                    handle());
+            DowncallHandles.g_source_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,8 +240,7 @@ public class Source extends Struct {
     public boolean getCanRecurse() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_can_recurse.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_source_get_can_recurse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,12 +263,11 @@ public class Source extends Struct {
     public @Nullable org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_get_context.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -302,8 +302,7 @@ public class Source extends Struct {
     public int getId() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_id.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_source_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,8 +317,7 @@ public class Source extends Struct {
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_get_name.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,8 +331,7 @@ public class Source extends Struct {
     public int getPriority() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_get_priority.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_source_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -352,8 +349,7 @@ public class Source extends Struct {
     public long getReadyTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_source_get_ready_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_source_get_ready_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,8 +369,7 @@ public class Source extends Struct {
     public long getTime() {
         long RESULT;
         try {
-            RESULT = (long) DowncallHandles.g_source_get_time.invokeExact(
-                    handle());
+            RESULT = (long) DowncallHandles.g_source_get_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,8 +458,7 @@ public class Source extends Struct {
     public boolean isDestroyed() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_is_destroyed.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.g_source_is_destroyed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -530,12 +524,13 @@ public class Source extends Struct {
     public org.gtk.glib.Source ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.g_source_ref.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_source_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gtk.glib.Source.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     /**
@@ -741,12 +736,14 @@ public class Source extends Struct {
      * @param name debug name for the source
      */
     public void setName(java.lang.String name) {
-        try {
-            DowncallHandles.g_source_set_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_source_set_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -814,12 +811,14 @@ public class Source extends Struct {
      * @param name debug name for the source
      */
     public void setStaticName(java.lang.String name) {
-        try {
-            DowncallHandles.g_source_set_static_name.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_source_set_static_name.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
@@ -830,8 +829,7 @@ public class Source extends Struct {
      */
     public void unref() {
         try {
-            DowncallHandles.g_source_unref.invokeExact(
-                    handle());
+            DowncallHandles.g_source_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -863,8 +861,7 @@ public class Source extends Struct {
     public static boolean remove(int tag) {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_remove.invokeExact(
-                    tag);
+            RESULT = (int) DowncallHandles.g_source_remove.invokeExact(tag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -899,8 +896,7 @@ public class Source extends Struct {
     public static boolean removeByUserData() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
-                    (Addressable) MemoryAddress.NULL);
+            RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact((Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -928,225 +924,227 @@ public class Source extends Struct {
      * @param name debug name for the source
      */
     public static void setNameById(int tag, java.lang.String name) {
-        try {
-            DowncallHandles.g_source_set_name_by_id.invokeExact(
-                    tag,
-                    Marshal.stringToAddress.marshal(name, null));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            try {
+                DowncallHandles.g_source_set_name_by_id.invokeExact(
+                        tag,
+                        Marshal.stringToAddress.marshal(name, SCOPE));
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle g_source_new = Interop.downcallHandle(
-            "g_source_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_source_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_add_child_source = Interop.downcallHandle(
-            "g_source_add_child_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_add_child_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_add_poll = Interop.downcallHandle(
-            "g_source_add_poll",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_add_poll",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_add_unix_fd = Interop.downcallHandle(
-            "g_source_add_unix_fd",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_source_add_unix_fd",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_attach = Interop.downcallHandle(
-            "g_source_attach",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_attach",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_destroy = Interop.downcallHandle(
-            "g_source_destroy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_source_destroy",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_can_recurse = Interop.downcallHandle(
-            "g_source_get_can_recurse",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_can_recurse",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_context = Interop.downcallHandle(
-            "g_source_get_context",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_context",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_current_time = Interop.downcallHandle(
-            "g_source_get_current_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_current_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_id = Interop.downcallHandle(
-            "g_source_get_id",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_id",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_name = Interop.downcallHandle(
-            "g_source_get_name",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_name",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_priority = Interop.downcallHandle(
-            "g_source_get_priority",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_priority",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_ready_time = Interop.downcallHandle(
-            "g_source_get_ready_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_ready_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_get_time = Interop.downcallHandle(
-            "g_source_get_time",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_get_time",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_is_destroyed = Interop.downcallHandle(
-            "g_source_is_destroyed",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_is_destroyed",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_modify_unix_fd = Interop.downcallHandle(
-            "g_source_modify_unix_fd",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_source_modify_unix_fd",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_query_unix_fd = Interop.downcallHandle(
-            "g_source_query_unix_fd",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_query_unix_fd",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_ref = Interop.downcallHandle(
-            "g_source_ref",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_ref",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_remove_child_source = Interop.downcallHandle(
-            "g_source_remove_child_source",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_remove_child_source",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_remove_poll = Interop.downcallHandle(
-            "g_source_remove_poll",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_remove_poll",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_remove_unix_fd = Interop.downcallHandle(
-            "g_source_remove_unix_fd",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_remove_unix_fd",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_callback = Interop.downcallHandle(
-            "g_source_set_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_callback",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_callback_indirect = Interop.downcallHandle(
-            "g_source_set_callback_indirect",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_callback_indirect",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_can_recurse = Interop.downcallHandle(
-            "g_source_set_can_recurse",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_source_set_can_recurse",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_set_dispose_function = Interop.downcallHandle(
-            "g_source_set_dispose_function",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_dispose_function",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_funcs = Interop.downcallHandle(
-            "g_source_set_funcs",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_funcs",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_name = Interop.downcallHandle(
-            "g_source_set_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_priority = Interop.downcallHandle(
-            "g_source_set_priority",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "g_source_set_priority",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_set_ready_time = Interop.downcallHandle(
-            "g_source_set_ready_time",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-            false
+                "g_source_set_ready_time",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle g_source_set_static_name = Interop.downcallHandle(
-            "g_source_set_static_name",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_static_name",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_unref = Interop.downcallHandle(
-            "g_source_unref",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_source_unref",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_remove = Interop.downcallHandle(
-            "g_source_remove",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "g_source_remove",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle g_source_remove_by_funcs_user_data = Interop.downcallHandle(
-            "g_source_remove_by_funcs_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_remove_by_funcs_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_remove_by_user_data = Interop.downcallHandle(
-            "g_source_remove_by_user_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_remove_by_user_data",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle g_source_set_name_by_id = Interop.downcallHandle(
-            "g_source_set_name_by_id",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "g_source_set_name_by_id",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
     }
     
@@ -1172,7 +1170,7 @@ public class Source extends Struct {
             struct = Source.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link Source} struct.
          * @return A new instance of {@code Source} with the fields 
          *         that were set in the Builder object.
@@ -1182,94 +1180,120 @@ public class Source extends Struct {
         }
         
         public Builder setCallbackData(java.lang.foreign.MemoryAddress callbackData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("callback_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackData == null ? MemoryAddress.NULL : (Addressable) callbackData));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("callback_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (callbackData == null ? MemoryAddress.NULL : (Addressable) callbackData));
+                return this;
+            }
         }
         
         public Builder setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("callback_funcs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackFuncs == null ? MemoryAddress.NULL : callbackFuncs.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("callback_funcs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (callbackFuncs == null ? MemoryAddress.NULL : callbackFuncs.handle()));
+                return this;
+            }
         }
         
         public Builder setSourceFuncs(org.gtk.glib.SourceFuncs sourceFuncs) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source_funcs"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sourceFuncs == null ? MemoryAddress.NULL : sourceFuncs.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source_funcs"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (sourceFuncs == null ? MemoryAddress.NULL : sourceFuncs.handle()));
+                return this;
+            }
         }
         
         public Builder setRefCount(int refCount) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), refCount);
+                return this;
+            }
         }
         
         public Builder setContext(org.gtk.glib.MainContext context) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("context"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("context"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
+                return this;
+            }
         }
         
         public Builder setPriority(int priority) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priority"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), priority);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priority"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), priority);
+                return this;
+            }
         }
         
         public Builder setFlags(int flags) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("flags"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), flags);
+                return this;
+            }
         }
         
         public Builder setSourceId(int sourceId) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), sourceId);
+                return this;
+            }
         }
         
         public Builder setPollFds(org.gtk.glib.SList pollFds) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("poll_fds"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pollFds == null ? MemoryAddress.NULL : pollFds.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("poll_fds"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (pollFds == null ? MemoryAddress.NULL : pollFds.handle()));
+                return this;
+            }
         }
         
         public Builder setPrev(org.gtk.glib.Source prev) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("prev"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
+                return this;
+            }
         }
         
         public Builder setNext(org.gtk.glib.Source next) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("next"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
+                return this;
+            }
         }
         
         public Builder setName(java.lang.String name) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("name"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, SCOPE)));
+                return this;
+            }
         }
         
         public Builder setPriv(org.gtk.glib.SourcePrivate priv) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("priv"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("priv"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
+                return this;
+            }
         }
     }
 }

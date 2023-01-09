@@ -75,6 +75,9 @@ public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final TlsCertificateFlags VALIDATE_ALL = new TlsCertificateFlags(127);
     
+    /**
+     * Create a new TlsCertificateFlags with the provided value
+     */
     public TlsCertificateFlags(int value) {
         super(value);
     }

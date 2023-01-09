@@ -10,18 +10,22 @@ import org.jetbrains.annotations.*;
  * should be underlined, and if so, the type of underlining.
  */
 public enum Underline implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * no underline should be drawn
      */
     NONE(0),
+    
     /**
      * a single underline should be drawn
      */
     SINGLE(1),
+    
     /**
      * a double underline should be drawn
      */
     DOUBLE(2),
+    
     /**
      * a single underline should be drawn at a
      *   position beneath the ink extents of the text being
@@ -31,6 +35,7 @@ public enum Underline implements io.github.jwharm.javagi.Enumeration {
      *   portions of text.
      */
     LOW(3),
+    
     /**
      * an underline indicating an error should
      *   be drawn below. The exact style of rendering is up to the
@@ -42,18 +47,21 @@ public enum Underline implements io.github.jwharm.javagi.Enumeration {
      *   available since Pango 1.4.
      */
     ERROR(4),
+    
     /**
      * Like {@code PANGO_UNDERLINE_SINGLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
     SINGLE_LINE(5),
+    
     /**
      * Like {@code PANGO_UNDERLINE_DOUBLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
     DOUBLE_LINE(6),
+    
     /**
      * Like {@code PANGO_UNDERLINE_ERROR}, but
      *   drawn continuously across multiple runs. This type
@@ -64,15 +72,29 @@ public enum Underline implements io.github.jwharm.javagi.Enumeration {
     private static final java.lang.String C_TYPE_NAME = "PangoUnderline";
     
     private final int value;
+    
+    /**
+     * Create a new Underline for the provided value
+     * @param numeric value the enum value
+     */
     Underline(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new Underline for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static Underline of(int value) {
         return switch (value) {
             case 0 -> NONE;

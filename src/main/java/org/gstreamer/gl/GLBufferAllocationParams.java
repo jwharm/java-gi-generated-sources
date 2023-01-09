@@ -34,8 +34,8 @@ public class GLBufferAllocationParams extends Struct {
      * @return A new, uninitialized @{link GLBufferAllocationParams}
      */
     public static GLBufferAllocationParams allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        GLBufferAllocationParams newInstance = new GLBufferAllocationParams(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        GLBufferAllocationParams newInstance = new GLBufferAllocationParams(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -46,7 +46,7 @@ public class GLBufferAllocationParams extends Struct {
      */
     public org.gstreamer.gl.GLAllocationParams getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), null);
     }
     
     /**
@@ -54,9 +54,11 @@ public class GLBufferAllocationParams extends Struct {
      * @param parent The new value of the field {@code parent}
      */
     public void setParent(org.gstreamer.gl.GLAllocationParams parent) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+        }
     }
     
     /**
@@ -64,10 +66,12 @@ public class GLBufferAllocationParams extends Struct {
      * @return The value of the field {@code gl_target}
      */
     public int getGlTarget() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -75,9 +79,11 @@ public class GLBufferAllocationParams extends Struct {
      * @param glTarget The new value of the field {@code gl_target}
      */
     public void setGlTarget(int glTarget) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glTarget);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), glTarget);
+        }
     }
     
     /**
@@ -85,10 +91,12 @@ public class GLBufferAllocationParams extends Struct {
      * @return The value of the field {@code gl_usage}
      */
     public int getGlUsage() {
-        var RESULT = (int) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (int) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -96,22 +104,26 @@ public class GLBufferAllocationParams extends Struct {
      * @param glUsage The new value of the field {@code gl_usage}
      */
     public void setGlUsage(int glUsage) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glUsage);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), glUsage);
+        }
     }
     
     /**
      * Create a GLBufferAllocationParams proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected GLBufferAllocationParams(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected GLBufferAllocationParams(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, GLBufferAllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferAllocationParams(input, ownership);
+    public static final Marshal<Addressable, GLBufferAllocationParams> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new GLBufferAllocationParams(input);
     
     private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context, long allocSize, @Nullable org.gstreamer.gst.AllocationParams allocParams, int glTarget, int glUsage) {
         MemoryAddress RESULT;
@@ -129,15 +141,16 @@ public class GLBufferAllocationParams extends Struct {
     }
     
     public GLBufferAllocationParams(org.gstreamer.gl.GLContext context, long allocSize, @Nullable org.gstreamer.gst.AllocationParams allocParams, int glTarget, int glUsage) {
-        super(constructNew(context, allocSize, allocParams, glTarget, glUsage), Ownership.FULL);
+        super(constructNew(context, allocSize, allocParams, glTarget, glUsage));
+        this.takeOwnership();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_gl_buffer_allocation_params_new = Interop.downcallHandle(
-            "gst_gl_buffer_allocation_params_new",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
-            false
+                "gst_gl_buffer_allocation_params_new",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT),
+                false
         );
     }
     
@@ -163,7 +176,7 @@ public class GLBufferAllocationParams extends Struct {
             struct = GLBufferAllocationParams.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link GLBufferAllocationParams} struct.
          * @return A new instance of {@code GLBufferAllocationParams} with the fields 
          *         that were set in the Builder object.
@@ -178,10 +191,12 @@ public class GLBufferAllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setParent(org.gstreamer.gl.GLAllocationParams parent) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
+                return this;
+            }
         }
         
         /**
@@ -190,10 +205,12 @@ public class GLBufferAllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlTarget(int glTarget) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), glTarget);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("gl_target"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), glTarget);
+                return this;
+            }
         }
         
         /**
@@ -202,17 +219,21 @@ public class GLBufferAllocationParams extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setGlUsage(int glUsage) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), glUsage);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("gl_usage"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), glUsage);
+                return this;
+            }
         }
         
         public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false, SCOPE)));
+                return this;
+            }
         }
     }
 }

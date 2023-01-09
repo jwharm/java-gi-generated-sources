@@ -16,19 +16,45 @@ import org.jetbrains.annotations.*;
  * When a chainlist function detects an error in the data stream, it must
  * post an error on the bus and return an appropriate {@link FlowReturn} value.
  */
+/**
+ * Functional interface declaration of the {@code PadChainListFunction} callback.
+ */
 @FunctionalInterface
 public interface PadChainListFunction {
-    org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.BufferList list);
 
+    /**
+     * A function that will be called on sinkpads when chaining buffer lists.
+     * The function typically processes the data contained in the buffer list and
+     * either consumes the data or passes it on to the internally linked pad(s).
+     * <p>
+     * The implementer of this function receives a refcount to {@code list} and
+     * should gst_buffer_list_unref() when the list is no longer needed.
+     * <p>
+     * When a chainlist function detects an error in the data stream, it must
+     * post an error on the bus and return an appropriate {@link FlowReturn} value.
+     */
+    org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.BufferList list);
+    
     @ApiStatus.Internal default int upcall(MemoryAddress pad, MemoryAddress parent, MemoryAddress list) {
-        var RESULT = run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE), (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.GstObject.fromAddress).marshal(parent, Ownership.NONE), org.gstreamer.gst.BufferList.fromAddress.marshal(list, Ownership.FULL));
+        var RESULT = run((org.gstreamer.gst.Pad) Interop.register(pad, org.gstreamer.gst.Pad.fromAddress).marshal(pad, null), (org.gstreamer.gst.GstObject) Interop.register(parent, org.gstreamer.gst.GstObject.fromAddress).marshal(parent, null), org.gstreamer.gst.BufferList.fromAddress.marshal(list, null));
         return RESULT.getValue();
     }
     
+    /**
+     * Describes the parameter types of the native callback function.
+     */
     @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
-    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadChainListFunction.class, DESCRIPTOR);
     
+    /**
+     * The method handle for the callback.
+     */
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MethodHandles.lookup(), PadChainListFunction.class, DESCRIPTOR);
+    
+    /**
+     * Creates a callback that can be called from native code and executes the {@code run} method.
+     * @return the memory address of the callback function
+     */
     default MemoryAddress toCallback() {
-        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, MemorySession.global()).address();
     }
 }

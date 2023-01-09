@@ -28,14 +28,16 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     /**
      * Create a OverlayLayoutChild proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected OverlayLayoutChild(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected OverlayLayoutChild(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, OverlayLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OverlayLayoutChild(input, ownership);
+    public static final Marshal<Addressable, OverlayLayoutChild> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new OverlayLayoutChild(input);
     
     /**
      * Retrieves whether the child is clipped.
@@ -44,8 +46,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     public boolean getClipOverlay() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_clip_overlay.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -59,8 +60,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     public boolean getMeasure() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_measure.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_measure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,6 +125,9 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      */
     public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -172,33 +175,41 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
     private static class DowncallHandles {
         
         private static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
-            "gtk_overlay_layout_child_get_clip_overlay",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_overlay_layout_child_get_clip_overlay",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
-            "gtk_overlay_layout_child_get_measure",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gtk_overlay_layout_child_get_measure",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
-            "gtk_overlay_layout_child_set_clip_overlay",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_overlay_layout_child_set_clip_overlay",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
-            "gtk_overlay_layout_child_set_measure",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
+                "gtk_overlay_layout_child_set_measure",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
+                false
         );
         
         private static final MethodHandle gtk_overlay_layout_child_get_type = Interop.downcallHandle(
-            "gtk_overlay_layout_child_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gtk_overlay_layout_child_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gtk_overlay_layout_child_get_type != null;
     }
 }

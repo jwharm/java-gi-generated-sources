@@ -24,6 +24,9 @@ public class ResourceFlags extends io.github.jwharm.javagi.Bitfield {
      */
     public static final ResourceFlags COMPRESSED = new ResourceFlags(1);
     
+    /**
+     * Create a new ResourceFlags with the provided value
+     */
     public ResourceFlags(int value) {
         super(value);
     }

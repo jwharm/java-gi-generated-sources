@@ -36,14 +36,16 @@ public class DrawContext extends org.gtk.gobject.GObject {
     /**
      * Create a DrawContext proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DrawContext(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DrawContext(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DrawContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DrawContext(input, ownership);
+    public static final Marshal<Addressable, DrawContext> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DrawContext(input);
     
     /**
      * Indicates that you are beginning the process of redrawing {@code region}
@@ -94,8 +96,7 @@ public class DrawContext extends org.gtk.gobject.GObject {
      */
     public void endFrame() {
         try {
-            DowncallHandles.gdk_draw_context_end_frame.invokeExact(
-                    handle());
+            DowncallHandles.gdk_draw_context_end_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,12 +109,11 @@ public class DrawContext extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_display.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) Interop.register(RESULT, org.gtk.gdk.Display.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -130,12 +130,11 @@ public class DrawContext extends org.gtk.gobject.GObject {
     public @Nullable org.cairographics.Region getFrameRegion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_frame_region.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_frame_region.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.cairographics.Region.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.cairographics.Region.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -145,12 +144,11 @@ public class DrawContext extends org.gtk.gobject.GObject {
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_surface.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_draw_context_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) Interop.register(RESULT, org.gtk.gdk.Surface.fromAddress).marshal(RESULT, null);
     }
     
     /**
@@ -165,8 +163,7 @@ public class DrawContext extends org.gtk.gobject.GObject {
     public boolean isInFrame() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_draw_context_is_in_frame.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_draw_context_is_in_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,6 +200,9 @@ public class DrawContext extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -249,45 +249,53 @@ public class DrawContext extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_draw_context_begin_frame = Interop.downcallHandle(
-            "gdk_draw_context_begin_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_begin_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_end_frame = Interop.downcallHandle(
-            "gdk_draw_context_end_frame",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_end_frame",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_get_display = Interop.downcallHandle(
-            "gdk_draw_context_get_display",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_get_display",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_get_frame_region = Interop.downcallHandle(
-            "gdk_draw_context_get_frame_region",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_get_frame_region",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_get_surface = Interop.downcallHandle(
-            "gdk_draw_context_get_surface",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_get_surface",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_is_in_frame = Interop.downcallHandle(
-            "gdk_draw_context_is_in_frame",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_draw_context_is_in_frame",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_draw_context_get_type = Interop.downcallHandle(
-            "gdk_draw_context_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_draw_context_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_draw_context_get_type != null;
     }
 }

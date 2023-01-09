@@ -29,8 +29,8 @@ public class QueueFamilyProperties2 extends Struct {
      * @return A new, uninitialized @{link QueueFamilyProperties2}
      */
     public static QueueFamilyProperties2 allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        QueueFamilyProperties2 newInstance = new QueueFamilyProperties2(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        QueueFamilyProperties2 newInstance = new QueueFamilyProperties2(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class QueueFamilyProperties2 extends Struct {
     /**
      * Create a QueueFamilyProperties2 proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected QueueFamilyProperties2(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected QueueFamilyProperties2(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, QueueFamilyProperties2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueueFamilyProperties2(input, ownership);
+    public static final Marshal<Addressable, QueueFamilyProperties2> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new QueueFamilyProperties2(input);
 }

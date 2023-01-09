@@ -28,14 +28,16 @@ public class ScrollEvent extends org.gtk.gdk.Event {
     /**
      * Create a ScrollEvent proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ScrollEvent(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ScrollEvent(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ScrollEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScrollEvent(input, ownership);
+    public static final Marshal<Addressable, ScrollEvent> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ScrollEvent(input);
     
     /**
      * Extracts the scroll deltas of a scroll event.
@@ -49,18 +51,20 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * @param deltaY return location for y scroll delta
      */
     public void getDeltas(Out<Double> deltaX, Out<Double> deltaY) {
-        MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        try {
-            DowncallHandles.gdk_scroll_event_get_deltas.invokeExact(
-                    handle(),
-                    (Addressable) deltaXPOINTER.address(),
-                    (Addressable) deltaYPOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            MemorySegment deltaXPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            MemorySegment deltaYPOINTER = SCOPE.allocate(Interop.valueLayout.C_DOUBLE);
+            try {
+                DowncallHandles.gdk_scroll_event_get_deltas.invokeExact(
+                        handle(),
+                        (Addressable) deltaXPOINTER.address(),
+                        (Addressable) deltaYPOINTER.address());
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+                    deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+                    deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         }
-        deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -70,8 +74,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.ScrollDirection getDirection() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_scroll_event_get_direction.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_scroll_event_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,8 +91,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
     public org.gtk.gdk.ScrollUnit getUnit() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_scroll_event_get_unit.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_scroll_event_get_unit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,8 +113,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
     public boolean isStop() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gdk_scroll_event_is_stop.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gdk_scroll_event_is_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,33 +137,41 @@ public class ScrollEvent extends org.gtk.gdk.Event {
     private static class DowncallHandles {
         
         private static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
-            "gdk_scroll_event_get_deltas",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_scroll_event_get_deltas",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
-            "gdk_scroll_event_get_direction",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_scroll_event_get_direction",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_scroll_event_get_unit = Interop.downcallHandle(
-            "gdk_scroll_event_get_unit",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_scroll_event_get_unit",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
-            "gdk_scroll_event_is_stop",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gdk_scroll_event_is_stop",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gdk_scroll_event_get_type = Interop.downcallHandle(
-            "gdk_scroll_event_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gdk_scroll_event_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gdk_scroll_event_get_type != null;
     }
 }

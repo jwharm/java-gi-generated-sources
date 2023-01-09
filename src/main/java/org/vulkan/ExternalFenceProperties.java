@@ -29,8 +29,8 @@ public class ExternalFenceProperties extends Struct {
      * @return A new, uninitialized @{link ExternalFenceProperties}
      */
     public static ExternalFenceProperties allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        ExternalFenceProperties newInstance = new ExternalFenceProperties(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        ExternalFenceProperties newInstance = new ExternalFenceProperties(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class ExternalFenceProperties extends Struct {
     /**
      * Create a ExternalFenceProperties proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected ExternalFenceProperties(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected ExternalFenceProperties(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, ExternalFenceProperties> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalFenceProperties(input, ownership);
+    public static final Marshal<Addressable, ExternalFenceProperties> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new ExternalFenceProperties(input);
 }

@@ -42,65 +42,68 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
     /**
      * Create a DiscovererStreamInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected DiscovererStreamInfo(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected DiscovererStreamInfo(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, DiscovererStreamInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererStreamInfo(input, ownership);
+    public static final Marshal<Addressable, DiscovererStreamInfo> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererStreamInfo(input);
     
     public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_caps.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_caps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
+        var OBJECT = org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     @Deprecated
     public org.gstreamer.gst.Structure getMisc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_misc.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_misc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, null);
     }
     
     public org.gstreamer.pbutils.DiscovererStreamInfo getNext() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_next.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.pbutils.DiscovererStreamInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererStreamInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.pbutils.DiscovererStreamInfo) Interop.register(RESULT, org.gstreamer.pbutils.DiscovererStreamInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public org.gstreamer.pbutils.DiscovererStreamInfo getPrevious() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_previous.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_previous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return (org.gstreamer.pbutils.DiscovererStreamInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererStreamInfo.fromAddress).marshal(RESULT, Ownership.FULL);
+        var OBJECT = (org.gstreamer.pbutils.DiscovererStreamInfo) Interop.register(RESULT, org.gstreamer.pbutils.DiscovererStreamInfo.fromAddress).marshal(RESULT, null);
+        OBJECT.takeOwnership();
+        return OBJECT;
     }
     
     public java.lang.String getStreamId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_stream_id.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_stream_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -110,8 +113,7 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
     public int getStreamNumber() {
         int RESULT;
         try {
-            RESULT = (int) DowncallHandles.gst_discoverer_stream_info_get_stream_number.invokeExact(
-                    handle());
+            RESULT = (int) DowncallHandles.gst_discoverer_stream_info_get_stream_number.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,8 +123,7 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
     public java.lang.String getStreamTypeNick() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_stream_type_nick.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_stream_type_nick.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,23 +133,21 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
     public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_tags.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_tags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, null);
     }
     
     public org.gstreamer.gst.Toc getToc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_toc.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_stream_info_get_toc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, null);
     }
     
     /**
@@ -172,8 +171,7 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
      */
     public static void listFree(org.gtk.glib.List infos) {
         try {
-            DowncallHandles.gst_discoverer_stream_info_list_free.invokeExact(
-                    infos.handle());
+            DowncallHandles.gst_discoverer_stream_info_list_free.invokeExact(infos.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,6 +193,9 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
      */
     public static class Builder extends org.gtk.gobject.GObject.Builder {
         
+        /**
+         * Default constructor for a {@code Builder} object.
+         */
         protected Builder() {
         }
         
@@ -219,69 +220,77 @@ public class DiscovererStreamInfo extends org.gtk.gobject.GObject {
     private static class DowncallHandles {
         
         private static final MethodHandle gst_discoverer_stream_info_get_caps = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_caps",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_caps",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_misc = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_misc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_misc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_next = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_next",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_next",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_previous = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_previous",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_previous",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_stream_id = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_stream_id",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_stream_id",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_stream_number = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_stream_number",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_stream_number",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_stream_type_nick = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_stream_type_nick",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_stream_type_nick",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_tags = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_tags",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_tags",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_toc = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_toc",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_get_toc",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_get_type = Interop.downcallHandle(
-            "gst_discoverer_stream_info_get_type",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
+                "gst_discoverer_stream_info_get_type",
+                FunctionDescriptor.of(Interop.valueLayout.C_LONG),
+                false
         );
         
         private static final MethodHandle gst_discoverer_stream_info_list_free = Interop.downcallHandle(
-            "gst_discoverer_stream_info_list_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "gst_discoverer_stream_info_list_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
+    }
+    
+    /**
+     * Check whether the type is available on the runtime platform.
+     * @return {@code true} when the type is available on the runtime platform
+     */
+    public static boolean isAvailable() {
+        return DowncallHandles.gst_discoverer_stream_info_get_type != null;
     }
 }

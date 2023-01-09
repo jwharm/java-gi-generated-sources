@@ -29,8 +29,8 @@ public class VulkanFullScreenQuadPrivate extends Struct {
      * @return A new, uninitialized @{link VulkanFullScreenQuadPrivate}
      */
     public static VulkanFullScreenQuadPrivate allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        VulkanFullScreenQuadPrivate newInstance = new VulkanFullScreenQuadPrivate(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        VulkanFullScreenQuadPrivate newInstance = new VulkanFullScreenQuadPrivate(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -38,12 +38,14 @@ public class VulkanFullScreenQuadPrivate extends Struct {
     /**
      * Create a VulkanFullScreenQuadPrivate proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected VulkanFullScreenQuadPrivate(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected VulkanFullScreenQuadPrivate(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, VulkanFullScreenQuadPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFullScreenQuadPrivate(input, ownership);
+    public static final Marshal<Addressable, VulkanFullScreenQuadPrivate> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFullScreenQuadPrivate(input);
 }

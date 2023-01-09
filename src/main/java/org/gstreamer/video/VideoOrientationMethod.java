@@ -10,42 +10,52 @@ import org.jetbrains.annotations.*;
  * @version 1.10
  */
 public enum VideoOrientationMethod implements io.github.jwharm.javagi.Enumeration {
+    
     /**
      * Identity (no rotation)
      */
     IDENTITY(0),
+    
     /**
      * Rotate clockwise 90 degrees
      */
     _90R(1),
+    
     /**
      * Rotate 180 degrees
      */
     _180(2),
+    
     /**
      * Rotate counter-clockwise 90 degrees
      */
     _90L(3),
+    
     /**
      * Flip horizontally
      */
     HORIZ(4),
+    
     /**
      * Flip vertically
      */
     VERT(5),
+    
     /**
      * Flip across upper left/lower right diagonal
      */
     UL_LR(6),
+    
     /**
      * Flip across upper right/lower left diagonal
      */
     UR_LL(7),
+    
     /**
      * Select flip method based on image-orientation tag
      */
     AUTO(8),
+    
     /**
      * Current status depends on plugin internal setup
      */
@@ -54,15 +64,29 @@ public enum VideoOrientationMethod implements io.github.jwharm.javagi.Enumeratio
     private static final java.lang.String C_TYPE_NAME = "GstVideoOrientationMethod";
     
     private final int value;
+    
+    /**
+     * Create a new VideoOrientationMethod for the provided value
+     * @param numeric value the enum value
+     */
     VideoOrientationMethod(int value) {
         this.value = value;
     }
     
+    /**
+     * Get the numeric value of this enum
+     * @return the enum value
+     */
     @Override
     public int getValue() {
         return value;
     }
     
+    /**
+     * Create a new VideoOrientationMethod for the provided value
+     * @param value the enum value
+     * @return the enum for the provided value
+     */
     public static VideoOrientationMethod of(int value) {
         return switch (value) {
             case 0 -> IDENTITY;

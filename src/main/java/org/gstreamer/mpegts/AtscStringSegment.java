@@ -39,8 +39,8 @@ public class AtscStringSegment extends Struct {
      * @return A new, uninitialized @{link AtscStringSegment}
      */
     public static AtscStringSegment allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        AtscStringSegment newInstance = new AtscStringSegment(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        AtscStringSegment newInstance = new AtscStringSegment(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -50,10 +50,12 @@ public class AtscStringSegment extends Struct {
      * @return The value of the field {@code compression_type}
      */
     public byte getCompressionType() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -61,9 +63,11 @@ public class AtscStringSegment extends Struct {
      * @param compressionType The new value of the field {@code compression_type}
      */
     public void setCompressionType(byte compressionType) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), compressionType);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), compressionType);
+        }
     }
     
     /**
@@ -71,10 +75,12 @@ public class AtscStringSegment extends Struct {
      * @return The value of the field {@code mode}
      */
     public byte getMode() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -82,9 +88,11 @@ public class AtscStringSegment extends Struct {
      * @param mode The new value of the field {@code mode}
      */
     public void setMode(byte mode) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mode);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), mode);
+        }
     }
     
     /**
@@ -92,10 +100,12 @@ public class AtscStringSegment extends Struct {
      * @return The value of the field {@code compressed_data_size}
      */
     public byte getCompressedDataSize() {
-        var RESULT = (byte) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (byte) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return RESULT;
+        }
     }
     
     /**
@@ -103,9 +113,11 @@ public class AtscStringSegment extends Struct {
      * @param compressedDataSize The new value of the field {@code compressed_data_size}
      */
     public void setCompressedDataSize(byte compressedDataSize) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), compressedDataSize);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), compressedDataSize);
+        }
     }
     
     /**
@@ -113,10 +125,12 @@ public class AtscStringSegment extends Struct {
      * @return The value of the field {@code compressed_data}
      */
     public PointerByte getCompressedData() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerByte(RESULT);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return new PointerByte(RESULT);
+        }
     }
     
     /**
@@ -124,9 +138,11 @@ public class AtscStringSegment extends Struct {
      * @param compressedData The new value of the field {@code compressed_data}
      */
     public void setCompressedData(PointerByte compressedData) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compressedData == null ? MemoryAddress.NULL : compressedData.handle()));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compressedData == null ? MemoryAddress.NULL : compressedData.handle()));
+        }
     }
     
     /**
@@ -134,10 +150,12 @@ public class AtscStringSegment extends Struct {
      * @return The value of the field {@code cached_string}
      */
     public java.lang.String getCachedString() {
-        var RESULT = (MemoryAddress) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Marshal.addressToString.marshal(RESULT, null);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            var RESULT = (MemoryAddress) getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
+                .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE));
+            return Marshal.addressToString.marshal(RESULT, null);
+        }
     }
     
     /**
@@ -145,28 +163,31 @@ public class AtscStringSegment extends Struct {
      * @param cachedString The new value of the field {@code cached_string}
      */
     public void setCachedString(java.lang.String cachedString) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cachedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cachedString, null)));
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
+                .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cachedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cachedString, SCOPE)));
+        }
     }
     
     /**
      * Create a AtscStringSegment proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected AtscStringSegment(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected AtscStringSegment(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, AtscStringSegment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscStringSegment(input, ownership);
+    public static final Marshal<Addressable, AtscStringSegment> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new AtscStringSegment(input);
     
     public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_string_segment_get_string.invokeExact(
-                    handle());
+            RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_string_segment_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,31 +195,33 @@ public class AtscStringSegment extends Struct {
     }
     
     public boolean setString(java.lang.String string, byte compressionType, byte mode) {
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gst_mpegts_atsc_string_segment_set_string.invokeExact(
-                    handle(),
-                    Marshal.stringToAddress.marshal(string, null),
-                    compressionType,
-                    mode);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
+        try (MemorySession SCOPE = MemorySession.openConfined()) {
+            int RESULT;
+            try {
+                RESULT = (int) DowncallHandles.gst_mpegts_atsc_string_segment_set_string.invokeExact(
+                        handle(),
+                        Marshal.stringToAddress.marshal(string, SCOPE),
+                        compressionType,
+                        mode);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
+            return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
         }
-        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
         
         private static final MethodHandle gst_mpegts_atsc_string_segment_get_string = Interop.downcallHandle(
-            "gst_mpegts_atsc_string_segment_get_string",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
+                "gst_mpegts_atsc_string_segment_get_string",
+                FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+                false
         );
         
         private static final MethodHandle gst_mpegts_atsc_string_segment_set_string = Interop.downcallHandle(
-            "gst_mpegts_atsc_string_segment_set_string",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
-            false
+                "gst_mpegts_atsc_string_segment_set_string",
+                FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_BYTE),
+                false
         );
     }
     
@@ -224,7 +247,7 @@ public class AtscStringSegment extends Struct {
             struct = AtscStringSegment.allocate();
         }
         
-         /**
+        /**
          * Finish building the {@link AtscStringSegment} struct.
          * @return A new instance of {@code AtscStringSegment} with the fields 
          *         that were set in the Builder object.
@@ -239,10 +262,12 @@ public class AtscStringSegment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompressionType(byte compressionType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), compressionType);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("compression_type"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), compressionType);
+                return this;
+            }
         }
         
         /**
@@ -251,10 +276,12 @@ public class AtscStringSegment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setMode(byte mode) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mode);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("mode"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), mode);
+                return this;
+            }
         }
         
         /**
@@ -263,10 +290,12 @@ public class AtscStringSegment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompressedDataSize(byte compressedDataSize) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), compressedDataSize);
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("compressed_data_size"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), compressedDataSize);
+                return this;
+            }
         }
         
         /**
@@ -275,17 +304,21 @@ public class AtscStringSegment extends Struct {
          * @return The {@code Build} instance is returned, to allow method chaining
          */
         public Builder setCompressedData(PointerByte compressedData) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (compressedData == null ? MemoryAddress.NULL : compressedData.handle()));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("compressed_data"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (compressedData == null ? MemoryAddress.NULL : compressedData.handle()));
+                return this;
+            }
         }
         
         public Builder setCachedString(java.lang.String cachedString) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cachedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cachedString, null)));
-            return this;
+            try (MemorySession SCOPE = MemorySession.openConfined()) {
+                getMemoryLayout()
+                    .varHandle(MemoryLayout.PathElement.groupElement("cached_string"))
+                    .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), SCOPE), (Addressable) (cachedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cachedString, SCOPE)));
+                return this;
+            }
         }
     }
 }

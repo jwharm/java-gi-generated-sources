@@ -32,8 +32,8 @@ public class TestCase extends Struct {
      * @return A new, uninitialized @{link TestCase}
      */
     public static TestCase allocate() {
-        MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        TestCase newInstance = new TestCase(segment.address(), Ownership.NONE);
+        MemorySegment segment = MemorySession.openImplicit().allocate(getMemoryLayout());
+        TestCase newInstance = new TestCase(segment.address());
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -41,22 +41,23 @@ public class TestCase extends Struct {
     /**
      * Create a TestCase proxy instance for the provided memory address.
      * @param address   The memory address of the native object
-     * @param ownership The ownership indicator used for ref-counted objects
      */
-    protected TestCase(Addressable address, Ownership ownership) {
-        super(address, ownership);
+    protected TestCase(Addressable address) {
+        super(address);
     }
     
+    /**
+     * The marshal function from a native memory address to a Java proxy instance
+     */
     @ApiStatus.Internal
-    public static final Marshal<Addressable, TestCase> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestCase(input, ownership);
+    public static final Marshal<Addressable, TestCase> fromAddress = (input, scope) -> input.equals(MemoryAddress.NULL) ? null : new TestCase(input);
     
     /**
      * Free the {@code test_case}.
      */
     public void free() {
         try {
-            DowncallHandles.g_test_case_free.invokeExact(
-                    handle());
+            DowncallHandles.g_test_case_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,9 +66,9 @@ public class TestCase extends Struct {
     private static class DowncallHandles {
         
         private static final MethodHandle g_test_case_free = Interop.downcallHandle(
-            "g_test_case_free",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
+                "g_test_case_free",
+                FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
+                false
         );
     }
 }
